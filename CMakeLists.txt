@@ -66,9 +66,10 @@ ${THIRD_PARTY_INSTALL_PREFIX}/lib
 )
    
 #Source Code Folders
-add_subdirectory(Source)
-add_subdirectory(Wrappers)
-add_subdirectory(Examples)
+#add_subdirectory(Source)
+#add_subdirectory(Wrappers)
+#add_subdirectory(Examples)
+add_subdirectory(Python)
 
 #======================= INSTALL ========================================================
 set(RootDest .)
