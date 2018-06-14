@@ -1,0 +1,33 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  Caption = 'MainForm'
+  ClientHeight = 592
+  ClientWidth = 1011
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DcefBrowser1: TDcefBrowser
+    Left = 0
+    Top = 0
+    Width = 1011
+    Height = 592
+    TabOrder = 0
+    Align = alClient
+    DefaultURL = 'about:blank'
+    DcefBOptions.DevToolsEnable = False
+    DcefBOptions.CloseWPagesClosed = False
+    DcefBOptions.DownLoadPath = 'C:\CodeGear\Tokyo\bin\Download\'
+    ExplicitLeft = 48
+    ExplicitTop = 32
+    ExplicitWidth = 401
+    ExplicitHeight = 209
+  end
+end

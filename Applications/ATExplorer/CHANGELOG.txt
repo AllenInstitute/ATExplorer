@@ -1,0 +1,112 @@
+Release 0.6.2 (April 10)
+=======================
+* Fixed flip image left and right (ImageMagic stuff).
+* Removed obsolete files in source folder
+* Updated postbuild script
+* Changed render-clinet port from 8081 -> 8988
+* Added a test render service button
+* Changed to just use atCore module
+
+Release 0.6.1 (March 22)
+=======================
+* Added styling
+* Compiled with Tokyo
+
+Release 0.6.0 (Jan 9)
+=======================
+* Added a "Extra Scale Factor" Edit box to deal with data having "weird" scale
+* Hiding the project pane for now, until "projects" works
+
+--- 2018 --------------
+Release 0.5.9 (Nov 6)
+=======================
+* Fixed generation of stack script to work with latest renderclient code
+* Added ability to choose 8, 16 and 24 bit TIFFS when creating stacks
+* Removed convert to gray check box
+* Creating a project manager
+
+Release 0.5.8 (Oct 16)
+=======================
+* Added flags for padding seroes and convert to gray
+* Many changes to project views (not employed yet)
+* Got treeview functionality partly implemented
+* Added new ssh frame for terafly creation
+* Integrating paraconverter script remote running
+* Added frame for Paraconversion connection
+
+Release 0.5.7 (June 23)
+=======================
+* Fixed use static bounds checkbox and generation of stacks using layer bounds
+* Added ability to set z batch size and number of jobs size
+* Added ability to set priority of remote jobs, using nice parameter
+* Fixed some frontpage UI issues
+* Added saving/retrieving of remote server connection data
+* Added ability to select creation of TIFF Stack
+* Added ability to remove individual TIFFS, in case a stack is created
+* Added some new styles
+* Added an overlay image form
+
+Release 0.5.6 (May 22)
+=======================
+* Added flip right (and left)
+* Adding a Cloned Image Form
+* Re-added tracking of zoom history
+* Added ability to pan image (by using mouse middle button)
+* Added custom filtering of stacks on stack generation page
+
+Release 0.5.5 (May 17)
+=======================
+* Changed so that z's are checked as their default state
+* Fixed bug when image has negative boundaries
+* Added experimental colorizing functions
+* Added experimental post processing functions (contrast control)
+* Added ability to downsample z values (on the Select/Unselect z's form)
+* Added buttons to "interact" with NDVIZ
+* Added simple stacks filter on Stack creation page
+* Added about form showing the ChangeLog
+
+Release 0.5.4 (May 11)
+=======================
+* Added 3 themes files
+* Added logic to switch runtime application theme
+* Added ability to filter stacks
+* Replaced (hidden) UI project controls with internal properties
+
+Release 0.5.3 (May 9)
+=======================
+* Re-added ability to select custom sections
+* Changed backend so image fetching is always done in a background thread
+* Added GetchImageThread unit and RenderClientUtils unit
+* Various refactoring
+
+Release 0.5.2 (May 4)
+=======================
+* New version - multi stack creation enabled
+* Added saving of create volume parameters
+* Added a checklist box to hold checked stacks when generating multi stacks
+
+Release 0.5.1 (May 3)
+=======================
+* Added ability to set min and maxintensity for fetched sections from Render
+* Added some DICOM data
+* Restructured source files
+* Added control of cache thread
+* Many updates to UI
+* Added a style
+* Added remote stack creation over SSH
+* Before employing remote SSH commands
+* Added info files
+* Creating a VolumeCreator release
+* Cleaned up test UI
+* Added finding of bounding box
+* Renamed RenderService to client
+* Added image fetching thread
+* Added more processing stuff
+* Added logging
+
+Release 0.5.0 (March 10)
+=======================
+* Created an initial release
+
+
+--- 2017 ---

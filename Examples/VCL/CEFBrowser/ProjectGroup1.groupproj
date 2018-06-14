@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{10FEC0A6-61DD-40FF-A5CB-8BF212197BE0}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\..\..\DcefBrowser\packages\DcefBrowser.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CEFBrowser.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="DcefBrowser">
+        <MSBuild Projects="..\..\..\..\DcefBrowser\packages\DcefBrowser.cbproj"/>
+    </Target>
+    <Target Name="DcefBrowser:Clean">
+        <MSBuild Projects="..\..\..\..\DcefBrowser\packages\DcefBrowser.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DcefBrowser:Make">
+        <MSBuild Projects="..\..\..\..\DcefBrowser\packages\DcefBrowser.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="CEFBrowser">
+        <MSBuild Projects="CEFBrowser.cbproj"/>
+    </Target>
+    <Target Name="CEFBrowser:Clean">
+        <MSBuild Projects="CEFBrowser.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CEFBrowser:Make">
+        <MSBuild Projects="CEFBrowser.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="DcefBrowser;CEFBrowser"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="DcefBrowser:Clean;CEFBrowser:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="DcefBrowser:Make;CEFBrowser:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
