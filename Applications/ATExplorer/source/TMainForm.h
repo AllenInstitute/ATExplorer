@@ -35,7 +35,6 @@
 #include "MagickWand/MagickWand.h"
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
-#include "TParaConverterFrame.h"
 #include <System.Actions.hpp>
 #include <Vcl.ActnList.hpp>
 #include <Vcl.StdActns.hpp>
@@ -65,7 +64,7 @@ extern string gApplicationRegistryRoot;
 void brightnessContrast(TImage *imageSelected);
 string createProcessedImageFileName(const string& fname);
 
-class VolumeCreatorProject;
+class ATExplorerProject;
 
 class TMainForm : public TRegistryForm
 {
@@ -354,13 +353,13 @@ __published:	// IDE-managed Components
 
         												//!VC can have only one VC project open at any one time.
 		ProjectManager									mProjectManager;
-		VolumeCreatorProject*							getCurrentVCProject();
+		ATExplorerProject*							getCurrentVCProject();
 
-        vector<VolumeCreatorProject*>					mVCProjects;
+        vector<ATExplorerProject*>					mVCProjects;
 		int __fastcall 									saveProject();
 		int __fastcall 									saveProjectAs();
 		int __fastcall 									closeProject();
-		VolumeCreatorProject* __fastcall 				createNewProject();
+		ATExplorerProject* __fastcall 				createNewProject();
 
 public:
 	__fastcall 											TMainForm(TComponent* Owner);

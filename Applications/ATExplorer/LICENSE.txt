@@ -1,4 +1,4 @@
- * Licensing and Distribution Terms for the VolumeCreator application
+ * Licensing and Distribution Terms for the ATExplorer application
  * Copyright (C) 2016
  *   Totte Karlsson, Forrest Collman & Stephen Smith - Allen Institute for Brain Science
  *

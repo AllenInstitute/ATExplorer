@@ -8,7 +8,7 @@ using namespace dsl;
 
 void addRenderProjectToTreeView(TTreeNode* vcNode, RenderProject* rp, TTreeView* tv);
 
-bool addVCProjectToTreeView(VolumeCreatorProject* mVCProject, TTreeView* tv)
+bool addVCProjectToTreeView(ATExplorerProject* mVCProject, TTreeView* tv)
 {
 	TTreeNode* vcn = tv->Items->AddObject(NULL, mVCProject->getProjectName().c_str(), (void*) mVCProject);
     vcn->EditText();
@@ -39,7 +39,7 @@ void addRenderProjectToTreeView(TTreeNode* vcNode, RenderProject* rp, TTreeView*
     tv->Select(n);
 }
 
-VolumeCreatorProject* TMainForm::getCurrentVCProject()
+ATExplorerProject* TMainForm::getCurrentVCProject()
 {
 	return mProjectManager.getCurrentProject();
 }
@@ -57,7 +57,7 @@ void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 {
     TTreeNode* vcNode = ProjectTView->Selected;
-	VolumeCreatorProject* vcp = (VolumeCreatorProject*) vcNode->Data;
+	ATExplorerProject* vcp = (ATExplorerProject*) vcNode->Data;
 
     if(vcp)
     {
@@ -73,16 +73,16 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
     }
 }
 
-VolumeCreatorProject* __fastcall TMainForm::createNewProject()
+ATExplorerProject* __fastcall TMainForm::createNewProject()
 {
 	//Check how many main nodes
     int nrOfVCPs = mVCProjects.size();
 
 	string pName = "VC Project " + dsl::toString(nrOfVCPs);
-	VolumeCreatorProject* vcp = new VolumeCreatorProject(pName);
+	ATExplorerProject* vcp = new ATExplorerProject(pName);
     mVCProjects.push_back(vcp);
 
-    Log(lInfo) << "Created a new VolumeCreator project";
+    Log(lInfo) << "Created a new ATExplorer project";
     return vcp;
 }
 
@@ -103,7 +103,7 @@ void __fastcall TMainForm::ProjectStatusTimerTimer(TObject *Sender)
 void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
 {
     string f(stdstr(FileOpen1->Dialog->FileName));
-    VolumeCreatorProject* p = getCurrentVCProject();
+    ATExplorerProject* p = getCurrentVCProject();
     if(p && p->isOpen())
     {
 		if(closeProject() == mrOk)
@@ -132,7 +132,7 @@ int __fastcall TMainForm::closeProject()
 {
 	if(saveProject() == mrOk)
     {
-	    VolumeCreatorProject* p = getCurrentVCProject();
+	    ATExplorerProject* p = getCurrentVCProject();
         p->close();
         Log(lInfo) << "Closed project: "<<p->getFileName();
    	    ProjFileLbl->Caption = string("Project File: None").c_str();
@@ -161,7 +161,7 @@ int __fastcall TMainForm::saveProjectAs()
                 return mrCancel;
             }
         }
-	    VolumeCreatorProject* p = getCurrentVCProject();
+	    ATExplorerProject* p = getCurrentVCProject();
         p->setFileName(fName);
         p->save();
         Log(lInfo) << "Saved project: "<<p->getFileName();
@@ -177,7 +177,7 @@ int __fastcall TMainForm::saveProjectAs()
 int __fastcall TMainForm::saveProject()
 {
 	//If project don't have an assigned filename, open filesavefile dialog
-    VolumeCreatorProject* p = getCurrentVCProject();
+    ATExplorerProject* p = getCurrentVCProject();
     if(p && p->isNeverSaved())
     {
     	int res = MessageDlg("Save Project?", mtConfirmation, TMsgDlgButtons() << mbYes<<mbNo<<mbCancel, 0);
@@ -225,7 +225,7 @@ void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
 {
-    VolumeCreatorProject* p = getCurrentVCProject();
+    ATExplorerProject* p = getCurrentVCProject();
 	SaveProjectA->Enabled = (p && p->isModified()) ? true : false;
 }
 
@@ -252,7 +252,7 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
 		TTreeNode* node = ProjectTView->GetNodeAt(MousePos.X, MousePos.Y);
         if(node)
         {
-        	VolumeCreatorProject* vcp = (VolumeCreatorProject*) node->Data;
+        	ATExplorerProject* vcp = (ATExplorerProject*) node->Data;
             if(dynamic_cast<RenderProject*>(vcp))
             {
 		        AddRenderProject->Enabled = false;

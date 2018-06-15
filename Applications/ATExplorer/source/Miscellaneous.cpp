@@ -6,7 +6,7 @@
 #include "atRenderClient.h"
 #include "atROIHistory.h"
 #include "dslRestartApplicationUtils.h"
-#include "TAboutVolumeCreatorForm.h"
+#include "TAboutATExplorerForm.h"
 //---------------------------------------------------------------------------
 
 using namespace dsl;
@@ -23,7 +23,7 @@ void __fastcall TMainForm::logMsg()
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::About1Click(TObject *Sender)
 {
-	TAboutVolumeCreator* a = new TAboutVolumeCreator(this);
+	TAboutATExplorer* a = new TAboutATExplorer(this);
 	a->ShowModal();
     delete a;
 }

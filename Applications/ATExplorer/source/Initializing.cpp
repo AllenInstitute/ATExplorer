@@ -15,7 +15,7 @@ extern string gApplicationStyle;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
-	this->Caption = vclstr(createWindowTitle("VolumeCreator", Application));
+	this->Caption = vclstr(createWindowTitle("ATExplorer", Application));
     this->DoubleBuffered = true;
 
 	TStyleManager::SetStyle(gApplicationStyle.c_str());

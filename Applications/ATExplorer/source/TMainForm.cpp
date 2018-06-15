@@ -12,7 +12,7 @@
 #include "TImageForm.h"
 #include "atApplicationSupportFunctions.h"
 #include "TOverlayedImage.h"
-#include "atVolumeCreatorProject.h"
+#include "atATExplorerProject.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -24,7 +24,6 @@
 #pragma link "dslTIntegerEdit"
 #pragma link "TSSHFrame"
 #pragma link "TImageControlsFrame"
-#pragma link "TParaConverterFrame"
 
 #pragma link "dslTFloatLabeledEdit"
 #pragma link "dslTIniFileC"
@@ -955,7 +954,7 @@ void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
           UnicodeString &S)
 {
 	//Update underlying object with new valuse..
-    VolumeCreatorProject* vcp = (VolumeCreatorProject*) Node->Data;
+    ATExplorerProject* vcp = (ATExplorerProject*) Node->Data;
     if(vcp)
     {
     	vcp->setProjectName(stdstr(S));

@@ -79,14 +79,12 @@ object MainForm: TMainForm
       AlignWithMargins = True
       Left = 16
       Top = 4
-      Width = 1401
-      Height = 27
+      Width = 40
+      Height = 13
       Margins.Left = 15
       Align = alClient
       Caption = '<none>'
       Layout = tlCenter
-      ExplicitWidth = 40
-      ExplicitHeight = 13
     end
   end
   object MainPanel: TPanel
@@ -116,6 +114,10 @@ object MainForm: TMainForm
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'General'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object mLeftPanel: TPanel
           Left = 0
           Top = 113
@@ -601,6 +603,10 @@ object MainForm: TMainForm
           TabOrder = 2
           object TabSheet2: TTabSheet
             Caption = 'Local Explorer'
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Panel1: TPanel
               Left = 0
               Top = 0
@@ -628,8 +634,8 @@ object MainForm: TMainForm
               object Image1: TImage
                 Left = 1
                 Top = 1
-                Width = 831
-                Height = 407
+                Width = 715
+                Height = 715
                 Align = alClient
                 AutoSize = True
                 Picture.Data = {
@@ -16666,6 +16672,10 @@ object MainForm: TMainForm
           object TabSheet5: TTabSheet
             Caption = 'NDViz'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object DcefBrowser1: TDcefBrowser
               Left = 0
               Top = 0
@@ -16691,6 +16701,10 @@ object MainForm: TMainForm
       object TabSheet4: TTabSheet
         Caption = 'Stack Creation'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object StackGenerationGB: TGroupBox
           Left = 0
           Top = 70
@@ -17146,6 +17160,10 @@ object MainForm: TMainForm
       object TabSheet3: TTabSheet
         Caption = 'Settings'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object GroupBox6: TGroupBox
           Left = 19
           Top = 25
@@ -17476,7 +17494,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 8
     Bitmap = {
-      494C010108001800F40010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800F80010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

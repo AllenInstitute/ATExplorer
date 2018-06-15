@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include "atProjectManager.h"
-#include "atVolumeCreatorProject.h"
+#include "atATExplorerProject.h"
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 
@@ -8,7 +8,7 @@
 using namespace dsl;
 
 TTreeNode* getNodeWithCaption(TTreeView* tv, const string& name);
-TTreeNode* getNodeWithProject(TTreeView* tv, const VolumeCreatorProject* p);
+TTreeNode* getNodeWithProject(TTreeView* tv, const ATExplorerProject* p);
 
 ProjectManager::ProjectManager(TTreeView& tv)
 :
@@ -26,10 +26,10 @@ bool ProjectManager::createNewProject()
     int nrOfVCPs = mVCProjects.size();
 
 	string pName = "VC Project " + dsl::toString(nrOfVCPs);
-	VolumeCreatorProject* vcp = new VolumeCreatorProject(pName);
+	ATExplorerProject* vcp = new ATExplorerProject(pName);
     mVCProjects.push_back(vcp);
 
-    Log(lInfo) << "Created a new VolumeCreator project";
+    Log(lInfo) << "Created a new ATExplorer project";
 
     ProjectTView->Items->AddObject(NULL, vcp->getProjectName().c_str(), (void*) vcp);
 	return true;
@@ -40,7 +40,7 @@ bool ProjectManager::selectItem(TTreeNode* item)
 	//Check if this is a root node or a child
     if(item->Parent == NULL)
     {
-		VolumeCreatorProject* vcp = (VolumeCreatorProject*) item->Data;
+		ATExplorerProject* vcp = (ATExplorerProject*) item->Data;
         if(vcp)
         {
         	Log(lInfo) << "Selecting project: " << vcp->getProjectName();
@@ -59,7 +59,7 @@ bool ProjectManager::selectFirst()
     return selectNode(*mCurrentVCProject);
 }
 
-VolumeCreatorProject* ProjectManager::getCurrentProject()
+ATExplorerProject* ProjectManager::getCurrentProject()
 {
 	//This relies on proper iterator management troughout the code!
 	return (mCurrentVCProject != mVCProjects.end()) ? (*mCurrentVCProject) : NULL;
@@ -78,7 +78,7 @@ bool ProjectManager::selectLast()
     return selectNode(*mCurrentVCProject);
 }
 
-bool ProjectManager::selectNode(VolumeCreatorProject*)
+bool ProjectManager::selectNode(ATExplorerProject*)
 {
 	TTreeNode* node = getNodeWithProject(ProjectTView, (*mCurrentVCProject));
     if(node)
@@ -112,12 +112,12 @@ TTreeNode* getNodeWithCaption(TTreeView* tv, const string& name)
     return NULL;
 }
 
-TTreeNode* getNodeWithProject(TTreeView* tv, const VolumeCreatorProject* p)
+TTreeNode* getNodeWithProject(TTreeView* tv, const ATExplorerProject* p)
 {
 	for(int i = 0; i < tv->Items->Count; i++)
     {
 		TTreeNode* node = tv->Items->Item[i];
-    	if((VolumeCreatorProject*) node->Data == p)
+    	if((ATExplorerProject*) node->Data == p)
         {
         	return node;
         }

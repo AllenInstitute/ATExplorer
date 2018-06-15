@@ -5,7 +5,7 @@
 using std::vector;
 
 //!The project manager class manages projects.
-class VolumeCreatorProject;
+class ATExplorerProject;
 
 namespace VCL
 {
@@ -27,13 +27,13 @@ class ProjectManager
         bool										selectPrevious();
         bool										selectLast();
 		bool 										selectItem(TTreeNode* item);
-		bool 										selectNode(VolumeCreatorProject* vcp);
-        VolumeCreatorProject*						getCurrentProject();
+		bool 										selectNode(ATExplorerProject* vcp);
+        ATExplorerProject*						getCurrentProject();
 
 	private:
     	TTreeView*			                        ProjectTView;
-        vector<VolumeCreatorProject*>			 	mVCProjects;
-		vector<VolumeCreatorProject*>::iterator		mCurrentVCProject;
+        vector<ATExplorerProject*>			 	mVCProjects;
+		vector<ATExplorerProject*>::iterator		mCurrentVCProject;
 
 };
 

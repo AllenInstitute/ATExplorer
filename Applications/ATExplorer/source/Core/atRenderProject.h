@@ -2,14 +2,14 @@
 #define atRenderProjectH
 #include <string>
 #include <vector>
-#include "atVolumeCreatorProject.h"
+#include "atATExplorerProject.h"
 //---------------------------------------------------------------------------
 
 using std::string;
 using std::vector;
 using dsl::gEmptyString;
 
-class RenderProject : public VolumeCreatorProject
+class RenderProject : public ATExplorerProject
 {
 	public:
 			    	                    RenderProject(const string& name, const string& owner, const string& project, const string& stack);

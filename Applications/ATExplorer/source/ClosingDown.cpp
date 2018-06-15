@@ -4,7 +4,7 @@
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "TImageForm.h"
-#include "atVolumeCreatorProject.h"
+#include "atATExplorerProject.h"
 using namespace dsl;
 
 //---------------------------------------------------------------------------
@@ -18,7 +18,7 @@ void __fastcall TMainForm::mShutDownTimerTimer(TObject *Sender)
 {
 	mShutDownTimer->Enabled = false;
 
-    VolumeCreatorProject* mCurrentVCProject = mProjectManager.getCurrentProject();
+    ATExplorerProject* mCurrentVCProject = mProjectManager.getCurrentProject();
 	if(mCurrentVCProject && mCurrentVCProject->isNeverSaved() == true)
     {
     	int mrResult = MessageDlg("Do you want to save current project?", mtWarning, TMsgDlgButtons() << mbYes<<mbNo<<mbCancel, 0);
@@ -88,7 +88,7 @@ void __fastcall TMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
 	Log(lInfo) << "Closing down....";
 
-    VolumeCreatorProject* mCurrentVCProject = mProjectManager.getCurrentProject();
+    ATExplorerProject* mCurrentVCProject = mProjectManager.getCurrentProject();
 	//Check if we can close.. abort all threads..
 	if(mLogFileReader.isRunning())
     {

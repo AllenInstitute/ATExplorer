@@ -9,7 +9,7 @@ using namespace dsl;
 
 RenderProject::RenderProject(const string& name, const string& owner, const string& project, const string& stack)
 :
-VolumeCreatorProject(name),
+ATExplorerProject(name),
 mOwner(owner),
 mProject(project),
 mStack(stack)
