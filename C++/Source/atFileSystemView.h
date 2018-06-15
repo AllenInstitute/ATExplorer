@@ -15,6 +15,7 @@ class FileSystemBase
     public:
         bool                        isDirectory();
         string                      toString();
+        Poco::Path&                 getPath(){return mPath;}
 
     protected:
         					        FileSystemBase(const Path& name, FileFolder* parent);
@@ -28,10 +29,10 @@ class FileFolder : public FileSystemBase
     public:
                             		FileFolder(const Path& name, FileFolder* parent);
         bool                        isPresent(FileSystemBase* child);
-
-    private:
         void 				        addChild(FileSystemBase* child);
         void 				        removeChild(FileSystemBase* child);
+
+    private:
 
 	    vector<FileSystemBase*> 	mFileFolderContent;
 };

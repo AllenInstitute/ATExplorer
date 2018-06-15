@@ -1,6 +1,27 @@
 #pragma hdrstop
 #include "atFileSystemView.h"
+#include <Poco/DirectoryIterator.h>
 //---------------------------------------------------------------------------
+
+using namespace Poco;
+
+populateFolderStructure(FileFolder& path)
+{
+	DirectoryIterator end;
+  	for (DirectoryIterator it(path.getPath()); it != end; ++it)
+  	{
+    	if(it->isDirectory())
+    	{
+            path.addChild(Path(*(it)));
+    	}
+
+	    if (it->isDirectory())
+    	{
+      		populateFolderStructure(it->path());
+    	}
+  	}
+}
+
 
 bool FileSystemBase::isDirectory()
 {
@@ -26,9 +47,7 @@ FileFolder::FileFolder(const Path& name, FileFolder* parent)
 :
 FileSystemBase(name, parent)
 {
-    //Parse current folder, i.e. add child paths
-
-
+    //Parse base folder recursively, add folders (not file paths)
 }
 
 bool FileFolder::isPresent(FileSystemBase* child)
