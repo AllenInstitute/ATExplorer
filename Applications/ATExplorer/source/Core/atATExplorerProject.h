@@ -19,20 +19,20 @@ using dsl::gEmptyString;
 class RenderProject;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
-enum VCObjectType
+enum ATEObjectType
 {
-	vcoBaseType = 0,
-    vcoRenderProject,
-    vcoVolume,
-    vcoUnknown
+	ateBaseType = 0,
+    ateRenderProject,
+    ateVolume,
+    ateUnknown
 };
 
-string 			toString(VCObjectType tp);
-VCObjectType 	toVCObjectType(const string& str);
+string 			toString(ATEObjectType tp);
+ATEObjectType 	toATEObjectType(const string& str);
 
 //!A ATExplorerProject captures (is a container) for renderprojects and other possible objects related to a project
-//!in volume creator
-//!A ATExplorerProject is the baseclass for such objects.
+//!in ATExplorer
+//!An ATExplorerProject is the baseclass for such objects.
 class ATExplorerProject : public dsl::Project, public ATObject
 {
 
@@ -52,14 +52,14 @@ class ATExplorerProject : public dsl::Project, public ATObject
 
         virtual bool   							loadFromXML(dsl::XMLNode* node);
 
-		string 									getVCObjectTypeAsString();
+		string 									getATEObjectTypeAsString();
 
         										//!Info text is used if the user want to document the purpose of
                                                 //a particular process
         string									mInfoText;
 
         int										getNumberOfChilds();
-        ATExplorerProject*					getChild(int i);
+        ATExplorerProject*						getChild(int i);
 
     protected:
         bool                                    resetXML();
@@ -67,14 +67,13 @@ class ATExplorerProject : public dsl::Project, public ATObject
 
                 					            //!The VCObject type help us construct
                                                 //a new VC object from a file
-        VCObjectType		  		            mVCObjectType;
+        ATEObjectType		  		            mATEObjectType;
 
-        ATExplorerProject*		            createVCObject(tinyxml2::XMLElement* element);
+        ATExplorerProject*		            	createVCObject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 
         										//!Childs can be various types of objecs, e.g. renderprojects and volumes
-        vector<ATExplorerProject*>			mChilds;
-
+        vector<ATExplorerProject*>				mChilds;
 };
 
 #endif

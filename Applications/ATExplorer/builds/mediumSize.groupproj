@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E405DD9C-5DCE-4E77-8FBF-84C5ED57D909}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="P:\libs\atapi\builds\atCore\atCore.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\source\ATExplorer.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="atCore">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj"/>
+    </Target>
+    <Target Name="atCore:Clean">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atCore:Make">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ATExplorer">
+        <MSBuild Projects="..\source\ATExplorer.cbproj"/>
+    </Target>
+    <Target Name="ATExplorer:Clean">
+        <MSBuild Projects="..\source\ATExplorer.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ATExplorer:Make">
+        <MSBuild Projects="..\source\ATExplorer.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="atCore;ATExplorer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="atCore:Clean;ATExplorer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="atCore:Make;ATExplorer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

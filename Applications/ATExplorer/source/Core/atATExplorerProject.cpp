@@ -13,15 +13,15 @@ using namespace tinyxml2;
 
 const string gATExplorerProjectFileVersion    = "0.6";
 
-string ATExplorerProject::getVCObjectTypeAsString()
+string ATExplorerProject::getATEObjectTypeAsString()
 {
-	return ::toString(mVCObjectType);
+	return ::toString(mATEObjectType);
 }
 
 ATExplorerProject::ATExplorerProject(const string& projName)
 :
 Project(projName, "vc"),
-mVCObjectType(vcoBaseType)
+mATEObjectType(ateBaseType)
 {
 	resetXML();
 }
@@ -106,7 +106,7 @@ XMLElement* ATExplorerProject::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLN
     XMLNode*    rootNode 		= doc.InsertFirstChild(objectNode);
 
     //Attributes
-    objectNode->SetAttribute("type", getVCObjectTypeAsString().c_str());
+    objectNode->SetAttribute("type", getATEObjectTypeAsString().c_str());
     objectNode->SetAttribute("name", getProjectName().c_str());
 
 	XMLElement* dataval1 = doc.NewElement("info");
@@ -217,10 +217,10 @@ ATExplorerProject* ATExplorerProject::createVCObject(tinyxml2::XMLElement* eleme
     	return NULL;
     }
 
-    VCObjectType pt = toVCObjectType(element->Attribute("type"));
+    ATEObjectType pt = toATEObjectType(element->Attribute("type"));
     switch(pt)
     {
-        case vcoRenderProject: return createRenderProject(element);
+        case ateRenderProject: return createRenderProject(element);
         default: return NULL;
     }
 }
@@ -244,23 +244,23 @@ RenderProject* ATExplorerProject::createRenderProject(tinyxml2::XMLElement* elem
     return p;
 }
 
-string toString(VCObjectType tp)
+string toString(ATEObjectType tp)
 {
 	switch(tp)
     {
-    	case vcoBaseType: 		return "volumeCreatorProject";
-    	case vcoRenderProject: 	return "renderProject";
-        case vcoVolume:			return "volume";
+    	case ateBaseType: 		return "atExplorerProject";
+    	case ateRenderProject: 	return "renderProject";
+        case ateVolume:			return "volume";
         default:				return "unKnownObject";
     }
 }
 
-VCObjectType toVCObjectType(const string& vcObject)
+ATEObjectType toATEObjectType(const string& ateObject)
 {
-	if(     vcObject == "volumeCreatorProject") return vcoBaseType;
-	else if(vcObject == "renderProject") 		return vcoRenderProject;
-	else if(vcObject == "volume") 				return vcoVolume;
-	else if(vcObject == "unKnownObject") 		return vcoUnknown;
+	if(     ateObject == "atExplorerProject") 		return ateBaseType;
+	else if(ateObject == "renderProject") 			return ateRenderProject;
+	else if(ateObject == "volume") 					return ateVolume;
+	else if(ateObject == "unKnownObject") 			return ateUnknown;
 
-   	return vcoUnknown;
+   	return ateUnknown;
 }
