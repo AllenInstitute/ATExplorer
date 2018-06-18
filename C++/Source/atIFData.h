@@ -6,13 +6,13 @@
 class ATIFData : public ATData
 {
     public:
-                    					ATIFData(const Path& p);
+                    					ATIFData(const Path& p, bool validate = false);
         virtual bool        			validate();
-        int                 			getNumberOfRibbons();
+        int                 			getNumberOfRibbonFolders();
         FileFolder                      getRibbonFolder(int fldr);
 
     protected:
-        FileFolder				 		mRibbonFolders;
+
 
 };
 #endif
