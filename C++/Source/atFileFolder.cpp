@@ -1,7 +1,9 @@
 #pragma hdrstop
 #include "atFileFolder.h"
+#include "atExceptions.h"
 #include <Poco/DirectoryIterator.h>
 #include "dslLogger.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
 using namespace Poco;
@@ -12,6 +14,13 @@ FileFolder::FileFolder(const Path& path, FileFolder* parent)
 :
 FileSystemObject(path, parent)
 {
+    Poco::File dir(path);
+    if(!dir.exists())
+    {
+        stringstream msg;
+        msg << "The path: " << path.toString() <<" is not an existing directory.";
+        throw(FileSystemException(msg));
+    }
     //Parse base folder recursively, add folders (not file paths)
     if(parent == NULL)
     {
@@ -19,10 +28,60 @@ FileSystemObject(path, parent)
     }
 }
 
-FileFolders FileFolder::getSubFolders()
+//Return part n of the path
+string FileFolder::directoryName(int n)
 {
-    int count(mFileFolderContent.size());
+    if(n < mPath.depth())
+    {
+        return mPath[n];
+    }
+    else
+    {
+        return "";
+    }
+}
+
+
+FileFolder* FileFolder::getSubFolder(const Path& p)
+{
+    Path subPath(p);
+    FileFolder* subfolder(NULL);
+
+    for(int i = 0; i < mFileFolderContent.size(); i++)
+    {
+        Path thisPath(mPath);
+        FileFolder* subFldr = dynamic_cast<FileFolder*>(mFileFolderContent[i]);
+
+        thisPath.pushDirectory(subPath.directory(0));
+        if(subFldr && subFldr->toString() == thisPath.toString())
+        {
+            //If matched and path is deeper, return recursive call to getSubFolder
+            if(subPath.depth() > 1)
+            {
+                subPath.popFrontDirectory();
+                return subFldr->getSubFolder(subPath);
+            }
+            else
+            {
+                return subFldr;
+            }
+        }
+    }
+    return NULL;
+}
+
+FileFolders FileFolder::getSubFolders(const Path& subPath)
+{
+    //if a subPath is provided, return subfolders of that..
+
 	FileFolders subFolders;
+    int count(mFileFolderContent.size());
+    if(!count)
+    {
+        return subFolders;
+    }
+
+
     for(int i = 0; i < count; i++)
     {
         //Checking
@@ -88,7 +147,7 @@ void populateFolderStructure(FileFolder& path)
 
     	if(it->isDirectory())
     	{
-            Path ffPath(it->path() + "\\");
+            Path ffPath(it->path() + gPathSeparator);
 //            Path ffPath(it->path());
             FileFolder *ff = new FileFolder(ffPath, &path);
 	        Log(lDebug5) << "Adding child: "<<it->path();

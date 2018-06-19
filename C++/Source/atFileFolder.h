@@ -19,11 +19,13 @@ class FileFolder : public FileSystemObject
 {
     public:
                             		FileFolder(const Path& name, FileFolder* parent);
-        FileFolders         		getSubFolders();
+        FileFolder*        			getSubFolder(const Path& p);
+        FileFolders         		getSubFolders(const Path& subPath = Path("."));
         StringList          		getSubFoldersAsList();
         bool                        isPresent(FileSystemObject* child);
         void 				        addChild(FileSystemObject* child);
         void 				        removeChild(FileSystemObject* child);
+        string                      directoryName(int n);
 
     private:
 	    vector<FileSystemObject*> 	mFileFolderContent;

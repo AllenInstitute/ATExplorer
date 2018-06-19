@@ -20,7 +20,6 @@ class FileSystemObject
 
     protected:
         					        FileSystemObject(const Path& name, FileFolder* parent);
-    private:
         Path 				        mPath;
         FileFolder*			        mParent;
 };

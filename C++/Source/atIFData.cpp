@@ -2,6 +2,7 @@
 #include "atIFData.h"
 #include "dslLogger.h"
 #include "Poco/Glob.h"
+#include "dslConstants.h"
 #include <set>
 //---------------------------------------------------------------------------
 
@@ -11,7 +12,8 @@ using namespace Poco;
 
 ATIFData::ATIFData(const Path& p, bool val)
 :
-ATData(p)
+ATData(p),
+ribbonFolderSubPath(joinPath("raw", "data\\"))
 {
     if(val)
     {
@@ -47,10 +49,9 @@ bool ATIFData::validate()
     return true;
 }
 
-FileFolders	ATIFData::getSessionFolders(int fldr)
+FileFolders	ATIFData::getSessionFolders(FileFolder* fldr)
 {
-    FileFolder* root = getRibbonFolder(fldr);
-	FileFolders subFolders = root->getSubFolders();
+	FileFolders subFolders = fldr->getSubFolders();
 	FileFolders sessionFolders;
 
 	for(int i = 0; i < subFolders.size(); i++)
@@ -63,24 +64,28 @@ FileFolders	ATIFData::getSessionFolders(int fldr)
     return sessionFolders;
 }
 
-FileFolders	ATIFData::getSessionFolders(FileFolder* ribbonFolder)
-{
-	FileFolders sessionFolders;
-    return sessionFolders;
-}
-
 FileFolders ATIFData::getChannelFolders(FileFolder* sessionFolder)
 {
     Log(lInfo) << "Retrieving Channel Folders for session: " << sessionFolder->toString() << " on ribbon: " << sessionFolder->getParent()->toString();
-
     return sessionFolder->getSubFolders();
-
 }
 
 int ATIFData::getNumberOfRibbonFolders()
 {
     //Check how many Ribbon folders that are present
-    FileFolders fldrs = mBasePath.getSubFolders();
+    //Ribbon folder is assumed to be under basepath/raw/data/
+
+    Path subPath(joinPath("raw", "data\\"));
+    FileFolder* fldr = mBasePath.getSubFolder(subPath);
+
+    if(!fldr)
+    {
+        Log(lError) << "Failed to get folder containing ribbon data";
+        return -1;
+    }
+
+    FileFolders fldrs = fldr->getSubFolders();
+
     int count(0);
 	for(int i = 0; i < fldrs.size(); i++)
     {
@@ -92,15 +97,30 @@ int ATIFData::getNumberOfRibbonFolders()
     return count;
 }
 
+FileFolder* ATIFData::getRibbonsDataFolder()
+{
+    return mBasePath.getSubFolder(ribbonFolderSubPath);
+}
+
 FileFolders ATIFData::getRibbonFolders()
 {
-	FileFolders allFldrs = mBasePath.getSubFolders();
+    //First get the folder holding ribbon folder
 	FileFolders ribbonFolders;
-	for(int i = 0; i < allFldrs.size(); i++)
+    FileFolder* ribbonFolder = getRibbonsDataFolder();
+
+    if(!ribbonFolder)
     {
-        if(contains("Ribbon", allFldrs[i]->toString()))
+        Log(lError) << "Failed to get folder containing ribbon data";
+        return ribbonFolders;
+    }
+
+	FileFolders allSubFolders = ribbonFolder->getSubFolders();
+
+	for(int i = 0; i < allSubFolders.size(); i++)
+    {
+        if(contains("Ribbon", allSubFolders[i]->toString()))
         {
-	        ribbonFolders.push_back(allFldrs[i]);
+	        ribbonFolders.push_back(allSubFolders[i]);
         }
     }
 
