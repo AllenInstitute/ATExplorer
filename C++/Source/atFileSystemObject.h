@@ -9,13 +9,14 @@ using std::vector;
 using std::string;
 
 class FileFolder;
-typedef vector<FileFolder*> FileFolders;
+
 class FileSystemObject
 {
     public:
         bool                        isDirectory();
-        string                      toString();
+        virtual string              toString();
         Poco::Path&                 getPath(){return mPath;}
+        FileFolder*			        getParent(){ return mParent; }
 
     protected:
         					        FileSystemObject(const Path& name, FileFolder* parent);
@@ -23,5 +24,6 @@ class FileSystemObject
         Path 				        mPath;
         FileFolder*			        mParent;
 };
+
 
 #endif

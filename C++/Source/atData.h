@@ -2,7 +2,7 @@
 #define atDataH
 #include "atATObject.h"
 #include "Poco/Path.h"
-#include "atFileSystemView.h"
+#include "atFileFolder.h"
 //---------------------------------------------------------------------------
 using Poco::Path;
 
