@@ -3,26 +3,34 @@
 #include "Poco/Path.h"
 #include <vector>
 #include <string>
+#include "atATObject.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
+
+namespace at
+{
 using Poco::Path;
 using std::vector;
 using std::string;
-
 class FileFolder;
+using dsl::shared_ptr;
 
-class FileSystemObject
+class FileSystemObject : public ATObject
 {
     public:
         bool                        isDirectory();
         virtual string              toString();
-        Poco::Path&                 getPath(){return mPath;}
-        FileFolder*			        getParent(){ return mParent; }
+        Poco::Path&                 getPath();
+        FileFolder*    				getParent();
 
     protected:
-        					        FileSystemObject(const Path& name, FileFolder* parent);
+        					        FileSystemObject(const Path& name, FileFolder* parent = NULL);
         Path 				        mPath;
-        FileFolder*			        mParent;
+
+                                    //!use shared pointers later on
+        FileFolder*      			mParent;
 };
 
+}
 
 #endif

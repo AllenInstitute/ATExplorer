@@ -3,6 +3,9 @@
         <ProjectGuid>{B7B51022-2781-4D05-AA0B-D243334880D9}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="P:\libs\atapi\builds\atCore\atCore.cbproj">
             <Dependencies/>
         </Projects>
@@ -17,6 +20,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="dslCommon">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj"/>
+    </Target>
+    <Target Name="dslCommon:Clean">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslCommon:Make">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="atCore">
         <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj"/>
     </Target>
@@ -36,13 +48,13 @@
         <MSBuild Projects="atdata.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="atCore;atdata"/>
+        <CallTarget Targets="dslCommon;atCore;atdata"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="atCore:Clean;atdata:Clean"/>
+        <CallTarget Targets="dslCommon:Clean;atCore:Clean;atdata:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="atCore:Make;atdata:Make"/>
+        <CallTarget Targets="dslCommon:Make;atCore:Make;atdata:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

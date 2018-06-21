@@ -119,6 +119,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <LinkPackageStatics>sbridge250.lib;dslVCLComponents.lib;dslVCLVisualComponents.lib;DcefBrowser.lib</LinkPackageStatics>
         <LinkPackageImports>rtl.bpi;vcl.bpi;bcbie.bpi;vclie.bpi;vclx.bpi;vclactnband.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;vclimg.bpi</LinkPackageImports>
         <VerInfo_Release>2</VerInfo_Release>
+        <UWP_CppLogo44>..\resources\logo.png</UWP_CppLogo44>
+        <UWP_CppLogo150>..\resources\logo.png</UWP_CppLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -373,7 +375,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Configuration="Debug" Class="UWP_CppLogo44">
+                <DeployFile LocalName="..\resources\logo.png" Configuration="Debug" Class="UWP_CppLogo44">
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
                         <RemoteName>Logo44x44.png</RemoteName>
@@ -810,7 +812,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>$(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)</PostBuildEvent>
+        <PostBuildEvent>$(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

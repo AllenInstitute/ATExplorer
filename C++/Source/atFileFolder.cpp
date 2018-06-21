@@ -8,7 +8,10 @@
 
 using namespace Poco;
 using namespace dsl;
-void populateFolderStructure(FileFolder& path);
+
+namespace at
+{
+FolderInfo populateFolderStructure(FileFolder& path);
 
 FileFolder::FileFolder(const Path& path, FileFolder* parent)
 :
@@ -21,11 +24,19 @@ FileSystemObject(path, parent)
         msg << "The path: " << path.toString() <<" is not an existing directory.";
         throw(FileSystemException(msg));
     }
-    //Parse base folder recursively, add folders (not file paths)
-    if(parent == NULL)
-    {
-    	populateFolderStructure(*this);
-    }
+}
+
+FileFolder::~FileFolder()
+{}
+
+FolderInfo FileFolder::scan()
+{
+  	return populateFolderStructure(*this);
+}
+
+string FileFolder::getLastPartOfPath()
+{
+    return mPath[mPath.depth() - 1];
 }
 
 //Return part n of the path
@@ -41,8 +52,7 @@ string FileFolder::directoryName(int n)
     }
 }
 
-
-FileFolder* FileFolder::getSubFolder(const Path& p)
+shared_ptr<FileFolder> FileFolder::getSubFolder(const Path& p)
 {
     Path subPath(p);
     FileFolder* subfolder(NULL);
@@ -63,11 +73,11 @@ FileFolder* FileFolder::getSubFolder(const Path& p)
             }
             else
             {
-                return subFldr;
+                return shared_ptr<FileFolder>(subFldr);
             }
         }
     }
-    return NULL;
+    return shared_ptr<FileFolder>();
 }
 
 FileFolders FileFolder::getSubFolders(const Path& subPath)
@@ -80,7 +90,6 @@ FileFolders FileFolder::getSubFolders(const Path& subPath)
     {
         return subFolders;
     }
-
 
     for(int i = 0; i < count; i++)
     {
@@ -139,23 +148,35 @@ void FileFolder::removeChild(FileSystemObject* child)
 }
 
 
-void populateFolderStructure(FileFolder& path)
+FolderInfo populateFolderStructure(FileFolder& folder)
 {
+    FolderInfo info(0, 0);
 	DirectoryIterator end;
-  	for (DirectoryIterator it(path.getPath()); it != end; ++it)
+    //Log(lDebug3) << "Checking folder: " << folder.getPath().toString();
+  	for (DirectoryIterator it(folder.getPath()); it != end; ++it)
   	{
 
     	if(it->isDirectory())
     	{
+            //Found a folder
+            info.first++;
             Path ffPath(it->path() + gPathSeparator);
-//            Path ffPath(it->path());
-            FileFolder *ff = new FileFolder(ffPath, &path);
+
+            FileFolder *ff = new FileFolder(ffPath, &folder);
 	        Log(lDebug5) << "Adding child: "<<it->path();
-            path.addChild(ff);
+            folder.addChild(ff);
 
             //Recursive call ------
-      		populateFolderStructure(*ff);
+      		FolderInfo i = populateFolderStructure(*ff);
+            info.first  += i.first;
+            info.second += i.second;
     	}
+        else if(it->isFile())
+        {
+            info.second++;
+        }
   	}
+    return info;
 }
 
+}

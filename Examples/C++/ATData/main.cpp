@@ -3,8 +3,9 @@
 #include "atIFData.h"
 #include "dslLogger.h"
 #include "atExceptions.h"
-using namespace dsl;
 
+using namespace dsl;
+using namespace at;
 int main()
 {
     //Setup logging
@@ -13,43 +14,19 @@ int main()
 
     try
     {
-        ATIFData atData("D:\\data\\M335503_Ai139_smallvol\\", false);
-//        ATIFData atData("D:\\data\\raw", false);
+        Path dataPath("D:\\data\\M335503_Ai139_smallvol\\");
+        ATIFData atData(dataPath, false);
+
+        //!Populating the data object causes a scan of folders and files
+        //!representing the data. No image data is loaded
+
+        atData.populate();
+
 
         //Print some information
-        Log(lInfo) << "There are "<<atData.getNumberOfRibbonFolders()<<" ribbon folders";
-        FileFolders ribbonFolders = atData.getRibbonFolders();
+        Log(lInfo) << "This is a "<<atData.getNumberOfRibbons()<<" ribbons dataset";
 
-        for(int i = 0; i < ribbonFolders.size(); i++)
-        {
-            FileFolder* ribbonFolder = ribbonFolders[i];
-            Log(lInfo) << "Checking ribbon folder: " << ribbonFolder->toString();
-            FileFolders sessions = atData.getSessionFolders(ribbonFolder);
-            for(int i = 0; i < sessions.size(); i++)
-            {
-                Log(lInfo) << "Checking session folder: " << sessions[i]->toString();
 
-                //Check channels for each session..
-                FileFolders channels = atData.getChannelFolders(sessions[i]);
-                StringList chs = sessions[i]->getSubFoldersAsList();
-                Log(lInfo) << "There are " << channels.size() <<" channels in session: " << '\n' << chs.asString();
-            }
-        }
-
-    //Look into one single session
-
-//    for(int ribbon = 0; ribbon < atData.getNumberOfRibbons(); ribbon++)
-//    {
-//        cout << "Ribbon #"<<ribbon<<" contain "<<atData.getRibbonFolder(ribbon).getNumberOfsections()<<" sections";
-//    }
-
-//    cout<<"This data set contains a total of "<<atData.getNumberOfTiles()<< " tiles";
-
-//    if(!atData.validate())
-//    {
-//        Log(lError) << "This data do have problems. Exiting!";
-//        return -1;
-//    }
     }
     catch(const FileSystemException& e)
     {

@@ -3,8 +3,8 @@ object MainForm: TMainForm
   Top = 0
   AlphaBlendValue = 100
   Caption = 'Volume Creator'
-  ClientHeight = 833
-  ClientWidth = 1421
+  ClientHeight = 673
+  ClientWidth = 1276
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,26 +26,30 @@ object MainForm: TMainForm
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 814
-    Width = 1421
+    Top = 654
+    Width = 1276
     Height = 19
     Panels = <>
+    ExplicitTop = 814
+    ExplicitWidth = 1421
   end
   object mShowBottomPanelBtn: TButton
     Left = 0
-    Top = 795
-    Width = 1421
+    Top = 635
+    Width = 1276
     Height = 19
     Align = alBottom
     Caption = '^'
     TabOrder = 1
     Visible = False
     OnClick = mShowBottomPanelBtnClick
+    ExplicitTop = 795
+    ExplicitWidth = 1421
   end
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 1421
+    Width = 1276
     Height = 22
     AutoSize = True
     Caption = 'ToolBar1'
@@ -70,78 +74,87 @@ object MainForm: TMainForm
   object ProjFilePathPanel: TPanel
     Left = 0
     Top = 22
-    Width = 1421
+    Width = 1276
     Height = 35
     Align = alTop
     Alignment = taLeftJustify
     TabOrder = 3
+    ExplicitWidth = 1421
     object ProjFileLbl: TLabel
       AlignWithMargins = True
       Left = 16
       Top = 4
-      Width = 40
-      Height = 13
+      Width = 1256
+      Height = 27
       Margins.Left = 15
       Align = alClient
       Caption = '<none>'
       Layout = tlCenter
+      ExplicitWidth = 40
+      ExplicitHeight = 13
     end
   end
   object MainPanel: TPanel
     Left = 0
     Top = 57
-    Width = 1421
-    Height = 738
+    Width = 1276
+    Height = 578
     Align = alClient
     TabOrder = 4
+    ExplicitWidth = 1421
+    ExplicitHeight = 738
     object Splitter2: TSplitter
       Left = 1
-      Top = 596
-      Width = 1419
+      Top = 436
+      Width = 1274
       Height = 5
       Cursor = crVSplit
       Align = alBottom
       ExplicitLeft = 46
       ExplicitTop = 685
+      ExplicitWidth = 1419
     end
     object PageControl1: TPageControl
       Left = 186
       Top = 1
-      Width = 1234
-      Height = 595
+      Width = 1089
+      Height = 435
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 1234
+      ExplicitHeight = 595
       object TabSheet1: TTabSheet
         Caption = 'General'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 1226
+        ExplicitHeight = 567
         object mLeftPanel: TPanel
           Left = 0
           Top = 113
           Width = 385
-          Height = 454
+          Height = 294
           Align = alLeft
           TabOrder = 0
+          ExplicitHeight = 454
           object ScrollBox1: TScrollBox
             Left = 1
             Top = 1
             Width = 287
-            Height = 452
+            Height = 292
             Align = alClient
             DoubleBuffered = True
             ParentDoubleBuffered = False
             TabOrder = 0
+            ExplicitHeight = 452
             object imageParasGB: TGroupBox
               Left = 0
               Top = 0
-              Width = 283
+              Width = 266
               Height = 161
               Align = alTop
               Caption = 'Image Parameters'
               TabOrder = 0
+              ExplicitWidth = 283
               object mScaleE: TFloatLabeledEdit
                 Left = 16
                 Top = 34
@@ -258,11 +271,12 @@ object MainForm: TMainForm
             object PostProcessingGB: TGroupBox
               Left = 0
               Top = 161
-              Width = 283
+              Width = 266
               Height = 198
               Align = alTop
               Caption = 'Post Processing'
               TabOrder = 1
+              ExplicitWidth = 283
               object IMContrastControl: TCheckBox
                 Left = 17
                 Top = 47
@@ -284,7 +298,7 @@ object MainForm: TMainForm
               object ColorRG: TRadioGroup
                 Left = 2
                 Top = 144
-                Width = 279
+                Width = 262
                 Height = 52
                 Align = alBottom
                 Caption = 'Color'
@@ -298,6 +312,7 @@ object MainForm: TMainForm
                   'Magenta')
                 TabOrder = 2
                 OnClick = ColorRGClick
+                ExplicitWidth = 279
               end
               object FlipImageLeftCB: TCheckBox
                 Left = 17
@@ -324,11 +339,12 @@ object MainForm: TMainForm
             object CacheGB: TGroupBox
               Left = 0
               Top = 359
-              Width = 283
+              Width = 266
               Height = 77
               Align = alTop
               Caption = 'Local Cache'
               TabOrder = 2
+              ExplicitWidth = 283
               object mFetchSelectedZsBtn: TButton
                 Left = 16
                 Top = 21
@@ -344,30 +360,33 @@ object MainForm: TMainForm
             Left = 288
             Top = 1
             Width = 96
-            Height = 452
+            Height = 292
             Align = alRight
             Caption = 'Sections'
             TabOrder = 1
+            ExplicitHeight = 452
             object mZs: TCheckListBox
               Left = 2
               Top = 15
               Width = 92
-              Height = 435
+              Height = 275
               Align = alClient
               ItemHeight = 13
               PopupMenu = ZsPopUpMenu
               TabOrder = 0
               OnClick = ClickZ
+              ExplicitHeight = 435
             end
           end
         end
         object Panel5: TPanel
           Left = 0
           Top = 0
-          Width = 1226
+          Width = 1081
           Height = 113
           Align = alTop
           TabOrder = 1
+          ExplicitWidth = 1226
           object Splitter1: TSplitter
             Left = 593
             Top = 1
@@ -568,11 +587,12 @@ object MainForm: TMainForm
           object GroupBox2: TGroupBox
             Left = 923
             Top = 1
-            Width = 302
+            Width = 157
             Height = 111
             Align = alClient
             Caption = 'Misc'
             TabOrder = 3
+            ExplicitWidth = 302
             object OpenInNDVIZBtn: TButton
               Left = 22
               Top = 25
@@ -596,11 +616,13 @@ object MainForm: TMainForm
         object PageControl2: TPageControl
           Left = 385
           Top = 113
-          Width = 841
-          Height = 454
+          Width = 696
+          Height = 294
           ActivePage = TabSheet5
           Align = alClient
           TabOrder = 2
+          ExplicitWidth = 841
+          ExplicitHeight = 454
           object TabSheet2: TTabSheet
             Caption = 'Local Explorer'
             ExplicitLeft = 0
@@ -16672,15 +16694,13 @@ object MainForm: TMainForm
           object TabSheet5: TTabSheet
             Caption = 'NDViz'
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
+            ExplicitWidth = 833
+            ExplicitHeight = 426
             object DcefBrowser1: TDcefBrowser
               Left = 0
               Top = 0
-              Width = 833
-              Height = 426
+              Width = 688
+              Height = 266
               TabOrder = 0
               Align = alClient
               DefaultURL = 'about:blank'
@@ -16690,10 +16710,8 @@ object MainForm: TMainForm
               OnStateChange = DcefBrowser1StateChange
               OnBeforeBrowse = DcefBrowser1BeforeBrowse
               OnConsoleMessage = DcefBrowser1ConsoleMessage
-              ExplicitLeft = 112
-              ExplicitTop = 80
-              ExplicitWidth = 100
-              ExplicitHeight = 41
+              ExplicitWidth = 833
+              ExplicitHeight = 426
             end
           end
         end
@@ -16701,18 +16719,17 @@ object MainForm: TMainForm
       object TabSheet4: TTabSheet
         Caption = 'Stack Creation'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
+        ExplicitWidth = 1226
+        ExplicitHeight = 567
         object StackGenerationGB: TGroupBox
           Left = 0
           Top = 70
-          Width = 1226
+          Width = 1081
           Height = 227
           Align = alTop
           Caption = 'Stack Output Settings'
           TabOrder = 0
+          ExplicitWidth = 1226
           object Label4: TLabel
             Left = 282
             Top = 51
@@ -16869,7 +16886,7 @@ object MainForm: TMainForm
         inline TSSHFrame1: TSSHFrame
           Left = 0
           Top = 0
-          Width = 1226
+          Width = 1081
           Height = 70
           Align = alTop
           AutoSize = True
@@ -16929,21 +16946,24 @@ object MainForm: TMainForm
         object MultiStackCreationGB: TGroupBox
           Left = 0
           Top = 297
-          Width = 1226
-          Height = 270
+          Width = 1081
+          Height = 110
           Align = alClient
           Caption = 'Select Stacks'
           TabOrder = 1
+          ExplicitWidth = 1226
+          ExplicitHeight = 270
           object StacksForProjectCB: TCheckListBox
             AlignWithMargins = True
             Left = 17
             Top = 18
             Width = 335
-            Height = 247
+            Height = 87
             Margins.Left = 15
             Align = alLeft
             ItemHeight = 13
             TabOrder = 0
+            ExplicitHeight = 247
           end
           object GroupBox3: TGroupBox
             Left = 354
@@ -17230,37 +17250,42 @@ object MainForm: TMainForm
     end
     object mBottomPanel: TPanel
       Left = 1
-      Top = 601
-      Width = 1419
+      Top = 441
+      Width = 1274
       Height = 136
       Align = alBottom
       TabOrder = 1
+      ExplicitTop = 601
+      ExplicitWidth = 1419
       object mLogPanel: TPanel
         Left = 1
         Top = 1
-        Width = 1417
+        Width = 1272
         Height = 134
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 1417
         object infoMemo: TMemo
           Left = 1
           Top = 42
-          Width = 1415
+          Width = 1270
           Height = 91
           Align = alClient
           ScrollBars = ssBoth
           TabOrder = 0
           WordWrap = False
+          ExplicitWidth = 1415
         end
         object Panel2: TPanel
           Left = 1
           Top = 1
-          Width = 1415
+          Width = 1270
           Height = 41
           Align = alTop
           TabOrder = 1
+          ExplicitWidth = 1415
           DesignSize = (
-            1415
+            1270
             41)
           object mCLearMemo: TButton
             Left = 9
@@ -17272,7 +17297,7 @@ object MainForm: TMainForm
             OnClick = mCLearMemoClick
           end
           object mCloseBottomPanelBtn: TButton
-            Left = 1376
+            Left = 1231
             Top = 5
             Width = 29
             Height = 25
@@ -17280,6 +17305,7 @@ object MainForm: TMainForm
             Caption = 'x'
             TabOrder = 1
             OnClick = mCloseBottomPanelBtnClick
+            ExplicitLeft = 1376
           end
         end
       end
@@ -17288,15 +17314,16 @@ object MainForm: TMainForm
       Left = 1
       Top = 1
       Width = 185
-      Height = 595
+      Height = 435
       Align = alLeft
       TabOrder = 2
       Visible = False
+      ExplicitHeight = 595
       object ProjectTView: TTreeView
         Left = 1
         Top = 1
         Width = 183
-        Height = 593
+        Height = 433
         Align = alClient
         Indent = 19
         PopupMenu = ProjTreeViewPopup
@@ -17306,6 +17333,7 @@ object MainForm: TMainForm
         OnContextPopup = ProjectTViewContextPopup
         OnEdited = ProjectTViewEdited
         OnEditing = ProjectTViewEditing
+        ExplicitHeight = 593
       end
     end
   end
@@ -17494,7 +17522,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 8
     Bitmap = {
-      494C010108001800F80010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800FC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

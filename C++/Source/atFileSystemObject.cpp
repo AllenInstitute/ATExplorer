@@ -8,6 +8,9 @@
 using namespace Poco;
 using namespace dsl;
 
+namespace at
+{
+
 bool FileSystemObject::isDirectory()
 {
     return mPath.isDirectory();
@@ -28,5 +31,15 @@ mPath(name), mParent(parent)
     }
 }
 
+Poco::Path& FileSystemObject::getPath()
+{
+	return mPath;
+}
 
+FileFolder* FileSystemObject::getParent()
+{
+	return mParent;
+}
+
+}
 

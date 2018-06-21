@@ -5,6 +5,9 @@
 #include <string>
 #include "atFileSystemObject.h"
 //---------------------------------------------------------------------------
+
+namespace at
+{
 using Poco::Path;
 using std::vector;
 using std::string;
@@ -18,4 +21,5 @@ class File : public FileSystemObject
         {}
 };
 
+}
 #endif
