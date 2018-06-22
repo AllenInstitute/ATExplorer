@@ -22,6 +22,15 @@ Ribbons* ATData::getRibbons()
     return &mRibbons;
 }
 
+Ribbon* ATData::getRibbon(int count)
+{
+    if(count > 0 && count <= mRibbons.size())
+    {
+    	return mRibbons[count-1];
+    }
+    return NULL;
+}
+
 Sessions* ATData::getSessions()
 {
     return &mSessions;

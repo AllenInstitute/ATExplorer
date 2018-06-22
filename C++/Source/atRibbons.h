@@ -16,7 +16,7 @@ class Ribbons : public std::vector<Ribbon*>, public ATObject
 
         public:
                             	Ribbons();
-                            	~Ribbons();
+            virtual            	~Ribbons();
         	Ribbon*             getRibbon(int i){return this->at(i);}
             int                 count(){return this->size();}
 

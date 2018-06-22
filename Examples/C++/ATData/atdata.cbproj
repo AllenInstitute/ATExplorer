@@ -134,6 +134,10 @@
             <DependentOn>..\..\..\C++\Source\atFileFolder.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\..\C++\Source\atFileFolders.cpp">
+            <DependentOn>..\..\..\C++\Source\atFileFolders.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\..\C++\Source\atFileSystemObject.cpp">
             <BuildOrder>6</BuildOrder>
         </CppCompile>

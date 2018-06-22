@@ -25,10 +25,10 @@ FileSystemObject::FileSystemObject(const Path& name, FileFolder *parent)
 :
 mPath(name), mParent(parent)
 {
-    if (parent)
-    {
-        parent->addChild(this);
-    }
+//    if (parent)
+//    {
+//        parent->addSubFolder(dynamic_cast<FileFolder*>(this));
+//    }
 }
 
 Poco::Path& FileSystemObject::getPath()

@@ -9,15 +9,19 @@ namespace at
 {
 using std::list;
 class Tile;
+
 //!An atSection is a list of tiles
 class Section : public list<Tile>, public ATObject
 {
 
         public:
-                            Section();
-                            ~Section();
+                            Section(int id);
+            int             id(){return mID;}
+            int             getNumberOfTiles();
+        	virtual         ~Section();
 
         protected:
+        	int             mID;
 
         private:
 

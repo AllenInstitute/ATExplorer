@@ -6,11 +6,12 @@
 #include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
+namespace at
+{
+
 using namespace Poco;
 using namespace dsl;
 
-namespace at
-{
 FolderInfo populateFolderStructure(FileFolder& path);
 
 FileFolder::FileFolder(const Path& path, FileFolder* parent)
@@ -24,6 +25,12 @@ FileSystemObject(path, parent)
         msg << "The path: " << path.toString() <<" is not an existing directory.";
         throw(FileSystemException(msg));
     }
+
+    if (parent)
+    {
+        parent->addSubFolder(this);
+    }
+
 }
 
 FileFolder::~FileFolder()
@@ -52,15 +59,20 @@ string FileFolder::directoryName(int n)
     }
 }
 
-shared_ptr<FileFolder> FileFolder::getSubFolder(const Path& p)
+FileFolder* FileFolder::getFirstSubFolder()
+{
+    return mSubFolders.getFirst();
+}
+
+FileFolder* FileFolder::getSubFolder(const Path& p)
 {
     Path subPath(p);
     FileFolder* subfolder(NULL);
 
-    for(int i = 0; i < mFileFolderContent.size(); i++)
+    for(int i = 0; i < mSubFolders.size(); i++)
     {
         Path thisPath(mPath);
-        FileFolder* subFldr = dynamic_cast<FileFolder*>(mFileFolderContent[i]);
+        FileFolder* subFldr = dynamic_cast<FileFolder*>(mSubFolders[i]);
 
         thisPath.pushDirectory(subPath.directory(0));
         if(subFldr && subFldr->toString() == thisPath.toString())
@@ -73,11 +85,11 @@ shared_ptr<FileFolder> FileFolder::getSubFolder(const Path& p)
             }
             else
             {
-                return shared_ptr<FileFolder>(subFldr);
+                return subFldr;
             }
         }
     }
-    return shared_ptr<FileFolder>();
+    return NULL;
 }
 
 FileFolders FileFolder::getSubFolders(const Path& subPath)
@@ -85,7 +97,7 @@ FileFolders FileFolder::getSubFolders(const Path& subPath)
     //if a subPath is provided, return subfolders of that..
 
 	FileFolders subFolders;
-    int count(mFileFolderContent.size());
+    int count(mSubFolders.size());
     if(!count)
     {
         return subFolders;
@@ -94,10 +106,10 @@ FileFolders FileFolder::getSubFolders(const Path& subPath)
     for(int i = 0; i < count; i++)
     {
         //Checking
-        //Log(lDebug) << "Checking: " << mFileFolderContent[i]->toString();
-        if(mFileFolderContent[i]->isDirectory())
+        //Log(lDebug) << "Checking: " << mSubFolders[i]->toString();
+        if(mSubFolders[i]->isDirectory())
         {
-            FileSystemObject* fObj = mFileFolderContent[i];
+            FileSystemObject* fObj = mSubFolders[i];
             FileFolder* folder = dynamic_cast<FileFolder*>(fObj);
             subFolders.push_back(folder);
         }
@@ -120,9 +132,9 @@ StringList FileFolder::getSubFoldersAsList()
 
 bool FileFolder::isPresent(FileSystemObject* child)
 {
-    for(int i = 0; i < mFileFolderContent.size(); i++)
+    for(int i = 0; i < mSubFolders.size(); i++)
     {
-        if(mFileFolderContent[i] == child)
+        if(mSubFolders[i] == child)
         {
             return true;
         }
@@ -130,11 +142,11 @@ bool FileFolder::isPresent(FileSystemObject* child)
     return false;
 }
 
-void FileFolder::addChild(FileSystemObject* child)
+void FileFolder::addSubFolder(FileFolder* child)
 {
     if(!isPresent(child))
     {
-		mFileFolderContent.push_back(child);
+		mSubFolders.push_back(child);
     }
 }
 
@@ -143,7 +155,7 @@ void FileFolder::removeChild(FileSystemObject* child)
 {
 //    if(!contain(child))
 //    {
-//		mFileFolderContent.push_back(child);
+//		mSubFolders.push_back(child);
 //    }
 }
 
@@ -164,7 +176,7 @@ FolderInfo populateFolderStructure(FileFolder& folder)
 
             FileFolder *ff = new FileFolder(ffPath, &folder);
 	        Log(lDebug5) << "Adding child: "<<it->path();
-            folder.addChild(ff);
+            //folder.addSubFolder(ff);
 
             //Recursive call ------
       		FolderInfo i = populateFolderStructure(*ff);

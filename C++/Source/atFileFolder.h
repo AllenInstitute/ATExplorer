@@ -5,6 +5,7 @@
 #include <string>
 #include "atFileSystemObject.h"
 #include "dslStringList.h"
+#include "atFileFolders.h"
 #include <utility>
 //---------------------------------------------------------------------------
 
@@ -16,10 +17,8 @@ using std::vector;
 using std::string;
 using dsl::StringList;
 
-class FileFolder;
-typedef vector< FileFolder* > FileFolders;
-typedef pair<int, int>      FolderInfo;
 
+typedef pair<int, int>      FolderInfo;
 
 //!A File folder is FileSystem object.
 class FileFolder : public FileSystemObject
@@ -27,18 +26,19 @@ class FileFolder : public FileSystemObject
     public:
                             		FileFolder(const Path& name, FileFolder* parent = NULL);
                             		~FileFolder();
-        shared_ptr<FileFolder>   	getSubFolder(const Path& p);
+        FileFolder*                 getFirstSubFolder();
+        FileFolder*   				getSubFolder(const Path& p);
         FileFolders         		getSubFolders(const Path& subPath = Path("."));
         StringList          		getSubFoldersAsList();
         bool                        isPresent(FileSystemObject* child);
-        void 				        addChild(FileSystemObject* child);
+        void 				        addSubFolder(FileFolder* child);
         void 				        removeChild(FileSystemObject* child);
         string						getLastPartOfPath();
         string                      directoryName(int n);
         FolderInfo                	scan();
 
     private:
-	    vector< FileSystemObject* > mFileFolderContent;
+	    FileFolders					 mSubFolders;
 };
 
 

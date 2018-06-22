@@ -1,7 +1,6 @@
 #ifndef atTileH
 #define atTileH
 #include "atATObject.h"
-//#include "atSection.h"
 #include "atChannel.h"
 //---------------------------------------------------------------------------
 namespace at
@@ -15,7 +14,7 @@ class Tile : public ATObject
 
         public:
                             Tile(int id, Section& s, Channel& c);
-                            ~Tile();
+            virtual         ~Tile();
 
             int             getID(){return mID;}
 

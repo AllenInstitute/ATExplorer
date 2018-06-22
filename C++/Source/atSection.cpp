@@ -4,12 +4,18 @@
 namespace at
 {
 
-Section::Section()
+Section::Section(int id)
+:
+mID(id)
 {}
 
 Section::~Section()
 {}
 
+int Section::getNumberOfTiles()
+{
+    return size();
+}
 }
 
 

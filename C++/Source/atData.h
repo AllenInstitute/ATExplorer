@@ -26,6 +26,8 @@ class ATData : public ATObject
 
 
         Ribbons*                    getRibbons();
+        Ribbon*     	            getRibbon(int count);
+
         Sessions*                   getSessions();
         Channels*                   getChannels();
 

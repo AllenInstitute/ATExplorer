@@ -13,8 +13,12 @@ class Ribbon : public Sections
 {
         public:
                             Ribbon(int id, const string& alias = "");
-                            ~Ribbon();
+            virtual         ~Ribbon();
+            bool            clear();
+
         	int             sectionCount();
+            void            allocateSections(int count);
+            void            appendSection(Section* sec);
 
         protected:
 

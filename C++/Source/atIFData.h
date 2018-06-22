@@ -7,6 +7,10 @@ namespace at
 {
 
 //!The ATIFData class maps the dataformats used in Smith Lab..
+//!Some assumptions:
+//!		Number of sections, for a particular ribbon, are equal across channels(sessions)
+//!     A section do always belong to a ribbon
+
 class ATIFData : public ATData
 {
     public:
@@ -20,10 +24,7 @@ class ATIFData : public ATData
         FileFolder*          			getRibbonsDataFolder();
         int                 			getNumberOfRibbonFolders();
 
-		FileFolder*						getSessionFolder(FileFolder* ribbonFolder, int n);
 		FileFolders						getSessionFolders(FileFolder* ribbonFolder);
-
-   		FileFolder*          			getChannelFolder(FileFolder* sessionFolder, const string& channel);
    		FileFolders                     getChannelFolders(FileFolder* sessionFolder);
 
     protected:
