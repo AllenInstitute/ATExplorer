@@ -4,18 +4,26 @@
 namespace at
 {
 
-Section::Section(int id)
+Section::Section(int id, const Ribbon& r)
 :
-mID(id)
+mID(id),
+mRibbon(r)
 {}
 
 Section::~Section()
 {}
 
-int Section::getNumberOfTiles()
+int Section::getNumberOfTiles() const
 {
-    return size();
+//    return size();
 }
+
+//bool Section::appendTile(Tile* tile)
+//{
+//    this->push_back(tile);
+//    return false;
+//}
+
 }
 
 

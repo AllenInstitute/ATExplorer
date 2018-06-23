@@ -2,20 +2,20 @@
 #define atSectionsH
 #include "atATObject.h"
 #include <vector>
-#include "atSection.h"
 using std::vector;
 
 namespace at
 {
 
-class Ribbon;
-//!Sections is a container for individual AT "sections". A Ribbon is a set of consecutive sections
+class Section;
+//!Sections is a container for individual AT "sections".
+//!A Ribbon is a set of consecutive sections
 //---------------------------------------------------------------------------
 class Sections : public vector<Section*>, public ATObject
 {
 
         public:
-                                            Sections(const Ribbon& r);
+                                            Sections();
             virtual                         ~Sections();
             int                             count(){return this->size();}
             Section*                        getFirstSection();
@@ -24,7 +24,6 @@ class Sections : public vector<Section*>, public ATObject
             Section*                        getLastSection();
 
         protected:
-            const Ribbon&                   mRibbon;
         	vector<Section*>::iterator  	mSectionIterator;
 
         private:

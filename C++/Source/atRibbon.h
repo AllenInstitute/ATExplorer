@@ -17,7 +17,6 @@ class Ribbon : public Sections
             bool            clear();
 
         	int             sectionCount();
-            void            allocateSections(int count);
             void            appendSection(Section* sec);
 
         protected:

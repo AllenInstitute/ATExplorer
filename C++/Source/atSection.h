@@ -8,22 +8,32 @@
 namespace at
 {
 using std::list;
-class Tile;
 
-//!An atSection is a list of tiles
-class Section : public list<Tile>, public ATObject
+class Ribbon;
+class Session;
+class Tiles;
+
+//!An atSection is part of a ribbon.
+//!It may have some associated tiles
+class Section : public ATObject
 {
+    public:
+                        Section(int id, const Ribbon& r);
+        virtual         ~Section();
 
-        public:
-                            Section(int id);
-            int             id(){return mID;}
-            int             getNumberOfTiles();
-        	virtual         ~Section();
+        int             id() const{return mID;}
+        int             getNumberOfTiles() const;
 
-        protected:
-        	int             mID;
+        Tiles           getTiles(Session& session, Channel& ch);
 
-        private:
+
+    protected:
+        int             mID;
+        const Ribbon&   mRibbon;
+
+
+
+    private:
 
 };
 

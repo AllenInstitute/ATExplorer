@@ -1,45 +1,33 @@
 #pragma hdrstop
 #include "atRibbon.h"
+#include "atSection.h"
 
 namespace at
 {
 
 Ribbon::Ribbon(int id, const string& alias)
 :
-Sections(*this),
+Sections(),
 mShortRibbonID(id),
 mAlias(alias),
 mLongRibbonID("")
 {}
 
 Ribbon::~Ribbon()
-{
-
-}
+{}
 
 bool Ribbon::clear()
 {
-	for(int i = 0; i < size(); i++)
+	for(uint i = 0; i < size(); i++)
     {
         delete at(i);
     }
+    return true;
 }
 
 void Ribbon::appendSection(Section* sec)
 {
-    push_back(sec);
-}
-
-void Ribbon::allocateSections(int count)
-{
-    clear();
-    resize(count, NULL);
-
-	for(int i = 0; i < count; i++)
-    {
-        Section* s = new Section(i+1);
-        push_back(s);
-    }
+	push_back(sec);
 }
 
 int Ribbon::sectionCount()

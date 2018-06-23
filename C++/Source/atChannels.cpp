@@ -10,4 +10,9 @@ Channels::Channels()
 Channels::~Channels()
 {}
 
+bool Channels::append(const Channel& ch)
+{
+    push_back(ch);
+    return true;
+}
 }

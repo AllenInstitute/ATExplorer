@@ -17,6 +17,8 @@ class Channels : public std::vector<Channel>, public ATObject
         public:
                             	Channels();
                             	~Channels();
+            bool                append(const Channel& ch);
+            bool                append(const Channels& chns);
 
         private:
             

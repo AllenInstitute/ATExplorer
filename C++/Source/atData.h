@@ -6,6 +6,7 @@
 #include "atRibbons.h"
 #include "atSessions.h"
 #include "atChannels.h"
+#include "atSection.h"
 //---------------------------------------------------------------------------
 using Poco::Path;
 
@@ -28,8 +29,9 @@ class ATData : public ATObject
         Ribbons*                    getRibbons();
         Ribbon*     	            getRibbon(int count);
 
+                                    //!A session is the same as a "group of stains" => one or more channel data
         Sessions*                   getSessions();
-        Channels*                   getChannels();
+        Channels                    getChannels();
 
                                     //!Utilities
         int                         getNumberOfRibbons();
@@ -38,18 +40,15 @@ class ATData : public ATObject
 
     protected:
 
-                                    //A Ribbon contain consecutive sections
+                                    //A Ribbon contain consecutive sections,
+                                    //Ribbons capture the "physical" properties of a ribbon, i.e. sections
         Ribbons                     mRibbons;
 
                                     //!A session denote a data acqusition 'session' using one or more
-                                    //immuno fluorescent 'stains'
+                                    //immuno fluorescent 'stains', channels.
                                     //Microscopy data is acquired during a session, and typically
                                     //ordered (in some format) on disk, representing tissue sections and ribbons
         Sessions                    mSessions;
-
-                                    //!A IF stain fluoresces at a particular wavelength, i.e. a "channel". E.g. DAPI, GFP etc.
-                                    //During a session, several channels can be imaged 'in series'.
-        Channels                    mChannels;
 };
 
 }

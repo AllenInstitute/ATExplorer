@@ -2,6 +2,7 @@
 #include "atData.h"
 #include "dslLogger.h"
 #include "atSections.h"
+#include "atSession.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 
@@ -15,6 +16,7 @@ ATData::ATData()
 bool ATData::validate()
 {
 	Log(lDebug) << "Implement in descendants";
+    return false;
 }
 
 Ribbons* ATData::getRibbons()
@@ -36,9 +38,17 @@ Sessions* ATData::getSessions()
     return &mSessions;
 }
 
-Channels* ATData::getChannels()
+Channels ATData::getChannels()
 {
-    return &mChannels;
+    //Sum up channels for each session
+    Channels chns;
+    for(int i = 0; i < mSessions.count(); i++)
+    {
+        Session* s = mSessions[i];
+        chns.append(s->getChannels());
+    }
+
+    return chns;
 }
 
 int ATData::getNumberOfRibbons()

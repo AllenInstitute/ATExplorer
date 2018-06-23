@@ -3,7 +3,8 @@
 #include "dslLogger.h"
 #include "Poco/Glob.h"
 #include "dslConstants.h"
-#include <set>
+#include "atATIFDataUtils.h"
+#include "atSession.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -12,7 +13,7 @@ using namespace dsl;
 using namespace std;
 using namespace Poco;
 
-int getNrOfSections(const set<string>& files);
+
 
 ATIFData::ATIFData(const Path& p, bool pop)
 :
@@ -58,24 +59,27 @@ bool ATIFData::populate()
     for(int i = 0; i < ribbonFolders.count(); i++)
     {
         FileFolders sessionFolders = getSessionFolders(ribbonFolders[i]);
-	    //Get first session folder
-        FileFolder* sessionFolder = sessionFolders.getFirst();
 
+	    //Get first session folder (
+        FileFolder* sessionFolder = sessionFolders.getFirst();
         if(sessionFolder)
         {
 			Log(lDebug) << "Checking session folder: "<<sessionFolder->toString()<<" for sections.";
             FileFolder* channelFolder = sessionFolder->getFirstSubFolder();
             if(channelFolder)
             {
-				//Glob the tif files
-                set<string> files;
-			    Glob::glob(channelFolder->getPath().toString() + "*.tif", files);
-                Log(lDebug) << "Found: " << files.size() << " tif files";
-                int nrOfSections = getNrOfSections(files);
+                int nrOfSections = getNrOfSections(channelFolder);
                 Log(lInfo) << "There are:" << nrOfSections <<" sections in ribbon" << i+1;
 
-                //Allocate ribbon sections
-                mRibbons[i]->allocateSections(nrOfSections);
+                //Make sure section container is empty
+                mRibbons[i]->clear();
+
+                //Append 'empty' sections
+                for(int i = 0; i < nrOfSections; i++)
+                {
+                    Section* s = new Section(i+1, *(mRibbons[i]));
+					mRibbons[i]->appendSection(s);
+                }
             }
             else
             {
@@ -84,6 +88,34 @@ bool ATIFData::populate()
             }
         }
 
+    }
+
+    //Each ribbon may go through several rounds (sessions) of imaging. Paths to individual frames
+    //Are captured in Session, Channel objects
+    //Now, populate tiles
+    for(int i = 0; i < ribbonFolders.count(); i++)
+    {
+        FileFolders sessionFolders = getSessionFolders(ribbonFolders[i]);
+
+	    //Get first session folder (
+        FileFolder* sessionFolder = sessionFolders.getFirst();
+        while(sessionFolder)
+        {
+			Log(lDebug) << "Checking session folder: "<<sessionFolder->toString()<<" for sections.";
+            FileFolder* channelFolder = sessionFolder->getFirstSubFolder();
+            if(channelFolder)
+            {
+                Session* s = new Session(sessionFolder->toString(), *(mRibbons[i]));
+
+                Channel* ch = new Channel(*s, channelFolder->toString());
+                s->appendChannel( *(ch) );
+
+            	mSessions.push_back(s);
+
+
+            }
+
+        }
     }
 
     return true;
@@ -177,41 +209,5 @@ FileFolder* ATIFData::getRibbonFolder(int fldr)
 }
 
 
-int getNrOfSections(const set<string>& files)
-{
-    //A simple algorithm to count sections..
 
-    int count(0);
-    int tempCount(0);
-
-    //Find file with largest *S00#* pattern
- 	for( set<string>::const_iterator iter = files.begin() ; iter != files.end() ; ++iter )
- 	{
-     	string fName(getFileNameNoPath((*iter)));
-        StringList parts(fName,'_');
-        //Find part starting with 'S', and not at the beginning of filename
-
-        if(parts.size() > 3)
-        {
-            for(int i = 1; i < parts.size(); i++)
-            {
-                if(parts[i].size() == 5 && parts[i].at(0) == 'S')
-                {
-                    //Extract number
-                    //Log(lDebug) << parts[i];
-                    tempCount = toInt(parts[i].substr(1));
-                    if(tempCount > count)
-                    {
-                        count = tempCount;
-                    }
-                }
-            }
-        }
-        else
-        {
-            //Discard
-        }
- 	}
-    return count + 1; //As first sectino is numbered S0000
-}
 }

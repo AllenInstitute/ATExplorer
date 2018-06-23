@@ -6,29 +6,25 @@
 namespace at
 {
 
+class Tile;
+class Session;
+
 class Channel : public ATObject
 {
 
         public:
-                            Channel();
-                            ~Channel();
+                                        Channel(Session& s, const string& lbl);
+                                        ~Channel();
+//                                        Channel(const Channel& c);
+//            Channel&                    operator=(const Channel& rhs);
 
         protected:
-
-        private:
+            string                      mLabel;
+            Session&     		       	mSession;
 
 };
 
 }
 
-namespace at
-{
 
-Channel::Channel()
-{}
-
-Channel::~Channel()
-{}
-
-}
 #endif

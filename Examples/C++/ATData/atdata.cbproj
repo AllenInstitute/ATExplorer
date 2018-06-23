@@ -109,12 +109,17 @@
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
+        <BCC_PCHInject>ATDataPCH.h</BCC_PCHInject>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="..\..\..\C++\Source\atATIFDataUtils.cpp">
+            <DependentOn>..\..\..\C++\Source\atATIFDataUtils.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\..\C++\Source\atChannel.cpp">
             <DependentOn>..\..\..\C++\Source\atChannel.h</DependentOn>
             <BuildOrder>11</BuildOrder>
@@ -158,17 +163,21 @@
         <CppCompile Include="..\..\..\C++\Source\atSections.cpp">
             <BuildOrder>14</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\..\C++\Source\atSession.cpp">
+            <DependentOn>..\..\..\C++\Source\atSession.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\..\C++\Source\atSessions.cpp">
             <DependentOn>..\..\..\C++\Source\atSessions.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
-        <PCHCompile Include="ATDataPCH.h">
-            <BuildOrder>0</BuildOrder>
-            <PCH>true</PCH>
-        </PCHCompile>
-        <CppCompile Include="atTile.cpp">
-            <DependentOn>atTile.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
+        <CppCompile Include="..\..\..\C++\Source\atTile.cpp">
+            <DependentOn>..\..\..\C++\Source\atTile.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\C++\Source\atTiles.cpp">
+            <DependentOn>..\..\..\C++\Source\atTiles.h</DependentOn>
+            <BuildOrder>17</BuildOrder>
         </CppCompile>
         <CppCompile Include="main.cpp">
             <BuildOrder>1</BuildOrder>

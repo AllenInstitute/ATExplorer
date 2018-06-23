@@ -3,6 +3,7 @@
 #include "atIFData.h"
 #include "dslLogger.h"
 #include "atExceptions.h"
+#include "atSession.h"
 
 using namespace dsl;
 using namespace at;
@@ -11,6 +12,25 @@ int main()
     //Setup logging
     LogOutput::mShowLogLevel = true;
     gLogger.logToConsole(true);
+
+//    //create tiles
+//    list<Tile*> tiles;
+//
+//    Ribbon aRibbon(1, "Ribbon0001");
+//    Section sec(1, aRibbon);
+//    Session session1(1);
+//    Session session2(2);
+//
+//    Channel dapiChannel1(session1, "DAPI");
+//    Channel dapiChannel2(session2, "DAPI");
+//    int tileCount(1000000);
+//
+//    for(int i = 0; i < tileCount; i++)
+//    {
+//        Tile* aTile = new Tile(i, sec, dapiChannel1);
+//
+//        tiles.push_back(aTile);
+//    }
 
     try
     {

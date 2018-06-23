@@ -4,9 +4,7 @@
 namespace at
 {
 
-Sections::Sections(const Ribbon& r)
-:
-mRibbon(r)
+Sections::Sections()
 {}
 
 Sections::~Sections()

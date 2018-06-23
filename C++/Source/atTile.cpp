@@ -14,5 +14,10 @@ mChannel(c)
 Tile::~Tile()
 {}
 
+bool Tile::assignPath(Path& p, bool checkOnDisk)
+{
+    mRawDataPath = p;
+
+}
 }
 
