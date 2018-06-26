@@ -1,7 +1,8 @@
 #ifndef atSessionsH
 #define atSessionsH
-#include "atATObject.h"
 #include <vector>
+#include "atATObject.h"
+#include "atATDataExporter.h"
 
 namespace at
 {
@@ -13,7 +14,7 @@ class Session;
 //!Sessions is a container for individual AT "Sessions".
 //!A session
 //---------------------------------------------------------------------------
-class Sessions : public vector<Session*>, public ATObject
+class ATDATA Sessions : public vector<Session*>, public ATObject
 {
         public:
                                                 Sessions();

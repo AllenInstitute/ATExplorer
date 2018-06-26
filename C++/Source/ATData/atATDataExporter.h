@@ -3,12 +3,12 @@
 
 #if defined (_WIN32)
     #if defined(AT_STATIC)
-        #define AT_CORE
+        #define ATDATA
     #else
-        #if defined(AT_EXPORT_ATDATA)
-            #define AT_DATA __declspec(dllexport)
+        #if defined(EXPORT_ATDATA)
+            #define ATDATA __declspec(dllexport)
         #else
-            #define AT_DATA __declspec(dllimport)
+            #define ATDATA __declspec(dllimport)
         #endif
     #endif
 #else

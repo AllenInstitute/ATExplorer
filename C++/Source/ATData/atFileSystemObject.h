@@ -1,5 +1,6 @@
 #ifndef atFileSystemObjectH
 #define atFileSystemObjectH
+#include "atATDataExporter.h"
 #include "Poco/Path.h"
 #include <vector>
 #include <string>
@@ -15,7 +16,7 @@ using std::string;
 class FileFolder;
 using dsl::shared_ptr;
 
-class FileSystemObject : public ATObject
+class ATDATA FileSystemObject : public ATObject
 {
     public:
         bool                        isDirectory();

@@ -13,7 +13,7 @@ using std::vector;
 using std::string;
 
 
-class File : public FileSystemObject
+class ATDATA File : public FileSystemObject
 {
     public:
         File(const string &name, FileFolder *parent)

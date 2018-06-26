@@ -1,7 +1,8 @@
 #pragma hdrstop
 #include "atFileFolder.h"
 #include "atExceptions.h"
-#include <Poco/DirectoryIterator.h>
+#include "Poco/DirectoryIterator.h"
+#include "Poco/GLob.h"
 #include "dslLogger.h"
 #include "dslFileUtils.h"
 //---------------------------------------------------------------------------

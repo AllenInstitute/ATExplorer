@@ -9,7 +9,7 @@ namespace at
 
 //!The ribbon class abstracts a AT Ribbon..
 //!A Ribbon is a bunch of consecutive sections
-class Ribbon : public Sections
+class ATDATA Ribbon : public Sections
 {
         public:
                             Ribbon(int id, const string& alias = "");

@@ -2,6 +2,7 @@
 #include "atATIFDataUtils.h"
 #include "atExceptions.h"
 #include "atFileFolder.h"
+#include "Poco/Glob.h"
 //---------------------------------------------------------------------------
 
 namespace at

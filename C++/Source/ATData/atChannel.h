@@ -8,7 +8,7 @@ namespace at
 {
 
 class Session;
-class Channel : public ATObject
+class ATDATA Channel : public ATObject
 {
 
         public:

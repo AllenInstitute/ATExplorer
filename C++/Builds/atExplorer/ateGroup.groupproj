@@ -1,0 +1,96 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{88AF63C4-8F60-4C0A-832D-642BD4FC1DC5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\dsl\builds\dslMath\dslMath.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\dsl\builds\dslIPC\dslIPC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\atapi\builds\atCore\atCore.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="atExplorer.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\Examples\C++\ATData\atdata.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="dslCommon">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj"/>
+    </Target>
+    <Target Name="dslCommon:Clean">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslCommon:Make">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="dslMath">
+        <MSBuild Projects="P:\libs\dsl\builds\dslMath\dslMath.cbproj"/>
+    </Target>
+    <Target Name="dslMath:Clean">
+        <MSBuild Projects="P:\libs\dsl\builds\dslMath\dslMath.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslMath:Make">
+        <MSBuild Projects="P:\libs\dsl\builds\dslMath\dslMath.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="dslIPC">
+        <MSBuild Projects="P:\libs\dsl\builds\dslIPC\dslIPC.cbproj"/>
+    </Target>
+    <Target Name="dslIPC:Clean">
+        <MSBuild Projects="P:\libs\dsl\builds\dslIPC\dslIPC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslIPC:Make">
+        <MSBuild Projects="P:\libs\dsl\builds\dslIPC\dslIPC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atCore">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj"/>
+    </Target>
+    <Target Name="atCore:Clean">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atCore:Make">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atExplorer">
+        <MSBuild Projects="atExplorer.cbproj"/>
+    </Target>
+    <Target Name="atExplorer:Clean">
+        <MSBuild Projects="atExplorer.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorer:Make">
+        <MSBuild Projects="atExplorer.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atdata">
+        <MSBuild Projects="..\..\..\Examples\C++\ATData\atdata.cbproj"/>
+    </Target>
+    <Target Name="atdata:Clean">
+        <MSBuild Projects="..\..\..\Examples\C++\ATData\atdata.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atdata:Make">
+        <MSBuild Projects="..\..\..\Examples\C++\ATData\atdata.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="dslCommon;dslMath;dslIPC;atCore;atExplorer;atdata"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="dslCommon:Clean;dslMath:Clean;dslIPC:Clean;atCore:Clean;atExplorer:Clean;atdata:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="dslCommon:Make;dslMath:Make;dslIPC:Make;atCore:Make;atExplorer:Make;atdata:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

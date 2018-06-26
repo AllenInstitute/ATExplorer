@@ -10,7 +10,7 @@
 namespace at
 {
 
-class Session : public ATObject
+class ATDATA Session : public ATObject
 {
         public:
                             Session(const string& lbl);//, Ribbon& r);

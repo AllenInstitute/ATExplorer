@@ -1,12 +1,14 @@
 #ifndef atFileFolderH
 #define atFileFolderH
-#include "Poco/Path.h"
 #include <set>
 #include <string>
+#include <utility>
+#include "Poco/Path.h"
 #include "atFileSystemObject.h"
 #include "dslStringList.h"
 #include "atFileFolders.h"
-#include <utility>
+
+
 //---------------------------------------------------------------------------
 
 namespace at
@@ -22,7 +24,7 @@ using dsl::StringList;
 typedef pair<int, int> FolderInfo;
 
 //!A File folder is FileSystem object.
-class FileFolder : public FileSystemObject
+class ATDATA FileFolder : public FileSystemObject
 {
     public:
                             		FileFolder(const Path& name, FileFolder* parent = NULL);

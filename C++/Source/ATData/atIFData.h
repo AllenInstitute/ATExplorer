@@ -11,7 +11,7 @@ namespace at
 //!		Number of sections, for a particular ribbon, are equal across channels(sessions)
 //!     A section do always belong to a ribbon
 
-class ATIFData : public ATData
+class ATDATA ATIFData : public ATData
 {
     public:
                     					ATIFData(const Path& p, bool populate = false);

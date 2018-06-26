@@ -1,7 +1,8 @@
 #ifndef atRibbonsH
 #define atRibbonsH
-#include "atATObject.h"
 #include <vector>
+#include "atATObject.h"
+#include "atATDataExporter.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -11,7 +12,7 @@ using std::vector;
 class Ribbon;
 
 //!The Ribbons class is a container for AT Ribbons
-class Ribbons : public vector<Ribbon*>, public ATObject
+class ATDATA Ribbons : public vector<Ribbon*>, public ATObject
 {
 	public:
                                         Ribbons();

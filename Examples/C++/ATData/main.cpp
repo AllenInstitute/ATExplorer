@@ -16,7 +16,7 @@ int main()
 
     try
     {
-        Path dataPath("D:\\data\\M335503_Ai139_smallvol\\");
+        Path dataPath("F:\\data\\M335503_Ai139_smallvol\\");
         ATData *atData = new ATIFData(dataPath, false);
 
         //!Populating the data object causes a scan of folders and files
@@ -76,4 +76,5 @@ int main()
 
 #pragma comment(lib, "dslCommon.lib")
 #pragma comment(lib, "atCore.lib")
+#pragma comment(lib, "atExplorer.lib")
 #pragma comment(lib, "poco_foundation.lib")

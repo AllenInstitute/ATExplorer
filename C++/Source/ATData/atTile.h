@@ -11,7 +11,7 @@ using Poco::Path;
 
 //!A tile is a (TIFF) image (on disk), typically part of an imaged section
 //A tile knows which section it belongs too, its id, its channel, and z-stack.
-class Tile : public ATObject
+class ATDATA Tile : public ATObject
 {
 
         public:

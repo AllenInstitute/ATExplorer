@@ -1,7 +1,8 @@
 #ifndef atFileFoldersH
 #define atFileFoldersH
-#include "atATObject.h"
 #include <vector>
+#include "atATObject.h"
+#include "atATDataExporter.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -9,7 +10,7 @@ namespace at
 class FileFolder;
 using std::vector;
 
-class FileFolders : public vector<FileFolder*>, public ATObject
+class ATDATA FileFolders : public vector<FileFolder*>, public ATObject
 {
 
         public:

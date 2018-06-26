@@ -14,7 +14,7 @@ namespace at
 {
 
 //!The ATData class abstracts ArrayTomography data
-class ATData : public ATObject
+class ATDATA ATData : public ATObject
 {
     public:
                         	        ATData();

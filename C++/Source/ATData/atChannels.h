@@ -11,7 +11,7 @@ namespace at
 using std::vector;
 
 //!The Channels class is a container for AT Channels
-class Channels : public vector<Channel*>, public ATObject
+class ATDATA Channels : public vector<Channel*>, public ATObject
 {
 
         public:
