@@ -6,18 +6,17 @@
 namespace at
 {
 
-Tiles::Tiles(const Session& s)
+Tiles::Tiles(const Channel& s)
 :
-mSession(s)
+mChannel(&s)
 {}
 
 Tiles::~Tiles()
 {}
 
-
 bool Tiles::append(Tile* t)
 {
-//    push_back(t);
+    mTiles[t->getID()] = t;
     return true;
 }
 

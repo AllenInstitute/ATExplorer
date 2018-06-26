@@ -22,6 +22,7 @@ class Sections : public vector<Section*>, public ATObject
             Section*                        getNextSection();
             Section*                        getPreviousSection();
             Section*                        getLastSection();
+            Section*                        getSection(int sectionID);
 
         protected:
         	vector<Section*>::iterator  	mSectionIterator;

@@ -1,15 +1,19 @@
 #pragma hdrstop
 #include "atTile.h"
+#include "atATIFDataUtils.h"
 //---------------------------------------------------------------------------
 namespace at
 {
 
-Tile::Tile(int id, Section& s, Channel& c)
+Tile::Tile(Channel& c, Section& s, int tileID, const Path& p)
 :
-mID(id),
 mSection(s),
-mChannel(c)
-{}
+mChannel(c),
+mRawDataPath(p),
+mID(tileID)
+{
+	mID = getTileID(mRawDataPath.getFileName());
+}
 
 Tile::~Tile()
 {}

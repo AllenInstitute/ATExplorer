@@ -35,6 +35,8 @@ class ATIFData : public ATData
         FileFolder				        mRibbonsDataFolder;
         FileFolder   	    			mProcessedDataFolder;
         FileFolder	        			mScriptsDataFolder;
+        bool                            populateRibbons();
+        bool                            populateSessions();
 };
 }
 #endif

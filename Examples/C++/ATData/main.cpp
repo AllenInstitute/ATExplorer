@@ -11,26 +11,8 @@ int main()
 {
     //Setup logging
     LogOutput::mShowLogLevel = true;
+    gLogger.setLogLevel(lDebug3);
     gLogger.logToConsole(true);
-
-//    //create tiles
-//    list<Tile*> tiles;
-//
-//    Ribbon aRibbon(1, "Ribbon0001");
-//    Section sec(1, aRibbon);
-//    Session session1(1);
-//    Session session2(2);
-//
-//    Channel dapiChannel1(session1, "DAPI");
-//    Channel dapiChannel2(session2, "DAPI");
-//    int tileCount(1000000);
-//
-//    for(int i = 0; i < tileCount; i++)
-//    {
-//        Tile* aTile = new Tile(i, sec, dapiChannel1);
-//
-//        tiles.push_back(aTile);
-//    }
 
     try
     {
@@ -41,32 +23,44 @@ int main()
         //!representing the data. No image data is loaded
         atData->populate();
 
-        //Print some information
+        //Print some information about ribbons and sections
         Log(lInfo) << "This is a "<<atData->getNumberOfRibbons()<<" ribbons dataset";
 
-		int ribbonID(1);
-        if(atData->getNumberOfRibbons())
+	    Ribbon* ribbon = atData->getFirstRibbon();
+        while(ribbon)
         {
-            Ribbon* ribbon = atData->getRibbon(1);
-            if(!ribbon)
-            {
-                throw("No such ribbon...");
-            }
-
-	        Log(lInfo) << "There are "<<ribbon->sectionCount()<<" sections in ribbon "<< ribbonID;
-
-            Section* section = ribbon->getFirstSection();
-
-            //Loop through frames
-            while(section)
-            {
-                int nrOfTiles = section->getNumberOfTiles();
-                Log(lInfo) << "There are " << nrOfTiles << " in section: " << section->id();
-            };
+	        Log(lInfo) << "There are "<<ribbon->sectionCount()<<" sections in ribbon "<< ribbon->getAlias();
+            ribbon = atData->getNextRibbon();
         }
 
+        //Check Sessions and channels, i.e. actual data
+        Session* session =  atData->getFirstSession();
+        while(session)
+        {
+        	Log(lInfo) << "Checking session " << session->getLabel();
+            //Get Channels in session
+            Channel* chan = atData->getFirstChannel(session);
+            while(chan)
+            {
+              	Log(lInfo) << "Checking channel: " << chan->getLabel();
+            	Ribbon* ribbon = atData->getFirstRibbon();
+                while(ribbon)
+                {
+                    Section* section = ribbon->getFirstSection();
+                    //Loop through frames
+                    while(section)
+                    {
+                        Tiles& tiles = section->getTiles(*chan);
+                        Log(lInfo) << "There are " << tiles.count() << " tiles in section: " << section->id()<< " channel: " << chan->getLabel() << " on ribbon: " << ribbon->getAlias();
+                        section = ribbon->getNextSection();
+                    }
 
-
+		            ribbon = atData->getNextRibbon();
+                }
+                chan = atData->getNextChannel(session);
+            }
+            session = atData->getNextSession();
+        }
     }
     catch(const FileSystemException& e)
     {

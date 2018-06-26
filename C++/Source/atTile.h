@@ -15,13 +15,15 @@ class Tile : public ATObject
 {
 
         public:
-                            Tile(int id, Section& s, Channel& c);
+                            Tile(Channel& c, Section& s, int tileID, const Path& p);
             virtual         ~Tile();
-            bool            assignPath(Path& p, bool checkIfExists = false);
 
+            bool            assignPath(Path& p, bool checkIfExists = false);
             int             getID(){return mID;}
+            Path            getPath(){return mRawDataPath;}
 
         protected:
+                            //!Assign from path
             int            	mID;
 
                             //!This will point to the tiles 'file'

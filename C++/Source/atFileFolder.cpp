@@ -30,7 +30,6 @@ FileSystemObject(path, parent)
     {
         parent->addSubFolder(this);
     }
-
 }
 
 FileFolder::~FileFolder()
@@ -62,6 +61,11 @@ string FileFolder::directoryName(int n)
 FileFolder* FileFolder::getFirstSubFolder()
 {
     return mSubFolders.getFirst();
+}
+
+FileFolder* FileFolder::getNextSubFolder()
+{
+    return mSubFolders.getNext();
 }
 
 FileFolder* FileFolder::getSubFolder(const Path& p)
@@ -142,6 +146,16 @@ bool FileFolder::isPresent(FileSystemObject* child)
     return false;
 }
 
+const set<string>& FileFolder::getFiles(const string& globPattern)
+{
+    mFiles.clear();
+    string fullPath(getPath().toString());
+
+    //Get all files in folder with extension ext
+    Glob::glob(joinPath(fullPath, globPattern), mFiles, Glob::GLOB_CASELESS);
+    return mFiles;
+}
+
 void FileFolder::addSubFolder(FileFolder* child)
 {
     if(!isPresent(child))
@@ -149,7 +163,6 @@ void FileFolder::addSubFolder(FileFolder* child)
 		mSubFolders.push_back(child);
     }
 }
-
 
 void FileFolder::removeChild(FileSystemObject* child)
 {

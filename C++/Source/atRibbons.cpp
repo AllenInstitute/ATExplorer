@@ -16,4 +16,33 @@ Ribbons::~Ribbons()
     }
 }
 
+Ribbon* Ribbons::getRibbon(int i)
+{
+	return this->at(i);
+}
+
+Ribbon* Ribbons::getFirstRibbon()
+{
+    mRibbonIterator = begin();
+    return *(mRibbonIterator);
+}
+
+Ribbon* Ribbons::getNextRibbon()
+{
+	mRibbonIterator++;
+    if(mRibbonIterator != end())
+    {
+	    return *(mRibbonIterator);
+    }
+    return NULL;
+}
+
+int Ribbons::count()
+{
+	return this->size();
+}
+
+
+
+
 }

@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include "atSections.h"
+#include "atSection.h"
 
 namespace at
 {
@@ -13,6 +14,19 @@ Sections::~Sections()
     {
         delete this->operator[](i);
     }
+}
+
+Section* Sections::getSection(int sectionID)
+{
+    for(int i = 0; i < count(); i++)
+    {
+        Section* s = at(i);
+        if(s->id() == sectionID)
+        {
+            return s;
+        }
+    }
+    return NULL;
 }
 
 Section* Sections::getFirstSection()
@@ -43,10 +57,14 @@ Section* Sections::getPreviousSection()
 
 Section* Sections::getLastSection()
 {
+    if(!count())
+    {
+        return NULL;
+    }
+
     mSectionIterator = end();
 	mSectionIterator--;
-    return *(mSectionIterator);}
-
-
+    return *(mSectionIterator);
+}
 
 }

@@ -1,5 +1,7 @@
 #pragma hdrstop
 #include "atSection.h"
+#include "atTiles.h"
+#include "atChannel.h"
 
 namespace at
 {
@@ -13,16 +15,10 @@ mRibbon(r)
 Section::~Section()
 {}
 
-int Section::getNumberOfTiles() const
+Tiles& Section::getTiles(Channel& ch)
 {
-//    return size();
+    return ch.getTiles();
 }
-
-//bool Section::appendTile(Tile* tile)
-//{
-//    this->push_back(tile);
-//    return false;
-//}
 
 }
 

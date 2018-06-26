@@ -9,6 +9,56 @@ namespace at
 using namespace dsl;
 using namespace Poco;
 
+int getSectionID(const string& filePath)
+{
+    string fName(getFileNameNoPath(filePath));
+    StringList parts(fName,'_');
+
+    //Find the part that is starting with 'S', and not at the beginning of filename
+    if(parts.size() > 3)
+    {
+        for(int i = 1; i < parts.size(); i++)
+        {
+            if(parts[i].size() == 5 && parts[i].at(0) == 'S')
+            {
+                //Extract number
+                //Log(lDebug) << parts[i];
+                return toInt(parts[i].substr(1));
+            }
+        }
+    }
+    else
+    {
+        //This is something else.. Discard
+        return -1;
+    }
+}
+
+int getTileID(const string& filePath)
+{
+    string fName(getFileNameNoPath(filePath));
+    StringList parts(fName,'_');
+
+    //Find the part that is starting with 'F', and not at the beginning of filename
+    if(parts.size() > 3)
+    {
+        for(int i = 1; i < parts.size(); i++)
+        {
+            if(parts[i].size() == 5 && parts[i].at(0) == 'F')
+            {
+                //Extract number
+                //Log(lDebug) << parts[i];
+                return toInt(parts[i].substr(1));
+            }
+        }
+    }
+    else
+    {
+        //This is something else.. Discard
+        return -1;
+    }
+}
+
 int getNrOfSections(FileFolder* channelFolder)
 {
     if(!channelFolder)
@@ -59,9 +109,11 @@ int getNrOfSections(FileFolder* channelFolder)
     return count + 1; //As first section is numbered S0000
 }
 
-StringList getTileFileNamesForSection(const set<string>& files, Section* sec)
-{
-    StringList names;
-    return names;
-}
+
+//
+//StringList getTileFileNamesForSection(const set<string>& files, Section* sec)
+//{
+//    StringList names;
+//    return names;
+//}
 }

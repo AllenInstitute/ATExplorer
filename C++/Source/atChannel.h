@@ -1,27 +1,26 @@
 #ifndef atChannelH
 #define atChannelH
 #include "atATObject.h"
+#include "atTiles.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
-class Tile;
 class Session;
-
 class Channel : public ATObject
 {
 
         public:
-                                        Channel(Session& s, const string& lbl);
+                                        Channel(const string& lbl, Session* s);
                                         ~Channel();
-//                                        Channel(const Channel& c);
-//            Channel&                    operator=(const Channel& rhs);
-
+            bool                        appendTile(Tile* t);
+            Tiles&          		    getTiles(){return mTiles;}
+            string                      getLabel(){return mLabel;}
         protected:
             string                      mLabel;
-            Session&     		       	mSession;
-
+            Session*                    mSession;
+            Tiles                       mTiles;
 };
 
 }

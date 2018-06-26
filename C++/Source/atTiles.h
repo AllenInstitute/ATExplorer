@@ -2,27 +2,30 @@
 #define atTilesH
 #include "atATObject.h"
 #include <map>
-#include "atChannel.h"
+#include "Poco/Path.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 using std::map;
-
+using Poco::Path;
 class Tile;
+class Channel;
+
 
 //!A container for tiles.
 //!Tiles are grouped by channel
 class Tiles : public ATObject
 {
     public:
-                                    Tiles(const Session& s);
+                                    Tiles(const Channel& s);
                                     ~Tiles();
         bool                        append(Tile* t);
+        int                         count(){return mTiles.size();}
 
     protected:
-        const Session&              mSession;
-        map<int, Channel>   		mTiles;
+        const Channel*		        mChannel;
+        map<int, Tile*>  			mTiles;
 };
 
 }

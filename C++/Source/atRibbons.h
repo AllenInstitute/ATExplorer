@@ -2,26 +2,28 @@
 #define atRibbonsH
 #include "atATObject.h"
 #include <vector>
-#include "atRibbon.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
 using std::vector;
+class Ribbon;
 
 //!The Ribbons class is a container for AT Ribbons
-class Ribbons : public std::vector<Ribbon*>, public ATObject
+class Ribbons : public vector<Ribbon*>, public ATObject
 {
+	public:
+                                        Ribbons();
+        virtual            	            ~Ribbons();
+        Ribbon*                         getRibbon(int i);
+        Ribbon*                        	getFirstRibbon();
+        Ribbon*                        	getNextRibbon();
 
-        public:
-                            	Ribbons();
-            virtual            	~Ribbons();
-        	Ribbon*             getRibbon(int i){return this->at(i);}
-            int                 count(){return this->size();}
+        int                             count();
 
-        private:
-            
+    protected:
+        vector<Ribbon*>::iterator   	mRibbonIterator;
 };
 
 }

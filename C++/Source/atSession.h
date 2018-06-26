@@ -13,16 +13,19 @@ namespace at
 class Session : public ATObject
 {
         public:
-                            Session(const string& lbl, Ribbon& r);
+                            Session(const string& lbl);//, Ribbon& r);
                             ~Session();
-            bool        	appendChannel(const Channel& channel);
-            Channels        getChannels(){return mChannels;}
+            string          getLabel(){return mLabel;}
+            bool        	appendChannel(Channel* channel);
+            Channels*       getChannels(){return &mChannels;}
+            Channel*        getFirstChannel();
+            Channel*        getNextChannel();
+//            Ribbon*         getRibbon(){return &mRibbon;}
 
-        protected:
+	protected:
             string          mLabel;
-            Ribbon&   		mRibbon;
+//            Ribbon&   		mRibbon;
             Channels        mChannels;
-            Tiles           mTiles;
 };
 
 }

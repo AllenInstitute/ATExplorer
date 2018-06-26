@@ -28,10 +28,17 @@ class ATData : public ATObject
 
         Ribbons*                    getRibbons();
         Ribbon*     	            getRibbon(int count);
+        Ribbon*     	            getFirstRibbon();
+        Ribbon*     	            getNextRibbon();
 
                                     //!A session is the same as a "group of stains" => one or more channel data
         Sessions*                   getSessions();
-        Channels                    getChannels();
+        Session*                    getFirstSession();
+        Session*                    getNextSession();
+
+        Channels*                   getChannels(Session* session);
+        Channel*                    getFirstChannel(Session* session);
+        Channel*                    getNextChannel(Session* session);
 
                                     //!Utilities
         int                         getNumberOfRibbons();
@@ -41,7 +48,7 @@ class ATData : public ATObject
     protected:
 
                                     //A Ribbon contain consecutive sections,
-                                    //Ribbons capture the "physical" properties of a ribbon, i.e. sections
+                                    //Ribbons capture the "physical" properties of a ribbon and sections
         Ribbons                     mRibbons;
 
                                     //!A session denote a data acqusition 'session' using one or more

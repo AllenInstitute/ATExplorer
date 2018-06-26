@@ -15,6 +15,11 @@ class Ribbon : public Sections
                             Ribbon(int id, const string& alias = "");
             virtual         ~Ribbon();
             bool            clear();
+            void            assignLongRibbonID(const string& lid);
+
+            string          getAlias(){return mAlias;}
+            int		        getShortRibbonID(){return mShortRibbonID;}
+            string          getLongRibbonID(){return mLongRibbonID;}
 
         	int             sectionCount();
             void            appendSection(Section* sec);

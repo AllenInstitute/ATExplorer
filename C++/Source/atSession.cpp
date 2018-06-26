@@ -4,20 +4,30 @@
 namespace at
 {
 
-Session::Session(const string& lbl, Ribbon& r)
+Session::Session(const string& lbl)//, Ribbon& r)
 :
-mLabel(lbl),
-mTiles(*this),
-mRibbon(r)
+mLabel(lbl)//,
+//mRibbon(r)
 {}
 
 Session::~Session()
 {}
 
-bool Session::appendChannel(const Channel& ch)
+bool Session::appendChannel(Channel* ch)
 {
-	mChannels.append(ch);
+	return mChannels.append(ch);
 }
+
+Channel* Session::getFirstChannel()
+{
+    return mChannels.getFirstChannel();
+}
+
+Channel* Session::getNextChannel()
+{
+    return mChannels.getNextChannel();
+}
+
 
 }
 

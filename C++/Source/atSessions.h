@@ -10,17 +10,20 @@ using std::vector;
 
 class Session;
 
-//!Sessions is a container for individual AT "Sessions". A Ribbon is a set of consecutive Sessions
+//!Sessions is a container for individual AT "Sessions".
+//!A session
 //---------------------------------------------------------------------------
 class Sessions : public vector<Session*>, public ATObject
 {
         public:
-                                    Sessions();
-                                    ~Sessions();
-            int                     count(){return size();}
+                                                Sessions();
+                                                ~Sessions();
+            Session*                            getFirstSession();
+            Session*                            getNextSession();
+            int                                 count(){return size();}
 
         protected:
-
+        	vector<Session*>::iterator  		mSessionIterator;
 
 };
 

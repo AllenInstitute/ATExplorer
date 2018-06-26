@@ -11,16 +11,19 @@ namespace at
 using std::vector;
 
 //!The Channels class is a container for AT Channels
-class Channels : public std::vector<Channel>, public ATObject
+class Channels : public vector<Channel*>, public ATObject
 {
 
         public:
-                            	Channels();
-                            	~Channels();
-            bool                append(const Channel& ch);
-            bool                append(const Channels& chns);
+                            	        Channels();
+                            	        ~Channels();
+            bool                        append(Channel* ch);
+            bool                        append(const Channels& chns);
+            Channel*                    getFirstChannel();
+            Channel*                    getNextChannel();
 
-        private:
+        protected:
+	        vector<Channel*>::iterator  mChannelIterator;
             
 };
 

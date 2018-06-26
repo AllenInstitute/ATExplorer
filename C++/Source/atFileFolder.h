@@ -1,7 +1,7 @@
 #ifndef atFileFolderH
 #define atFileFolderH
 #include "Poco/Path.h"
-#include <vector>
+#include <set>
 #include <string>
 #include "atFileSystemObject.h"
 #include "dslStringList.h"
@@ -11,14 +11,15 @@
 
 namespace at
 {
+
 using std::pair;
-using Poco::Path;
 using std::vector;
+using std::set;
 using std::string;
+using Poco::Path;
 using dsl::StringList;
 
-
-typedef pair<int, int>      FolderInfo;
+typedef pair<int, int> FolderInfo;
 
 //!A File folder is FileSystem object.
 class FileFolder : public FileSystemObject
@@ -27,8 +28,11 @@ class FileFolder : public FileSystemObject
                             		FileFolder(const Path& name, FileFolder* parent = NULL);
                             		~FileFolder();
         FileFolder*                 getFirstSubFolder();
+        FileFolder*                 getNextSubFolder();
+
         FileFolder*   				getSubFolder(const Path& p);
         FileFolders         		getSubFolders(const Path& subPath = Path("."));
+        const set<string>&          getFiles(const string& globPattern = "*.*");
         StringList          		getSubFoldersAsList();
         bool                        isPresent(FileSystemObject* child);
         void 				        addSubFolder(FileFolder* child);
@@ -38,7 +42,8 @@ class FileFolder : public FileSystemObject
         FolderInfo                	scan();
 
     private:
-	    FileFolders					 mSubFolders;
+	    FileFolders					mSubFolders;
+        set<string>                 mFiles;
 };
 
 

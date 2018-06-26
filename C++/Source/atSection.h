@@ -1,8 +1,6 @@
 #ifndef atSectionH
 #define atSectionH
 #include "atATObject.h"
-#include <list>
-#include "atTile.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -11,6 +9,7 @@ using std::list;
 
 class Ribbon;
 class Session;
+class Channel;
 class Tiles;
 
 //!An atSection is part of a ribbon.
@@ -18,23 +17,15 @@ class Tiles;
 class Section : public ATObject
 {
     public:
-                        Section(int id, const Ribbon& r);
-        virtual         ~Section();
+                                                    Section(int id, const Ribbon& r);
+        virtual                                     ~Section();
 
-        int             id() const{return mID;}
-        int             getNumberOfTiles() const;
-
-        Tiles           getTiles(Session& session, Channel& ch);
-
+        int                                         id() const{return mID;}
+        Tiles&                                      getTiles(Channel& ch);
 
     protected:
-        int             mID;
-        const Ribbon&   mRibbon;
-
-
-
-    private:
-
+        int                                         mID;
+        const Ribbon&                               mRibbon;
 };
 
 }

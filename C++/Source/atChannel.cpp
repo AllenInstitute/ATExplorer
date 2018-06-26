@@ -1,37 +1,28 @@
 #pragma hdrstop
 #include "atChannel.h"
+#include "atTiles.h"
 #include "atSession.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
-Channel::Channel(const Session& s, const string& lbl)
+Channel::Channel(const string& lbl, Session* s)
 :
 mLabel(lbl),
-mSession(s)//,
-//mTiles(this)
+mSession(s),
+mTiles(*this)
 {}
-
 
 Channel::~Channel()
 {}
 
-Channel& Channel::operator=(const Channel& rhs)
+bool Channel::appendTile(Tile* t)
 {
-    this->mLabel = rhs.mLabel;
-    this->mSession = rhs.mSession;
-    return *this;
+    //Populate the map with tile paths
+    mTiles.append(t);
+
 }
 
-//Channel::Channel(const Channel& c)
-//{
-//
-//}
 
-//bool Channel::addTile(Tile* aTile)
-//{
-//    mTiles.append(aTile);
-//    return true;
-//}
 }
