@@ -4,7 +4,7 @@
 #include "dslLogger.h"
 #include "atExceptions.h"
 #include "atSession.h"
-#include "atATProject.h"
+#include "atATProjectItem.h"
 
 using namespace dsl;
 using namespace at;
@@ -20,14 +20,19 @@ int main()
     {
         Path dataPath("F:\\data\\M335503_Ai139_smallvol\\");
         Path projectFilePath("P:\\ATProjects\\AFirstProject.atp");
-        ATProject atProject("MyFirstProject");
+        ATProjectItem atProject("MyFirstProject");
         atProject.open(projectFilePath.toString());
 
 
         ATData *atData = new ATIFData(dataPath, false);
 
+        //!Don't allow two items with the same name.. print error and don't
+        //add
+
         atProject.addProjectObject(atData);
         atProject.save();
+
+
 
 //        //!Populating the data object causes a scan of folders and files
 //        //!representing the data. No image data is loaded

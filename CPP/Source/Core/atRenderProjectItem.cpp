@@ -10,12 +10,12 @@ namespace at
 {
 RenderProjectItem::RenderProjectItem(const string& name, const string& owner, const string& project, const string& stack)
 :
-ATProject(name),
+ATProjectItem(name),
 mOwner(owner),
 mProject(project),
 mStack(stack)
 {
-	mATProjectObjectType = (atpRenderProjectItem);
+	mATProjectItemType = (atpRenderProjectItem);
 }
 
 

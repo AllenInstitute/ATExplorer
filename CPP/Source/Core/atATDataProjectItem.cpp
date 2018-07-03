@@ -11,12 +11,12 @@ using namespace dsl;
 namespace at
 {
 
-ATDataProjectItem::ATDataProjectItem(const shared_ptr<ATData>& data)
+ATDataProjectItem::ATDataProjectItem(const string& lbl, const shared_ptr<ATData>& data)
 :
-ATProject(""),
+ATProjectItem(""),
 mATData(data)
 {
-	mATProjectObjectType = atpATDataProjectItem;
+	mATProjectItemType = atpATDataProjectItem;
     if(data)
     {
         mBasePath = (data->getBasePath());
@@ -24,15 +24,19 @@ mATData(data)
         string fName = p.directory(p.depth()-1);
         setProjectName(fName);
     }
+    else
+    {
+        setProjectName(lbl);
+    }
 }
 
-ATDataProjectItem::ATDataProjectItem(const Path& basePath, ATDataFileFormat atDataFormat)
+ATDataProjectItem::ATDataProjectItem(const string& lbl, const Path& basePath, ATDataFileFormat atDataFormat)
 :
-ATProject(basePath.getFileName()),
+ATProjectItem(basePath.getFileName()),
 mBasePath(basePath),
 mATData(shared_ptr<ATData>())
 {
-	mATProjectObjectType = (atpATDataProjectItem);
+	mATProjectItemType = (atpATDataProjectItem);
 }
 
 XMLElement* ATDataProjectItem::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLNode* docRoot)

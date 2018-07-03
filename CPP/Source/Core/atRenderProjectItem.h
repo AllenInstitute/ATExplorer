@@ -2,7 +2,7 @@
 #define atRenderProjectItemH
 #include <string>
 #include <vector>
-#include "atATProject.h"
+#include "atATProjectItem.h"
 #include "atExplorerCoreExporter.h"
 #include "dslStringList.h"
 //---------------------------------------------------------------------------
@@ -14,7 +14,7 @@ using dsl::StringList;
 namespace at
 {
 
-class AT_E_CORE RenderProjectItem : public ATProject
+class AT_E_CORE RenderProjectItem : public ATProjectItem
 {
     public:
                                         RenderProjectItem(const string& name, const string& owner, const string& project, const string& stack);

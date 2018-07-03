@@ -1,10 +1,10 @@
 #pragma hdrstop
-#include "atATProject.h"
+#include "atATProjectItem.h"
 #include "dslXMLUtils.h"
 #include "dslLogger.h"
-#include "atRenderProject.h"
+#include "atRenderProjectItem.h"
 #include "atATData.h"
-#include "atATDataProjectObject.h"
+#include "atATDataProjectItem.h"
 
 using namespace dsl;
 using namespace tinyxml2;
@@ -17,42 +17,42 @@ namespace at
 
 const string gATProjectFileVersion    = "0.6";
 
-string ATProject::getATObjectTypeAsString()
+string ATProjectItem::getATObjectTypeAsString()
 {
-	return ::toString(mATProjectObjectType);
+	return ::toString(mATProjectItemType);
 }
 
-ATProject::ATProject(ATProjectObjectType type)
-:
-Project("", "atp"),
-mATProjectObjectType(type)
-{
-	resetXML();
-}
+//ATProjectItem::ATProjectItem(ATProjectItemType type)
+//:
+//Project("", "atp"),
+//mATProjectItemType(type)
+//{
+//	resetXML();
+//}
 
-ATProject::ATProject(const string& projName)
+ATProjectItem::ATProjectItem(const string& projName)
 :
 Project(projName, "atp"),
-mATProjectObjectType(atpBaseType)
+mATProjectItemType(atpATProjectItem)
 {
 	resetXML();
 }
 
-ATProject::~ATProject()
+ATProjectItem::~ATProjectItem()
 {}
 
-int	ATProject::getNumberOfChilds()
+int	ATProjectItem::getNumberOfChilds()
 {
-	int sz =  mChilds.size();
+	int sz =  mItems.size();
 	return sz;
 }
 
-bool ATProject::isModified()
+bool ATProjectItem::isModified()
 {
     //Cycle trough children
-    for(int i = 0; i < mChilds.size(); i++)
+    for(int i = 0; i < mItems.size(); i++)
     {
-    	if(mChilds[i]->isModified())
+    	if(mItems[i]->isModified())
         {
 	        return true;
 			break;
@@ -61,31 +61,31 @@ bool ATProject::isModified()
     return mIsModified;
 }
 
-ATProject* ATProject::getChild(int i)
+ProjItemPtr ATProjectItem::getChild(int i)
 {
-	if(i > 0 && i <= mChilds.size())
+	if(i > 0 && i <= mItems.size())
     {
-		return mChilds[i - 1];
+		return mItems[i - 1];
     }
-    return NULL;
+    return ProjItemPtr();
 }
 
-string ATProject::getPresentXMLModelVersion()
+string ATProjectItem::getPresentXMLModelVersion()
 {
     return gATProjectFileVersion;
 }
 
-bool ATProject::addChild(ATProject* child)
+bool ATProjectItem::addChild(ProjItemPtr child)
 {
 	if(child)
     {
-    	mChilds.push_back(child);
+    	mItems.append(child);
         return true;
     }
 	return false;
 }
 
-bool ATProject::addProjectObject(ATObject* child)
+bool ATProjectItem::addProjectObject(ATObject* child)
 {
     //Check what kind of object that was passed by dynamic casting
     if(!child)
@@ -99,22 +99,20 @@ bool ATProject::addProjectObject(ATObject* child)
         Log(lInfo) << "Adding an ATData object to the project";
 
         //ATData does have a format
-        ATDataProjectObject* o = new ATDataProjectObject(shared_ptr<ATData>(data));
-        mChilds.push_back(o);
-        //Project need to be saved in order to update the XML
-        return true;
+        shared_ptr<ATDataProjectItem> o = shared_ptr<ATDataProjectItem>(new ATDataProjectItem("ATDataItem", shared_ptr<ATData>(data)));
+        return mItems.append(o) == true ? true : false;
     }
 
     return false;
 }
 
 //Re implemented in derived objects
-XMLElement* ATProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
+XMLElement* ATProjectItem::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
 {
 	return NULL;
 }
 
-bool ATProject::resetXML()
+bool ATProjectItem::resetXML()
 {
 	mTheXML.Clear();
     mProjectRoot = mTheXML.NewElement("at_project");
@@ -134,7 +132,7 @@ bool ATProject::resetXML()
 }
 
 //Create header for VCObject node
-XMLElement* ATProject::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
+XMLElement* ATProjectItem::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
 {
     //Create XML for saving to file
     XMLElement* objectNode  	= doc.NewElement("at_object");
@@ -154,19 +152,19 @@ XMLElement* ATProject::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLNode* doc
     return objectNode;
 }
 
-bool ATProject::save(const string& fName)
+bool ATProjectItem::save(const string& fName)
 {
     resetXML();
 
     XMLElement* objects = newElement("at_objects");
 
     //Iterate through object container
-	for(int i = 0; i < mChilds.size(); i++)
+	for(int i = 0; i < mItems.size(); i++)
     {
-    	if(mChilds[i])
+    	if(mItems[i])
         {
-    	    XMLElement* node = mChilds[i]->addToXMLDocument(mTheXML, objects);
-	       	mChilds[i]->addToXMLDocumentAsChild(mTheXML, node);
+    	    XMLElement* node = mItems[i]->addToXMLDocument(mTheXML, objects);
+	       	mItems[i]->addToXMLDocumentAsChild(mTheXML, node);
 		    objects->InsertEndChild(node);
         }
     }
@@ -175,7 +173,7 @@ bool ATProject::save(const string& fName)
     return saveToFile(fName);
 }
 
-bool ATProject::open(const string& fName)
+bool ATProjectItem::open(const string& fName)
 {
     try
     {
@@ -200,7 +198,7 @@ bool ATProject::open(const string& fName)
     }
 }
 
-bool ATProject::createProjectFromXML(dsl::XMLNode* node)
+bool ATProjectItem::createProjectFromXML(dsl::XMLNode* node)
 {
     XMLElement* e = node->FirstChildElement("name");
     if(e)
@@ -211,7 +209,7 @@ bool ATProject::createProjectFromXML(dsl::XMLNode* node)
 	return true;
 }
 
-int ATProject::createProjectObjects()
+int ATProjectItem::createProjectObjects()
 {
     XMLElement* project = this->getXML("at_objects");
 
@@ -226,12 +224,12 @@ int ATProject::createProjectObjects()
     while(p)
     {
         //Find out what kind of element p is
-        ATProject* aProc = createATProjectObject(p);
+        ProjItemPtr aProc = createATProjectItem(p);
 
         if(aProc)
         {
-            mChilds.push_back(aProc);
-            Log(lDebug) <<"Imported object: "<<aProc->getProjectName();
+            mItems.append(aProc);
+            Log(lDebug) <<"Imported Project Item: "<<aProc->getProjectName();
             nrOfObjects++;
         }
         else
@@ -244,35 +242,35 @@ int ATProject::createProjectObjects()
     return nrOfObjects;
 }
 
-ATProject* ATProject::createATProjectObject(tinyxml2::XMLElement* element)
+ProjItemPtr ATProjectItem::createATProjectItem(tinyxml2::XMLElement* element)
 {
     if(!element && !compareStrings(element->Name(), "at_object", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
-    	return NULL;
+    	return ProjItemPtr();
     }
 
-    ATProjectObjectType pt = toATProjectObjectType(element->Attribute("type"));
+    ATProjectItemType pt = toATProjectItemType(element->Attribute("type"));
     switch(pt)
     {
-        case atpRenderProject: 			return createRenderProject(element);
-        case atpATDataProjectObject: 	return createATDataProject(element);
+        case atpRenderProjectItem: 	  	return createRenderProjectItem(element);
+        case atpATDataProjectItem: 		return createATDataProjectItem(element);
 
-        default: return NULL;
+        default: return ProjItemPtr();
     }
 }
 
-RenderProject* ATProject::createRenderProject(tinyxml2::XMLElement* element)
+ProjItemPtr ATProjectItem::createRenderProjectItem(tinyxml2::XMLElement* element)
 {
     if(!element && !compareStrings(element->Name(), "render_project", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
-    	return NULL;
+    	return ProjItemPtr();
     }
 
 	const char* name = element->Attribute("name");
 
-	RenderProject* p = new RenderProject(name ? string(name) : string(""), "", "" ,"");
+	shared_ptr<RenderProjectItem> p = shared_ptr<RenderProjectItem>(new RenderProjectItem(name ? string(name) : string(""), "", "" ,""));
 	if(!p->loadFromXML(element))
     {
     	Log(lError) << "There was a problem loading model from XML";
@@ -281,17 +279,26 @@ RenderProject* ATProject::createRenderProject(tinyxml2::XMLElement* element)
     return p;
 }
 
-RenderProject* ATProject::createATDataProject(tinyxml2::XMLElement* element)
+ProjItemPtr ATProjectItem::createATDataProjectItem(tinyxml2::XMLElement* element)
 {
-    if(!element && !compareStrings(element->Name(), "render_project", csCaseInsensitive))
+    if(!element && !compareStrings(element->Attribute("type"), "atDataProjectItem", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
-    	return NULL;
+    	return ProjItemPtr();
+    }
+
+    XMLNode* n = element->FirstChild();
+    if(n)
+    {
+        if(!n->Value())
+        {
+            n->SetValue("No Value");
+        }
     }
 
 	const char* name = element->Attribute("name");
+	shared_ptr<ATDataProjectItem> p = shared_ptr<ATDataProjectItem>(new ATDataProjectItem(name ? string(name) : string("")));
 
-	RenderProject* p = new RenderProject(name ? string(name) : string(""), "", "" ,"");
 	if(!p->loadFromXML(element))
     {
     	Log(lError) << "There was a problem loading model from XML";
@@ -300,28 +307,27 @@ RenderProject* ATProject::createATDataProject(tinyxml2::XMLElement* element)
     return p;
 }
 
-
-string toString(ATProjectObjectType tp)
+string toString(ATProjectItemType tp)
 {
 	switch(tp)
     {
-    	case atpBaseType: 		                return "ATProject";
-    	case atpRenderProject: 	                return "renderProject";
-        case atpVolume:			                return "volume";
-        case atpATDataProjectObject:			return "atData";
-        default:								return "unKnownObject";
+    	case atpATProjectItem: 			    return "atATProjectItem";
+    	case atpRenderProjectItem: 	        return "renderProjectItem";
+        case atpVolumeProjectItem:			return "volumeProjectItem";
+        case atpATDataProjectItem:			return "atDataProjectItem";
+        default:							return "unKnownProjectItem";
     }
 }
 
-ATProjectObjectType toATProjectObjectType(const string& vcObject)
+ATProjectItemType toATProjectItemType(const string& vcObject)
 {
-	if(     vcObject == "ATProject") return atpBaseType;
-	else if(vcObject == "renderProject") 		return atpRenderProject;
-	else if(vcObject == "volume") 				return atpVolume;
-	else if(vcObject == "atData") 				return atpATDataProjectObject;
-	else if(vcObject == "unKnownObject") 		return atpUnknown;
+	if(     vcObject == "aTProjectItem") 		return atpATProjectItem;
+	else if(vcObject == "renderProjectItem") 	return atpRenderProjectItem;
+	else if(vcObject == "volumeProjectItem")  	return atpVolumeProjectItem;
+	else if(vcObject == "atDataProjectItem")  	return atpATDataProjectItem;
+	else if(vcObject == "unKnownProjectItem") 	return atpUnknownProjectItem;
 
-   	return atpUnknown;
+   	return atpUnknownProjectItem;
 }
 
 }

@@ -1,10 +1,11 @@
-#ifndef atATProjectH
-#define atATProjectH
+#ifndef atATProjectItemH
+#define atATProjectItemH
 #include "atExplorerCoreExporter.h"
 #include "atATObject.h"
 #include "dslProject.h"
 #include "dslConstants.h"
 #include "core/atATObject.h"
+#include "atATProjectItems.h"
 #include <vector>
 //---------------------------------------------------------------------------
 
@@ -15,42 +16,43 @@ extern const string gATProjectFileVersion;
 using namespace std;
 using dsl::gEmptyString;
 
-//!A render project is a project as exposed by Render
-class RenderProject;
+
+class RenderProjectItem;
+class ATDataProjectItem;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
-enum ATProjectObjectType
+enum ATProjectItemType
 {
-	atpBaseType = 0,
-    atpRenderProject,
-	atpATDataProjectObject,
-    atpVolume,
-    atpUnknown
+	atpATProjectItem = 0,
+    atpRenderProjectItem,
+	atpATDataProjectItem,
+    atpVolumeProjectItem,
+    atpUnknownProjectItem
 };
 
-string 					toString(ATProjectObjectType tp);
-ATProjectObjectType 	toATProjectObjectType(const string& str);
+string 					toString(ATProjectItemType tp);
+ATProjectItemType 		toATProjectItemType(const string& str);
 
 
 //!A ATProject captures (is a container) for renderprojects and other possible objects related to a project
 //!in a ATExplorer UI
 //!ATProject is the baseclass for such objects.
 
-class AT_E_CORE ATProject : public dsl::Project, public ATObject
+class AT_E_CORE ATProjectItem : public dsl::Project, public ATObject
 {
 
     public:
 
-			                                    ATProject(ATProjectObjectType type);
-                                                ATProject(const string& projectName = gEmptyString);
-                                                ~ATProject();
+//			                                    ATProjectItem(ATProjectItemType type);
+                                                ATProjectItem(const string& projectName = gEmptyString);
+                                                ~ATProjectItem();
 
 		virtual bool 							isModified();
         virtual bool                            save(const string& fName = dsl::gEmptyString);
 
         virtual bool                            open(const string& fName = dsl::gEmptyString);
 
-        virtual bool							addChild(ATProject* child);
+        virtual bool							addChild(ProjItemPtr child);
         virtual bool							addProjectObject(ATObject* child);
 
 
@@ -60,7 +62,7 @@ class AT_E_CORE ATProject : public dsl::Project, public ATObject
                                                 //a particular process
         string									mInfoText;
         int										getNumberOfChilds();
-        ATProject*								getChild(int i);
+        ProjItemPtr								getChild(int i);
 
     protected:
         bool                                    resetXML();
@@ -68,14 +70,14 @@ class AT_E_CORE ATProject : public dsl::Project, public ATObject
 
                 					            //!The VCObject type help us construct
                                                 //a new VC object from a file
-        ATProjectObjectType		  		        mATProjectObjectType;
+        ATProjectItemType		  		        mATProjectItemType;
 
-        ATProjectItem*		           			createATProjectItem(tinyxml2::XMLElement* element);
-		RenderProjectItem*		 				createRenderProjectItem(tinyxml2::XMLElement* 	element);
-		ATDataProjectItem*						createATDataProjectItem(tinyxml2::XMLElement* 	element);
+        ProjItemPtr			       				createATProjectItem(tinyxml2::XMLElement* element);
+		ProjItemPtr				 				createRenderProjectItem(tinyxml2::XMLElement* 	element);
+		ProjItemPtr								createATDataProjectItem(tinyxml2::XMLElement* 	element);
 
         										//!Childs can be various types of objecs, e.g. renderprojects and volumes, ATData
-        vector<ATProject*>						mChilds;
+        ATProjectItems							mItems;
         string                                  getPresentXMLModelVersion();
         virtual dsl::XMLElement*           		addToXMLDocument(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
 		virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLNode* node);

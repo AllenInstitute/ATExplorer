@@ -183,13 +183,16 @@
             <DependentOn>..\..\Source\ATData\atTiles.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\Core\atATDataProjectObject.cpp">
+        <CppCompile Include="..\..\Source\Core\atATDataProjectItem.cpp">
             <BuildOrder>19</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\Core\atATProject.cpp">
+        <CppCompile Include="..\..\Source\Core\atATProjectItem.cpp">
             <BuildOrder>19</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\Core\atRenderProject.cpp">
+        <CppCompile Include="..\..\Source\Core\atATProjectItems.cpp">
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\Core\atRenderProjectItem.cpp">
             <BuildOrder>20</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">

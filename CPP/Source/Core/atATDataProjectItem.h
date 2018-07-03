@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "Poco/Path.h"
-#include "atATProject.h"
+#include "atATProjectItem.h"
 #include "atExplorerCoreExporter.h"
 #include "atATDataUtils.h"
 #include "dslSharedPointer.h"
@@ -19,11 +19,11 @@ namespace at
 {
 
 class ATData;
-class AT_E_CORE ATDataProjectItem : public ATProject
+class AT_E_CORE ATDataProjectItem : public ATProjectItem
 {
     public:
-                                        ATDataProjectItem(const shared_ptr<ATData>& data);
-                                        ATDataProjectItem(const Path& basePath, ATDataFileFormat atDataFormat = atAllen);
+                                        ATDataProjectItem(const string& lbl, const shared_ptr<ATData>& data = shared_ptr<ATData>());
+                                        ATDataProjectItem(const string& lbl, const Path& basePath, ATDataFileFormat atDataFormat = atAllen);
 
                                         //!ProjectManagement
         virtual bool 	   	            write();
