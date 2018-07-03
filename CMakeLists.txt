@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 project(ATExplorer)
 
 SET(ATEXPLORER_MAJOR_VERSION 0)
-SET(ATEXPLORER_MINOR_VERSION 8)
-SET(ATEXPLORER_BUILD_VERSION 5)
+SET(ATEXPLORER_MINOR_VERSION 5)
+SET(ATEXPLORER_BUILD_VERSION 0)
 SET(ATEXPLORER_VERSION "${ATEXPLORER_MAJOR_VERSION}.${ATEXPLORER_MINOR_VERSION}.${ATEXPLORER_BUILD_VERSION}")
 
 set(ATEXPLORER_ROOT 	${CMAKE_CURRENT_SOURCE_DIR})
@@ -67,9 +67,9 @@ ${THIRD_PARTY_INSTALL_PREFIX}/lib
    
 #Source Code Folders
 #add_subdirectory(Source)
-#add_subdirectory(Wrappers)
+add_subdirectory(CPP)
 #add_subdirectory(Examples)
-add_subdirectory(Python)
+#add_subdirectory(Python)
 
 #======================= INSTALL ========================================================
 set(RootDest .)

@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{88AF63C4-8F60-4C0A-832D-642BD4FC1DC5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="P:\libs\dsl\builds\dslFoundation\dslFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\atapi\builds\atCore\atCore.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="atExplorer.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\Examples\C++\ATData\atdata.cbproj">
+            <Dependencies>atExplorer.cbproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="dslFoundation">
+        <MSBuild Projects="P:\libs\dsl\builds\dslFoundation\dslFoundation.cbproj"/>
+    </Target>
+    <Target Name="dslFoundation:Clean">
+        <MSBuild Projects="P:\libs\dsl\builds\dslFoundation\dslFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslFoundation:Make">
+        <MSBuild Projects="P:\libs\dsl\builds\dslFoundation\dslFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atCore">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj"/>
+    </Target>
+    <Target Name="atCore:Clean">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atCore:Make">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atExplorer">
+        <MSBuild Projects="atExplorer.cbproj"/>
+    </Target>
+    <Target Name="atExplorer:Clean">
+        <MSBuild Projects="atExplorer.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorer:Make">
+        <MSBuild Projects="atExplorer.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atdata" DependsOnTargets="atExplorer">
+        <MSBuild Projects="..\..\..\Examples\C++\ATData\atdata.cbproj"/>
+    </Target>
+    <Target Name="atdata:Clean" DependsOnTargets="atExplorer:Clean">
+        <MSBuild Projects="..\..\..\Examples\C++\ATData\atdata.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atdata:Make" DependsOnTargets="atExplorer:Make">
+        <MSBuild Projects="..\..\..\Examples\C++\ATData\atdata.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="dslFoundation;atCore;atExplorer;atdata"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="dslFoundation:Clean;atCore:Clean;atExplorer:Clean;atdata:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="dslFoundation:Make;atCore:Make;atExplorer:Make;atdata:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
