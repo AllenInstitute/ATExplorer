@@ -10,6 +10,7 @@ using dsl::shared_ptr;
 
 namespace at
 {
+
 class ATProjectItem;
 typedef shared_ptr<ATProjectItem> ProjItemPtr;
 

@@ -182,7 +182,7 @@ bool ATProjectItem::open(const string& fName)
             setFileName(fName);
         }
 
-        loadXMLFromFile(fName);
+        Project::loadXMLFromFile(fName);
 
     	createProjectFromXML(mProjectRoot);
         Log(lInfo) << "Attempting to load ATExplorer Project: "<<this->getFileName();

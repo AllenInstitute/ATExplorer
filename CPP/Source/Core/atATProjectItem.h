@@ -4,7 +4,7 @@
 #include "atATObject.h"
 #include "dslProject.h"
 #include "dslConstants.h"
-#include "core/atATObject.h"
+#include "atATObject.h"
 #include "atATProjectItems.h"
 #include <vector>
 //---------------------------------------------------------------------------
@@ -49,12 +49,9 @@ class AT_E_CORE ATProjectItem : public dsl::Project, public ATObject
 
 		virtual bool 							isModified();
         virtual bool                            save(const string& fName = dsl::gEmptyString);
-
         virtual bool                            open(const string& fName = dsl::gEmptyString);
-
         virtual bool							addChild(ProjItemPtr child);
         virtual bool							addProjectObject(ATObject* child);
-
 
 		string 									getATObjectTypeAsString();
 

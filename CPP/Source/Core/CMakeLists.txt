@@ -1,4 +1,4 @@
-SET(target atData)
+SET(target atExplorerCore)
 
 INCLUDE_DIRECTORIES(
 .
@@ -12,23 +12,10 @@ ${THIRD_PARTY_INSTALL_PREFIX}/include/atexplorer
 )
 
 SET(src
-atATData
-atATDataUtils
-atChannels
-atFile
-atFileFolders
-atATIFData
-atRibbons
-atSections
-atSessions
-atTiles.cpp
-atChannel
-atFileFolder
-atFileSystemObject
-atRibbon
-atSection
-atSession
-atTile
+atATProjectItem
+atATProjectItems
+#atATDataProjectItem
+#atRenderProjectItem
 )
 
 link_directories(
@@ -38,21 +25,22 @@ ${THIRD_PARTY_INSTALL_PREFIX}/lib
 
 #===== Shared library
 if(BUILD_SHARED_LIBS)
-    message("Building shared ATData lib")
+    message("Building shared ATExplorerCore lib")
     ADD_LIBRARY(${target} SHARED
     ${src}
     )
 
     SET_PROPERTY(TARGET ${target}  PROPERTY COMPILE_DEFINITIONS 
-    EXPORT_AT_DATA
+    EXPORT_AT_E_CORE
     )
 
     TARGET_LINK_LIBRARIES(${target} 
+        atData
         ${CMAKE_INSTALL_PREFIX}/lib/atCore.lib
         ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
         ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+        ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
     )
-
 
     INSTALL(    
     TARGETS ${target} 
