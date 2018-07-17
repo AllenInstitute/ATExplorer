@@ -1,29 +1,43 @@
 #-------------------------------------------------------------------------------
-# Purpose: Validate ATData
+# Purpose: Interact with ATData
 #-------------------------------------------------------------------------------
 
-import ATExplorer
-
+import atexplorer as at
+import dsl
 try:
+    gLogger = dsl.gLogger
+    gLogger.logToFile("p:\\MyLog.txt")
+
+    print("AtExplorer version: " + at.getVersion())
+    dataPath = "F:\\data\\M335503_Ai139_smallvol\\"
+
     #Create an empty ATData object
-    atData = ATExplorer.ATData()
+    atData = at.ATIFData(dataPath, False)
+    atData.populate()
+    r = at.Ribbon(0)
 
-    #Validate ATData in a folder of your choice
-    atDataFolder = "X:\data\test041817\raw\map\Ribbon0060\map1"
+    #Some trivial data info
+    print( "Number of Ribbons: " + str(atData.getNumberOfRibbons()))
+    ribbon = atData.getFirstRibbon()
 
-    if atData.validate(atDataFolder):
+    while ribbon:
+        print ("Ribbon Alias: " + ribbon.getAlias())
+        print ("Number of sections: " + str(ribbon.getSectionCount()))
+        ribbon = atData.getNextRibbon()
+
+
+    Render render("anOwner", "aProject")
+    stackList = {"DAPI_STACK", "GFP"}
+    atData.createRenderStack(stackList, dapiChannel, RAW, 0, 45)
+
+
+    if atData.validate():
         print ("ATData information" + atData.getInfo())
     else:
-        print ("The folder: " + atDataFolder + " does not contain valid ATData..")
+        print ("The folder: " + dataPath + " does not contain valid ATData..")
 
     print ("Done..")
 
-except ATDataError as msg:
-    print(msg)
-
 except Exception as e:
     print("There was an exception: " + str(e))
-
-
-
 

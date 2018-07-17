@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B7B51022-2781-4D05-AA0B-D243334880D9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\atapi\builds\atCore\atCore.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="atdata.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="dslCommon">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj"/>
+    </Target>
+    <Target Name="dslCommon:Clean">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslCommon:Make">
+        <MSBuild Projects="P:\libs\dsl\builds\dslCommon\dslCommon.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atCore">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj"/>
+    </Target>
+    <Target Name="atCore:Clean">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atCore:Make">
+        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atdata">
+        <MSBuild Projects="atdata.cbproj"/>
+    </Target>
+    <Target Name="atdata:Clean">
+        <MSBuild Projects="atdata.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atdata:Make">
+        <MSBuild Projects="atdata.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="dslCommon;atCore;atdata"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="dslCommon:Clean;atCore:Clean;atdata:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="dslCommon:Make;atCore:Make;atdata:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
