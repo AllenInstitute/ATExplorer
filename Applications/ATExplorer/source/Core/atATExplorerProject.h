@@ -16,7 +16,7 @@ namespace tinyxml2
 using namespace std;
 using dsl::gEmptyString;
 //!A render project is a project as exposed by Render
-class RenderProjectItem;
+class RenderProject;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
 enum ATEObjectType
@@ -33,7 +33,7 @@ ATEObjectType 	toATEObjectType(const string& str);
 //!A ATExplorerProject captures (is a container) for renderprojects and other possible objects related to a project
 //!in ATExplorer
 //!An ATExplorerProject is the baseclass for such objects.
-class ATExplorerProject : public dsl::Project, public ATObject
+class ATExplorerProject : public dsl::Project, public at::ATObject
 {
 
     public:
@@ -70,7 +70,7 @@ class ATExplorerProject : public dsl::Project, public ATObject
         ATEObjectType		  		            mATEObjectType;
 
         ATExplorerProject*		            	createVCObject(tinyxml2::XMLElement* element);
-		RenderProjectItem*							createRenderProject(tinyxml2::XMLElement* element);
+		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 
         										//!Childs can be various types of objecs, e.g. renderprojects and volumes
         vector<ATExplorerProject*>				mChilds;

@@ -81,13 +81,12 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 }
 
 //---------------------------------------------------------------------------
-#pragma comment(lib, "dslCommon")
-#pragma comment(lib, "dslMath")
+#pragma comment(lib, "dslFoundation")
 #pragma comment(lib, "dslVCLCommon.lib")
 #pragma comment(lib, "dslVCLComponents.bpi")
 #pragma comment(lib, "dslVCLVisualComponents.bpi")
 
-#pragma comment(lib, "atCore.lib")
+#pragma comment(lib, "atFoundation.lib")
 
 
 #pragma comment(lib, "poco_foundation.lib")

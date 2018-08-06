@@ -84,14 +84,12 @@ object MainForm: TMainForm
       AlignWithMargins = True
       Left = 16
       Top = 4
-      Width = 1256
-      Height = 27
+      Width = 40
+      Height = 13
       Margins.Left = 15
       Align = alClient
       Caption = '<none>'
       Layout = tlCenter
-      ExplicitWidth = 40
-      ExplicitHeight = 13
     end
   end
   object MainPanel: TPanel
@@ -126,6 +124,8 @@ object MainForm: TMainForm
       ExplicitHeight = 595
       object TabSheet1: TTabSheet
         Caption = 'General'
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 1226
         ExplicitHeight = 567
         object mLeftPanel: TPanel
@@ -375,7 +375,6 @@ object MainForm: TMainForm
               PopupMenu = ZsPopUpMenu
               TabOrder = 0
               OnClick = ClickZ
-              ExplicitHeight = 435
             end
           end
         end
@@ -16694,6 +16693,8 @@ object MainForm: TMainForm
           object TabSheet5: TTabSheet
             Caption = 'NDViz'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
             ExplicitWidth = 833
             ExplicitHeight = 426
             object DcefBrowser1: TDcefBrowser
@@ -16719,6 +16720,8 @@ object MainForm: TMainForm
       object TabSheet4: TTabSheet
         Caption = 'Stack Creation'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 1226
         ExplicitHeight = 567
         object StackGenerationGB: TGroupBox
@@ -16891,7 +16894,8 @@ object MainForm: TMainForm
           Align = alTop
           AutoSize = True
           TabOrder = 3
-          ExplicitWidth = 1226
+          ExplicitWidth = 1081
+          ExplicitHeight = 70
           inherited GroupBox1: TGroupBox
             inherited edSSHPassword: TSTDStringLabeledEdit
               Text = ''
@@ -16899,7 +16903,6 @@ object MainForm: TMainForm
             end
           end
           inherited ScFileStorage: TScFileStorage
-            Left = 24
             Top = 160
           end
           inherited ScSSHShell1: TScSSHShell
@@ -16963,7 +16966,6 @@ object MainForm: TMainForm
             Align = alLeft
             ItemHeight = 13
             TabOrder = 0
-            ExplicitHeight = 247
           end
           object GroupBox3: TGroupBox
             Left = 354
@@ -17522,7 +17524,7 @@ object MainForm: TMainForm
     Left = 408
     Top = 8
     Bitmap = {
-      494C010108001800FC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800000110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

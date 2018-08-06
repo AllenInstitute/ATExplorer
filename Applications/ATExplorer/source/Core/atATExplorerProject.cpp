@@ -219,10 +219,11 @@ ATExplorerProject* ATExplorerProject::createVCObject(tinyxml2::XMLElement* eleme
 
     ATEObjectType pt = toATEObjectType(element->Attribute("type"));
     switch(pt)
-    {
-        case ateRenderProject: return createRenderProject(element);
+//    {
+//        case ateRenderProjectItem:
+//        	return createRenderProject(element);
         default: return NULL;
-    }
+//    }
 }
 
 RenderProject* ATExplorerProject::createRenderProject(tinyxml2::XMLElement* element)
@@ -248,17 +249,17 @@ string toString(ATEObjectType tp)
 {
 	switch(tp)
     {
-    	case ateBaseType: 		return "atExplorerProject";
-    	case ateRenderProject: 	return "renderProject";
-        case ateVolume:			return "volume";
-        default:				return "unKnownObject";
+    	case ateBaseType: 			return "atExplorerProject";
+    	case ateRenderProjectItem: 	return "renderProject";
+        case ateVolume:				return "volume";
+        default:					return "unKnownObject";
     }
 }
 
 ATEObjectType toATEObjectType(const string& ateObject)
 {
 	if(     ateObject == "atExplorerProject") 		return ateBaseType;
-	else if(ateObject == "renderProject") 			return ateRenderProject;
+	else if(ateObject == "renderProject") 			return ateRenderProjectItem;
 	else if(ateObject == "volume") 					return ateVolume;
 	else if(ateObject == "unKnownObject") 			return ateUnknown;
 

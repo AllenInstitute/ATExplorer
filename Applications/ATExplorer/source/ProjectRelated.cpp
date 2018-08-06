@@ -3,7 +3,8 @@
 #include "TMainForm.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
-
+#include "dslFileUtils.h"
+//---------------------------------------------------------------------------
 using namespace dsl;
 
 void addRenderProjectToTreeView(TTreeNode* vcNode, RenderProject* rp, TTreeView* tv);
@@ -117,7 +118,7 @@ void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
 		p = createNewProject();
     }
 
-	if(p->loadFromFile(f))
+	if(p->loadXMLFromFile(f))
     {
 	    ProjFileLbl->Caption = string("Project File: " + f).c_str();
     	Log(lInfo) << "Loaded project file: "<<f;

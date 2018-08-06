@@ -7,7 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 using namespace dsl;
-
+using namespace std;
 
 string createEmptyScriptFileOnServer(TScSSHShell* ssh, const string& subFolders, const string& scriptName)
 {

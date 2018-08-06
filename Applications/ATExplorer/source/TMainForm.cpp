@@ -13,6 +13,7 @@
 #include "atApplicationSupportFunctions.h"
 #include "TOverlayedImage.h"
 #include "atATExplorerProject.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"

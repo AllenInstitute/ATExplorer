@@ -9,6 +9,7 @@
 #include "dslLogger.h"
 #include "dslPoint.h"
 #include "dslMathUtils.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace dsl;

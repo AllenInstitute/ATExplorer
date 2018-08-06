@@ -14,7 +14,7 @@ mOwner(owner),
 mProject(project),
 mStack(stack)
 {
-	mATEObjectType = (ateRenderProject);
+	mATEObjectType = (ateRenderProjectItem);
 }
 
 

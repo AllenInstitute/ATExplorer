@@ -7,6 +7,7 @@
 #include "atROIHistory.h"
 #include "dslRestartApplicationUtils.h"
 #include "TAboutATExplorerForm.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
 using namespace dsl;
