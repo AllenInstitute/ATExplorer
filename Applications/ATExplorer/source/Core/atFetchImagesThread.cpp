@@ -46,7 +46,7 @@ void FetchImagesThread::worker()
 	mIsRunning = true;
     while(!mIsTimeToDie)
     {
-		Log(lInfo) << "Started Image fetching thread..";
+		Log(lDebug3) << "Started Images fetching thread..";
 
         curl_global_init(CURL_GLOBAL_ALL);
 
@@ -65,11 +65,11 @@ void FetchImagesThread::worker()
            	Poco::File f(outFilePathANDFileName);
             if(fileExists(outFilePathANDFileName) && f.getSize() > 200)
             {
-            	Log(lInfo) << "File "<<outFilePathANDFileName<<" is in cache";
+            	Log(lDebug3) << "File "<<outFilePathANDFileName<<" is in local cache";
             }
             else
 			{
-                Log(lInfo) << "Thread is fetching: "<<getImageZFromURL(url);
+                Log(lDebug3) << "Thread is fetching: "<<getImageZFromURL(url);
 
                 CURL *curl_handle;
                 CURLcode res;
@@ -118,7 +118,7 @@ void FetchImagesThread::worker()
                         ofstream of( out.c_str(), std::ofstream::binary);
                         of.write(&chunk.memory[0], chunk.size);
 
-                        Log(lInfo) <<  (long)chunk.size << " bytes retrieved\n";
+                        Log(lDebug3) <<  (long)chunk.size << " bytes retrieved";
                         of.close();
                     }
                     else
@@ -138,7 +138,7 @@ void FetchImagesThread::worker()
 
         mIsTimeToDie = true;
 	}
-  	Log(lInfo) << "Finished Image fetching thread..";
+  	Log(lDebug3) << "Finished Images fetching thread..";
     mIsRunning = false;
     mIsFinished = true;
 }
@@ -159,7 +159,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
   if(mem->memory == NULL)
   {
     /* out of memory! */
-    Log(lError) << "Not enough memory (realloc returned NULL)\n";
+    Log(lError) << "Not enough memory (realloc returned NULL)";
     return 0;
   }
 

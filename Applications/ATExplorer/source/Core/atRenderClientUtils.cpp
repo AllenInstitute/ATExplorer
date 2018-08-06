@@ -1,10 +1,9 @@
 #pragma hdrstop
 #include "atRenderClientUtils.h"
-#include <vector>
 #include "dslStringUtils.h"
+#include <vector>
 
 using namespace dsl;
-
 
 //---------------------------------------------------------------------------
 using namespace std;

@@ -4,8 +4,8 @@
 //---------------------------------------------------------------------------
 
 using std::abs;
-//!TODO, write code to update the box when something changes..
 
+//!TODO, write code to update the box when something changes..
 class RenderBox
 {
 	public:

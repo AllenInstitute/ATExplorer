@@ -22,9 +22,11 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 	TStyleManager::SetStyle(gApplicationStyle.c_str());
 
 	gLogger.setLogLevel(mLogLevel);
-	mLogFileReader.start(true);
-    mCurrentRB.setX1(XCoord->getValue());
-    mCurrentRB.setY1(YCoord->getValue());
+
+    TLogMemoFrame1->init();
+
+    mCurrentRB.setX1(XCoordE->getValue());
+    mCurrentRB.setY1(YCoordE->getValue());
     mCurrentRB.setWidth(Width->getValue());
     mCurrentRB.setHeight(Height->getValue());
 
@@ -69,6 +71,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
     //Setup path for ssh
 	TSSHFrame1->ScFileStorage->Path = vclstr(gAppDataLocation);
+	TSSHFrame1->ConnectBtnClick(Sender);
 }
 
 void TMainForm::setupIniFile()
@@ -96,29 +99,28 @@ bool TMainForm::setupAndReadIniParameters()
 
 	//Setup parameters
 	mGeneralProperties->setSection("GENERAL");
-	mGeneralProperties->add((BaseProperty*)  &mBottomPanelHeight.setup( 	            	"HEIGHT_OF_BOTTOM_PANEL",    	    205));
+	mGeneralProperties->add((BaseProperty*)  &mBottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
 	mGeneralProperties->add((BaseProperty*)  &mLogLevel.setup( 	                    	"LOG_LEVEL",    	                lAny));
 
     mGeneralProperties->add((BaseProperty*)  &mBaseUrlE->getProperty()->setup(	        "BASE_URL", 	                    "http://ibs-forrestc-ux1.corp.alleninstitute.org:8081/render-ws/v1"));
     mGeneralProperties->add((BaseProperty*)  &mCurrentOwner.setup(		        		"OWNER", 		                    "Sharmishtaas"));
-    mGeneralProperties->add((BaseProperty*)  &mCurrentProject.setup(	    			    "PROJECT", 		                    "M270907_Scnn1aTg2Tdt_13"));
+    mGeneralProperties->add((BaseProperty*)  &mCurrentProject.setup(	    			"PROJECT", 		                    "M270907_Scnn1aTg2Tdt_13"));
     mGeneralProperties->add((BaseProperty*)  &mCurrentStack.setup(	        			"STACK_NAME", 	                    "ALIGNEDSTACK_DEC12"));
 
-    mGeneralProperties->add((BaseProperty*)  &mScaleE->getProperty()->setup(		        "SCALE", 			                0.02));
-    mGeneralProperties->add((BaseProperty*)  &XCoord->getProperty()->setup(	        	"VIEW_X_COORD",    	                0));
-    mGeneralProperties->add((BaseProperty*)  &YCoord->getProperty()->setup(	        	"VIEW_Y_COORD",    	                0));
+    mGeneralProperties->add((BaseProperty*)  &mScaleE->getProperty()->setup(		    "SCALE", 			                0.02));
+    mGeneralProperties->add((BaseProperty*)  &XCoordE->getProperty()->setup(	        "VIEW_X_COORD",    	                0));
+    mGeneralProperties->add((BaseProperty*)  &YCoordE->getProperty()->setup(	        "VIEW_Y_COORD",    	                0));
     mGeneralProperties->add((BaseProperty*)  &Width->getProperty()->setup(		        "VIEW_WIDTH", 		                0));
     mGeneralProperties->add((BaseProperty*)  &Height->getProperty()->setup(	        	"VIEW_HEIGHT", 		                0));
     mGeneralProperties->add((BaseProperty*)  &MinIntensity->getProperty()->setup(	    "MIN_INTENSITY", 		            0));
     mGeneralProperties->add((BaseProperty*)  &MaxIntensity->getProperty()->setup(	    "MAX_INTENSITY", 		            65535));
 
-	mGeneralProperties->add((BaseProperty*)  &mImageCacheFolderE->getProperty()->setup(	"IMAGE_CACHE_FOLDER",  				"C:\\ImageCache"));
+	mGeneralProperties->add((BaseProperty*)  &ImageCacheFolderE->getProperty()->setup(	"IMAGE_CACHE_FOLDER",  				"C:\\ImageCache"));
 
     //Stack Generation
 	mGeneralProperties->add((BaseProperty*)  &VolumesFolder->getProperty()->setup(		"VOLUMES_ROOT_FOLDER",  	  		"/nas1/temp"));
 	mGeneralProperties->add((BaseProperty*)  &SubFolder1->getProperty()->setup(			"VOLUMES_SUB_FOLDER_1",  	  		"temp"));
 	mGeneralProperties->add((BaseProperty*)  &VolumesScaleE->getProperty()->setup(	   	"VOLUMES_SCALE",  	 		 		0.01));
-
 
 	//Read from file. Create if file do not exist
 	mGeneralProperties->read();
@@ -126,13 +128,13 @@ bool TMainForm::setupAndReadIniParameters()
 	//Update UI
     mBaseUrlE->update();
     mScaleE->update();
-    XCoord->update();
-    YCoord->update();
+    XCoordE->update();
+    YCoordE->update();
     Width->update();
     Height->update();
 	MinIntensity->update();
 	MaxIntensity->update();
-	mImageCacheFolderE->update();
+	ImageCacheFolderE->update();
     VolumesFolder->update();
     SubFolder1->update();
     VolumesScaleE->update();
@@ -156,7 +158,7 @@ bool TMainForm::setupAndReadIniParameters()
     TSSHFrame1->edSSHUserName->update();
     TSSHFrame1->edSSHPassword->update();
 
-	mBottomPanel->Height = mBottomPanelHeight;
+	BottomPanel->Height = mBottomPanelHeight;
     return true;
 }
 

@@ -52,6 +52,21 @@ RenderClient::~RenderClient()
 	delete mImageMemory;
 }
 
+void RenderClient::assignOnImageCallback(RCCallBack cb)
+{
+	mFetchImageThread.onImage = cb;
+}
+
+Idhttp::TIdHTTP* RenderClient::getConnection()
+{
+    return mC;
+}
+
+void RenderClient::assignConnection(Idhttp::TIdHTTP* c)
+{
+    mC = c;
+}
+
 void RenderClient::copyImageData(MemoryStruct chunk)
 {
 	try
@@ -66,10 +81,10 @@ void RenderClient::copyImageData(MemoryStruct chunk)
     }
 }
 
-//string RenderClient::getProjectName()
-//{
-//	return mProject.getProjectName();
-//}
+RenderProject RenderClient::getCurrentProject()
+{
+    return mProject;
+}
 
 string RenderClient::setLocalCacheFolder(const string& f)
 {
@@ -82,7 +97,7 @@ StringList RenderClient::getOwners()
     stringstream sUrl;
     sUrl << mBaseURL;
     sUrl << "/owners";
-    Log(lDebug5) << "Fetching owners using URL: "<<sUrl.str();
+    Log(lDebug5) << "Fetching owners: "<<sUrl.str();
 
     StringList owners;
     TStringStream* zstrings = new TStringStream;;
@@ -107,9 +122,9 @@ StringList RenderClient::getProjectsForOwner(const string& o)
 {
     stringstream sUrl;
     sUrl << mBaseURL;
-    sUrl << "/owner/"<<o;
+    sUrl << "/owner/" << o;
     sUrl << "/stackIds";
-    Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();
+    Log(lDebug5) << "Fetching projects for owner: "<<sUrl.str();
 
     StringList projects;
     TStringStream* zstrings = new TStringStream;;
@@ -119,7 +134,7 @@ StringList RenderClient::getProjectsForOwner(const string& o)
     {
         string s = stdstr(zstrings->DataString);
         s = stripCharacters("\"[]{}", s);
-        Log(lInfo) << s;
+        Log(lDebug5) << "Render Response: "<<s;
         //Parse result
         StringList t1(s,',');
 
@@ -149,12 +164,7 @@ StringList RenderClient::getProjectsForOwner(const string& o)
     return projects;
 }
 
-void RenderClient::assignOnImageCallback(RCCallBack cb)
-{
-	mFetchImageThread.onImage = cb;
-}
-
-bool RenderClient::getImageInThread(int z)
+bool RenderClient::getImageInThread(int z, StringList& paras)
 {
 	mZ = z;
 
@@ -164,48 +174,9 @@ bool RenderClient::getImageInThread(int z)
     }
 
 	mFetchImageThread.setup(getURLForZ(z), mLocalCacheFolder);
+    mFetchImageThread.addParameters(paras);
 	mFetchImageThread.start(true);
     return true;
-}
-
-TMemoryStream* RenderClient::getImage(int z)
-{
-	mZ = z;
-
-	if(!mImageMemory)
-    {
-		mImageMemory = new TMemoryStream();
-    }
-
-	//First check if we already is having this data
-    if(checkCacheForCurrentURL())
-    {
-        Log(lInfo) << "Fetching from cache";
-    	mImageMemory->LoadFromFile(getImageLocalPathAndFileName().c_str());
-	    return mImageMemory;
-    }
-    else
-    {
-        Log(lInfo) << "Fetching from server";
-
-        try
-        {
-	    	mC->Get(getURLC(), mImageMemory);
-
-            //Save to cache (in a thread)
-            if(createFolder(getFilePath(getImageLocalPathAndFileName())))
-            {
-                mImageMemory->SaveToFile(getImageLocalPathAndFileName().c_str());
-            }
-            return mImageMemory;
-        }
-        catch(...)
-        {
-        	Log(lError) << "There was an uncaught ERROR!";
-            delete mImageMemory;
-            mImageMemory = NULL;
-        }
-    }
 }
 
 TMemoryStream* RenderClient::getImageMemory()
@@ -221,7 +192,7 @@ TMemoryStream* RenderClient::reloadImage(int z)
 		mImageMemory = new TMemoryStream();
     }
 	//First check if we already is having this data
-    Log(lInfo) << "Fetching from server";
+    Log(lDebug3) << "Reloading Image";
 
     try
     {
@@ -368,6 +339,7 @@ string RenderClient::getURLForZ(int z)
     sUrl << "/jpeg-image";
 	sUrl << "?minIntensity="<<mMinIntensity;
 	sUrl << "&maxIntensity="<<mMaxIntensity;
+
 	return sUrl.str();
 }
 
@@ -420,7 +392,7 @@ vector<int> RenderClient::getValidZs()
     sUrl << "/stack/"	<<	mProject.getCurrentStackName();
     sUrl <<"/zValues";
 
-    Log(lInfo) << "Fetching from server using URL: "<<sUrl.str();
+    Log(lDebug3) << "Get Valid Z: "<<sUrl.str();
 
     try
     {
@@ -431,7 +403,6 @@ vector<int> RenderClient::getValidZs()
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
             string s = stdstr(zstrings->DataString);
-    //        Log(lInfo) << "Response: "<<s;
             s = stripCharacters("[]", s);
             zs.appendList(StringList(s,','));
         }
@@ -454,9 +425,22 @@ vector<int> RenderClient::getValidZs()
     }
 }
 
+bool RenderClient::renameStack(const string& currentStackName, const string& newName)
+{
+	stringstream sUrl;
+    sUrl << mBaseURL;
+    sUrl << "/owner/"    << mProject.getProjectOwner();
+    sUrl << "/project/" << 	mProject.getProject();
+    sUrl << "/stack/"	<<	mProject.getCurrentStackName();
+
+    TStringStream* strings = new TStringStream;;
+//    mC->Put()
+
+}
+
 RenderBox RenderClient::parseBoundsResponse(const string& _s)
 {
-	RenderBox bounds; //XminXMaxYMinYMax
+	RenderBox bounds;
     string s = stripCharacters("{}", _s);
     StringList l(s, ',');
     if(l.size() == 6)
@@ -494,7 +478,8 @@ StringList RenderClient::getStacksForProject(const string& owner, const string& 
     {
         string s = stdstr(zstrings->DataString);
         s = stripCharacters("\"[]}", s);
-        Log(lInfo) << s;
+        Log(lDebug3) << "Got Render Data String: " << s;
+
         //Parse result
         StringList t1(s,'{');
 

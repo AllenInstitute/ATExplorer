@@ -120,7 +120,7 @@ void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
 
 	if(p->loadXMLFromFile(f))
     {
-	    ProjFileLbl->Caption = string("Project File: " + f).c_str();
+//	    ProjFileLbl->Caption = string("Project File: " + f).c_str();
     	Log(lInfo) << "Loaded project file: "<<f;
         p->open();
     }
@@ -136,7 +136,7 @@ int __fastcall TMainForm::closeProject()
 	    ATExplorerProject* p = getCurrentVCProject();
         p->close();
         Log(lInfo) << "Closed project: "<<p->getFileName();
-   	    ProjFileLbl->Caption = string("Project File: None").c_str();
+//   	    ProjFileLbl->Caption = string("Project File: None").c_str();
         delete p;
         p = NULL;
         return mrOk;
@@ -166,7 +166,7 @@ int __fastcall TMainForm::saveProjectAs()
         p->setFileName(fName);
         p->save();
         Log(lInfo) << "Saved project: "<<p->getFileName();
-	    ProjFileLbl->Caption = string("Project File: " + fName).c_str();
+//	    ProjFileLbl->Caption = string("Project File: " + fName).c_str();
         return mrOk;
     }
     else

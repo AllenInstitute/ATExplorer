@@ -6,7 +6,9 @@ echo "Arg2: "$2
 echo "Arg3: "$3
 echo "Arg4: "$4
 
+#BUILD_FOLDER=`cygpath $1`
 BUILD_FOLDER=$1
+#APP_RELEASES=`cygpath $2`
 APP_RELEASES=$2
 OUTPUTFILENAME=$3
 BDSCOMMONDIR=$4
@@ -18,12 +20,12 @@ echo "BDSCOMMONDIR: "$BDSCOMMONDIR
 
 #Extract version
 VERSION=`cat ../VERSION.txt | tr -d '\r'`
-APPNAME=ATExplorer
+APPNAME=VolumeCreator
 echo "Copy stuff"
 mkdir $APP_RELEASES/$APPNAME
 
 AppReleaseFolder=$APP_RELEASES/$APPNAME
-SRC_DIR="./../../source"
+SRC_DIR="."
 
 #Borland Packages and dll's
 #CG_REDIST="/cygdrive/c/CodeGear/Tokyo/bin"

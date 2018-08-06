@@ -34,20 +34,14 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
-        <Cfg_2_Win32>true</Cfg_2_Win32>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.5.5.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>None</Manifest_File>
-        <ILINK_LibraryPath>..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;Frames;Core;Forms;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>P:\libs\dsl\VCL\Frames\;..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>P:\libs\dsl\VCL\Frames\;..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;Frames;Core;Forms;$(IncludePath)</IncludePath>
         <ProjectType>CppVCLApplication</ProjectType>
-        <AllPackageLibs>rtl.lib;vcl.lib;bcbie.lib;vclie.lib;vclx.lib;vclactnband.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;vclimg.lib;sbridge250.lib;dslVCLComponents.lib;dslVCLVisualComponents.lib;DcefBrowser.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;bcbie.lib;vclie.lib;vclx.lib;vclactnband.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;vclimg.lib;sbridge250.lib;dslVCLComponents.lib;dslVCLVisualComponents.lib;DcefBrowser.lib;bcbsmp.lib;RaizeComponentsVcl.lib</AllPackageLibs>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <_TCHARMapping>wchar_t</_TCHARMapping>
@@ -65,7 +59,7 @@
         <Custom_Styles>Carbon|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Carbon.vsf;Glow|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Glow.vsf;&quot;Iceberg Classico|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\IcebergClassico.vsf&quot;;Luna|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Luna.vsf;TabletDark|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\TabletDark.vsf</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <ILINK_LibraryPath>C:\Program Files (x86)\ImageMagick-7.0.7-Q16\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>P:\redist\Imagemagic\;C:\Program Files (x86)\ImageMagick-7.0.7-Q16\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <PackageImports>CSKGenerator;fs17;frx17;bindcompfmx;DBXSqliteDriver;vcldbx;RaizeComponentsTrialVcl;HsBarcode2DRun;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;TeeDB;bindcomp;inetdb;vclib;inetdbbde;DBXInterBaseDriver;Tee;DataSnapCommon;xmlrtl;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;MetropolisUILiveTile;soaprtl;vclactnband;bindengine;vcldb;bindcompdbx;vcldsnap;bindcompvcl;FMXTee;TeeUI;DbxDevartSQLiteDriver170;vclie;HsBarcode1DRun;RaizeComponentsTrialVclDb;vcltouch;bcbsmp;websnap;CustomIPTransport;vclribbon;dsnap;IndyIPServer;IndyCore;vcl;fmxase;IndyIPCommon;CloudService;dsnapcon;FmxTeeUI;frxDB17;inet;fsDB17;fmxobj;vclx;frxe17;inetdbxpress;webdsnap;fmxdae;bdertl;dbexpress;adortl;bcbie;IndyIPClient;$(PackageImports)</PackageImports>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
@@ -101,7 +95,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <BCC_PCHInject>ATExplorerPCH1.h</BCC_PCHInject>
-        <VerInfo_Keys>CompanyName=Allen Institute for Brain Science;FileVersion=0.6.2.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=0.5.5;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Allen Institute for Brain Science;FileVersion=0.6.4.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=0.5.5;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <Icon_MainIcon>ATExplorer_Icon.ico</Icon_MainIcon>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
@@ -109,25 +103,20 @@
         <PostBuildEvent><![CDATA[$(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)
 $(PostBuildEvent)]]></PostBuildEvent>
         <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
-        <Defines>POCO_STATIC;CURL_STATICLIB;$(Defines)</Defines>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_LibraryPath>$(DEBUG_BCC32)\lib;P:\libs\DcefBrowser\Source;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>$(DEBUG_BCC32)\include;C:\Program Files (x86)\ImageMagick-7.0.7-Q16\include;P:\libs\DcefBrowser\Source;$(IncludePath)</IncludePath>
+        <IncludePath>$(DEBUG_BCC32)\include;P:\libs\DcefBrowser\Source;$(IncludePath)</IncludePath>
         <Debugger_DebugSourcePath>P:\libs\dsl\VCL\Common\;P:\libs\DcefBrowser\Source\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <BT_BuildType>Debug</BT_BuildType>
-        <LinkPackageStatics>sbridge250.lib;dslVCLComponents.lib;dslVCLVisualComponents.lib;DcefBrowser.lib</LinkPackageStatics>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;bcbie.bpi;vclie.bpi;vclx.bpi;vclactnband.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;vclimg.bpi</LinkPackageImports>
-        <VerInfo_Release>2</VerInfo_Release>
-        <UWP_CppLogo44>..\resources\logo.png</UWP_CppLogo44>
-        <UWP_CppLogo150>..\resources\logo.png</UWP_CppLogo150>
+        <LinkPackageStatics>sbridge250.lib;dslVCLComponents.lib;dslVCLVisualComponents.lib;DcefBrowser.lib;RaizeComponentsVcl.lib</LinkPackageStatics>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;bcbie.bpi;vclie.bpi;vclx.bpi;vclactnband.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;vclimg.bpi;bcbsmp.bpi</LinkPackageImports>
+        <VerInfo_Release>4</VerInfo_Release>
+        <_TCHARMapping>char</_TCHARMapping>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="ATExplorer.cpp">
@@ -151,6 +140,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atFetchImageThread.h</DependentOn>
             <BuildOrder>13</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Core\atImageGrid.cpp">
+            <DependentOn>..\..\source\Core\atImageGrid.h</DependentOn>
+            <BuildOrder>32</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Core\atImageProcessingFunctions.cpp">
             <DependentOn>..\..\source\Core\atImageProcessingFunctions.h</DependentOn>
             <BuildOrder>14</BuildOrder>
@@ -158,6 +151,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="..\..\source\Core\atProjectManager.cpp">
             <DependentOn>..\..\source\Core\atProjectManager.h</DependentOn>
             <BuildOrder>26</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Core\atRemoteScripter.cpp">
+            <BuildOrder>32</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atRenderBox.cpp">
             <DependentOn>..\..\source\Core\atRenderBox.h</DependentOn>
@@ -202,9 +198,23 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Forms\TSelectZsForm.h</DependentOn>
             <BuildOrder>21</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TAffineTransformationFrame.cpp">
+            <Form>AffineTransformationFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TAffineTransformationFrame.h</DependentOn>
+            <BuildOrder>30</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Frames\TImageControlsFrame.cpp">
             <FormType>dfm</FormType>
             <BuildOrder>27</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp">
+            <Form>RenderPythonRemoteScriptFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TRenderPythonRemoteScriptFrame.h</DependentOn>
+            <BuildOrder>28</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\ImageMagick.cpp">
             <BuildOrder>19</BuildOrder>
@@ -234,11 +244,22 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
             <BuildOrder>11</BuildOrder>
         </CppCompile>
+        <None Include="P:\libs\CEF4Delphi\packages\CEF4Delphi.dproj"/>
+        <CppCompile Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp">
+            <Form>LogMemoFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.h</DependentOn>
+            <BuildOrder>29</BuildOrder>
+        </CppCompile>
+        <FormResources Include="..\..\source\Frames\TAffineTransformationFrame.dfm"/>
+        <FormResources Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.dfm"/>
+        <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TOverlayedImage.dfm"/>
         <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
         <FormResources Include="..\..\source\TMainForm.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
+        <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -349,6 +370,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="P:\libs\CEF4Delphi\packages\CEF4Delphi.dproj" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="p:\build\bin\ATExplorer.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ATExplorer.exe</RemoteName>
@@ -365,7 +392,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\resources\logo.png" Configuration="Debug" Class="UWP_CppLogo44">
+                <DeployFile Configuration="Debug" Class="UWP_CppLogo44">
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
                         <RemoteName>Logo44x44.png</RemoteName>

@@ -13,8 +13,12 @@ class RenderProject : public ATExplorerProject
 {
 	public:
 			    	                    RenderProject(const string& name, const string& owner, const string& project, const string& stack);
+
+                                        //!Gotta think about this..
+                                        RenderProject(const RenderProject& rp);
+        RenderProject&                  operator=(const RenderProject& rhs);
+
 		void							setupForStack(const string& owner, const string& project, const string& stack);
-//		string							getProjectName(){return mProjectName;}
 
 		string							getProject(){return mProject;}
 		string							getProjectOwner(){return mOwner;}

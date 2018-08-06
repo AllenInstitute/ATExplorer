@@ -12,11 +12,14 @@
 using namespace dsl;
 
 using std::string;
+USEFORM("..\..\source\Frames\TAffineTransformationFrame.cpp", AffineTransformationFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp", RenderPythonRemoteScriptFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Forms\TImageForm.cpp", ImageForm);
 USEFORM("..\..\source\Forms\TOverlayedImage.cpp", OverlayedImage);
 USEFORM("..\..\source\Forms\TSelectZsForm.cpp", SelectZsForm);
-USEFORM("..\..\source\Forms\TImageForm.cpp", ImageForm);
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
 USEFORM("P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
+USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 extern string		gAppName					= "ATExplorer";
 extern string       gLogFileName                = "ATExplorer.log";
@@ -59,6 +62,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TMainForm), &MainForm);
 		Application->CreateForm(__classid(TSSHFrame), &SSHFrame);
 		Application->CreateForm(__classid(TOverlayedImage), &OverlayedImage);
+		Application->CreateForm(__classid(TLogMemoFrame), &LogMemoFrame);
 		Application->Run();
 		writeStringToRegistry(gApplicationRegistryRoot, "", "Theme",  gApplicationStyle);
 	}
@@ -87,12 +91,12 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 #pragma comment(lib, "dslVCLVisualComponents.bpi")
 
 #pragma comment(lib, "atFoundation.lib")
-
-
+#pragma comment(lib, "atVCLCommon.lib")
+#pragma comment(lib, "CORE_RL_MagickWand_B.lib")
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "tinyxml2.lib")
 #pragma comment(lib, "libcurl_imp.lib")
-#pragma comment(lib, "Ws2_32.lib")
+//#pragma comment(lib, "Ws2_32.lib")
 
 
 

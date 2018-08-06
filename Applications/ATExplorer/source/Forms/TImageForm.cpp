@@ -28,7 +28,7 @@ bool TImageForm::load(const string& fName)
     stream->LoadFromFile(fName.c_str());
     stream->Position = 0;
     Image1->Picture->Graphic->LoadFromStream(stream);
-    Image1->Repaint();
+    //Image1->Repaint();
     delete stream;
     return true;
 }

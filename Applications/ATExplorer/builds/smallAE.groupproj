@@ -3,15 +3,6 @@
         <ProjectGuid>{D5D51B14-8ED2-4DFA-9A66-B5F682AEEF42}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="P:\libs\atapi\builds\atCore\atCore.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\atapi\builds\atSounds\atSounds.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\atapi\builds\atDataBase\atDatabase.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="P:\libs\atapi\builds\atVCLCommon\atVCLCommon.cbproj">
             <Dependencies/>
         </Projects>
@@ -24,9 +15,6 @@
         <Projects Include="P:\libs\atapi\builds\atVCLVisualComponents\atVCLVisualComponents.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="ATExplorer\ATExplorer.cbproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,33 +23,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="atCore">
-        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj"/>
-    </Target>
-    <Target Name="atCore:Clean">
-        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atCore:Make">
-        <MSBuild Projects="P:\libs\atapi\builds\atCore\atCore.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="atSounds">
-        <MSBuild Projects="P:\libs\atapi\builds\atSounds\atSounds.cbproj"/>
-    </Target>
-    <Target Name="atSounds:Clean">
-        <MSBuild Projects="P:\libs\atapi\builds\atSounds\atSounds.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atSounds:Make">
-        <MSBuild Projects="P:\libs\atapi\builds\atSounds\atSounds.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="atDatabase">
-        <MSBuild Projects="P:\libs\atapi\builds\atDataBase\atDatabase.cbproj"/>
-    </Target>
-    <Target Name="atDatabase:Clean">
-        <MSBuild Projects="P:\libs\atapi\builds\atDataBase\atDatabase.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atDatabase:Make">
-        <MSBuild Projects="P:\libs\atapi\builds\atDataBase\atDatabase.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="atVCLCommon">
         <MSBuild Projects="P:\libs\atapi\builds\atVCLCommon\atVCLCommon.cbproj"/>
     </Target>
@@ -98,23 +59,14 @@
     <Target Name="atVCLVisualComponents:Make">
         <MSBuild Projects="P:\libs\atapi\builds\atVCLVisualComponents\atVCLVisualComponents.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ATExplorer">
-        <MSBuild Projects="ATExplorer\ATExplorer.cbproj"/>
-    </Target>
-    <Target Name="ATExplorer:Clean">
-        <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ATExplorer:Make">
-        <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="atCore;atSounds;atDatabase;atVCLCommon;atVCLComponents;atVCLDataModules;atVCLVisualComponents;ATExplorer"/>
+        <CallTarget Targets="atVCLCommon;atVCLComponents;atVCLDataModules;atVCLVisualComponents"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="atCore:Clean;atSounds:Clean;atDatabase:Clean;atVCLCommon:Clean;atVCLComponents:Clean;atVCLDataModules:Clean;atVCLVisualComponents:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="atVCLCommon:Clean;atVCLComponents:Clean;atVCLDataModules:Clean;atVCLVisualComponents:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="atCore:Make;atSounds:Make;atDatabase:Make;atVCLCommon:Make;atVCLComponents:Make;atVCLDataModules:Make;atVCLVisualComponents:Make;ATExplorer:Make"/>
+        <CallTarget Targets="atVCLCommon:Make;atVCLComponents:Make;atVCLDataModules:Make;atVCLVisualComponents:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

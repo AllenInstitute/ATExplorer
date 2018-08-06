@@ -1,3 +1,17 @@
+Release 0.6.4 (Aug 6)
+=======================
+* Added ability to add transforms to render stacks, e.g. affine rotation
+* Added image grid control
+* Added custom image rotation code using GDI
+
+Release 0.6.3 (July 27)
+=======================
+* Added an embedded chromium control for ndviz
+* Adding code for remote scripting
+* Removed creation of terrafly data
+* Added a gitattributes file to preserve line endings build script
+* Reorganising visual controls
+
 Release 0.6.2 (April 10)
 =======================
 * Fixed flip image left and right (ImageMagic stuff).

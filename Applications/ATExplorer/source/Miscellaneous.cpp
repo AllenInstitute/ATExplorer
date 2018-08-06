@@ -15,12 +15,6 @@ extern string gAppName;
 extern string gApplicationStyle;
 extern string gRestartMutexName;
 
-void __fastcall TMainForm::logMsg()
-{
-    infoMemo->Lines->Add(vclstr(mLogFileReader.getData()));
-    mLogFileReader.purge();
-}
-
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::About1Click(TObject *Sender)
 {
@@ -39,7 +33,6 @@ void __fastcall TMainForm::FormKeyDown(TObject *Sender, WORD &Key, TShiftState S
 
 void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 {
-
    TMenuItem* menuItem = dynamic_cast<TMenuItem*>(Sender);
     if(!menuItem)
     {
@@ -76,21 +69,15 @@ void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 void __fastcall TMainForm::mBrowseForCacheFolderClick(TObject *Sender)
 {
 	//Browse for folder
-	string res = browseForFolder(mImageCacheFolderE->getValue());
+	string res = browseForFolder(ImageCacheFolderE->getValue());
     if(folderExists(res))
     {
-		mImageCacheFolderE->setValue(res);
+		ImageCacheFolderE->setValue(res);
     }
     else
     {
     	Log(lWarning) << "Cache folder was not set..";
     }
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::mCLearMemoClick(TObject *Sender)
-{
-	infoMemo->Clear();
 }
 
 //---------------------------------------------------------------------------
@@ -114,25 +101,6 @@ void __fastcall TMainForm::CopyValidZs1Click(TObject *Sender)
         }
     }
 	sendToClipBoard(zs.str());
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::mCloseBottomPanelBtnClick(TObject *Sender)
-{
-	mBottomPanel->Visible = false;
-    mShowBottomPanelBtn->Top = StatusBar1->Top - 1;
-    Splitter2->Visible = false;
-    mShowBottomPanelBtn->Visible = true;
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::mShowBottomPanelBtnClick(TObject *Sender)
-{
-	mBottomPanel->Visible = true;
-    Splitter2->Visible = true;
-    mShowBottomPanelBtn->Visible = false;
-    Splitter2->Top = mBottomPanel->Top - 1;
-    StatusBar1->Top = mBottomPanel->Top + mBottomPanel->Height + 1;
 }
 
 //---------------------------------------------------------------------------
@@ -287,8 +255,8 @@ void __fastcall TMainForm::ParseNDVIZURL1Click(TObject *Sender)
 	StackCB->ItemIndex = i;
     StackCB->OnChange(NULL);
 
-    XCoord->setValue(x);
-    YCoord->setValue(y);
+    XCoordE->setValue(x);
+    YCoordE->setValue(y);
 
     i = mZs->Items->IndexOf(dsl::toString(z).c_str());
     if(i < 0)
@@ -311,10 +279,9 @@ void __fastcall TMainForm::CreateNDVIZURL1Click(TObject *Sender)
 string TMainForm::createNDVIZURL()
 {
 	string URL("http://ibs-forrestc-ux1.corp.alleninstitute.org:8001/#!{'layers':{'STACK':{'type':'image'_'source':'render://http://ibs-forrestc-ux1.corp.alleninstitute.org/OWNER/PROJECT/STACK'_'max':MAX_INTENSITY}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[X_CENTER_Y_CENTER_Z_VALUE]}}_'zoomFactor':ZOOM_FACTOR}}");
-    Log(lInfo) << URL;
 
-    double xCenter = XCoord->getValue() + Width->getValue()/2.;
-	double yCenter = YCoord->getValue() + Height->getValue()/2.;
+    double xCenter = XCoordE->getValue() + Width->getValue()/2.;
+	double yCenter = YCoordE->getValue() + Height->getValue()/2.;
     URL = replaceSubstring("STACK", 	        stdstr(StackCB->Text), 	                                URL);
     URL = replaceSubstring("OWNER", 	        stdstr(OwnerCB->Text), 	                                URL);
     URL = replaceSubstring("PROJECT", 	        stdstr(ProjectCB->Text), 	                                URL);
@@ -323,26 +290,15 @@ string TMainForm::createNDVIZURL()
     URL = replaceSubstring("Y_CENTER", 			dsl::toString(yCenter), 					                URL);
     URL = replaceSubstring("Z_VALUE", 			dsl::toString(getCurrentZ()), 	 			                URL);
     URL = replaceSubstring("ZOOM_FACTOR", 		dsl::toString(0.5*(1.0/mScaleE->getValue())), 	 			URL);
+    Log(lDebug5) <<"NDVIZ url: "<< URL;
 	return URL;
 }
 
 void __fastcall TMainForm::OpenInNDVIZBtnClick(TObject *Sender)
 {
-	TButton* b = dynamic_cast<TButton*>(Sender);
-
-    if(b == OpenInNDVIZBtn)
-    {
-	    string   url(createNDVIZURL());
-		//ShellExecuteA(0,0, "chrome.exe", url.c_str(),0,SW_SHOWMAXIMIZED);
-        DcefBrowser1->Load(url.c_str());
-		return;
-    }
-
-    if(b == OpenFromNDVIZBtn)
-    {
-		ParseNDVIZURL1Click(NULL);
-		return;
-    }
+    string   url(createNDVIZURL());
+    DcefBrowser1->Load(url.c_str());
+	return;
 }
 
 
