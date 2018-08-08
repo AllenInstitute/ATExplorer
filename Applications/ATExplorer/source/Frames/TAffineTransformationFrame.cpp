@@ -46,8 +46,6 @@ void __fastcall TAffineTransformationFrame::onSSHData(const string& data)
         {
             Log(lInfo) << "Processing completed";
             //Send message to application that Affine processing completed, and do what needs to be done
-
-
             SendTextMessage(Application->MainForm->Handle,  FINISHED_RENDER_ROTATE, 0, "Finished");
         }
     }

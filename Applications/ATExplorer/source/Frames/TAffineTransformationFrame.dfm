@@ -37,9 +37,15 @@ inherited AffineTransformationFrame: TAffineTransformationFrame
       object ZLbl: TIntLabel [0]
         Left = 72
         Top = 325
-        Width = 19
+        Width = 10
         Height = 13
-        Caption = 'ZLbl'
+        Caption = '-1'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         Value = -1
         TheFont.Charset = DEFAULT_CHARSET
         TheFont.Color = clWindowText
@@ -47,27 +53,18 @@ inherited AffineTransformationFrame: TAffineTransformationFrame
         TheFont.Name = 'Tahoma'
         TheFont.Style = []
       end
-      object AppendToCurrentStackCB: TPropertyCheckBox [1]
+      object TranslateYE: TIntegerLabeledEdit [1]
         Left = 10
-        Top = 175
-        Width = 95
-        Height = 41
-        Caption = 'Append Transform to Current Stack'
-        TabOrder = 0
-        WordWrap = True
-      end
-      object RotationE: TFloatLabeledEdit [2]
-        Left = 10
-        Top = 134
+        Top = 86
         Width = 97
         Height = 21
-        EditLabel.Width = 70
+        EditLabel.Width = 92
         EditLabel.Height = 13
-        EditLabel.Caption = 'Rotation (deg)'
-        TabOrder = 1
+        EditLabel.Caption = 'Translate Y (pixels)'
+        TabOrder = 3
         Text = '0'
       end
-      object TranslateXE: TIntegerLabeledEdit [3]
+      object TranslateXE: TIntegerLabeledEdit [2]
         Left = 10
         Top = 38
         Width = 97
@@ -78,16 +75,25 @@ inherited AffineTransformationFrame: TAffineTransformationFrame
         TabOrder = 2
         Text = '0'
       end
-      object TranslateYE: TIntegerLabeledEdit [4]
+      object RotationE: TFloatLabeledEdit [3]
         Left = 10
-        Top = 86
+        Top = 134
         Width = 97
         Height = 21
-        EditLabel.Width = 92
+        EditLabel.Width = 70
         EditLabel.Height = 13
-        EditLabel.Caption = 'Translate Y (pixels)'
-        TabOrder = 3
+        EditLabel.Caption = 'Rotation (deg)'
+        TabOrder = 1
         Text = '0'
+      end
+      object AppendToCurrentStackCB: TPropertyCheckBox [4]
+        Left = 10
+        Top = 175
+        Width = 95
+        Height = 41
+        Caption = 'Append Transform to Current Stack'
+        TabOrder = 0
+        WordWrap = True
       end
       inherited ExecuteBtn: TButton
         Left = 6
