@@ -52,11 +52,11 @@ void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 	TRegistryForm::writeToRegistry();
 
     DcefBrowser1->Visible = false;
-
 	TReplaceFlags rFlags(rfIgnoreCase|rfReplaceAll);
 	String styleName = StringReplace(menuItem->Caption, "&", "", rFlags);
 	TStyleManager::SetStyle(styleName);
     DcefBrowser1->Visible = true;
+
 	//Check the menu item
 	menuItem->Checked = (TStyleManager::ActiveStyle->Name == styleName) ? true : false;
 
@@ -285,7 +285,7 @@ string TMainForm::createNDVIZURL()
     URL = replaceSubstring("STACK", 	        stdstr(StackCB->Text), 	                                URL);
     URL = replaceSubstring("OWNER", 	        stdstr(OwnerCB->Text), 	                                URL);
     URL = replaceSubstring("PROJECT", 	        stdstr(ProjectCB->Text), 	                                URL);
-    URL = replaceSubstring("MAX_INTENSITY", 	dsl::toString(2.0 * (MaxIntensity->getValue()/65535.0)), 	URL);
+    URL = replaceSubstring("MAX_INTENSITY", 	dsl::toString(2.0 * (MaxIntensityE->getValue()/65535.0)), 	URL);
     URL = replaceSubstring("X_CENTER", 			dsl::toString(xCenter), 					                URL);
     URL = replaceSubstring("Y_CENTER", 			dsl::toString(yCenter), 					                URL);
     URL = replaceSubstring("Z_VALUE", 			dsl::toString(getCurrentZ()), 	 			                URL);

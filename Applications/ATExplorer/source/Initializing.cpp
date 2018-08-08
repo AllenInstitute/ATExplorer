@@ -112,8 +112,8 @@ bool TMainForm::setupAndReadIniParameters()
     mGeneralProperties->add((BaseProperty*)  &YCoordE->getProperty()->setup(	        "VIEW_Y_COORD",    	                0));
     mGeneralProperties->add((BaseProperty*)  &Width->getProperty()->setup(		        "VIEW_WIDTH", 		                0));
     mGeneralProperties->add((BaseProperty*)  &Height->getProperty()->setup(	        	"VIEW_HEIGHT", 		                0));
-    mGeneralProperties->add((BaseProperty*)  &MinIntensity->getProperty()->setup(	    "MIN_INTENSITY", 		            0));
-    mGeneralProperties->add((BaseProperty*)  &MaxIntensity->getProperty()->setup(	    "MAX_INTENSITY", 		            65535));
+    mGeneralProperties->add((BaseProperty*)  &MinIntensityE->getProperty()->setup(	    "MIN_INTENSITY", 		            0));
+    mGeneralProperties->add((BaseProperty*)  &MaxIntensityE->getProperty()->setup(	    "MAX_INTENSITY", 		            65535));
 
 	mGeneralProperties->add((BaseProperty*)  &ImageCacheFolderE->getProperty()->setup(	"IMAGE_CACHE_FOLDER",  				"C:\\ImageCache"));
 
@@ -132,8 +132,8 @@ bool TMainForm::setupAndReadIniParameters()
     YCoordE->update();
     Width->update();
     Height->update();
-	MinIntensity->update();
-	MaxIntensity->update();
+	MinIntensityE->update();
+	MaxIntensityE->update();
 	ImageCacheFolderE->update();
     VolumesFolder->update();
     SubFolder1->update();

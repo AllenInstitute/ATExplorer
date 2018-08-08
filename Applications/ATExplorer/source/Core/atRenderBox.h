@@ -1,16 +1,18 @@
 #ifndef atRenderBoxH
 #define atRenderBoxH
 #include <cstdlib>
+#include <string>
 //---------------------------------------------------------------------------
 
 using std::abs;
+using std::string;
 
 //!TODO, write code to update the box when something changes..
 class RenderBox
 {
 	public:
 	    								RenderBox(double x = 0, double y = 0, double width = 0, double height = 0, double scale = 1);
-
+	    								RenderBox(const string& str);
 		void							setX1(double x){mX1 = x;}
         double							getX1(){return mX1;}
 		void							setX2(double x){mWidth = abs(mX1 - x);}

@@ -140,7 +140,7 @@ bool ATExplorerProject::save(const string& fName)
     return saveToFile(fName);
 }
 
-bool ATExplorerProject::open()
+bool ATExplorerProject::open(const string& fname)
 {
     try
     {

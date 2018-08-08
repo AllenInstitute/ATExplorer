@@ -79,6 +79,7 @@ void FetchImageThread::worker()
 
         //Check cache first. if already in cache, don't fetch
         string outFilePathANDFileName = getImageCacheFileNameAndPathFromURL(url, mCacheRootFolder);
+
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName) && f.getSize() > 200)
         {
@@ -143,7 +144,7 @@ void FetchImageThread::worker()
                     ofstream of( outFilePathANDFileName.c_str(), std::ofstream::binary);
                     of.write(&chunk.memory[0], chunk.size);
 
-                    Log(lDebug3) <<  (long)chunk.size << " bytes retrieved\n";
+                    Log(lDebug) <<  (long)chunk.size << " bytes retrieved\n";
                     of.close();
 
                     mRenderClient.getImageMemory()->LoadFromFile(outFilePathANDFileName.c_str());
@@ -168,7 +169,7 @@ void FetchImageThread::worker()
         mIsTimeToDie = true;
 	}
 
-  	Log(lDebug4) << "Finished Image fetching thread..";
+  	Log(lInfo) << "Finished Image Fetching Thread.";
     mIsRunning = false;
     mIsFinished = true;
 }

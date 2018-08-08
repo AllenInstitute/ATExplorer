@@ -39,7 +39,7 @@ $SRC_DIR/*.ico
 $BUILD_FOLDER/$OUTPUTFILENAME                       
 
 #DS Binaries
-$BUILD_FOLDER/dslFoundation.dll                         
+$BUILD_FOLDER/*.dll                         
 $BUILD_FOLDER/dslVCLCommon.dll                      
 $BUILD_FOLDER/atCore.dll                      
 $BUILD_FOLDER/atResources.dll                       
@@ -50,6 +50,16 @@ $BUILD_FOLDER/poco_foundation.dll
 $BUILD_FOLDER/tinyxml2.dll
 $BUILD_FOLDER/sqlite.dll
 $BUILD_FOLDER/navusbapi.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.Benchtop.StepperMotor.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.DeviceManager.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.DeviceManagerCLI.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.DeviceManagerUI.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.IntegratedStepperMotors.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.TCube.BrushlessMotor.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.TCube.DCServo.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.TCube.StepperMotor.dll
+$BUILD_FOLDER/Thorlabs.MotionControl.TDIEngine.dll
+
 $BDSCOMMONDIR/BPL/dslVCLComponents.bpl          
 $BDSCOMMONDIR/BPL/dslVCLVisualComponents.bpl    
 $BDSCOMMONDIR/BPL/atVCLComponents.bpl               

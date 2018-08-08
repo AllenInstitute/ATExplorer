@@ -212,13 +212,13 @@ TMemoryStream* RenderClient::reloadImage(int z)
     return mImageMemory;
 }
 
-RenderBox RenderClient::getBoxForZ(int z)
+RenderBox RenderClient::getLayerBoundsForZ(int z)
 {
     stringstream sUrl;
     sUrl << mBaseURL;
     sUrl << "/owner/" 		<< mProject.getProjectOwner();
     sUrl << "/project/" 	<< mProject.getProject();
-    sUrl << "/stack/"		<<mProject.getCurrentStackName();
+    sUrl << "/stack/"		<<mProject.getSelectedStackName();
     sUrl <<"/z/"<<z   	 	<<"/bounds";
 
     Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
@@ -250,7 +250,7 @@ RenderBox RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
         sUrl << mBaseURL;
         sUrl << "/owner/" 		<< mProject.getProjectOwner();
         sUrl << "/project/" << mProject.getProject();
-        sUrl << "/stack/"	<<mProject.getCurrentStackName()<<"/z/"<<zs[z]<<"/bounds";
+        sUrl << "/stack/"	<<mProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
 
         //	    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
         TStringStream* zstrings = new TStringStream;;
@@ -333,7 +333,7 @@ string RenderClient::getURLForZ(int z)
     sUrl << mBaseURL;
     sUrl << "/owner/" 		<< mProject.getProjectOwner();
     sUrl << "/project/" << mProject.getProject();
-    sUrl << "/stack/"	<<mProject.getCurrentStackName();
+    sUrl << "/stack/"	<<mProject.getSelectedStackName();
     sUrl << "/z/"<<z;
     sUrl << "/box/"<<mRenderBox.getX1()<<","<<mRenderBox.getY1() << "," << mRenderBox.getWidth() << ","<<mRenderBox.getHeight() << ","<<mScale;
     sUrl << "/jpeg-image";
@@ -351,7 +351,7 @@ string RenderClient::getURL()
     sUrl << mBaseURL;
     sUrl << "/owner/" 	<< mProject.getProjectOwner();
     sUrl << "/project/" << mProject.getProject();
-    sUrl << "/stack/"	<<mProject.getCurrentStackName();
+    sUrl << "/stack/"	<<mProject.getSelectedStackName();
     sUrl << "/z/"<<mZ;
     sUrl << "/box/"<<round(mRenderBox.getX1())<<","<<round(mRenderBox.getY1()) << "," << round(mRenderBox.getWidth()) << ","<<round(mRenderBox.getHeight()) << ","<<mScale;
     sUrl << "/jpeg-image";
@@ -389,7 +389,7 @@ vector<int> RenderClient::getValidZs()
     sUrl << mBaseURL;
     sUrl << "/owner/"    << mProject.getProjectOwner();
     sUrl << "/project/" << 	mProject.getProject();
-    sUrl << "/stack/"	<<	mProject.getCurrentStackName();
+    sUrl << "/stack/"	<<	mProject.getSelectedStackName();
     sUrl <<"/zValues";
 
     Log(lDebug3) << "Get Valid Z: "<<sUrl.str();
@@ -431,7 +431,7 @@ bool RenderClient::renameStack(const string& currentStackName, const string& new
     sUrl << mBaseURL;
     sUrl << "/owner/"    << mProject.getProjectOwner();
     sUrl << "/project/" << 	mProject.getProject();
-    sUrl << "/stack/"	<<	mProject.getCurrentStackName();
+    sUrl << "/stack/"	<<	mProject.getSelectedStackName();
 
     TStringStream* strings = new TStringStream;;
 //    mC->Put()

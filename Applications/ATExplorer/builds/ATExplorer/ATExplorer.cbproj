@@ -38,8 +38,8 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.5.5.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>None</Manifest_File>
-        <ILINK_LibraryPath>P:\libs\dsl\VCL\Frames\;..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>P:\libs\dsl\VCL\Frames\;..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;Frames;Core;Forms;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>P:\libs\dsl\Common\;P:\libs\dsl\VCL\Frames\;..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>P:\libs\dsl\Common\;P:\libs\dsl\VCL\Frames\;..\..\source\Frames\;..\..\source\Core\;..\..\source\;..\..\source\forms\;ATExplorer\;..\source\Frames\;..\source\Core\;..\source\;..\source\forms\;..\builds\;Frames\;Core\;forms\;P:\libs\atapi\source\vcl\frames\;Frames;Core;Forms;$(IncludePath)</IncludePath>
         <ProjectType>CppVCLApplication</ProjectType>
         <AllPackageLibs>rtl.lib;vcl.lib;bcbie.lib;vclie.lib;vclx.lib;vclactnband.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;vclimg.lib;sbridge250.lib;dslVCLComponents.lib;dslVCLVisualComponents.lib;DcefBrowser.lib;bcbsmp.lib;RaizeComponentsVcl.lib</AllPackageLibs>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -167,6 +167,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atRenderClientUtils.h</DependentOn>
             <BuildOrder>17</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Core\atRenderLayer.cpp">
+            <DependentOn>..\..\source\Core\atRenderLayer.h</DependentOn>
+            <BuildOrder>32</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Core\atRenderProject.cpp">
             <DependentOn>..\..\source\Core\atRenderProject.h</DependentOn>
             <BuildOrder>18</BuildOrder>
@@ -245,6 +249,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <BuildOrder>11</BuildOrder>
         </CppCompile>
         <None Include="P:\libs\CEF4Delphi\packages\CEF4Delphi.dproj"/>
+        <CppCompile Include="P:\libs\dsl\Common\dslNameValue.cpp">
+            <DependentOn>P:\libs\dsl\Common\dslNameValue.h</DependentOn>
+            <BuildOrder>33</BuildOrder>
+        </CppCompile>
         <CppCompile Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp">
             <Form>LogMemoFrame</Form>
             <FormType>dfm</FormType>
@@ -364,15 +372,22 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png" Configuration="Debug" Class="UWP_CppLogo44">
                     <Platform Name="Win32">
-                        <RemoteName>ATExplorer.tds</RemoteName>
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="P:\libs\CEF4Delphi\packages\CEF4Delphi.dproj" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>ATExplorer.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -387,15 +402,15 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile LocalName="$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png" Configuration="Debug" Class="UWP_CppLogo150">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Configuration="Debug" Class="UWP_CppLogo44">
-                    <Platform Name="Win32">
-                        <RemoteDir>Assets\</RemoteDir>
-                        <RemoteName>Logo44x44.png</RemoteName>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

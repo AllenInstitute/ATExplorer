@@ -42,7 +42,7 @@ class ATExplorerProject : public dsl::Project, public at::ATObject
 
 		virtual bool 							isModified();
         virtual bool                            save(const string& fName = dsl::gEmptyString);
-        virtual bool                            open();
+        virtual bool                            open(const string& fName = dsl::gEmptyString);
 
         virtual bool							addChild(ATExplorerProject* child);
 

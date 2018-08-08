@@ -160,7 +160,7 @@ void __fastcall TMainForm::ClickZ(TObject *Sender)
 
     //Fetch data using URL
 	mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
-	mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensity->getValue(), MaxIntensity->getValue());
+	mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
     {
@@ -380,7 +380,7 @@ void __fastcall TMainForm::resetButtonClick(TObject *Sender)
     {
 	    mROIHistory.clear();
 	    //mScaleE->setValue(0.05 * ScaleConstantE->getValue());
-        mCurrentRB = mRC.getBoxForZ(getCurrentZ());
+        mCurrentRB = mRC.getLayerBoundsForZ(getCurrentZ());
 
         XCoordE->setValue(mCurrentRB.getX1());
         YCoordE->setValue(mCurrentRB.getY1());
@@ -461,7 +461,7 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
         {
             int z = toInt(stdstr(mZs->Items->Strings[0]));
             RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), mCurrentOwner.getValue(), mCurrentProject.getValue(),
-                mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensity->getValue(), MaxIntensity->getValue(), ImageCacheFolderE->getValue());
+                mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue(), ImageCacheFolderE->getValue());
 
             //Create image URLs
             StringList urls;
@@ -703,8 +703,8 @@ void __fastcall TMainForm::IntensityKeyDown(TObject *Sender, WORD &Key, TShiftSt
     {
     	return;
     }
-    int minInt = MinIntensity->getValue();
-    int maxInt = MaxIntensity->getValue();
+    int minInt = MinIntensityE->getValue();
+    int maxInt = MaxIntensityE->getValue();
     if(mZs->ItemIndex == -1)
     {
         return;
@@ -1284,7 +1284,7 @@ LRESULT	TMainForm::onFinishedRenderRotate(TextMessage& msg)
 {
     string test = msg.lparam;
     CustomImageRotationE->setValue(0);
-    string currentStack = mRC.getCurrentProject().getCurrentStackName();
+    string currentStack = mRC.getCurrentProject().getSelectedStackName();
 
 	updateStacksForCurrentProject();
 //    StackCB->H

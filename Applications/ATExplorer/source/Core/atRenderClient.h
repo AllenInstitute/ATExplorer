@@ -48,6 +48,7 @@ class RenderClient
 
 							                        ~RenderClient();
 
+                                                    //Todo, init with RenderLayer object
 		bool							            init(				  	const string& owner 	    = gEmptyString,
                         	                        					  	const string& project 	    = gEmptyString,
                                                                           	const string& stack 	    = gEmptyString,
@@ -81,7 +82,7 @@ class RenderClient
         string							            getLocalCacheFolder(){return mLocalCacheFolder;}
         StringList						            getZs();
         vector<int>						            getValidZs();
-		RenderBox 						            getBoxForZ(int z);
+		RenderBox 						            getLayerBoundsForZ(int z);
         RenderBox						            getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RenderBox>				            getBounds();
         RenderProject&					            getProject(){return mProject;}
@@ -115,7 +116,5 @@ class RenderClient
         RenderBox						            parseBoundsResponse(const string& s);
         FetchImageThread							mFetchImageThread;
 };
-
-string getImageCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder);
 
 #endif

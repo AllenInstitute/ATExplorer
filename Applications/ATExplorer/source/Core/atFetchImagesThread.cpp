@@ -138,7 +138,7 @@ void FetchImagesThread::worker()
 
         mIsTimeToDie = true;
 	}
-  	Log(lDebug3) << "Finished Images fetching thread..";
+  	Log(lInfo) << "Finished Images Fetching Thread.";
     mIsRunning = false;
     mIsFinished = true;
 }

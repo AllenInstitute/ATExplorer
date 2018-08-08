@@ -46,7 +46,7 @@ void TRenderPythonRemoteScriptFrame::populate(RenderClient& rc, TScSSHShell* she
         for(int i = 0; i < StacksForProjectCB->Items->Count; i++)
         {
 
-            if(StacksForProjectCB->Items->Strings[i] == vclstr(p.mStack))
+            if(StacksForProjectCB->Items->Strings[i] == vclstr(p.mSelectedStack))
             {
                 StacksForProjectCB->Checked[i] = true;
             }

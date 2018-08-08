@@ -121,8 +121,8 @@ __published:	// IDE-managed Components
 	TComboBox *OwnerCB;
 	TComboBox *ProjectCB;
 	TTimer *CreateCacheTimer;
-	TIntegerLabeledEdit *MaxIntensity;
-	TIntegerLabeledEdit *MinIntensity;
+	TIntegerLabeledEdit *MaxIntensityE;
+	TIntegerLabeledEdit *MinIntensityE;
 	TScrollBox *ScrollBox1;
 	TGroupBox *CacheGB;
 	TCheckListBox *StacksForProjectCB;
