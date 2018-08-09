@@ -60,10 +60,23 @@ string RenderLayer::getLocalCacheImagePath(const string& rootFolder)
     stringstream s;
     //Construct filePath
 	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
-    s 	<< rootFolder << "\\owner\\"<<mRenderProject.mOwner
-    	<<"\\project\\"<<mRenderProject.mProject
-        <<"\\stack\\"<<mRenderProject.mSelectedStack
-        <<"\\box\\"<<mRenderBox.getX1()<<","<<mRenderBox.getY1()<<","<<mRenderBox.getWidth()<<","<<mRenderBox.getHeight()<<"\\"
+    s 	<< rootFolder << "\\"<<mRenderProject.mOwner
+    	<<"\\"<<mRenderProject.mProject
+        <<"\\"<<mRenderProject.mSelectedStack
+        <<"\\"<<mRenderBox.getX1()<<","<<mRenderBox.getY1()<<","<<mRenderBox.getWidth()<<","<<mRenderBox.getHeight();
+
+    return s.str();
+}
+
+string RenderLayer::getLocalCacheImagePath(const string& rootFolder)
+{
+    stringstream s;
+    //Construct filePath
+	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
+    s 	<< rootFolder << "\\"<<mRenderProject.mOwner
+    	<<"\\"<<mRenderProject.mProject
+        <<"\\"<<mRenderProject.mSelectedStack
+        <<"\\"<<mRenderBox.getX1()<<","<<mRenderBox.getY1()<<","<<mRenderBox.getWidth()<<","<<mRenderBox.getHeight()<<"\\"
         <<mZ<<"_"<<mMinIntensity<<"_"<<mMaxIntensity<<"_"<<mScale<<".jpg";
 
     return s.str();
@@ -71,7 +84,6 @@ string RenderLayer::getLocalCacheImagePath(const string& rootFolder)
 
 string RenderLayer::getURL()
 {
-    //
     return "";
 }
 

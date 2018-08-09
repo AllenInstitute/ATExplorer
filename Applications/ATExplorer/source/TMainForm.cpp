@@ -18,6 +18,7 @@
 #include "boost/filesystem.hpp"
 #include "dslStringUtils.h"
 #include "dslTimer.h"
+#include "dslProcess.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -460,8 +461,9 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
         else
         {
             int z = toInt(stdstr(mZs->Items->Strings[0]));
-            RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), mCurrentOwner.getValue(), mCurrentProject.getValue(),
-                mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue(), ImageCacheFolderE->getValue());
+            RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), ImageCacheFolderE->getValue());
+            rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),
+                mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs
             StringList urls;
@@ -494,7 +496,8 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
 void __fastcall TMainForm::mGetValidZsBtnClick(TObject *Sender)
 {
 	//Fetch valid zs for current project
-   	RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
+   	RenderClient rs(IdHTTP1, mBaseUrlE->getValue());
+    rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
     StringList zs = rs.getValidZs();
 
 	Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
@@ -509,7 +512,8 @@ void __fastcall TMainForm::mGetValidZsBtnClick(TObject *Sender)
 void __fastcall TMainForm::mUpdateZsBtnClick(TObject *Sender)
 {
 	//Fetch valid zs for current project
-   	RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
+   	RenderClient rs(IdHTTP1, mBaseUrlE->getValue());
+    rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
     StringList zs = rs.getZs();
 
     if(zs.size() > 1)
@@ -523,7 +527,8 @@ void __fastcall TMainForm::mUpdateZsBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::GetOptimalBoundsBtnClick(TObject *Sender)
 {
-	RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
+	RenderClient rs(IdHTTP1, mBaseUrlE->getValue());
+    rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
 
     vector<int> zs = rs.getValidZs();
     RenderBox box = rs.getOptimalXYBoxForZs(zs);
@@ -1287,11 +1292,47 @@ LRESULT	TMainForm::onFinishedRenderRotate(TextMessage& msg)
     string currentStack = mRC.getCurrentProject().getSelectedStackName();
 
 	updateStacksForCurrentProject();
-//    StackCB->H
+	//    StackCB->H
 	ClearCacheBtn->Click();
 
     //Click first z
 	mZs->ItemIndex = 0;
     ClickZ(NULL);
 }
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::CreateTiffStackAExecute(TObject *Sender)
+{
+    Process IMConvert("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+
+    IMConvert.setWorkingDirectory(mRC.getCurrentLocalCacheFolder());
+
+
+    //Extract selected filenames from checked z's
+    StringList sections = getCheckedItems(mZs);
+
+    //Creat output filename
+    string stackFName("stack_" + getUUID());
+
+    //Create commandline for imagemagicks convert program
+    stringstream cmdLine;
+    for(int i = 0; i < sections.count(); i++)
+    {
+        string fName(getFileNameNoPath(mRC.getImageLocalPathAndFileNameForZ(toInt(sections[i]))));
+        cmdLine << fName <<" ";
+    }
+
+	cmdLine << stackFName << ".tif";
+
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+    IMConvert.execute(cmdLine);
+    //Create xml recording the selected z's
+
+
+
+
+}
+
+
 

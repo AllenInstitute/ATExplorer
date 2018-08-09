@@ -25,21 +25,15 @@ int getImageZFromURL(const string& url)
     return -1;
 }
 
+string getImageCachePathFromURL(const string& url, const string& cacheRootFolder)
+{
+    RenderLayer rl(url);
+	return rl.getLocalCachePath(cacheRootFolder);
+}
 //---------------------------------------------------------------------------
 string getImageCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder)
 {
     RenderLayer rl(url);
-
-//    vector<string> cachePaths = splitStringAtWord(url, "/owner/");
-//    if(cachePaths.size() == 2)
-//    {
-//		string fldr = substitute(cachePaths[1],"/","\\\\");
-//		fldr = substitute(fldr,"?","\\\\");
-//		fldr = substitute(fldr,"&","\\\\");
-//		fldr = substitute(fldr,"=","\\\\");
-//		return joinPath(cacheRootFolder, fldr, "image.jpg");
-//    }
-
 	return rl.getLocalCacheImagePath(cacheRootFolder);
 }
 

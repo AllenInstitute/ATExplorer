@@ -229,6 +229,10 @@ __published:	// IDE-managed Components
 	TMenuItem *ToggleImageGridMI;
 	TMenuItem *HideLogWindow1;
 	TRzSpinButtons *RzSpinButtons1;
+	TAction *CreateTiffStackA;
+	TMenuItem *CreateTiffStack1;
+	TAction *CreateMIPA;
+	TMenuItem *CreateMaxIntensityProjection1;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -320,6 +324,7 @@ __published:	// IDE-managed Components
 	void __fastcall RzSpinButtons1DownLeftClick(TObject *Sender);
 	void __fastcall RzSpinButtons1UpRightClick(TObject *Sender);
 	void __fastcall TAffineTransformationFrame1ExecuteBtnClick(TObject *Sender);
+	void __fastcall CreateTiffStackAExecute(TObject *Sender);
 
 
 	private:
@@ -377,13 +382,13 @@ __published:	// IDE-managed Components
 
         												//!VC can have only one VC project open at any one time.
 		ProjectManager									mProjectManager;
-		ATExplorerProject*							getCurrentVCProject();
+		ATExplorerProject*								getCurrentVCProject();
 
-        vector<ATExplorerProject*>					mVCProjects;
+        vector<ATExplorerProject*>						mVCProjects;
 		int __fastcall 									saveProject();
 		int __fastcall 									saveProjectAs();
 		int __fastcall 									closeProject();
-		ATExplorerProject* __fastcall 				createNewProject();
+		ATExplorerProject* __fastcall 					createNewProject();
 		bool									        parseURLUpdate(const string& url);
 
 		Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;

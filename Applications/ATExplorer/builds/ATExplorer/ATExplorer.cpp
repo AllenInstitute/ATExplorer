@@ -92,7 +92,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 
 #pragma comment(lib, "atFoundation.lib")
 #pragma comment(lib, "atVCLCommon.lib")
-#pragma comment(lib, "CORE_RL_MagickWand_B.lib")
+//#pragma comment(lib, "CORE_RL_MagickWand_B.lib")
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "tinyxml2.lib")
 #pragma comment(lib, "libcurl_imp.lib")

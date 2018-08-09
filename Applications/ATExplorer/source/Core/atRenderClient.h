@@ -33,19 +33,7 @@ typedef void __fastcall (__closure *RCCallBack)(void);
 class RenderClient
 {
 	public:
-							                        RenderClient(Idhttp::TIdHTTP* c,
-                        	                        						const string& baseURL 	    = gEmptyString,
-                        	                        					  	const string& owner 	    = gEmptyString,
-                        	                        					  	const string& project 	    = gEmptyString,
-                                                                          	const string& stack 	    = gEmptyString,
-                                                                          	const string& imageType     = "jpeg-image",
-                                                                          	int z 					    = 0,
-                                                                          	const RenderBox& box 	    = RenderBox(),
-                                                                            double scale 			    = 0.01,
-                                                                            int	minInt					= 0,
-                                                                            int maxInt					= 65535,
-                                                                            const string& cacheFolder 	= gEmptyString);
-
+							                        RenderClient(Idhttp::TIdHTTP* c, const string& baseURL = gEmptyString, const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -76,7 +64,9 @@ class RenderClient
         TMemoryStream*		                        reloadImage(int z = 0);
         string							            getURLForZ(int z);
         bool				                        checkCacheForCurrentURL();
+        string				                        getImageLocalPath();
         string				                        getImageLocalPathAndFileName();
+		string 										getImageLocalPathAndFileNameForZ(int z);
         string							            getProjectName();
         string							            setLocalCacheFolder(const string& f);
         string							            getLocalCacheFolder(){return mLocalCacheFolder;}

@@ -1,0 +1,3 @@
+[submodule "ThirdParty/Render-Deploy"]
+	path = ThirdParty/Render-Deploy
+	url = https://github.com/fcollman/render-deploy.git

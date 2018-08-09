@@ -16232,10 +16232,6 @@ object MainForm: TMainForm
         object NdVizTS: TTabSheet
           Caption = 'NDViz'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object DcefBrowser1: TDcefBrowser
             Left = 0
             Top = 0
@@ -16686,10 +16682,10 @@ object MainForm: TMainForm
                 DesignSize = (
                   198
                   648)
-                inherited TranslateYE: TIntegerLabeledEdit
+                inherited TranslateXE: TIntegerLabeledEdit
                   Visible = False
                 end
-                inherited TranslateXE: TIntegerLabeledEdit
+                inherited TranslateYE: TIntegerLabeledEdit
                   Visible = False
                 end
                 inherited ExecuteBtn: TButton
@@ -16709,10 +16705,6 @@ object MainForm: TMainForm
         object TabSheet8: TTabSheet
           Caption = 'Volume Creation'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object ScriptsPC: TPageControl
             Left = 0
             Top = 329
@@ -16724,10 +16716,6 @@ object MainForm: TMainForm
             OnChange = ScriptsPCChange
             object TabSheet6: TTabSheet
               Caption = 'Stack Creation'
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
             end
           end
           object StackGenerationGB: TGroupBox
@@ -17414,6 +17402,12 @@ object MainForm: TMainForm
       Caption = 'Copy Numbers'
       OnClick = CopyValidZs1Click
     end
+    object CreateTiffStack1: TMenuItem
+      Action = CreateTiffStackA
+    end
+    object CreateMaxIntensityProjection1: TMenuItem
+      Action = CreateMIPA
+    end
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
@@ -17551,6 +17545,13 @@ object MainForm: TMainForm
       OnExecute = ToggleImageGridAExecute
       OnUpdate = ToggleImageGridAUpdate
     end
+    object CreateTiffStackA: TAction
+      Caption = 'Create Tiff Stack'
+      OnExecute = CreateTiffStackAExecute
+    end
+    object CreateMIPA: TAction
+      Caption = 'Create Max Intensity Projection'
+    end
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'vc'
@@ -17562,7 +17563,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C0101080018007C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800800110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

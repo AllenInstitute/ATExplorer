@@ -16,27 +16,19 @@ using namespace dsl;
 
 const int HTTP_RESPONSE_OK = 200;
 
-RenderClient::RenderClient(Idhttp::TIdHTTP* c,  const string& baseURL, const string& owner,
-                            const string& project, const string& stack,
-                            const string& imageType, int z, const RenderBox& box, double scale, int minInt, int maxInt, const string& cacheFolder)
+RenderClient::RenderClient(Idhttp::TIdHTTP* c, const string& baseURL, const string& cacheFolder)
 :
 mC(c),
 mBaseURL(baseURL),
-mProject(project, owner, project, stack),
-mImageType(imageType),
-mZ(z),
-mRenderBox(box),
-mScale(scale),
-mMinIntensity(minInt),
-mMaxIntensity(maxInt),
 mLocalCacheFolder(cacheFolder),
-mFetchImageThread(*this)
+mFetchImageThread(*this),
+mProject("","","","")
 {
 	mImageMemory = new TMemoryStream();
 }
 
-bool RenderClient::init(const string& owner, const string& project,
-		const string& stack, const string& imageType, int z, const RenderBox& box, double scale, int minInt, int maxInt)
+bool RenderClient::init(const string& owner, const string& project, const string& stack,
+					    const string& imageType, int z, const RenderBox& box, double scale, int minInt, int maxInt)
 {
     mProject.setupForStack(owner, project, stack);
     mImageType = (imageType);
@@ -309,6 +301,16 @@ RenderBox RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
 vector<RenderBox> RenderClient::getBounds()
 {
 	return mLatestBounds;
+}
+
+string RenderClient::getImageLocalPath()
+{
+	return getImageCachePathFromURL(getURL(), mLocalCacheFolder);
+}
+string RenderClient::getImageLocalPathAndFileNameForZ(int z)
+{
+	string url(getURLForZ(z));
+    return getImageCacheFileNameAndPathFromURL(url, mLocalCacheFolder);
 }
 
 string RenderClient::getImageLocalPathAndFileName()

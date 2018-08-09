@@ -3,6 +3,8 @@
 #include <string>
 //---------------------------------------------------------------------------
 using std::string;
+
+string 			getImageCachePathFromURL(const string& url, const string& cachefolder);
 string 			getImageCacheFileNameAndPathFromURL(const string& url, const string& cachefolder);
 int 			getImageZFromURL(const string& url);
 
