@@ -4,9 +4,9 @@
 //---------------------------------------------------------------------------
 using std::string;
 
-string 			getImageLocalCachePathFromURL(const string& url, const string& cachefolder);
-string 			getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cachefolder);
-int 			getImageZFromURL(const string& url);
+PACKAGE string 			getImageLocalCachePathFromURL(const string& url, const string& cachefolder);
+PACKAGE string 			getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cachefolder);
+PACKAGE int 			getImageZFromURL(const string& url);
 
 struct MemoryStruct
 {

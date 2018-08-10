@@ -1,5 +1,6 @@
 #ifndef atFetchImagesThreadH
 #define atFetchImagesThreadH
+#include <windows.h>
 #include "dslThread.h"
 #include "dslStringList.h"
 //---------------------------------------------------------------------------
@@ -7,7 +8,7 @@
 using dsl::StringList;
 using dsl::Thread;
 
-class FetchImagesThread : public dsl::Thread
+class PACKAGE FetchImagesThread : public dsl::Thread
 {
 	public:
 							FetchImagesThread(const StringList& urls = StringList(""), const string& cacheRoot = "p:\\cache");

@@ -3,8 +3,8 @@
 #include "atATExplorerProject.h"
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
-
-
+#pragma package(smart_init)
+//---------------------------------------------------------------------------
 using namespace dsl;
 
 TTreeNode* getNodeWithCaption(TTreeView* tv, const string& name);

@@ -1,11 +1,11 @@
 #pragma hdrstop
-#include "atSSHUtils.h"
 #include "dslVCLUtils.h"
+#include "atSSHUtils.h"
 #include "dslLogger.h"
 #include <sstream>
 #include "ScSSHChannel.hpp"
-//---------------------------------------------------------------------------
 #pragma package(smart_init)
+//---------------------------------------------------------------------------
 using namespace dsl;
 using namespace std;
 

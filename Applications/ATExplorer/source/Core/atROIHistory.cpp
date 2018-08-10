@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include "atROIHistory.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 
 ROIHistory::ROIHistory()

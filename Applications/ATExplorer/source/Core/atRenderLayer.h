@@ -7,7 +7,8 @@
 //---------------------------------------------------------------------------
 namespace at
 {
-class RenderLayer : public ATObject
+
+class PACKAGE RenderLayer : public ATObject
 {
 
     public:
@@ -24,7 +25,6 @@ class RenderLayer : public ATObject
         int                             getMinIntensity();
         int                             getMaxIntensity();
         RenderProject                   getRenderProject();
-
 
     protected:
         Poco::URI                       mURL;

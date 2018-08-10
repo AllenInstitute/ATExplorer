@@ -15,15 +15,15 @@ namespace Scsshchannel
 using Scsshchannel::TScSSHShell;
 
 //!Escape lines
-string ssh_escape(const string& before);
+PACKAGE string ssh_escape(const string& before);
 
 //!Create an empty file on the server
-string 	createEmptyScriptFileOnServer(TScSSHShell * ssh, const string& subFolder, const string& fName);
+PACKAGE string 	createEmptyScriptFileOnServer(TScSSHShell * ssh, const string& subFolder, const string& fName);
 
 //!Populate remote script with content
-bool 	populateRemoteScript(TScSSHShell* ssh, const string& remoteScriptName, const StringList& lines);
+PACKAGE bool 	populateRemoteScript(TScSSHShell* ssh, const string& remoteScriptName, const StringList& lines);
 
 //!Start remote job, over ssh
-void   runRemoteJob(TScSSHShell* ssh, const string& job);
+PACKAGE void   runRemoteJob(TScSSHShell* ssh, const string& job);
 
 #endif

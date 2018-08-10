@@ -33,7 +33,7 @@ ATEObjectType 	toATEObjectType(const string& str);
 //!A ATExplorerProject captures (is a container) for renderprojects and other possible objects related to a project
 //!in ATExplorer
 //!An ATExplorerProject is the baseclass for such objects.
-class ATExplorerProject : public dsl::Project, public at::ATObject
+class PACKAGE ATExplorerProject : public dsl::Project, public at::ATObject
 {
 
     public:

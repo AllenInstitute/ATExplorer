@@ -113,6 +113,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <LinkPackageImports>rtl.bpi;vcl.bpi;bcbie.bpi;vclie.bpi;vclx.bpi;vclactnband.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;vclimg.bpi;bcbsmp.bpi</LinkPackageImports>
         <VerInfo_Release>4</VerInfo_Release>
         <_TCHARMapping>char</_TCHARMapping>
+        <BCC_PCHCache>true</BCC_PCHCache>
+        <BCC_PCHName>pch.csm</BCC_PCHName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -122,66 +124,15 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="ATExplorer.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <None Include="ATExplorerPCH1.h">
+            <BuildOrder>18</BuildOrder>
+        </None>
         <CppCompile Include="..\..\source\ClosingDown.cpp">
             <BuildOrder>19</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atApplicationSupportFunctions.cpp">
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atATExplorerProject.cpp">
-            <BuildOrder>24</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atFetchImagesThread.cpp">
-            <DependentOn>..\..\source\Core\atFetchImagesThread.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atFetchImageThread.cpp">
-            <DependentOn>..\..\source\Core\atFetchImageThread.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atImageGrid.cpp">
-            <DependentOn>..\..\source\Core\atImageGrid.h</DependentOn>
-            <BuildOrder>32</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atImageProcessingFunctions.cpp">
-            <DependentOn>..\..\source\Core\atImageProcessingFunctions.h</DependentOn>
-            <BuildOrder>14</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectManager.cpp">
-            <DependentOn>..\..\source\Core\atProjectManager.h</DependentOn>
-            <BuildOrder>26</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRemoteScripter.cpp">
-            <BuildOrder>32</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderBox.cpp">
-            <DependentOn>..\..\source\Core\atRenderBox.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderClient.cpp">
-            <DependentOn>..\..\source\Core\atRenderClient.h</DependentOn>
-            <BuildOrder>16</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderClientUtils.cpp">
-            <DependentOn>..\..\source\Core\atRenderClientUtils.h</DependentOn>
-            <BuildOrder>17</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderLayer.cpp">
-            <DependentOn>..\..\source\Core\atRenderLayer.h</DependentOn>
-            <BuildOrder>32</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderProject.cpp">
-            <DependentOn>..\..\source\Core\atRenderProject.h</DependentOn>
-            <BuildOrder>18</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atROIHistory.cpp">
-            <DependentOn>..\..\source\Core\atROIHistory.h</DependentOn>
-            <BuildOrder>19</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atSSHUtils.cpp">
-            <DependentOn>..\..\source\Core\atSSHUtils.h</DependentOn>
-            <BuildOrder>23</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\forms\TAboutATExplorerForm.cpp">
             <BuildOrder>21</BuildOrder>
@@ -247,11 +198,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
             <BuildOrder>11</BuildOrder>
-        </CppCompile>
-        <None Include="P:\libs\CEF4Delphi\packages\CEF4Delphi.dproj"/>
-        <CppCompile Include="P:\libs\dsl\Common\dslNameValue.cpp">
-            <DependentOn>P:\libs\dsl\Common\dslNameValue.h</DependentOn>
-            <BuildOrder>33</BuildOrder>
         </CppCompile>
         <CppCompile Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp">
             <Form>LogMemoFrame</Form>
@@ -329,7 +275,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="VerifyPackages">False</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages/>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\CEF4CPPBuilder.bpl">File p:\build\BPL\CEF4CPPBuilder.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\bpl\atVCLComponents.bpl">File p:\build\bpl\atVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\atVCLVisualComponents.bpl">File p:\build\BPL\atVCLVisualComponents.bpl not found</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">
@@ -367,6 +317,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>ATExplorer.tds</RemoteName>
@@ -377,17 +332,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
                         <RemoteName>Logo44x44.png</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="P:\libs\CEF4Delphi\packages\CEF4Delphi.dproj" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

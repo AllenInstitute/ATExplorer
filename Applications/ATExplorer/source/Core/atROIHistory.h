@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 
 using std::deque;
-class ROIHistory
+class PACKAGE ROIHistory
 {
 	public:
     								ROIHistory();

@@ -10,6 +10,7 @@
 #include "dslPoint.h"
 #include "dslMathUtils.h"
 #include "dslFileUtils.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace dsl;

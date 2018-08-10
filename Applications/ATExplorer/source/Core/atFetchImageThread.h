@@ -10,7 +10,7 @@ using dsl::Thread;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 class RenderClient;
-class FetchImageThread : public dsl::Thread
+class PACKAGE FetchImageThread : public dsl::Thread
 {
 	public:
 							                FetchImageThread(RenderClient& rc);

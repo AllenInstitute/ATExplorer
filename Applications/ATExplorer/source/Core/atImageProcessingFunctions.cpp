@@ -1,19 +1,8 @@
-// This file contains functions for image manipuplation
-// created by Marcio Kassouf Crocomo
-// Copyright (c) 1995-2010 Embarcadero Technologies, Inc.
-
-// You may only use this software if you are an authorized licensee
-// of Delphi, C++Builder or RAD Studio (Embarcadero Products).
-// This software is considered a Redistributable as defined under
-// the software license agreement that comes with the Embarcadero Products
-// and is subject to that software license agreement.
-//---------------------------------------------------------------------------
 #pragma hdrstop
 #include "atImageProcessingFunctions.h"
-
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 
-#pragma package(smart_init)
 
 // Sort function
 void sort(Byte  vet[9])

@@ -3,6 +3,8 @@
 #include "dslXMLUtils.h"
 #include "dslLogger.h"
 #include "atRenderProject.h"
+#pragma package(smart_init)
+//---------------------------------------------------------------------------
 using namespace dsl;
 using namespace tinyxml2;
 

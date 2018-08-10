@@ -5,6 +5,7 @@
 #include "dslRestartApplicationUtils.h"
 #include "dslVCLUtils.h"
 #include "dslFileUtils.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace dsl;
 
@@ -25,7 +26,6 @@ TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
     }
 	return pt;
 }
-
 
 //---------------------------------------------------------------------------
 void setupLogging()

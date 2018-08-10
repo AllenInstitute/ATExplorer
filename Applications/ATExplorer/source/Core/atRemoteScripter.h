@@ -1,9 +1,10 @@
 #ifndef atRemoteScripterH
 #define atRemoteScripterH
 #include "atATObject.h"
+#include "ScSSHChannel.hpp"
 #include "dslStringList.h"
 #include <string>
-#include "ScSSHChannel.hpp"
+
 //---------------------------------------------------------------------------
 
 //!Class that sets up and run remote scripts through a ssh conenction
@@ -20,7 +21,7 @@ namespace at
 
 using Scsshchannel::TScSSHShell;
 
-class RemoteScripter : public ATObject
+class PACKAGE RemoteScripter : public ATObject
 {
         public:
                                                 RemoteScripter(const string& scriptFileName, TScSSHShell* ssh = NULL);

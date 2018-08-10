@@ -2,6 +2,7 @@
 #include "atImageGrid.h"
 #include <Vcl.ExtCtrls.hpp>
 #include "atVCLUtils.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 
 namespace at

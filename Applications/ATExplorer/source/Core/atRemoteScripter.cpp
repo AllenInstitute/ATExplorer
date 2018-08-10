@@ -1,9 +1,9 @@
 #pragma hdrstop
 #include "atRemoteScripter.h"
-#include "ScSSHChannel.hpp"
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include <sstream>
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 
 namespace at

@@ -30,7 +30,7 @@ using std::string;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
-class RenderClient
+class PACKAGE RenderClient
 {
 	public:
 							                        RenderClient(Idhttp::TIdHTTP* c, const string& baseURL = gEmptyString, const string& cacheFolder 	= gEmptyString);

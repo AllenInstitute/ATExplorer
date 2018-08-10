@@ -4,6 +4,7 @@
 #include <vector>
 #include "atRenderLayer.h"
 #include <sstream>
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace std;

@@ -3,6 +3,7 @@
 #include <math.h>
 #include "Poco/URI.h"
 #include "dslStringList.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace dsl;

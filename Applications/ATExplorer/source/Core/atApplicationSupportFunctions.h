@@ -1,23 +1,14 @@
 #ifndef atApplicationSupportFunctionsH
 #define atApplicationSupportFunctionsH
 #include <windows.h>
+#include <System.Types.hpp>
+#include <System.hpp>
 //---------------------------------------------------------------------------
 
-namespace System
-{
-	namespace Types
-    {
-		class TPoint;
-	}
-}
-
-using System::Types::TPoint;
-
-TPoint 			controlToImage(const TPoint& p, double scale, double stretchFactor);
-void 			setupLogging();
-int 			loadStyles();
-void 			setupApplicationTheme();
-int __stdcall 	FindOtherWindow(HWND hwnd, LPARAM lParam) ;
-
+PACKAGE TPoint 			controlToImage(const TPoint& p, double scale, double stretchFactor);
+PACKAGE void 			setupLogging();
+PACKAGE int 			loadStyles();
+PACKAGE void 			setupApplicationTheme();
+PACKAGE int __stdcall 	FindOtherWindow(HWND hwnd, LPARAM lParam) ;
 
 #endif

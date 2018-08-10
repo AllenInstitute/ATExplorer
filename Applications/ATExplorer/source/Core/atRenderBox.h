@@ -8,7 +8,7 @@ using std::abs;
 using std::string;
 
 //!TODO, write code to update the box when something changes..
-class RenderBox
+class PACKAGE RenderBox
 {
 	public:
 	    								RenderBox(double x = 0, double y = 0, double width = 0, double height = 0, double scale = 1);

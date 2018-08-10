@@ -7,6 +7,7 @@
 #include "Poco/File.h"
 #include "dslFileUtils.h"
 #include "atRenderClient.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace dsl;
 

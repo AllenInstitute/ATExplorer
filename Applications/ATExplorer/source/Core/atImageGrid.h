@@ -30,7 +30,7 @@ namespace at
 //using Vcl::Extctrls::TImage;
 //using Vcl::Graphics::TCanvas;
 
-class ImageGrid : public ATObject
+class PACKAGE ImageGrid : public ATObject
 {
 
         public:

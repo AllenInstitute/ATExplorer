@@ -1,11 +1,12 @@
 #pragma hdrstop
 #include "atFetchImagesThread.h"
-#include "dslLogger.h"
 #include <curl/curl.h>
 #include <curl/easy.h>
+#include "dslLogger.h"
 #include "Poco/File.h"
 #include "dslFileUtils.h"
 #include "atRenderClientUtils.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace dsl;
 

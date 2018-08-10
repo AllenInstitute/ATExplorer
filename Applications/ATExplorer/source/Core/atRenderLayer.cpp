@@ -4,6 +4,7 @@
 #include "dslNameValue.h"
 #include "dslFileUtils.h"
 #include <sstream>
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 namespace at
 {

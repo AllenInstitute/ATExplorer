@@ -9,7 +9,7 @@ using std::string;
 using std::vector;
 using dsl::gEmptyString;
 
-class RenderProject : public ATExplorerProject
+class PACKAGE RenderProject : public ATExplorerProject
 {
 	public:
 			    	                    RenderProject(const string& name, const string& owner, const string& project, const string& stack);

@@ -1,4 +1,4 @@
-#include <vcl.h>
+//#include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
 #include <string>
@@ -17,9 +17,9 @@ USEFORM("..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp", RenderPythonRe
 USEFORM("..\..\source\Forms\TImageForm.cpp", ImageForm);
 USEFORM("..\..\source\Forms\TOverlayedImage.cpp", OverlayedImage);
 USEFORM("..\..\source\Forms\TSelectZsForm.cpp", SelectZsForm);
-USEFORM("..\..\source\TMainForm.cpp", MainForm);
 USEFORM("P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
 USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
+USEFORM("..\..\source\TMainForm.cpp", MainForm);
 //---------------------------------------------------------------------------
 extern string		gAppName					= "ATExplorer";
 extern string       gLogFileName                = "ATExplorer.log";
