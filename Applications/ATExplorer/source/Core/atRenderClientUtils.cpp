@@ -25,16 +25,16 @@ int getImageZFromURL(const string& url)
     return -1;
 }
 
-string getImageCachePathFromURL(const string& url, const string& cacheRootFolder)
+string getImageLocalCachePathFromURL(const string& url, const string& cacheRootFolder)
 {
     RenderLayer rl(url);
-	return rl.getLocalCachePath(cacheRootFolder);
+	return rl.getImageLocalCachePath(cacheRootFolder);
 }
 //---------------------------------------------------------------------------
-string getImageCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder)
+string getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder)
 {
     RenderLayer rl(url);
-	return rl.getLocalCacheImagePath(cacheRootFolder);
+	return rl.getImageLocalCachePathAndFileName(cacheRootFolder);
 }
 
 //CURL related callbacks

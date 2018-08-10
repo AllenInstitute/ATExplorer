@@ -52,10 +52,10 @@ mPathEtc(mURL.getPathEtc())
 
 bool RenderLayer::existInCache(const string& rootFolder)
 {
-    return fileExists(getLocalCacheImagePath(rootFolder));
+    return fileExists(getImageLocalCachePathAndFileName(rootFolder));
 }
 
-string RenderLayer::getLocalCacheImagePath(const string& rootFolder)
+string RenderLayer::getImageLocalCachePath(const string& rootFolder)
 {
     stringstream s;
     //Construct filePath
@@ -68,7 +68,7 @@ string RenderLayer::getLocalCacheImagePath(const string& rootFolder)
     return s.str();
 }
 
-string RenderLayer::getLocalCacheImagePath(const string& rootFolder)
+string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder)
 {
     stringstream s;
     //Construct filePath

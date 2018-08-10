@@ -12,24 +12,6 @@
         <Projects Include="P:\libs\dsl\Builds\dslVCLComponents\dslVCLComponents.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\atapi\thirdparty\ssidll\atSSI.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\atapi\builds\atFoundation\atFoundation.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\atapi\builds\atVCLCommon\atVCLCommon.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\atapi\builds\atVCLComponents\atVCLComponents.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="ATExplorer\ATExplorer.cbproj">
             <Dependencies/>
         </Projects>
@@ -68,60 +50,6 @@
     <Target Name="dslVCLComponents:Make">
         <MSBuild Projects="P:\libs\dsl\Builds\dslVCLComponents\dslVCLComponents.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="dslVCLVisualComponents">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj"/>
-    </Target>
-    <Target Name="dslVCLVisualComponents:Clean">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="dslVCLVisualComponents:Make">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="atSSI">
-        <MSBuild Projects="P:\libs\atapi\thirdparty\ssidll\atSSI.cbproj"/>
-    </Target>
-    <Target Name="atSSI:Clean">
-        <MSBuild Projects="P:\libs\atapi\thirdparty\ssidll\atSSI.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atSSI:Make">
-        <MSBuild Projects="P:\libs\atapi\thirdparty\ssidll\atSSI.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="atFoundation">
-        <MSBuild Projects="P:\libs\atapi\builds\atFoundation\atFoundation.cbproj"/>
-    </Target>
-    <Target Name="atFoundation:Clean">
-        <MSBuild Projects="P:\libs\atapi\builds\atFoundation\atFoundation.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atFoundation:Make">
-        <MSBuild Projects="P:\libs\atapi\builds\atFoundation\atFoundation.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="atVCLCommon">
-        <MSBuild Projects="P:\libs\atapi\builds\atVCLCommon\atVCLCommon.cbproj"/>
-    </Target>
-    <Target Name="atVCLCommon:Clean">
-        <MSBuild Projects="P:\libs\atapi\builds\atVCLCommon\atVCLCommon.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atVCLCommon:Make">
-        <MSBuild Projects="P:\libs\atapi\builds\atVCLCommon\atVCLCommon.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="atVCLComponents">
-        <MSBuild Projects="P:\libs\atapi\builds\atVCLComponents\atVCLComponents.cbproj"/>
-    </Target>
-    <Target Name="atVCLComponents:Clean">
-        <MSBuild Projects="P:\libs\atapi\builds\atVCLComponents\atVCLComponents.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atVCLComponents:Make">
-        <MSBuild Projects="P:\libs\atapi\builds\atVCLComponents\atVCLComponents.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="DcefBrowser">
-        <MSBuild Projects="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj"/>
-    </Target>
-    <Target Name="DcefBrowser:Clean">
-        <MSBuild Projects="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="DcefBrowser:Make">
-        <MSBuild Projects="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="ATExplorer">
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj"/>
     </Target>
@@ -132,13 +60,13 @@
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents;atSSI;atFoundation;atVCLCommon;atVCLComponents;DcefBrowser;ATExplorer"/>
+        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents;ATExplorer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean;atSSI:Clean;atFoundation:Clean;atVCLCommon:Clean;atVCLComponents:Clean;DcefBrowser:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;ATExplorer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make;atSSI:Make;atFoundation:Make;atVCLCommon:Make;atVCLComponents:Make;DcefBrowser:Make;ATExplorer:Make"/>
+        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;ATExplorer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -14,8 +14,8 @@ class RenderLayer : public ATObject
                                         RenderLayer(const string& url);
 
         string                          getURL();
-        string                          getLocalCachePath(const string& rootFolder);
-        string                          getLocalCacheImagePath(const string& rootFolder);
+        string                          getImageLocalCachePath(const string& rootFolder);
+        string                          getImageLocalCachePathAndFileName(const string& rootFolder);
         bool                            existInCache(const string& rootFolder);
 
         int                             getZ();

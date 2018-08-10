@@ -61,7 +61,7 @@ void FetchImagesThread::worker()
 	    	string url = mImageURLs[i];
 
             //Check cache first. if already in cache, don't fetch
-            string outFilePathANDFileName = getImageCacheFileNameAndPathFromURL(url, mCacheRootFolder);
+            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder);
            	Poco::File f(outFilePathANDFileName);
             if(fileExists(outFilePathANDFileName) && f.getSize() > 200)
             {
@@ -111,7 +111,7 @@ void FetchImagesThread::worker()
                    * chunk.memory points to a memory block that is chunk.size
                    * bytes big and contains the remote file.
                    */
-                    string out = getImageCacheFileNameAndPathFromURL(url, mCacheRootFolder);
+                    string out = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder);
                     //Make sure path exists, if not create it
                     if(createFolder(getFilePath(out)))
                     {

@@ -64,12 +64,14 @@ class RenderClient
         TMemoryStream*		                        reloadImage(int z = 0);
         string							            getURLForZ(int z);
         bool				                        checkCacheForCurrentURL();
-        string				                        getImageLocalPath();
-        string				                        getImageLocalPathAndFileName();
-		string 										getImageLocalPathAndFileNameForZ(int z);
+        string				                        getImageLocalCachePath();
+        string				                        getImageLocalCachePathAndFileName();
+		string 										getImageLocalCachePathAndFileNameForZ(int z);
         string							            getProjectName();
+
         string							            setLocalCacheFolder(const string& f);
         string							            getLocalCacheFolder(){return mLocalCacheFolder;}
+
         StringList						            getZs();
         vector<int>						            getValidZs();
 		RenderBox 						            getLayerBoundsForZ(int z);

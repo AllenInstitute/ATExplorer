@@ -60,6 +60,7 @@
 #include "cspin.h"
 #include "RzSpnEdt.hpp"
 #include "atVolumeCreatorMessages.h"
+#include "dslProcess.h"
 class TImageForm;
 
 //---------------------------------------------------------------------------
@@ -68,6 +69,7 @@ using dsl::TRegistryProperties;
 using dsl::ApplicationProperties;
 using dsl::shared_ptr;
 using at::ImageGrid;
+using dsl::Process;
 extern string gApplicationRegistryRoot;
 void brightnessContrast(TImage *imageSelected);
 string createProcessedImageFileName(const string& fname);
@@ -325,6 +327,7 @@ __published:	// IDE-managed Components
 	void __fastcall RzSpinButtons1UpRightClick(TObject *Sender);
 	void __fastcall TAffineTransformationFrame1ExecuteBtnClick(TObject *Sender);
 	void __fastcall CreateTiffStackAExecute(TObject *Sender);
+	void __fastcall CreateMIPAExecute(TObject *Sender);
 
 
 	private:
@@ -334,7 +337,7 @@ __published:	// IDE-managed Components
         int												getCurrentZ();
 		bool        									mRenderEnabled;
         ImageGrid                                       mImageGrid;
-
+	    Process 										mAProcess;
 		bool          									mIsStyleMenuPopulated;
         ApplicationProperties                           mAppProperties;
         shared_ptr<IniFileProperties>              		mGeneralProperties;
@@ -397,6 +400,13 @@ __published:	// IDE-managed Components
 
 		LRESULT											onFinishedRenderRotate(TextMessage& msg);
         void                                            updateStacksForCurrentProject();
+
+        void                                            onProcessStarted(void* arg1, void* arg2);
+        void                                            onProcessProgress(void* arg1, void* arg2);
+        void                                            onProcessFinished(void* arg1, void* arg2);
+
+
+
 public:
 	__fastcall 											TMainForm(TComponent* Owner);
 	__fastcall 											~TMainForm();

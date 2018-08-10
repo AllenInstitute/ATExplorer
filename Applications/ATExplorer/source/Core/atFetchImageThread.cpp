@@ -78,7 +78,7 @@ void FetchImageThread::worker()
         string url = mImageURL;
 
         //Check cache first. if already in cache, don't fetch
-        string outFilePathANDFileName = getImageCacheFileNameAndPathFromURL(url, mCacheRootFolder);
+        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder);
 
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName) && f.getSize() > 200)

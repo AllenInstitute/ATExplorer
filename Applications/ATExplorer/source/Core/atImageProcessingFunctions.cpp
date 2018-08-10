@@ -9,7 +9,6 @@
 // and is subject to that software license agreement.
 //---------------------------------------------------------------------------
 #pragma hdrstop
-
 #include "atImageProcessingFunctions.h"
 
 //---------------------------------------------------------------------------

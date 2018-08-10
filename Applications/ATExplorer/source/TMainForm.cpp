@@ -18,7 +18,7 @@
 #include "boost/filesystem.hpp"
 #include "dslStringUtils.h"
 #include "dslTimer.h"
-#include "dslProcess.h"
+#include "atImageProcessingFunctions.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -79,6 +79,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     PaintBox1->BringToFront();
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
     Application->ShowHint = true;
+	mAProcess.assignCallbacks(onProcessStarted, onProcessProgress, onProcessFinished);
 }
 
 __fastcall TMainForm::~TMainForm()
@@ -106,13 +107,13 @@ void __fastcall TMainForm::onImage()
     	return;
     }
 
-    if(!fileExists(mRC.getImageLocalPathAndFileName()))
+    if(!fileExists(mRC.getImageLocalCachePathAndFileName()))
     {
-        Log(lError) << "File does not exist: " <<mRC.getImageLocalPathAndFileName();
+        Log(lError) << "File does not exist: " <<mRC.getImageLocalCachePathAndFileName();
         return;
     }
 
-    mCurrentImageFile = mRC.getImageLocalPathAndFileName().c_str();
+    mCurrentImageFile = mRC.getImageLocalCachePathAndFileName().c_str();
 	double val = CustomImageRotationE->getValue();
     if(val != 0)
     {
@@ -1216,6 +1217,38 @@ void TMainForm::paintRotatedImage(double angle)
 }
 
 //---------------------------------------------------------------------------
+//void TMainForm::setBrightness(int b)
+//{
+//    Image1->Align = alNone;
+//    Image1->Picture = NULL;
+//    TCanvas* c = Image1->Canvas;
+//
+//    wstring fName(mCurrentImageFile.begin(), mCurrentImageFile.end());
+//    Gdiplus::Image image(fName.c_str());
+//
+//    //Get native image dimensions
+//    Image1->Height = image.GetHeight();
+//	Image1->Width = image.GetWidth();
+//
+//    Gdiplus::Graphics graphics(c->Handle);
+//
+//    Gdiplus::PointF center(Image1->Width/2, Image1->Height/2);
+//    Gdiplus::Matrix matrix;
+//
+//    matrix.RotateAt(angle, center);
+//    graphics.SetTransform(&matrix);
+//
+//    c->Brush->Color = clBlack;
+//	c->Rectangle(0,0, PaintBox1->Width, PaintBox1->Height);
+//
+//    //draw rotated image
+//    graphics.DrawImage(&image,0, 0, Image1->Width, Image1->Height);
+//
+//    Image1->Align = alClient;
+//    Image1->Invalidate();
+//}
+//
+//---------------------------------------------------------------------------
 void __fastcall TMainForm::ToggleImageGridAExecute(TObject *Sender)
 {
     Log(lDebug5) << "Action Component: " << stdstr(ToggleImageGridA->ActionComponent->Name);
@@ -1300,13 +1333,34 @@ LRESULT	TMainForm::onFinishedRenderRotate(TextMessage& msg)
     ClickZ(NULL);
 }
 
+//Need to synchronize with main thread here
+void TMainForm::onProcessStarted(void* arg1, void* arg2)
+{
+    Log(lInfo) << "Process was started.";
+}
+
+//Need to synchronize with main thread here
+void TMainForm::onProcessProgress(void* arg1, void* arg2)
+{
+    string* str = (string*) arg2;
+    Log(lInfo) << "Progress: " << (*str);
+}
+
+//Need to synchronize with main thread here
+void TMainForm::onProcessFinished(void* arg1, void* arg2)
+{
+    Log(lInfo) << "Process finished.";
+}
+
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CreateTiffStackAExecute(TObject *Sender)
 {
-    Process IMConvert("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+//    Process IMConvert("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe", mRC.getImageLocalCachePath());
+//    Process IMConvert("dir.exe", mRC.getImageLocalCachePath());
+    Process& IMConvert = mAProcess;
 
-    IMConvert.setWorkingDirectory(mRC.getCurrentLocalCacheFolder());
-
+    IMConvert.setExecutable("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
 
     //Extract selected filenames from checked z's
     StringList sections = getCheckedItems(mZs);
@@ -1318,7 +1372,7 @@ void __fastcall TMainForm::CreateTiffStackAExecute(TObject *Sender)
     stringstream cmdLine;
     for(int i = 0; i < sections.count(); i++)
     {
-        string fName(getFileNameNoPath(mRC.getImageLocalPathAndFileNameForZ(toInt(sections[i]))));
+        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(toInt(sections[i]))));
         cmdLine << fName <<" ";
     }
 
@@ -1326,13 +1380,42 @@ void __fastcall TMainForm::CreateTiffStackAExecute(TObject *Sender)
 
     Log(lInfo) << "Running convert on " << cmdLine.str();
 
-    IMConvert.execute(cmdLine);
+	IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.start(false);
     //Create xml recording the selected z's
-
-
-
-
 }
 
 
+void __fastcall TMainForm::CreateMIPAExecute(TObject *Sender)
+{
+
+	CreateTiffStackAExecute(NULL);
+
+    string cvt("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+
+    Process& IMConvert = mAProcess;
+
+    IMConvert.setExecutable(cvt);
+    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+
+    stringstream cmdLine;
+
+    //Creat output filename
+    string mipFName("mip_" + getUUID() + ".tif");
+
+	cmdLine << cvt <<" " << "stack_9772ddd2-9cb9-11e8-b4f6-d8cb8abce51b.tif" << " -evaluate-sequence max "<<mipFName;
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+	IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.start(false);
+    //Create xml recording the selected z's
+
+}
+
+////---------------------------------------------------------------------------
+//void __fastcall TMainForm::BrightnessTBChange(TObject *Sender)
+//{
+//    onImage(NULL);
+//}
+//
 

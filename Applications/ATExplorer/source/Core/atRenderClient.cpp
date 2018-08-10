@@ -196,9 +196,9 @@ TMemoryStream* RenderClient::reloadImage(int z)
     }
 
     //Save to cache (in a thread)
-    if(createFolder(getFilePath(getImageLocalPathAndFileName())))
+    if(createFolder(getFilePath(getImageLocalCachePathAndFileName())))
     {
-        mImageMemory->SaveToFile(getImageLocalPathAndFileName().c_str());
+        mImageMemory->SaveToFile(getImageLocalCachePathAndFileName().c_str());
     }
 
     return mImageMemory;
@@ -303,24 +303,25 @@ vector<RenderBox> RenderClient::getBounds()
 	return mLatestBounds;
 }
 
-string RenderClient::getImageLocalPath()
+string RenderClient::getImageLocalCachePath()
 {
-	return getImageCachePathFromURL(getURL(), mLocalCacheFolder);
-}
-string RenderClient::getImageLocalPathAndFileNameForZ(int z)
-{
-	string url(getURLForZ(z));
-    return getImageCacheFileNameAndPathFromURL(url, mLocalCacheFolder);
+	return getImageLocalCachePathFromURL(getURL(), mLocalCacheFolder);
 }
 
-string RenderClient::getImageLocalPathAndFileName()
+string RenderClient::getImageLocalCachePathAndFileNameForZ(int z)
 {
-	return getImageCacheFileNameAndPathFromURL(getURL(), mLocalCacheFolder);
+	string url(getURLForZ(z));
+    return getImageLocalCacheFileNameAndPathFromURL(url, mLocalCacheFolder);
+}
+
+string RenderClient::getImageLocalCachePathAndFileName()
+{
+	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mLocalCacheFolder);
 }
 
 bool RenderClient::checkCacheForCurrentURL()
 {
-	return fileExists(getImageLocalPathAndFileName());
+	return fileExists(getImageLocalCachePathAndFileName());
 }
 
 void RenderClient::clearImageMemory()
