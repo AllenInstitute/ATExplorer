@@ -1,40 +1,42 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "TMainForm.h"
-#include "dslVCLUtils.h"
-#include "dslLogger.h"
-#include <vector>
-#include "atRenderClient.h"
-#include "dslMathUtils.h"
-#include "dslTMemoLogger.h"
-#include "TSelectZsForm.h"
-#include "TImageForm.h"
 #include "atApplicationSupportFunctions.h"
-#include "TOverlayedImage.h"
 #include "atATExplorerProject.h"
-#include "dslFileUtils.h"
-#include "Poco/Path.h"
-#include "Poco/Glob.h"
+#include "atImageProcessingFunctions.h"
+#include "atRenderClient.h"
 #include "boost/filesystem.hpp"
+#include "dslFileUtils.h"
+#include "dslLogger.h"
+#include "dslMathUtils.h"
 #include "dslStringUtils.h"
 #include "dslTimer.h"
-#include "atImageProcessingFunctions.h"
+#include "dslTMemoLogger.h"
+#include "dslVCLUtils.h"
+#include "Poco/Glob.h"
+#include "Poco/Path.h"
+#include "TImageForm.h"
+#include "TOverlayedImage.h"
+#include "TSelectZsForm.h"
+#include <vector>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "DcefB.Core.DcefBrowser"
 #pragma link "dslTFloatLabeledEdit"
 #pragma link "dslTIniFileC"
 #pragma link "dslTIntegerEdit"
 #pragma link "dslTIntegerLabeledEdit"
 #pragma link "dslTIntLabel"
-#pragma link "dslTPropertyCheckBox"
-#pragma link "dslTSTDStringLabeledEdit"
-#pragma link "TImageControlsFrame"
-#pragma link "TSSHFrame"
-#pragma link "dslTSTDStringEdit"
-#pragma link "TRenderPythonRemoteScriptFrame"
 #pragma link "dslTLogMemoFrame"
-#pragma link "TAffineTransformationFrame"
+#pragma link "dslTPropertyCheckBox"
+#pragma link "dslTSTDStringEdit"
+#pragma link "dslTSTDStringLabeledEdit"
 #pragma link "RzSpnEdt"
+#pragma link "TAffineTransformationFrame"
+#pragma link "TImageControlsFrame"
+#pragma link "TRenderPythonRemoteScriptFrame"
+#pragma link "TSSHFrame"
+#pragma link "dslTLogFileReader"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 
@@ -105,15 +107,15 @@ __fastcall TMainForm::~TMainForm()
 	delete gImageForm;
 }
 
-void ThrowWandException(MagickWand* wand)
-{
-  	char *description;
-	ExceptionType severity;
-
-  	description = MagickGetException(wand, &severity);
-    Log(lError) << "ImageMagic encountered a problem: " <<description <<" in module "<<GetMagickModule();
-  	description = (char *) MagickRelinquishMemory(description);
-}
+//void ThrowWandException(MagickWand* wand)
+//{
+//  	char *description;
+//	ExceptionType severity;
+//
+//  	description = MagickGetException(wand, &severity);
+//    Log(lError) << "ImageMagic encountered a problem: " <<description <<" in module "<<GetMagickModule();
+//  	description = (char *) MagickRelinquishMemory(description);
+//}
 
 //This is called from a thread and need to be synchronized with the UI main thread
 void __fastcall TMainForm::onImage()
