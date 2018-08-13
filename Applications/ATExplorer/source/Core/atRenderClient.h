@@ -48,7 +48,7 @@ class PACKAGE RenderClient
                                                                             int maxInt					= 65535
                                                                             );
 
-		void							            setBaseURL(const string& baseURL){mBaseURL = baseURL;}
+		void							            setBaseURL(const string& baseURL);
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
         StringList						            getStacksForProject(const string& owner, const string& p);
@@ -58,7 +58,7 @@ class PACKAGE RenderClient
 
 		void				                        clearImageMemory();
 		string				                        getURL();
-		const char* 		                        getURLC(){return getURL().c_str();}
+		const char* 		                        getURLC();
         TMemoryStream*		                        getImage(int z = 0);
         bool				                        getImageInThread(int z , StringList& paras);
         TMemoryStream*		                        reloadImage(int z = 0);
@@ -70,21 +70,21 @@ class PACKAGE RenderClient
         string							            getProjectName();
 
         string							            setLocalCacheFolder(const string& f);
-        string							            getLocalCacheFolder(){return mLocalCacheFolder;}
+        string							            getLocalCacheFolder();
 
         StringList						            getZs();
         vector<int>						            getValidZs();
 		RenderBox 						            getLayerBoundsForZ(int z);
         RenderBox						            getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RenderBox>				            getBounds();
-        RenderProject&					            getProject(){return mProject;}
+        RenderProject&					            getProject();
         void										assignOnImageCallback(RCCallBack cb);
         void										copyImageData(MemoryStruct chunk);
 		Idhttp::TIdHTTP*                            getConnection();
         void                                        assignConnection(Idhttp::TIdHTTP* c);
-        string                                      getBaseURL(){return mBaseURL;}
-        RenderProject                               getRenderProject(){return mProject;}
-        void                                        setRenderProject(const RenderProject& rp){mProject = rp;}
+        string                                      getBaseURL();
+        RenderProject                               getRenderProject();
+        void                                        setRenderProject(const RenderProject& rp);
 
     private:
     												//!This is the HTTP connection

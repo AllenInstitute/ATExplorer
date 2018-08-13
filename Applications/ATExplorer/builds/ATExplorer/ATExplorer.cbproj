@@ -113,7 +113,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <LinkPackageImports>rtl.bpi;vcl.bpi;bcbie.bpi;vclie.bpi;vclx.bpi;vclactnband.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;vclimg.bpi;bcbsmp.bpi</LinkPackageImports>
         <VerInfo_Release>4</VerInfo_Release>
         <_TCHARMapping>char</_TCHARMapping>
-        <BCC_PCHName>pch.csm</BCC_PCHName>
+        <ILINK_DisplayTime>true</ILINK_DisplayTime>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!='' And '$(FileToCompile)'=='..\..\source\ClosingDown.cpp'">
+        <BCC_PCHInject>ATExplorerPCH1.h</BCC_PCHInject>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -124,10 +127,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <BuildOrder>0</BuildOrder>
         </CppCompile>
         <None Include="ATExplorerPCH1.h">
-            <BuildOrder>18</BuildOrder>
+            <BuildOrder>12</BuildOrder>
         </None>
         <CppCompile Include="..\..\source\ClosingDown.cpp">
             <BuildOrder>19</BuildOrder>
+            <OptionOverrides>true</OptionOverrides>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atApplicationSupportFunctions.cpp">
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>

@@ -106,7 +106,7 @@ void FetchImageThread::worker()
             curl_handle = curl_easy_init();
 
             string theURL(url);
-            for(int i = 0; i < mExtraParameters.count(); i++)
+            for(uint i = 0; i < mExtraParameters.count(); i++)
             {
                 theURL += mExtraParameters[i];
             }

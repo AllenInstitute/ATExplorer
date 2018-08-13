@@ -1,8 +1,8 @@
 #ifndef ATExplorerPCH1_H
 #define ATExplorerPCH1_H
 
-#include <windows.h>
 #include <vcl.h>
+#include <windows.h>
 
 #include "Poco/Condition.h"
 #include "Poco/Mutex.h"

@@ -1,8 +1,9 @@
 #ifndef ATPackagePCHH
 #define ATPackagePCHH
 
-#include <windows.h>
 #include <vcl.h>
+#include <windows.h>
+
 
 #include "Poco/Condition.h"
 #include "Poco/Mutex.h"

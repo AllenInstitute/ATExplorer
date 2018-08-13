@@ -37,6 +37,30 @@ RenderBox::RenderBox(double x, double y, double width, double height, double sca
     mScale(scale)
 {}
 
+
+void RenderBox::setX1(double x){mX1 = x;}
+double RenderBox::getX1(){return mX1;}
+void RenderBox::setX2(double x){mWidth = abs(mX1 - x);}
+
+double RenderBox::getX2(){return mX1 + mWidth;}
+void  RenderBox::setWidth(double w){mWidth = w;}
+double RenderBox::getWidth(){return mWidth;}
+
+void  RenderBox::setY1(double y){mY1 = y;}
+double RenderBox::getY1(){return mY1;}
+
+void  RenderBox::setY2(double y){mHeight = abs(mY1 - y);}
+double RenderBox::getY2(){return mY1 + mHeight;}
+
+void  RenderBox::setHeight(double h){mHeight = h;}
+double RenderBox::getHeight(){return mHeight;}
+
+void  RenderBox::setZ(double z){mZ = z;}
+double RenderBox::getZ(){return mZ;}
+
+void  RenderBox::setScale(double s){mScale = s;}
+double RenderBox::getScale(){return mScale;}
+
 //f is from -100 to +100
 void RenderBox::zoom(double f)
 {

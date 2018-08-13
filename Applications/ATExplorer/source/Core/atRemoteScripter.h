@@ -28,8 +28,8 @@ class PACKAGE RemoteScripter : public ATObject
                                                 ~RemoteScripter();
             string 	                            createFullRemoteCommand();
             void	                            setRemoteCommand(const string& cmd);
-            string                              getRemoteCommand(){return mRemoteCommand;}
-            void                                useConnection(TScSSHShell* c){mSSHShell = c;}
+            string                              getRemoteCommand();
+            void                                useConnection(TScSSHShell* c);
             void                                addArgument(const string& argument);
             StringList                          getArguments();
             void                                run();

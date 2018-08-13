@@ -64,6 +64,9 @@
         <ILINK_LibraryPath>P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>ATExplorerAppPackage</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
+        <BCC_wcsu>false</BCC_wcsu>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
         <PackageImports>bindcomp;bindcompdbx;bindcompfmx;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapxml;FireDACCommonODBC;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;rtl;tethering;xmlrtl;$(PackageImports)</PackageImports>
@@ -111,7 +114,6 @@
         <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
 $(PostBuildEvent)]]></PostBuildEvent>
-        <Defines>Foundation_API;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -259,13 +261,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
             <BuildOrder>34</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\source\Frames\TAffineTransformationFrame.dfm"/>
         <FormResources Include="..\..\source\Frames\TImageControlsFrame.dfm"/>
         <FormResources Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
         <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
-        <FormResources Include="..\..\source\Frames\TAffineTransformationFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -292,11 +294,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\CEF4CPPBuilder.bpl">File p:\build\BPL\CEF4CPPBuilder.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\bpl\atVCLComponents.bpl">File p:\build\bpl\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLVisualComponents.bpl">File p:\build\BPL\atVCLVisualComponents.bpl not found</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">

@@ -51,7 +51,7 @@ void FetchImagesThread::worker()
 
         curl_global_init(CURL_GLOBAL_ALL);
 
-	    for(int i = 0; i < mImageURLs.count(); i++)
+	    for(uint i = 0; i < mImageURLs.count(); i++)
 	    {
 
         	if(mIsTimeToDie)

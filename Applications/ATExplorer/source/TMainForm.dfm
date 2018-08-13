@@ -134,7 +134,7 @@ object MainForm: TMainForm
         Top = 1
         Width = 941
         Height = 847
-        ActivePage = NdVizTS
+        ActivePage = TabSheet2
         Align = alClient
         TabOrder = 0
         OnChange = VisualsPCChange
@@ -16255,8 +16255,6 @@ object MainForm: TMainForm
             OnStateChange = DcefBrowser1StateChange
             OnBeforeBrowse = DcefBrowser1BeforeBrowse
             OnConsoleMessage = DcefBrowser1ConsoleMessage
-            ExplicitLeft = 2
-            ExplicitTop = -1
           end
         end
       end
@@ -16684,10 +16682,10 @@ object MainForm: TMainForm
                 DesignSize = (
                   198
                   648)
-                inherited TranslateYE: TIntegerLabeledEdit
+                inherited TranslateXE: TIntegerLabeledEdit
                   Visible = False
                 end
-                inherited TranslateXE: TIntegerLabeledEdit
+                inherited TranslateYE: TIntegerLabeledEdit
                   Visible = False
                 end
                 inherited ExecuteBtn: TButton
@@ -17566,7 +17564,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010108001800A80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800AC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

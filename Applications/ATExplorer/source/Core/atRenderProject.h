@@ -20,9 +20,9 @@ class PACKAGE RenderProject : public ATExplorerProject
 
 		void							setupForStack(const string& owner, const string& project, const string& stack);
 
-		string							getProject(){return mProject;}
-		string							getProjectOwner(){return mOwner;}
-		string							getSelectedStackName(){return mSelectedStack;}
+		string							getProject();
+		string							getProjectOwner();
+		string							getSelectedStackName();
 
         								//!ProjectManagement
 		virtual bool 	   	            write();

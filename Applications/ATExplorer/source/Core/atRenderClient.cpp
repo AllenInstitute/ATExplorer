@@ -38,12 +38,21 @@ bool RenderClient::init(const string& owner, const string& project, const string
 	mScale = (scale);
 	mMinIntensity = (minInt);
 	mMaxIntensity = (maxInt);
+    return true;
 }
 
 RenderClient::~RenderClient()
 {
 	delete mImageMemory;
 }
+
+void RenderClient::setBaseURL(const string& baseURL){mBaseURL = baseURL;}
+const char* RenderClient::getURLC(){return getURL().c_str();}
+string RenderClient::getLocalCacheFolder(){return mLocalCacheFolder;}
+RenderProject& RenderClient::getProject(){return mProject;}
+string RenderClient::getBaseURL(){return mBaseURL;}
+RenderProject RenderClient::getRenderProject(){return mProject;}
+void RenderClient::setRenderProject(const RenderProject& rp){mProject = rp;}
 
 void RenderClient::assignOnImageCallback(RCCallBack cb)
 {
@@ -427,6 +436,7 @@ vector<int> RenderClient::getValidZs()
     {
     	Log(lError) << "There was an uncaught error";
     }
+    return vector<int>();
 }
 
 bool RenderClient::renameStack(const string& currentStackName, const string& newName)
@@ -437,9 +447,9 @@ bool RenderClient::renameStack(const string& currentStackName, const string& new
     sUrl << "/project/" << 	mProject.getProject();
     sUrl << "/stack/"	<<	mProject.getSelectedStackName();
 
-    TStringStream* strings = new TStringStream;;
+//    TStringStream* strings = new TStringStream;;
 //    mC->Put()
-
+    return true;
 }
 
 RenderBox RenderClient::parseBoundsResponse(const string& _s)

@@ -50,6 +50,10 @@ RenderProject::RenderProject(const RenderProject& rp)
     mStacks				= rp.mStacks;
 }
 
+string RenderProject::getProject(){return mProject;}
+string RenderProject::getProjectOwner(){return mOwner;}
+string RenderProject::getSelectedStackName(){return mSelectedStack;}
+
 //Shallow copy..
 RenderProject& RenderProject::operator=(const RenderProject& rhs)
 {

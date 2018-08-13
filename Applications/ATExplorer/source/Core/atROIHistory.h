@@ -9,7 +9,7 @@ class PACKAGE ROIHistory
 {
 	public:
     								ROIHistory();
-    								~ROIHistory(){}
+    								~ROIHistory();
 		void						clear();
 
 		void						add(RenderBox& rb);

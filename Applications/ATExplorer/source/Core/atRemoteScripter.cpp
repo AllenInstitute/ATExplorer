@@ -22,6 +22,9 @@ mSSHShell(ssh)
 RemoteScripter::~RemoteScripter()
 {}
 
+string RemoteScripter::getRemoteCommand(){return mRemoteCommand;}
+void   RemoteScripter::useConnection(TScSSHShell* c){mSSHShell = c;}
+
 void RemoteScripter::clearArguments()
 {
     mArguments.clear();
@@ -46,7 +49,7 @@ string RemoteScripter::createFullRemoteCommand()
 {
     stringstream cmd;
     cmd << mRemoteCommand << " " << mScriptName;
-    for(int i = 0; i < mArguments.count(); i++)
+    for(uint i = 0; i < mArguments.count(); i++)
     {
         cmd <<" " << mArguments[i];
     }

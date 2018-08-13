@@ -8,6 +8,7 @@ ROIHistory::ROIHistory()
     mCurrent = mHistory.begin();
 }
 
+ROIHistory::~ROIHistory(){}
 void ROIHistory::clear()
 {
 	mHistory.clear();

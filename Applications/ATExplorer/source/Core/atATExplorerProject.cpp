@@ -40,12 +40,11 @@ int	ATExplorerProject::getNumberOfChilds()
 bool ATExplorerProject::isModified()
 {
     //Cycle trough children
-    for(int i = 0; i < mChilds.size(); i++)
+    for(uint i = 0; i < mChilds.size(); i++)
     {
     	if(mChilds[i]->isModified())
         {
 	        return true;
-			break;
         }
     }
     return mIsModified;
