@@ -1,45 +1,39 @@
 #ifndef ATExplorerPCH1_H
 #define ATExplorerPCH1_H
 
+#include <windows.h>
 #include <vcl.h>
 
-//#include <cspin.h>
-//#include <gdiplus.h>
-//#include <IdBaseComponent.hpp>
-//#include <IdComponent.hpp>
-//#include <IdHTTP.hpp>
-//#include <RzSpnEdt.hpp>
-//#include <ScBridge.hpp>
-//#include <ScSSHChannel.hpp>
-#include <Vcl.Buttons.hpp>
-#include <Vcl.CheckLst.hpp>
-#include <Vcl.ExtDlgs.hpp>
-#include <Vcl.Imaging.pngimage.hpp>
-#include <Vcl.StdActns.hpp>
-//#include <DcefB.Core.DcefBrowser.hpp>
+#include "Poco/Condition.h"
+#include "Poco/Mutex.h"
+//#include "Poco/Path.h"
+//#include "Poco/File.h"
+//#include "Poco/Glob.h"
 
-
-#include <string>
-#include <vector>
-#include <map>
+#include <stdio.h>
+#include <algorithm>
+#include <cctype>
+#include <clocale>
+#include <deque>
+#include <fstream>
+#include <functional>
+#include <iomanip>
+#include <iostream>
 #include <sstream>
-//#include <dslVCLUtils.h>
-//#include <dslApplicationProperties.h>
-//#include <dslIniFileProperties.h>
-//#include <dslLogger.h>
-//#include <dslLogLevel.h>
-//#include <dslProcess.h>
-//#include <dslRegistryProperties.h>
-//#include <dslTFloatLabeledEdit.h>
-//#include <dslTIniFileC.h>
-//#include <dslTIntegerEdit.h>
-//#include <dslTIntegerLabeledEdit.h>
-//#include <dslTIntLabel.h>
-//#include <dslTLogFileReader.h>
-//#include <dslTPropertyCheckBox.h>
-//#include <dslTRegistryForm.h>
-//#include <dslTSTDStringEdit.h>
-//#include <dslTSTDStringLabeledEdit.h>
+#include <string>
+#include <time.h>
+#include <vector>
+#include <cerrno>
+#include <set>
+
+#include "dslCommonExporter.h"
+#include "dslLogger.h"
+#include "dslObject.h"
+//#include "dslProperty.h"
+#include "dslStringUtils.h"
+#include "dslVCLUtils.h"
+
+
 
 
 #endif

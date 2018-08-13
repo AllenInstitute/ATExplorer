@@ -848,7 +848,7 @@ object AboutATExplorer: TAboutATExplorer
     object Label1: TLabel
       Left = 18
       Top = 30
-      Width = 283
+      Width = 208
       Height = 52
       Caption = 'ATExplorer'
       Font.Charset = DEFAULT_CHARSET
@@ -872,7 +872,7 @@ object AboutATExplorer: TAboutATExplorer
     object Label2: TLabel
       Left = 255
       Top = 30
-      Width = 312
+      Width = 307
       Height = 30
       Anchors = [akTop, akRight]
       Caption = 'Smith Lab.  - Allen Institute 2016'

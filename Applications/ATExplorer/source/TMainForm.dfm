@@ -134,7 +134,7 @@ object MainForm: TMainForm
         Top = 1
         Width = 941
         Height = 847
-        ActivePage = TabSheet2
+        ActivePage = NdVizTS
         Align = alClient
         TabOrder = 0
         OnChange = VisualsPCChange
@@ -16232,12 +16232,21 @@ object MainForm: TMainForm
         object NdVizTS: TTabSheet
           Caption = 'NDViz'
           ImageIndex = 1
+          object ClearBrowserCacheBtn: TButton
+            Left = 16
+            Top = 16
+            Width = 75
+            Height = 25
+            Caption = 'Refresh'
+            TabOrder = 0
+            OnClick = ClearBrowserCacheBtnClick
+          end
           object DcefBrowser1: TDcefBrowser
             Left = 0
             Top = 0
             Width = 933
             Height = 819
-            TabOrder = 0
+            TabOrder = 1
             Align = alClient
             DefaultURL = 'about:blank'
             DcefBOptions.DevToolsEnable = False
@@ -16246,15 +16255,8 @@ object MainForm: TMainForm
             OnStateChange = DcefBrowser1StateChange
             OnBeforeBrowse = DcefBrowser1BeforeBrowse
             OnConsoleMessage = DcefBrowser1ConsoleMessage
-          end
-          object ClearBrowserCacheBtn: TButton
-            Left = 16
-            Top = 16
-            Width = 75
-            Height = 25
-            Caption = 'Refresh'
-            TabOrder = 1
-            OnClick = ClearBrowserCacheBtnClick
+            ExplicitLeft = 2
+            ExplicitTop = -1
           end
         end
       end
@@ -16682,10 +16684,10 @@ object MainForm: TMainForm
                 DesignSize = (
                   198
                   648)
-                inherited TranslateXE: TIntegerLabeledEdit
+                inherited TranslateYE: TIntegerLabeledEdit
                   Visible = False
                 end
-                inherited TranslateYE: TIntegerLabeledEdit
+                inherited TranslateXE: TIntegerLabeledEdit
                   Visible = False
                 end
                 inherited ExecuteBtn: TButton
@@ -17564,7 +17566,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010108001800900110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800A80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -53,29 +53,16 @@ inherited AffineTransformationFrame: TAffineTransformationFrame
         TheFont.Name = 'Tahoma'
         TheFont.Style = []
       end
-      object TranslateYE: TIntegerLabeledEdit [1]
+      object AppendToCurrentStackCB: TPropertyCheckBox [1]
         Left = 10
-        Top = 86
-        Width = 97
-        Height = 21
-        EditLabel.Width = 92
-        EditLabel.Height = 13
-        EditLabel.Caption = 'Translate Y (pixels)'
-        TabOrder = 3
-        Text = '0'
+        Top = 175
+        Width = 95
+        Height = 41
+        Caption = 'Append Transform to Current Stack'
+        TabOrder = 0
+        WordWrap = True
       end
-      object TranslateXE: TIntegerLabeledEdit [2]
-        Left = 10
-        Top = 38
-        Width = 97
-        Height = 21
-        EditLabel.Width = 92
-        EditLabel.Height = 13
-        EditLabel.Caption = 'Translate X (pixels)'
-        TabOrder = 2
-        Text = '0'
-      end
-      object RotationE: TFloatLabeledEdit [3]
+      object RotationE: TFloatLabeledEdit [2]
         Left = 10
         Top = 134
         Width = 97
@@ -86,14 +73,27 @@ inherited AffineTransformationFrame: TAffineTransformationFrame
         TabOrder = 1
         Text = '0'
       end
-      object AppendToCurrentStackCB: TPropertyCheckBox [4]
+      object TranslateXE: TIntegerLabeledEdit [3]
         Left = 10
-        Top = 175
-        Width = 95
-        Height = 41
-        Caption = 'Append Transform to Current Stack'
-        TabOrder = 0
-        WordWrap = True
+        Top = 38
+        Width = 97
+        Height = 21
+        EditLabel.Width = 92
+        EditLabel.Height = 13
+        EditLabel.Caption = 'Translate X (pixels)'
+        TabOrder = 2
+        Text = '0'
+      end
+      object TranslateYE: TIntegerLabeledEdit [4]
+        Left = 10
+        Top = 86
+        Width = 97
+        Height = 21
+        EditLabel.Width = 92
+        EditLabel.Height = 13
+        EditLabel.Caption = 'Translate Y (pixels)'
+        TabOrder = 3
+        Text = '0'
       end
       inherited ExecuteBtn: TButton
         Left = 6

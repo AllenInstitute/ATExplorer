@@ -13,7 +13,7 @@
 using namespace dsl;
 
 //---------------------------------------------------------------------------
-class TSelectZsForm : public TForm
+class PACKAGE TSelectZsForm : public TForm
 {
 __published:	// IDE-managed Components
 	TPanel *Panel1;

@@ -4,10 +4,6 @@
 #include <windows.h>
 #include <vcl.h>
 
-
-
-#include <System.hpp
-
 #include "Poco/Condition.h"
 #include "Poco/Mutex.h"
 //#include "Poco/Path.h"

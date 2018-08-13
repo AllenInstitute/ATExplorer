@@ -113,7 +113,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <LinkPackageImports>rtl.bpi;vcl.bpi;bcbie.bpi;vclie.bpi;vclx.bpi;vclactnband.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;vclimg.bpi;bcbsmp.bpi</LinkPackageImports>
         <VerInfo_Release>4</VerInfo_Release>
         <_TCHARMapping>char</_TCHARMapping>
-        <BCC_PCHCache>true</BCC_PCHCache>
         <BCC_PCHName>pch.csm</BCC_PCHName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -133,36 +132,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="..\..\source\Core\atApplicationSupportFunctions.cpp">
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\forms\TAboutATExplorerForm.cpp">
-            <BuildOrder>21</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TImageForm.cpp">
-            <Form>ImageForm</Form>
-            <DependentOn>..\..\source\Forms\TImageForm.h</DependentOn>
-            <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TOverlayedImage.cpp">
-            <Form>OverlayedImage</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TOverlayedImage.h</DependentOn>
-            <BuildOrder>21</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TSelectZsForm.cpp">
-            <Form>SelectZsForm</Form>
-            <DependentOn>..\..\source\Forms\TSelectZsForm.h</DependentOn>
-            <BuildOrder>21</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Frames\TAffineTransformationFrame.cpp">
-            <Form>AffineTransformationFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\source\Frames\TAffineTransformationFrame.h</DependentOn>
-            <BuildOrder>30</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Frames\TImageControlsFrame.cpp">
-            <FormType>dfm</FormType>
-            <BuildOrder>27</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp">
             <Form>RenderPythonRemoteScriptFrame</Form>
@@ -191,13 +160,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>MainForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>..\..\source\TMainForm.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
+            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp">
-            <Form>SSHFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
+            <FormType>dfm</FormType>
+            <BuildOrder>12</BuildOrder>
         </CppCompile>
         <CppCompile Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp">
             <Form>LogMemoFrame</Form>
@@ -206,14 +173,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\source\Frames\TAffineTransformationFrame.dfm"/>
-        <FormResources Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TOverlayedImage.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
-        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
         <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <FormResources Include="..\..\source\TMainForm.dfm"/>
+        <FormResources Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -275,11 +237,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="VerifyPackages">False</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\CEF4CPPBuilder.bpl">File p:\build\BPL\CEF4CPPBuilder.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\bpl\atVCLComponents.bpl">File p:\build\bpl\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLVisualComponents.bpl">File p:\build\BPL\atVCLVisualComponents.bpl not found</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">
@@ -317,11 +275,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>ATExplorer.tds</RemoteName>
@@ -332,6 +285,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <Platform Name="Win32">
                         <RemoteDir>Assets\</RemoteDir>
                         <RemoteName>Logo44x44.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

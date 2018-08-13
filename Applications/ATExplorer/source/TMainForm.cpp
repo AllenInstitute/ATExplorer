@@ -5,7 +5,7 @@
 #include "atATExplorerProject.h"
 #include "atImageProcessingFunctions.h"
 #include "atRenderClient.h"
-#include "boost/filesystem.hpp"
+//#include "boost/filesystem.hpp"
 #include "dslFileUtils.h"
 #include "dslLogger.h"
 #include "dslMathUtils.h"
@@ -21,7 +21,6 @@
 #include <vector>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "DcefB.Core.DcefBrowser"
 #pragma link "dslTFloatLabeledEdit"
 #pragma link "dslTIniFileC"
 #pragma link "dslTIntegerEdit"
@@ -37,35 +36,20 @@
 #pragma link "TRenderPythonRemoteScriptFrame"
 #pragma link "TSSHFrame"
 #pragma link "dslTLogFileReader"
+#pragma link "DcefB.Core.DcefBrowser"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 
 using namespace dsl;
 using namespace std;
 using namespace Poco;
-using boost::filesystem;
+//using boost::filesystem;
 using Poco::Timestamp;
 using Poco::Timespan;
 
 TImage *CurrImage;
 extern string gAppDataLocation;
 extern string gAppName;
-
-#pragma comment(lib, "atexplorerapppackage.bpi")
-#pragma comment(lib, "dslFoundation")
-#pragma comment(lib, "dslVCLCommon.lib")
-#pragma comment(lib, "dslVCLComponents.bpi")
-#pragma comment(lib, "dslVCLVisualComponents.bpi")
-
-#pragma comment(lib, "atFoundation.lib")
-#pragma comment(lib, "atVCLCommon.lib")
-//#pragma comment(lib, "ATExplorerAppPackage.bpi")
-//#pragma comment(lib, "CORE_RL_MagickWand_B.lib")
-#pragma comment(lib, "poco_foundation.lib")
-#pragma comment(lib, "tinyxml2.lib")
-#pragma comment(lib, "libcurl_imp.lib")
-//#pragma comment(lib, "Ws2_32.lib")
-
 
 
 //---------------------------------------------------------------------------
@@ -507,7 +491,7 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
         p.append(joinPath("stack", mCurrentStack.getValue()));
         Log(lInfo) << "Deleting local cache for stack: " << p.toString();
 
-        boost::filesystem::remove_all(p.toString());
+//        boost::filesystem::remove_all(p.toString());
 
     }
 }

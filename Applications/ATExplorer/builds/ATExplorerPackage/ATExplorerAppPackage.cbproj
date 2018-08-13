@@ -60,11 +60,10 @@
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <_TCHARMapping>char</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>ATExplorerAppPackage</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
-        <BCC_PCHInject>pch1.h</BCC_PCHInject>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
         <PackageImports>bindcomp;bindcompdbx;bindcompfmx;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapxml;FireDACCommonODBC;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;rtl;tethering;xmlrtl;$(PackageImports)</PackageImports>
@@ -109,6 +108,10 @@
         <ILINK_GenerateLibFile>false</ILINK_GenerateLibFile>
         <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;$(IncludePath)</IncludePath>
         <DCC_HppOutput>$(DEBUG_BCC32)\include</DCC_HppOutput>
+        <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
+        <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
+$(PostBuildEvent)]]></PostBuildEvent>
+        <Defines>Foundation_API;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -118,6 +121,9 @@
         <CppCompile Include="ATExplorerAppPackage.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <None Include="ATPackagePCH.h">
+            <BuildOrder>26</BuildOrder>
+        </None>
         <PackageImport Include="DcefBrowser.bpi">
             <BuildOrder>35</BuildOrder>
         </PackageImport>
@@ -136,9 +142,6 @@
         <PackageImport Include="IndySystem.bpi">
             <BuildOrder>29</BuildOrder>
         </PackageImport>
-        <None Include="pch1.h">
-            <BuildOrder>28</BuildOrder>
-        </None>
         <PackageImport Include="RaizeComponentsVcl.bpi">
             <BuildOrder>32</BuildOrder>
         </PackageImport>
@@ -210,6 +213,59 @@
             <DependentOn>..\..\source\Core\atSSHUtils.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Forms\TAboutATExplorerForm.cpp">
+            <Form>AboutATExplorer</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\source\Forms\TAboutATExplorerForm.h</DependentOn>
+            <BuildOrder>27</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Forms\TImageForm.cpp">
+            <Form>ImageForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\source\Forms\TImageForm.h</DependentOn>
+            <BuildOrder>28</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Forms\TSelectZsForm.cpp">
+            <Form>SelectZsForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\source\Forms\TSelectZsForm.h</DependentOn>
+            <BuildOrder>29</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TAffineTransformationFrame.cpp">
+            <Form>AffineTransformationFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TAffineTransformationFrame.h</DependentOn>
+            <BuildOrder>31</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TImageControlsFrame.cpp">
+            <Form>ImageControlsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TImageControlsFrame.h</DependentOn>
+            <BuildOrder>33</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp">
+            <Form>RenderPythonRemoteScriptFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TRenderPythonRemoteScriptFrame.h</DependentOn>
+            <BuildOrder>32</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp">
+            <Form>SSHFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
+        <FormResources Include="..\..\source\Frames\TImageControlsFrame.dfm"/>
+        <FormResources Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.dfm"/>
+        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
+        <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
+        <FormResources Include="..\..\source\Frames\TAffineTransformationFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -239,7 +295,6 @@
                 <Excluded_Packages>
                     <Excluded_Packages Name="p:\build\BPL\CEF4CPPBuilder.bpl">File p:\build\BPL\CEF4CPPBuilder.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="p:\build\bpl\atVCLComponents.bpl">File p:\build\bpl\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
                     <Excluded_Packages Name="p:\build\BPL\atVCLVisualComponents.bpl">File p:\build\BPL\atVCLVisualComponents.bpl not found</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
@@ -695,4 +750,12 @@
     <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+    <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
 </Project>

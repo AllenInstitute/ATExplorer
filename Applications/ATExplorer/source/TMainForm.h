@@ -38,34 +38,20 @@
 #include "dslTPropertyCheckBox.h"
 #include "dslTSTDStringEdit.h"
 #include "dslTSTDStringLabeledEdit.h"
-#include "DcefB.Core.DcefBrowser.hpp"
 #include "atFetchImagesThread.h"
 #include "atImageGrid.h"
 #include "atProjectManager.h"
-//#include "atRenderClient.h"
 #include "atROIHistory.h"
 #include "atExplorerAppMessages.h"
-////#include "cspin.h"
-//#include "DcefB.Core.DcefBrowser.hpp"
+
 #include "dslApplicationProperties.h"
 #include "dslIniFileProperties.h"
 #include "dslLogLevel.h"
 #include "dslProcess.h"
 #include "dslRegistryProperties.h"
-//#include "dslTFloatLabeledEdit.h"
-//#include "dslTIniFileC.h"
-//#include "dslTIntegerEdit.h"
-//#include "dslTIntegerLabeledEdit.h"
-//#include "dslTIntLabel.h"
-//#include "dslTLogMemoFrame.h"
-//#include "dslTPropertyCheckBox.h"
-//#include "dslTPropertyCheckBox.h"
 #include "dslTRegistryForm.h"
 #include "dslTLogFileReader.h"
-//#include "dslTSTDStringEdit.h"
-//#include "dslTSTDStringLabeledEdit.h"
-//#include "MagickWand/MagickWand.h"
-//#include "RzSpnEdt.hpp"
+#include "DcefB.Core.DcefBrowser.hpp"
 
 class TImageForm;
 
@@ -83,7 +69,7 @@ string createProcessedImageFileName(const string& fname);
 class VolumeCreatorProject;
 typedef void __fastcall (__closure *sshCallback)(const string&);
 
-class TMainForm : public TRegistryForm
+class PACKAGE TMainForm : public TRegistryForm
 {
 __published:	// IDE-managed Components
 	TImage *Image1;
@@ -197,7 +183,7 @@ __published:	// IDE-managed Components
 	TPageControl *VisualsPC;
 	TTabSheet *TabSheet2;
 	TTabSheet *NdVizTS;
-	TDcefBrowser *DcefBrowser1;
+
 	TIntegerLabeledEdit *maxTileSpecsToRenderE;
 	TButton *ClearCacheBtn;
 	TButton *ClearBrowserCacheBtn;
@@ -241,6 +227,7 @@ __published:	// IDE-managed Components
 	TMenuItem *CreateTiffStack1;
 	TAction *CreateMIPA;
 	TMenuItem *CreateMaxIntensityProjection1;
+	TDcefBrowser *DcefBrowser1;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);

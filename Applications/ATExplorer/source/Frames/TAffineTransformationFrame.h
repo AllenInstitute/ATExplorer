@@ -19,7 +19,7 @@
 #include "dslTIntLabel.h"
 //---------------------------------------------------------------------------
 
-class TAffineTransformationFrame : public TRenderPythonRemoteScriptFrame
+class PACKAGE TAffineTransformationFrame : public TRenderPythonRemoteScriptFrame
 {
     __published:	// IDE-managed Components
         TPropertyCheckBox *AppendToCurrentStackCB;

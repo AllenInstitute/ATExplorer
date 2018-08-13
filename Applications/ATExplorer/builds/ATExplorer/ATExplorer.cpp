@@ -8,18 +8,15 @@
 #include "dslRestartApplicationUtils.h"
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
+#include "TMainForm.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 
 using std::string;
-USEFORM("..\..\source\Frames\TAffineTransformationFrame.cpp", AffineTransformationFrame); /* TFrame: File Type */
-USEFORM("..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp", RenderPythonRemoteScriptFrame); /* TFrame: File Type */
-USEFORM("..\..\source\Forms\TImageForm.cpp", ImageForm);
-USEFORM("..\..\source\Forms\TOverlayedImage.cpp", OverlayedImage);
-USEFORM("..\..\source\Forms\TSelectZsForm.cpp", SelectZsForm);
-USEFORM("P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
 USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
+USEFORM("P:\libs\atapi\source\VCL\Frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
+USEFORM("..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp", RenderPythonRemoteScriptFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 extern string		gAppName					= "ATExplorer";
 extern string       gLogFileName                = "ATExplorer.log";
@@ -49,7 +46,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
                 //Send a custom message to restore window here..
             }
 
-            return(1); // Exit program
+            return(1);
         }
 
 		gApplicationStyle = readStringFromRegistry(gApplicationRegistryRoot, "", "Theme",  gApplicationStyle);
@@ -60,9 +57,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 
 		TStyleManager::TrySetStyle("Carbon");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-		Application->CreateForm(__classid(TSSHFrame), &SSHFrame);
-		Application->CreateForm(__classid(TOverlayedImage), &OverlayedImage);
 		Application->CreateForm(__classid(TLogMemoFrame), &LogMemoFrame);
+		Application->CreateForm(__classid(TSSHFrame), &SSHFrame);
 		Application->Run();
 		writeStringToRegistry(gApplicationRegistryRoot, "", "Theme",  gApplicationStyle);
 	}
@@ -93,9 +89,11 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 #pragma comment(lib, "atFoundation.lib")
 #pragma comment(lib, "atVCLCommon.lib")
 
+#pragma comment(lib, "ATExplorerAppPackage.bpi")
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "tinyxml2.lib")
 #pragma comment(lib, "libcurl_imp.lib")
+#pragma comment(lib, "DCEFBrowser.lib")
 
 
 

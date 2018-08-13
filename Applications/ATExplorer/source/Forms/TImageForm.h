@@ -9,7 +9,7 @@
 #include "dslTRegistryForm.h"
 //---------------------------------------------------------------------------
 
-class TImageForm : public TRegistryForm
+class PACKAGE TImageForm : public TRegistryForm
 {
 __published:	// IDE-managed Components
 	TPaintBox *PaintBox1;

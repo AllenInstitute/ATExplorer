@@ -9,7 +9,7 @@
 #include <Vcl.Imaging.pngimage.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 //---------------------------------------------------------------------------
-class TAboutATExplorer : public TForm
+class PACKAGE TAboutATExplorer : public TForm
 {
 __published:	// IDE-managed Components
 	TGroupBox *GroupBox1;
