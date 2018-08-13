@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
 #include <string>
@@ -12,9 +13,9 @@
 using namespace dsl;
 
 using std::string;
-USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
-USEFORM("..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp", RenderPythonRemoteScriptFrame); /* TFrame: File Type */
+USEFORM("P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
+USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 extern string		gAppName					= "ATExplorer";
 extern string       gLogFileName                = "ATExplorer.log";
@@ -54,9 +55,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
         setupLogging();
 
 		TStyleManager::TrySetStyle("Carbon");
+
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-		Application->CreateForm(__classid(TLogMemoFrame), &LogMemoFrame);
-		Application->CreateForm(__classid(TSSHFrame), &SSHFrame);
 		Application->Run();
 		writeStringToRegistry(gApplicationRegistryRoot, "", "Theme",  gApplicationStyle);
 	}

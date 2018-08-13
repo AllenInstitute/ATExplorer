@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atRenderBox.h"
+#include "atRegionOfInterest.h"
 #include <math.h>
 #include "Poco/URI.h"
 #include "dslStringList.h"
@@ -9,7 +9,7 @@ using namespace std;
 using namespace dsl;
 
 
-RenderBox::RenderBox(const string& _box)
+RegionOfInterest::RegionOfInterest(const string& _box)
 {
 	//-4515,-2739,9027,5472,0.1338
 
@@ -28,7 +28,7 @@ RenderBox::RenderBox(const string& _box)
 
 }
 
-RenderBox::RenderBox(double x, double y, double width, double height, double scale)
+RegionOfInterest::RegionOfInterest(double x, double y, double width, double height, double scale)
 :
 	mX1(x),
 	mY1(y),
@@ -38,31 +38,31 @@ RenderBox::RenderBox(double x, double y, double width, double height, double sca
 {}
 
 
-void RenderBox::setX1(double x){mX1 = x;}
-double RenderBox::getX1(){return mX1;}
-void RenderBox::setX2(double x){mWidth = abs(mX1 - x);}
+void RegionOfInterest::setX1(double x){mX1 = x;}
+double RegionOfInterest::getX1(){return mX1;}
+void RegionOfInterest::setX2(double x){mWidth = abs(mX1 - x);}
 
-double RenderBox::getX2(){return mX1 + mWidth;}
-void  RenderBox::setWidth(double w){mWidth = w;}
-double RenderBox::getWidth(){return mWidth;}
+double RegionOfInterest::getX2(){return mX1 + mWidth;}
+void  RegionOfInterest::setWidth(double w){mWidth = w;}
+double RegionOfInterest::getWidth(){return mWidth;}
 
-void  RenderBox::setY1(double y){mY1 = y;}
-double RenderBox::getY1(){return mY1;}
+void  RegionOfInterest::setY1(double y){mY1 = y;}
+double RegionOfInterest::getY1(){return mY1;}
 
-void  RenderBox::setY2(double y){mHeight = abs(mY1 - y);}
-double RenderBox::getY2(){return mY1 + mHeight;}
+void  RegionOfInterest::setY2(double y){mHeight = abs(mY1 - y);}
+double RegionOfInterest::getY2(){return mY1 + mHeight;}
 
-void  RenderBox::setHeight(double h){mHeight = h;}
-double RenderBox::getHeight(){return mHeight;}
+void  RegionOfInterest::setHeight(double h){mHeight = h;}
+double RegionOfInterest::getHeight(){return mHeight;}
 
-void  RenderBox::setZ(double z){mZ = z;}
-double RenderBox::getZ(){return mZ;}
+void  RegionOfInterest::setZ(double z){mZ = z;}
+double RegionOfInterest::getZ(){return mZ;}
 
-void  RenderBox::setScale(double s){mScale = s;}
-double RenderBox::getScale(){return mScale;}
+void  RegionOfInterest::setScale(double s){mScale = s;}
+double RegionOfInterest::getScale(){return mScale;}
 
 //f is from -100 to +100
-void RenderBox::zoom(double f)
+void RegionOfInterest::zoom(double f)
 {
 	f = 1.0 - f/100.0;
 

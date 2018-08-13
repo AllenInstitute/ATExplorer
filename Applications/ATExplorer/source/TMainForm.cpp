@@ -4,7 +4,7 @@
 #include "atATExplorerProject.h"
 #include "atImageProcessingFunctions.h"
 #include "atRenderClient.h"
-//#include "boost/filesystem.hpp"
+#include "boost/filesystem.hpp"
 #include "dslFileUtils.h"
 #include "dslLogger.h"
 #include "dslMathUtils.h"
@@ -18,6 +18,7 @@
 #include "TOverlayedImage.h"
 #include "TSelectZsForm.h"
 #include <vector>
+#include <gdiplus.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -50,7 +51,8 @@ TImage *CurrImage;
 extern string gAppDataLocation;
 extern string gAppName;
 
-
+Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
+ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gApplicationRegistryRoot, "MainForm", Owner),
@@ -486,17 +488,16 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
         //Clear cache for the current owner/project/stack
         Path p(ImageCacheFolderE->getValue());
 
-        p.append(joinPath("owner", mCurrentOwner.getValue(), "project", mCurrentProject.getValue()));
-        p.append(joinPath("stack", mCurrentStack.getValue()));
+        p.append(joinPath(mCurrentOwner.getValue(), mCurrentProject.getValue()));
+        p.append(mCurrentStack.getValue());
         Log(lInfo) << "Deleting local cache for stack: " << p.toString();
 
-//        boost::filesystem::remove_all(p.toString());
-
+        boost::filesystem::remove_all(p.toString());
     }
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::mGetValidZsBtnClick(TObject *Sender)
+void __fastcall TMainForm::GetValidZsBtnClick(TObject *Sender)
 {
 	//Fetch valid zs for current project
    	RenderClient rs(IdHTTP1, mBaseUrlE->getValue());
@@ -506,9 +507,11 @@ void __fastcall TMainForm::mGetValidZsBtnClick(TObject *Sender)
 	Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
 
 	Zs_GB->Caption = " Z Values (" + IntToStr((int) zs.count()) + ") ";
+
     //Populate list box
 	populateCheckListBox(zs, mZs);
     mZs->CheckAll(cbChecked);
+
 }
 
 //---------------------------------------------------------------------------
@@ -665,21 +668,16 @@ void __fastcall TMainForm::StackCBChange(TObject *Sender)
     string stack = stdstr(StackCB->Items->Strings[StackCB->ItemIndex]);
 	mCurrentStack.setValue(stack);
 	mRC.getProject().setupForStack(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+
    	mGetValidZsBtnClick(NULL);
+
 	ClickZ(NULL);
 
     //Update stack generation page
 	//User changed stack.. Clear check list box and select current one
     for(int i = 0; i < StacksForProjectCB->Items->Count; i++)
     {
-        if(StacksForProjectCB->Items->Strings[i] == StackCB->Text)
-        {
-	    	StacksForProjectCB->Checked[i] = true;
-        }
-        else
-        {
-    		StacksForProjectCB->Checked[i] = false;
-        }
+    	StacksForProjectCB->Checked[i] = (StacksForProjectCB->Items->Strings[i] == StackCB->Text) ? true : false;
     }
 
 	StackCB->Hint = vclstr(stack);
@@ -1333,6 +1331,7 @@ LRESULT	TMainForm::onFinishedRenderRotate(TextMessage& msg)
     //Click first z
 	mZs->ItemIndex = 0;
     ClickZ(NULL);
+    return NULL;
 }
 
 //Need to synchronize with main thread here
@@ -1420,4 +1419,5 @@ void __fastcall TMainForm::CreateMIPAExecute(TObject *Sender)
 //    onImage(NULL);
 //}
 //
+
 

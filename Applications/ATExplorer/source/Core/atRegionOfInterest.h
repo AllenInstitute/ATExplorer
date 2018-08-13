@@ -1,5 +1,5 @@
-#ifndef atRenderBoxH
-#define atRenderBoxH
+#ifndef atRegionOfInterestH
+#define atRegionOfInterestH
 #include <cstdlib>
 #include <string>
 //---------------------------------------------------------------------------
@@ -8,11 +8,11 @@ using std::abs;
 using std::string;
 
 //!TODO, write code to update the box when something changes..
-class PACKAGE RenderBox
+class PACKAGE RegionOfInterest
 {
 	public:
-	    								RenderBox(double x = 0, double y = 0, double width = 0, double height = 0, double scale = 1);
-	    								RenderBox(const string& str);
+	    								RegionOfInterest(double x = 0, double y = 0, double width = 0, double height = 0, double scale = 1);
+	    								RegionOfInterest(const string& str);
 		void							setX1(double x);
         double							getX1();
 		void							setX2(double x);

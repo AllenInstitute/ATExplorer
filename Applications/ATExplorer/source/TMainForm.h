@@ -4,7 +4,6 @@
 #include "TImageControlsFrame.h"
 #include "TRenderPythonRemoteScriptFrame.h"
 #include "TSSHFrame.h"
-#include <gdiplus.h>
 #include <IdBaseComponent.hpp>
 #include <IdComponent.hpp>
 #include <IdHTTP.hpp>
@@ -52,7 +51,8 @@
 #include "dslTRegistryForm.h"
 #include "dslTLogFileReader.h"
 #include "DcefB.Core.DcefBrowser.hpp"
-
+#include "dslFileUtils.h"
+#include "dslVCLUtils.h"
 class TImageForm;
 
 //---------------------------------------------------------------------------
@@ -194,7 +194,6 @@ __published:	// IDE-managed Components
 	TGroupBox *TestSSHGB;
 	TButton *CMDButton;
 	TEdit *mCMD;
-	TLogMemoFrame *TLogMemoFrame1;
 	TButton *ShowBottomPanelBtn;
 	TSplitter *Splitter2;
 	TPopupMenu *PopupMenu1;
@@ -204,7 +203,6 @@ __published:	// IDE-managed Components
 	TSTDStringEdit *URLE;
 	TLabel *XE;
 	TLabel *YE;
-	TSSHFrame *TSSHFrame1;
 	TPageControl *ControlsPC;
 	TTabSheet *TabSheet7;
 	TTabSheet *TransformsTab;
@@ -228,6 +226,11 @@ __published:	// IDE-managed Components
 	TAction *CreateMIPA;
 	TMenuItem *CreateMaxIntensityProjection1;
 	TDcefBrowser *DcefBrowser1;
+	TSSHFrame *TSSHFrame1;
+	TLogMemoFrame *TLogMemoFrame1;
+	TGroupBox *GroupBox2;
+	TCheckListBox *StacksCB;
+	TPopupMenu *StacksPopupMenu;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -242,7 +245,7 @@ __published:	// IDE-managed Components
 	void __fastcall historyBtnClick(TObject *Sender);
 	void __fastcall TraverseZClick(TObject *Sender);
 	void __fastcall FetchSelectedZsBtnClick(TObject *Sender);
-	void __fastcall mGetValidZsBtnClick(TObject *Sender);
+	void __fastcall GetValidZsBtnClick(TObject *Sender);
 	void __fastcall mBrowseForCacheFolderClick(TObject *Sender);
 	void __fastcall mUpdateZsBtnClick(TObject *Sender);
 	void __fastcall CopyValidZs1Click(TObject *Sender);
@@ -387,8 +390,7 @@ __published:	// IDE-managed Components
 		ATExplorerProject* __fastcall 					createNewProject();
 		bool									        parseURLUpdate(const string& url);
 
-		Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
-		ULONG_PTR  			         	                gdiplusToken;
+
 	    void                         	                paintRotatedImage(double angle);
 
 		LRESULT											onFinishedRenderRotate(TextMessage& msg);

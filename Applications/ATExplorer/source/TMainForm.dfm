@@ -16587,13 +16587,12 @@ object MainForm: TMainForm
               Width = 96
               Height = 817
               Align = alRight
-              Caption = 'ZsPanel'
               TabOrder = 1
               object Zs_GB: TGroupBox
                 Left = 1
                 Top = 1
                 Width = 94
-                Height = 677
+                Height = 497
                 Align = alClient
                 Caption = 'Sections'
                 TabOrder = 0
@@ -16601,7 +16600,7 @@ object MainForm: TMainForm
                   Left = 2
                   Top = 15
                   Width = 90
-                  Height = 660
+                  Height = 480
                   Align = alClient
                   ItemHeight = 13
                   PopupMenu = ZsPopUpMenu
@@ -16634,6 +16633,26 @@ object MainForm: TMainForm
                   Caption = 'Clear'
                   TabOrder = 1
                   OnClick = FetchSelectedZsBtnClick
+                end
+              end
+              object GroupBox2: TGroupBox
+                Left = 1
+                Top = 498
+                Width = 94
+                Height = 180
+                Align = alBottom
+                Caption = 'Stacks'
+                TabOrder = 2
+                object StacksCB: TCheckListBox
+                  Left = 2
+                  Top = 15
+                  Width = 90
+                  Height = 163
+                  Align = alClient
+                  ItemHeight = 13
+                  PopupMenu = ZsPopUpMenu
+                  TabOrder = 0
+                  OnClick = ClickZ
                 end
               end
             end
@@ -17129,7 +17148,7 @@ object MainForm: TMainForm
           ImageIndex = 3
           object GroupBox6: TGroupBox
             Left = 0
-            Top = 277
+            Top = 158
             Width = 385
             Height = 67
             Align = alTop
@@ -17164,7 +17183,7 @@ object MainForm: TMainForm
           end
           object GroupBox4: TGroupBox
             Left = 0
-            Top = 189
+            Top = 70
             Width = 385
             Height = 88
             Align = alTop
@@ -17203,7 +17222,7 @@ object MainForm: TMainForm
           end
           object TestSSHGB: TGroupBox
             Left = 0
-            Top = 119
+            Top = 0
             Width = 385
             Height = 70
             Align = alTop
@@ -17234,60 +17253,14 @@ object MainForm: TMainForm
           end
           inline TSSHFrame1: TSSHFrame
             Left = 0
-            Top = 0
+            Top = 225
             Width = 385
-            Height = 119
+            Height = 160
             Align = alTop
             TabOrder = 3
+            ExplicitTop = 225
             ExplicitWidth = 385
-            ExplicitHeight = 119
-            inherited GroupBox1: TGroupBox
-              Width = 385
-              Height = 119
-              Align = alClient
-              Caption = 'SSH Connection'
-              ExplicitWidth = 385
-              ExplicitHeight = 119
-              inherited ConnectBtn: TButton
-                Left = 296
-                Top = 78
-                Width = 77
-                Height = 24
-                OnClick = TSSHFrame1ConnectBtnClick
-                ExplicitLeft = 296
-                ExplicitTop = 78
-                ExplicitWidth = 77
-                ExplicitHeight = 24
-              end
-              inherited edSSHHost: TSTDStringLabeledEdit
-                EditLabel.Width = 22
-                EditLabel.Caption = 'Host'
-                EditLabel.ExplicitLeft = 16
-                EditLabel.ExplicitTop = 18
-                EditLabel.ExplicitWidth = 22
-              end
-              inherited edSSHPassword: TSTDStringLabeledEdit
-                Text = ''
-                Value = ''
-              end
-            end
-            inherited ScFileStorage: TScFileStorage
-              Top = 160
-            end
-            inherited ScSSHShell1: TScSSHShell
-              OnAsyncReceive = TSSHFrame1ScSSHShell1AsyncReceive
-              Left = 240
-              Top = 120
-            end
-            inherited ScSSHChannel: TScSSHChannel
-              Left = 144
-              Top = 136
-            end
-            inherited ScSSHClient: TScSSHClient
-              AfterConnect = TSSHFrame1ScSSHClientAfterConnect
-              AfterDisconnect = TSSHFrame1ScSSHClientAfterDisconnect
-              Left = 152
-            end
+            ExplicitHeight = 160
           end
         end
       end
@@ -17564,7 +17537,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010108001800AC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800C80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -17983,5 +17956,9 @@ object MainForm: TMainForm
     object Action11: TMenuItem
       Action = ToggleBottomPanelA
     end
+  end
+  object StacksPopupMenu: TPopupMenu
+    Left = 351
+    Top = 588
   end
 end
