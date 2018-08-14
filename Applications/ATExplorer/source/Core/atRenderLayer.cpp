@@ -47,8 +47,8 @@ mPathEtc(mURL.getPathEtc())
     }
 
     mZ 	= toInt(pairs[10]);
-    mRenderBox = RenderBox(pairs[12]);
-    mScale = mRenderBox.getScale();
+    mRegionOfInterest = RegionOfInterest(pairs[12]);
+    mScale = mRegionOfInterest.getScale();
 }
 
 bool RenderLayer::existInCache(const string& rootFolder)
@@ -64,7 +64,7 @@ string RenderLayer::getImageLocalCachePath(const string& rootFolder)
     s 	<< rootFolder << "\\"<<mRenderProject.mOwner
     	<<"\\"<<mRenderProject.mProject
         <<"\\"<<mRenderProject.mSelectedStack
-        <<"\\"<<mRenderBox.getX1()<<","<<mRenderBox.getY1()<<","<<mRenderBox.getWidth()<<","<<mRenderBox.getHeight();
+        <<"\\"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1()<<","<<mRegionOfInterest.getWidth()<<","<<mRegionOfInterest.getHeight();
 
     return s.str();
 }
@@ -77,7 +77,7 @@ string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder)
     s 	<< rootFolder << "\\"<<mRenderProject.mOwner
     	<<"\\"<<mRenderProject.mProject
         <<"\\"<<mRenderProject.mSelectedStack
-        <<"\\"<<mRenderBox.getX1()<<","<<mRenderBox.getY1()<<","<<mRenderBox.getWidth()<<","<<mRenderBox.getHeight()<<"\\"
+        <<"\\"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1()<<","<<mRegionOfInterest.getWidth()<<","<<mRegionOfInterest.getHeight()<<"\\"
         <<mZ<<"_"<<mMinIntensity<<"_"<<mMaxIntensity<<"_"<<mScale<<".jpg";
 
     return s.str();
@@ -93,9 +93,9 @@ int RenderLayer::getZ()
     return mZ;
 }
 
-RenderBox RenderLayer::getRenderBox()
+RegionOfInterest RenderLayer::getRegionOfInterest()
 {
-    return mRenderBox;
+    return mRegionOfInterest;
 }
 
 int RenderLayer::getMinIntensity()

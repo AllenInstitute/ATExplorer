@@ -2,7 +2,7 @@
 #define atRenderLayerH
 #include "atATObject.h"
 #include "Poco/URI.h"
-#include "atRenderbox.h"
+#include "atRegionOfInterest.h"
 #include "atRenderProject.h"
 //---------------------------------------------------------------------------
 namespace at
@@ -20,7 +20,7 @@ class PACKAGE RenderLayer : public ATObject
         bool                            existInCache(const string& rootFolder);
 
         int                             getZ();
-        RenderBox                       getRenderBox();
+        RegionOfInterest                       getRegionOfInterest();
 
         int                             getMinIntensity();
         int                             getMaxIntensity();
@@ -31,7 +31,7 @@ class PACKAGE RenderLayer : public ATObject
         int                             mZ;
         double                          mScale;
 
-        RenderBox                       mRenderBox;
+        RegionOfInterest                       mRegionOfInterest;
         int                             mMinIntensity;
         int                             mMaxIntensity;
         RenderProject                   mRenderProject;

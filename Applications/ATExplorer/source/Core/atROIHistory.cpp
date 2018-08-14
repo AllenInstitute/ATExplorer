@@ -14,14 +14,14 @@ void ROIHistory::clear()
 	mHistory.clear();
 }
 
-void ROIHistory::add(RenderBox& rb)
+void ROIHistory::add(RegionOfInterest& rb)
 {
 	mHistory.push_back(rb);
     mCurrent = mHistory.end();
     mCurrent--;
 }
 
-void ROIHistory::insert(RenderBox& rb)
+void ROIHistory::insert(RegionOfInterest& rb)
 {
 	if(mCurrent != (mHistory.end() - 1))
     {
@@ -36,7 +36,7 @@ void ROIHistory::insert(RenderBox& rb)
     }
 }
 
-RenderBox* ROIHistory::current()
+RegionOfInterest* ROIHistory::current()
 {
 	if(mCurrent != mHistory.end())
     {
@@ -45,17 +45,17 @@ RenderBox* ROIHistory::current()
     return NULL;
 }
 
-RenderBox* ROIHistory::first()
+RegionOfInterest* ROIHistory::first()
 {
 	return  mHistory.size() ? &(mHistory.front()) : NULL;
 }
 
-RenderBox* ROIHistory::last()
+RegionOfInterest* ROIHistory::last()
 {
 	return  mHistory.size() ? &(mHistory.back()) : NULL;
 }
 
-RenderBox* ROIHistory::next()
+RegionOfInterest* ROIHistory::next()
 {
     if(mCurrent != mHistory.end())
     {
@@ -68,7 +68,7 @@ RenderBox* ROIHistory::next()
     return NULL;
 }
 
-RenderBox* ROIHistory::previous()
+RegionOfInterest* ROIHistory::previous()
 {
     if(mCurrent != mHistory.begin())
     {

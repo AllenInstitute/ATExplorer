@@ -1,12 +1,12 @@
 #include <System.hpp>
 #pragma hdrstop
+USEFORM("..\..\source\Frames\TAffineTransformationFrame.cpp", AffineTransformationFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Frames\TImageControlsFrame.cpp", ImageControlsFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Frames\TRenderPythonRemoteScriptFrame.cpp", RenderPythonRemoteScriptFrame); /* TFrame: File Type */
 USEFORM("P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
 USEFORM("..\..\source\Forms\TImageForm.cpp", ImageForm);
 USEFORM("..\..\source\Forms\TSelectZsForm.cpp", SelectZsForm);
-USEFORM("..\..\source\Frames\TAffineTransformationFrame.cpp", AffineTransformationFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------

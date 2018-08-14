@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{68365255-D5F3-423A-9F32-9C838F3FDEAF}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ATExplorerPackage\ATExplorerAppPackage.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ATExplorer\ATExplorer.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ATExplorerAppPackage">
+        <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj"/>
+    </Target>
+    <Target Name="ATExplorerAppPackage:Clean">
+        <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ATExplorerAppPackage:Make">
+        <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ATExplorer">
+        <MSBuild Projects="ATExplorer\ATExplorer.cbproj"/>
+    </Target>
+    <Target Name="ATExplorer:Clean">
+        <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ATExplorer:Make">
+        <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ATExplorerAppPackage;ATExplorer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ATExplorerAppPackage:Make;ATExplorer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

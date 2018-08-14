@@ -4,7 +4,7 @@
 #include "dslStringList.h"
 #include "dslConstants.h"
 #include <vector>
-#include "atRenderBox.h"
+#include "atRegionOfInterest.h"
 #include "atRenderProject.h"
 #include "atFetchImageThread.h"
 //---------------------------------------------------------------------------
@@ -42,7 +42,7 @@ class PACKAGE RenderClient
                                                                           	const string& stack 	    = gEmptyString,
                                                                           	const string& imageType     = "jpeg-image",
                                                                           	int z 					    = 0,
-                                                                          	const RenderBox& box 	    = RenderBox(),
+                                                                          	const RegionOfInterest& box 	    = RegionOfInterest(),
                                                                             double scale 			    = 0.01,
                                                                             int	minInt					= 0,
                                                                             int maxInt					= 65535
@@ -74,9 +74,9 @@ class PACKAGE RenderClient
 
         StringList						            getZs();
         vector<int>						            getValidZs();
-		RenderBox 						            getLayerBoundsForZ(int z);
-        RenderBox						            getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
-	    vector<RenderBox>				            getBounds();
+		RegionOfInterest 						            getLayerBoundsForZ(int z);
+        RegionOfInterest						            getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
+	    vector<RegionOfInterest>				            getBounds();
         RenderProject&					            getProject();
         void										assignOnImageCallback(RCCallBack cb);
         void										copyImageData(MemoryStruct chunk);
@@ -94,7 +94,7 @@ class PACKAGE RenderClient
 		TMemoryStream* 		                        mImageMemory;
 
         											//!List of bounds
-        vector<RenderBox>				            mLatestBounds;
+        vector<RegionOfInterest>				            mLatestBounds;
 
     	int				                            mZ;
         double				                        mScale;
@@ -102,10 +102,10 @@ class PACKAGE RenderClient
         RenderProject					            mProject;
         string							            mLocalCacheFolder;
         string 			                            mImageType;
-        RenderBox			                        mRenderBox;
+        RegionOfInterest			                        mRegionOfInterest;
         int								            mMinIntensity;
         int								            mMaxIntensity;
-        RenderBox						            parseBoundsResponse(const string& s);
+        RegionOfInterest						            parseBoundsResponse(const string& s);
         FetchImageThread							mFetchImageThread;
 };
 

@@ -183,13 +183,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atProjectManager.h</DependentOn>
             <BuildOrder>11</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Core\atRegionOfInterest.cpp">
+            <DependentOn>..\..\source\Core\atRegionOfInterest.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Core\atRemoteScripter.cpp">
             <DependentOn>..\..\source\Core\atRemoteScripter.h</DependentOn>
             <BuildOrder>10</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderBox.cpp">
-            <DependentOn>..\..\source\Core\atRenderBox.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atRenderClient.cpp">
             <DependentOn>..\..\source\Core\atRenderClient.h</DependentOn>

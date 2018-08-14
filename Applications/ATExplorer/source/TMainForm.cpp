@@ -71,7 +71,8 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     mGeneralProperties(shared_ptr<IniFileProperties>(new IniFileProperties)),
 	mServer1Properties(shared_ptr<IniFileProperties>(new IniFileProperties)),
 	mServer2Properties(shared_ptr<IniFileProperties>(new IniFileProperties)),
-    mImageGrid(Image1, PaintBox1->Canvas)
+    mImageGrid(Image1, PaintBox1->Canvas),
+	mCurrentROI(0,0,1000,1000)
 {
     setupIniFile();
     setupAndReadIniParameters();
@@ -84,6 +85,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
     Application->ShowHint = true;
 	mAProcess.assignCallbacks(onProcessStarted, onProcessProgress, onProcessFinished);
+    mCurrentROI.assignOnChangeCallback(onROIChanged);
 }
 
 __fastcall TMainForm::~TMainForm()
@@ -91,16 +93,6 @@ __fastcall TMainForm::~TMainForm()
    	Gdiplus::GdiplusShutdown(gdiplusToken);
 	delete gImageForm;
 }
-
-//void ThrowWandException(MagickWand* wand)
-//{
-//  	char *description;
-//	ExceptionType severity;
-//
-//  	description = MagickGetException(wand, &severity);
-//    Log(lError) << "ImageMagic encountered a problem: " <<description <<" in module "<<GetMagickModule();
-//  	description = (char *) MagickRelinquishMemory(description);
-//}
 
 //This is called from a thread and need to be synchronized with the UI main thread
 void __fastcall TMainForm::onImage()
@@ -166,7 +158,7 @@ void __fastcall TMainForm::ClickZ(TObject *Sender)
 
     //Fetch data using URL
 	mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
-	mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+	mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
     {
@@ -187,7 +179,7 @@ void __fastcall TMainForm::ClickZ(TObject *Sender)
     if(Sender != NULL)
     {
 		mROIHistory.clear();
-    	mROIHistory.add(mCurrentRB);
+    	mROIHistory.add(mCurrentROI);
     }
 }
 
@@ -196,7 +188,7 @@ void __fastcall TMainForm::mScaleEKeyDown(TObject *Sender, WORD &Key, TShiftStat
 {
 	if(Key == VK_RETURN)
     {
-        mCurrentRB = RenderBox(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
+        mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
 		ClickZ(Sender);
     }
 }
@@ -309,7 +301,7 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button,
 		XCoordE->setValue(XCoordE->getValue() + (mTopLeftSelCorner.X - p2.X));
 		YCoordE->setValue(YCoordE->getValue() + (mTopLeftSelCorner.Y - p2.Y));
 
-		mCurrentRB = RenderBox(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
+		mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
        	ClickZ(Sender);
     }
 
@@ -340,10 +332,7 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button,
     Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
 
     updateScale();
-
-    //Add to render history
-    mCurrentRB = RenderBox(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
-    mROIHistory.insert(mCurrentRB);
+    mROIHistory.insert(mCurrentROI);
 
 	ClickZ(NULL);
 }
@@ -386,16 +375,16 @@ void __fastcall TMainForm::resetButtonClick(TObject *Sender)
     {
 	    mROIHistory.clear();
 	    //mScaleE->setValue(0.05 * ScaleConstantE->getValue());
-        mCurrentRB = mRC.getLayerBoundsForZ(getCurrentZ());
+        mCurrentROI = mRC.getLayerBoundsForZ(getCurrentZ());
 
-        XCoordE->setValue(mCurrentRB.getX1());
-        YCoordE->setValue(mCurrentRB.getY1());
-        Width->setValue(mCurrentRB.getWidth());
-        Height->setValue(mCurrentRB.getHeight());
+        XCoordE->setValue(mCurrentROI.getX1());
+        YCoordE->setValue(mCurrentROI.getY1());
+        Width->setValue(mCurrentROI.getWidth());
+        Height->setValue(mCurrentROI.getHeight());
 	    updateScale();
-        mCurrentRB.setScale(mScaleE->getValue());
-        render(&mCurrentRB);
-        mROIHistory.add(mCurrentRB);
+
+        ClickZ(NULL);
+        mROIHistory.add(mCurrentROI);
         Log(lDebug1) << "Origin: (X0,Y0) = (" << XCoordE->getValue() + Width->getValue()/2.<<"," <<YCoordE->getValue() + Height->getValue()/2.<<")";
 
     }
@@ -403,53 +392,25 @@ void __fastcall TMainForm::resetButtonClick(TObject *Sender)
     {}
 }
 
-void TMainForm::render(RenderBox* box)
-{
-	if(box)
-    {
-        mCurrentRB = *(box);
-        XCoordE->setValue(mCurrentRB.getX1());
-        YCoordE->setValue(mCurrentRB.getY1());
-        Width->setValue(mCurrentRB.getWidth());
-        Height->setValue(mCurrentRB.getHeight());
-        mScaleE->setValue(mCurrentRB.getScale());
-    }
-
-	ClickZ(NULL);
-}
-
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::historyBtnClick(TObject *Sender)
 {
     TButton* b = dynamic_cast<TButton*>(Sender);
+    RegionOfInterest* roi(NULL);
     if(b == mHistoryFFW)
     {
-        RenderBox* rb = mROIHistory.next();
-        if(rb)
-        {
-            render(rb);
-        }
+        roi = mROIHistory.next();
     }
     else if(b == mHistoryBackBtn)
     {
-        RenderBox* rb = mROIHistory.previous();
-        if(rb)
-        {
-            render(rb);
-        }
+        roi = mROIHistory.previous();
     }
-}
 
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::TraverseZClick(TObject *Sender)
-{
-	TButton* b = dynamic_cast<TButton*>(Sender);
-    if(mZs->ItemIndex > -1 && mZs->ItemIndex < mZs->Count)
+    if(roi)
     {
-    	mZs->Selected[mZs->ItemIndex] = false;
+        mCurrentROI = *roi;
+        ClickZ(NULL);
     }
-    mZs->Selected[mZs->ItemIndex] = true;
-    render();
 }
 
 //---------------------------------------------------------------------------
@@ -468,7 +429,7 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
             int z = toInt(stdstr(mZs->Items->Strings[0]));
             RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), ImageCacheFolderE->getValue());
             rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),
-                mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+                mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs
             StringList urls;
@@ -491,7 +452,6 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
         p.append(joinPath(mCurrentOwner.getValue(), mCurrentProject.getValue()));
         p.append(mCurrentStack.getValue());
         Log(lInfo) << "Deleting local cache for stack: " << p.toString();
-
         boost::filesystem::remove_all(p.toString());
     }
 }
@@ -537,13 +497,13 @@ void __fastcall TMainForm::GetOptimalBoundsBtnClick(TObject *Sender)
     rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
 
     vector<int> zs = rs.getValidZs();
-    RenderBox box = rs.getOptimalXYBoxForZs(zs);
+    RegionOfInterest box = rs.getOptimalXYBoxForZs(zs);
     Log(lInfo) << "XMin = " << box.getX1();
     Log(lInfo) << "XMax = " << box.getX2();
     Log(lInfo) << "YMin = " << box.getY1();
     Log(lInfo) << "YMax = " << box.getY2();
 
-   	vector<RenderBox> bounds = rs.getBounds();
+   	vector<RegionOfInterest> bounds = rs.getBounds();
     for(int i = 0; i < bounds.size(); i++)
     {
 	    Log(lDebug3) <<"Bounds:" << bounds[i].getZ()<<","<<bounds[i].getX1()<<","<<bounds[i].getX2()<<","<<bounds[i].getY1()<<","<<bounds[i].getY2();
@@ -562,13 +522,13 @@ void __fastcall TMainForm::mZoomBtnClick(TObject *Sender)
     }
 
 	//Modify bounding box with x%
-    mCurrentRB = RenderBox(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
-    mCurrentRB.zoom(zoomFactor);
+    mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
+    mCurrentROI.zoom(zoomFactor);
 
-	XCoordE->setValue(mCurrentRB.getX1());
-    YCoordE->setValue(mCurrentRB.getY1());
-    Width->setValue( mCurrentRB.getWidth());
-    Height->setValue(mCurrentRB.getHeight());
+	XCoordE->setValue(mCurrentROI.getX1());
+    YCoordE->setValue(mCurrentROI.getY1());
+    Width->setValue( mCurrentROI.getWidth());
+    Height->setValue(mCurrentROI.getHeight());
 
     updateScale();
 	ClickZ(Sender);
@@ -577,10 +537,10 @@ void __fastcall TMainForm::mZoomBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TMainForm::updateScale()
 {
-    mCurrentRB = RenderBox(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
+    mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
 
     //Scale the scaling
-    double scale  = (double) Image1->Height / (double) mCurrentRB.getHeight();
+    double scale  = (double) Image1->Height / (double) mCurrentROI.getHeight();
     Log(lDebug5) << "Image Scale: " << scale;
 	if(scale < 0.005)
     {
@@ -591,6 +551,7 @@ void TMainForm::updateScale()
     	scale = 1.0;
     }
 	mScaleE->setValue(scale);
+    mCurrentROI.setScale(scale);
 }
 
 //--------------------------------------------------------------------------
@@ -669,7 +630,7 @@ void __fastcall TMainForm::StackCBChange(TObject *Sender)
 	mCurrentStack.setValue(stack);
 	mRC.getProject().setupForStack(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
 
-   	mGetValidZsBtnClick(NULL);
+   	GetValidZsBtnClick(NULL);
 
 	ClickZ(NULL);
 
@@ -720,7 +681,7 @@ void __fastcall TMainForm::IntensityKeyDown(TObject *Sender, WORD &Key, TShiftSt
 
     //Fetch data using URL
     mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
-    mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentRB, mScaleE->getValue(), minInt, maxInt);
+    mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), minInt, maxInt);
 
     //First check if we already is having this data
     try
@@ -1351,6 +1312,7 @@ void TMainForm::onProcessProgress(void* arg1, void* arg2)
 void TMainForm::onProcessFinished(void* arg1, void* arg2)
 {
     Log(lInfo) << "Process finished.";
+    checkCache();
 }
 
 //---------------------------------------------------------------------------
@@ -1383,41 +1345,95 @@ void __fastcall TMainForm::CreateTiffStackAExecute(TObject *Sender)
 
 	IMConvert.setup(cmdLine.str(), mhCatchMessages);
     IMConvert.start(false);
-    //Create xml recording the selected z's
 }
 
 
 void __fastcall TMainForm::CreateMIPAExecute(TObject *Sender)
 {
-
-	CreateTiffStackAExecute(NULL);
-
     string cvt("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
-
     Process& IMConvert = mAProcess;
-
+    IMConvert.reset();
     IMConvert.setExecutable(cvt);
     IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
 
-    stringstream cmdLine;
+    //Find all stacks for current ROI
+    StringList stackFiles(getFilesInDir(mRC.getImageLocalCachePath(), "tif", false));
 
-    //Creat output filename
-    string mipFName("mip_" + getUUID() + ".tif");
+    //Create MIP's for every stack file
+    for(int i = 0; i < stackFiles.count(); i++)
+    {
+        if(startsWith("stack_", stackFiles[i]) && !endsWith("_MIP.tif", stackFiles[i]))
+        {
+            string mipFName(getFileNameNoExtension(stackFiles[i]));
 
-	cmdLine << cvt <<" " << "stack_9772ddd2-9cb9-11e8-b4f6-d8cb8abce51b.tif" << " -evaluate-sequence max "<<mipFName;
-    Log(lInfo) << "Running convert on " << cmdLine.str();
+            mipFName += "_MIP.tif";
+            stringstream cmdLine;
+            cmdLine << cvt <<" " << stackFiles[i] << " -evaluate-sequence max "<<mipFName;
+            Log(lInfo) << "Running convert on " << cmdLine.str();
 
-	IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.start(false);
-    //Create xml recording the selected z's
-
+			IMConvert.setup(cmdLine.str(), mhCatchMessages);
+            IMConvert.start(false);
+        }
+    }
 }
 
-////---------------------------------------------------------------------------
-//void __fastcall TMainForm::BrightnessTBChange(TObject *Sender)
-//{
-//    onImage(NULL);
-//}
-//
+void TMainForm::onROIChanged(void* arg1, void* arg2)
+{
+    TThread::Synchronize(NULL, &roiChanged);
+}
+
+void __fastcall TMainForm::roiChanged()
+{
+    Log(lInfo) << "Current ROI was changed.";
+    XCoordE->setValue(mCurrentROI.getX1());
+    YCoordE->setValue(mCurrentROI.getY1());
+    Width->setValue(mCurrentROI.getWidth());
+    Height->setValue(mCurrentROI.getHeight());
+    mScaleE->setValue(mCurrentROI.getScale());
+    checkCache();
+}
+
+
+void TMainForm::checkCache()
+{
+    //OtherCB
+    OtherCB->Clear();
+
+    StringList mipFiles(getFilesInDir(mRC.getImageLocalCachePath(), "tif", false));
+
+    for(int i = 0; i < mipFiles.count(); i++)
+    {
+
+        if(startsWith("stack_", mipFiles[i]) && endsWith("_MIP.tif", mipFiles[i]))
+        {
+            //Setup something robust here later on
+            string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
+            stringstream itemCaption;
+            itemCaption << "MIP_"<<i;
+            OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+        }
+    }
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OtherCBClick(TObject *Sender)
+{
+    //Open mip
+
+    TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
+    if(lb == OtherCB)
+    {
+        //Get item
+        TObject* item = lb->Items->Objects[lb->ItemIndex];
+
+        if(item)
+        {
+		    string* fName((string*) item);
+            TImageForm* iForm = new TImageForm(gApplicationRegistryRoot, "", this);
+            iForm->load(*fName);
+            iForm->Show();
+        }
+    }
+}
 
 

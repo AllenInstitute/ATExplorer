@@ -29,12 +29,12 @@ mProject("","","","")
 }
 
 bool RenderClient::init(const string& owner, const string& project, const string& stack,
-					    const string& imageType, int z, const RenderBox& box, double scale, int minInt, int maxInt)
+					    const string& imageType, int z, const RegionOfInterest& box, double scale, int minInt, int maxInt)
 {
     mProject.setupForStack(owner, project, stack);
     mImageType = (imageType);
     mZ = (z);
-    mRenderBox = (box);
+    mRegionOfInterest = (box);
 	mScale = (scale);
 	mMinIntensity = (minInt);
 	mMaxIntensity = (maxInt);
@@ -214,7 +214,7 @@ TMemoryStream* RenderClient::reloadImage(int z)
     return mImageMemory;
 }
 
-RenderBox RenderClient::getLayerBoundsForZ(int z)
+RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
 {
     stringstream sUrl;
     sUrl << mBaseURL;
@@ -226,7 +226,7 @@ RenderBox RenderClient::getLayerBoundsForZ(int z)
     Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
     TStringStream* zstrings = new TStringStream;;
     mC->Get(sUrl.str().c_str(), zstrings);
-	RenderBox b;
+	RegionOfInterest b;
 
     if( mC->ResponseCode == HTTP_RESPONSE_OK)
     {
@@ -242,7 +242,7 @@ RenderBox RenderClient::getLayerBoundsForZ(int z)
     return b;
 }
 
-RenderBox RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
+RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
 {
 	mLatestBounds.clear();
     double xMin(0), xMax(0), yMin(0), yMax(0);
@@ -261,7 +261,7 @@ RenderBox RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
             string s = stdstr(zstrings->DataString);
-            RenderBox sec_bounds = parseBoundsResponse(s);
+            RegionOfInterest sec_bounds = parseBoundsResponse(s);
             sec_bounds.setZ(zs[z]);
 			mLatestBounds.push_back(sec_bounds);
 
@@ -305,10 +305,10 @@ RenderBox RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
         }
     }
 
-    return RenderBox(xMin, yMin, xMax-xMin, yMax -yMin);
+    return RegionOfInterest(xMin, yMin, xMax-xMin, yMax -yMin);
 }
 
-vector<RenderBox> RenderClient::getBounds()
+vector<RegionOfInterest> RenderClient::getBounds()
 {
 	return mLatestBounds;
 }
@@ -348,7 +348,7 @@ string RenderClient::getURLForZ(int z)
     sUrl << "/project/" << mProject.getProject();
     sUrl << "/stack/"	<<mProject.getSelectedStackName();
     sUrl << "/z/"<<z;
-    sUrl << "/box/"<<mRenderBox.getX1()<<","<<mRenderBox.getY1() << "," << mRenderBox.getWidth() << ","<<mRenderBox.getHeight() << ","<<mScale;
+    sUrl << "/box/"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1() << "," << mRegionOfInterest.getWidth() << ","<<mRegionOfInterest.getHeight() << ","<<mScale;
     sUrl << "/jpeg-image";
 	sUrl << "?minIntensity="<<mMinIntensity;
 	sUrl << "&maxIntensity="<<mMaxIntensity;
@@ -366,7 +366,7 @@ string RenderClient::getURL()
     sUrl << "/project/" << mProject.getProject();
     sUrl << "/stack/"	<<mProject.getSelectedStackName();
     sUrl << "/z/"<<mZ;
-    sUrl << "/box/"<<round(mRenderBox.getX1())<<","<<round(mRenderBox.getY1()) << "," << round(mRenderBox.getWidth()) << ","<<round(mRenderBox.getHeight()) << ","<<mScale;
+    sUrl << "/box/"<<round(mRegionOfInterest.getX1())<<","<<round(mRegionOfInterest.getY1()) << "," << round(mRegionOfInterest.getWidth()) << ","<<round(mRegionOfInterest.getHeight()) << ","<<mScale;
     sUrl << "/jpeg-image";
 	sUrl << "?minIntensity="<<mMinIntensity;
 	sUrl << "&maxIntensity="<<mMaxIntensity;
@@ -452,9 +452,9 @@ bool RenderClient::renameStack(const string& currentStackName, const string& new
     return true;
 }
 
-RenderBox RenderClient::parseBoundsResponse(const string& _s)
+RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
 {
-	RenderBox bounds;
+	RegionOfInterest bounds;
     string s = stripCharacters("{}", _s);
     StringList l(s, ',');
     if(l.size() == 6)

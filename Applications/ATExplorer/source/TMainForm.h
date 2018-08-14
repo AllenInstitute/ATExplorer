@@ -225,12 +225,13 @@ __published:	// IDE-managed Components
 	TMenuItem *CreateTiffStack1;
 	TAction *CreateMIPA;
 	TMenuItem *CreateMaxIntensityProjection1;
-	TDcefBrowser *DcefBrowser1;
 	TSSHFrame *TSSHFrame1;
 	TLogMemoFrame *TLogMemoFrame1;
 	TGroupBox *GroupBox2;
-	TCheckListBox *StacksCB;
+	TCheckListBox *OtherCB;
 	TPopupMenu *StacksPopupMenu;
+	TDcefBrowser *DcefBrowser1;
+	TGroupBox *GroupBox5;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -243,7 +244,7 @@ __published:	// IDE-managed Components
 	void __fastcall FormMouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall resetButtonClick(TObject *Sender);
 	void __fastcall historyBtnClick(TObject *Sender);
-	void __fastcall TraverseZClick(TObject *Sender);
+//	void __fastcall TraverseZClick(TObject *Sender);
 	void __fastcall FetchSelectedZsBtnClick(TObject *Sender);
 	void __fastcall GetValidZsBtnClick(TObject *Sender);
 	void __fastcall mBrowseForCacheFolderClick(TObject *Sender);
@@ -324,6 +325,7 @@ __published:	// IDE-managed Components
 	void __fastcall TAffineTransformationFrame1ExecuteBtnClick(TObject *Sender);
 	void __fastcall CreateTiffStackAExecute(TObject *Sender);
 	void __fastcall CreateMIPAExecute(TObject *Sender);
+	void __fastcall OtherCBClick(TObject *Sender);
 
 
 	private:
@@ -359,11 +361,10 @@ __published:	// IDE-managed Components
         TPoint 											MovePt;
         TPoint											mTopLeftSelCorner;
         TPoint											mBottomRightSelCorner;
-		void								            render(RenderBox* box = NULL);
 
         //Render areas history
 	    ROIHistory										mROIHistory;
-		RenderBox										mCurrentRB;
+		RegionOfInterest								mCurrentROI;
       	TCanvas*										getCanvas();
 
 		FetchImagesThread								mCreateCacheThread;
@@ -400,7 +401,9 @@ __published:	// IDE-managed Components
         void                                            onProcessProgress(void* arg1, void* arg2);
         void                                            onProcessFinished(void* arg1, void* arg2);
 
-
+        void                                            onROIChanged(void* arg1, void* arg2);
+        void                                            checkCache();
+		void __fastcall 								roiChanged();
 
 public:
 	__fastcall 											TMainForm(TComponent* Owner);

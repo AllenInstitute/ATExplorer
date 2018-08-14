@@ -12,18 +12,18 @@ class PACKAGE ROIHistory
     								~ROIHistory();
 		void						clear();
 
-		void						add(RenderBox& rb);
-		void						insert(RenderBox& rb);
+		void						add(RegionOfInterest& rb);
+		void						insert(RegionOfInterest& rb);
 
-		RenderBox*					current();
-		RenderBox*					first();
-		RenderBox*					last();
-        RenderBox*					next();
-        RenderBox*					previous();
+		RegionOfInterest*					current();
+		RegionOfInterest*					first();
+		RegionOfInterest*					last();
+        RegionOfInterest*					next();
+        RegionOfInterest*					previous();
 
 
     private:
-    	deque<RenderBox> 			mHistory;
-        deque<RenderBox>::iterator	mCurrent;
+    	deque<RegionOfInterest> 			mHistory;
+        deque<RegionOfInterest>::iterator	mCurrent;
 };
 #endif

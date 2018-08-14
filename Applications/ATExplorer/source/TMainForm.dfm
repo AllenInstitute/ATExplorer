@@ -134,7 +134,7 @@ object MainForm: TMainForm
         Top = 1
         Width = 941
         Height = 847
-        ActivePage = TabSheet2
+        ActivePage = NdVizTS
         Align = alClient
         TabOrder = 0
         OnChange = VisualsPCChange
@@ -16242,19 +16242,15 @@ object MainForm: TMainForm
             OnClick = ClearBrowserCacheBtnClick
           end
           object DcefBrowser1: TDcefBrowser
-            Left = 0
-            Top = 0
-            Width = 933
-            Height = 819
+            Left = 168
+            Top = 200
+            Width = 100
+            Height = 41
             TabOrder = 1
-            Align = alClient
             DefaultURL = 'about:blank'
             DcefBOptions.DevToolsEnable = False
             DcefBOptions.CloseWPagesClosed = False
             DcefBOptions.DownLoadPath = 'C:\CodeGear\Tokyo\bin\Download\'
-            OnStateChange = DcefBrowser1StateChange
-            OnBeforeBrowse = DcefBrowser1BeforeBrowse
-            OnConsoleMessage = DcefBrowser1ConsoleMessage
           end
         end
       end
@@ -16285,14 +16281,121 @@ object MainForm: TMainForm
               DoubleBuffered = True
               ParentDoubleBuffered = False
               TabOrder = 0
+              object GroupBox1: TGroupBox
+                Left = 0
+                Top = 0
+                Width = 283
+                Height = 185
+                Align = alTop
+                Caption = 'Project Selection'
+                TabOrder = 0
+                DesignSize = (
+                  283
+                  185)
+                object Label1: TLabel
+                  Left = 16
+                  Top = 22
+                  Width = 32
+                  Height = 13
+                  Caption = 'Owner'
+                end
+                object Label2: TLabel
+                  Left = 17
+                  Top = 74
+                  Width = 34
+                  Height = 13
+                  Caption = 'Project'
+                end
+                object Label3: TLabel
+                  Left = 17
+                  Top = 127
+                  Width = 31
+                  Height = 13
+                  Caption = 'Stacks'
+                end
+                object OwnerCB: TComboBox
+                  Left = 17
+                  Top = 38
+                  Width = 224
+                  Height = 21
+                  Style = csDropDownList
+                  Anchors = [akLeft, akTop, akRight]
+                  TabOrder = 0
+                  OnChange = OwnerCBChange
+                end
+                object ProjectCB: TComboBox
+                  Left = 16
+                  Top = 93
+                  Width = 225
+                  Height = 21
+                  Style = csDropDownList
+                  Anchors = [akLeft, akTop, akRight]
+                  DropDownCount = 25
+                  TabOrder = 1
+                  OnChange = ProjectCBChange
+                end
+                object StackCB: TComboBox
+                  Left = 17
+                  Top = 146
+                  Width = 224
+                  Height = 21
+                  Hint = 'Test'
+                  ParentShowHint = False
+                  ShowHint = True
+                  TabOrder = 2
+                  Text = 'StackCB'
+                  OnChange = StackCBChange
+                end
+              end
+              object GroupBox5: TGroupBox
+                Left = 0
+                Top = 616
+                Width = 283
+                Height = 197
+                Align = alBottom
+                Caption = 'Extra'
+                TabOrder = 1
+                object RzSpinButtons1: TRzSpinButtons
+                  Left = 11
+                  Top = 124
+                  Width = 94
+                  Height = 25
+                  Delay = 15
+                  FocusControl = CustomImageRotationE
+                  Orientation = orHorizontal
+                  OnDownLeftClick = RzSpinButtons1DownLeftClick
+                  OnUpRightClick = RzSpinButtons1UpRightClick
+                  TabOrder = 0
+                end
+                object CustomImageRotationE: TFloatLabeledEdit
+                  Left = 17
+                  Top = 88
+                  Width = 96
+                  Height = 21
+                  EditLabel.Width = 80
+                  EditLabel.Height = 13
+                  EditLabel.Caption = 'Custom Rotation'
+                  TabOrder = 1
+                  Text = '0.0'
+                  OnKeyDown = CustomImageRotationEKeyDown
+                end
+                object ShowImageGridCB: TCheckBox
+                  Left = 17
+                  Top = 36
+                  Width = 122
+                  Height = 17
+                  Action = ToggleImageGridA
+                  TabOrder = 2
+                end
+              end
               object imageParasGB: TGroupBox
                 Left = 0
-                Top = 185
+                Top = 274
                 Width = 283
-                Height = 305
+                Height = 207
                 Align = alTop
-                Caption = 'Image Parameters'
-                TabOrder = 0
+                Caption = 'Region of Intereset (ROI)'
+                TabOrder = 2
                 object mScaleE: TFloatLabeledEdit
                   Left = 16
                   Top = 34
@@ -16418,167 +16521,77 @@ object MainForm: TMainForm
                   Text = '150'
                   Value = 150
                 end
-                object GroupBox9: TGroupBox
-                  Left = 2
-                  Top = 214
-                  Width = 279
-                  Height = 89
-                  Align = alBottom
-                  Caption = 'Zoom'
-                  TabOrder = 10
-                  DesignSize = (
-                    279
-                    89)
-                  object mHistoryBackBtn: TButton
-                    Left = 28
-                    Top = 53
-                    Width = 75
-                    Height = 25
-                    Anchors = [akTop, akRight]
-                    Caption = '<'
-                    TabOrder = 0
-                    OnClick = historyBtnClick
-                  end
-                  object mHistoryFFW: TButton
-                    Left = 109
-                    Top = 53
-                    Width = 78
-                    Height = 25
-                    Anchors = [akTop, akRight]
-                    Caption = '>'
-                    TabOrder = 1
-                    OnClick = historyBtnClick
-                  end
-                  object mZoomFactor: TIntegerEdit
-                    Left = 61
-                    Top = 26
-                    Width = 89
-                    Height = 21
-                    Anchors = [akTop, akRight]
-                    NumbersOnly = True
-                    TabOrder = 2
-                    Text = '10'
-                    Value = 10
-                  end
-                  object mZoomInBtn: TButton
-                    Left = 157
-                    Top = 22
-                    Width = 26
-                    Height = 25
-                    Anchors = [akTop, akRight]
-                    Caption = '+'
-                    TabOrder = 3
-                    OnClick = mZoomBtnClick
-                  end
-                  object mZoomOutBtn: TButton
-                    Left = 28
-                    Top = 22
-                    Width = 26
-                    Height = 25
-                    Anchors = [akTop, akRight]
-                    Caption = '-'
-                    TabOrder = 4
-                    OnClick = mZoomBtnClick
-                  end
-                end
               end
-              object GroupBox1: TGroupBox
+              object GroupBox9: TGroupBox
                 Left = 0
-                Top = 0
+                Top = 185
                 Width = 283
-                Height = 185
+                Height = 89
                 Align = alTop
-                Caption = 'Project Selection'
-                TabOrder = 1
+                Caption = 'Zoom'
+                TabOrder = 3
+                ExplicitLeft = 2
+                ExplicitTop = 15
+                ExplicitWidth = 279
                 DesignSize = (
                   283
-                  185)
-                object Label1: TLabel
-                  Left = 16
-                  Top = 22
-                  Width = 32
-                  Height = 13
-                  Caption = 'Owner'
-                end
-                object Label2: TLabel
-                  Left = 17
-                  Top = 74
-                  Width = 34
-                  Height = 13
-                  Caption = 'Project'
-                end
-                object Label3: TLabel
-                  Left = 17
-                  Top = 127
-                  Width = 31
-                  Height = 13
-                  Caption = 'Stacks'
-                end
-                object OwnerCB: TComboBox
-                  Left = 17
-                  Top = 38
-                  Width = 224
-                  Height = 21
-                  Style = csDropDownList
-                  Anchors = [akLeft, akTop, akRight]
+                  89)
+                object mHistoryBackBtn: TButton
+                  Left = 32
+                  Top = 53
+                  Width = 75
+                  Height = 25
+                  Anchors = [akTop, akRight]
+                  Caption = '<'
                   TabOrder = 0
-                  OnChange = OwnerCBChange
+                  OnClick = historyBtnClick
+                  ExplicitLeft = 28
                 end
-                object ProjectCB: TComboBox
-                  Left = 16
-                  Top = 93
-                  Width = 225
-                  Height = 21
-                  Style = csDropDownList
-                  Anchors = [akLeft, akTop, akRight]
-                  DropDownCount = 25
+                object mHistoryFFW: TButton
+                  Left = 113
+                  Top = 53
+                  Width = 78
+                  Height = 25
+                  Anchors = [akTop, akRight]
+                  Caption = '>'
                   TabOrder = 1
-                  OnChange = ProjectCBChange
+                  OnClick = historyBtnClick
+                  ExplicitLeft = 109
                 end
-                object StackCB: TComboBox
-                  Left = 17
-                  Top = 146
-                  Width = 224
+                object mZoomFactor: TIntegerEdit
+                  Left = 65
+                  Top = 26
+                  Width = 89
                   Height = 21
-                  Hint = 'Test'
-                  ParentShowHint = False
-                  ShowHint = True
+                  Anchors = [akTop, akRight]
+                  NumbersOnly = True
                   TabOrder = 2
-                  Text = 'StackCB'
-                  OnChange = StackCBChange
+                  Text = '10'
+                  Value = 10
+                  ExplicitLeft = 61
                 end
-              end
-              object ShowImageGridCB: TCheckBox
-                Left = 16
-                Top = 496
-                Width = 122
-                Height = 17
-                Action = ToggleImageGridA
-                TabOrder = 2
-              end
-              object CustomImageRotationE: TFloatLabeledEdit
-                Left = 17
-                Top = 536
-                Width = 96
-                Height = 21
-                EditLabel.Width = 80
-                EditLabel.Height = 13
-                EditLabel.Caption = 'Custom Rotation'
-                TabOrder = 3
-                Text = '0.0'
-                OnKeyDown = CustomImageRotationEKeyDown
-              end
-              object RzSpinButtons1: TRzSpinButtons
-                Left = 17
-                Top = 563
-                Width = 94
-                Height = 25
-                Delay = 15
-                FocusControl = CustomImageRotationE
-                Orientation = orHorizontal
-                OnDownLeftClick = RzSpinButtons1DownLeftClick
-                OnUpRightClick = RzSpinButtons1UpRightClick
-                TabOrder = 4
+                object mZoomInBtn: TButton
+                  Left = 161
+                  Top = 22
+                  Width = 26
+                  Height = 25
+                  Anchors = [akTop, akRight]
+                  Caption = '+'
+                  TabOrder = 3
+                  OnClick = mZoomBtnClick
+                  ExplicitLeft = 157
+                end
+                object mZoomOutBtn: TButton
+                  Left = 32
+                  Top = 22
+                  Width = 26
+                  Height = 25
+                  Anchors = [akTop, akRight]
+                  Caption = '-'
+                  TabOrder = 4
+                  OnClick = mZoomBtnClick
+                  ExplicitLeft = 28
+                end
               end
             end
             object ZsPanel: TPanel
@@ -16641,9 +16654,9 @@ object MainForm: TMainForm
                 Width = 94
                 Height = 180
                 Align = alBottom
-                Caption = 'Stacks'
+                Caption = 'Other'
                 TabOrder = 2
-                object StacksCB: TCheckListBox
+                object OtherCB: TCheckListBox
                   Left = 2
                   Top = 15
                   Width = 90
@@ -16652,7 +16665,7 @@ object MainForm: TMainForm
                   ItemHeight = 13
                   PopupMenu = ZsPopUpMenu
                   TabOrder = 0
-                  OnClick = ClickZ
+                  OnClick = OtherCBClick
                 end
               end
             end
@@ -16701,10 +16714,10 @@ object MainForm: TMainForm
                 DesignSize = (
                   198
                   648)
-                inherited TranslateXE: TIntegerLabeledEdit
+                inherited TranslateYE: TIntegerLabeledEdit
                   Visible = False
                 end
-                inherited TranslateYE: TIntegerLabeledEdit
+                inherited TranslateXE: TIntegerLabeledEdit
                   Visible = False
                 end
                 inherited ExecuteBtn: TButton
@@ -17537,7 +17550,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010108001800C80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800D80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

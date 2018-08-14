@@ -23,10 +23,10 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
     TLogMemoFrame1->init();
 
-    mCurrentRB.setX1(XCoordE->getValue());
-    mCurrentRB.setY1(YCoordE->getValue());
-    mCurrentRB.setWidth(Width->getValue());
-    mCurrentRB.setHeight(Height->getValue());
+    mCurrentROI.setX1(XCoordE->getValue());
+    mCurrentROI.setY1(YCoordE->getValue());
+    mCurrentROI.setWidth(Width->getValue());
+    mCurrentROI.setHeight(Height->getValue());
 
     //Setup renderclient
     mRC.setBaseURL(mBaseUrlE->getValue());
