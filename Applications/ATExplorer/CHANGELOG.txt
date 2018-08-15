@@ -1,3 +1,15 @@
+Release 0.6.5 (Aug 14)
+=======================
+* Added a RenderLocalCache class
+* Added lists for selected ROIs
+* Added a bunch of low level utility functions
+* Implementing concept of ROI's
+* Moved out inline functions
+* Reafctoring for faster builds
+* Organizing UI to handle large amounts of ROI's
+* Adding stack and MIP creation actions
+* Added ATExplorer document
+
 Release 0.6.4 (Aug 6)
 =======================
 * Added ability to add transforms to render stacks, e.g. affine rotation
