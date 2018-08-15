@@ -19,6 +19,7 @@
 #include "TSelectZsForm.h"
 #include <vector>
 #include <gdiplus.h>
+#include "atRenderLayer.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -43,6 +44,7 @@ TMainForm *MainForm;
 using namespace dsl;
 using namespace std;
 using namespace Poco;
+using namespace at;
 //using boost::filesystem;
 using Poco::Timestamp;
 using Poco::Timespan;
@@ -157,7 +159,6 @@ void __fastcall TMainForm::ClickZ(TObject *Sender)
     int z = toInt(stdstr(mZs->Items->Strings[mZs->ItemIndex]));
 
     //Fetch data using URL
-	mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
 	mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
@@ -176,11 +177,6 @@ void __fastcall TMainForm::ClickZ(TObject *Sender)
 
     URLE->setValue(createNDVIZURL());
 
-    if(Sender != NULL)
-    {
-		mROIHistory.clear();
-    	mROIHistory.add(mCurrentROI);
-    }
 }
 
 //---------------------------------------------------------------------------
@@ -305,7 +301,7 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button,
        	ClickZ(Sender);
     }
 
-	if(!Drawing ||  (Button == TMouseButton::mbRight))
+	if(!Drawing || (Button == TMouseButton::mbRight))
     {
     	return;
     }
@@ -325,16 +321,23 @@ void __fastcall TMainForm::FormMouseUp(TObject *Sender, TMouseButton Button,
 		return;
     }
 
-	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
-	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
+	mCurrentROI = RegionOfInterest(	XCoordE->getValue() + mTopLeftSelCorner.X,
+    				 				YCoordE->getValue() + mTopLeftSelCorner.Y,
+                                    mBottomRightSelCorner.X - mTopLeftSelCorner.X,
+                                    mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
+                                    mScaleE->getValue());
+//	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
+//	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
+//    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
+//    Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
 
-    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
-    Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
-
+//	mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
     updateScale();
-    mROIHistory.insert(mCurrentROI);
+	roiChanged();
 
+    updateROIs();
 	ClickZ(NULL);
+    checkCache();
 }
 
 //---------------------------------------------------------------------------
@@ -373,7 +376,6 @@ void __fastcall TMainForm::resetButtonClick(TObject *Sender)
 {
 	try
     {
-	    mROIHistory.clear();
 	    //mScaleE->setValue(0.05 * ScaleConstantE->getValue());
         mCurrentROI = mRC.getLayerBoundsForZ(getCurrentZ());
 
@@ -384,33 +386,12 @@ void __fastcall TMainForm::resetButtonClick(TObject *Sender)
 	    updateScale();
 
         ClickZ(NULL);
-        mROIHistory.add(mCurrentROI);
         Log(lDebug1) << "Origin: (X0,Y0) = (" << XCoordE->getValue() + Width->getValue()/2.<<"," <<YCoordE->getValue() + Height->getValue()/2.<<")";
-
+	    checkCache();
+        updateROIs();
     }
     catch(...)
     {}
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::historyBtnClick(TObject *Sender)
-{
-    TButton* b = dynamic_cast<TButton*>(Sender);
-    RegionOfInterest* roi(NULL);
-    if(b == mHistoryFFW)
-    {
-        roi = mROIHistory.next();
-    }
-    else if(b == mHistoryBackBtn)
-    {
-        roi = mROIHistory.previous();
-    }
-
-    if(roi)
-    {
-        mCurrentROI = *roi;
-        ClickZ(NULL);
-    }
 }
 
 //---------------------------------------------------------------------------
@@ -451,8 +432,10 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
 
         p.append(joinPath(mCurrentOwner.getValue(), mCurrentProject.getValue()));
         p.append(mCurrentStack.getValue());
+
         Log(lInfo) << "Deleting local cache for stack: " << p.toString();
         boost::filesystem::remove_all(p.toString());
+        checkCache();
     }
 }
 
@@ -503,7 +486,7 @@ void __fastcall TMainForm::GetOptimalBoundsBtnClick(TObject *Sender)
     Log(lInfo) << "YMin = " << box.getY1();
     Log(lInfo) << "YMax = " << box.getY2();
 
-   	vector<RegionOfInterest> bounds = rs.getBounds();
+   	vector<RegionOfInterest> bounds = rs.getLayerBounds();
     for(int i = 0; i < bounds.size(); i++)
     {
 	    Log(lDebug3) <<"Bounds:" << bounds[i].getZ()<<","<<bounds[i].getX1()<<","<<bounds[i].getX2()<<","<<bounds[i].getY1()<<","<<bounds[i].getY2();
@@ -532,12 +515,13 @@ void __fastcall TMainForm::mZoomBtnClick(TObject *Sender)
 
     updateScale();
 	ClickZ(Sender);
+    checkCache();
 }
 
 //---------------------------------------------------------------------------
 void TMainForm::updateScale()
 {
-    mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
+//    mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
 
     //Scale the scaling
     double scale  = (double) Image1->Height / (double) mCurrentROI.getHeight();
@@ -628,12 +612,12 @@ void __fastcall TMainForm::StackCBChange(TObject *Sender)
 
     string stack = stdstr(StackCB->Items->Strings[StackCB->ItemIndex]);
 	mCurrentStack.setValue(stack);
-	mRC.getProject().setupForStack(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+	mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
 
    	GetValidZsBtnClick(NULL);
 
 	ClickZ(NULL);
-
+    updateROIs();
     //Update stack generation page
 	//User changed stack.. Clear check list box and select current one
     for(int i = 0; i < StacksForProjectCB->Items->Count; i++)
@@ -916,7 +900,7 @@ void __fastcall TMainForm::CustomRotationEKeyDown(TObject *Sender, WORD &Key,
 void __fastcall TMainForm::TestRenderServiceBtnClick(TObject *Sender)
 {
     mRC.setBaseURL(mBaseUrlE->getValue());
-    mRC.getProject().setupForStack(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+    mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
 
     //Populate owners
     StringList o = mRC.getOwners();
@@ -1344,7 +1328,7 @@ void __fastcall TMainForm::CreateTiffStackAExecute(TObject *Sender)
     Log(lInfo) << "Running convert on " << cmdLine.str();
 
 	IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.start(false);
+    IMConvert.start(true);
 }
 
 
@@ -1357,24 +1341,28 @@ void __fastcall TMainForm::CreateMIPAExecute(TObject *Sender)
     IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
 
     //Find all stacks for current ROI
-    StringList stackFiles(getFilesInDir(mRC.getImageLocalCachePath(), "tif", false));
+    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
 
-    //Create MIP's for every stack file
-    for(int i = 0; i < stackFiles.count(); i++)
+    //Create MIP's for current stack file
+
+    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+    if(!temp)
     {
-        if(startsWith("stack_", stackFiles[i]) && !endsWith("_MIP.tif", stackFiles[i]))
-        {
-            string mipFName(getFileNameNoExtension(stackFiles[i]));
-
-            mipFName += "_MIP.tif";
-            stringstream cmdLine;
-            cmdLine << cvt <<" " << stackFiles[i] << " -evaluate-sequence max "<<mipFName;
-            Log(lInfo) << "Running convert on " << cmdLine.str();
-
-			IMConvert.setup(cmdLine.str(), mhCatchMessages);
-            IMConvert.start(false);
-        }
+        Log(lError) << "Failed to extract string item";
+        return;
     }
+
+    string currentStack(*temp);
+    string mipFName(getFileNameNoExtension(currentStack));
+
+    mipFName += "_MIP.tif";
+    mipFName = replaceSubstring("stack_", "", mipFName);
+    stringstream cmdLine;
+    cmdLine << cvt <<" " << currentStack << " -evaluate-sequence max "<<mipFName;
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+    IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.start(true);
 }
 
 void TMainForm::onROIChanged(void* arg1, void* arg2)
@@ -1384,7 +1372,7 @@ void TMainForm::onROIChanged(void* arg1, void* arg2)
 
 void __fastcall TMainForm::roiChanged()
 {
-    Log(lInfo) << "Current ROI was changed.";
+    Log(lInfo) << "ROI was changed.";
     XCoordE->setValue(mCurrentROI.getX1());
     YCoordE->setValue(mCurrentROI.getY1());
     Width->setValue(mCurrentROI.getWidth());
@@ -1393,35 +1381,59 @@ void __fastcall TMainForm::roiChanged()
     checkCache();
 }
 
-
 void TMainForm::checkCache()
 {
     //OtherCB
+    StacksCB->Clear();
     OtherCB->Clear();
-
-    StringList mipFiles(getFilesInDir(mRC.getImageLocalCachePath(), "tif", false));
-
-    for(int i = 0; i < mipFiles.count(); i++)
+    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+    for(int i = 0; i < stackFiles.count(); i++)
     {
-
-        if(startsWith("stack_", mipFiles[i]) && endsWith("_MIP.tif", mipFiles[i]))
+        if(startsWith("stack_", stackFiles[i]))
         {
             //Setup something robust here later on
-            string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
+            string* item = new string(joinPath(mRC.getImageLocalCachePath(), stackFiles[i]));
             stringstream itemCaption;
-            itemCaption << "MIP_"<<i;
-            OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+            itemCaption << "Stack_"<<i + 1;
+            StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
         }
     }
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OtherCBClick(TObject *Sender)
 {
     //Open mip
-
     TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
-    if(lb == OtherCB)
+    if(lb == StacksCB)
+    {
+        string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+        if(!temp)
+        {
+            Log(lError) << "Failed to extract string item";
+            return;
+        }
+
+        string currentStack(replaceSubstring(".tif", "", replaceSubstring("stack_", "", *temp)));
+
+        //Populate mips for current stack
+        OtherCB->Clear();
+        StringList mipFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+        for(int i = 0; i < mipFiles.count(); i++)
+        {
+            if(endsWith("_MIP.tif", mipFiles[i]))
+            {
+                //Setup something robust here later on
+                string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
+                if(item && contains(currentStack, *item))
+                {
+                    stringstream itemCaption;
+    	            itemCaption << "MIP_" << i + 1;
+	                OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+                }
+            }
+        }
+    }
+    else if(lb == OtherCB)
     {
         //Get item
         TObject* item = lb->Items->Objects[lb->ItemIndex];
@@ -1434,6 +1446,36 @@ void __fastcall TMainForm::OtherCBClick(TObject *Sender)
             iForm->Show();
         }
     }
+}
+
+void TMainForm::updateROIs()
+{
+    StringList rois(mRC.getROIFoldersForCurrentStack());
+    populateCheckListBox(rois, ROI_CB);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::ROI_CBClick(TObject *Sender)
+{
+    //Switch ROI
+    if(ROI_CB->ItemIndex != -1)
+    {
+
+	    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
+        RenderLayer rl(mRC.getProject(), roi, mRC.getCacheRoot());
+
+        mCurrentROI = roi;
+
+        mCurrentROI.setScale(rl.getLowestScaleInCache());
+        mScaleE->setValue(mCurrentROI.getScale());
+		ClickZ(Sender);
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::Button1Click(TObject *Sender)
+{
+	updateROIs();
 }
 
 

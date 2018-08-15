@@ -94,7 +94,7 @@ int loadStyles()
     int nrOfStyles(0);
 	if(DirectoryExists(themeFolder.c_str()))
 	{
-		StringList list = getFilesInDir(themeFolder, "vsf");
+		StringList list = getFilesInFolder(themeFolder, "vsf");
 		for(int i = 0; i < list.size(); i++)
 		{
 			string styleFile(list[i]);

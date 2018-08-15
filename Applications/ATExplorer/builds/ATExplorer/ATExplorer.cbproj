@@ -58,7 +58,7 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclimg.lib;vclx.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;RaizeComponentsVcl.lib;dslVCLComponents.lib;DcefBrowser.lib;dslVCLVisualComponents.lib;sbridge250.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclimg.lib;vclx.lib;IndySystem.lib;IndyProtocols.lib;IndyCore.lib;RaizeComponentsVcl.lib;dslVCLComponents.lib;dslVCLVisualComponents.lib;sbridge250.lib;DcefBrowser.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -70,7 +70,7 @@
         <Custom_Styles>Carbon|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Carbon.vsf;&quot;Charcoal Dark Slate|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\CharcoalDarkSlate.vsf&quot;;&quot;Cobalt XEMedia|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\CobaltXEMedia.vsf&quot;;Glossy|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Glossy.vsf;Glow|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Glow.vsf;Luna|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Luna.vsf</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DbxDevartPostgreSQLDriver250;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;DcefBrowser;dslVCLComponents;dslVCLVisualComponents;dsnap;dsnapcon;dsnapxml;FireDACADSDriver;FireDACCommonODBC;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;rtl;sbridge250;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
+        <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DbxDevartPostgreSQLDriver250;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dslVCLComponents;dslVCLVisualComponents;dsnap;dsnapcon;dsnapxml;FireDACADSDriver;FireDACCommonODBC;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;rtl;sbridge250;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
@@ -108,7 +108,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;RaizeComponentsVcl.bpi;dslVCLComponents.bpi;DcefBrowser.bpi;dslVCLVisualComponents.bpi;sbridge250.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;RaizeComponentsVcl.bpi;dslVCLComponents.bpi;dslVCLVisualComponents.bpi;sbridge250.bpi</LinkPackageImports>
         <IncludePath>..\..\Source\\Forms;..\..\Source\\Frames;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -117,6 +117,13 @@
         <_TCHARMapping>char</_TCHARMapping>
         <BCC_wcsu>false</BCC_wcsu>
         <Defines> STRICT;$(Defines)</Defines>
+        <LinkPackageStatics>DcefBrowser.lib</LinkPackageStatics>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <VerInfo_MinorVer>6</VerInfo_MinorVer>
+        <VerInfo_Release>5</VerInfo_Release>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=0.6.5.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <PostBuildEvent><![CDATA[$(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)
+$(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -140,6 +147,10 @@
         <CppCompile Include="..\..\source\Core\atApplicationSupportFunctions.cpp">
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Core\atRenderLocalCache.cpp">
+            <DependentOn>..\..\source\Core\atRenderLocalCache.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Initializing.cpp">
             <BuildOrder>6</BuildOrder>
@@ -173,9 +184,9 @@
             <DependentOn>P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\source\TMainForm.dfm"/>
-        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
         <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
+        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
+        <FormResources Include="..\..\source\TMainForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -692,4 +703,12 @@
     <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+    <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>$(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
 </Project>

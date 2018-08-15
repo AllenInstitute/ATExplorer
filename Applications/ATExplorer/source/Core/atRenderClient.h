@@ -7,6 +7,7 @@
 #include "atRegionOfInterest.h"
 #include "atRenderProject.h"
 #include "atFetchImageThread.h"
+#include "atRenderLocalCache.h"
 //---------------------------------------------------------------------------
 
 using std::vector;
@@ -27,6 +28,7 @@ using System::Classes::TMemoryStream;
 using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
+using at::RenderLocalCache;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
@@ -53,6 +55,7 @@ class PACKAGE RenderClient
         StringList						            getProjectsForOwner(const string& o);
         StringList						            getStacksForProject(const string& owner, const string& p);
         RenderProject                               getCurrentProject();
+        StringList                                  getROIFoldersForCurrentStack();
 		TMemoryStream*								getImageMemory();
         bool                                        renameStack(const string& currentStackName, const string& newName);
 
@@ -69,14 +72,14 @@ class PACKAGE RenderClient
 		string 										getImageLocalCachePathAndFileNameForZ(int z);
         string							            getProjectName();
 
-        string							            setLocalCacheFolder(const string& f);
+        void							            setLocalCacheFolder(const string& f);
         string							            getLocalCacheFolder();
 
         StringList						            getZs();
         vector<int>						            getValidZs();
-		RegionOfInterest 						            getLayerBoundsForZ(int z);
-        RegionOfInterest						            getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
-	    vector<RegionOfInterest>				            getBounds();
+		RegionOfInterest 						    getLayerBoundsForZ(int z);
+        RegionOfInterest						    getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
+	    vector<RegionOfInterest>				    getLayerBounds();
         RenderProject&					            getProject();
         void										assignOnImageCallback(RCCallBack cb);
         void										copyImageData(MemoryStruct chunk);
@@ -85,6 +88,9 @@ class PACKAGE RenderClient
         string                                      getBaseURL();
         RenderProject                               getRenderProject();
         void                                        setRenderProject(const RenderProject& rp);
+		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
+
+        string                                      getCacheRoot();
 
     private:
     												//!This is the HTTP connection
@@ -94,18 +100,18 @@ class PACKAGE RenderClient
 		TMemoryStream* 		                        mImageMemory;
 
         											//!List of bounds
-        vector<RegionOfInterest>				            mLatestBounds;
+        vector<RegionOfInterest>				    mLayerBounds;
 
     	int				                            mZ;
         double				                        mScale;
         string			                            mBaseURL;
         RenderProject					            mProject;
-        string							            mLocalCacheFolder;
+        RenderLocalCache                            mCache;
         string 			                            mImageType;
-        RegionOfInterest			                        mRegionOfInterest;
+        RegionOfInterest			                mRegionOfInterest;
         int								            mMinIntensity;
         int								            mMaxIntensity;
-        RegionOfInterest						            parseBoundsResponse(const string& s);
+        RegionOfInterest						    parseBoundsResponse(const string& s);
         FetchImageThread							mFetchImageThread;
 };
 

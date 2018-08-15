@@ -203,6 +203,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atRenderLayer.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Core\atRenderLocalCache.cpp">
+            <DependentOn>..\..\source\Core\atRenderLocalCache.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Core\atRenderProject.cpp">
             <DependentOn>..\..\source\Core\atRenderProject.h</DependentOn>
             <BuildOrder>5</BuildOrder>

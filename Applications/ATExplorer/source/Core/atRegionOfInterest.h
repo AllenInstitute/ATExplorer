@@ -14,11 +14,11 @@ class PACKAGE RegionOfInterest
 {
 	public:
 	    								RegionOfInterest(double x = 0, double y = 0, double width = 0, double height = 0, double scale = 1);
-	    								RegionOfInterest(const string& str);
+	    								RegionOfInterest(const string& str, double scale = 1);
 	    								RegionOfInterest(const RegionOfInterest& cpme);
         RegionOfInterest&               operator=(const RegionOfInterest& rhs);
 
-
+        string                          getFolderName() const;
 		void							setX1(double x);
         double							getX1();
 		void							setX2(double x);

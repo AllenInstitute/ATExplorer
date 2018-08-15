@@ -3,55 +3,53 @@
 #include <math.h>
 #include "Poco/URI.h"
 #include "dslStringList.h"
+#include <sstream>
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace dsl;
 
 
-RegionOfInterest::RegionOfInterest(const string& _box)
+RegionOfInterest::RegionOfInterest(const string& _box, double scale)
 :
 mZ(0),
 onChange(NULL)
 {
 	//-4515,-2739,9027,5472,0.1338
-
     StringList box(_box, ',');
-
-    if(box.count() != 5)
+    if(box.count() < 4)
     {
         throw("Bad stuff...");
     }
 
-	mX = toDouble(box[0]);
-	mY = toDouble(box[1]);
-	mWidth = toDouble(box[2]);
+	mX 		= toDouble(box[0]);
+	mY 		= toDouble(box[1]);
+	mWidth 	= toDouble(box[2]);
 	mHeight = toDouble(box[3]);
-    mScale	= toDouble(box[4]);
+
+   	mScale	= (box.count() >= 5) ? toDouble(box[4]) : scale;
 }
 
 RegionOfInterest::RegionOfInterest(double x, double y, double width, double height, double scale)
 :
-	mZ(0),
-	mX(x),
-	mY(y),
-	mWidth(width),
-	mHeight(height),
-    mScale(scale),
-	onChange(NULL)
+mZ(0),
+mX(x),
+mY(y),
+mWidth(width),
+mHeight(height),
+mScale(scale),
+onChange(NULL)
 {}
 
 RegionOfInterest::RegionOfInterest(const RegionOfInterest& cpme)
 :
-	mZ(cpme.mZ),
-	mX(cpme.mX),
-	mY(cpme.mY),
-	mWidth(cpme.mWidth),
-	mHeight(cpme.mHeight),
-    mScale(cpme.mScale)
-{
-
-}
+mZ(cpme.mZ),
+mX(cpme.mX),
+mY(cpme.mY),
+mWidth(cpme.mWidth),
+mHeight(cpme.mHeight),
+mScale(cpme.mScale)
+{}
 
 RegionOfInterest& RegionOfInterest::operator=(const RegionOfInterest& rhs)
 {
@@ -94,11 +92,18 @@ RegionOfInterest& RegionOfInterest::operator=(const RegionOfInterest& rhs)
         }
     }
 
-    if(onChange && changed2D)
-    {
-        onChange(NULL, NULL);
-    }
+//    if(onChange && changed2D)
+//    {
+//        onChange(NULL, NULL);
+//    }
     return *this;
+}
+
+string RegionOfInterest::getFolderName() const
+{
+    stringstream p;
+    p << (int) mX << "," << (int) mY << "," <<  (int) mWidth << "," <<  (int) mHeight;
+    return p.str();
 }
 
 void RegionOfInterest::assignOnChangeCallback(OnChangeFnc f)

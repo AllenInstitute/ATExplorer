@@ -18,7 +18,7 @@ class PACKAGE RenderProject : public ATExplorerProject
                                         RenderProject(const RenderProject& rp);
         RenderProject&                  operator=(const RenderProject& rhs);
 
-		void							setupForStack(const string& owner, const string& project, const string& stack);
+		void							init(const string& owner, const string& project, const string& stack);
 
 		string							getProject();
 		string							getProjectOwner();
@@ -34,7 +34,6 @@ class PACKAGE RenderProject : public ATExplorerProject
 
 										//!This is the "render" project. Not the same as the projects name
         string 		                    mProject;
-
         string                          mSelectedStack;
         vector<string>				   	mStacks;
 

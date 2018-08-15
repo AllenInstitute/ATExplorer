@@ -50,6 +50,7 @@ RenderProject::RenderProject(const RenderProject& rp)
     mStacks				= rp.mStacks;
 }
 
+
 string RenderProject::getProject(){return mProject;}
 string RenderProject::getProjectOwner(){return mOwner;}
 string RenderProject::getSelectedStackName(){return mSelectedStack;}
@@ -68,7 +69,7 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
     return *this;
 }
 
-void RenderProject::setupForStack(const string& owner, const string& project, const string& stack)
+void RenderProject::init(const string& owner, const string& project, const string& stack)
 {
 	mOwner 				= owner;
     mProject 			= project;

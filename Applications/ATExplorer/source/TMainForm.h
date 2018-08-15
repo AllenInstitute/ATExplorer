@@ -80,8 +80,6 @@ __published:	// IDE-managed Components
 	TPanel *BottomPanel;
 	TGroupBox *imageParasGB;
 	TButton *mResetButton;
-	TButton *mHistoryBackBtn;
-	TButton *mHistoryFFW;
 	TPanel *mLeftPanel;
 	TPaintBox *PaintBox1;
 	TIniFileC *mIniFileC;
@@ -183,8 +181,6 @@ __published:	// IDE-managed Components
 	TPageControl *VisualsPC;
 	TTabSheet *TabSheet2;
 	TTabSheet *NdVizTS;
-
-	TIntegerLabeledEdit *maxTileSpecsToRenderE;
 	TButton *ClearCacheBtn;
 	TButton *ClearBrowserCacheBtn;
 	TPageControl *ScriptsPC;
@@ -224,14 +220,20 @@ __published:	// IDE-managed Components
 	TAction *CreateTiffStackA;
 	TMenuItem *CreateTiffStack1;
 	TAction *CreateMIPA;
-	TMenuItem *CreateMaxIntensityProjection1;
 	TSSHFrame *TSSHFrame1;
 	TLogMemoFrame *TLogMemoFrame1;
 	TGroupBox *GroupBox2;
 	TCheckListBox *OtherCB;
 	TPopupMenu *StacksPopupMenu;
-	TDcefBrowser *DcefBrowser1;
 	TGroupBox *GroupBox5;
+	TGroupBox *GroupBox7;
+	TCheckListBox *StacksCB;
+	TMenuItem *CreateMaxIntensityProjection1;
+	TCheckListBox *ROI_CB;
+	TIntegerLabeledEdit *maxTileSpecsToRenderE;
+	TDcefBrowser *DcefBrowser1;
+	TButton *Button1;
+	TPanel *Panel4;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -243,7 +245,7 @@ __published:	// IDE-managed Components
 	void __fastcall FormMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift, int X, int Y);
 	void __fastcall FormMouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall resetButtonClick(TObject *Sender);
-	void __fastcall historyBtnClick(TObject *Sender);
+
 //	void __fastcall TraverseZClick(TObject *Sender);
 	void __fastcall FetchSelectedZsBtnClick(TObject *Sender);
 	void __fastcall GetValidZsBtnClick(TObject *Sender);
@@ -326,6 +328,8 @@ __published:	// IDE-managed Components
 	void __fastcall CreateTiffStackAExecute(TObject *Sender);
 	void __fastcall CreateMIPAExecute(TObject *Sender);
 	void __fastcall OtherCBClick(TObject *Sender);
+	void __fastcall ROI_CBClick(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
 
 
 	private:
@@ -363,7 +367,6 @@ __published:	// IDE-managed Components
         TPoint											mBottomRightSelCorner;
 
         //Render areas history
-	    ROIHistory										mROIHistory;
 		RegionOfInterest								mCurrentROI;
       	TCanvas*										getCanvas();
 
@@ -393,7 +396,6 @@ __published:	// IDE-managed Components
 
 
 	    void                         	                paintRotatedImage(double angle);
-
 		LRESULT											onFinishedRenderRotate(TextMessage& msg);
         void                                            updateStacksForCurrentProject();
 
@@ -404,7 +406,7 @@ __published:	// IDE-managed Components
         void                                            onROIChanged(void* arg1, void* arg2);
         void                                            checkCache();
 		void __fastcall 								roiChanged();
-
+		void										    updateROIs();
 public:
 	__fastcall 											TMainForm(TComponent* Owner);
 	__fastcall 											~TMainForm();

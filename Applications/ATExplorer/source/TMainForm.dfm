@@ -59,6 +59,8 @@ object MainForm: TMainForm
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
+      ExplicitTop = 20
+      ExplicitWidth = 302
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -68,16 +70,16 @@ object MainForm: TMainForm
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 1438
+        ExplicitWidth = 300
         ExplicitHeight = 134
         inherited Panel1: TPanel
           Width = 1438
           Height = 134
-          ExplicitWidth = 1438
+          ExplicitWidth = 300
           ExplicitHeight = 134
           inherited GroupBox1: TGroupBox
             Width = 1436
-            ExplicitWidth = 1436
+            ExplicitWidth = 298
           end
           inherited infoMemo: TMemo
             Width = 1436
@@ -134,12 +136,16 @@ object MainForm: TMainForm
         Top = 1
         Width = 941
         Height = 847
-        ActivePage = NdVizTS
+        ActivePage = TabSheet2
         Align = alClient
         TabOrder = 0
         OnChange = VisualsPCChange
         object TabSheet2: TTabSheet
           Caption = 'Local Explorer'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Panel1: TPanel
             Left = 0
             Top = 0
@@ -152,6 +158,9 @@ object MainForm: TMainForm
             ParentBackground = False
             ParentDoubleBuffered = False
             TabOrder = 0
+            DesignSize = (
+              933
+              819)
             object PaintBox1: TPaintBox
               Left = 1
               Top = 1
@@ -16185,10 +16194,8 @@ object MainForm: TMainForm
               OnMouseDown = FormMouseDown
               OnMouseMove = FormMouseMove
               OnMouseUp = FormMouseUp
-              ExplicitLeft = 529
-              ExplicitTop = 150
-              ExplicitWidth = 821
-              ExplicitHeight = 544
+              ExplicitLeft = 16
+              ExplicitTop = 18
             end
             object XE: TLabel
               Left = 16
@@ -16217,6 +16224,37 @@ object MainForm: TMainForm
                   Width = 50
                 end>
             end
+            object mZoomFactor: TIntegerEdit
+              Left = 186
+              Top = 15
+              Width = 89
+              Height = 21
+              Anchors = [akTop, akRight]
+              NumbersOnly = True
+              TabOrder = 1
+              Text = '10'
+              Value = 10
+            end
+            object mZoomInBtn: TButton
+              Left = 281
+              Top = 11
+              Width = 26
+              Height = 25
+              Anchors = [akTop, akRight]
+              Caption = '+'
+              TabOrder = 2
+              OnClick = mZoomBtnClick
+            end
+            object mZoomOutBtn: TButton
+              Left = 152
+              Top = 11
+              Width = 26
+              Height = 25
+              Anchors = [akTop, akRight]
+              Caption = '-'
+              TabOrder = 3
+              OnClick = mZoomBtnClick
+            end
           end
           object URLE: TSTDStringEdit
             Left = 48
@@ -16232,6 +16270,10 @@ object MainForm: TMainForm
         object NdVizTS: TTabSheet
           Caption = 'NDViz'
           ImageIndex = 1
+          ExplicitLeft = 6
+          ExplicitTop = 23
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object ClearBrowserCacheBtn: TButton
             Left = 16
             Top = 16
@@ -16242,15 +16284,20 @@ object MainForm: TMainForm
             OnClick = ClearBrowserCacheBtnClick
           end
           object DcefBrowser1: TDcefBrowser
-            Left = 168
-            Top = 200
-            Width = 100
-            Height = 41
+            Left = 0
+            Top = 0
+            Width = 933
+            Height = 819
             TabOrder = 1
+            Align = alClient
             DefaultURL = 'about:blank'
             DcefBOptions.DevToolsEnable = False
             DcefBOptions.CloseWPagesClosed = False
             DcefBOptions.DownLoadPath = 'C:\CodeGear\Tokyo\bin\Download\'
+            ExplicitLeft = 152
+            ExplicitTop = 240
+            ExplicitWidth = 100
+            ExplicitHeight = 41
           end
         end
       end
@@ -16265,6 +16312,10 @@ object MainForm: TMainForm
         OnChange = PageControl1Change
         object TabSheet7: TTabSheet
           Caption = 'Project'
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object mLeftPanel: TPanel
             Left = 0
             Top = 0
@@ -16284,13 +16335,13 @@ object MainForm: TMainForm
               object GroupBox1: TGroupBox
                 Left = 0
                 Top = 0
-                Width = 283
+                Width = 266
                 Height = 185
                 Align = alTop
                 Caption = 'Project Selection'
                 TabOrder = 0
                 DesignSize = (
-                  283
+                  266
                   185)
                 object Label1: TLabel
                   Left = 16
@@ -16316,7 +16367,7 @@ object MainForm: TMainForm
                 object OwnerCB: TComboBox
                   Left = 17
                   Top = 38
-                  Width = 224
+                  Width = 207
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
@@ -16326,7 +16377,7 @@ object MainForm: TMainForm
                 object ProjectCB: TComboBox
                   Left = 16
                   Top = 93
-                  Width = 225
+                  Width = 208
                   Height = 21
                   Style = csDropDownList
                   Anchors = [akLeft, akTop, akRight]
@@ -16349,8 +16400,8 @@ object MainForm: TMainForm
               end
               object GroupBox5: TGroupBox
                 Left = 0
-                Top = 616
-                Width = 283
+                Top = 680
+                Width = 266
                 Height = 197
                 Align = alBottom
                 Caption = 'Extra'
@@ -16390,11 +16441,11 @@ object MainForm: TMainForm
               end
               object imageParasGB: TGroupBox
                 Left = 0
-                Top = 274
-                Width = 283
+                Top = 473
+                Width = 266
                 Height = 207
                 Align = alTop
-                Caption = 'Region of Intereset (ROI)'
+                Caption = 'Region of Interest (ROI)'
                 TabOrder = 2
                 object mScaleE: TFloatLabeledEdit
                   Left = 16
@@ -16509,88 +16560,44 @@ object MainForm: TMainForm
                   OnKeyDown = mScaleEKeyDown
                   Value = 1.000000000000000000
                 end
-                object maxTileSpecsToRenderE: TIntegerLabeledEdit
-                  Left = 17
-                  Top = 176
-                  Width = 121
-                  Height = 21
-                  EditLabel.Width = 121
-                  EditLabel.Height = 13
-                  EditLabel.Caption = 'Max # of Tiles To Render'
-                  TabOrder = 9
-                  Text = '150'
-                  Value = 150
-                end
               end
               object GroupBox9: TGroupBox
                 Left = 0
                 Top = 185
-                Width = 283
-                Height = 89
+                Width = 266
+                Height = 288
                 Align = alTop
-                Caption = 'Zoom'
+                Caption = 'ROI'#39's'
                 TabOrder = 3
-                ExplicitLeft = 2
-                ExplicitTop = 15
-                ExplicitWidth = 279
-                DesignSize = (
-                  283
-                  89)
-                object mHistoryBackBtn: TButton
-                  Left = 32
-                  Top = 53
-                  Width = 75
-                  Height = 25
-                  Anchors = [akTop, akRight]
-                  Caption = '<'
+                object ROI_CB: TCheckListBox
+                  Left = 2
+                  Top = 15
+                  Width = 262
+                  Height = 230
+                  Align = alClient
+                  ItemHeight = 13
                   TabOrder = 0
-                  OnClick = historyBtnClick
-                  ExplicitLeft = 28
+                  OnClick = ROI_CBClick
                 end
-                object mHistoryFFW: TButton
-                  Left = 113
-                  Top = 53
-                  Width = 78
-                  Height = 25
-                  Anchors = [akTop, akRight]
-                  Caption = '>'
+                object Panel4: TPanel
+                  Left = 2
+                  Top = 245
+                  Width = 262
+                  Height = 41
+                  Align = alBottom
                   TabOrder = 1
-                  OnClick = historyBtnClick
-                  ExplicitLeft = 109
-                end
-                object mZoomFactor: TIntegerEdit
-                  Left = 65
-                  Top = 26
-                  Width = 89
-                  Height = 21
-                  Anchors = [akTop, akRight]
-                  NumbersOnly = True
-                  TabOrder = 2
-                  Text = '10'
-                  Value = 10
-                  ExplicitLeft = 61
-                end
-                object mZoomInBtn: TButton
-                  Left = 161
-                  Top = 22
-                  Width = 26
-                  Height = 25
-                  Anchors = [akTop, akRight]
-                  Caption = '+'
-                  TabOrder = 3
-                  OnClick = mZoomBtnClick
-                  ExplicitLeft = 157
-                end
-                object mZoomOutBtn: TButton
-                  Left = 32
-                  Top = 22
-                  Width = 26
-                  Height = 25
-                  Anchors = [akTop, akRight]
-                  Caption = '-'
-                  TabOrder = 4
-                  OnClick = mZoomBtnClick
-                  ExplicitLeft = 28
+                  ExplicitLeft = 72
+                  ExplicitTop = 208
+                  ExplicitWidth = 185
+                  object Button1: TButton
+                    Left = 15
+                    Top = 6
+                    Width = 75
+                    Height = 25
+                    Caption = 'Refresh'
+                    TabOrder = 0
+                    OnClick = Button1Click
+                  end
                 end
               end
             end
@@ -16605,7 +16612,7 @@ object MainForm: TMainForm
                 Left = 1
                 Top = 1
                 Width = 94
-                Height = 497
+                Height = 317
                 Align = alClient
                 Caption = 'Sections'
                 TabOrder = 0
@@ -16613,7 +16620,7 @@ object MainForm: TMainForm
                   Left = 2
                   Top = 15
                   Width = 90
-                  Height = 480
+                  Height = 300
                   Align = alClient
                   ItemHeight = 13
                   PopupMenu = ZsPopUpMenu
@@ -16664,6 +16671,26 @@ object MainForm: TMainForm
                   Align = alClient
                   ItemHeight = 13
                   PopupMenu = ZsPopUpMenu
+                  TabOrder = 0
+                  OnClick = OtherCBClick
+                end
+              end
+              object GroupBox7: TGroupBox
+                Left = 1
+                Top = 318
+                Width = 94
+                Height = 180
+                Align = alBottom
+                Caption = 'Stacks'
+                TabOrder = 3
+                object StacksCB: TCheckListBox
+                  Left = 2
+                  Top = 15
+                  Width = 90
+                  Height = 163
+                  Align = alClient
+                  ItemHeight = 13
+                  PopupMenu = StacksPopupMenu
                   TabOrder = 0
                   OnClick = OtherCBClick
                 end
@@ -16737,6 +16764,10 @@ object MainForm: TMainForm
         object TabSheet8: TTabSheet
           Caption = 'Volume Creation'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object ScriptsPC: TPageControl
             Left = 0
             Top = 329
@@ -16748,6 +16779,10 @@ object MainForm: TMainForm
             OnChange = ScriptsPCChange
             object TabSheet6: TTabSheet
               Caption = 'Stack Creation'
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
             end
           end
           object StackGenerationGB: TGroupBox
@@ -17161,7 +17196,7 @@ object MainForm: TMainForm
           ImageIndex = 3
           object GroupBox6: TGroupBox
             Left = 0
-            Top = 158
+            Top = 295
             Width = 385
             Height = 67
             Align = alTop
@@ -17198,13 +17233,13 @@ object MainForm: TMainForm
             Left = 0
             Top = 70
             Width = 385
-            Height = 88
+            Height = 225
             Align = alTop
             Caption = 'Render Service Settings'
             TabOrder = 1
             DesignSize = (
               385
-              88)
+              225)
             object mBaseUrlE: TSTDStringLabeledEdit
               Left = 13
               Top = 42
@@ -17231,6 +17266,18 @@ object MainForm: TMainForm
               Caption = 'Test'
               TabOrder = 1
               OnClick = TestRenderServiceBtnClick
+            end
+            object maxTileSpecsToRenderE: TIntegerLabeledEdit
+              Left = 16
+              Top = 104
+              Width = 121
+              Height = 21
+              EditLabel.Width = 121
+              EditLabel.Height = 13
+              EditLabel.Caption = 'Max # of Tiles To Render'
+              TabOrder = 2
+              Text = '150'
+              Value = 150
             end
           end
           object TestSSHGB: TGroupBox
@@ -17266,12 +17313,12 @@ object MainForm: TMainForm
           end
           inline TSSHFrame1: TSSHFrame
             Left = 0
-            Top = 225
+            Top = 362
             Width = 385
             Height = 160
             Align = alTop
             TabOrder = 3
-            ExplicitTop = 225
+            ExplicitTop = 362
             ExplicitWidth = 385
             ExplicitHeight = 160
           end
@@ -17370,8 +17417,8 @@ object MainForm: TMainForm
     Top = 272
   end
   object ZsPopUpMenu: TPopupMenu
-    Left = 48
-    Top = 512
+    Left = 432
+    Top = 144
     object Checkrange1: TMenuItem
       Caption = 'Select/Unselect Z'#39's'
       OnClick = Checkrange1Click
@@ -17390,9 +17437,6 @@ object MainForm: TMainForm
     end
     object CreateTiffStack1: TMenuItem
       Action = CreateTiffStackA
-    end
-    object CreateMaxIntensityProjection1: TMenuItem
-      Action = CreateMIPA
     end
   end
   object MainMenu1: TMainMenu
@@ -17550,7 +17594,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010108001800D80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800E80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -17971,7 +18015,10 @@ object MainForm: TMainForm
     end
   end
   object StacksPopupMenu: TPopupMenu
-    Left = 351
-    Top = 588
+    Left = 431
+    Top = 444
+    object CreateMaxIntensityProjection1: TMenuItem
+      Action = CreateMIPA
+    end
   end
 end

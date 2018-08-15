@@ -30,7 +30,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
     //Setup renderclient
     mRC.setBaseURL(mBaseUrlE->getValue());
-    mRC.getProject().setupForStack(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+    mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
 
     //Populate owners
     StringList o = mRC.getOwners();
@@ -157,6 +157,9 @@ bool TMainForm::setupAndReadIniParameters()
     TSSHFrame1->edSSHPassword->update();
 
 	BottomPanel->Height = mBottomPanelHeight;
+
+	mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
+
     return true;
 }
 

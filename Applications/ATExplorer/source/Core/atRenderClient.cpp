@@ -21,9 +21,9 @@ RenderClient::RenderClient(Idhttp::TIdHTTP* c, const string& baseURL, const stri
 :
 mC(c),
 mBaseURL(baseURL),
-mLocalCacheFolder(cacheFolder),
 mFetchImageThread(*this),
-mProject("","","","")
+mProject("","","",""),
+mCache(cacheFolder, mProject)
 {
 	mImageMemory = new TMemoryStream();
 }
@@ -31,7 +31,7 @@ mProject("","","","")
 bool RenderClient::init(const string& owner, const string& project, const string& stack,
 					    const string& imageType, int z, const RegionOfInterest& box, double scale, int minInt, int maxInt)
 {
-    mProject.setupForStack(owner, project, stack);
+    mProject.init(owner, project, stack);
     mImageType = (imageType);
     mZ = (z);
     mRegionOfInterest = (box);
@@ -46,17 +46,62 @@ RenderClient::~RenderClient()
 	delete mImageMemory;
 }
 
-void RenderClient::setBaseURL(const string& baseURL){mBaseURL = baseURL;}
-const char* RenderClient::getURLC(){return getURL().c_str();}
-string RenderClient::getLocalCacheFolder(){return mLocalCacheFolder;}
-RenderProject& RenderClient::getProject(){return mProject;}
-string RenderClient::getBaseURL(){return mBaseURL;}
-RenderProject RenderClient::getRenderProject(){return mProject;}
-void RenderClient::setRenderProject(const RenderProject& rp){mProject = rp;}
+string RenderClient::getCacheRoot()
+{
+    return mCache.getBasePath();
+}
+double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
+{
+    return mCache.getLowestResolutionInCache(mProject, roi);
+}
+
+void RenderClient::setBaseURL(const string& baseURL)
+{
+	mBaseURL = baseURL;
+}
+
+const char* RenderClient::getURLC()
+{
+	return getURL().c_str();
+}
+
+string RenderClient::getLocalCacheFolder()
+{
+	return mCache.getBasePath();
+}
+
+RenderProject& RenderClient::getProject()
+{
+	return mProject;
+}
+
+string RenderClient::getBaseURL()
+{
+	return mBaseURL;
+}
+
+RenderProject RenderClient::getRenderProject()
+{
+	return mProject;
+}
+
+void RenderClient::setRenderProject(const RenderProject& rp)
+{
+	mProject = rp;
+}
 
 void RenderClient::assignOnImageCallback(RCCallBack cb)
 {
 	mFetchImageThread.onImage = cb;
+}
+
+StringList RenderClient::getROIFoldersForCurrentStack()
+{
+    //Create basepath
+    stringstream path;
+    path << joinPath(mCache.getBasePath(), mProject.mOwner, mProject.mProject, mProject.mSelectedStack);
+
+    return getSubFoldersInFolder(path.str(), false);
 }
 
 Idhttp::TIdHTTP* RenderClient::getConnection()
@@ -88,10 +133,9 @@ RenderProject RenderClient::getCurrentProject()
     return mProject;
 }
 
-string RenderClient::setLocalCacheFolder(const string& f)
+void RenderClient::setLocalCacheFolder(const string& f)
 {
-	mLocalCacheFolder = f;
-    return mLocalCacheFolder;
+	mCache.setBasePath(f);
 }
 
 StringList RenderClient::getOwners()
@@ -175,7 +219,7 @@ bool RenderClient::getImageInThread(int z, StringList& paras)
 		mImageMemory = new TMemoryStream();
     }
 
-	mFetchImageThread.setup(getURLForZ(z), mLocalCacheFolder);
+	mFetchImageThread.setup(getURLForZ(z), mCache.getBasePath());
     mFetchImageThread.addParameters(paras);
 	mFetchImageThread.start(true);
     return true;
@@ -244,7 +288,7 @@ RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
 
 RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
 {
-	mLatestBounds.clear();
+	mLayerBounds.clear();
     double xMin(0), xMax(0), yMin(0), yMax(0);
     for(int z = 0; z < zs.size(); z++)
     {
@@ -263,7 +307,7 @@ RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
             string s = stdstr(zstrings->DataString);
             RegionOfInterest sec_bounds = parseBoundsResponse(s);
             sec_bounds.setZ(zs[z]);
-			mLatestBounds.push_back(sec_bounds);
+			mLayerBounds.push_back(sec_bounds);
 
             if(z == 0)
             {
@@ -304,29 +348,28 @@ RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
             Log(lError) << "Failed fetching zs";
         }
     }
-
     return RegionOfInterest(xMin, yMin, xMax-xMin, yMax -yMin);
 }
 
-vector<RegionOfInterest> RenderClient::getBounds()
+vector<RegionOfInterest> RenderClient::getLayerBounds()
 {
-	return mLatestBounds;
+	return mLayerBounds;
 }
 
 string RenderClient::getImageLocalCachePath()
 {
-	return getImageLocalCachePathFromURL(getURL(), mLocalCacheFolder);
+	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
 }
 
 string RenderClient::getImageLocalCachePathAndFileNameForZ(int z)
 {
 	string url(getURLForZ(z));
-    return getImageLocalCacheFileNameAndPathFromURL(url, mLocalCacheFolder);
+    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath());
 }
 
 string RenderClient::getImageLocalCachePathAndFileName()
 {
-	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mLocalCacheFolder);
+	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath());
 }
 
 bool RenderClient::checkCacheForCurrentURL()

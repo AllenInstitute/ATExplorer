@@ -8,12 +8,12 @@ using std::deque;
 class PACKAGE ROIHistory
 {
 	public:
-    								ROIHistory();
-    								~ROIHistory();
-		void						clear();
+    								        ROIHistory();
+    								        ~ROIHistory();
+		void						        clear();
 
-		void						add(RegionOfInterest& rb);
-		void						insert(RegionOfInterest& rb);
+		void						        add(RegionOfInterest& rb);
+		void						        insert(RegionOfInterest& rb);
 
 		RegionOfInterest*					current();
 		RegionOfInterest*					first();

@@ -65,7 +65,8 @@ $BDSCOMMONDIR/BPL/dslVCLVisualComponents.bpl
 $BDSCOMMONDIR/BPL/atVCLComponents.bpl               
 $BDSCOMMONDIR/BPL/atVCLVisualComponents.bpl         
 $BDSCOMMONDIR/BPL/atVCLAPTVisualComponents.bpl      
-$BDSCOMMONDIR/BPL/atVCLDataModules.bpl              
+$BDSCOMMONDIR/BPL/atVCLDataModules.bpl             
+$BDSCOMMONDIR/BPL/ATExplorerAppPackage.bpl
 
 $CG_REDIST/borlndmm.dll                         
 $CG_REDIST/cc32250mt.dll                        

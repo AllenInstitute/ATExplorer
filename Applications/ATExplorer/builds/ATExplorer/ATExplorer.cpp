@@ -91,7 +91,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "tinyxml2.lib")
 #pragma comment(lib, "libcurl_imp.lib")
-#pragma comment(lib, "DCEFBrowser.lib")
+#pragma comment(lib, "DCEFBrowser.bpi")
 
 
 

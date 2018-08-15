@@ -11,7 +11,7 @@ namespace at
 
 using namespace dsl;
 
-RenderLayer::RenderLayer(const string& url)
+RenderLayer::RenderLayer(const string& url, const string& localCacheRootFolder)
 :
 mURL(url),
 mRenderProject(url),
@@ -22,7 +22,8 @@ mPort(mURL.getPort()),
 mPath(mURL.getPath()),   //"/render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/5/box/-4515,-2739,9027,5472,0.1338/jpeg-image"
 mQuery(mURL.getQuery()), //"minIntensity=0&maxIntensity=6000"
 mFragment(mURL.getFragment()),
-mPathEtc(mURL.getPathEtc())
+mPathEtc(mURL.getPathEtc()),
+mCache(localCacheRootFolder, mRenderProject)
 {
     //Parse it..
     //Get min and max intensity from query
@@ -51,9 +52,21 @@ mPathEtc(mURL.getPathEtc())
     mScale = mRegionOfInterest.getScale();
 }
 
-bool RenderLayer::existInCache(const string& rootFolder)
+RenderLayer::RenderLayer(const RenderProject& rp, const RegionOfInterest& roi, const string& localCacheRootFolder)
+:
+mRenderProject(rp),
+mRegionOfInterest(roi),
+mCache(localCacheRootFolder, rp)
+{}
+
+bool RenderLayer::existInCache(const string& f)
 {
-    return fileExists(getImageLocalCachePathAndFileName(rootFolder));
+    return fileExists(getImageLocalCachePathAndFileName(f));
+}
+
+double RenderLayer::getLowestScaleInCache()
+{
+    return mCache.getLowestResolutionInCache(mRenderProject, mRegionOfInterest);
 }
 
 string RenderLayer::getImageLocalCachePath(const string& rootFolder)
