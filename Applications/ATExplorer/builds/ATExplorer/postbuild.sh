@@ -93,7 +93,8 @@ $CG_REDIST/IndyCore$suffix
 $miscRedist/dbexppgsql40.dll                                     
 $miscRedist/msvcp110.dll                                     
 $miscRedist/msvcr110.dll                                     
-$miscRedist/vccorlib110.dll                                     
+$miscRedist/vccorlib110.dll
+$miscRedist/RaizeComponentsVcl250.bpl
 )
 
 for file in "${files[@]}"
