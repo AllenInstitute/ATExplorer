@@ -1,3 +1,6 @@
 [submodule "ThirdParty/Render-Deploy"]
 	path = ThirdParty/Render-Deploy
 	url = https://github.com/fcollman/render-deploy.git
+[submodule "ThirdParty/Render-Python-Apps"]
+	path = ThirdParty/Render-Python-Apps
+	url = https://github.com/fcollman/render-python-apps.git
