@@ -1,9 +1,6 @@
 #pragma hdrstop
 #include "TMainForm.h"
 #include "dslLogger.h"
-//#include "atRenderClient.h"
-//#include "atROIHistory.h"
-//#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
 using namespace dsl;

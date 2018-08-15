@@ -17,7 +17,7 @@ echo "Outputfilename: "$OUTPUTFILENAME
 echo "BDSCOMMONDIR: "$BDSCOMMONDIR
 
 #Extract version
-VERSION=`cat ../VERSION.txt | tr -d '\r'`
+VERSION=`cat ../../VERSION.txt | tr -d '\r'`
 APPNAME=ATExplorer
 echo "Copy stuff"
 mkdir $APP_RELEASES/$APPNAME
@@ -39,16 +39,15 @@ $SRC_DIR/*.ico
 $BUILD_FOLDER/$OUTPUTFILENAME                       
 
 #DS Binaries
-$BUILD_FOLDER/*.dll                         
+$BUILD_FOLDER/dslFoundation.dll                         
 $BUILD_FOLDER/dslVCLCommon.dll                      
-$BUILD_FOLDER/atCore.dll                      
-$BUILD_FOLDER/atResources.dll                       
 $BUILD_FOLDER/atSSI.dll                             
 $BUILD_FOLDER/atFoundation.dll                   
 $BUILD_FOLDER/atVCLCommon.dll                       
 $BUILD_FOLDER/poco_foundation.dll
 $BUILD_FOLDER/tinyxml2.dll
 $BUILD_FOLDER/sqlite.dll
+$BUILD_FOLDER/libcurl.dll
 $BUILD_FOLDER/navusbapi.dll
 $BUILD_FOLDER/Thorlabs.MotionControl.Benchtop.StepperMotor.dll
 $BUILD_FOLDER/Thorlabs.MotionControl.DeviceManager.dll
@@ -61,7 +60,7 @@ $BUILD_FOLDER/Thorlabs.MotionControl.TCube.StepperMotor.dll
 $BUILD_FOLDER/Thorlabs.MotionControl.TDIEngine.dll
 
 $BDSCOMMONDIR/BPL/dslVCLComponents.bpl          
-$BDSCOMMONDIR/BPL/dslVCLVisualComponents.bpl    
+#$BDSCOMMONDIR/BPL/dslVCLVisualComponents.bpl    
 $BDSCOMMONDIR/BPL/atVCLComponents.bpl               
 $BDSCOMMONDIR/BPL/atVCLVisualComponents.bpl         
 $BDSCOMMONDIR/BPL/atVCLAPTVisualComponents.bpl      
@@ -95,6 +94,7 @@ $miscRedist/msvcp110.dll
 $miscRedist/msvcr110.dll                                     
 $miscRedist/vccorlib110.dll
 $miscRedist/RaizeComponentsVcl250.bpl
+$miscRedist/sbridge250.bpl
 )
 
 for file in "${files[@]}"
