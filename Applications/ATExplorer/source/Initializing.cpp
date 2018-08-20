@@ -5,17 +5,14 @@
 //---------------------------------------------------------------------------
 
 using namespace dsl;
-extern at::AppUtilities au;
+extern at::AppUtilities gAU;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
 	this->Caption = vclstr(createWindowTitle("ATExplorer", Application));
     this->DoubleBuffered = true;
 
-	TStyleManager::SetStyle(au.Style.c_str());
-
 	gLogger.setLogLevel(mLogLevel);
-
     TLogMemoFrame1->init();
 
     mCurrentROI.setX1(XCoordE->getValue());
@@ -63,32 +60,13 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 	enableDisableGroupBox(StackGenerationGB,false);
 
     //Setup path for ssh
-	TSSHFrame1->ScFileStorage->Path = vclstr(au.AppDataFolder);
+	TSSHFrame1->ScFileStorage->Path = vclstr(gAU.AppDataFolder);
 	TSSHFrame1->ConnectBtnClick(Sender);
-}
-
-void TMainForm::setupIniFile()
-{
-	string fldr = getSpecialFolder(CSIDL_LOCAL_APPDATA);
-	fldr =  joinPath(fldr, au.AppName);
-
-	if(!folderExists(fldr))
-	{
-		CreateDir(fldr.c_str());
-	}
-
-	mIniFileC->init(fldr);
-
-	//For convenience and for option form, populate appProperties container
-	mAppProperties.append(mGeneralProperties);
-//	mAppProperties.append(mServer1Properties);
-//	mAppProperties.append(mServer2Properties);
 }
 
 bool TMainForm::setupAndReadIniParameters()
 {
-	mIniFileC->load();
-	mGeneralProperties->setIniFile(mIniFileC->getIniFile());
+	mGeneralProperties->setIniFile(&gAU.getIniFile());
 
 	//Setup parameters
 	mGeneralProperties->setSection("GENERAL");
@@ -120,6 +98,9 @@ bool TMainForm::setupAndReadIniParameters()
 	//Read from file. Create if file do not exist
 	mGeneralProperties->read();
 
+    //For convenience and for option form, populate appProperties container
+	gAU.append(mGeneralProperties);
+
 	//Update UI
     BaseURLE->update();
     RenderPort->update();
@@ -136,18 +117,14 @@ bool TMainForm::setupAndReadIniParameters()
     VolumesScaleE->update();
 
 	//Remote server properties
-	mServer1Properties->setIniFile(mIniFileC->getIniFile());
+	mServer1Properties->setIniFile(&gAU.getIniFile());
     mServer1Properties->setSection("REMOTE_SERVER_1");
     mServer1Properties->add((BaseProperty*)  &TSSHFrame1->edSSHHost->getProperty()->setup("REMOTE_HOST", 	                  	"atbigdawg"));
     mServer1Properties->add((BaseProperty*)  &TSSHFrame1->seSSHPort->getProperty()->setup("REMOTE_PORT", 	                  	22));
     mServer1Properties->add((BaseProperty*)  &TSSHFrame1->edSSHUserName->getProperty()->setup("REMOTE_USER_NAME", 	       	"albert"));
     mServer1Properties->add((BaseProperty*)  &TSSHFrame1->edSSHPassword->getProperty()->setup("REMOTE_USER_PASSWORD",        	"123"));
 
-	mServer2Properties->setIniFile(mIniFileC->getIniFile());
-    mServer2Properties->setSection("REMOTE_SERVER_2");
-
 	mServer1Properties->read();
-	mServer2Properties->read();
 
 	TSSHFrame1->edSSHHost->update();
     TSSHFrame1->seSSHPort->update();
@@ -155,9 +132,7 @@ bool TMainForm::setupAndReadIniParameters()
     TSSHFrame1->edSSHPassword->update();
 
 	BottomPanel->Height = mBottomPanelHeight;
-
 	mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
-
     return true;
 }
 

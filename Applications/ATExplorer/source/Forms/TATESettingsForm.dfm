@@ -13,6 +13,7 @@ object ATESettingsForm: TATESettingsForm
   Font.Style = []
   OldCreateOrder = False
   Position = poOwnerFormCenter
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object TreeView1: TTreeView
@@ -21,11 +22,12 @@ object ATESettingsForm: TATESettingsForm
     Width = 121
     Height = 356
     Align = alLeft
+    HotTrack = True
     Indent = 19
+    MultiSelect = True
+    ReadOnly = True
+    RowSelect = True
     TabOrder = 0
-    ExplicitLeft = 64
-    ExplicitTop = 112
-    ExplicitHeight = 97
   end
   object Panel1: TPanel
     Left = 0
@@ -34,9 +36,6 @@ object ATESettingsForm: TATESettingsForm
     Height = 41
     Align = alBottom
     TabOrder = 1
-    ExplicitLeft = 336
-    ExplicitTop = 344
-    ExplicitWidth = 185
     DesignSize = (
       667
       41)

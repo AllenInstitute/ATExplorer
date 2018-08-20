@@ -10,7 +10,7 @@ namespace at
 
 AppUtilities::AppUtilities()
 :
-ApplicationUtilities("ATExplorer", "\\Software\\Allen Institute\\ATExplorer", "0.5.0")
+ApplicationProperties("ATExplorer", "\\Software\\Allen Institute\\ATExplorer", "0.5.0")
 {
 }
 

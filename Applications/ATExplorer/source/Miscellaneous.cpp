@@ -11,7 +11,7 @@
 //---------------------------------------------------------------------------
 
 using namespace dsl;
-extern at::AppUtilities au;
+extern at::AppUtilities gAU;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::About1Click(TObject *Sender)
 {
@@ -58,8 +58,8 @@ void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 	menuItem->Checked = (TStyleManager::ActiveStyle->Name == styleName) ? true : false;
 
 	//Write to registry
-	au.Style = stdstr(styleName);
-	writeStringToRegistry(au.AppRegistryRoot, "", "Theme", au.Style);
+	gAU.AppTheme = stdstr(styleName);
+	writeStringToRegistry(gAU.AppRegistryRoot, "", "Theme", gAU.AppTheme);
 }
 
 //---------------------------------------------------------------------------

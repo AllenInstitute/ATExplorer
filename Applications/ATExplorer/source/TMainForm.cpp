@@ -10,7 +10,6 @@
 #include "dslMathUtils.h"
 #include "dslStringUtils.h"
 #include "dslTimer.h"
-#include "dslTMemoLogger.h"
 #include "dslVCLUtils.h"
 #include "Poco/Glob.h"
 #include "Poco/Path.h"
@@ -47,18 +46,16 @@ using namespace dsl;
 using namespace std;
 using namespace Poco;
 using namespace at;
-//using boost::filesystem;
 using Poco::Timestamp;
 using Poco::Timespan;
 
-TImage *CurrImage;
-extern at::AppUtilities au;
+extern at::AppUtilities gAU;
 
 Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
 ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
-	: TRegistryForm(au.AppRegistryRoot, "MainForm", Owner),
+	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
     mLogLevel(lAny),
     mBottomPanelHeight(205),
 	mCreateCacheThread(),
@@ -70,23 +67,23 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     mIsStyleMenuPopulated(false),
 	gImageForm(NULL),
     mProjectManager((*ProjectTView)),
-    mAppProperties(au.AppName, au.AppRegistryRoot, ""),
     mGeneralProperties(shared_ptr<IniFileProperties>(new IniFileProperties)),
 	mServer1Properties(shared_ptr<IniFileProperties>(new IniFileProperties)),
-	mServer2Properties(shared_ptr<IniFileProperties>(new IniFileProperties)),
     mImageGrid(Image1, PaintBox1->Canvas),
 	mCurrentROI(0,0,1000,1000)
 {
-    setupIniFile();
     setupAndReadIniParameters();
     mCreateCacheThread.setCacheRoot(ImageCacheFolderE->getValue());
-  	TMemoLogger::mMemoIsEnabled = true;
-	CurrImage = Image1;
+
     mRC.assignOnImageCallback(onImage);
+
+    //Avoid flicker
     Panel1->ControlStyle <<  csOpaque;
+
     PaintBox1->BringToFront();
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
     Application->ShowHint = true;
+
 	mAProcess.assignCallbacks(onProcessStarted, onProcessProgress, onProcessFinished);
     mCurrentROI.assignOnChangeCallback(onROIChanged);
 }
@@ -810,7 +807,7 @@ void __fastcall TMainForm::OpenaClone1Click(TObject *Sender)
 {
 	if(!gImageForm)
     {
-    	gImageForm = new TImageForm(au.AppRegistryRoot, "", this);
+    	gImageForm = new TImageForm(gAU.AppRegistryRoot, "", this);
     }
 
 	gImageForm->Show();
@@ -1415,7 +1412,7 @@ void __fastcall TMainForm::OtherCBClick(TObject *Sender)
         if(item)
         {
 		    string* fName((string*) item);
-            TImageForm* iForm = new TImageForm(au.AppRegistryRoot, "", this);
+            TImageForm* iForm = new TImageForm(gAU.AppRegistryRoot, "", this);
             iForm->load(*fName);
             iForm->Show();
         }
@@ -1452,14 +1449,19 @@ void __fastcall TMainForm::Button1Click(TObject *Sender)
 	updateROIs();
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
 {
     //open Settings form
-    TATESettingsForm* s = new TATESettingsForm(this);
-    s->ShowModal();
-    delete s;
+    shared_ptr<TATESettingsForm> s = shared_ptr<TATESettingsForm> (new TATESettingsForm(this));
+
+
+
+    s->append(mGeneralProperties);
+
+    int r = s->ShowModal();
+
+
 }
 
 

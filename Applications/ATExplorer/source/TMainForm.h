@@ -30,7 +30,6 @@
 #include <Vcl.ToolWin.hpp>
 #include "RzSpnEdt.hpp"
 #include "dslTFloatLabeledEdit.h"
-#include "dslTIniFileC.h"
 #include "dslTIntegerEdit.h"
 #include "dslTIntegerLabeledEdit.h"
 #include "dslTLogMemoFrame.h"
@@ -83,7 +82,6 @@ __published:	// IDE-managed Components
 	TButton *mResetButton;
 	TPanel *mLeftPanel;
 	TPaintBox *PaintBox1;
-	TIniFileC *mIniFileC;
 	TPopupMenu *ZsPopUpMenu;
 	TMenuItem *CopyValidZs1;
 	TButton *mZoomOutBtn;
@@ -345,7 +343,6 @@ __published:	// IDE-managed Components
         ImageGrid                                       mImageGrid;
 	    Process 										mAProcess;
 		bool          									mIsStyleMenuPopulated;
-        ApplicationProperties                           mAppProperties;
         shared_ptr<IniFileProperties>              		mGeneralProperties;
         Property<int>	                            	mBottomPanelHeight;
 		Property<dsl::LogLevel>	                		mLogLevel;
@@ -354,9 +351,8 @@ __published:	// IDE-managed Components
 		Property<string>	 		                	mCurrentStack;
 
         shared_ptr<IniFileProperties>                   mServer1Properties;
-        shared_ptr<IniFileProperties>                   mServer2Properties;
+
         bool                                            setupAndReadIniParameters();
-        void                                            setupIniFile();
 		double 											getImageStretchFactor();
         void											updateScale();
 
