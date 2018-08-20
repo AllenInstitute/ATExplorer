@@ -14,6 +14,7 @@
 using at::RemoteScripter;
 
 
+using at::RenderClient;
 class PACKAGE TRenderPythonRemoteScriptFrame : public TFrame
 {
     __published:	// IDE-managed Components

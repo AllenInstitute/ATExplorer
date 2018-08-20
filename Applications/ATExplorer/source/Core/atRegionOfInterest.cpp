@@ -23,14 +23,14 @@ onChange(NULL)
     }
 
 	mX 		= toDouble(box[0]);
-	mY 		= toDouble(box[1]);
-	mWidth 	= toDouble(box[2]);
-	mHeight = toDouble(box[3]);
+	mY 		= toInt(box[1]);
+	mWidth 	= toInt(box[2]);
+	mHeight = toInt(box[3]);
 
    	mScale	= (box.count() >= 5) ? toDouble(box[4]) : scale;
 }
 
-RegionOfInterest::RegionOfInterest(double x, double y, double width, double height, double scale)
+RegionOfInterest::RegionOfInterest(int x, int y, int width, int height, double scale)
 :
 mZ(0),
 mX(x),
@@ -111,25 +111,25 @@ void RegionOfInterest::assignOnChangeCallback(OnChangeFnc f)
 	onChange = f;
 }
 
-void RegionOfInterest::setX1(double x){mX = x;}
-double RegionOfInterest::getX1(){return mX;}
-void RegionOfInterest::setX2(double x){mWidth = abs(mX - x);}
+void RegionOfInterest::setX1(int x){mX = x;}
+int RegionOfInterest::getX1(){return mX;}
+void RegionOfInterest::setX2(int x){mWidth = abs(mX - x);}
 
-double RegionOfInterest::getX2(){return mX + mWidth;}
-void  RegionOfInterest::setWidth(double w){mWidth = w;}
-double RegionOfInterest::getWidth(){return mWidth;}
+int RegionOfInterest::getX2(){return mX + mWidth;}
+void  RegionOfInterest::setWidth(int w){mWidth = w;}
+int RegionOfInterest::getWidth(){return mWidth;}
 
-void  RegionOfInterest::setY1(double y){mY = y;}
-double RegionOfInterest::getY1(){return mY;}
+void  RegionOfInterest::setY1(int y){mY = y;}
+int RegionOfInterest::getY1(){return mY;}
 
-void  RegionOfInterest::setY2(double y){mHeight = abs(mY - y);}
-double RegionOfInterest::getY2(){return mY + mHeight;}
+void  RegionOfInterest::setY2(int y){mHeight = abs(mY - y);}
+int RegionOfInterest::getY2(){return mY + mHeight;}
 
-void  RegionOfInterest::setHeight(double h){mHeight = h;}
-double RegionOfInterest::getHeight(){return mHeight;}
+void  RegionOfInterest::setHeight(int h){mHeight = h;}
+int RegionOfInterest::getHeight(){return mHeight;}
 
-void  RegionOfInterest::setZ(double z){mZ = z;}
-double RegionOfInterest::getZ(){return mZ;}
+void  RegionOfInterest::setZ(int z){mZ = z;}
+int RegionOfInterest::getZ(){return mZ;}
 
 void  RegionOfInterest::setScale(double s){mScale = s;}
 double RegionOfInterest::getScale(){return mScale;}

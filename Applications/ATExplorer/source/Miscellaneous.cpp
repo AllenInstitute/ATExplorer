@@ -50,11 +50,11 @@ void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 
 	TRegistryForm::writeToRegistry();
 
-    DcefBrowser1->Visible = false;
+//    DcefBrowser1->Visible = false;
 	TReplaceFlags rFlags(rfIgnoreCase|rfReplaceAll);
 	String styleName = StringReplace(menuItem->Caption, "&", "", rFlags);
 	TStyleManager::SetStyle(styleName);
-    DcefBrowser1->Visible = true;
+//    DcefBrowser1->Visible = true;
 
 	//Check the menu item
 	menuItem->Checked = (TStyleManager::ActiveStyle->Name == styleName) ? true : false;
@@ -277,7 +277,11 @@ void __fastcall TMainForm::CreateNDVIZURL1Click(TObject *Sender)
 
 string TMainForm::createNDVIZURL()
 {
-	string URL("http://ibs-forrestc-ux1.corp.alleninstitute.org:8001/#!{'layers':{'STACK':{'type':'image'_'source':'render://http://ibs-forrestc-ux1.corp.alleninstitute.org/OWNER/PROJECT/STACK'_'max':MAX_INTENSITY}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[X_CENTER_Y_CENTER_Z_VALUE]}}_'zoomFactor':ZOOM_FACTOR}}");
+//	string URL("http://ibs-forrestc-ux1.corp.alleninstitute.org:8001/#!{'layers':{'STACK':{'type':'image'_'source':'render://http://ibs-forrestc-ux1.corp.alleninstitute.org/OWNER/PROJECT/STACK'_'max':MAX_INTENSITY}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[X_CENTER_Y_CENTER_Z_VALUE]}}_'zoomFactor':ZOOM_FACTOR}}");
+    string baseURL = BaseURLE->getValue() + "/render-ws/v1";
+
+	string URL(baseURL + "/#!{'layers':{'STACK':{'type':'image'_'source':'render://" + baseURL + "/OWNER/PROJECT/STACK'_'max':MAX_INTENSITY}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[X_CENTER_Y_CENTER_Z_VALUE]}}_'zoomFactor':ZOOM_FACTOR}}");
+//  http://localhost:80/render-ws/v1/#!{'layers':{'TESTAcquisition_DAPI_1':{'type':'image'_'source':'render://http://ibs-forrestc-ux1.corp.alleninstitute.org/God/ASimpleOne/TESTAcquisition_DAPI_1'_'max':0.488289}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[3482.500000_5120.000000_400]}}_'zoomFactor':6.666667}}
 
     double xCenter = XCoordE->getValue() + Width->getValue()/2.;
 	double yCenter = YCoordE->getValue() + Height->getValue()/2.;
@@ -296,7 +300,7 @@ string TMainForm::createNDVIZURL()
 void __fastcall TMainForm::OpenInNDVIZBtnClick(TObject *Sender)
 {
     string   url(createNDVIZURL());
-    DcefBrowser1->Load(url.c_str());
+//    DcefBrowser1->Load(url.c_str());
 	return;
 }
 

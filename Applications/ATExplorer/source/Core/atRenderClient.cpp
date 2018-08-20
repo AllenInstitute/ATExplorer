@@ -12,15 +12,19 @@
 #include "dslFileUtils.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
+
+namespace at
+{
+
 using namespace std;
 using namespace dsl;
 
 const int HTTP_RESPONSE_OK = 200;
 
-RenderClient::RenderClient(Idhttp::TIdHTTP* c, const string& baseURL, const string& cacheFolder)
+RenderClient::RenderClient(Idhttp::TIdHTTP* c, const RenderServiceParameters& p, const string& cacheFolder)
 :
 mC(c),
-mBaseURL(baseURL),
+mRenderServiceURL(p),
 mFetchImageThread(*this),
 mProject("","","",""),
 mCache(cacheFolder, mProject)
@@ -57,7 +61,7 @@ double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
 
 void RenderClient::setBaseURL(const string& baseURL)
 {
-	mBaseURL = baseURL;
+	mRenderServiceURL.setBaseURL(baseURL);
 }
 
 const char* RenderClient::getURLC()
@@ -77,7 +81,7 @@ RenderProject& RenderClient::getProject()
 
 string RenderClient::getBaseURL()
 {
-	return mBaseURL;
+	return mRenderServiceURL.getBaseURL();
 }
 
 RenderProject RenderClient::getRenderProject()
@@ -141,7 +145,7 @@ void RenderClient::setLocalCacheFolder(const string& f)
 StringList RenderClient::getOwners()
 {
     stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getBaseURL() <<":"<< mRenderServiceURL.getPortNr() << mRenderServiceURL.getVersion();
     sUrl << "/owners";
     Log(lDebug5) << "Fetching owners: "<<sUrl.str();
 
@@ -167,7 +171,7 @@ StringList RenderClient::getOwners()
 StringList RenderClient::getProjectsForOwner(const string& o)
 {
     stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getFull();
     sUrl << "/owner/" << o;
     sUrl << "/stackIds";
     Log(lDebug5) << "Fetching projects for owner: "<<sUrl.str();
@@ -261,7 +265,7 @@ TMemoryStream* RenderClient::reloadImage(int z)
 RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
 {
     stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getFull();
     sUrl << "/owner/" 		<< mProject.getProjectOwner();
     sUrl << "/project/" 	<< mProject.getProject();
     sUrl << "/stack/"		<<mProject.getSelectedStackName();
@@ -293,7 +297,7 @@ RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
     for(int z = 0; z < zs.size(); z++)
     {
         stringstream sUrl;
-        sUrl << mBaseURL;
+        sUrl << mRenderServiceURL.getFull();
         sUrl << "/owner/" 		<< mProject.getProjectOwner();
         sUrl << "/project/" << mProject.getProject();
         sUrl << "/stack/"	<<mProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
@@ -386,12 +390,12 @@ void RenderClient::clearImageMemory()
 string RenderClient::getURLForZ(int z)
 {
 	stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getFull();
     sUrl << "/owner/" 		<< mProject.getProjectOwner();
     sUrl << "/project/" << mProject.getProject();
     sUrl << "/stack/"	<<mProject.getSelectedStackName();
     sUrl << "/z/"<<z;
-    sUrl << "/box/"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1() << "," << mRegionOfInterest.getWidth() << ","<<mRegionOfInterest.getHeight() << ","<<mScale;
+    sUrl << "/box/"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1() << "," << (int) mRegionOfInterest.getWidth() << ","<< (int) mRegionOfInterest.getHeight() << ","<<mScale;
     sUrl << "/jpeg-image";
 	sUrl << "?minIntensity="<<mMinIntensity;
 	sUrl << "&maxIntensity="<<mMaxIntensity;
@@ -404,7 +408,7 @@ string RenderClient::getURL()
 	//("http://ibs-forrestc-ux1.corp.alleninstitute.org:8080/render-ws/v1/owner/Sharmishtaas/project/M259292_Scnn1aTg2_1/stack/{0}/
     //z/{1}/box/5000,9000,1300,1300,{2}/tiff-image");
 	stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getFull();
     sUrl << "/owner/" 	<< mProject.getProjectOwner();
     sUrl << "/project/" << mProject.getProject();
     sUrl << "/stack/"	<<mProject.getSelectedStackName();
@@ -442,7 +446,7 @@ vector<int> RenderClient::getValidZs()
 {
 	StringList zs;
 	stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getFull();
     sUrl << "/owner/"    << mProject.getProjectOwner();
     sUrl << "/project/" << 	mProject.getProject();
     sUrl << "/stack/"	<<	mProject.getSelectedStackName();
@@ -485,7 +489,7 @@ vector<int> RenderClient::getValidZs()
 bool RenderClient::renameStack(const string& currentStackName, const string& newName)
 {
 	stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getFull();
     sUrl << "/owner/"    << mProject.getProjectOwner();
     sUrl << "/project/" << 	mProject.getProject();
     sUrl << "/stack/"	<<	mProject.getSelectedStackName();
@@ -522,7 +526,7 @@ RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
 StringList RenderClient::getStacksForProject(const string& owner, const string& project)
 {
     stringstream sUrl;
-    sUrl << mBaseURL;
+    sUrl << mRenderServiceURL.getFull();
     sUrl << "/owner/"<<owner;
     sUrl << "/stackIds";
     Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();
@@ -567,3 +571,4 @@ StringList RenderClient::getStacksForProject(const string& owner, const string& 
     return stacks;
 }
 
+}

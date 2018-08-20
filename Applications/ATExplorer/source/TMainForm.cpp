@@ -408,7 +408,7 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
         else
         {
             int z = toInt(stdstr(mZs->Items->Strings[0]));
-            RenderClient rs(IdHTTP1, mBaseUrlE->getValue(), ImageCacheFolderE->getValue());
+            RenderClient rs(IdHTTP1, RenderServiceParameters(BaseURLE->getValue(), RenderPort->getValue()), ImageCacheFolderE->getValue());
             rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),
                 mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
@@ -443,7 +443,7 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
 void __fastcall TMainForm::GetValidZsBtnClick(TObject *Sender)
 {
 	//Fetch valid zs for current project
-   	RenderClient rs(IdHTTP1, mBaseUrlE->getValue());
+   	RenderClient rs(IdHTTP1, BaseURLE->getValue());
     rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
     StringList zs = rs.getValidZs();
 
@@ -461,7 +461,7 @@ void __fastcall TMainForm::GetValidZsBtnClick(TObject *Sender)
 void __fastcall TMainForm::mUpdateZsBtnClick(TObject *Sender)
 {
 	//Fetch valid zs for current project
-   	RenderClient rs(IdHTTP1, mBaseUrlE->getValue());
+   	RenderClient rs(IdHTTP1, BaseURLE->getValue());
     rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
     StringList zs = rs.getZs();
 
@@ -476,7 +476,7 @@ void __fastcall TMainForm::mUpdateZsBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::GetOptimalBoundsBtnClick(TObject *Sender)
 {
-	RenderClient rs(IdHTTP1, mBaseUrlE->getValue());
+	RenderClient rs(IdHTTP1, BaseURLE->getValue());
     rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
 
     vector<int> zs = rs.getValidZs();
@@ -662,37 +662,7 @@ void __fastcall TMainForm::IntensityKeyDown(TObject *Sender, WORD &Key, TShiftSt
     }
 
     int z = toInt(stdstr(mZs->Items->Strings[mZs->ItemIndex]));
-
-    //Fetch data using URL
-    mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
-    mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), minInt, maxInt);
-
-    //First check if we already is having this data
-    try
-    {
-        try
-        {
-            Log(lDebug) << "Loading z = "<<z;
-            Log(lDebug) << "URL = "<< mRC.getURL();
-
-            TMemoryStream* imageMem = mRC.reloadImage(z);
-            if(imageMem)
-            {
-                Image1->Picture->Graphic->LoadFromStream(imageMem);
-                Image1->Invalidate();
-            }
-
-            Log(lInfo) << "WxH = " <<Image1->Picture->Width << "x" << Image1->Picture->Height;
-        }
-        __except(EXCEPTION_EXECUTE_HANDLER)
-        {
-            Log(lError) << "There was a memory problem..";
-        }
-    }
-    __finally
-    {
-        mRC.clearImageMemory();
-    }
+    ClickZ(NULL);
 }
 
 //---------------------------------------------------------------------------
@@ -899,7 +869,7 @@ void __fastcall TMainForm::CustomRotationEKeyDown(TObject *Sender, WORD &Key,
 
 void __fastcall TMainForm::TestRenderServiceBtnClick(TObject *Sender)
 {
-    mRC.setBaseURL(mBaseUrlE->getValue());
+    mRC.setBaseURL(BaseURLE->getValue());
     mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
 
     //Populate owners
@@ -930,8 +900,8 @@ void __fastcall TMainForm::DcefBrowser1StateChange(ICefBrowser * const browser,
 
 {
 //    Log(lDebug) <<"State Change: " << stdstr(DcefBrowser1->URL);
-    URLE->setValue(stdstr(DcefBrowser1->URL));
-    parseURLUpdate(stdstr(DcefBrowser1->URL));
+//    URLE->setValue(stdstr(DcefBrowser1->URL));
+//    parseURLUpdate(stdstr(DcefBrowser1->URL));
 }
 
 bool TMainForm::parseURLUpdate(const string& url)
@@ -995,7 +965,7 @@ bool TMainForm::parseURLUpdate(const string& url)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ClearBrowserCacheBtnClick(TObject *Sender)
 {
-    DcefBrowser1->ReloadIgnoreCache();
+//    DcefBrowser1->ReloadIgnoreCache();
 }
 
 //---------------------------------------------------------------------------

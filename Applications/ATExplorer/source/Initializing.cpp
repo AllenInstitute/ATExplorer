@@ -26,7 +26,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
     mCurrentROI.setHeight(Height->getValue());
 
     //Setup renderclient
-    mRC.setBaseURL(mBaseUrlE->getValue());
+    mRC.setBaseURL(BaseURLE->getValue());
     mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
 
     //Populate owners
@@ -97,7 +97,9 @@ bool TMainForm::setupAndReadIniParameters()
 	mGeneralProperties->add((BaseProperty*)  &mBottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
 	mGeneralProperties->add((BaseProperty*)  &mLogLevel.setup( 	                    	"LOG_LEVEL",    	                lAny));
 
-    mGeneralProperties->add((BaseProperty*)  &mBaseUrlE->getProperty()->setup(	        "BASE_URL", 	                    "http://ibs-forrestc-ux1.corp.alleninstitute.org:8081/render-ws/v1"));
+    mGeneralProperties->add((BaseProperty*)  &BaseURLE->getProperty()->setup(	        "BASE_URL", 	                    "http://ibs-forrestc-ux1.corp.alleninstitute.org"));
+    mGeneralProperties->add((BaseProperty*)  &RenderPort->getProperty()->setup(	        "RENDER_PORT", 	                    8988));
+
     mGeneralProperties->add((BaseProperty*)  &mCurrentOwner.setup(		        		"OWNER", 		                    "Sharmishtaas"));
     mGeneralProperties->add((BaseProperty*)  &mCurrentProject.setup(	    			"PROJECT", 		                    "M270907_Scnn1aTg2Tdt_13"));
     mGeneralProperties->add((BaseProperty*)  &mCurrentStack.setup(	        			"STACK_NAME", 	                    "ALIGNEDSTACK_DEC12"));
@@ -121,7 +123,8 @@ bool TMainForm::setupAndReadIniParameters()
 	mGeneralProperties->read();
 
 	//Update UI
-    mBaseUrlE->update();
+    BaseURLE->update();
+    RenderPort->update();
     mScaleE->update();
     XCoordE->update();
     YCoordE->update();

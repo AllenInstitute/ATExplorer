@@ -5,11 +5,16 @@
 #include "atRenderClientUtils.h"
 //---------------------------------------------------------------------------
 
+
+namespace at
+{
 using dsl::StringList;
 using dsl::Thread;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
+
 class RenderClient;
+
 class PACKAGE FetchImageThread : public dsl::Thread
 {
 	public:
@@ -36,4 +41,5 @@ class PACKAGE FetchImageThread : public dsl::Thread
 
 };
 
+}
 #endif

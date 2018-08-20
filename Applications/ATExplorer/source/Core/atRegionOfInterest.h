@@ -13,31 +13,31 @@ typedef boost::function<void(void*, void*)> OnChangeFnc;
 class PACKAGE RegionOfInterest
 {
 	public:
-	    								RegionOfInterest(double x = 0, double y = 0, double width = 0, double height = 0, double scale = 1);
+	    								RegionOfInterest(int x = 0, int y = 0, int width = 0, int height = 0, double scale = 1);
 	    								RegionOfInterest(const string& str, double scale = 1);
 	    								RegionOfInterest(const RegionOfInterest& cpme);
         RegionOfInterest&               operator=(const RegionOfInterest& rhs);
 
         string                          getFolderName() const;
-		void							setX1(double x);
-        double							getX1();
-		void							setX2(double x);
+		void							setX1(int x);
+        int								getX1();
+		void							setX2(int x);
 
-        double							getX2();
-		void							setWidth(double w);
-        double							getWidth();
+        int								getX2();
+		void							setWidth(int w);
+        int								getWidth();
 
-		void							setY1(double y);
-        double							getY1();
+		void							setY1(int y);
+        int								getY1();
 
-		void							setY2(double y);
-        double							getY2();
+		void							setY2(int y);
+        int								getY2();
 
-		void							setHeight(double h);
-        double							getHeight();
+		void							setHeight(inth);
+        int  							getHeight();
 
-        void							setZ(double z);
-        double							getZ();
+        void							setZ(int z);
+        int 							getZ();
 
         void							setScale(double s);
         double							getScale();
@@ -49,8 +49,8 @@ class PACKAGE RegionOfInterest
     	int								mZ;
 	    double                          mX;
     	double                          mY;
-	    double                          mWidth;
-    	double                          mHeight;
+	    int                             mWidth;
+    	int                             mHeight;
         double							mScale;
         OnChangeFnc                     onChange;
 

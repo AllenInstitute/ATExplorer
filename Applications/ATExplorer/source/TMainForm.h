@@ -104,7 +104,7 @@ __published:	// IDE-managed Components
 	TMenuItem *Help1;
 	TMenuItem *About1;
 	TGroupBox *GroupBox4;
-	TSTDStringLabeledEdit *mBaseUrlE;
+	TSTDStringLabeledEdit *BaseURLE;
 	TMemo *BashScriptMemo;
 	TGroupBox *GroupBox1;
 	TLabel *Label1;
@@ -231,9 +231,9 @@ __published:	// IDE-managed Components
 	TMenuItem *CreateMaxIntensityProjection1;
 	TCheckListBox *ROI_CB;
 	TIntegerLabeledEdit *maxTileSpecsToRenderE;
-	TDcefBrowser *DcefBrowser1;
 	TButton *Button1;
 	TPanel *Panel4;
+	TIntegerLabeledEdit *RenderPort;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);

@@ -1,16 +1,16 @@
 #ifndef atRenderClientH
 #define atRenderClientH
-#include <string>
 #include "dslStringList.h"
 #include "dslConstants.h"
-#include <vector>
 #include "atRegionOfInterest.h"
 #include "atRenderProject.h"
 #include "atFetchImageThread.h"
 #include "atRenderLocalCache.h"
+#include "atRenderServiceParameters.h"
+#include <string>
+#include <vector>
 //---------------------------------------------------------------------------
 
-using std::vector;
 namespace Idhttp
 {
 	class TIdHTTP;
@@ -24,18 +24,23 @@ namespace System
 	}
 }
 
-using System::Classes::TMemoryStream;
+namespace at
+{
+
+using std::vector;
+
 using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
 using at::RenderLocalCache;
+using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
 class PACKAGE RenderClient
 {
 	public:
-							                        RenderClient(Idhttp::TIdHTTP* c, const string& baseURL = gEmptyString, const string& cacheFolder 	= gEmptyString);
+							                        RenderClient(Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -104,7 +109,9 @@ class PACKAGE RenderClient
 
     	int				                            mZ;
         double				                        mScale;
-        string			                            mBaseURL;
+
+        RenderServiceParameters                     mRenderServiceURL;
+
         RenderProject					            mProject;
         RenderLocalCache                            mCache;
         string 			                            mImageType;
@@ -115,4 +122,5 @@ class PACKAGE RenderClient
         FetchImageThread							mFetchImageThread;
 };
 
+}
 #endif

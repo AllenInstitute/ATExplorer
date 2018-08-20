@@ -211,6 +211,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atRenderProject.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Core\atRenderServiceParameters.cpp">
+            <DependentOn>..\..\source\Core\atRenderServiceParameters.h</DependentOn>
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Core\atROIHistory.cpp">
             <DependentOn>..\..\source\Core\atROIHistory.h</DependentOn>
             <BuildOrder>4</BuildOrder>
@@ -757,7 +761,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib</PostBuildEvent>
+        <PostBuildEvent>copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

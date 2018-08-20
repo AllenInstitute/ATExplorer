@@ -9,6 +9,9 @@
 #include "atRenderClient.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
+
+namespace at
+{
 using namespace dsl;
 
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
@@ -196,3 +199,4 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 }
 
 
+}
