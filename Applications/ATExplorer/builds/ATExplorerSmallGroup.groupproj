@@ -9,6 +9,9 @@
         <Projects Include="ATExplorer\ATExplorer.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="P:\ArrayBot\applications\ArrayCam\app\ArrayCam.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="ATExplorer:Make">
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="ArrayCam">
+        <MSBuild Projects="P:\ArrayBot\applications\ArrayCam\app\ArrayCam.cbproj"/>
+    </Target>
+    <Target Name="ArrayCam:Clean">
+        <MSBuild Projects="P:\ArrayBot\applications\ArrayCam\app\ArrayCam.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ArrayCam:Make">
+        <MSBuild Projects="P:\ArrayBot\applications\ArrayCam\app\ArrayCam.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ATExplorerAppPackage;ATExplorer"/>
+        <CallTarget Targets="ATExplorerAppPackage;ATExplorer;ArrayCam"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="ATExplorerAppPackage:Clean;ATExplorer:Clean;ArrayCam:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ATExplorerAppPackage:Make;ATExplorer:Make"/>
+        <CallTarget Targets="ATExplorerAppPackage:Make;ATExplorer:Make;ArrayCam:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

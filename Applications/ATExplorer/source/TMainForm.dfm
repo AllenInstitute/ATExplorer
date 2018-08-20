@@ -17412,8 +17412,8 @@ object MainForm: TMainForm
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 40
-    Top = 216
+    Left = 8
+    Top = 128
     object File1: TMenuItem
       Caption = 'File'
       object New1: TMenuItem
@@ -17453,6 +17453,9 @@ object MainForm: TMainForm
       Caption = 'Options'
       object ThemesMenu: TMenuItem
         Caption = 'Appearance'
+      end
+      object Settings1: TMenuItem
+        Action = OpenSettingsA
       end
     end
     object Help1: TMenuItem
@@ -17553,6 +17556,10 @@ object MainForm: TMainForm
     object CreateMIPA: TAction
       Caption = 'Create Max Intensity Projection'
       OnExecute = CreateMIPAExecute
+    end
+    object OpenSettingsA: TAction
+      Caption = 'Settings'
+      OnExecute = OpenSettingsAExecute
     end
   end
   object SaveDialog1: TSaveDialog

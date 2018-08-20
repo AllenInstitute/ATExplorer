@@ -20,6 +20,8 @@
 #include <vector>
 #include <gdiplus.h>
 #include "atRenderLayer.h"
+#include "TATESettingsForm.h"
+#include "ateAppUtilities.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -50,14 +52,13 @@ using Poco::Timestamp;
 using Poco::Timespan;
 
 TImage *CurrImage;
-extern string gAppDataLocation;
-extern string gAppName;
+extern at::AppUtilities au;
 
 Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
 ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
-	: TRegistryForm(gApplicationRegistryRoot, "MainForm", Owner),
+	: TRegistryForm(au.AppRegistryRoot, "MainForm", Owner),
     mLogLevel(lAny),
     mBottomPanelHeight(205),
 	mCreateCacheThread(),
@@ -69,7 +70,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     mIsStyleMenuPopulated(false),
 	gImageForm(NULL),
     mProjectManager((*ProjectTView)),
-    mAppProperties(gAppName, gApplicationRegistryRoot, ""),
+    mAppProperties(au.AppName, au.AppRegistryRoot, ""),
     mGeneralProperties(shared_ptr<IniFileProperties>(new IniFileProperties)),
 	mServer1Properties(shared_ptr<IniFileProperties>(new IniFileProperties)),
 	mServer2Properties(shared_ptr<IniFileProperties>(new IniFileProperties)),
@@ -809,7 +810,7 @@ void __fastcall TMainForm::OpenaClone1Click(TObject *Sender)
 {
 	if(!gImageForm)
     {
-    	gImageForm = new TImageForm(gApplicationRegistryRoot, "", this);
+    	gImageForm = new TImageForm(au.AppRegistryRoot, "", this);
     }
 
 	gImageForm->Show();
@@ -1414,7 +1415,7 @@ void __fastcall TMainForm::OtherCBClick(TObject *Sender)
         if(item)
         {
 		    string* fName((string*) item);
-            TImageForm* iForm = new TImageForm(gApplicationRegistryRoot, "", this);
+            TImageForm* iForm = new TImageForm(au.AppRegistryRoot, "", this);
             iForm->load(*fName);
             iForm->Show();
         }
@@ -1449,6 +1450,16 @@ void __fastcall TMainForm::ROI_CBClick(TObject *Sender)
 void __fastcall TMainForm::Button1Click(TObject *Sender)
 {
 	updateROIs();
+}
+
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
+{
+    //open Settings form
+    TATESettingsForm* s = new TATESettingsForm(this);
+    s->ShowModal();
+    delete s;
 }
 
 

@@ -7,13 +7,11 @@
 #include "dslRestartApplicationUtils.h"
 #include "TAboutATExplorerForm.h"
 #include "dslFileUtils.h"
+#include "ateAppUtilities.h"
 //---------------------------------------------------------------------------
 
 using namespace dsl;
-extern string gAppName;
-extern string gApplicationStyle;
-extern string gRestartMutexName;
-
+extern at::AppUtilities au;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::About1Click(TObject *Sender)
 {
@@ -60,8 +58,8 @@ void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 	menuItem->Checked = (TStyleManager::ActiveStyle->Name == styleName) ? true : false;
 
 	//Write to registry
-	gApplicationStyle = stdstr(styleName);
-	writeStringToRegistry(gApplicationRegistryRoot, "", "Theme", gApplicationStyle);
+	au.Style = stdstr(styleName);
+	writeStringToRegistry(au.AppRegistryRoot, "", "Theme", au.Style);
 }
 
 //---------------------------------------------------------------------------

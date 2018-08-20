@@ -1,20 +1,18 @@
 #pragma hdrstop
 #include "TMainForm.h"
 #include "dslLogger.h"
+#include "ateAppUtilities.h"
 //---------------------------------------------------------------------------
 
 using namespace dsl;
-extern string gAppName;
-extern string gAppDataLocation;
-extern string gApplicationStyle;
-
+extern at::AppUtilities au;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
 	this->Caption = vclstr(createWindowTitle("ATExplorer", Application));
     this->DoubleBuffered = true;
 
-	TStyleManager::SetStyle(gApplicationStyle.c_str());
+	TStyleManager::SetStyle(au.Style.c_str());
 
 	gLogger.setLogLevel(mLogLevel);
 
@@ -65,14 +63,14 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 	enableDisableGroupBox(StackGenerationGB,false);
 
     //Setup path for ssh
-	TSSHFrame1->ScFileStorage->Path = vclstr(gAppDataLocation);
+	TSSHFrame1->ScFileStorage->Path = vclstr(au.AppDataFolder);
 	TSSHFrame1->ConnectBtnClick(Sender);
 }
 
 void TMainForm::setupIniFile()
 {
 	string fldr = getSpecialFolder(CSIDL_LOCAL_APPDATA);
-	fldr =  joinPath(fldr, gAppName);
+	fldr =  joinPath(fldr, au.AppName);
 
 	if(!folderExists(fldr))
 	{

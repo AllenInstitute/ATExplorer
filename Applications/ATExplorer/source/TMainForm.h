@@ -63,7 +63,7 @@ using dsl::shared_ptr;
 using at::ImageGrid;
 using at::FetchImagesThread;
 using dsl::Process;
-extern string gApplicationRegistryRoot;
+//extern string gApplicationRegistryRoot;
 void brightnessContrast(TImage *imageSelected);
 string createProcessedImageFileName(const string& fname);
 
@@ -235,6 +235,8 @@ __published:	// IDE-managed Components
 	TButton *Button1;
 	TPanel *Panel4;
 	TIntegerLabeledEdit *RenderPort;
+	TAction *OpenSettingsA;
+	TMenuItem *Settings1;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -331,6 +333,7 @@ __published:	// IDE-managed Components
 	void __fastcall OtherCBClick(TObject *Sender);
 	void __fastcall ROI_CBClick(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall OpenSettingsAExecute(TObject *Sender);
 
 
 	private:

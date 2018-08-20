@@ -5,16 +5,19 @@
 #include "dslRestartApplicationUtils.h"
 #include "dslVCLUtils.h"
 #include "dslFileUtils.h"
+#include "ateAppUtilities.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace dsl;
 
-extern string gAppDataLocation;
-extern string gLogFileName;
-extern string gApplicationStyle;
-extern string gApplicationRegistryRoot;
-extern string gAppName;
-extern HWND	  gOtherAppWindow;
+//extern string gAppDataLocation;
+//extern string gLogFileName;
+//extern string gApplicationStyle;
+//extern string gApplicationRegistryRoot;
+//extern string gAppName;
+//extern HWND	  gOtherAppWindow;
+
+extern at::AppUtilities au;
 
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
 {
@@ -30,18 +33,20 @@ TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
 //---------------------------------------------------------------------------
 void setupLogging()
 {
-	if(!folderExists(gAppDataLocation))
-	{
-		createFolder(gAppDataLocation);
-	}
+    au.setupLogging();
 
-	string fullLogFileName(joinPath(gAppDataLocation, gLogFileName));
-	clearFile(fullLogFileName);
-	dsl::gLogger.logToFile(fullLogFileName);
-	LogOutput::mShowLogLevel = true;
-	LogOutput::mShowLogTime = false;
-	LogOutput::mUseLogTabs = false;
-	Log(lInfo) << "Logger was setup";
+//	if(!folderExists(gAppDataLocation))
+//	{
+//		createFolder(gAppDataLocation);
+//	}
+//
+//	string fullLogFileName(joinPath(gAppDataLocation, gLogFileName));
+//	clearFile(fullLogFileName);
+//	dsl::gLogger.logToFile(fullLogFileName);
+//	LogOutput::mShowLogLevel = true;
+//	LogOutput::mShowLogTime = false;
+//	LogOutput::mUseLogTabs = false;
+//	Log(lInfo) << "Logger was setup";
 }
 
 //---------------------------------------------------------------------------
@@ -61,23 +66,23 @@ void setupApplicationTheme()
 			IniKey aKey(record);
 			if(aKey.mKey == "Theme")
 			{
-				 gApplicationStyle = aKey.mValue;
+				 au.Style = aKey.mValue;
 			}
 		}
 	}
 	else
 	{
 		//Read from registry
-		gApplicationStyle = readStringFromRegistry(gApplicationRegistryRoot, "", "Theme", "Windows");
+		au.Style = readStringFromRegistry(au.AppRegistryRoot, "", "Theme", "Windows");
 	}
 
-	if(gApplicationStyle.size())
+	if(au.Style.size())
 	{
 		try
 		{
-			if(gApplicationStyle != "Windows")
+			if(au.Style != "Windows")
 			{
-				TStyleManager::TrySetStyle(gApplicationStyle.c_str());
+				TStyleManager::TrySetStyle(au.Style.c_str());
 			}
 		}
 		catch(...)
@@ -115,18 +120,18 @@ int loadStyles()
     return nrOfStyles;
 }
 
-BOOL CALLBACK FindOtherWindow(HWND hwnd, LPARAM lParam)
-{
-	static char buffer[50];
-	GetWindowTextA(hwnd, buffer, 50);
-
-	string wName(buffer);
-	if(contains(buffer, gAppName))
-	{
-		// do something with hwnd here
-		gOtherAppWindow = hwnd;
-		return FALSE;
-	}
-
-	return TRUE;
-}
+//BOOL CALLBACK FindOtherWindow(HWND hwnd, LPARAM lParam)
+//{
+//	static char buffer[50];
+//	GetWindowTextA(hwnd, buffer, 50);
+//
+//	string wName(buffer);
+//	if(contains(buffer, gAppName))
+//	{
+//		// do something with hwnd here
+//		gOtherAppWindow = hwnd;
+//		return FALSE;
+//	}
+//
+//	return TRUE;
+//}
