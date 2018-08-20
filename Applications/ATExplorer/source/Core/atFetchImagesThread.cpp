@@ -1,13 +1,16 @@
 #pragma hdrstop
 #include "atFetchImagesThread.h"
+#include "dslLogger.h"
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include "dslLogger.h"
 #include "Poco/File.h"
 #include "dslFileUtils.h"
-#include "atRenderClientUtils.h"
+#include "atRenderClient.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
+
+namespace at
+{
 using namespace dsl;
 
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
@@ -17,6 +20,23 @@ FetchImagesThread::FetchImagesThread(const StringList& urls, const string& cache
 mImageURLs(urls),
 mCacheRootFolder(cacheRoot)
 {}
+
+void FetchImagesThread::setup(const StringList& urls, const string& cacheFolder)
+{
+	mExtraParameters.clear();
+	mImageURLs = urls;
+    mCacheRootFolder = cacheFolder;
+}
+
+void FetchImagesThread::addParameter(const string& api)
+{
+	mExtraParameters.append(api);
+}
+
+void FetchImagesThread::addParameters(const StringList& paras)
+{
+    mExtraParameters.appendList(paras);
+}
 
 bool FetchImagesThread::setCacheRoot(const string& cr)
 {
@@ -45,9 +65,10 @@ void FetchImagesThread::run()
 void FetchImagesThread::worker()
 {
 	mIsRunning = true;
+    mIsTimeToDie = false;
     while(!mIsTimeToDie)
     {
-		Log(lDebug3) << "Started Images fetching thread..";
+		Log(lDebug4) << "Started Image fetching thread..";
 
         curl_global_init(CURL_GLOBAL_ALL);
 
@@ -70,7 +91,7 @@ void FetchImagesThread::worker()
             }
             else
 			{
-                Log(lDebug3) << "Thread is fetching: "<<getImageZFromURL(url);
+            	Log(lDebug4) << "Thread is fetching: "<<getImageZFromURL(url);
 
                 CURL *curl_handle;
                 CURLcode res;
@@ -85,8 +106,15 @@ void FetchImagesThread::worker()
                 /* init the curl session */
                 curl_handle = curl_easy_init();
 
-                /* specify URL to get */
-                curl_easy_setopt(curl_handle, CURLOPT_URL, url.c_str());
+                string theURL(url);
+                for(uint i = 0; i < mExtraParameters.count(); i++)
+                {
+                    theURL += mExtraParameters[i];
+                }
+
+//            string theUrl(url + string("&maxTileSpecsToRender=50"));
+            /* specify URL to get */
+            curl_easy_setopt(curl_handle, CURLOPT_URL, theURL.c_str());
 
                 /* send all data to this function  */
                 curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
@@ -144,12 +172,6 @@ void FetchImagesThread::worker()
     mIsFinished = true;
 }
 
-void FetchImagesThread::setup(const StringList& urls, const string& cacheFolder)
-{
-	mImageURLs = urls;
-    mCacheRootFolder = cacheFolder;
-}
-
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
   size_t realsize = size * nmemb;
@@ -171,3 +193,4 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 }
 
 
+}

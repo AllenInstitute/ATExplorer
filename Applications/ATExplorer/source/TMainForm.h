@@ -61,6 +61,7 @@ using dsl::TRegistryProperties;
 using dsl::ApplicationProperties;
 using dsl::shared_ptr;
 using at::ImageGrid;
+using at::FetchImagesThread;
 using dsl::Process;
 extern string gApplicationRegistryRoot;
 void brightnessContrast(TImage *imageSelected);

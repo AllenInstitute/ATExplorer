@@ -420,7 +420,10 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
                 urls.append(rs.getURLForZ(z));
             }
 
+    	    StringList paras;
+	        paras.append(string("&maxTileSpecsToRender=") + stdstr(maxTileSpecsToRenderE->Text));
             mCreateCacheThread.setup(urls, ImageCacheFolderE->getValue());
+            mCreateCacheThread.addParameters(paras);
             mCreateCacheThread.start();
             CreateCacheTimer->Enabled = true;
         }
