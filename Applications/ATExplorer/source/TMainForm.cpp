@@ -56,24 +56,17 @@ ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
-    mLogLevel(lAny),
-    mBottomPanelHeight(205),
 	mCreateCacheThread(),
     mRC(IdHTTP1),
     mRenderEnabled(false),
-    mCurrentProject(""),
-    mCurrentOwner(""),
-    mCurrentStack(""),
     mIsStyleMenuPopulated(false),
 	gImageForm(NULL),
     mProjectManager((*ProjectTView)),
-    mGeneralProperties(shared_ptr<IniFileProperties>(new IniFileProperties)),
-	mServer1Properties(shared_ptr<IniFileProperties>(new IniFileProperties)),
     mImageGrid(Image1, PaintBox1->Canvas),
 	mCurrentROI(0,0,1000,1000)
 {
     setupAndReadIniParameters();
-    mCreateCacheThread.setCacheRoot(ImageCacheFolderE->getValue());
+    mCreateCacheThread.setCacheRoot(gAU.LocalCacheFolder.getValue());
 
     mRC.assignOnImageCallback(onImage);
 
@@ -157,7 +150,7 @@ void __fastcall TMainForm::ClickZ(TObject *Sender)
     int z = toInt(stdstr(mZs->Items->Strings[mZs->ItemIndex]));
 
     //Fetch data using URL
-	mRC.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+	mRC.init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(), gAU.CurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
     {
@@ -406,9 +399,9 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
         else
         {
             int z = toInt(stdstr(mZs->Items->Strings[0]));
-            RenderClient rs(IdHTTP1, RenderServiceParameters(BaseURLE->getValue(), RenderPort->getValue()), ImageCacheFolderE->getValue());
-            rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),
-                mCurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+            RenderClient rs(IdHTTP1, RenderServiceParameters(BaseURLE->getValue(), RenderPort->getValue()), gAU.LocalCacheFolder.getValue());
+            rs.init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(),
+                gAU.CurrentStack.getValue(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs
             StringList urls;
@@ -420,7 +413,7 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
 
     	    StringList paras;
 	        paras.append(string("&maxTileSpecsToRender=") + stdstr(maxTileSpecsToRenderE->Text));
-            mCreateCacheThread.setup(urls, ImageCacheFolderE->getValue());
+            mCreateCacheThread.setup(urls, gAU.LocalCacheFolder.getValue());
             mCreateCacheThread.addParameters(paras);
             mCreateCacheThread.start();
             CreateCacheTimer->Enabled = true;
@@ -429,10 +422,10 @@ void __fastcall TMainForm::FetchSelectedZsBtnClick(TObject *Sender)
     else if(b == ClearCacheBtn)
     {
         //Clear cache for the current owner/project/stack
-        Path p(ImageCacheFolderE->getValue());
+        Path p(gAU.LocalCacheFolder.getValue());
 
-        p.append(joinPath(mCurrentOwner.getValue(), mCurrentProject.getValue()));
-        p.append(mCurrentStack.getValue());
+        p.append(joinPath(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue()));
+        p.append(gAU.CurrentStack.getValue());
 
         Log(lInfo) << "Deleting local cache for stack: " << p.toString();
         boost::filesystem::remove_all(p.toString());
@@ -445,7 +438,7 @@ void __fastcall TMainForm::GetValidZsBtnClick(TObject *Sender)
 {
 	//Fetch valid zs for current project
    	RenderClient rs(IdHTTP1, BaseURLE->getValue());
-    rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
+    rs.init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(),	gAU.CurrentStack.getValue());
     StringList zs = rs.getValidZs();
 
 	Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
@@ -463,7 +456,7 @@ void __fastcall TMainForm::mUpdateZsBtnClick(TObject *Sender)
 {
 	//Fetch valid zs for current project
    	RenderClient rs(IdHTTP1, BaseURLE->getValue());
-    rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+    rs.init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(), gAU.CurrentStack.getValue());
     StringList zs = rs.getZs();
 
     if(zs.size() > 1)
@@ -478,7 +471,7 @@ void __fastcall TMainForm::mUpdateZsBtnClick(TObject *Sender)
 void __fastcall TMainForm::GetOptimalBoundsBtnClick(TObject *Sender)
 {
 	RenderClient rs(IdHTTP1, BaseURLE->getValue());
-    rs.init(mCurrentOwner.getValue(), mCurrentProject.getValue(),	mCurrentStack.getValue());
+    rs.init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(),	gAU.CurrentStack.getValue());
 
     vector<int> zs = rs.getValidZs();
     RegionOfInterest box = rs.getOptimalXYBoxForZs(zs);
@@ -557,10 +550,10 @@ void __fastcall TMainForm::OwnerCBChange(TObject *Sender)
 	StackCB->Clear();
 
     string owner = stdstr(OwnerCB->Items->Strings[OwnerCB->ItemIndex]);
-    mCurrentOwner.setValue(owner);
+    gAU.CurrentOwner.setValue(owner);
 
     //Populate projects
-    StringList p = mRC.getProjectsForOwner(mCurrentOwner.getValue());
+    StringList p = mRC.getProjectsForOwner(gAU.CurrentOwner.getValue());
     if(p.size())
     {
 		populateDropDown(p, ProjectCB);
@@ -584,7 +577,7 @@ void __fastcall TMainForm::ProjectCBChange(TObject *Sender)
 	mRenderEnabled = false;
     string owner = stdstr(OwnerCB->Items->Strings[OwnerCB->ItemIndex]);
     string project = stdstr(ProjectCB->Items->Strings[ProjectCB->ItemIndex]);
-    mCurrentProject.setValue(project);
+    gAU.CurrentProject.setValue(project);
 
     //Populate stacks
 	updateStacksForCurrentProject();
@@ -592,10 +585,10 @@ void __fastcall TMainForm::ProjectCBChange(TObject *Sender)
 
 void TMainForm::updateStacksForCurrentProject()
 {
-    mCurrentOwner = stdstr(OwnerCB->Items->Strings[OwnerCB->ItemIndex]);
+    gAU.CurrentOwner = stdstr(OwnerCB->Items->Strings[OwnerCB->ItemIndex]);
 
     //Populate stacks
-    StringList stacks = mRC.getStacksForProject(mCurrentOwner, mCurrentProject);
+    StringList stacks = mRC.getStacksForProject(gAU.CurrentOwner, gAU.CurrentProject);
     if(stacks.size())
     {
 		StackCB->ItemIndex = populateDropDown(stacks, 		StackCB);
@@ -612,8 +605,8 @@ void __fastcall TMainForm::StackCBChange(TObject *Sender)
     }
 
     string stack = stdstr(StackCB->Items->Strings[StackCB->ItemIndex]);
-	mCurrentStack.setValue(stack);
-	mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+	gAU.CurrentStack.setValue(stack);
+	mRC.getProject().init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(), gAU.CurrentStack.getValue());
 
    	GetValidZsBtnClick(NULL);
 
@@ -733,7 +726,7 @@ void __fastcall TMainForm::Checkrange1Click(TObject *Sender)
 void __fastcall TMainForm::StackFilterCBClick(TObject *Sender)
 {
 	StacksForProjectCB->Clear();
-    StringList s = mRC.getStacksForProject(mCurrentOwner, mCurrentProject);
+    StringList s = mRC.getStacksForProject(gAU.CurrentOwner, gAU.CurrentProject);
 
 	if(CustomFilterCB->Checked)
     {
@@ -789,7 +782,7 @@ void __fastcall TMainForm::CustomFilterEKeyDown(TObject *Sender, WORD &Key, TShi
     }
 
     StacksForProjectCB->Clear();
-    StringList s = mRC.getStacksForProject(mCurrentOwner, mCurrentProject);
+    StringList s = mRC.getStacksForProject(gAU.CurrentOwner, gAU.CurrentProject);
     if(CustomFilterCB->Checked)
     {
         for(int i = 0; i < s.count(); i++)
@@ -871,7 +864,7 @@ void __fastcall TMainForm::CustomRotationEKeyDown(TObject *Sender, WORD &Key,
 void __fastcall TMainForm::TestRenderServiceBtnClick(TObject *Sender)
 {
     mRC.setBaseURL(BaseURLE->getValue());
-    mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+    mRC.getProject().init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(), gAU.CurrentStack.getValue());
 
     //Populate owners
     StringList o = mRC.getOwners();
@@ -1455,13 +1448,23 @@ void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
     //open Settings form
     shared_ptr<TATESettingsForm> s = shared_ptr<TATESettingsForm> (new TATESettingsForm(this));
 
-
-
-    s->append(mGeneralProperties);
+    //The settings form will bring all properties into Edit mode
+    s->append(gAU.GeneralProperties);
+    s->append(gAU.ServerProperties);
 
     int r = s->ShowModal();
-
-
+    if(r == mrOk)
+    {
+        //Update values
+        Log(lInfo) << "Cache folder is now: " << gAU.LocalCacheFolder.getValue();
+		mRC.setLocalCacheFolder(gAU.LocalCacheFolder);
+    }
 }
+
+////---------------------------------------------------------------------------
+//void __fastcall TMainForm::ConnectSSHServersOnStartupCBClick(TObject *Sender)
+//{
+//	ConnectSSHServersOnStartupCB->OnClick(Sender);
+//}
 
 

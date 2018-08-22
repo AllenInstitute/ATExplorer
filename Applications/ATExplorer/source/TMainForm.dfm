@@ -1,7 +1,6 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  ActiveControl = OwnerCB
   AlphaBlendValue = 100
   Caption = 'Volume Creator'
   ClientHeight = 1053
@@ -17157,41 +17156,6 @@ object MainForm: TMainForm
         object TabSheet9: TTabSheet
           Caption = 'Settings'
           ImageIndex = 3
-          object GroupBox6: TGroupBox
-            Left = 0
-            Top = 295
-            Width = 431
-            Height = 67
-            Align = alTop
-            Caption = 'General'
-            TabOrder = 0
-            DesignSize = (
-              431
-              67)
-            object ImageCacheFolderE: TSTDStringLabeledEdit
-              Left = 9
-              Top = 33
-              Width = 380
-              Height = 21
-              Anchors = [akLeft, akTop, akRight]
-              EditLabel.Width = 102
-              EditLabel.Height = 13
-              EditLabel.Caption = 'Root folder for cache'
-              TabOrder = 0
-              Text = 'c:\ImageCache'
-              Value = 'c:\ImageCache'
-            end
-            object mBrowseForCacheFolder: TButton
-              Left = 395
-              Top = 31
-              Width = 33
-              Height = 25
-              Anchors = [akTop, akRight]
-              Caption = '...'
-              TabOrder = 1
-              OnClick = mBrowseForCacheFolderClick
-            end
-          end
           object GroupBox4: TGroupBox
             Left = 0
             Top = 70
@@ -17199,7 +17163,7 @@ object MainForm: TMainForm
             Height = 225
             Align = alTop
             Caption = 'Render Service Settings'
-            TabOrder = 1
+            TabOrder = 0
             DesignSize = (
               431
               225)
@@ -17258,7 +17222,7 @@ object MainForm: TMainForm
             Height = 70
             Align = alTop
             Caption = 'Remote Command'
-            TabOrder = 2
+            TabOrder = 1
             DesignSize = (
               431
               70)
@@ -17284,12 +17248,12 @@ object MainForm: TMainForm
           end
           inline TSSHFrame1: TSSHFrame
             Left = 0
-            Top = 362
+            Top = 295
             Width = 431
             Height = 160
             Align = alTop
-            TabOrder = 3
-            ExplicitTop = 362
+            TabOrder = 2
+            ExplicitTop = 295
             ExplicitWidth = 431
             ExplicitHeight = 160
           end
@@ -17353,6 +17317,12 @@ object MainForm: TMainForm
           Caption = 'ToolButton5'
           ImageIndex = 3
           OnClick = TSSHFrame1ConnectBtnClick
+        end
+        object ToolButton6: TToolButton
+          Left = 104
+          Top = 0
+          Action = OpenSettingsA
+          ImageIndex = 7
         end
       end
     end
@@ -17566,7 +17536,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010108001800FC0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800240210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

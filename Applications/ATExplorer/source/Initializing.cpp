@@ -12,7 +12,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 	this->Caption = vclstr(createWindowTitle("ATExplorer", Application));
     this->DoubleBuffered = true;
 
-	gLogger.setLogLevel(mLogLevel);
+	gLogger.setLogLevel(gAU.LogLevel);
     TLogMemoFrame1->init();
 
     mCurrentROI.setX1(XCoordE->getValue());
@@ -22,7 +22,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
     //Setup renderclient
     mRC.setBaseURL(BaseURLE->getValue());
-    mRC.getProject().init(mCurrentOwner.getValue(), mCurrentProject.getValue(), mCurrentStack.getValue());
+    mRC.getProject().init(gAU.CurrentOwner.getValue(), gAU.CurrentProject.getValue(), gAU.CurrentStack.getValue());
 
     //Populate owners
     StringList o = mRC.getOwners();
@@ -32,7 +32,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
     }
 
 	//Select owner
-    int index = OwnerCB->Items->IndexOf(mCurrentOwner.c_str());
+    int index = OwnerCB->Items->IndexOf(gAU.CurrentOwner.c_str());
 
     if(index > -1)
     {
@@ -40,14 +40,14 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
         OwnerCB->OnChange(NULL);
 
         //Select last project
-        index = ProjectCB->Items->IndexOf(mCurrentProject.c_str());
+        index = ProjectCB->Items->IndexOf(gAU.CurrentProject.c_str());
         if(index > -1)
         {
             ProjectCB->ItemIndex = index;
             ProjectCB->OnChange(NULL);
 
             //Then select last stack
-            index = StackCB->Items->IndexOf(mCurrentStack.c_str());
+            index = StackCB->Items->IndexOf(gAU.CurrentStack.c_str());
             if(index > -1)
             {
                 StackCB->ItemIndex = index;
@@ -61,47 +61,53 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
     //Setup path for ssh
 	TSSHFrame1->ScFileStorage->Path = vclstr(gAU.AppDataFolder);
-	TSSHFrame1->ConnectBtnClick(Sender);
+    if(gAU.ConnectSSHServersOnStartup)
+    {
+		TSSHFrame1->ConnectBtnClick(Sender);
+    }
 }
 
 bool TMainForm::setupAndReadIniParameters()
 {
-	mGeneralProperties->setIniFile(&gAU.getIniFile());
-
 	//Setup parameters
-	mGeneralProperties->setSection("GENERAL");
-	mGeneralProperties->add((BaseProperty*)  &mBottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
-	mGeneralProperties->add((BaseProperty*)  &mLogLevel.setup( 	                    	"LOG_LEVEL",    	                lAny));
+    gAU.setupIniParameters();
 
-    mGeneralProperties->add((BaseProperty*)  &BaseURLE->getProperty()->setup(	        "BASE_URL", 	                    "http://ibs-forrestc-ux1.corp.alleninstitute.org"));
-    mGeneralProperties->add((BaseProperty*)  &RenderPort->getProperty()->setup(	        "RENDER_PORT", 	                    8988));
 
-    mGeneralProperties->add((BaseProperty*)  &mCurrentOwner.setup(		        		"OWNER", 		                    "Sharmishtaas"));
-    mGeneralProperties->add((BaseProperty*)  &mCurrentProject.setup(	    			"PROJECT", 		                    "M270907_Scnn1aTg2Tdt_13"));
-    mGeneralProperties->add((BaseProperty*)  &mCurrentStack.setup(	        			"STACK_NAME", 	                    "ALIGNEDSTACK_DEC12"));
+//	gAU.GeneralProperties->add((BaseProperty*)  &mBottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
+//	gAU.GeneralProperties->add((BaseProperty*)  &mLogLevel.setup( 	                    	"LOG_LEVEL",    	                lAny));
 
-    mGeneralProperties->add((BaseProperty*)  &mScaleE->getProperty()->setup(		    "SCALE", 			                0.02));
-    mGeneralProperties->add((BaseProperty*)  &XCoordE->getProperty()->setup(	        "VIEW_X_COORD",    	                0));
-    mGeneralProperties->add((BaseProperty*)  &YCoordE->getProperty()->setup(	        "VIEW_Y_COORD",    	                0));
-    mGeneralProperties->add((BaseProperty*)  &Width->getProperty()->setup(		        "VIEW_WIDTH", 		                0));
-    mGeneralProperties->add((BaseProperty*)  &Height->getProperty()->setup(	        	"VIEW_HEIGHT", 		                0));
-    mGeneralProperties->add((BaseProperty*)  &MinIntensityE->getProperty()->setup(	    "MIN_INTENSITY", 		            0));
-    mGeneralProperties->add((BaseProperty*)  &MaxIntensityE->getProperty()->setup(	    "MAX_INTENSITY", 		            65535));
 
-	mGeneralProperties->add((BaseProperty*)  &ImageCacheFolderE->getProperty()->setup(	"IMAGE_CACHE_FOLDER",  				"C:\\ImageCache"));
+
+	gAU.GeneralProperties->add((BaseProperty*)  &gAU.ConnectSSHServersOnStartup.setup(
+    																				   	"CONNECT_SERVERS_ON_STARTUP",  	 		 		false));
+
+    gAU.GeneralProperties->add((BaseProperty*)  &BaseURLE->getProperty()->setup(	        "BASE_URL", 	                    "http://ibs-forrestc-ux1.corp.alleninstitute.org"));
+    gAU.GeneralProperties->add((BaseProperty*)  &RenderPort->getProperty()->setup(	        "RENDER_PORT", 	                    8988));
+
+
+    gAU.GeneralProperties->add((BaseProperty*)  &mScaleE->getProperty()->setup(		    "SCALE", 			                0.02));
+    gAU.GeneralProperties->add((BaseProperty*)  &XCoordE->getProperty()->setup(	        "VIEW_X_COORD",    	                0));
+    gAU.GeneralProperties->add((BaseProperty*)  &YCoordE->getProperty()->setup(	        "VIEW_Y_COORD",    	                0));
+    gAU.GeneralProperties->add((BaseProperty*)  &Width->getProperty()->setup(		        "VIEW_WIDTH", 		                0));
+    gAU.GeneralProperties->add((BaseProperty*)  &Height->getProperty()->setup(	        	"VIEW_HEIGHT", 		                0));
+    gAU.GeneralProperties->add((BaseProperty*)  &MinIntensityE->getProperty()->setup(	    "MIN_INTENSITY", 		            0));
+    gAU.GeneralProperties->add((BaseProperty*)  &MaxIntensityE->getProperty()->setup(	    "MAX_INTENSITY", 		            65535));
+
 
     //Stack Generation
-	mGeneralProperties->add((BaseProperty*)  &VolumesFolder->getProperty()->setup(		"VOLUMES_ROOT_FOLDER",  	  		"/nas1/temp"));
-	mGeneralProperties->add((BaseProperty*)  &SubFolder1->getProperty()->setup(			"VOLUMES_SUB_FOLDER_1",  	  		"temp"));
-	mGeneralProperties->add((BaseProperty*)  &VolumesScaleE->getProperty()->setup(	   	"VOLUMES_SCALE",  	 		 		0.01));
+	gAU.GeneralProperties->add((BaseProperty*)  &VolumesFolder->getProperty()->setup(		"VOLUMES_ROOT_FOLDER",  	  		"/nas1/temp"));
+	gAU.GeneralProperties->add((BaseProperty*)  &SubFolder1->getProperty()->setup(			"VOLUMES_SUB_FOLDER_1",  	  		"temp"));
+	gAU.GeneralProperties->add((BaseProperty*)  &VolumesScaleE->getProperty()->setup(	   	"VOLUMES_SCALE",  	 		 		0.01));
 
 	//Read from file. Create if file do not exist
-	mGeneralProperties->read();
+	gAU.GeneralProperties->read();
 
     //For convenience and for option form, populate appProperties container
-	gAU.append(mGeneralProperties);
+	gAU.append(gAU.GeneralProperties);
 
 	//Update UI
+//    ImageCacheFolderE->update();
+//	ConnectSSHServersOnStartupCB->update();
     BaseURLE->update();
     RenderPort->update();
     mScaleE->update();
@@ -111,28 +117,28 @@ bool TMainForm::setupAndReadIniParameters()
     Height->update();
 	MinIntensityE->update();
 	MaxIntensityE->update();
-	ImageCacheFolderE->update();
+
     VolumesFolder->update();
     SubFolder1->update();
     VolumesScaleE->update();
 
 	//Remote server properties
-	mServer1Properties->setIniFile(&gAU.getIniFile());
-    mServer1Properties->setSection("REMOTE_SERVER_1");
-    mServer1Properties->add((BaseProperty*)  &TSSHFrame1->edSSHHost->getProperty()->setup("REMOTE_HOST", 	                  	"atbigdawg"));
-    mServer1Properties->add((BaseProperty*)  &TSSHFrame1->seSSHPort->getProperty()->setup("REMOTE_PORT", 	                  	22));
-    mServer1Properties->add((BaseProperty*)  &TSSHFrame1->edSSHUserName->getProperty()->setup("REMOTE_USER_NAME", 	       	"albert"));
-    mServer1Properties->add((BaseProperty*)  &TSSHFrame1->edSSHPassword->getProperty()->setup("REMOTE_USER_PASSWORD",        	"123"));
+	gAU.ServerProperties->setIniFile(&gAU.getIniFile());
+    gAU.ServerProperties->setSection("Remote SSH Server");
+    gAU.ServerProperties->add((BaseProperty*)  &TSSHFrame1->edSSHHost->getProperty()->setup("REMOTE_HOST", 	                  	"atbigdawg"));
+    gAU.ServerProperties->add((BaseProperty*)  &TSSHFrame1->seSSHPort->getProperty()->setup("REMOTE_PORT", 	                  	22));
+    gAU.ServerProperties->add((BaseProperty*)  &TSSHFrame1->edSSHUserName->getProperty()->setup("REMOTE_USER_NAME", 	       	"albert"));
+    gAU.ServerProperties->add((BaseProperty*)  &TSSHFrame1->edSSHPassword->getProperty()->setup("REMOTE_USER_PASSWORD",        	"123"));
 
-	mServer1Properties->read();
+	gAU.ServerProperties->read();
 
 	TSSHFrame1->edSSHHost->update();
     TSSHFrame1->seSSHPort->update();
     TSSHFrame1->edSSHUserName->update();
     TSSHFrame1->edSSHPassword->update();
 
-	BottomPanel->Height = mBottomPanelHeight;
-	mRC.setLocalCacheFolder(ImageCacheFolderE->getValue());
+	BottomPanel->Height = gAU.BottomPanelHeight;
+	mRC.setLocalCacheFolder(gAU.LocalCacheFolder.getValue());
     return true;
 }
 

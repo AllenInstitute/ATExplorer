@@ -64,8 +64,8 @@
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <IncludePath>..\..\..\..\CPP\Source\Core\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;P:\libs\atapi\source\vcl\frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\..\..\CPP\Source\Core\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;P:\libs\atapi\source\vcl\frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>p:\libs\dsl\VCL\Components\;..\..\source\Frames\;P:\libs\dsl\Common\;..\..\..\..\CPP\Source\Core\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;P:\libs\atapi\source\vcl\frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>p:\libs\dsl\VCL\Components\;..\..\source\Frames\;P:\libs\dsl\Common\;..\..\..\..\CPP\Source\Core\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;P:\libs\atapi\source\vcl\frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>ATExplorer</SanitizedProjectName>
         <Custom_Styles>Carbon|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Carbon.vsf;&quot;Charcoal Dark Slate|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\CharcoalDarkSlate.vsf&quot;;&quot;Cobalt XEMedia|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\CobaltXEMedia.vsf&quot;;Glossy|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Glossy.vsf;Glow|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Glow.vsf;Luna|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Luna.vsf</Custom_Styles>
     </PropertyGroup>
@@ -163,6 +163,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Forms\TATESettingsForm.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TGeneralPropertiesFrame.cpp">
+            <Form>GeneralPropertiesFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TGeneralPropertiesFrame.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Initializing.cpp">
             <BuildOrder>6</BuildOrder>
         </CppCompile>
@@ -188,6 +195,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
+        <CppCompile Include="P:\libs\dsl\Common\dslPropertiesContainer.cpp">
+            <DependentOn>P:\libs\dsl\Common\dslPropertiesContainer.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
         <CppCompile Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp">
             <Form>LogMemoFrame</Form>
             <FormType>dfm</FormType>
@@ -195,9 +206,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\source\TMainForm.dfm"/>
         <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
+        <FormResources Include="..\..\source\TMainForm.dfm"/>
+        <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
         <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -227,8 +239,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </ProjectProperties>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -273,8 +285,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

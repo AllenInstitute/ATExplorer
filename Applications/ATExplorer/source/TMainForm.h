@@ -91,9 +91,6 @@ __published:	// IDE-managed Components
 	TIntegerLabeledEdit *XCoordE;
 	TIntegerLabeledEdit *YCoordE;
 	TIntegerEdit *mZoomFactor;
-	TButton *mBrowseForCacheFolder;
-	TSTDStringLabeledEdit *ImageCacheFolderE;
-	TGroupBox *GroupBox6;
 	TGroupBox *GroupBox9;
 	TButton *FetchSelectedZsBtn;
 	TGroupBox *StackGenerationGB;
@@ -235,6 +232,7 @@ __published:	// IDE-managed Components
 	TIntegerLabeledEdit *RenderPort;
 	TAction *OpenSettingsA;
 	TMenuItem *Settings1;
+	TToolButton *ToolButton6;
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -250,7 +248,7 @@ __published:	// IDE-managed Components
 //	void __fastcall TraverseZClick(TObject *Sender);
 	void __fastcall FetchSelectedZsBtnClick(TObject *Sender);
 	void __fastcall GetValidZsBtnClick(TObject *Sender);
-	void __fastcall mBrowseForCacheFolderClick(TObject *Sender);
+
 	void __fastcall mUpdateZsBtnClick(TObject *Sender);
 	void __fastcall CopyValidZs1Click(TObject *Sender);
 	void __fastcall GetOptimalBoundsBtnClick(TObject *Sender);
@@ -333,7 +331,6 @@ __published:	// IDE-managed Components
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall OpenSettingsAExecute(TObject *Sender);
 
-
 	private:
        	void __fastcall 								DrawShape(TPoint TopLeft, TPoint BottomRight, TPenMode AMode);
 		sshCallback										onSSHData;
@@ -343,14 +340,6 @@ __published:	// IDE-managed Components
         ImageGrid                                       mImageGrid;
 	    Process 										mAProcess;
 		bool          									mIsStyleMenuPopulated;
-        shared_ptr<IniFileProperties>              		mGeneralProperties;
-        Property<int>	                            	mBottomPanelHeight;
-		Property<dsl::LogLevel>	                		mLogLevel;
-		Property<string>	 		                	mCurrentProject;
-		Property<string>	 		                	mCurrentOwner;
-		Property<string>	 		                	mCurrentStack;
-
-        shared_ptr<IniFileProperties>                   mServer1Properties;
 
         bool                                            setupAndReadIniParameters();
 		double 											getImageStretchFactor();

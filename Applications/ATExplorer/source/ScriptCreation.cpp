@@ -3,10 +3,12 @@
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "atSSHUtils.h"
-
+#include "ateAppUtilities.h"
+//---------------------------------------------------------------------------
 using namespace dsl;
+extern at::AppUtilities gAU;
 
-
+//---------------------------------------------------------------------------
 void __fastcall TMainForm::TSSHFrame1ScSSHShell1AsyncReceive(TObject *Sender)
 {
 	//Parse messages from the server
@@ -21,6 +23,7 @@ void __fastcall TMainForm::TSSHFrame1ScSSHShell1AsyncReceive(TObject *Sender)
     }
 }
 
+//---------------------------------------------------------------------------
 void __fastcall TMainForm::CMDButtonClick(TObject *Sender)
 {
 	stringstream cmd;
@@ -141,10 +144,10 @@ string TMainForm::createRemoteCommand(const string& remoteScript, const string& 
 	cmd <<" "<<stack;
 
 	//Sixth is owner
-    cmd <<" "<<mCurrentOwner;
+    cmd <<" "<<gAU.CurrentOwner;
 
     //7th - project
-    cmd <<" "<<mCurrentProject;
+    cmd <<" "<<gAU.CurrentProject;
 
     //8th - scale
 	cmd <<" "<<stdstr(VolumesScaleE->Text);

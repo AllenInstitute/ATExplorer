@@ -60,7 +60,7 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 	Log(lInfo) << "In FormClose";
 	Log(lInfo) << "In main forms destructor";
 
-	mLogLevel.setValue(gLogger.getLogLevel());
+	gAU.LogLevel.setValue(gLogger.getLogLevel());
 	if(gImageForm)
     {
 		gImageForm->mPrepareForDeletion = true;
@@ -68,10 +68,11 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
     }
 
 	//Save project history
-	mBottomPanelHeight = BottomPanel->Height;
+	gAU.BottomPanelHeight = BottomPanel->Height;
 
-	mGeneralProperties->write();
-	mServer1Properties->write();
+//    Log(lInfo) << "CB Value: " << ConnectSSHServersOnStartupCB->getProperty()->getValue();
+	gAU.GeneralProperties->write();
+	gAU.ServerProperties->write();
 
 	//Write to file
 	gAU.getIniFile().save();

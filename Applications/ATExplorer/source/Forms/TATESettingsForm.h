@@ -7,13 +7,15 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <list>
-#include "dslSharedPointer.h"
 #include "dslIniFileProperties.h"
 #include "dslRegistryProperties.h"
+#include "dslPropertiesContainer.h"
+#include "TGeneralPropertiesFrame.h"
+#include "dslSharedPointer.h"
 
 using std::list;
-typedef dsl::shared_ptr<dsl::Properties> PropertiesSP;
-
+using dsl::PropertiesContainer;
+using dsl::shared_ptr;
 //---------------------------------------------------------------------------
 class PACKAGE TATESettingsForm : public TForm
 {
@@ -23,16 +25,25 @@ class PACKAGE TATESettingsForm : public TForm
         TButton *Button1;
         TButton *Button2;
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall TreeView1Change(TObject *Sender, TTreeNode *Node);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 
 	private:
-                                                        	        //Each item holds a container of related properties
-        list< PropertiesSP >   									mSections;
-        list< PropertiesSP >::iterator    						mSectionIterator;
-		TTreeNode*												BaseNode;
+                                                      	        //Each item holds a container of related properties
+        PropertiesContainer                                     mSections;
+ 		TTreeNode*												BaseNode;
+        void     												populateGeneralPanel(Properties& props);
+		shared_ptr<TGeneralPropertiesFrame>                     mGeneralPropertiesFrame;
 
 	public:
 													__fastcall 	TATESettingsForm(TComponent* Owner);
-        void                                                    append(PropertiesSP props);
+        void                                                    append(shared_ptr<Properties> props);
+        bool                                                    enablePropertyEdits();
+        bool                                                    disablePropertyEdits();
+        bool                                                    discardPropertyEdits();
+        int                                                     applyPropertyEdits();
+
 };
 
 extern PACKAGE TATESettingsForm *ATESettingsForm;

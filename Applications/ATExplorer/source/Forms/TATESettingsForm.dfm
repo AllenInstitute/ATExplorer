@@ -11,23 +11,27 @@ object ATESettingsForm: TATESettingsForm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poOwnerFormCenter
+  OnClose = FormClose
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object TreeView1: TTreeView
     Left = 0
     Top = 0
-    Width = 121
+    Width = 177
     Height = 356
     Align = alLeft
+    AutoExpand = True
     HotTrack = True
     Indent = 19
-    MultiSelect = True
     ReadOnly = True
     RowSelect = True
     TabOrder = 0
+    OnChange = TreeView1Change
   end
   object Panel1: TPanel
     Left = 0

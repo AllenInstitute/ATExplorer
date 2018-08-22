@@ -62,20 +62,20 @@ void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 	writeStringToRegistry(gAU.AppRegistryRoot, "", "Theme", gAU.AppTheme);
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::mBrowseForCacheFolderClick(TObject *Sender)
-{
-	//Browse for folder
-	string res = browseForFolder(ImageCacheFolderE->getValue());
-    if(folderExists(res))
-    {
-		ImageCacheFolderE->setValue(res);
-    }
-    else
-    {
-    	Log(lWarning) << "Cache folder was not set..";
-    }
-}
+////---------------------------------------------------------------------------
+//void __fastcall TMainForm::mBrowseForCacheFolderClick(TObject *Sender)
+//{
+//	//Browse for folder
+//	string res = browseForFolder(ImageCacheFolderE->getValue());
+//    if(folderExists(res))
+//    {
+//		ImageCacheFolderE->setValue(res);
+//    }
+//    else
+//    {
+//    	Log(lWarning) << "Cache folder was not set..";
+//    }
+//}
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CopyValidZs1Click(TObject *Sender)
