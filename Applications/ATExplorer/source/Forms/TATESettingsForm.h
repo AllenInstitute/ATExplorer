@@ -43,7 +43,6 @@ class PACKAGE TATESettingsForm : public TForm
         bool                                                    disablePropertyEdits();
         bool                                                    discardPropertyEdits();
         int                                                     applyPropertyEdits();
-
 };
 
 extern PACKAGE TATESettingsForm *ATESettingsForm;

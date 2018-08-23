@@ -3,6 +3,7 @@
 #include "TATESettingsForm.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
+#include "ateAppUtilities.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -11,6 +12,9 @@
 TATESettingsForm *ATESettingsForm;
 
 using namespace dsl;
+extern at::AppUtilities gAU;
+
+TTreeNode* getItemWithCaption(const string& c, TTreeView* tv);
 //---------------------------------------------------------------------------
 __fastcall TATESettingsForm::TATESettingsForm(TComponent* Owner)
 	: TForm(Owner)
@@ -35,27 +39,23 @@ void TATESettingsForm::append(shared_ptr<Properties> props)
 
 bool TATESettingsForm::enablePropertyEdits()
 {
-    mSections.enableEdits();
-    return true;
+    return mSections.enableEdits();
 }
 
 bool TATESettingsForm::disablePropertyEdits()
 {
-    mSections.disableEdits();
-    return true;
+    return mSections.disableEdits();
 }
 
 bool TATESettingsForm::discardPropertyEdits()
 {
-    mSections.discardEdits();
-    return true;
+    return mSections.discardEdits();
 }
 
 int TATESettingsForm::applyPropertyEdits()
 {
     //Check general setting
-	mSections.applyEdits();
-    return -1;
+	return mSections.applyEdits();
 }
 
 //---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ void __fastcall TATESettingsForm::TreeView1Change(TObject *Sender, TTreeNode *No
     if(Node->Selected)
     {
         Log(lInfo) << "User selected: " << stdstr(Node->Text);
-
+        gAU.LastSelectedSettingsSection = stdstr(Node->Text);
         //Extract the properties
         shared_ptr<Properties> props = mSections.getSection(stdstr(Node->Text));
         if(props && props->getSection() == "General")
@@ -89,9 +89,18 @@ void TATESettingsForm::populateGeneralPanel(Properties& props)
 //---------------------------------------------------------------------------
 void __fastcall TATESettingsForm::FormShow(TObject *Sender)
 {
-    //Find the last expanded item
+    //Enabling property edits causes any values changed in the UI to be stored
+    //in a properties "Edit" value. The Edit value is propagated to
+    //the properties real value if user selects OK
     enablePropertyEdits();
 
+	//Find the last expanded item
+    TTreeNode* n = getItemWithCaption(gAU.LastSelectedSettingsSection, TreeView1);
+    if(n)
+    {
+        n->Selected = true;
+        n->Expanded = true;
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -105,4 +114,17 @@ void __fastcall TATESettingsForm::FormClose(TObject *Sender, TCloseAction &Actio
     disablePropertyEdits();
 }
 
-
+TTreeNode* getItemWithCaption(const string& c, TTreeView* tv)
+{
+    TTreeNode* baseNode = tv->Items->GetFirstNode();
+    TTreeNode* node = baseNode->getFirstChild();
+    while(node != NULL)
+    {
+        if(node->Text == vclstr(c))
+        {
+            return node;
+        }
+        node = baseNode->GetNextChild(node);
+    };
+    return NULL;
+}

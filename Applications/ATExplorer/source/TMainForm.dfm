@@ -32,7 +32,6 @@ object MainForm: TMainForm
     Width = 1442
     Height = 19
     Panels = <>
-    ExplicitTop = 1034
   end
   object MainPanel: TPanel
     Left = 0
@@ -41,7 +40,6 @@ object MainForm: TMainForm
     Height = 997
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 1009
     object Splitter2: TSplitter
       Left = 1
       Top = 857
@@ -61,8 +59,6 @@ object MainForm: TMainForm
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
-      ExplicitTop = 20
-      ExplicitWidth = 302
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -72,16 +68,16 @@ object MainForm: TMainForm
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 300
+        ExplicitWidth = 1438
         ExplicitHeight = 134
         inherited Panel1: TPanel
           Width = 1438
           Height = 134
-          ExplicitWidth = 300
+          ExplicitWidth = 1438
           ExplicitHeight = 134
           inherited GroupBox1: TGroupBox
             Width = 1436
-            ExplicitWidth = 298
+            ExplicitWidth = 1436
           end
           inherited infoMemo: TMemo
             Width = 1436
@@ -100,7 +96,6 @@ object MainForm: TMainForm
       Align = alLeft
       TabOrder = 1
       Visible = False
-      ExplicitHeight = 849
       object ProjectTView: TTreeView
         Left = 1
         Top = 1
@@ -115,7 +110,6 @@ object MainForm: TMainForm
         OnContextPopup = ProjectTViewContextPopup
         OnEdited = ProjectTViewEdited
         OnEditing = ProjectTViewEditing
-        ExplicitHeight = 847
       end
     end
     object ShowBottomPanelBtn: TButton
@@ -127,7 +121,6 @@ object MainForm: TMainForm
       Align = alBottom
       TabOrder = 2
       Visible = False
-      ExplicitTop = 850
     end
     object CenterPanel: TPanel
       Left = 105
@@ -136,7 +129,6 @@ object MainForm: TMainForm
       Height = 837
       Align = alClient
       TabOrder = 3
-      ExplicitHeight = 849
       object VisualsPC: TPageControl
         Left = 440
         Top = 1
@@ -146,18 +138,13 @@ object MainForm: TMainForm
         Align = alClient
         TabOrder = 0
         OnChange = VisualsPCChange
-        ExplicitHeight = 847
         object TabSheet2: TTabSheet
           Caption = 'Local Explorer'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object Panel1: TPanel
             Left = 0
             Top = 0
             Width = 887
-            Height = 819
+            Height = 807
             Align = alClient
             Color = clSkyBlue
             DoubleBuffered = True
@@ -16232,7 +16219,6 @@ object MainForm: TMainForm
                   Text = 'Misc'
                   Width = 50
                 end>
-              ExplicitTop = 801
             end
             object mZoomFactor: TIntegerEdit
               Left = 140
@@ -16280,10 +16266,6 @@ object MainForm: TMainForm
         object NdVizTS: TTabSheet
           Caption = 'NDViz'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object ClearBrowserCacheBtn: TButton
             Left = 16
             Top = 16
@@ -16304,25 +16286,20 @@ object MainForm: TMainForm
         Align = alLeft
         TabOrder = 1
         OnChange = PageControl1Change
-        ExplicitHeight = 847
         object TabSheet7: TTabSheet
           Caption = 'Project'
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object mLeftPanel: TPanel
             Left = 0
             Top = 0
             Width = 385
-            Height = 819
+            Height = 807
             Align = alLeft
             TabOrder = 0
             object ScrollBox1: TScrollBox
               Left = 1
               Top = 1
               Width = 287
-              Height = 817
+              Height = 805
               Align = alClient
               DoubleBuffered = True
               ParentDoubleBuffered = False
@@ -16600,12 +16577,11 @@ object MainForm: TMainForm
               Height = 805
               Align = alRight
               TabOrder = 1
-              ExplicitHeight = 817
               object Zs_GB: TGroupBox
                 Left = 1
                 Top = 1
                 Width = 94
-                Height = 317
+                Height = 305
                 Align = alClient
                 Caption = 'Sections'
                 TabOrder = 0
@@ -16613,7 +16589,7 @@ object MainForm: TMainForm
                   Left = 2
                   Top = 15
                   Width = 90
-                  Height = 300
+                  Height = 288
                   Align = alClient
                   ItemHeight = 13
                   PopupMenu = ZsPopUpMenu
@@ -16629,7 +16605,6 @@ object MainForm: TMainForm
                 Align = alBottom
                 Caption = 'Local Cache'
                 TabOrder = 1
-                ExplicitTop = 678
                 object FetchSelectedZsBtn: TButton
                   Left = 5
                   Top = 19
@@ -16657,7 +16632,6 @@ object MainForm: TMainForm
                 Align = alBottom
                 Caption = 'Other'
                 TabOrder = 2
-                ExplicitTop = 498
                 object OtherCB: TCheckListBox
                   Left = 2
                   Top = 15
@@ -16678,7 +16652,6 @@ object MainForm: TMainForm
                 Align = alBottom
                 Caption = 'Stacks'
                 TabOrder = 3
-                ExplicitTop = 318
                 object StacksCB: TCheckListBox
                   Left = 2
                   Top = 15
@@ -16733,7 +16706,7 @@ object MainForm: TMainForm
                 Width = 244
                 Height = 636
                 ExplicitWidth = 244
-                ExplicitHeight = 648
+                ExplicitHeight = 636
                 DesignSize = (
                   244
                   636)
@@ -16752,7 +16725,7 @@ object MainForm: TMainForm
                   Top = 618
                   Width = 240
                   ExplicitLeft = 2
-                  ExplicitTop = 630
+                  ExplicitTop = 618
                   ExplicitWidth = 240
                 end
               end
@@ -16762,10 +16735,6 @@ object MainForm: TMainForm
         object TabSheet8: TTabSheet
           Caption = 'Volume Creation'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object ScriptsPC: TPageControl
             Left = 0
             Top = 329
@@ -16775,13 +16744,8 @@ object MainForm: TMainForm
             Align = alClient
             TabOrder = 0
             OnChange = ScriptsPCChange
-            ExplicitHeight = 303
             object TabSheet6: TTabSheet
               Caption = 'Stack Creation'
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
             end
           end
           object StackGenerationGB: TGroupBox
@@ -17084,13 +17048,12 @@ object MainForm: TMainForm
             Align = alClient
             Caption = 'Select Stacks'
             TabOrder = 3
-            ExplicitHeight = 303
             object StacksForProjectCB: TCheckListBox
               AlignWithMargins = True
               Left = 2
               Top = 76
               Width = 424
-              Height = 222
+              Height = 210
               Margins.Left = 0
               Align = alClient
               ItemHeight = 13
@@ -17131,7 +17094,6 @@ object MainForm: TMainForm
             Height = 187
             Align = alBottom
             TabOrder = 4
-            ExplicitTop = 632
             object JobCreationGB: TGroupBox
               Left = 1
               Top = 1
@@ -17575,7 +17537,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C0101080018002C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010108001800300210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

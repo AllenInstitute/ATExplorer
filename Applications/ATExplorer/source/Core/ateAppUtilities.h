@@ -23,7 +23,6 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
                             					~AppUtilities();
             bool                                setupIniParameters();
 
-
                                                 //General Properties
 	        shared_ptr<IniFileProperties> 		GeneralProperties;
 	        shared_ptr<IniFileProperties>       ServerProperties;
@@ -34,7 +33,7 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
         	Property<int>	                    BottomPanelHeight;
 
                                                 //!Used to open up the Settings Treeview where it was last time
-          	Property<string>                	LastSelectedSettingSection;
+          	Property<string>                	LastSelectedSettingsSection;
 
                                                 //These properties may be exposed for change in the UI ========
         	Property<bool>	                	ConnectSSHServersOnStartup;
@@ -44,10 +43,7 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
             Property<string>	 		        CurrentStack;
             Property<string>	 		        BaseURL;
 
-
         protected:
-
-        private:
 
 };
 
