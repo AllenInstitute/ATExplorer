@@ -72,27 +72,16 @@ bool TMainForm::setupAndReadIniParameters()
 	//Setup parameters
     gAU.setupIniParameters();
 
-
-//	gAU.GeneralProperties->add((BaseProperty*)  &mBottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
-//	gAU.GeneralProperties->add((BaseProperty*)  &mLogLevel.setup( 	                    	"LOG_LEVEL",    	                lAny));
-
-
-
-	gAU.GeneralProperties->add((BaseProperty*)  &gAU.ConnectSSHServersOnStartup.setup(
-    																				   	"CONNECT_SERVERS_ON_STARTUP",  	 		 		false));
-
-    gAU.GeneralProperties->add((BaseProperty*)  &BaseURLE->getProperty()->setup(	        "BASE_URL", 	                    "http://ibs-forrestc-ux1.corp.alleninstitute.org"));
     gAU.GeneralProperties->add((BaseProperty*)  &RenderPort->getProperty()->setup(	        "RENDER_PORT", 	                    8988));
 
-
-    gAU.GeneralProperties->add((BaseProperty*)  &mScaleE->getProperty()->setup(		    "SCALE", 			                0.02));
-    gAU.GeneralProperties->add((BaseProperty*)  &XCoordE->getProperty()->setup(	        "VIEW_X_COORD",    	                0));
-    gAU.GeneralProperties->add((BaseProperty*)  &YCoordE->getProperty()->setup(	        "VIEW_Y_COORD",    	                0));
+    //These will be part of last loaded project
+    gAU.GeneralProperties->add((BaseProperty*)  &mScaleE->getProperty()->setup(		    	"SCALE", 			                0.02));
+    gAU.GeneralProperties->add((BaseProperty*)  &XCoordE->getProperty()->setup(	        	"VIEW_X_COORD",    	                0));
+    gAU.GeneralProperties->add((BaseProperty*)  &YCoordE->getProperty()->setup(	        	"VIEW_Y_COORD",    	                0));
     gAU.GeneralProperties->add((BaseProperty*)  &Width->getProperty()->setup(		        "VIEW_WIDTH", 		                0));
     gAU.GeneralProperties->add((BaseProperty*)  &Height->getProperty()->setup(	        	"VIEW_HEIGHT", 		                0));
     gAU.GeneralProperties->add((BaseProperty*)  &MinIntensityE->getProperty()->setup(	    "MIN_INTENSITY", 		            0));
     gAU.GeneralProperties->add((BaseProperty*)  &MaxIntensityE->getProperty()->setup(	    "MAX_INTENSITY", 		            65535));
-
 
     //Stack Generation
 	gAU.GeneralProperties->add((BaseProperty*)  &VolumesFolder->getProperty()->setup(		"VOLUMES_ROOT_FOLDER",  	  		"/nas1/temp"));
@@ -101,14 +90,10 @@ bool TMainForm::setupAndReadIniParameters()
 
 	//Read from file. Create if file do not exist
 	gAU.GeneralProperties->read();
-
-    //For convenience and for option form, populate appProperties container
-	gAU.append(gAU.GeneralProperties);
+	BaseURLE->assignExternalProperty(&gAU.BaseURL, true);
 
 	//Update UI
-//    ImageCacheFolderE->update();
-//	ConnectSSHServersOnStartupCB->update();
-    BaseURLE->update();
+//    BaseURLE->update();
     RenderPort->update();
     mScaleE->update();
     XCoordE->update();
@@ -117,14 +102,10 @@ bool TMainForm::setupAndReadIniParameters()
     Height->update();
 	MinIntensityE->update();
 	MaxIntensityE->update();
-
     VolumesFolder->update();
     SubFolder1->update();
     VolumesScaleE->update();
 
-	//Remote server properties
-	gAU.ServerProperties->setIniFile(&gAU.getIniFile());
-    gAU.ServerProperties->setSection("Remote SSH Server");
     gAU.ServerProperties->add((BaseProperty*)  &TSSHFrame1->edSSHHost->getProperty()->setup("REMOTE_HOST", 	                  	"atbigdawg"));
     gAU.ServerProperties->add((BaseProperty*)  &TSSHFrame1->seSSHPort->getProperty()->setup("REMOTE_PORT", 	                  	22));
     gAU.ServerProperties->add((BaseProperty*)  &TSSHFrame1->edSSHUserName->getProperty()->setup("REMOTE_USER_NAME", 	       	"albert"));

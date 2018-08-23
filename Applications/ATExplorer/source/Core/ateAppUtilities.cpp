@@ -20,8 +20,11 @@ LogLevel(lAny),
 BottomPanelHeight(205),
 CurrentProject(""),
 CurrentOwner(""),
-CurrentStack("")
+CurrentStack(""),
+BaseURL("")
 {
+    append(GeneralProperties);
+    append(ServerProperties);
 }
 
 AppUtilities::~AppUtilities()
@@ -32,8 +35,9 @@ AppUtilities::~AppUtilities()
 bool AppUtilities::setupIniParameters()
 {
 	GeneralProperties->setIniFile(&getIniFile());
+	ServerProperties->setIniFile(&getIniFile());
 	GeneralProperties->setSection("General");
-
+    ServerProperties->setSection("Remote SSH Server");
 
 	GeneralProperties->add((BaseProperty*)  &BottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
 	GeneralProperties->add((BaseProperty*)  &LogLevel.setup( 	                  	"LOG_LEVEL",    	                lAny));
@@ -42,6 +46,9 @@ bool AppUtilities::setupIniParameters()
     GeneralProperties->add((BaseProperty*)  &CurrentOwner.setup(		       		"OWNER", 		                    ""));
     GeneralProperties->add((BaseProperty*)  &CurrentProject.setup(	    			"PROJECT", 		                    ""));
     GeneralProperties->add((BaseProperty*)  &CurrentStack.setup(	          		"STACK_NAME", 	                    ""));
+
+	GeneralProperties->add((BaseProperty*)  &ConnectSSHServersOnStartup.setup(   	"CONNECT_SERVERS_ON_STARTUP",  		false));
+    GeneralProperties->add((BaseProperty*)  &BaseURL.setup(   						"BASE_URL",  						"http://ibs-forrestc-ux1.corp.alleninstitute.org"));
 
     return true;
 }
