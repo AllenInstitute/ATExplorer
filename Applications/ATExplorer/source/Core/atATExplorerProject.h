@@ -1,9 +1,8 @@
 #ifndef atATExplorerProjectH
 #define atATExplorerProjectH
-#include "arraybot/atABExporter.h"
 #include "dslProject.h"
 #include "dslConstants.h"
-#include "core/atATObject.h"
+#include "atATObject.h"
 #include <vector>
 
 //---------------------------------------------------------------------------
@@ -15,6 +14,7 @@ namespace tinyxml2
 
 using namespace std;
 using dsl::gEmptyString;
+
 //!A render project is a project as exposed by Render
 class RenderProject;
 

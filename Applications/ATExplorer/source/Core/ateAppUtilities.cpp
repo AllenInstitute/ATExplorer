@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "ateAppUtilities.h"
 #include "dslLogger.h"
@@ -44,6 +45,8 @@ bool AppUtilities::setupIniParameters()
 	GeneralProperties->add((BaseProperty*)  &LocalCacheFolder.setup(				"LOCAL_CACHE_FOLDER",  				"C:\\ImageCache"));
 	GeneralProperties->add((BaseProperty*)  &LastSelectedSettingsSection.setup(	  	"LAST_SELECTED_SETTINGS_SECTION",	""));
 
+
+    //This should be part of a project
     GeneralProperties->add((BaseProperty*)  &BaseURL.setup(   						"BASE_URL",  						"http://ibs-forrestc-ux1.corp.alleninstitute.org"));
     GeneralProperties->add((BaseProperty*)  &CurrentOwner.setup(		       		"OWNER", 		                    ""));
     GeneralProperties->add((BaseProperty*)  &CurrentProject.setup(	    			"PROJECT", 		                    ""));

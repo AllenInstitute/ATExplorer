@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "TMainForm.h"
 #include "dslVCLUtils.h"
@@ -20,13 +21,13 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
 {
 	ShutDownTimer->Enabled = false;
 
-    ATExplorerProject* mCurrentVCProject = mProjectManager.getCurrentProject();
-	if(mCurrentVCProject && mCurrentVCProject->isNeverSaved() == true)
+    ATExplorerProject* p  = mPM.getCurrentProject();
+	if(p && p->isNeverSaved() == true)
     {
     	int mrResult = MessageDlg("Do you want to save current project?", mtWarning, TMsgDlgButtons() << mbYes<<mbNo<<mbCancel, 0);
         if(mrResult == mrYes)
         {
-    		if(closeProject() == mrCancel)
+    		if(mPM.closeProject(p) == mrCancel)
 	        {
     	    	return;
         	}
@@ -36,36 +37,32 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
         	return;
         }
     }
-    else if(mCurrentVCProject)
+    else if(p)
     {
-
-		mCurrentVCProject->save();
+		p->save();
     }
 
-    delete mCurrentVCProject;
-    mCurrentVCProject = NULL;
 
-
-	if(TSSHFrame1->isConnected())
-    {
-		TSSHFrame1->disconnect();
-	}
+//	if(TSSHFrame1->isConnected())
+//    {
+//		TSSHFrame1->disconnect();
+//	}
 
     Close();
 }
 
 void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
-    IdHTTP1->Disconnect();
+//    IdHTTP1->Disconnect();
 	Log(lInfo) << "In FormClose";
 	Log(lInfo) << "In main forms destructor";
 
 	gAU.LogLevel.setValue(gLogger.getLogLevel());
-	if(gImageForm)
-    {
-		gImageForm->mPrepareForDeletion = true;
-    	gImageForm->Close();
-    }
+//	if(gImageForm)
+//    {
+//		gImageForm->mPrepareForDeletion = true;
+//    	gImageForm->Close();
+//    }
 
 	//Save project history
 	gAU.BottomPanelHeight = BottomPanel->Height;
@@ -83,14 +80,14 @@ void __fastcall TMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
 	Log(lInfo) << "Closing down....";
 
-    ATExplorerProject* mCurrentVCProject = mProjectManager.getCurrentProject();
+    ATExplorerProject* mCurrentVCProject = mPM.getCurrentProject();
 	//Check if we can close.. abort all threads..
-	if(TSSHFrame1->isConnected())
-    {
-		CanClose = false;
-    }
+//	if(TSSHFrame1->isConnected())
+//    {
+//		CanClose = false;
+//    }
 
-    else if(mCurrentVCProject && mCurrentVCProject->isNeverSaved() == false)
+    if(mCurrentVCProject && mCurrentVCProject->isNeverSaved() == false)
     {
 		CanClose = false;
     }

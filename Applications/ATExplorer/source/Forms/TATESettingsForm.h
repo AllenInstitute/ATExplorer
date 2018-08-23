@@ -6,7 +6,6 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
-#include <list>
 #include "dslIniFileProperties.h"
 #include "dslRegistryProperties.h"
 #include "dslPropertiesContainer.h"

@@ -1,21 +1,24 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "TMainForm.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
 #include "dslFileUtils.h"
+#include "atATExplorerProject.h"
+#include "atRenderProject.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 
 void addRenderProjectToTreeView(TTreeNode* vcNode, RenderProject* rp, TTreeView* tv);
 
-bool addVCProjectToTreeView(ATExplorerProject* mVCProject, TTreeView* tv)
+bool addVCProjectToTreeView(ATExplorerProject* project, TTreeView* tv)
 {
-	TTreeNode* vcn = tv->Items->AddObject(NULL, mVCProject->getProjectName().c_str(), (void*) mVCProject);
+	TTreeNode* vcn = tv->Items->AddObject(NULL, project->getProjectName().c_str(), (void*) project);
     vcn->EditText();
 
-    for(int i = 1; i < mVCProject->getNumberOfChilds() + 1; i++)
+    for(int i = 1; i < project->getNumberOfChilds() + 1; i++)
     {
-    	RenderProject* rp = dynamic_cast<RenderProject*>(mVCProject->getChild(i)) ;
+    	RenderProject* rp = dynamic_cast<RenderProject*>(project->getChild(i)) ;
     	if(rp)
         {
 	    	addRenderProjectToTreeView(vcn, rp, tv);
@@ -39,18 +42,46 @@ void addRenderProjectToTreeView(TTreeNode* vcNode, RenderProject* rp, TTreeView*
     tv->Select(n);
 }
 
-ATExplorerProject* TMainForm::getCurrentVCProject()
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::ProjectTViewEditing(TObject *Sender, TTreeNode *Node,
+          bool &AllowEdit)
 {
-	return mProjectManager.getCurrentProject();
+	AllowEdit = true;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
+          UnicodeString &S)
+{
+	//Update underlying object with new valuse..
+    ATExplorerProject* vcp = (ATExplorerProject*) Node->Data;
+    if(vcp)
+    {
+    	vcp->setProjectName(stdstr(S));
+        vcp->setModified();
+		SaveProjectA->Update();
+    }
+}
+
+void __fastcall TMainForm::EditViewNodeExecute(TObject *Sender)
+{
+	TTreeNode* item = ProjectTView->Selected;
+    if(item)
+    {
+    	item->EditText();
+    }
+}
+
+ATExplorerProject* TMainForm::getCurrentProject()
+{
+	return mPM.getCurrentProject();
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 {
-	mProjectManager.createNewProject();
-	mProjectManager.selectLast();
-//    mCurrentVCProject = createNewProject();
-//    ProjectTView->Items->AddObject(NULL, mCurrentVCProject->getProjectName().c_str(), (void*) mCurrentVCProject);
+	mPM.createNewProject();
+	mPM.selectLast();
 }
 
 //---------------------------------------------------------------------------
@@ -73,111 +104,59 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
     }
 }
 
-ATExplorerProject* __fastcall TMainForm::createNewProject()
+ATExplorerProject* TMainForm::createNewProject()
 {
 	//Check how many main nodes
-    int nrOfVCPs = mVCProjects.size();
-
-	string pName = "VC Project " + dsl::toString(nrOfVCPs);
-	ATExplorerProject* vcp = new ATExplorerProject(pName);
-    mVCProjects.push_back(vcp);
-
-    Log(lInfo) << "Created a new ATExplorer project";
-    return vcp;
+	string pName = "AT Project " + dsl::toString(mPM.projectCount());
+    return mPM.createNewProject(pName);
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ProjectStatusTimerTimer(TObject *Sender)
 {
-	if(getCurrentVCProject() && getCurrentVCProject()->isModified())
-    {
-       	SaveProjectA->Enabled = true;
-    }
-    else
-    {
-		SaveProjectA->Enabled = false;
-    }
+//	if(getCurrentVCProject() && getCurrentVCProject()->isModified())
+//    {
+//       	SaveProjectA->Enabled = true;
+//    }
+//    else
+//    {
+//		SaveProjectA->Enabled = false;
+//    }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
 {
-    string f(stdstr(FileOpen1->Dialog->FileName));
-    ATExplorerProject* p = getCurrentVCProject();
-    if(p && p->isOpen())
-    {
-		if(closeProject() == mrOk)
-        {
-        	p->close();
-        }
-    }
-
-    if(!p)
-	{
-		p = createNewProject();
-    }
-
-	if(p->loadXMLFromFile(f))
-    {
-//	    ProjFileLbl->Caption = string("Project File: " + f).c_str();
-    	Log(lInfo) << "Loaded project file: "<<f;
-        p->open();
-    }
-
-    addVCProjectToTreeView(p, ProjectTView);
+//    string f(stdstr(FileOpen1->Dialog->FileName));
+//    ATExplorerProject* p = getCurrentVCProject();
+//    if(p && p->isOpen())
+//    {
+//		if(closeProject() == mrOk)
+//        {
+//        	p->close();
+//        }
+//    }
+//
+//    if(!p)
+//	{
+//		p = createNewProject();
+//    }
+//
+//	if(p->loadXMLFromFile(f))
+//    {
+////	    ProjFileLbl->Caption = string("Project File: " + f).c_str();
+//    	Log(lInfo) << "Loaded project file: "<<f;
+//        p->open();
+//    }
+//
+//    addVCProjectToTreeView(p, ProjectTView);
 }
 
 //---------------------------------------------------------------------------
-int __fastcall TMainForm::closeProject()
-{
-	if(saveProject() == mrOk)
-    {
-	    ATExplorerProject* p = getCurrentVCProject();
-        p->close();
-        Log(lInfo) << "Closed project: "<<p->getFileName();
-//   	    ProjFileLbl->Caption = string("Project File: None").c_str();
-        delete p;
-        p = NULL;
-        return mrOk;
-    }
-    else
-    {
-    	return mrCancel;
-    }
-}
-
-int __fastcall TMainForm::saveProjectAs()
-{
-    //Set filename and filePath
-    SaveDialog1->Execute();
-    if(SaveDialog1->FileName.Length())
-    {
-        string fName = stdstr(SaveDialog1->FileName);
-
-        if(fileExists(fName))
-        {
-            if(MessageDlg("Overwrite file?", mtWarning, TMsgDlgButtons() << mbYes<<mbNo, 0) == mrCancel)
-            {
-                return mrCancel;
-            }
-        }
-	    ATExplorerProject* p = getCurrentVCProject();
-        p->setFileName(fName);
-        p->save();
-        Log(lInfo) << "Saved project: "<<p->getFileName();
-//	    ProjFileLbl->Caption = string("Project File: " + fName).c_str();
-        return mrOk;
-    }
-    else
-    {
-        return mrCancel;
-    }
-}
-
 int __fastcall TMainForm::saveProject()
 {
 	//If project don't have an assigned filename, open filesavefile dialog
-    ATExplorerProject* p = getCurrentVCProject();
+    ATExplorerProject* p = mPM.getCurrentProject();
     if(p && p->isNeverSaved())
     {
     	int res = MessageDlg("Save Project?", mtConfirmation, TMsgDlgButtons() << mbYes<<mbNo<<mbCancel, 0);
@@ -189,43 +168,70 @@ int __fastcall TMainForm::saveProject()
         {
         	return mrCancel;
         }
+        else
+        {
+            return mrNo;
+        }
     }
     else if(p)
     {
 		p->save();
         Log(lInfo) << "Saved project: "<<p->getFileName();
-        return mrOk;
     }
-	return mrOk;
+    return mrOk;
+}
+
+
+bool __fastcall TMainForm::saveProjectAs(ATExplorerProject* p)
+{
+    //Set filename and filePath
+    SaveDialog1->Execute();
+    if(SaveDialog1->FileName.Length())
+    {
+        string fName = stdstr(SaveDialog1->FileName);
+        if(fileExists(fName))
+        {
+            if(MessageDlg("Overwrite file?", mtWarning, TMsgDlgButtons() << mbYes<<mbNo, 0) == mrCancel)
+            {
+                return mrCancel;
+            }
+        }
+        p->setFileName(fName);
+        p->save();
+        Log(lInfo) << "Saved project as: "<<p->getFileName();
+        return true;
+    }
+    return false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 {
-	if(closeProject() == mrOk)
+	TTreeNode* item = ProjectTView->Selected;
+    if(item && item->Data)
     {
-        if(ProjectTView->Selected)
-        {
-			ProjectTView->Items->Delete(ProjectTView->Selected);
-        }
+		ATExplorerProject* p = (ATExplorerProject*) item->Data;
+
+	    //user may cancel the request
+	    mPM.closeProject(p);
     }
 }
 
 void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
 {
-   	CloseProjectA->Enabled = getCurrentVCProject() ? true : false;
+   	CloseProjectA->Enabled = mPM.getCurrentProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
 {
-	SaveProjectAsA->Enabled = getCurrentVCProject() ? true : false;
+	SaveProjectAsA->Enabled = mPM.getCurrentProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
 {
-    ATExplorerProject* p = getCurrentVCProject();
+    ATExplorerProject* p = mPM.getCurrentProject();
 	SaveProjectA->Enabled = (p && p->isModified()) ? true : false;
 }
 
@@ -262,8 +268,6 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
 	            AddRenderProject->Enabled = true;
             }
         }
-
-
     }
     else
     {

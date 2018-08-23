@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atRenderLocalCache.h"
 #include "Poco/Path.h"

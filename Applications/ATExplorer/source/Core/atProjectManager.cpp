@@ -14,25 +14,55 @@ ProjectManager::ProjectManager(TTreeView& tv)
 :
 ProjectTView(&tv)
 {
-	mCurrentVCProject = mVCProjects.begin();
+	mCurrentProject = mATProjects.begin();
 }
 
 ProjectManager::~ProjectManager()
 {}
 
-bool ProjectManager::createNewProject()
+ATExplorerProject* ProjectManager::createNewProject(const string& projName)
 {
 	//Check how many main nodes
-    int nrOfVCPs = mVCProjects.size();
+    string pName;
+    if(projName.size() < 1)
+    {
+	    int count = mATProjects.size();
+		pName = "VC Project " + dsl::toString(count);
+    }
+    else
+    {
+        pName = projName;
+    }
 
-	string pName = "VC Project " + dsl::toString(nrOfVCPs);
-	ATExplorerProject* vcp = new ATExplorerProject(pName);
-    mVCProjects.push_back(vcp);
+	ATExplorerProject* p = new ATExplorerProject(pName);
+    mATProjects.push_back(p);
 
-    Log(lInfo) << "Created a new ATExplorer project";
+    Log(lInfo) << "Created a new ATExplorer project: "<<pName;
 
-    ProjectTView->Items->AddObject(NULL, vcp->getProjectName().c_str(), (void*) vcp);
-	return true;
+    ProjectTView->Items->AddObject(NULL, p->getProjectName().c_str(), (void*) p);
+	return p;
+}
+
+bool ProjectManager::closeProject(ATExplorerProject* p)
+{
+    int res = saveProject(p);
+	if( res == mrOk || res == mrNo)
+    {
+        //Remove project from manager
+	    ATExplorerProject* p = mPM.getCurrentProject();
+        p->close();
+
+        Log(lInfo) << "Closed project: "<<p->getProjectName();
+        delete p;
+
+        if(ProjectTView->Selected)
+        {
+			ProjectTView->Items->Delete(ProjectTView->Selected);
+        }
+
+        return true;
+    }
+    return false;
 }
 
 bool ProjectManager::selectItem(TTreeNode* item)
@@ -40,10 +70,10 @@ bool ProjectManager::selectItem(TTreeNode* item)
 	//Check if this is a root node or a child
     if(item->Parent == NULL)
     {
-		ATExplorerProject* vcp = (ATExplorerProject*) item->Data;
-        if(vcp)
+		ATExplorerProject* p = (ATExplorerProject*) item->Data;
+        if(p)
         {
-        	Log(lInfo) << "Selecting project: " << vcp->getProjectName();
+        	Log(lInfo) << "Selecting project: " << p->getProjectName();
             return true;
         }
     }
@@ -54,39 +84,44 @@ bool ProjectManager::selectItem(TTreeNode* item)
 
 bool ProjectManager::selectFirst()
 {
-	mCurrentVCProject = mVCProjects.begin();
-
-    return selectNode(*mCurrentVCProject);
+	mCurrentProject = mATProjects.begin();
+    return selectNode(*mCurrentProject);
 }
 
 ATExplorerProject* ProjectManager::getCurrentProject()
 {
 	//This relies on proper iterator management troughout the code!
-	return (mCurrentVCProject != mVCProjects.end()) ? (*mCurrentVCProject) : NULL;
+	return (mCurrentProject != mATProjects.end()) ? (*mCurrentProject) : NULL;
 }
 
 bool ProjectManager::selectLast()
 {
-	if(!mVCProjects.size())
+	if(!mATProjects.size())
     {
     	return false;
     }
 
-	mCurrentVCProject = mVCProjects.end();
-    mCurrentVCProject--;
+	mCurrentProject = mATProjects.end();
+    mCurrentProject--;
 
-    return selectNode(*mCurrentVCProject);
+    return selectNode(*mCurrentProject);
 }
 
 bool ProjectManager::selectNode(ATExplorerProject*)
 {
-	TTreeNode* node = getNodeWithProject(ProjectTView, (*mCurrentVCProject));
+	TTreeNode* node = getNodeWithProject(ProjectTView, (*mCurrentProject));
     if(node)
     {
 		ProjectTView->Selected = node;
         return true;
     }
 	return false;
+}
+
+bool ProjectManager::selectNone()
+{
+    mCurrentProject = mATProjects.end();
+    return true;
 }
 
 bool ProjectManager::selectNext()

@@ -176,10 +176,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atImageProcessingFunctions.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectManager.cpp">
-            <DependentOn>..\..\source\Core\atProjectManager.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Core\atRegionOfInterest.cpp">
             <DependentOn>..\..\source\Core\atRegionOfInterest.h</DependentOn>
             <BuildOrder>9</BuildOrder>
@@ -270,9 +266,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\source\Frames\TImageControlsFrame.dfm"/>
         <FormResources Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -758,8 +754,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
-</PostBuildEvent>
+        <PostBuildEvent>copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>
