@@ -49,7 +49,7 @@
 #include "dslRegistryProperties.h"
 #include "dslTRegistryForm.h"
 #include "dslTLogFileReader.h"
-#include "DcefB.Core.DcefBrowser.hpp"
+//#include "DcefB.Core.DcefBrowser.hpp"
 #include "dslFileUtils.h"
 #include "dslVCLUtils.h"
 class TImageForm;
@@ -297,12 +297,6 @@ __published:	// IDE-managed Components
 	void __fastcall ProjectTViewClick(TObject *Sender);
 	void __fastcall CustomRotationEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
-	void __fastcall DcefBrowser1BeforeBrowse(ICefBrowser * const browser, ICefFrame * const frame,
-          ICefRequest * const request, bool isRedirect, bool &Cancel);
-	void __fastcall DcefBrowser1ConsoleMessage(ICefBrowser * const browser, const ustring message,
-          const ustring source, int line, bool &Cancel);
-	void __fastcall DcefBrowser1StateChange(ICefBrowser * const browser, const TBrowserDataChangeKind Kind,
-          const UnicodeString Value);
 	void __fastcall ClearBrowserCacheBtnClick(TObject *Sender);
 	void __fastcall RenderTSEnter(TObject *Sender);
 	void __fastcall ScriptsPCChange(TObject *Sender);

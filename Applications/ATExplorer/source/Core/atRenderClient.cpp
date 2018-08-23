@@ -148,20 +148,24 @@ StringList RenderClient::getOwners()
     sUrl << mRenderServiceURL.getBaseURL() <<":"<< mRenderServiceURL.getPortNr() << mRenderServiceURL.getVersion();
     sUrl << "/owners";
     Log(lDebug5) << "Fetching owners: "<<sUrl.str();
-
     StringList owners;
-    TStringStream* zstrings = new TStringStream;;
-    mC->Get(sUrl.str().c_str(), zstrings);
 
-    if( mC->ResponseCode == HTTP_RESPONSE_OK)
+    try
     {
-        string s = stdstr(zstrings->DataString);
-        s = stripCharacters("\"[]", s);
-        owners.appendList(StringList(s, ','));
+
+        TStringStream* zstrings = new TStringStream;;
+        mC->Get(sUrl.str().c_str(), zstrings);
+
+        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+        {
+            string s = stdstr(zstrings->DataString);
+            s = stripCharacters("\"[]", s);
+            owners.appendList(StringList(s, ','));
+        }
     }
-    else
+    catch(...)
     {
-        Log(lError) << "Failed fetching owners";
+    	Log(lError) << "Failed fetching owners";
     }
 
     owners.sort();
@@ -533,36 +537,39 @@ StringList RenderClient::getStacksForProject(const string& owner, const string& 
 
     StringList stacks;
     TStringStream* zstrings = new TStringStream;;
-    mC->Get(sUrl.str().c_str(), zstrings);
-
-    if( mC->ResponseCode == HTTP_RESPONSE_OK)
+    try
     {
-        string s = stdstr(zstrings->DataString);
-        s = stripCharacters("\"[]}", s);
-        Log(lDebug3) << "Got Render Data String: " << s;
+        mC->Get(sUrl.str().c_str(), zstrings);
 
-        //Parse result
-        StringList t1(s,'{');
-
-        //Go trough list and get unique stacks
-        for(int i = 0; i < t1.count(); i++)
+        if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
-        	string line = t1[i];
-            if(contains(project, t1[i]))
+            string s = stdstr(zstrings->DataString);
+            s = stripCharacters("\"[]}", s);
+            Log(lDebug3) << "Got Render Data String: " << s;
+
+            //Parse result
+            StringList t1(s,'{');
+
+            //Go trough list and get unique stacks
+            for(int i = 0; i < t1.count(); i++)
             {
-            	StringList l(t1[i], ',');
-                if(l.count() == 3)
+                string line = t1[i];
+                if(contains(project, t1[i]))
                 {
-                	StringList l2(l[2], ':');
-                	if(l2.count() == 2 && !stacks.contains(l[2]))
+                    StringList l(t1[i], ',');
+                    if(l.count() == 3)
                     {
-                		stacks.append(l2[1]);
+                        StringList l2(l[2], ':');
+                        if(l2.count() == 2 && !stacks.contains(l[2]))
+                        {
+                            stacks.append(l2[1]);
+                        }
                     }
                 }
             }
         }
     }
-    else
+    catch(...)
     {
         Log(lError) << "Failed fetching owners";
     }

@@ -78,8 +78,8 @@ bool TMainForm::setupAndReadIniParameters()
     gAU.GeneralProperties->add((BaseProperty*)  &mScaleE->getProperty()->setup(		    	"SCALE", 			                0.02));
     gAU.GeneralProperties->add((BaseProperty*)  &XCoordE->getProperty()->setup(	        	"VIEW_X_COORD",    	                0));
     gAU.GeneralProperties->add((BaseProperty*)  &YCoordE->getProperty()->setup(	        	"VIEW_Y_COORD",    	                0));
-    gAU.GeneralProperties->add((BaseProperty*)  &Width->getProperty()->setup(		        "VIEW_WIDTH", 		                0));
-    gAU.GeneralProperties->add((BaseProperty*)  &Height->getProperty()->setup(	        	"VIEW_HEIGHT", 		                0));
+    gAU.GeneralProperties->add((BaseProperty*)  &Width->getProperty()->setup(		        "VIEW_WIDTH", 		                1000));
+    gAU.GeneralProperties->add((BaseProperty*)  &Height->getProperty()->setup(	        	"VIEW_HEIGHT", 		                1000));
     gAU.GeneralProperties->add((BaseProperty*)  &MinIntensityE->getProperty()->setup(	    "MIN_INTENSITY", 		            0));
     gAU.GeneralProperties->add((BaseProperty*)  &MaxIntensityE->getProperty()->setup(	    "MAX_INTENSITY", 		            65535));
 

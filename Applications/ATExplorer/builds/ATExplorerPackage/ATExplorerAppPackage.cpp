@@ -33,7 +33,7 @@ extern "C" int _libmain(unsigned long reason)
 #pragma comment(lib, "tinyxml2.lib")
 #pragma comment(lib, "libcurl_imp.lib")
 
-#pragma comment(lib, "DCEFBrowser.bpi")
+//#pragma comment(lib, "DCEFBrowser.bpi")
 
 
 

@@ -126,9 +126,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <None Include="ATPackagePCH.h">
             <BuildOrder>26</BuildOrder>
         </None>
-        <PackageImport Include="DcefBrowser.bpi">
-            <BuildOrder>35</BuildOrder>
-        </PackageImport>
         <PackageImport Include="dslVCLComponents.bpi">
             <BuildOrder>33</BuildOrder>
         </PackageImport>
@@ -273,9 +270,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\source\Frames\TImageControlsFrame.dfm"/>
         <FormResources Include="..\..\source\Frames\TRenderPythonRemoteScriptFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
+        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -761,7 +758,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib</PostBuildEvent>
+        <PostBuildEvent>copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
+</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

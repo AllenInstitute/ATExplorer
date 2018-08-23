@@ -38,7 +38,7 @@
 #pragma link "TRenderPythonRemoteScriptFrame"
 #pragma link "TSSHFrame"
 #pragma link "dslTLogFileReader"
-#pragma link "DcefB.Core.DcefBrowser"
+//#pragma link "DcefB.Core.DcefBrowser"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 
@@ -874,29 +874,29 @@ void __fastcall TMainForm::TestRenderServiceBtnClick(TObject *Sender)
     }
 }
 
-void __fastcall TMainForm::DcefBrowser1BeforeBrowse(ICefBrowser * const browser,
-          ICefFrame * const frame, ICefRequest * const request,
-          bool isRedirect, bool &Cancel)
-{
-    Log(lDebug) << "browsing..";
-}
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::DcefBrowser1ConsoleMessage(ICefBrowser * const browser,
-          const ustring message, const ustring source, int line,
-          bool &Cancel)
-{
-    Log(lDebug) <<"Console Message";
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TMainForm::DcefBrowser1StateChange(ICefBrowser * const browser,
-          const TBrowserDataChangeKind Kind, const UnicodeString Value)
-
-{
-//    Log(lDebug) <<"State Change: " << stdstr(DcefBrowser1->URL);
-//    URLE->setValue(stdstr(DcefBrowser1->URL));
-//    parseURLUpdate(stdstr(DcefBrowser1->URL));
-}
+//void __fastcall TMainForm::DcefBrowser1BeforeBrowse(ICefBrowser * const browser,
+//          ICefFrame * const frame, ICefRequest * const request,
+//          bool isRedirect, bool &Cancel)
+//{
+//    Log(lDebug) << "browsing..";
+//}
+////---------------------------------------------------------------------------
+//void __fastcall TMainForm::DcefBrowser1ConsoleMessage(ICefBrowser * const browser,
+//          const ustring message, const ustring source, int line,
+//          bool &Cancel)
+//{
+//    Log(lDebug) <<"Console Message";
+//}
+////---------------------------------------------------------------------------
+//
+//void __fastcall TMainForm::DcefBrowser1StateChange(ICefBrowser * const browser,
+//          const TBrowserDataChangeKind Kind, const UnicodeString Value)
+//
+//{
+////    Log(lDebug) <<"State Change: " << stdstr(DcefBrowser1->URL);
+////    URLE->setValue(stdstr(DcefBrowser1->URL));
+////    parseURLUpdate(stdstr(DcefBrowser1->URL));
+//}
 
 bool TMainForm::parseURLUpdate(const string& url)
 {
