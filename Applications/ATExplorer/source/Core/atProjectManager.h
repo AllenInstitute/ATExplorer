@@ -2,19 +2,24 @@
 #define atProjectManagerH
 #include <vector>
 #include <string>
-#include <Vcl.ComCtrls.hpp>
 #include "dslConstants.h"
+#include "atProjects.h"
 //---------------------------------------------------------------------------
+
+
+namespace at
+{
 using std::vector;
 using std::string;
 
 //!The project manager class manages projects.
+//The onChange callback can be used to synch an External TreeView component
 class ATExplorerProject;
 
 class PACKAGE ProjectManager
 {
 	public:
-    						                        ProjectManager(TTreeView& tv);
+    						                        ProjectManager();
  		virtual		 		                        ~ProjectManager();
         bool                                        closeProject(ATExplorerProject* p);
         bool                                        saveProject(ATExplorerProject* p);
@@ -26,16 +31,15 @@ class PACKAGE ProjectManager
         bool										selectNext();
         bool										selectPrevious();
         bool										selectLast();
-		bool 										selectItem(TTreeNode* item);
+
 		bool 										selectNode(ATExplorerProject* vcp);
         ATExplorerProject*							getCurrentProject();
-        int                                         projectCount(){return mATProjects.size();}
+        int                                         projectCount(){return mProjects.count();}
 
 	private:
-    	TTreeView*			                        ProjectTView;
-        vector<ATExplorerProject*>			 		mATProjects;
-		vector<ATExplorerProject*>::iterator		mCurrentProject;
+        Projects                                    mProjects;
 
 };
 
+}
 #endif

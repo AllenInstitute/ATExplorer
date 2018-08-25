@@ -22,7 +22,8 @@ BottomPanelHeight(205),
 CurrentProject(""),
 CurrentOwner(""),
 CurrentStack(""),
-BaseURL("")
+BaseURL(""),
+ProjectPanelWidth(100)
 {
     append(GeneralProperties);
     append(ServerProperties);
@@ -41,6 +42,8 @@ bool AppUtilities::setupIniParameters()
     ServerProperties->setSection("Remote SSH Server");
 
 	GeneralProperties->add((BaseProperty*)  &BottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
+    GeneralProperties->add((BaseProperty*)  &ProjectPanelWidth.setup( 	            "PROJECT_PANEL_WIDTH",    	   		205));
+
 	GeneralProperties->add((BaseProperty*)  &LogLevel.setup( 	                  	"LOG_LEVEL",    	                lAny));
 	GeneralProperties->add((BaseProperty*)  &LocalCacheFolder.setup(				"LOCAL_CACHE_FOLDER",  				"C:\\ImageCache"));
 	GeneralProperties->add((BaseProperty*)  &LastSelectedSettingsSection.setup(	  	"LAST_SELECTED_SETTINGS_SECTION",	""));

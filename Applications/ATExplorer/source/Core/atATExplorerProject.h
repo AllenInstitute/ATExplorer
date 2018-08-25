@@ -4,13 +4,17 @@
 #include "dslConstants.h"
 #include "atATObject.h"
 #include <vector>
-
 //---------------------------------------------------------------------------
-extern const string gATExplorerProjectFileVersion;
+
 namespace tinyxml2
 {
 	class XMLElement;
 }
+
+namespace at
+{
+
+extern const string gATExplorerProjectFileVersion;
 
 using namespace std;
 using dsl::gEmptyString;
@@ -63,17 +67,20 @@ class PACKAGE ATExplorerProject : public dsl::Project, public at::ATObject
 
     protected:
         bool                                    resetXML();
-        int                                     loadVCObjects();
+        int                                     loadATObjects();
 
-                					            //!The VCObject type help us construct
-                                                //a new VC object from a file
+                					            //!The ATObject type help us construct
+                                                //a new AT object from a file
         ATEObjectType		  		            mATEObjectType;
 
-        ATExplorerProject*		            	createVCObject(tinyxml2::XMLElement* element);
+        ATExplorerProject*		            	createATObject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
+
 
         										//!Childs can be various types of objecs, e.g. renderprojects and volumes
         vector<ATExplorerProject*>				mChilds;
 };
 
+
+}
 #endif

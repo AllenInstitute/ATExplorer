@@ -23,7 +23,7 @@ extern at::AppUtilities gAU;
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
     mIsStyleMenuPopulated(false),
-    mPM((*ProjectTView))
+     mPV(ProjectTView)
 {
     setupAndReadIniParameters();
     Application->ShowHint = true;
@@ -31,7 +31,6 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 
 __fastcall TMainForm::~TMainForm()
 {}
-
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
@@ -56,7 +55,69 @@ void __fastcall TMainForm::ProjectTViewClick(TObject *Sender)
 {
 	//Get current node from the treeview
 	TTreeNode* item = ProjectTView->Selected;
-	mPM.selectItem(item);
+    if(!item)
+    {
+        return;
+    }
+    Project* p = (Project*) item->Data;
+    if(p)
+    {
+        Log(lDebug) << "User clicked: " << p->getProjectName();
+    }
+	mPV.selectProject(p);
 }
 
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
+{
+	TTreeNode* item = ProjectTView->Selected;
+    if(item && item->Data)
+    {
+		ATExplorerProject* p = (ATExplorerProject*) item->Data;
+
+	    //user may cancel the request
+        if(p->isModified())
+        {
+            if(saveProject(p) == mrCancel)
+            {
+                return;
+            }
+        }
+
+	    mPV.closeProject(p);
+    }
+}
+
+void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
+{
+   	CloseProjectA->Enabled = mPV.getSelectedProject() ? true : false;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::SaveProjectAsAExecute(TObject *Sender)
+{
+	Project* p = mPV.getCurrent();
+	saveProjectAs(p);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
+{
+	SaveProjectAsA->Enabled = mPV.getSelectedProject() ? true : false;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
+{
+    Project* p = mPV.getSelectedProject();
+	SaveProjectA->Enabled = (p && p->isModified()) ? true : false;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::SaveProjectAExecute(TObject *Sender)
+{
+    Project* p = mPV.getSelectedProject();
+	saveProject(p);
+}
 

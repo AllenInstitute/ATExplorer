@@ -5,9 +5,10 @@
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 
+namespace at
+{
+
 using namespace dsl;
-
-
 
 RenderProject::RenderProject(const string& name, const string& owner, const string& project, const string& stack)
 :
@@ -128,3 +129,4 @@ bool RenderProject::write()
 	return false;
 }
 
+}

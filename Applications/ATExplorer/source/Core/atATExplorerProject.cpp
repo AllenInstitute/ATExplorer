@@ -5,6 +5,11 @@
 #include "atRenderProject.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
+
+namespace at
+{
+
+
 using namespace dsl;
 using namespace tinyxml2;
 
@@ -17,12 +22,12 @@ const string gATExplorerProjectFileVersion    = "0.6";
 
 string ATExplorerProject::getATEObjectTypeAsString()
 {
-	return ::toString(mATEObjectType);
+	return dsl::toString(mATEObjectType);
 }
 
 ATExplorerProject::ATExplorerProject(const string& projName)
 :
-Project(projName, "vc"),
+Project(projName, "atp"),
 mATEObjectType(ateBaseType)
 {
 	resetXML();
@@ -30,6 +35,7 @@ mATEObjectType(ateBaseType)
 
 ATExplorerProject::~ATExplorerProject()
 {}
+
 
 int	ATExplorerProject::getNumberOfChilds()
 {
@@ -83,7 +89,7 @@ XMLElement* ATExplorerProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& do
 bool ATExplorerProject::resetXML()
 {
 	mTheXML.Clear();
-    mProjectRoot = mTheXML.NewElement("vc_project");
+    mProjectRoot = mTheXML.NewElement("at_project");
     mRootNode = mTheXML.InsertFirstChild(mProjectRoot);
 
     //Insert as a minimum project file version
@@ -103,7 +109,7 @@ bool ATExplorerProject::resetXML()
 XMLElement* ATExplorerProject::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
 {
     //Create XML for saving to file
-    XMLElement* objectNode  	= doc.NewElement("vc_object");
+    XMLElement* objectNode  	= doc.NewElement("at_object");
     XMLNode*    rootNode 		= doc.InsertFirstChild(objectNode);
 
     //Attributes
@@ -124,7 +130,7 @@ bool ATExplorerProject::save(const string& fName)
 {
     resetXML();
 
-    XMLElement* objects = newElement("vc_objects");
+    XMLElement* objects = newElement("at_objects");
 
     //Iterate through object container
 	for(int i = 0; i < mChilds.size(); i++)
@@ -147,11 +153,11 @@ bool ATExplorerProject::open(const string& fname)
     {
     	loadFromXML(mProjectRoot);
 
-        Log(lInfo) << "Attempting to load VC Project: "<<this->getFileName();
+        Log(lInfo) << "Attempting to load at Project: "<<this->getFileName();
 
         //Read the name node
-        int nrOfObjs = loadVCObjects();
-        Log(lDebug) << "Loaded " << nrOfObjs << " VC objects";
+        int nrOfObjs = loadATObjects();
+        Log(lDebug) << "Loaded " << nrOfObjs << " at objects";
         return true;
     }
     catch(...)
@@ -177,9 +183,9 @@ bool ATExplorerProject::loadFromXML(dsl::XMLNode* node)
 	return true;
 }
 
-int ATExplorerProject::loadVCObjects()
+int ATExplorerProject::loadATObjects()
 {
-    XMLElement* project = this->getXML("vc_objects");
+    XMLElement* project = this->getXML("at_objects");
 
     if(project == NULL)
     {
@@ -192,7 +198,7 @@ int ATExplorerProject::loadVCObjects()
     while(p)
     {
         //Find out what kind of element p is
-        ATExplorerProject* aProc = createVCObject(p);
+        ATExplorerProject* aProc = createATObject(p);
 
         if(aProc)
         {
@@ -210,9 +216,9 @@ int ATExplorerProject::loadVCObjects()
     return nrOfObjects;
 }
 
-ATExplorerProject* ATExplorerProject::createVCObject(tinyxml2::XMLElement* element)
+ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* element)
 {
-    if(!element && !compareStrings(element->Name(), "vc_object", csCaseInsensitive))
+    if(!element && !compareStrings(element->Name(), "at_object", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
     	return NULL;
@@ -265,4 +271,6 @@ ATEObjectType toATEObjectType(const string& ateObject)
 	else if(ateObject == "unKnownObject") 			return ateUnknown;
 
    	return ateUnknown;
+}
+
 }

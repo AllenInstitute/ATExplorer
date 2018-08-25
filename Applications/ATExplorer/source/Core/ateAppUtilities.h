@@ -31,6 +31,7 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
                                                 //Automatically managed properties ============================
         	Property<string>                	LocalCacheFolder;
         	Property<int>	                    BottomPanelHeight;
+        	Property<int>	                    ProjectPanelWidth;
 
                                                 //!Used to open up the Settings Treeview where it was last time
           	Property<string>                	LastSelectedSettingsSection;

@@ -5,6 +5,8 @@
 #include "atATExplorerProject.h"
 //---------------------------------------------------------------------------
 
+namespace at
+{
 using std::string;
 using std::vector;
 using dsl::gEmptyString;
@@ -41,4 +43,5 @@ class PACKAGE RenderProject : public ATExplorerProject
 };
 
 
+}
 #endif

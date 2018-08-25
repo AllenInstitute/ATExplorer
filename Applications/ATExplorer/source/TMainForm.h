@@ -1,9 +1,5 @@
 #ifndef TMainFormH
 #define TMainFormH
-#include "dslTLogMemoFrame.h"
-#include "atProjectManager.h"
-#include "dslTRegistryForm.h"
-
 #include <System.Actions.hpp>
 #include <System.Classes.hpp>
 #include <System.ImageList.hpp>
@@ -18,9 +14,20 @@
 #include <Vcl.StdActns.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.ToolWin.hpp>
+#include "dslTLogMemoFrame.h"
+#include "atProjectManager.h"
+#include "dslTRegistryForm.h"
+
+#include "atProjectsView.h"
 //---------------------------------------------------------------------------
 
 //typedef void __fastcall (__closure *sshCallback)(const string&);
+using at::ProjectManager;
+using at::ProjectsView;
+
+using dsl::Project;
+class at::ATExplorerProject;
+using at::ATExplorerProject;
 
 class PACKAGE TMainForm : public TRegistryForm
 {
@@ -54,7 +61,6 @@ __published:	// IDE-managed Components
 	TToolButton *ToolButton3;
 	TPanel *ProjectManagerPanel;
 	TMenuItem *N1;
-	TMenuItem *N2;
 	TMenuItem *Reopen;
 	TMenuItem *N3;
 	TTreeView *ProjectTView;
@@ -81,6 +87,8 @@ __published:	// IDE-managed Components
 	TMenuItem *Settings1;
 	TToolButton *ToolButton6;
 	TSplitter *Splitter1;
+	TFileExit *FileExit1;
+	TToolButton *ToolButton7;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -92,7 +100,6 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall ThemesMenuClick(TObject *Sender);
 	void __fastcall NewProjectAExecute(TObject *Sender);
-	void __fastcall ProjectStatusTimerTimer(TObject *Sender);
 	void __fastcall FileOpen1Accept(TObject *Sender);
 	void __fastcall CloseProjectAExecute(TObject *Sender);
 	void __fastcall CloseProjectAUpdate(TObject *Sender);
@@ -114,14 +121,14 @@ __published:	// IDE-managed Components
 	private:
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
-
+	    ProjectsView                                    mPV;
         												//!VC can have only one VC project open at any one time.
-		ProjectManager									mPM;
+//		ProjectManager									mPM;
 
 //		ATExplorerProject* 			 					createNewProject();
 //		ATExplorerProject*								getCurrentProject();
-//		int __fastcall 									saveProject();
-		int __fastcall 									saveProjectAs(ATExplorerProject* p);
+		int 		 									saveProject(Project* p);
+		int			 									saveProjectAs(Project* p);
 //		int __fastcall 									closeProject();
 
 

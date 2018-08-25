@@ -9,6 +9,7 @@
 //---------------------------------------------------------------------------
 extern at::AppUtilities gAU;
 using namespace dsl;
+using namespace at;
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Exit1Click(TObject *Sender)
@@ -21,25 +22,32 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
 {
 	ShutDownTimer->Enabled = false;
 
-    ATExplorerProject* p  = mPM.getCurrentProject();
+    //Check projects for saving etc..
+
+	Project* p  = mPV.getFirst();
+
 	if(p && p->isNeverSaved() == true)
     {
-    	int mrResult = MessageDlg("Do you want to save current project?", mtWarning, TMsgDlgButtons() << mbYes<<mbNo<<mbCancel, 0);
-        if(mrResult == mrYes)
+    	int mrResult = saveProject(dynamic_cast<ATExplorerProject*>(p));
+        if(mrResult == mrOk)
         {
-    		if(mPM.closeProject(p) == mrCancel)
-	        {
-    	    	return;
-        	}
+	        mPV.closeProject(p);
+        }
+        else if(mrResult == mrNo)
+        {
+            //Just close the project
+            mPV.closeProject(p);
         }
         else if(mrResult == mrCancel)
         {
+            //Cancel shutting down
         	return;
         }
     }
     else if(p)
     {
 		p->save();
+        mPV.closeProject(p);
     }
 
 
@@ -55,7 +63,6 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
 //    IdHTTP1->Disconnect();
 	Log(lInfo) << "In FormClose";
-	Log(lInfo) << "In main forms destructor";
 
 	gAU.LogLevel.setValue(gLogger.getLogLevel());
 //	if(gImageForm)
@@ -66,6 +73,7 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 
 	//Save project history
 	gAU.BottomPanelHeight = BottomPanel->Height;
+    gAU.ProjectPanelWidth = ProjectManagerPanel->Width;
 
 //    Log(lInfo) << "CB Value: " << ConnectSSHServersOnStartupCB->getProperty()->getValue();
 	gAU.GeneralProperties->write();
@@ -80,14 +88,14 @@ void __fastcall TMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
 	Log(lInfo) << "Closing down....";
 
-    ATExplorerProject* mCurrentVCProject = mPM.getCurrentProject();
+
 	//Check if we can close.. abort all threads..
 //	if(TSSHFrame1->isConnected())
 //    {
 //		CanClose = false;
 //    }
 
-    if(mCurrentVCProject && mCurrentVCProject->isNeverSaved() == false)
+    if(mPV.mProjectCount() > 0)
     {
 		CanClose = false;
     }

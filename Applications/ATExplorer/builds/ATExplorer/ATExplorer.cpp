@@ -15,9 +15,9 @@ using namespace dsl;
 using namespace at;
 using std::string;
 
+USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
 USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
-USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
 //---------------------------------------------------------------------------
 AppUtilities gAU;

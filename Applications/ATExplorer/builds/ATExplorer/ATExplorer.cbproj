@@ -149,12 +149,26 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Core\atATExplorerProject.cpp">
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Core\ateAppUtilities.cpp">
             <DependentOn>..\..\source\Core\ateAppUtilities.h</DependentOn>
             <BuildOrder>14</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atProjectManager.cpp">
             <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Core\atProjects.cpp">
+            <DependentOn>..\..\source\Core\atProjects.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Core\atProjectsView.cpp">
+            <DependentOn>..\..\source\Core\atProjectsView.h</DependentOn>
+            <BuildOrder>17</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Core\atRenderProject.cpp">
+            <BuildOrder>16</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Forms\TATESettingsForm.cpp">
             <Form>ATESettingsForm</Form>
@@ -195,9 +209,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
         <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <FormResources Include="..\..\source\TMainForm.dfm"/>
-        <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
         <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -228,8 +242,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>ATExplorer.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -279,14 +294,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>ATExplorer.tds</RemoteName>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

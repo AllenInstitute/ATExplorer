@@ -132,7 +132,9 @@ bool TMainForm::setupAndReadIniParameters()
 //    TSSHFrame1->edSSHUserName->update();
 //    TSSHFrame1->edSSHPassword->update();
 
-	BottomPanel->Height = gAU.BottomPanelHeight;
+    //Setup UI
+	BottomPanel->Height 		= gAU.BottomPanelHeight;
+    ProjectManagerPanel->Width 	= gAU.ProjectPanelWidth;
 //	mRC.setLocalCacheFolder(gAU.LocalCacheFolder.getValue());
     return true;
 }
