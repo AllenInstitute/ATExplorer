@@ -30,7 +30,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-        Application->Icon->LoadFromFile("ATExplorer_Icon.ico");
+        Application->Icon->LoadFromFile("ATExplorer.ico");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
 		Application->Run();
 	}
