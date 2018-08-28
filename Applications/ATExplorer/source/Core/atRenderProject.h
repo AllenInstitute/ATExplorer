@@ -40,6 +40,8 @@ class PACKAGE RenderProject : public ATExplorerProject
         vector<string>				   	mStacks;
 
 	protected:
+        bool                        	mHasView;
+        int   	                     	mSelectedSection;
 };
 
 

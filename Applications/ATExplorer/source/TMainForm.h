@@ -61,7 +61,7 @@ __published:	// IDE-managed Components
 	TToolButton *ToolButton3;
 	TPanel *ProjectManagerPanel;
 	TMenuItem *N1;
-	TMenuItem *Reopen;
+	TMenuItem *ReopenMenu;
 	TMenuItem *N3;
 	TTreeView *ProjectTView;
 	TPopupMenu *ProjTreeViewPopup;
@@ -78,7 +78,6 @@ __published:	// IDE-managed Components
 	TAction *ToggleBottomPanelA;
 	TMenuItem *Action11;
 	TToolButton *ToolButton4;
-	TToolButton *ToolButton5;
 	TAction *ToggleImageGridA;
 	TAction *CreateTiffStackA;
 	TAction *CreateMIPA;
@@ -89,6 +88,11 @@ __published:	// IDE-managed Components
 	TSplitter *Splitter1;
 	TFileExit *FileExit1;
 	TToolButton *ToolButton7;
+	TMenuItem *ProjectOptions1;
+	TPageControl *MainPC;
+	TPopupMenu *MainPCPopup;
+	TMenuItem *Close3;
+	TMenuItem *Properties1;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -117,12 +121,19 @@ __published:	// IDE-managed Components
 	void __fastcall ToggleBottomPanelAExecute(TObject *Sender);
 	void __fastcall ToggleBottomPanelAUpdate(TObject *Sender);
 	void __fastcall OpenSettingsAExecute(TObject *Sender);
+	void __fastcall ProjTreeViewPopupPopup(TObject *Sender);
+	void __fastcall ProjectTViewDblClick(TObject *Sender);
+	void __fastcall MainPCContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
+	void __fastcall Close3Click(TObject *Sender);
+
 
 	private:
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
+        bool        									createProjectView(Project* p);
 	    ProjectsView                                    mPV;
-        												//!VC can have only one VC project open at any one time.
+
+        												//!ATExplorer can have only one project open at any one time.
 //		ProjectManager									mPM;
 
 //		ATExplorerProject* 			 					createNewProject();

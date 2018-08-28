@@ -176,12 +176,29 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Forms\TATESettingsForm.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Forms\TSelectRenderProjectParametersForm.cpp">
+            <Form>SelectRenderProjectParametersForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\source\Forms\TSelectRenderProjectParametersForm.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TATProjectOptionsFrame.cpp">
+            <Form>ATProjectOptionsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TATProjectOptionsFrame.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Frames\TGeneralPropertiesFrame.cpp">
             <Form>GeneralPropertiesFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\source\Frames\TGeneralPropertiesFrame.h</DependentOn>
             <BuildOrder>15</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TRenderProjectFrame.cpp">
+            <FormType>dfm</FormType>
+            <BuildOrder>19</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Initializing.cpp">
             <BuildOrder>6</BuildOrder>
@@ -210,9 +227,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
+        <FormResources Include="..\..\source\Frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\source\Forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <FormResources Include="..\..\source\TMainForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -244,7 +263,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -295,14 +314,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>ATExplorer.tds</RemoteName>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>ATExplorer.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

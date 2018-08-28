@@ -39,7 +39,15 @@ Project* ProjectsView::getNext()
 
 bool ProjectsView::selectProject(Project* p)
 {
-    return mProjects.selectProject(p);
+	mProjects.selectProject(p);
+	TTreeNode* n (getItemForProject(p));
+    if(n)
+    {
+        n->Selected = true;
+        return true;
+    }
+    return false;
+
 }
 
 
@@ -59,27 +67,58 @@ TTreeNode* ProjectsView::getItemForProject(Project* p)
     return nullptr;
 }
 
-void ProjectsView::updateView(Project* p)
+void ProjectsView::updateView(Project* _p)
 {
-	TTreeNode* n (getItemForProject(p));
-    if(n)
+    ATExplorerProject* p (dynamic_cast<ATExplorerProject*>(_p));
+
+    if(!p)
     {
-    	n->Text = vclstr(p->getProjectName());
+    	Log(lWarning) << "Bad project type passed to updateView function";
+        return;
+    }
+
+	TTreeNode* root_node (getItemForProject(p));
+
+    if(!root_node)
+    {
+        root_node = addProjectToView(p);
     }
     else
     {
-        Log(lWarning) << "Failed retrieving TreeNode for project: " << p->getProjectName();
+    	root_node->Text = vclstr(p->getProjectName());
+
+        //Check children
+        for(int i = 0; i < p->getNumberOfChilds(); i++)
+        {
+            ATExplorerProject* child = p->getChild(i);
+            if(!getItemForProject(child))
+            {
+                addChildProjectToView(p, child);
+            }
+        }
     }
 }
 
-bool ProjectsView::closeProject(Project* p)
+void ProjectsView::expandView(Project* p)
 {
+    TTreeNode* n = getItemForProject(p);
+    n->Expand(true);
+
+}
+
+string ProjectsView::closeProject(Project* p)
+{
+
+    string projetFile = joinPath(p->getFileFolder(), p->getFileName());
     mProjects.remove(p);
     TTreeNode* n = getItemForProject(p);
-    n->DeleteChildren();
-    n->Delete();
+    if(n)
+    {
+    	n->DeleteChildren();
+	    n->Delete();
+    }
     mProjects.selectFirst();
-    return true;
+    return projetFile ;
 }
 
 int ProjectsView::mProjectCount()
@@ -93,8 +132,6 @@ ATExplorerProject* ProjectsView::createNewATExplorerProject()
     p->setProjectName("ATExplorer Project " + dsl::toString(mProjects.count() + 1));
 	p->setModified();
     mProjects.append(p);
-    TTreeNode* n = addProjectToView(p);
-    n->Selected = true;
     return p;
 }
 
@@ -111,15 +148,27 @@ TTreeNode* ProjectsView::addProjectToView(Project* project)
 	TTreeNode* n = mTree->Items->AddObject(NULL, project->getProjectName().c_str(), (void*) project);
     n->EditText();
 
-    for(int i = 1; i < p->getNumberOfChilds() + 1; i++)
+    for(int i = 0; i < p->getNumberOfChilds(); i++)
     {
-    	RenderProject* rp = dynamic_cast<RenderProject*>(p->getChild(i)) ;
-    	if(rp)
-        {
-	    	addRenderProjectToView(n, rp);
-        }
+        addChildProjectToView(project, p->getChild(i));
     }
     return n;
+}
+
+TTreeNode* ProjectsView::addChildProjectToView(Project* parent, Project* child)
+{
+
+    //Get node for the parent
+	TTreeNode* parent_node (getItemForProject(parent));
+    if(!parent_node)
+    {
+        return NULL;
+    }
+
+	TTreeNode* child_node = mTree->Items->AddChildObject(parent_node, "", (void*) child);
+    child_node->EditText();
+    child_node->Text = child->getProjectName().c_str();
+    return child_node;
 }
 
 Project* ProjectsView::getSelectedProject()
@@ -151,21 +200,31 @@ Project* ProjectsView::getSelectedProject()
 	return nullptr;
 }
 
-TTreeNode* ProjectsView::addRenderProjectToView(TTreeNode* vcNode, RenderProject* rp)
+Project* ProjectsView::getParentForSelectedProject()
 {
-    if(!vcNode)
+    if(mTree->Selected)
+    {
+        Project* p = (Project*) mTree->Selected->Data;
+
+        return  p->getParent();
+    }
+	return nullptr;
+}
+
+TTreeNode* ProjectsView::addRenderProjectToView(TTreeNode* ateNode, RenderProject* rp)
+{
+    if(!ateNode)
     {
     	Log(lError) <<"Node is NULL";
         return nullptr;
     }
 
-	TTreeNode* n = mTree->Items->AddChildObject(vcNode, "", (void*) rp);
+	TTreeNode* n = mTree->Items->AddChildObject(ateNode, "", (void*) rp);
     n->Text = rp->getProjectName().c_str();
 	mTree->Items->GetFirstNode()->Expand(true);
     mTree->Select(n);
     return n;
 }
-
 
 void ProjectsView::selectLast()
 {

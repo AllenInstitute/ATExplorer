@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atImageProcessingFunctions.h"
 #pragma package(smart_init)

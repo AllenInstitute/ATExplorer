@@ -79,7 +79,6 @@ class PACKAGE RenderClient
 
         void							            setLocalCacheFolder(const string& f);
         string							            getLocalCacheFolder();
-
         StringList						            getZs();
         vector<int>						            getValidZs();
 		RegionOfInterest 						    getLayerBoundsForZ(int z);

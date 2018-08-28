@@ -136,6 +136,20 @@ bool TMainForm::setupAndReadIniParameters()
 	BottomPanel->Height 		= gAU.BottomPanelHeight;
     ProjectManagerPanel->Width 	= gAU.ProjectPanelWidth;
 //	mRC.setLocalCacheFolder(gAU.LocalCacheFolder.getValue());
+
+	if(gAU.LastOpenedProject.getValue().size())
+    {
+        Log(lInfo) << "Last opened project: " << gAU.LastOpenedProject;
+		TMenuItem *Item = new TMenuItem(ReopenMenu);
+
+        Item->Caption = gAU.LastOpenedProject.getValue().c_str();
+
+        FileOpen1->Dialog->FileName = gAU.LastOpenedProject.getValue().c_str();
+        Item->OnClick = FileOpen1Accept;
+        ReopenMenu->Add(Item);
+        ReopenMenu->Enabled = true;
+
+    }
     return true;
 }
 

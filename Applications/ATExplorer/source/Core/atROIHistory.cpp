@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atROIHistory.h"
 #pragma package(smart_init)

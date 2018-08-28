@@ -1,4 +1,4 @@
-#include <System.hpp>
+#include <vcl.h>
 #pragma hdrstop
 USEFORM("..\..\source\Frames\TAffineTransformationFrame.cpp", AffineTransformationFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Frames\TImageControlsFrame.cpp", ImageControlsFrame); /* TFrame: File Type */

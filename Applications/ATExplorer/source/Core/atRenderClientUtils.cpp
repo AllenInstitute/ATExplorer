@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atRenderClientUtils.h"
 #include "dslStringUtils.h"

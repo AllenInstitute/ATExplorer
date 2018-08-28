@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atRegionOfInterest.h"
 #include <math.h>

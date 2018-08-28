@@ -113,6 +113,7 @@ object MainForm: TMainForm
         TabOrder = 0
         OnClick = ProjectTViewClick
         OnContextPopup = ProjectTViewContextPopup
+        OnDblClick = ProjectTViewDblClick
         OnEdited = ProjectTViewEdited
         OnEditing = ProjectTViewEditing
       end
@@ -127,6 +128,18 @@ object MainForm: TMainForm
       TabOrder = 2
       Visible = False
     end
+    object MainPC: TPageControl
+      Left = 204
+      Top = 1
+      Width = 1237
+      Height = 490
+      Align = alClient
+      PopupMenu = MainPCPopup
+      TabOrder = 3
+      OnContextPopup = MainPCContextPopup
+      ExplicitLeft = 206
+      ExplicitTop = 6
+    end
   end
   object TopPanel2: TPanel
     Left = 0
@@ -138,14 +151,14 @@ object MainForm: TMainForm
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 224
+      Width = 136
       Height = 23
       Align = alLeft
       TabOrder = 0
       object ToolBar1: TToolBar
         Left = 1
         Top = 1
-        Width = 222
+        Width = 134
         Height = 22
         Hint = 'Test'
         ButtonWidth = 24
@@ -183,14 +196,8 @@ object MainForm: TMainForm
           ImageIndex = 3
           Style = tbsSeparator
         end
-        object ToolButton5: TToolButton
-          Left = 104
-          Top = 0
-          Caption = 'ToolButton5'
-          ImageIndex = 3
-        end
         object ToolButton6: TToolButton
-          Left = 128
+          Left = 104
           Top = 0
           Action = OpenSettingsA
           ImageIndex = 7
@@ -217,7 +224,7 @@ object MainForm: TMainForm
       object Open1: TMenuItem
         Action = FileOpen1
       end
-      object Reopen: TMenuItem
+      object ReopenMenu: TMenuItem
         Caption = 'Reopen'
         Enabled = False
       end
@@ -274,12 +281,14 @@ object MainForm: TMainForm
     object NewProjectA: TAction
       Category = 'File'
       Caption = 'New'
+      Hint = 'New Project'
       ImageIndex = 0
       OnExecute = NewProjectAExecute
     end
     object SaveProjectA: TAction
       Category = 'File'
       Caption = 'Save'
+      Hint = 'Save Current Project'
       ImageIndex = 2
       OnExecute = SaveProjectAExecute
       OnUpdate = SaveProjectAUpdate
@@ -293,6 +302,7 @@ object MainForm: TMainForm
     object CloseProjectA: TAction
       Category = 'File'
       Caption = 'Close'
+      Hint = 'Close Project'
       OnExecute = CloseProjectAExecute
       OnUpdate = CloseProjectAUpdate
     end
@@ -322,6 +332,7 @@ object MainForm: TMainForm
     end
     object OpenSettingsA: TAction
       Caption = 'Settings'
+      Hint = 'Open Settings'
       OnExecute = OpenSettingsAExecute
     end
     object FileExit1: TFileExit
@@ -341,7 +352,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800580210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101090018006C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0
@@ -745,8 +756,12 @@ object MainForm: TMainForm
       000000000000}
   end
   object ProjTreeViewPopup: TPopupMenu
+    OnPopup = ProjTreeViewPopupPopup
     Left = 48
     Top = 224
+    object ProjectOptions1: TMenuItem
+      Caption = 'Project Options'
+    end
     object AddRenderProject1: TMenuItem
       Action = AddRenderProject
     end
@@ -759,6 +774,17 @@ object MainForm: TMainForm
     Top = 912
     object Action11: TMenuItem
       Action = ToggleBottomPanelA
+    end
+  end
+  object MainPCPopup: TPopupMenu
+    Left = 320
+    Top = 161
+    object Close3: TMenuItem
+      Caption = 'Close Page'
+      OnClick = Close3Click
+    end
+    object Properties1: TMenuItem
+      Caption = 'Properties'
     end
   end
 end

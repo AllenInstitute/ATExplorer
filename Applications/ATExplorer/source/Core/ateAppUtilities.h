@@ -43,6 +43,7 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
             Property<string>	 		        CurrentOwner;
             Property<string>	 		        CurrentStack;
             Property<string>	 		        BaseURL;
+            Property<string>	 		        LastOpenedProject;
 
         protected:
 

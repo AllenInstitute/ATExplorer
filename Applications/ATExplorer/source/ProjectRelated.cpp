@@ -6,6 +6,7 @@
 #include "dslFileUtils.h"
 #include "atATExplorerProject.h"
 #include "atRenderProject.h"
+#include "TSelectRenderProjectParametersForm.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;
@@ -22,11 +23,11 @@ void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
           UnicodeString &S)
 {
 	//Update underlying object with new valuse..
-    ATExplorerProject* vcp = (ATExplorerProject*) Node->Data;
-    if(vcp)
+    ATExplorerProject* ate = (ATExplorerProject*) Node->Data;
+    if(ate)
     {
-    	vcp->setProjectName(stdstr(S));
-        vcp->setModified();
+    	ate->setProjectName(stdstr(S));
+        ate->setModified();
 		SaveProjectA->Update();
     }
 }
@@ -43,27 +44,43 @@ void __fastcall TMainForm::EditViewNodeExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 {
-    TTreeNode* vcNode = ProjectTView->Selected;
-	ATExplorerProject* vcp = (ATExplorerProject*) vcNode->Data;
+    TTreeNode* atNode = ProjectTView->Selected;
+	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
 
-    if(vcp)
+    if(parent)
     {
+        //Open dialog to capture render parameters
+		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
+
+        int res = f->ShowModal();
+
+        if(res == mrCancel)
+        {
+            return;
+        }
+
+
 		//Create a render project and associate with current VC project
-	  	RenderProject* rp = new RenderProject("", "", "" , "");
+	  	RenderProject* rp = new RenderProject("", f->getRenderOwner(), f->getRenderProject(), "");
 
 	    //Check how many renderproject childs
-        int nrOfChilds = vcp->getNumberOfChilds();
+        int nrOfChilds = parent->getNumberOfChilds();
         rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
-    	vcp->addChild(rp);
-    	vcp->setModified();
-//		addRenderProjectToTreeView(vcNode, rp, ProjectTView);
+    	parent->addChild(rp);
+    	parent->setModified();
+		mPV.addRenderProjectToView(atNode, rp);
     }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 {
-	mPV.createNewATExplorerProject();
+	ATExplorerProject* p = mPV.createNewATExplorerProject();
+    mPV.addProjectToView(p);
+	ProjectTView->SetFocus();
+    mPV.selectProject(p);
+
+
 }
 
 //---------------------------------------------------------------------------
@@ -73,13 +90,12 @@ void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
 
 	ATExplorerProject* p = mPV.createNewATExplorerProject();
 
-
 	if(p->loadXMLFromFile(f))
     {
-//	    ProjFileLbl->Caption = string("Project File: " + f).c_str();
     	Log(lInfo) << "Loaded project file: "<<f;
         p->open();
         mPV.updateView(p);
+        mPV.expandView(p);
     }
 }
 
@@ -133,38 +149,5 @@ int TMainForm::saveProjectAs(Project* p)
     return mrCancel;
 }
 
-
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &MousePos,
-          bool &Handled)
-{
-	if(ProjectTView->GetNodeAt(MousePos.X, MousePos.Y))// == ProjectTView->TopItem)
-    {
-    	Handled = false;
-        //Check what item is held by the treeview
-		TTreeNode* node = ProjectTView->GetNodeAt(MousePos.X, MousePos.Y);
-        if(node)
-        {
-        	ATExplorerProject* vcp = (ATExplorerProject*) node->Data;
-            if(dynamic_cast<RenderProject*>(vcp))
-            {
-		        AddRenderProject->Enabled = false;
-            }
-            else
-            {
-	            AddRenderProject->Enabled = true;
-            }
-        }
-    }
-    else
-    {
-    	Handled = true;
-    }
-
-    if(ProjectTView->Items->GetFirstNode() == NULL)
-    {
-    	Handled = true;
-    }
-}
 
 

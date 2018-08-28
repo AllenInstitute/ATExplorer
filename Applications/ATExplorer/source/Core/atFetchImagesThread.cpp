@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atFetchImagesThread.h"
 #include "dslLogger.h"

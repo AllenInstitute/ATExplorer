@@ -1,6 +1,6 @@
 #ifndef atFetchImagesThreadH
 #define atFetchImagesThreadH
-#include <windows.h>
+//#include <windows.h>
 #include "dslThread.h"
 #include "dslStringList.h"
 //---------------------------------------------------------------------------

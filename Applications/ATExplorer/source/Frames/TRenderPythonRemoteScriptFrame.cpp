@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "TRenderPythonRemoteScriptFrame.h"
 #include "dslLogger.h"

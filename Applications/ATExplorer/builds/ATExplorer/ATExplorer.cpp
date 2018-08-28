@@ -1,21 +1,13 @@
 #include <vcl.h>
 #pragma hdrstop
-#include <tchar.h>
-#include <string>
-#include <Vcl.Styles.hpp>
-#include <Vcl.Themes.hpp>
-#include "atApplicationSupportFunctions.h"
-#include "dslRestartApplicationUtils.h"
-#include "dslVCLUtils.h"
-#include "dslLogger.h"
-#include "TMainForm.h"
 #include "ateAppUtilities.h"
 //---------------------------------------------------------------------------
-using namespace dsl;
 using namespace at;
-using std::string;
+
 
 USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Frames\TATProjectOptionsFrame.cpp", ATProjectOptionsFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
 USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
 USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);

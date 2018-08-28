@@ -3,13 +3,14 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "TRenderSectionView.h"
+#include "TATProjectOptionsFrame.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "dslTSTDStringLabeledEdit"
 #pragma resource "*.dfm"
-TFrame1 *Frame1;
+TATProjectOptionsFrame *ATProjectOptionsFrame;
 //---------------------------------------------------------------------------
-__fastcall TFrame1::TFrame1(TComponent* Owner)
+__fastcall TATProjectOptionsFrame::TATProjectOptionsFrame(TComponent* Owner)
 	: TFrame(Owner)
 {
 }

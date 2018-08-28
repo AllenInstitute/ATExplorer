@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atATExplorerProject.h"
 #include "dslXMLUtils.h"
@@ -8,8 +9,6 @@
 
 namespace at
 {
-
-
 using namespace dsl;
 using namespace tinyxml2;
 
@@ -22,7 +21,7 @@ const string gATExplorerProjectFileVersion    = "0.6";
 
 string ATExplorerProject::getATEObjectTypeAsString()
 {
-	return dsl::toString(mATEObjectType);
+	return at::toString(mATEObjectType);
 }
 
 ATExplorerProject::ATExplorerProject(const string& projName)
@@ -58,9 +57,9 @@ bool ATExplorerProject::isModified()
 
 ATExplorerProject* ATExplorerProject::getChild(int i)
 {
-	if(i > 0 && i <= mChilds.size())
+	if(i >= 0 && i < mChilds.size())
     {
-		return mChilds[i - 1];
+		return mChilds[i];
     }
     return NULL;
 }
@@ -75,6 +74,7 @@ bool ATExplorerProject::addChild(ATExplorerProject* child)
 	if(child)
     {
     	mChilds.push_back(child);
+        child->setParent(this);
         return true;
     }
 	return false;
@@ -198,12 +198,13 @@ int ATExplorerProject::loadATObjects()
     while(p)
     {
         //Find out what kind of element p is
-        ATExplorerProject* aProc = createATObject(p);
+        ATExplorerProject* child = createATObject(p);
 
-        if(aProc)
+        if(child)
         {
-            mChilds.push_back(aProc);
-            Log(lDebug) <<"Imported object: "<<aProc->getProjectName();
+            mChilds.push_back(child);
+            child->setParent(this);
+            Log(lDebug) <<"Imported child: "<<child->getProjectName();
             nrOfObjects++;
         }
         else
@@ -218,7 +219,7 @@ int ATExplorerProject::loadATObjects()
 
 ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* element)
 {
-    if(!element && !compareStrings(element->Name(), "at_object", csCaseInsensitive))
+    if(!element || !compareStrings(element->Name(), "at_object", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
     	return NULL;
@@ -226,16 +227,16 @@ ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* eleme
 
     ATEObjectType pt = toATEObjectType(element->Attribute("type"));
     switch(pt)
-//    {
-//        case ateRenderProjectItem:
-//        	return createRenderProject(element);
+    {
+        case ateRenderProject:
+        	return createRenderProject(element);
         default: return NULL;
-//    }
+    }
 }
 
 RenderProject* ATExplorerProject::createRenderProject(tinyxml2::XMLElement* element)
 {
-    if(!element && !compareStrings(element->Name(), "render_project", csCaseInsensitive))
+    if(!element || !compareStrings(element->Name(), "at_object", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
     	return NULL;
@@ -257,7 +258,7 @@ string toString(ATEObjectType tp)
 	switch(tp)
     {
     	case ateBaseType: 			return "atExplorerProject";
-    	case ateRenderProjectItem: 	return "renderProject";
+    	case ateRenderProject: 		return "renderProject";
         case ateVolume:				return "volume";
         default:					return "unKnownObject";
     }
@@ -266,7 +267,7 @@ string toString(ATEObjectType tp)
 ATEObjectType toATEObjectType(const string& ateObject)
 {
 	if(     ateObject == "atExplorerProject") 		return ateBaseType;
-	else if(ateObject == "renderProject") 			return ateRenderProjectItem;
+	else if(ateObject == "renderProject") 			return ateRenderProject;
 	else if(ateObject == "volume") 					return ateVolume;
 	else if(ateObject == "unKnownObject") 			return ateUnknown;
 

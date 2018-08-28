@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atProjectManager.h"
 #include "atATExplorerProject.h"

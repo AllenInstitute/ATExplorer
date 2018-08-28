@@ -123,9 +123,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="ATExplorerAppPackage.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <None Include="ATPackagePCH.h">
-            <BuildOrder>26</BuildOrder>
-        </None>
         <PackageImport Include="dslVCLComponents.bpi">
             <BuildOrder>33</BuildOrder>
         </PackageImport>

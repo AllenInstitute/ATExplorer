@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atRenderProject.h"
 #include "dslXMLUtils.h"
@@ -15,9 +16,11 @@ RenderProject::RenderProject(const string& name, const string& owner, const stri
 ATExplorerProject(name),
 mOwner(owner),
 mProject(project),
-mSelectedStack(stack)
+mSelectedStack(stack),
+mHasView(false),
+mSelectedSection(-1)
 {
-	mATEObjectType = (ateRenderProjectItem);
+	mATEObjectType = (ateRenderProject);
 }
 
 RenderProject::RenderProject(const string& _url)
@@ -40,22 +43,6 @@ RenderProject::RenderProject(const string& _url)
     mSelectedStack 	= pairs[8];
 }
 
-
-RenderProject::RenderProject(const RenderProject& rp)
-: ATExplorerProject(rp)
-{
-    mInfo	 	        = rp.mInfo;
-    mOwner		        = rp.mOwner;
-    mProject	        = rp.mProject;
-    mSelectedStack		= rp.mSelectedStack;
-    mStacks				= rp.mStacks;
-}
-
-
-string RenderProject::getProject(){return mProject;}
-string RenderProject::getProjectOwner(){return mOwner;}
-string RenderProject::getSelectedStackName(){return mSelectedStack;}
-
 //Shallow copy..
 RenderProject& RenderProject::operator=(const RenderProject& rhs)
 {
@@ -77,10 +64,34 @@ void RenderProject::init(const string& owner, const string& project, const strin
     mSelectedStack 		= stack;
 }
 
+RenderProject::RenderProject(const RenderProject& rp)
+: ATExplorerProject(rp)
+{
+    mInfo	 	        = rp.mInfo;
+    mOwner		        = rp.mOwner;
+    mProject	        = rp.mProject;
+    mSelectedStack		= rp.mSelectedStack;
+    mStacks				= rp.mStacks;
+}
+
+string RenderProject::getProject()
+{
+	return mProject;
+}
+
+string RenderProject::getProjectOwner()
+{
+	return mOwner;
+}
+
+string RenderProject::getSelectedStackName()
+{
+	return mSelectedStack;
+}
+
 XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
 {
     //Create XML for saving to file
-
     XMLElement* val = doc.NewElement("owner");
     val->SetText(mOwner.c_str());
     docRoot->InsertEndChild(val);

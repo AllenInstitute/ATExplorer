@@ -26,7 +26,7 @@ class RenderProject;
 enum ATEObjectType
 {
 	ateBaseType = 0,
-    ateRenderProjectItem,
+    ateRenderProject,
     ateVolume,
     ateUnknown
 };
@@ -55,13 +55,11 @@ class PACKAGE ATExplorerProject : public dsl::Project, public at::ATObject
 		virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLNode* node);
 
         virtual bool   							loadFromXML(dsl::XMLNode* node);
-
 		string 									getATEObjectTypeAsString();
 
         										//!Info text is used if the user want to document the purpose of
                                                 //a particular process
         string									mInfoText;
-
         int										getNumberOfChilds();
         ATExplorerProject*						getChild(int i);
 
@@ -76,11 +74,9 @@ class PACKAGE ATExplorerProject : public dsl::Project, public at::ATObject
         ATExplorerProject*		            	createATObject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 
-
         										//!Childs can be various types of objecs, e.g. renderprojects and volumes
         vector<ATExplorerProject*>				mChilds;
 };
-
 
 }
 #endif

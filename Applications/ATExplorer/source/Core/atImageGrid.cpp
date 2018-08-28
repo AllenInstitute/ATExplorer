@@ -1,3 +1,4 @@
+#include <vcl.h>
 #pragma hdrstop
 #include "atImageGrid.h"
 #include <Vcl.ExtCtrls.hpp>
