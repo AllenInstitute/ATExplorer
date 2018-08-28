@@ -5,10 +5,8 @@
 #include "ateAppUtilities.h"
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
-
 using namespace dsl;
 extern at::AppUtilities gAU;
-
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
@@ -18,6 +16,11 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
         populateStyleMenu(ThemesMenu, ThemesMenuClick);
         mIsStyleMenuPopulated = true;
 	}
+
+    if(gAU.LastOpenedProject.getValue().size() > 0)
+    {
+        FileOpen1Accept(NULL);
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -141,9 +144,7 @@ bool TMainForm::setupAndReadIniParameters()
     {
         Log(lInfo) << "Last opened project: " << gAU.LastOpenedProject;
 		TMenuItem *Item = new TMenuItem(ReopenMenu);
-
         Item->Caption = gAU.LastOpenedProject.getValue().c_str();
-
         FileOpen1->Dialog->FileName = gAU.LastOpenedProject.getValue().c_str();
         Item->OnClick = FileOpen1Accept;
         ReopenMenu->Add(Item);

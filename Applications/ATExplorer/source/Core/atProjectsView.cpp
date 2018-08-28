@@ -90,7 +90,7 @@ void ProjectsView::updateView(Project* _p)
         //Check children
         for(int i = 0; i < p->getNumberOfChilds(); i++)
         {
-            ATExplorerProject* child = p->getChild(i);
+            Project* child = p->getChild(i);
             if(!getItemForProject(child))
             {
                 addChildProjectToView(p, child);
@@ -109,7 +109,7 @@ void ProjectsView::expandView(Project* p)
 string ProjectsView::closeProject(Project* p)
 {
 
-    string projetFile = joinPath(p->getFileFolder(), p->getFileName());
+    string pFile = joinPath(p->getFileFolder(), p->getFileName());
     mProjects.remove(p);
     TTreeNode* n = getItemForProject(p);
     if(n)
@@ -118,7 +118,30 @@ string ProjectsView::closeProject(Project* p)
 	    n->Delete();
     }
     mProjects.selectFirst();
-    return projetFile ;
+    return pFile ;
+}
+
+bool ProjectsView::removeProject(Project* p)
+{
+    Project* parent = p->getParent();
+
+    if(!parent)
+    {
+        return false;
+    }
+
+    parent->removeChild(p);
+
+    mProjects.remove(p);
+    TTreeNode* n = getItemForProject(p);
+    if(n)
+    {
+    	n->DeleteChildren();
+	    n->Delete();
+    }
+
+    selectProject(parent);
+    return true;
 }
 
 int ProjectsView::mProjectCount()
@@ -171,7 +194,7 @@ TTreeNode* ProjectsView::addChildProjectToView(Project* parent, Project* child)
     return child_node;
 }
 
-Project* ProjectsView::getSelectedProject()
+Project* ProjectsView::getRootForSelectedProject()
 {
     if(mTree->Selected)
     {
@@ -196,6 +219,16 @@ Project* ProjectsView::getSelectedProject()
             	return parent;
             }
         }
+    }
+	return nullptr;
+}
+
+Project* ProjectsView::getSelectedProject()
+{
+    if(mTree->Selected)
+    {
+        return (Project*) mTree->Selected->Data;
+
     }
 	return nullptr;
 }

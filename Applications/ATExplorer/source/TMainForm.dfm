@@ -137,8 +137,6 @@ object MainForm: TMainForm
       PopupMenu = MainPCPopup
       TabOrder = 3
       OnContextPopup = MainPCContextPopup
-      ExplicitLeft = 206
-      ExplicitTop = 6
     end
   end
   object TopPanel2: TPanel
@@ -341,6 +339,11 @@ object MainForm: TMainForm
       Hint = 'Exit|Quits the application'
       ImageIndex = 8
     end
+    object RemoveFromProjectA: TAction
+      Category = 'TreeView'
+      Caption = 'Remove From Project'
+      OnExecute = RemoveFromProjectAExecute
+    end
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'atp'
@@ -352,7 +355,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C0101090018006C0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800700210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0
@@ -764,6 +767,9 @@ object MainForm: TMainForm
     end
     object AddRenderProject1: TMenuItem
       Action = AddRenderProject
+    end
+    object RemoveFromProject1: TMenuItem
+      Action = RemoveFromProjectA
     end
     object Close2: TMenuItem
       Action = CloseProjectA

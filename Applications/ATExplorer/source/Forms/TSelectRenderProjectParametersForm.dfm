@@ -12,6 +12,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poOwnerFormCenter
   OnCloseQuery = FormCloseQuery
   PixelsPerInch = 96
   TextHeight = 13

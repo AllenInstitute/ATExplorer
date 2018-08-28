@@ -93,6 +93,8 @@ __published:	// IDE-managed Components
 	TPopupMenu *MainPCPopup;
 	TMenuItem *Close3;
 	TMenuItem *Properties1;
+	TAction *RemoveFromProjectA;
+	TMenuItem *RemoveFromProject1;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -125,6 +127,7 @@ __published:	// IDE-managed Components
 	void __fastcall ProjectTViewDblClick(TObject *Sender);
 	void __fastcall MainPCContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
 	void __fastcall Close3Click(TObject *Sender);
+	void __fastcall RemoveFromProjectAExecute(TObject *Sender);
 
 
 	private:

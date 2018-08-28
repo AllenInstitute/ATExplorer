@@ -36,32 +36,23 @@ ATExplorerProject::~ATExplorerProject()
 {}
 
 
-int	ATExplorerProject::getNumberOfChilds()
-{
-	int sz =  mChilds.size();
-	return sz;
-}
-
 bool ATExplorerProject::isModified()
 {
     //Cycle trough children
-    for(uint i = 0; i < mChilds.size(); i++)
+    Project* child = mChilds.getFirst();
+    if(mIsModified)
+    	return true;
+
+    while(child)
     {
-    	if(mChilds[i]->isModified())
+        if(child->isModified())
         {
-	        return true;
+            mIsModified = true;
+            break;
         }
+        child = mChilds.getNext();
     }
     return mIsModified;
-}
-
-ATExplorerProject* ATExplorerProject::getChild(int i)
-{
-	if(i >= 0 && i < mChilds.size())
-    {
-		return mChilds[i];
-    }
-    return NULL;
 }
 
 string ATExplorerProject::getPresentXMLModelVersion()
@@ -73,7 +64,7 @@ bool ATExplorerProject::addChild(ATExplorerProject* child)
 {
 	if(child)
     {
-    	mChilds.push_back(child);
+    	mChilds.append(child);
         child->setParent(this);
         return true;
     }
@@ -132,15 +123,14 @@ bool ATExplorerProject::save(const string& fName)
 
     XMLElement* objects = newElement("at_objects");
 
-    //Iterate through object container
-	for(int i = 0; i < mChilds.size(); i++)
+    Project* child = mChilds.getFirst();
+    while(child != nullptr)
     {
-    	if(mChilds[i])
-        {
-    	    XMLElement* node = mChilds[i]->addToXMLDocument(mTheXML, objects);
-	       	mChilds[i]->addToXMLDocumentAsChild(mTheXML, node);
-		    objects->InsertEndChild(node);
-        }
+        XMLElement* node = child->addToXMLDocument(mTheXML, objects);
+        child->addToXMLDocumentAsChild(mTheXML, node);
+        objects->InsertEndChild(node);
+        child = mChilds.getNext();
+
     }
 
     mProjectRoot->InsertEndChild(objects);
@@ -202,7 +192,7 @@ int ATExplorerProject::loadATObjects()
 
         if(child)
         {
-            mChilds.push_back(child);
+            mChilds.append(child);
             child->setParent(this);
             Log(lDebug) <<"Imported child: "<<child->getProjectName();
             nrOfObjects++;

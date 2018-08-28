@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "dslConstants.h"
-#include "atProjects.h"
+#include "dslProjects.h"
 //---------------------------------------------------------------------------
 
 
@@ -11,7 +11,7 @@ namespace at
 {
 using std::vector;
 using std::string;
-
+using dsl::Projects;
 //!The project manager class manages projects.
 //The onChange callback can be used to synch an External TreeView component
 class ATExplorerProject;

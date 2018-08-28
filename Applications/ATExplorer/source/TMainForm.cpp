@@ -114,7 +114,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 
 void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
 {
-   	CloseProjectA->Enabled = mPV.getSelectedProject() ? true : false;
+   	CloseProjectA->Enabled = mPV.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
@@ -127,20 +127,20 @@ void __fastcall TMainForm::SaveProjectAsAExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
 {
-	SaveProjectAsA->Enabled = mPV.getSelectedProject() ? true : false;
+	SaveProjectAsA->Enabled = mPV.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
 {
-    Project* p = mPV.getSelectedProject();
+    Project* p = mPV.getRootForSelectedProject();
 	SaveProjectA->Enabled = (p && p->isModified()) ? true : false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAExecute(TObject *Sender)
 {
-    Project* p = mPV.getSelectedProject();
+    Project* p = mPV.getRootForSelectedProject();
 	saveProject(p);
 }
 
@@ -161,8 +161,7 @@ void __fastcall TMainForm::ProjTreeViewPopupPopup(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &MousePos,
-          bool &Handled)
+void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled)
 {
 	TTreeNode* node = ProjectTView->GetNodeAt(MousePos.X, MousePos.Y);
 	if(node)
@@ -174,10 +173,14 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
         if(dynamic_cast<RenderProject*>(ate))
         {
             AddRenderProject->Enabled = false;
+	        CloseProjectA->Visible = false;
+            RemoveFromProjectA->Visible = true;
         }
         else
         {
             AddRenderProject->Enabled = true;
+	        CloseProjectA->Visible = true;
+            RemoveFromProjectA->Visible = false;
         }
     }
     else
@@ -246,9 +249,22 @@ void __fastcall TMainForm::Close3Click(TObject *Sender)
     TTabSheet* s = MainPC->ActivePage;
     if(s)
     {
-
         delete s;
     }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
+{
+    Project* p = mPV.getSelectedProject();
+    if(!p->getParent())
+    {
+        Log(lWarning) << "You can't remove the root project..";
+        return;
+    }
+
+    Log(lInfo) << "Removing subProject: " << p->getProjectName();
+    mPV.removeProject(p);
 }
 
 
