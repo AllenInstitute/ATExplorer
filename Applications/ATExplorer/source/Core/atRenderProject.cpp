@@ -11,19 +11,9 @@ namespace at
 
 using namespace dsl;
 
-RenderProject::RenderProject(const string& name, const string& owner, const string& project, const string& stack)
-:
-ATExplorerProject(name),
-mOwner(owner),
-mProject(project),
-mSelectedStack(stack),
-mHasView(false),
-mSelectedSection(-1)
-{
-	mATEObjectType = (ateRenderProject);
-}
-
 RenderProject::RenderProject(const string& _url)
+:
+mRenderService("")
 {
 	//"http://ibs-forrestc-ux1.corp.alleninstitute.org:8988/render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image?minIntensity=0&maxIntensity=6000"
     //Extract owner,project and stack from url
@@ -38,9 +28,34 @@ RenderProject::RenderProject(const string& _url)
         throw("Bad stuff...");
     }
 
-    mOwner   		= pairs[4];
-    mProject 		= pairs[6];
-    mSelectedStack 	= pairs[8];
+    mOwner   			= pairs[4];
+    mRenderProjectName 	= pairs[6];
+    mSelectedStack 		= pairs[8];
+	mATEObjectType = (ateRenderProject);
+}
+
+RenderProject::RenderProject(const string& name, const string& owner, const string& project, const string& stack)
+:
+ATExplorerProject(name),
+mOwner(owner),
+mRenderProjectName(project),
+mSelectedStack(stack),
+mSelectedSection(-1),
+mRenderService("")
+{
+	mATEObjectType = (ateRenderProject);
+}
+
+RenderProject::RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project)
+:
+mRenderService(rs),
+ATExplorerProject(name),
+mOwner(owner),
+mRenderProjectName(project),
+mSelectedStack(""),
+mSelectedSection(-1)
+{
+	mATEObjectType = (ateRenderProject);
 }
 
 //Shallow copy..
@@ -50,7 +65,7 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
     {
         mInfo	 	        = rhs.mInfo;
         mOwner		        = rhs.mOwner;
-        mProject	        = rhs.mProject;
+        mRenderProjectName	= rhs.mRenderProjectName;
         mSelectedStack		= rhs.mSelectedStack;
         mStacks				= rhs.mStacks;
     }
@@ -60,23 +75,30 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
 void RenderProject::init(const string& owner, const string& project, const string& stack)
 {
 	mOwner 				= owner;
-    mProject 			= project;
+    mRenderProjectName 	= project;
     mSelectedStack 		= stack;
 }
 
 RenderProject::RenderProject(const RenderProject& rp)
-: ATExplorerProject(rp)
+:
+ATExplorerProject(rp),
+mRenderService(rp.mRenderService)
 {
     mInfo	 	        = rp.mInfo;
     mOwner		        = rp.mOwner;
-    mProject	        = rp.mProject;
+    mRenderProjectName  = rp.mRenderProjectName;
     mSelectedStack		= rp.mSelectedStack;
     mStacks				= rp.mStacks;
 }
 
-string RenderProject::getProject()
+RenderServiceParameters RenderProject::getRenderServiceParameters()
 {
-	return mProject;
+    return mRenderService;
+}
+
+string RenderProject::getRenderProjectName()
+{
+	return mRenderProjectName;
 }
 
 string RenderProject::getProjectOwner()
@@ -92,12 +114,26 @@ string RenderProject::getSelectedStackName()
 XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
 {
     //Create XML for saving to file
-    XMLElement* val = doc.NewElement("owner");
+    XMLElement* val(nullptr);
+
+    val = doc.NewElement("renderhost");
+    val->SetText(mRenderService.getBaseURL().c_str());
+    docRoot->InsertEndChild(val);
+
+    val = doc.NewElement("renderhostport");
+    val->SetText(mRenderService.getPortNrAsString().c_str());
+    docRoot->InsertEndChild(val);
+
+    val = doc.NewElement("renderhostversion");
+    val->SetText(mRenderService.getVersion().c_str());
+    docRoot->InsertEndChild(val);
+
+    val = doc.NewElement("owner");
     val->SetText(mOwner.c_str());
     docRoot->InsertEndChild(val);
 
     val = doc.NewElement("project");
-    val->SetText(mProject.c_str());
+    val->SetText(mRenderProjectName.c_str());
     docRoot->InsertEndChild(val);
 
     val = doc.NewElement("stack");
@@ -109,7 +145,28 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
 
 bool RenderProject::loadFromXML(dsl::XMLNode* node)
 {
-    XMLElement* e = node->FirstChildElement("owner");
+    XMLElement* e(nullptr);
+
+
+    e = node->FirstChildElement("renderhost");
+    if(e)
+    {
+    	mRenderService.setBaseURL(e->GetText() ? string(e->GetText()) : string(""));
+    }
+
+    e = node->FirstChildElement("renderhostport");
+    if(e)
+    {
+    	mRenderService.setPortNr(e->GetText() ? dsl::toInt(e->GetText()) : 80);
+    }
+
+    e = node->FirstChildElement("renderhostversion");
+    if(e)
+    {
+    	mRenderService.setVersion(e->GetText() ? string(e->GetText()) : string(""));
+    }
+
+    e = node->FirstChildElement("owner");
     if(e)
     {
     	mOwner = e->GetText() ? string(e->GetText()) : string("");
@@ -124,7 +181,7 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
     e = node->FirstChildElement("project");
     if(e)
     {
-    	mProject = e->GetText() ? string(e->GetText()) : string("");
+    	mRenderProjectName = e->GetText() ? string(e->GetText()) : string("");
     }
 
     e = node->FirstChildElement("stack");

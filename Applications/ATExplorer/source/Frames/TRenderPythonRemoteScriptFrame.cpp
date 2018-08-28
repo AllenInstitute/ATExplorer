@@ -32,12 +32,12 @@ void TRenderPythonRemoteScriptFrame::populate(RenderClient& rc, TScSSHShell* she
         mRC.setBaseURL(rc.getBaseURL());
 
         RenderProject p = rc.getCurrentProject();
-        RenderOwnerE->setValue(p.mOwner);
-        RenderProjectE->setValue(p.mProject);
+        RenderOwnerE->setValue(p.getProjectOwner());
+        RenderProjectE->setValue(p.getRenderProjectName());
         mRC.setRenderProject(rc.getRenderProject());
 
         //Populate stacks
-        StringList s = mRC.getStacksForProject(p.mOwner, p.mProject);
+        StringList s = mRC.getStacksForProject(p.getProjectOwner(), p.getRenderProjectName());
         if(s.size())
         {
             populateCheckListBox(s, StacksForProjectCB);
@@ -47,7 +47,7 @@ void TRenderPythonRemoteScriptFrame::populate(RenderClient& rc, TScSSHShell* she
         for(int i = 0; i < StacksForProjectCB->Items->Count; i++)
         {
 
-            if(StacksForProjectCB->Items->Strings[i] == vclstr(p.mSelectedStack))
+            if(StacksForProjectCB->Items->Strings[i] == vclstr(p.getSelectedStackName()))
             {
                 StacksForProjectCB->Checked[i] = true;
             }

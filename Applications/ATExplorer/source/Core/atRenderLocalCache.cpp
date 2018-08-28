@@ -36,7 +36,7 @@ double RenderLocalCache::getLowestResolutionInCache(const RenderProject& rp, con
 {
     mRP = rp;
     string path;
-    path = joinPath(mCacheRoot, mRP.mOwner ,mRP.mProject, mRP.mSelectedStack, roi.getFolderName());
+    path = joinPath(mCacheRoot, mRP.getProjectOwner() ,mRP.getRenderProjectName(), mRP.getSelectedStackName(), roi.getFolderName());
 
     Log(lInfo) << "Finding files in folder: " << path;
     StringList cf(getFilesInFolder(path, "jpg"));

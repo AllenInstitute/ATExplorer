@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "atATExplorerProject.h"
+#include "atRenderServiceParameters.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -14,15 +15,17 @@ using dsl::gEmptyString;
 class PACKAGE RenderProject : public ATExplorerProject
 {
 	public:
+        	    	                    RenderProject(const string& url);
+        	    	                    RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project);
 			    	                    RenderProject(const string& name, const string& owner, const string& project, const string& stack);
-			    	                    RenderProject(const string& url);
-
                                         RenderProject(const RenderProject& rp);
-        RenderProject&                  operator=(const RenderProject& rhs);
+
+        RenderProject&                  operator= (const RenderProject& rhs);
 
 		void							init(const string& owner, const string& project, const string& stack);
 
-		string							getProject();
+        RenderServiceParameters         getRenderServiceParameters();
+		string							getRenderProjectName();
 		string							getProjectOwner();
 		string							getSelectedStackName();
 
@@ -31,17 +34,21 @@ class PACKAGE RenderProject : public ATExplorerProject
         virtual dsl::XMLElement*        addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
 		virtual bool 					loadFromXML(dsl::XMLNode* node);
 
+
+
+	protected:
     	string 		                    mInfo;
     	string 		                    mOwner;
 
 										//!This is the "render" project. Not the same as the projects name
-        string 		                    mProject;
+        string 		                    mRenderProjectName;
         string                          mSelectedStack;
         vector<string>				   	mStacks;
 
-	protected:
-        bool                        	mHasView;
+                                        //Tissue section
         int   	                     	mSelectedSection;
+		RenderServiceParameters         mRenderService;
+
 };
 
 

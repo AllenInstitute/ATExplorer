@@ -13,11 +13,14 @@
 #include <IdTCPConnection.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include "atRenderClient.h"
+#include "atRenderServiceParameters.h"
 //---------------------------------------------------------------------------
 
 using at::RenderClient;
+using at::RenderServiceParameters;
 
-class TSelectRenderProjectParametersForm : public TForm
+//---------------------------------------------------------------------------
+class PACKAGE TSelectRenderProjectParametersForm : public TForm
 {
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
@@ -32,8 +35,9 @@ class TSelectRenderProjectParametersForm : public TForm
         TButton *Button1;
         TButton *Button2;
         TIdHTTP *IdHTTP1;
-	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
-	void __fastcall OwnerCBChange(TObject *Sender);
+		void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
+		void __fastcall OwnerCBChange(TObject *Sender);
+
     private:
         RenderClient                    mRC;
 
@@ -41,8 +45,9 @@ class TSelectRenderProjectParametersForm : public TForm
         					__fastcall 	TSelectRenderProjectParametersForm(TComponent* Owner);
         string                          getRenderOwner();
         string                          getRenderProject();
+        RenderServiceParameters         getRenderService();
 };
-//---------------------------------------------------------------------------
+
 extern PACKAGE TSelectRenderProjectParametersForm *SelectRenderProjectParametersForm;
-//---------------------------------------------------------------------------
+
 #endif

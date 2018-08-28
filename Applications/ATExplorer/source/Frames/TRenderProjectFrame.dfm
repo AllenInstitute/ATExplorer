@@ -11,7 +11,6 @@ object RenderProjectFrame: TRenderProjectFrame
     Height = 891
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 914
     object ScrollBox1: TScrollBox
       Left = 1
       Top = 1
@@ -21,7 +20,6 @@ object RenderProjectFrame: TRenderProjectFrame
       DoubleBuffered = True
       ParentDoubleBuffered = False
       TabOrder = 0
-      ExplicitHeight = 912
       object GroupBox1: TGroupBox
         Left = 0
         Top = 0
@@ -30,19 +28,16 @@ object RenderProjectFrame: TRenderProjectFrame
         Align = alTop
         Caption = 'Project Selection'
         TabOrder = 0
-        DesignSize = (
-          283
-          185)
-        object Label1: TLabel
+        object OwnerLabel: TLabel
           Left = 16
           Top = 22
           Width = 32
           Height = 13
           Caption = 'Owner'
         end
-        object Label2: TLabel
-          Left = 17
-          Top = 74
+        object ProjectLabel: TLabel
+          Left = 144
+          Top = 22
           Width = 34
           Height = 13
           Caption = 'Project'
@@ -54,25 +49,6 @@ object RenderProjectFrame: TRenderProjectFrame
           Height = 13
           Caption = 'Stacks'
         end
-        object OwnerCB: TComboBox
-          Left = 17
-          Top = 38
-          Width = 224
-          Height = 21
-          Style = csDropDownList
-          Anchors = [akLeft, akTop, akRight]
-          TabOrder = 0
-        end
-        object ProjectCB: TComboBox
-          Left = 16
-          Top = 93
-          Width = 225
-          Height = 21
-          Style = csDropDownList
-          Anchors = [akLeft, akTop, akRight]
-          DropDownCount = 25
-          TabOrder = 1
-        end
         object StackCB: TComboBox
           Left = 17
           Top = 146
@@ -81,8 +57,9 @@ object RenderProjectFrame: TRenderProjectFrame
           Hint = 'Test'
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 2
+          TabOrder = 0
           Text = 'StackCB'
+          OnChange = StackCBChange
         end
       end
       object imageParasGB: TGroupBox
@@ -240,7 +217,6 @@ object RenderProjectFrame: TRenderProjectFrame
       Height = 889
       Align = alRight
       TabOrder = 1
-      ExplicitHeight = 912
       object Zs_GB: TGroupBox
         Left = 1
         Top = 1
@@ -249,7 +225,6 @@ object RenderProjectFrame: TRenderProjectFrame
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
-        ExplicitHeight = 412
         object mZs: TCheckListBox
           Left = 2
           Top = 15
@@ -258,7 +233,6 @@ object RenderProjectFrame: TRenderProjectFrame
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
-          ExplicitHeight = 395
         end
       end
       object CacheGB: TGroupBox
@@ -269,7 +243,6 @@ object RenderProjectFrame: TRenderProjectFrame
         Align = alBottom
         Caption = 'Local Cache'
         TabOrder = 1
-        ExplicitTop = 773
         object FetchSelectedZsBtn: TButton
           Left = 5
           Top = 19
@@ -295,7 +268,6 @@ object RenderProjectFrame: TRenderProjectFrame
         Align = alBottom
         Caption = 'Other'
         TabOrder = 2
-        ExplicitTop = 593
         object OtherCB: TCheckListBox
           Left = 2
           Top = 15
@@ -314,7 +286,6 @@ object RenderProjectFrame: TRenderProjectFrame
         Align = alBottom
         Caption = 'Stacks'
         TabOrder = 3
-        ExplicitTop = 413
         object StacksCB: TCheckListBox
           Left = 2
           Top = 15

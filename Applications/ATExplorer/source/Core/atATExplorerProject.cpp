@@ -43,7 +43,7 @@ bool ATExplorerProject::isModified()
     if(mIsModified)
     	return true;
 
-    while(child)
+    while(child != nullptr)
     {
         if(child->isModified())
         {

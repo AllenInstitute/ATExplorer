@@ -1,6 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "atProjectsView.h"
+#include "atProjectsTreeView.h"
 #include "atATExplorerProject.h"
 #include "atRenderProject.h"
 #include "dslLogger.h"
@@ -14,30 +14,30 @@ namespace at
 
 using namespace dsl;
 
-ProjectsView::ProjectsView(TTreeView* tv)
+ProjectsTreeView::ProjectsTreeView(TTreeView* tv)
 :
 mTree(tv)
 {}
 
-ProjectsView::~ProjectsView()
+ProjectsTreeView::~ProjectsTreeView()
 {}
 
-Project* ProjectsView::getCurrent()
+Project* ProjectsTreeView::getCurrent()
 {
     return mProjects.getCurrent();
 }
 
-Project* ProjectsView::getFirst()
+Project* ProjectsTreeView::getFirst()
 {
     return mProjects.getFirst();
 }
 
-Project* ProjectsView::getNext()
+Project* ProjectsTreeView::getNext()
 {
     return mProjects.getNext();
 }
 
-bool ProjectsView::selectProject(Project* p)
+bool ProjectsTreeView::selectProject(Project* p)
 {
 	mProjects.selectProject(p);
 	TTreeNode* n (getItemForProject(p));
@@ -51,7 +51,7 @@ bool ProjectsView::selectProject(Project* p)
 }
 
 
-TTreeNode* ProjectsView::getItemForProject(Project* p)
+TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
 {
     TTreeNode* item = mTree->Items->GetFirstNode();
 
@@ -67,7 +67,7 @@ TTreeNode* ProjectsView::getItemForProject(Project* p)
     return nullptr;
 }
 
-void ProjectsView::updateView(Project* _p)
+void ProjectsTreeView::updateView(Project* _p)
 {
     ATExplorerProject* p (dynamic_cast<ATExplorerProject*>(_p));
 
@@ -99,16 +99,15 @@ void ProjectsView::updateView(Project* _p)
     }
 }
 
-void ProjectsView::expandView(Project* p)
+void ProjectsTreeView::expandView(Project* p)
 {
     TTreeNode* n = getItemForProject(p);
     n->Expand(true);
 
 }
 
-string ProjectsView::closeProject(Project* p)
+string ProjectsTreeView::closeProject(Project* p)
 {
-
     string pFile = joinPath(p->getFileFolder(), p->getFileName());
     mProjects.remove(p);
     TTreeNode* n = getItemForProject(p);
@@ -121,7 +120,7 @@ string ProjectsView::closeProject(Project* p)
     return pFile ;
 }
 
-bool ProjectsView::removeProject(Project* p)
+bool ProjectsTreeView::removeProject(Project* p)
 {
     Project* parent = p->getParent();
 
@@ -144,12 +143,12 @@ bool ProjectsView::removeProject(Project* p)
     return true;
 }
 
-int ProjectsView::mProjectCount()
+int ProjectsTreeView::mProjectCount()
 {
     return mProjects.count();
 }
 
-ATExplorerProject* ProjectsView::createNewATExplorerProject()
+ATExplorerProject* ProjectsTreeView::createNewATExplorerProject()
 {
     ATExplorerProject* p (new ATExplorerProject);
     p->setProjectName("ATExplorer Project " + dsl::toString(mProjects.count() + 1));
@@ -158,7 +157,7 @@ ATExplorerProject* ProjectsView::createNewATExplorerProject()
     return p;
 }
 
-TTreeNode* ProjectsView::addProjectToView(Project* project)
+TTreeNode* ProjectsTreeView::addProjectToView(Project* project)
 {
     ATExplorerProject* p = dynamic_cast<ATExplorerProject*>(project);
     if(!p)
@@ -178,7 +177,7 @@ TTreeNode* ProjectsView::addProjectToView(Project* project)
     return n;
 }
 
-TTreeNode* ProjectsView::addChildProjectToView(Project* parent, Project* child)
+TTreeNode* ProjectsTreeView::addChildProjectToView(Project* parent, Project* child)
 {
 
     //Get node for the parent
@@ -194,7 +193,7 @@ TTreeNode* ProjectsView::addChildProjectToView(Project* parent, Project* child)
     return child_node;
 }
 
-Project* ProjectsView::getRootForSelectedProject()
+Project* ProjectsTreeView::getRootForSelectedProject()
 {
     if(mTree->Selected)
     {
@@ -223,7 +222,7 @@ Project* ProjectsView::getRootForSelectedProject()
 	return nullptr;
 }
 
-Project* ProjectsView::getSelectedProject()
+Project* ProjectsTreeView::getSelectedProject()
 {
     if(mTree->Selected)
     {
@@ -233,7 +232,7 @@ Project* ProjectsView::getSelectedProject()
 	return nullptr;
 }
 
-Project* ProjectsView::getParentForSelectedProject()
+Project* ProjectsTreeView::getParentForSelectedProject()
 {
     if(mTree->Selected)
     {
@@ -244,7 +243,7 @@ Project* ProjectsView::getParentForSelectedProject()
 	return nullptr;
 }
 
-TTreeNode* ProjectsView::addRenderProjectToView(TTreeNode* ateNode, RenderProject* rp)
+TTreeNode* ProjectsTreeView::addRenderProjectToView(TTreeNode* ateNode, RenderProject* rp)
 {
     if(!ateNode)
     {
@@ -259,7 +258,7 @@ TTreeNode* ProjectsView::addRenderProjectToView(TTreeNode* ateNode, RenderProjec
     return n;
 }
 
-void ProjectsView::selectLast()
+void ProjectsTreeView::selectLast()
 {
 //	TTreeNode* n = mTree->Items->AddChildObject(vcNode, "", (void*) rp);
 }

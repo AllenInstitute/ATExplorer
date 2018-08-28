@@ -7,7 +7,7 @@
 #include "TATESettingsForm.h"
 #include "ateAppUtilities.h"
 #include "atRenderProject.h"
-#include "TRenderProjectFrame.h"
+#include "atRenderPRojectView.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -221,13 +221,13 @@ bool TMainForm::createProjectView(Project* p)
     {
         //Creat a renderproject view
         Log(lInfo) << "Showing a Render ProjectView";
+
         //Create a new tab page
-        TTabSheet* s = new TTabSheet(MainPC);
-        s->PageControl = MainPC;
-        s->Caption = p->getProjectName().c_str();
-        TRenderProjectFrame* f = new TRenderProjectFrame(rp, this);
-        f->Parent = s;
+        //Views deletes themselves when subjects dies
+        shared_ptr<RenderProjectView> obs(new RenderProjectView(MainPC, rp));
+        mObservers.push_back(obs);
     }
+    return true;
 }
 
 //---------------------------------------------------------------------------
@@ -246,10 +246,19 @@ void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
 void __fastcall TMainForm::Close3Click(TObject *Sender)
 {
     //Close current Page
-    TTabSheet* s = MainPC->ActivePage;
-    if(s)
+    TTabSheet* ts = MainPC->ActivePage;
+    if(ts)
     {
-        delete s;
+        //Find observer object
+        for(int i = 0; i < mObservers.size(); i++)
+        {
+            RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(mObservers[i].get());
+            if(rpv && rpv->getTabSheet() == ts)
+            {
+                //Tell this observer to go away...
+                mObservers.erase(mObservers.begin() + i);
+            }
+        }
     }
 }
 
@@ -264,6 +273,10 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
     }
 
     Log(lInfo) << "Removing subProject: " << p->getProjectName();
+
+    //Close any views
+    p->notifyObservers(SubjectBeingDestroyed);
+
     mPV.removeProject(p);
 }
 

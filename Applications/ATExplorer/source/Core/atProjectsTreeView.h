@@ -1,5 +1,5 @@
-#ifndef atProjectsViewH
-#define atProjectsViewH
+#ifndef atProjectsTreeViewH
+#define atProjectsTreeViewH
 #include "atATObject.h"
 #include <Vcl.Controls.hpp>
 #include "dslProjects.h"
@@ -15,12 +15,12 @@ class RenderProject;
 
 
 //Rename this to ProjectTreeView
-class ProjectsView : public ATObject
+class ProjectsTreeView : public ATObject
 {
 
         public:
-                                            ProjectsView(TTreeView* tv);
-                                            ~ProjectsView();
+                                            ProjectsTreeView(TTreeView* tv);
+                                            ~ProjectsTreeView();
             Project*                        getCurrent();
             Project*             			getFirst();
             Project*             			getNext();
@@ -51,7 +51,10 @@ class ProjectsView : public ATObject
 
         protected:
 
+                                            //One View
 			TTreeView*                      mTree;
+
+                                            //The model..
             Projects                        mProjects;
 };
 

@@ -60,8 +60,9 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
         }
 
 
+        RenderServiceParameters rs(f->getRenderService());
 		//Create a render project and associate with current VC project
-	  	RenderProject* rp = new RenderProject("", f->getRenderOwner(), f->getRenderProject(), "");
+	  	RenderProject* rp = new RenderProject(rs, "", f->getRenderOwner(), f->getRenderProject());
 
 	    //Check how many renderproject childs
         int nrOfChilds = parent->getNumberOfChilds();

@@ -15,9 +15,10 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Menus.hpp>
 #include <Vcl.StdCtrls.hpp>
+#include "atRenderClient.h"
 //---------------------------------------------------------------------------
 using at::RenderProject;
-
+using at::RenderClient;
 //---------------------------------------------------------------------------
 class TRenderProjectFrame : public TFrame
 {
@@ -25,11 +26,9 @@ class TRenderProjectFrame : public TFrame
         TPanel *mLeftPanel;
         TScrollBox *ScrollBox1;
         TGroupBox *GroupBox1;
-        TLabel *Label1;
-        TLabel *Label2;
+	TLabel *OwnerLabel;
+	TLabel *ProjectLabel;
         TLabel *Label3;
-        TComboBox *OwnerCB;
-        TComboBox *ProjectCB;
         TComboBox *StackCB;
         TGroupBox *imageParasGB;
         TFloatLabeledEdit *mScaleE;
@@ -65,13 +64,16 @@ class TRenderProjectFrame : public TFrame
         TMenuItem *CreateMaxIntensityProjection1;
         TTimer *CreateCacheTimer;
         TIdHTTP *IdHTTP1;
+	void __fastcall StackCBChange(TObject *Sender);
     private:
-        RenderProject*              mRP;
+        RenderProject*              	mRP;
+        RenderClient                    mRC;
+        string                          mHostURL;
+        void                            populate();
 
     public:
-        							__fastcall TRenderProjectFrame(RenderProject* rp, TComponent* Owner);
-
-
+    						__fastcall 	TRenderProjectFrame(RenderProject* rp, TComponent* Owner);
+		void 				__fastcall 	getValidZsForStack();
 
 
 };

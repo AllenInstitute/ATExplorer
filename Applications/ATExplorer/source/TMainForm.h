@@ -17,17 +17,23 @@
 #include "dslTLogMemoFrame.h"
 #include "atProjectManager.h"
 #include "dslTRegistryForm.h"
-
-#include "atProjectsView.h"
+#include "atProjectsTreeView.h"
+#include "dslObserver.h"
+#include <memory>
+#include "atRenderProjectView.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 //typedef void __fastcall (__closure *sshCallback)(const string&);
 using at::ProjectManager;
-using at::ProjectsView;
-
-using dsl::Project;
-class at::ATExplorerProject;
+using at::ProjectsTreeView;
 using at::ATExplorerProject;
+using at::RenderProjectView;
+using dsl::Project;
+using dsl::Observer;
+using dsl::shared_ptr;
+using std::vector;
+
 
 class PACKAGE TMainForm : public TRegistryForm
 {
@@ -129,22 +135,17 @@ __published:	// IDE-managed Components
 	void __fastcall Close3Click(TObject *Sender);
 	void __fastcall RemoveFromProjectAExecute(TObject *Sender);
 
-
 	private:
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
         bool        									createProjectView(Project* p);
-	    ProjectsView                                    mPV;
+	    ProjectsTreeView                                mPV;
 
-        												//!ATExplorer can have only one project open at any one time.
-//		ProjectManager									mPM;
+        //Should really be unique ptrs
+        vector< shared_ptr< RenderProjectView> >        mObservers;
 
-//		ATExplorerProject* 			 					createNewProject();
-//		ATExplorerProject*								getCurrentProject();
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);
-//		int __fastcall 									closeProject();
-
 
 	public:
 		__fastcall 			  							TMainForm(TComponent* Owner);

@@ -24,6 +24,9 @@ __fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersFor
     if(o.size())
     {
 		populateDropDown(o, OwnerCB);
+        OwnerCB->ItemIndex = 0;
+        OwnerCB->Text = OwnerCB->Items->Strings[0];
+		OwnerCBChange(NULL);
     }
 }
 
@@ -37,6 +40,11 @@ string TSelectRenderProjectParametersForm::getRenderProject()
     return stdstr(ProjectCB->Text);
 }
 
+RenderServiceParameters TSelectRenderProjectParametersForm::getRenderService()
+{
+	RenderServiceParameters service(BaseURLE->getValue(), HostPort->getValue());
+    return service;
+}
 //---------------------------------------------------------------------------
 void __fastcall TSelectRenderProjectParametersForm::FormCloseQuery(TObject *Sender,
           bool &CanClose)
@@ -53,7 +61,6 @@ void __fastcall TSelectRenderProjectParametersForm::FormCloseQuery(TObject *Send
 
 //---------------------------------------------------------------------------
 void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sender)
-
 {
 	//Populate projects
     //Populate projects
@@ -61,6 +68,8 @@ void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sende
     if(p.size())
     {
 		populateDropDown(p, ProjectCB);
+        ProjectCB->ItemIndex = 0;
+        ProjectCB->Text = ProjectCB->Items->Strings[0];
     }
 }
 
