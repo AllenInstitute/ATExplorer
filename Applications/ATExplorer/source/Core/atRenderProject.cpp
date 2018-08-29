@@ -91,6 +91,11 @@ mRenderService(rp.mRenderService)
     mStacks				= rp.mStacks;
 }
 
+RenderProject::~RenderProject()
+{
+
+}
+
 RenderServiceParameters RenderProject::getRenderServiceParameters()
 {
     return mRenderService;

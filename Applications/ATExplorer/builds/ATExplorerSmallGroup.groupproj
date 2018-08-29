@@ -3,9 +3,6 @@
         <ProjectGuid>{68365255-D5F3-423A-9F32-9C838F3FDEAF}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="ATExplorerPackage\ATExplorerAppPackage.cbproj">
             <Dependencies/>
         </Projects>
@@ -20,15 +17,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="dslVCLCommon">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj"/>
-    </Target>
-    <Target Name="dslVCLCommon:Clean">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="dslVCLCommon:Make">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="ATExplorerAppPackage">
         <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj"/>
     </Target>
@@ -48,13 +36,13 @@
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslVCLCommon;ATExplorerAppPackage;ATExplorer"/>
+        <CallTarget Targets="ATExplorerAppPackage;ATExplorer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslVCLCommon:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslVCLCommon:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
+        <CallTarget Targets="ATExplorerAppPackage:Make;ATExplorer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

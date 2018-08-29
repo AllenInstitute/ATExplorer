@@ -8,6 +8,7 @@
 
 namespace at
 {
+
 using std::string;
 using std::vector;
 using dsl::gEmptyString;
@@ -19,7 +20,7 @@ class PACKAGE RenderProject : public ATExplorerProject
         	    	                    RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project);
 			    	                    RenderProject(const string& name, const string& owner, const string& project, const string& stack);
                                         RenderProject(const RenderProject& rp);
-
+		virtual    	                    ~RenderProject();
         RenderProject&                  operator= (const RenderProject& rhs);
 
 		void							init(const string& owner, const string& project, const string& stack);

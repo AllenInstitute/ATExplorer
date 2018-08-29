@@ -11,18 +11,27 @@ using namespace dsl;
 RenderProjectView::RenderProjectView(TPageControl* pc, RenderProject* rp)
 :
 Observer(rp),
-mPC(pc)
+mPC(pc),
+mRenderProject(rp)
 {
-        this->observe(rp);
-        mTabSheet = unique_ptr<TTabSheet> (new TTabSheet(mPC));
-        mTabSheet->PageControl = mPC;
-        mTabSheet->Caption = rp->getProjectName().c_str();
-        mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(rp, mPC));
-        mRenderProjectFrame->Parent =  mTabSheet.get();
+    this->observe(rp);
+
+    mTabSheet = unique_ptr<TTabSheet> (new TTabSheet(mPC));
+    mTabSheet->PageControl = mPC;
+    mTabSheet->Caption = rp->getProjectName().c_str();
+    mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(rp, mPC));
+    mRenderProjectFrame->Parent =  mTabSheet.get();
 }
 
 RenderProjectView::~RenderProjectView()
-{}
+{
+    Log(lDebug3) << "Closing RenderProjectView..";
+}
+
+RenderProject* RenderProjectView::getRenderProject()
+{
+    return mRenderProject;
+}
 
 TTabSheet* RenderProjectView::getTabSheet()
 {

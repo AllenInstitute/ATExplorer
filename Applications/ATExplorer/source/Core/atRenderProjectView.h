@@ -23,9 +23,11 @@ class RenderProjectView : public dsl::Observer
 
         	virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
             TTabSheet*                          getTabSheet();
+            RenderProject*                      getRenderProject();
 
         protected:
             TPageControl*       				mPC;
+            RenderProject*                      mRenderProject;
 			unique_ptr<TTabSheet> 				mTabSheet;
        		unique_ptr<TRenderProjectFrame>    	mRenderProjectFrame;
 

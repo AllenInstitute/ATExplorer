@@ -13,15 +13,13 @@ using dsl::Projects;
 class ATExplorerProject;
 class RenderProject;
 
-
 //Rename this to ProjectTreeView
 class ProjectsTreeView : public ATObject
 {
-
         public:
                                             ProjectsTreeView(TTreeView* tv);
                                             ~ProjectsTreeView();
-            Project*                        getCurrent();
+            Project*                       	getCurrent();
             Project*             			getFirst();
             Project*             			getNext();
 
@@ -36,9 +34,9 @@ class ProjectsTreeView : public ATObject
 									        //!If selected item is a child, then its parent is returned
             Project*			            getParentForSelectedProject();
 
-            ATExplorerProject*              createNewATExplorerProject();
+            ATExplorerProject*			   	createNewATExplorerProject();
             void                            selectLast();
-			TTreeNode*						addRenderProjectToView(TTreeNode* vcNode, RenderProject* rp);
+			TTreeNode*						addRenderProjectToView(ATExplorerProject* vcNode, RenderProject* rp);
             int                             mProjectCount();
             bool                            selectProject(Project* p);
             string                          closeProject(Project* p);
@@ -50,11 +48,11 @@ class ProjectsTreeView : public ATObject
             void                            expandView(Project* p);
 
         protected:
-
-                                            //One View
+                                            //The View
 			TTreeView*                      mTree;
 
                                             //The model..
+                                            //This container is responsible to dispose of any projects
             Projects                        mProjects;
 };
 

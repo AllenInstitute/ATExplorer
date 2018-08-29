@@ -49,27 +49,31 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 
     if(parent)
     {
+        //If we can cast this to a RenderProject, add to parent
+        if(dynamic_cast<RenderProject*>(parent))
+        {
+            parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
+        }
         //Open dialog to capture render parameters
 		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
 
-        int res = f->ShowModal();
-
-        if(res == mrCancel)
+        if(f->ShowModal() == mrCancel)
         {
             return;
         }
 
-
         RenderServiceParameters rs(f->getRenderService());
+
 		//Create a render project and associate with current VC project
-	  	RenderProject* rp = new RenderProject(rs, "", f->getRenderOwner(), f->getRenderProject());
+	  	RenderProject* rp (new RenderProject(rs, "", f->getRenderOwner(), f->getRenderProject()));
 
 	    //Check how many renderproject childs
         int nrOfChilds = parent->getNumberOfChilds();
+
         rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
     	parent->addChild(rp);
     	parent->setModified();
-		mPV.addRenderProjectToView(atNode, rp);
+		mPV.addRenderProjectToView(parent, rp);
     }
 }
 
@@ -80,8 +84,6 @@ void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
     mPV.addProjectToView(p);
 	ProjectTView->SetFocus();
     mPV.selectProject(p);
-
-
 }
 
 //---------------------------------------------------------------------------

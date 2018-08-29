@@ -142,10 +142,11 @@ __published:	// IDE-managed Components
 	    ProjectsTreeView                                mPV;
 
         //Should really be unique ptrs
-        vector< shared_ptr< RenderProjectView> >        mObservers;
+        vector< RenderProjectView* >        			mObservers;
 
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);
+		TTabSheet* 										getTabForProject(Project* p);
 
 	public:
 		__fastcall 			  							TMainForm(TComponent* Owner);

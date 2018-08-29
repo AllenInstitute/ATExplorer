@@ -4,6 +4,7 @@
 #include "dslConstants.h"
 #include "atATObject.h"
 #include <vector>
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 namespace tinyxml2
@@ -16,7 +17,7 @@ namespace at
 
 extern const string gATExplorerProjectFileVersion;
 
-using namespace std;
+using dsl::shared_ptr;
 using dsl::gEmptyString;
 
 //!A render project is a project as exposed by Render
@@ -42,7 +43,7 @@ class PACKAGE ATExplorerProject : public dsl::Project, public at::ATObject
 
     public:
                                                 ATExplorerProject(const string& projectName = gEmptyString);
-                                                ~ATExplorerProject();
+        virtual                                 ~ATExplorerProject();
 
 		virtual bool 							isModified();
         virtual bool                            save(const string& fName = dsl::gEmptyString);
@@ -69,7 +70,7 @@ class PACKAGE ATExplorerProject : public dsl::Project, public at::ATObject
                                                 //a new AT object from a file
         ATEObjectType		  		            mATEObjectType;
 
-        ATExplorerProject*		            	createATObject(tinyxml2::XMLElement* element);
+        ATExplorerProject*			         	createATObject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 };
 

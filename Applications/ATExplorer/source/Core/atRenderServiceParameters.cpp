@@ -23,7 +23,7 @@ RenderServiceParameters::~RenderServiceParameters()
 string RenderServiceParameters::asString()
 {
     stringstream s;
-    s << mBaseURL << ":" << mPortNr;//<< mVersion;
+    s << mBaseURL << ":" << mPortNr << mVersion;
     return s.str();
 }
 

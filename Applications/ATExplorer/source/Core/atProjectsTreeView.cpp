@@ -37,6 +37,43 @@ Project* ProjectsTreeView::getNext()
     return mProjects.getNext();
 }
 
+TTreeNode* ProjectsTreeView::addProjectToView(Project* project)
+{
+    ATExplorerProject* p = dynamic_cast<ATExplorerProject*>(project);
+    if(!p)
+    {
+        Log(lError) << "Non Explorer Project in addProjectToView..";
+        return false;
+    }
+
+    //Store a reference to the pointer in the TreeView
+	TTreeNode* n = mTree->Items->AddObject(NULL, project->getProjectName().c_str(), (void*) project);
+    n->EditText();
+
+    for(int i = 0; i < p->getNumberOfChilds(); i++)
+    {
+        addChildProjectToView(project, p->getChild(i));
+    }
+    return n;
+}
+
+TTreeNode* ProjectsTreeView::addChildProjectToView(Project* parent, Project* child)
+{
+
+    //Get node for the parent
+	TTreeNode* parent_node (getItemForProject(parent));
+    if(!parent_node)
+    {
+        return NULL;
+    }
+
+	TTreeNode* child_node = mTree->Items->AddChildObject(parent_node, "", (void*) child);
+    child_node->EditText();
+    child_node->Text = child->getProjectName().c_str();
+    return child_node;
+}
+
+
 bool ProjectsTreeView::selectProject(Project* p)
 {
 	mProjects.selectProject(p);
@@ -50,16 +87,19 @@ bool ProjectsTreeView::selectProject(Project* p)
 
 }
 
-
 TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
 {
     TTreeNode* item = mTree->Items->GetFirstNode();
 
 	while (item)
   	{
-        if(item->Data == p)
+        if(item->Data)
         {
-            return item;
+            Project* itemData = (Project*) item->Data;
+            if(itemData == p)
+            {
+                return item;
+            }
         }
 
 		item = item->GetNext();
@@ -102,7 +142,14 @@ void ProjectsTreeView::updateView(Project* _p)
 void ProjectsTreeView::expandView(Project* p)
 {
     TTreeNode* n = getItemForProject(p);
-    n->Expand(true);
+    if(n)
+    {
+    	n->Expand(true);
+    }
+    else
+    {
+        Log(lError) << "No node for project: " << p->getProjectName();
+    }
 
 }
 
@@ -117,7 +164,12 @@ string ProjectsTreeView::closeProject(Project* p)
 	    n->Delete();
     }
     mProjects.selectFirst();
-    return pFile ;
+
+    //Projects are delte HERE...
+    //Notify any observers
+    p->notifyObservers(SubjectBeingDestroyed);
+    delete p;
+    return pFile;
 }
 
 bool ProjectsTreeView::removeProject(Project* p)
@@ -155,42 +207,6 @@ ATExplorerProject* ProjectsTreeView::createNewATExplorerProject()
 	p->setModified();
     mProjects.append(p);
     return p;
-}
-
-TTreeNode* ProjectsTreeView::addProjectToView(Project* project)
-{
-    ATExplorerProject* p = dynamic_cast<ATExplorerProject*>(project);
-    if(!p)
-    {
-        Log(lError) << "Non Explorer Project in addProjectToView..";
-        return false;
-    }
-
-    //Store raw pointers in the TreeView
-	TTreeNode* n = mTree->Items->AddObject(NULL, project->getProjectName().c_str(), (void*) project);
-    n->EditText();
-
-    for(int i = 0; i < p->getNumberOfChilds(); i++)
-    {
-        addChildProjectToView(project, p->getChild(i));
-    }
-    return n;
-}
-
-TTreeNode* ProjectsTreeView::addChildProjectToView(Project* parent, Project* child)
-{
-
-    //Get node for the parent
-	TTreeNode* parent_node (getItemForProject(parent));
-    if(!parent_node)
-    {
-        return NULL;
-    }
-
-	TTreeNode* child_node = mTree->Items->AddChildObject(parent_node, "", (void*) child);
-    child_node->EditText();
-    child_node->Text = child->getProjectName().c_str();
-    return child_node;
 }
 
 Project* ProjectsTreeView::getRootForSelectedProject()
@@ -237,21 +253,21 @@ Project* ProjectsTreeView::getParentForSelectedProject()
     if(mTree->Selected)
     {
         Project* p = (Project*) mTree->Selected->Data;
-
         return  p->getParent();
     }
 	return nullptr;
 }
 
-TTreeNode* ProjectsTreeView::addRenderProjectToView(TTreeNode* ateNode, RenderProject* rp)
+TTreeNode* ProjectsTreeView::addRenderProjectToView(ATExplorerProject* parent, RenderProject* rp)
 {
-    if(!ateNode)
+    if(!parent)
     {
-    	Log(lError) <<"Node is NULL";
+    	Log(lError) <<"Parent is NULL";
         return nullptr;
     }
 
-	TTreeNode* n = mTree->Items->AddChildObject(ateNode, "", (void*) rp);
+    TTreeNode* parentNode = getItemForProject(parent);
+	TTreeNode* n = mTree->Items->AddChildObject(parentNode, "", (void*) rp);
     n->Text = rp->getProjectName().c_str();
 	mTree->Items->GetFirstNode()->Expand(true);
     mTree->Select(n);

@@ -32,7 +32,9 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 }
 
 __fastcall TMainForm::~TMainForm()
-{}
+{
+	mObservers.clear();
+}
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
@@ -219,17 +221,37 @@ bool TMainForm::createProjectView(Project* p)
     //Check what kind of project we are to create a view for
     if(rp)
     {
+        //Check if there is already a tab with this view.. if so, switch to it
+        TTabSheet* sh = getTabForProject(rp);
+        if(sh)
+        {
+            MainPC->ActivePage = sh;
+            return false;
+        }
+
         //Creat a renderproject view
         Log(lInfo) << "Showing a Render ProjectView";
 
         //Create a new tab page
         //Views deletes themselves when subjects dies
-        shared_ptr<RenderProjectView> obs(new RenderProjectView(MainPC, rp));
+        RenderProjectView* obs = new RenderProjectView(MainPC, rp);
         mObservers.push_back(obs);
     }
     return true;
 }
 
+TTabSheet* TMainForm::getTabForProject(Project* p)
+{
+	vector< RenderProjectView* >::iterator it;
+    for(it = mObservers.begin(); it != mObservers.end(); ++it)
+    {
+        if((*it)->getRenderProject()->getProjectName() == p->getProjectName())
+        {
+            return (*it)->getTabSheet();
+        }
+    }
+    return nullptr;
+}
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled)
@@ -241,22 +263,22 @@ void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
     }
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Close3Click(TObject *Sender)
 {
-    //Close current Page
+    //Close current Page (sheet)
     TTabSheet* ts = MainPC->ActivePage;
     if(ts)
     {
         //Find observer object
         for(int i = 0; i < mObservers.size(); i++)
         {
-            RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(mObservers[i].get());
+            RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(mObservers[i]);
             if(rpv && rpv->getTabSheet() == ts)
             {
                 //Tell this observer to go away...
                 mObservers.erase(mObservers.begin() + i);
+                delete rpv;
             }
         }
     }
@@ -274,9 +296,20 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 
     Log(lInfo) << "Removing subProject: " << p->getProjectName();
 
+
+    //Find observer object
+    for(int i = 0; i < mObservers.size(); i++)
+    {
+        RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(mObservers[i]);
+        if(rpv && rpv->getRenderProject() == p)
+        {
+            //Tell this observer to go away...
+            mObservers.erase(mObservers.begin() + i);
+        }
+    }
+
     //Close any views
     p->notifyObservers(SubjectBeingDestroyed);
-
     mPV.removeProject(p);
 }
 

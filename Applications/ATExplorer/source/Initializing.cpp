@@ -11,16 +11,19 @@ extern at::AppUtilities gAU;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
 {
+    static bool firstShow(true);
+
     if(mIsStyleMenuPopulated == false)
     {
         populateStyleMenu(ThemesMenu, ThemesMenuClick);
         mIsStyleMenuPopulated = true;
 	}
 
-    if(gAU.LastOpenedProject.getValue().size() > 0)
+    if(gAU.LastOpenedProject.getValue().size() > 0 && firstShow == true)
     {
         FileOpen1Accept(NULL);
     }
+    firstShow = false;
 }
 
 //---------------------------------------------------------------------------

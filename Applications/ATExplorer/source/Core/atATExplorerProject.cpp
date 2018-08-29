@@ -33,7 +33,9 @@ mATEObjectType(ateBaseType)
 }
 
 ATExplorerProject::~ATExplorerProject()
-{}
+{
+    Log(lDebug3) << "In destructor of project: " << getProjectName();
+}
 
 
 bool ATExplorerProject::isModified()
@@ -212,7 +214,7 @@ ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* eleme
     if(!element || !compareStrings(element->Name(), "at_object", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
-    	return NULL;
+    	return nullptr;
     }
 
     ATEObjectType pt = toATEObjectType(element->Attribute("type"));
@@ -220,7 +222,8 @@ ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* eleme
     {
         case ateRenderProject:
         	return createRenderProject(element);
-        default: return NULL;
+        default:
+        	return nullptr;
     }
 }
 
@@ -229,12 +232,12 @@ RenderProject* ATExplorerProject::createRenderProject(tinyxml2::XMLElement* elem
     if(!element || !compareStrings(element->Name(), "at_object", csCaseInsensitive))
     {
     	Log(lError) <<"Bad 'render_project' xml!";
-    	return NULL;
+    	return nullptr;
     }
 
 	const char* name = element->Attribute("name");
 
-	RenderProject* p = new RenderProject(name ? string(name) : string(""), "", "" ,"");
+	RenderProject* p (new RenderProject(name ? string(name) : string(""), "", "" ,""));
 	if(!p->loadFromXML(element))
     {
     	Log(lError) << "There was a problem loading model from XML";

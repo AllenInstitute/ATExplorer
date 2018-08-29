@@ -19,6 +19,7 @@
 //---------------------------------------------------------------------------
 using at::RenderProject;
 using at::RenderClient;
+
 //---------------------------------------------------------------------------
 class TRenderProjectFrame : public TFrame
 {
@@ -64,9 +65,10 @@ class TRenderProjectFrame : public TFrame
         TMenuItem *CreateMaxIntensityProjection1;
         TTimer *CreateCacheTimer;
         TIdHTTP *IdHTTP1;
-	void __fastcall StackCBChange(TObject *Sender);
+		void __fastcall StackCBChange(TObject *Sender);
+
     private:
-        RenderProject*              	mRP;
+        RenderProject*			     	mRP;
         RenderClient                    mRC;
         string                          mHostURL;
         void                            populate();
@@ -74,7 +76,6 @@ class TRenderProjectFrame : public TFrame
     public:
     						__fastcall 	TRenderProjectFrame(RenderProject* rp, TComponent* Owner);
 		void 				__fastcall 	getValidZsForStack();
-
 
 };
 

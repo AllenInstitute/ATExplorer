@@ -28,7 +28,7 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
 
 	if(p && p->isNeverSaved() == true)
     {
-    	int mrResult = saveProject(dynamic_cast<ATExplorerProject*>(p));
+    	int mrResult = saveProject(p);
         if(mrResult == mrOk)
         {
 	        mPV.closeProject(p);
