@@ -81,6 +81,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
     {
 		ATExplorerProject* p = (ATExplorerProject*) item->Data;
 
+
         Project* parent = p->getParent();
         if(!parent)
         {
@@ -222,7 +223,7 @@ bool TMainForm::createProjectView(Project* p)
     if(rp)
     {
         //Check if there is already a tab with this view.. if so, switch to it
-        TTabSheet* sh = getTabForProject(rp);
+        TTabSheet* sh = mObservers.getTabForProject(rp);
         if(sh)
         {
             MainPC->ActivePage = sh;
@@ -235,23 +236,11 @@ bool TMainForm::createProjectView(Project* p)
         //Create a new tab page
         //Views deletes themselves when subjects dies
         RenderProjectView* obs = new RenderProjectView(MainPC, rp);
-        mObservers.push_back(obs);
+        mObservers.append(obs);
     }
     return true;
 }
 
-TTabSheet* TMainForm::getTabForProject(Project* p)
-{
-	vector< RenderProjectView* >::iterator it;
-    for(it = mObservers.begin(); it != mObservers.end(); ++it)
-    {
-        if((*it)->getRenderProject()->getProjectName() == p->getProjectName())
-        {
-            return (*it)->getTabSheet();
-        }
-    }
-    return nullptr;
-}
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled)
@@ -270,17 +259,7 @@ void __fastcall TMainForm::Close3Click(TObject *Sender)
     TTabSheet* ts = MainPC->ActivePage;
     if(ts)
     {
-        //Find observer object
-        for(int i = 0; i < mObservers.size(); i++)
-        {
-            RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(mObservers[i]);
-            if(rpv && rpv->getTabSheet() == ts)
-            {
-                //Tell this observer to go away...
-                mObservers.erase(mObservers.begin() + i);
-                delete rpv;
-            }
-        }
+        mObservers.removeViewOnTabSheet(ts);
     }
 }
 
@@ -296,21 +275,13 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 
     Log(lInfo) << "Removing subProject: " << p->getProjectName();
 
-
-    //Find observer object
-    for(int i = 0; i < mObservers.size(); i++)
-    {
-        RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(mObservers[i]);
-        if(rpv && rpv->getRenderProject() == p)
-        {
-            //Tell this observer to go away...
-            mObservers.erase(mObservers.begin() + i);
-        }
-    }
-
     //Close any views
     p->notifyObservers(SubjectBeingDestroyed);
     mPV.removeProject(p);
+    mObservers.removeViewForProject(p);
+
+    //Delete project here..
+    delete p;
 }
 
 

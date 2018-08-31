@@ -59,7 +59,6 @@ TTreeNode* ProjectsTreeView::addProjectToView(Project* project)
 
 TTreeNode* ProjectsTreeView::addChildProjectToView(Project* parent, Project* child)
 {
-
     //Get node for the parent
 	TTreeNode* parent_node (getItemForProject(parent));
     if(!parent_node)
@@ -72,7 +71,6 @@ TTreeNode* ProjectsTreeView::addChildProjectToView(Project* parent, Project* chi
     child_node->Text = child->getProjectName().c_str();
     return child_node;
 }
-
 
 bool ProjectsTreeView::selectProject(Project* p)
 {
@@ -150,7 +148,6 @@ void ProjectsTreeView::expandView(Project* p)
     {
         Log(lError) << "No node for project: " << p->getProjectName();
     }
-
 }
 
 string ProjectsTreeView::closeProject(Project* p)

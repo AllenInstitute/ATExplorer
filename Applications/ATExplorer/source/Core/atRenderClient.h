@@ -111,7 +111,7 @@ class PACKAGE RenderClient
 
         RenderServiceParameters                     mRenderServiceURL;
 
-        RenderProject					            mProject;
+        RenderProject					            mRenderProject;
         RenderLocalCache                            mCache;
         string 			                            mImageType;
         RegionOfInterest			                mRegionOfInterest;

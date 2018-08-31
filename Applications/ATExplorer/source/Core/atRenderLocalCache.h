@@ -5,8 +5,7 @@
 #include "atRegionOfInterest.h"
 //---------------------------------------------------------------------------
 
-//!The RenderLocalCache class manages a local render cache..
-
+//!The RenderLocalCache class manages the local cache for a renderproject..
 namespace at
 {
 
@@ -28,6 +27,5 @@ class PACKAGE RenderLocalCache : public ATObject
 };
 
 }
-
 
 #endif

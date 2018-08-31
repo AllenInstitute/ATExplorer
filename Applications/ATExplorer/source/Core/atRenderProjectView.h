@@ -16,7 +16,6 @@ class RenderProject;
 
 class RenderProjectView : public dsl::Observer
 {
-
         public:
                             		            RenderProjectView(TPageControl* pc, RenderProject* rp);
                             		            ~RenderProjectView();
@@ -30,7 +29,6 @@ class RenderProjectView : public dsl::Observer
             RenderProject*                      mRenderProject;
 			unique_ptr<TTabSheet> 				mTabSheet;
        		unique_ptr<TRenderProjectFrame>    	mRenderProjectFrame;
-
 };
 
 }

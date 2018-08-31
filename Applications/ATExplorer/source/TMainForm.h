@@ -22,6 +22,7 @@
 #include <memory>
 #include "atRenderProjectView.h"
 #include "dslSharedPointer.h"
+#include "atProjectObservers.h"
 //---------------------------------------------------------------------------
 
 //typedef void __fastcall (__closure *sshCallback)(const string&);
@@ -29,6 +30,7 @@ using at::ProjectManager;
 using at::ProjectsTreeView;
 using at::ATExplorerProject;
 using at::RenderProjectView;
+using at::ProjectObservers;
 using dsl::Project;
 using dsl::Observer;
 using dsl::shared_ptr;
@@ -142,11 +144,12 @@ __published:	// IDE-managed Components
 	    ProjectsTreeView                                mPV;
 
         //Should really be unique ptrs
-        vector< RenderProjectView* >        			mObservers;
+        //make observers, an observer too
+        ProjectObservers                                mObservers;
+//        vector< RenderProjectView* >        			mObservers;
 
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);
-		TTabSheet* 										getTabForProject(Project* p);
 
 	public:
 		__fastcall 			  							TMainForm(TComponent* Owner);

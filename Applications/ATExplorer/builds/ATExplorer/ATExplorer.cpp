@@ -8,9 +8,9 @@ using namespace at;
 USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Frames\TATProjectOptionsFrame.cpp", ATProjectOptionsFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
+USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
 USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
-USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
 //---------------------------------------------------------------------------
 AppUtilities gAU;
 

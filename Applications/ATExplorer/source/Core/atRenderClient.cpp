@@ -27,8 +27,8 @@ RenderClient::RenderClient(Idhttp::TIdHTTP* c, const RenderServiceParameters& p,
 mC(c),
 mRenderServiceURL(p),
 mFetchImageThread(*this),
-mProject("","","",""),
-mCache(cacheFolder, mProject)
+mRenderProject("","","",""),
+mCache(cacheFolder, mRenderProject)
 {
 	mImageMemory = new TMemoryStream();
 }
@@ -36,7 +36,7 @@ mCache(cacheFolder, mProject)
 bool RenderClient::init(const string& owner, const string& project, const string& stack,
 					    const string& imageType, int z, const RegionOfInterest& box, double scale, int minInt, int maxInt)
 {
-    mProject.init(owner, project, stack);
+    mRenderProject.init(owner, project, stack);
     mImageType = (imageType);
     mZ = (z);
     mRegionOfInterest = (box);
@@ -57,7 +57,7 @@ string RenderClient::getCacheRoot()
 }
 double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
 {
-    return mCache.getLowestResolutionInCache(mProject, roi);
+    return mCache.getLowestResolutionInCache(mRenderProject, roi);
 }
 
 void RenderClient::setBaseURL(const string& baseURL)
@@ -77,7 +77,7 @@ string RenderClient::getLocalCacheFolder()
 
 RenderProject& RenderClient::getProject()
 {
-	return mProject;
+	return mRenderProject;
 }
 
 string RenderClient::getBaseURL()
@@ -87,12 +87,12 @@ string RenderClient::getBaseURL()
 
 RenderProject RenderClient::getRenderProject()
 {
-	return mProject;
+	return mRenderProject;
 }
 
 void RenderClient::setRenderProject(const RenderProject& rp)
 {
-	mProject = rp;
+	mRenderProject = rp;
 }
 
 void RenderClient::assignOnImageCallback(RCCallBack cb)
@@ -104,7 +104,7 @@ StringList RenderClient::getROIFoldersForCurrentStack()
 {
     //Create basepath
     stringstream path;
-    path << joinPath(mCache.getBasePath(), mProject.getProjectName(), mProject.getRenderProjectName(), mProject.getSelectedStackName());
+    path << joinPath(mCache.getBasePath(), mRenderProject.getProjectName(), mRenderProject.getRenderProjectName(), mRenderProject.getSelectedStackName());
 
     return getSubFoldersInFolder(path.str(), false);
 }
@@ -135,7 +135,7 @@ void RenderClient::copyImageData(MemoryStruct chunk)
 
 RenderProject RenderClient::getCurrentProject()
 {
-    return mProject;
+    return mRenderProject;
 }
 
 void RenderClient::setLocalCacheFolder(const string& f)
@@ -271,9 +271,9 @@ RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
 {
     stringstream sUrl;
     sUrl << mRenderServiceURL.asString();
-    sUrl << "/owner/" 		<< mProject.getProjectOwner();
-    sUrl << "/project/" 	<< mProject.getRenderProjectName();
-    sUrl << "/stack/"		<<mProject.getSelectedStackName();
+    sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
+    sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
+    sUrl << "/stack/"		<<mRenderProject.getSelectedStackName();
     sUrl <<"/z/"<<z   	 	<<"/bounds";
 
     Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
@@ -303,9 +303,9 @@ RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
     {
         stringstream sUrl;
         sUrl << mRenderServiceURL.asString();
-        sUrl << "/owner/"  	<< mProject.getProjectOwner();
-        sUrl << "/project/" << mProject.getRenderProjectName();
-        sUrl << "/stack/"	<<mProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
+        sUrl << "/owner/"  	<< mRenderProject.getProjectOwner();
+        sUrl << "/project/" << mRenderProject.getRenderProjectName();
+        sUrl << "/stack/"	<<mRenderProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
 
         //	    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
         TStringStream* zstrings = new TStringStream;;
@@ -396,9 +396,9 @@ string RenderClient::getURLForZ(int z)
 {
 	stringstream sUrl;
     sUrl << mRenderServiceURL.asString();
-    sUrl << "/owner/" 		<< mProject.getProjectOwner();
-    sUrl << "/project/" 	<< mProject.getRenderProjectName();
-    sUrl << "/stack/"		<< mProject.getSelectedStackName();
+    sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
+    sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
+    sUrl << "/stack/"		<< mRenderProject.getSelectedStackName();
     sUrl << "/z/"			<<z;
     sUrl << "/box/"			<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1() << "," << (int) mRegionOfInterest.getWidth() << ","<< (int) mRegionOfInterest.getHeight() << ","<<mScale;
     sUrl << "/jpeg-image";
@@ -414,9 +414,9 @@ string RenderClient::getURL()
     //z/{1}/box/5000,9000,1300,1300,{2}/tiff-image");
 	stringstream sUrl;
     sUrl << mRenderServiceURL.asString();
-    sUrl << "/owner/" 	<< mProject.getProjectOwner();
-    sUrl << "/project/" << mProject.getRenderProjectName();
-    sUrl << "/stack/"	<<mProject.getSelectedStackName();
+    sUrl << "/owner/" 	<< mRenderProject.getProjectOwner();
+    sUrl << "/project/" << mRenderProject.getRenderProjectName();
+    sUrl << "/stack/"	<<mRenderProject.getSelectedStackName();
     sUrl << "/z/"		<<mZ;
     sUrl << "/box/"		<<round(mRegionOfInterest.getX1())<<","<<round(mRegionOfInterest.getY1()) << "," << round(mRegionOfInterest.getWidth()) << ","<<round(mRegionOfInterest.getHeight()) << ","<<mScale;
     sUrl << "/jpeg-image";
@@ -452,9 +452,9 @@ vector<int> RenderClient::getValidZs()
 	StringList zs;
 	stringstream sUrl;
     sUrl << mRenderServiceURL.asString();
-    sUrl << "/owner/"    << mProject.getProjectOwner();
-    sUrl << "/project/" << 	mProject.getRenderProjectName();
-    sUrl << "/stack/"	<<	mProject.getSelectedStackName();
+    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
+    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
+    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
     sUrl <<"/zValues";
 
     Log(lDebug3) << "Get Valid Z: "<<sUrl.str();
@@ -495,9 +495,9 @@ bool RenderClient::renameStack(const string& currentStackName, const string& new
 {
 	stringstream sUrl;
     sUrl << mRenderServiceURL.asString();
-    sUrl << "/owner/"    << mProject.getProjectOwner();
-    sUrl << "/project/" << 	mProject.getRenderProjectName();
-    sUrl << "/stack/"	<<	mProject.getSelectedStackName();
+    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
+    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
+    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
 
 //    TStringStream* strings = new TStringStream;;
 //    mC->Put()

@@ -90,7 +90,6 @@ void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
 {
     string f(stdstr(FileOpen1->Dialog->FileName));
-
 	ATExplorerProject* p = mPV.createNewATExplorerProject();
 
 	if(p->loadXMLFromFile(f))
