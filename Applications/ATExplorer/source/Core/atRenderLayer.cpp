@@ -53,7 +53,7 @@ mCache(localCacheRootFolder, mRenderProject)
     mScale = mRegionOfInterest.getScale();
 }
 
-RenderLayer::RenderLayer(const RenderProject& rp, const RegionOfInterest& roi, const string& localCacheRootFolder)
+RenderLayer::RenderLayer(RenderProject& rp, const RegionOfInterest& roi, const string& localCacheRootFolder)
 :
 mRenderProject(rp),
 mRegionOfInterest(roi),

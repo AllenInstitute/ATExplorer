@@ -35,7 +35,7 @@ using std::string;
 using at::RenderLocalCache;
 using System::Classes::TMemoryStream;
 
-typedef void __fastcall (__closure *RCCallBack)(void);
+//typedef void  (__closure *RCCallBack)(void);
 
 class PACKAGE RenderClient
 {

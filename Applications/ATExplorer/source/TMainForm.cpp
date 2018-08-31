@@ -25,7 +25,7 @@ extern at::AppUtilities gAU;
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
     mIsStyleMenuPopulated(false),
-     mPV(ProjectTView)
+     mPTreeView(ProjectTView)
 {
     setupAndReadIniParameters();
     Application->ShowHint = true;
@@ -69,7 +69,7 @@ void __fastcall TMainForm::ProjectTViewClick(TObject *Sender)
     {
         Log(lDebug) << "User clicked: " << p->getProjectName();
     }
-	mPV.selectProject(p);
+	mPTreeView.selectProject(p);
 }
 
 
@@ -111,39 +111,39 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
             }
         }
 
-	    gAU.LastOpenedProject = mPV.closeProject(parent);
+	    gAU.LastOpenedProject = mPTreeView.closeProject(parent);
     }
 }
 
 void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
 {
-   	CloseProjectA->Enabled = mPV.getRootForSelectedProject() ? true : false;
+   	CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAsAExecute(TObject *Sender)
 {
-	Project* p = mPV.getCurrent();
+	Project* p = mPTreeView.getCurrent();
 	saveProjectAs(p);
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
 {
-	SaveProjectAsA->Enabled = mPV.getRootForSelectedProject() ? true : false;
+	SaveProjectAsA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
 {
-    Project* p = mPV.getRootForSelectedProject();
+    Project* p = mPTreeView.getRootForSelectedProject();
 	SaveProjectA->Enabled = (p && p->isModified()) ? true : false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAExecute(TObject *Sender)
 {
-    Project* p = mPV.getRootForSelectedProject();
+    Project* p = mPTreeView.getRootForSelectedProject();
 	saveProject(p);
 }
 
@@ -151,7 +151,7 @@ void __fastcall TMainForm::SaveProjectAExecute(TObject *Sender)
 void __fastcall TMainForm::ProjTreeViewPopupPopup(TObject *Sender)
 {
 //    //We gotta filter actions depending on what item is selected in the tree
-//    Project* p = mPV.getParentForSelectedProject();
+//    Project* p = mPTreeView.getParentForSelectedProject();
 //    if(p)
 //    {
 //        //Hide close action
@@ -213,7 +213,7 @@ void __fastcall TMainForm::ProjectTViewDblClick(TObject *Sender)
         Log(lDebug) << "User double clicked: " << p->getProjectName();
         createProjectView(p);
     }
-	mPV.selectProject(p);
+	mPTreeView.selectProject(p);
 }
 
 bool TMainForm::createProjectView(Project* p)
@@ -266,7 +266,7 @@ void __fastcall TMainForm::Close3Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 {
-    Project* p = mPV.getSelectedProject();
+    Project* p = mPTreeView.getSelectedProject();
     if(!p->getParent())
     {
         Log(lWarning) << "You can't remove the root project..";
@@ -277,7 +277,7 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 
     //Close any views
     p->notifyObservers(SubjectBeingDestroyed);
-    mPV.removeProject(p);
+    mPTreeView.removeProject(p);
     mObservers.removeViewForProject(p);
 
     //Delete project here..

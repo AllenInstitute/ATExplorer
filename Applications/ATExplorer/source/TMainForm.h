@@ -141,7 +141,7 @@ __published:	// IDE-managed Components
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
         bool        									createProjectView(Project* p);
-	    ProjectsTreeView                                mPV;
+	    ProjectsTreeView                                mPTreeView;
 
         //Should really be unique ptrs
         //make observers, an observer too

@@ -26,9 +26,9 @@ RenderClient::RenderClient(Idhttp::TIdHTTP* c, const RenderServiceParameters& p,
 :
 mC(c),
 mRenderServiceURL(p),
-mFetchImageThread(*this),
 mRenderProject("","","",""),
-mCache(cacheFolder, mRenderProject)
+mCache(cacheFolder, mRenderProject),
+mFetchImageThread(*this)
 {
 	mImageMemory = new TMemoryStream();
 }

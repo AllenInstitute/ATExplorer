@@ -19,9 +19,9 @@ ConnectSSHServersOnStartup(false,""),
 LastSelectedSettingsSection("",""),
 LogLevel(lAny),
 BottomPanelHeight(205),
-CurrentProject(""),
-CurrentOwner(""),
-CurrentStack(""),
+//CurrentProject(""),
+//CurrentOwner(""),
+//CurrentStack(""),
 BaseURL(""),
 ProjectPanelWidth(100),
 LastOpenedProject("")
@@ -51,9 +51,9 @@ bool AppUtilities::setupIniParameters()
 
     //This should be part of a project
     GeneralProperties->add((BaseProperty*)  &BaseURL.setup(   						"BASE_URL",  						"http://ibs-forrestc-ux1.corp.alleninstitute.org"));
-    GeneralProperties->add((BaseProperty*)  &CurrentOwner.setup(		       		"OWNER", 		                    ""));
-    GeneralProperties->add((BaseProperty*)  &CurrentProject.setup(	    			"PROJECT", 		                    ""));
-    GeneralProperties->add((BaseProperty*)  &CurrentStack.setup(	          		"STACK_NAME", 	                    ""));
+//    GeneralProperties->add((BaseProperty*)  &CurrentOwner.setup(		       		"OWNER", 		                    ""));
+//    GeneralProperties->add((BaseProperty*)  &CurrentProject.setup(	    			"PROJECT", 		                    ""));
+//    GeneralProperties->add((BaseProperty*)  &CurrentStack.setup(	          		"STACK_NAME", 	                    ""));
 
 	GeneralProperties->add((BaseProperty*)  &ConnectSSHServersOnStartup.setup(   	"CONNECT_SERVERS_ON_STARTUP",  		false));
 	GeneralProperties->add((BaseProperty*)  &LastOpenedProject.setup(   			"LAST_OPENED_PROJECT",  			""));

@@ -24,19 +24,19 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
 
     //Check projects for saving etc..
 
-	Project* p  = mPV.getFirst();
+	Project* p  = mPTreeView.getFirst();
 
 	if(p && p->isNeverSaved() == true)
     {
     	int mrResult = saveProject(p);
         if(mrResult == mrOk)
         {
-	        mPV.closeProject(p);
+	        mPTreeView.closeProject(p);
         }
         else if(mrResult == mrNo)
         {
             //Just close the project
-            mPV.closeProject(p);
+            mPTreeView.closeProject(p);
         }
         else if(mrResult == mrCancel)
         {
@@ -47,7 +47,7 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
     else if(p)
     {
 		p->save();
-        mPV.closeProject(p);
+        mPTreeView.closeProject(p);
     }
 
 
@@ -95,7 +95,7 @@ void __fastcall TMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 //		CanClose = false;
 //    }
 
-    if(mPV.mProjectCount() > 0)
+    if(mPTreeView.mProjectCount() > 0)
     {
 		CanClose = false;
     }

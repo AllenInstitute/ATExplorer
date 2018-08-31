@@ -13,7 +13,8 @@ using namespace dsl;
 
 RenderProject::RenderProject(const string& _url)
 :
-mRenderService("")
+mRenderService(""),
+mLocalCacheRootFolder("")
 {
 	//"http://ibs-forrestc-ux1.corp.alleninstitute.org:8988/render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image?minIntensity=0&maxIntensity=6000"
     //Extract owner,project and stack from url
@@ -38,6 +39,7 @@ RenderProject::RenderProject(const string& name, const string& owner, const stri
 :
 ATExplorerProject(name),
 mOwner(owner),
+mLocalCacheRootFolder(""),
 mRenderProjectName(project),
 mSelectedStack(stack),
 mSelectedSection(-1),
@@ -48,12 +50,13 @@ mRenderService("")
 
 RenderProject::RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project)
 :
-mRenderService(rs),
 ATExplorerProject(name),
+mLocalCacheRootFolder(""),
 mOwner(owner),
 mRenderProjectName(project),
 mSelectedStack(""),
-mSelectedSection(-1)
+mSelectedSection(-1),
+mRenderService(rs)
 {
 	mATEObjectType = (ateRenderProject);
 }
@@ -63,13 +66,25 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
 {
 	if(this != &rhs)
     {
-        mInfo	 	        = rhs.mInfo;
-        mOwner		        = rhs.mOwner;
-        mRenderProjectName	= rhs.mRenderProjectName;
-        mSelectedStack		= rhs.mSelectedStack;
-        mStacks				= rhs.mStacks;
+        mInfo	 	            = rhs.mInfo;
+        mOwner		            = rhs.mOwner;
+        mRenderProjectName	    = rhs.mRenderProjectName;
+        mSelectedStack		    = rhs.mSelectedStack;
+        mStacks				    = rhs.mStacks;
+        mLocalCacheRootFolder 	= rhs.mLocalCacheRootFolder;
+
     }
     return *this;
+}
+
+void RenderProject::assignLocalCacheRootFolder(const string& rFolder)
+{
+    mLocalCacheRootFolder = rFolder;
+}
+
+string RenderProject::getLocalCacheFolder()
+{
+    return mLocalCacheRootFolder;
 }
 
 void RenderProject::init(const string& owner, const string& project, const string& stack)
@@ -92,9 +107,7 @@ mRenderService(rp.mRenderService)
 }
 
 RenderProject::~RenderProject()
-{
-
-}
+{}
 
 RenderServiceParameters RenderProject::getRenderServiceParameters()
 {
@@ -143,6 +156,10 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
 
     val = doc.NewElement("stack");
     val->SetText(mSelectedStack.c_str());
+    docRoot->InsertEndChild(val);
+
+    val = doc.NewElement("local_cache_folder");
+    val->SetText(mLocalCacheRootFolder.c_str());
     docRoot->InsertEndChild(val);
 
     return val;
@@ -194,6 +211,13 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
     {
     	mSelectedStack = e->GetText() ? string(e->GetText()) : string("");
     }
+
+    e = node->FirstChildElement("local_cache_folder");
+    if(e)
+    {
+    	mLocalCacheRootFolder = e->GetText() ? string(e->GetText()) : string("");
+    }
+
 	return true;
 }
 

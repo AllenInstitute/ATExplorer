@@ -13,7 +13,7 @@ class PACKAGE RenderLocalCache : public ATObject
 {
 
         public:
-                            RenderLocalCache(const string& cr, const RenderProject& rp);
+                            RenderLocalCache(const string& cr, RenderProject& rp);
 
                             ~RenderLocalCache();
 		double        		getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi);
@@ -22,7 +22,7 @@ class PACKAGE RenderLocalCache : public ATObject
         void                setBasePath(const string& bp);
 
         protected:
-            RenderProject   mRP;
+            RenderProject&   mRP;
             string          mCacheRoot;
 };
 

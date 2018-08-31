@@ -39,9 +39,9 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
                                                 //These properties may be exposed for change in the UI ========
         	Property<bool>	                	ConnectSSHServersOnStartup;
 			Property<LogLevel>	 	           	LogLevel;
-            Property<string>	 		        CurrentProject;
-            Property<string>	 		        CurrentOwner;
-            Property<string>	 		        CurrentStack;
+//            Property<string>	 		        CurrentProject;
+//            Property<string>	 		        CurrentOwner;
+//            Property<string>	 		        CurrentStack;
             Property<string>	 		        BaseURL;
             Property<string>	 		        LastOpenedProject;
 

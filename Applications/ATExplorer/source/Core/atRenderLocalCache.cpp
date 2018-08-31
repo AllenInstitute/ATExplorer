@@ -13,7 +13,7 @@ namespace at
 using namespace Poco;
 using namespace dsl;
 
-RenderLocalCache::RenderLocalCache(const string& cr, const RenderProject& rp)
+RenderLocalCache::RenderLocalCache(const string& cr, RenderProject& rp)
 :
 mCacheRoot(cr),
 mRP(rp)

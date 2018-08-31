@@ -21,9 +21,11 @@ class PACKAGE RenderProject : public ATExplorerProject
 			    	                    RenderProject(const string& name, const string& owner, const string& project, const string& stack);
                                         RenderProject(const RenderProject& rp);
 		virtual    	                    ~RenderProject();
-        RenderProject&                  operator= (const RenderProject& rhs);
+        RenderProject&                  operator = (const RenderProject& rhs);
 
 		void							init(const string& owner, const string& project, const string& stack);
+        void                            assignLocalCacheRootFolder(const string& rFolder);
+        string                          getLocalCacheFolder();
 
         RenderServiceParameters         getRenderServiceParameters();
 		string							getRenderProjectName();
@@ -35,11 +37,11 @@ class PACKAGE RenderProject : public ATExplorerProject
         virtual dsl::XMLElement*        addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
 		virtual bool 					loadFromXML(dsl::XMLNode* node);
 
-
-
 	protected:
     	string 		                    mInfo;
     	string 		                    mOwner;
+//        RenderLocalCache                mCache;
+        string                          mLocalCacheRootFolder;
 
 										//!This is the "render" project. Not the same as the projects name
         string 		                    mRenderProjectName;

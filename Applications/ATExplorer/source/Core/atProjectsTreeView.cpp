@@ -105,7 +105,7 @@ TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
     return nullptr;
 }
 
-void ProjectsTreeView::updateView(Project* _p)
+void ProjectsTreeView::createView(Project* _p)
 {
     ATExplorerProject* p (dynamic_cast<ATExplorerProject*>(_p));
 

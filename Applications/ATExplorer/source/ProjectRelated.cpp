@@ -7,9 +7,11 @@
 #include "atATExplorerProject.h"
 #include "atRenderProject.h"
 #include "TSelectRenderProjectParametersForm.h"
+#include "ateAppUtilities.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;
+extern at::AppUtilities gAU;
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ProjectTViewEditing(TObject *Sender, TTreeNode *Node,
@@ -66,6 +68,7 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 
 		//Create a render project and associate with current VC project
 	  	RenderProject* rp (new RenderProject(rs, "", f->getRenderOwner(), f->getRenderProject()));
+        rp->assignLocalCacheRootFolder(gAU.LocalCacheFolder);
 
 	    //Check how many renderproject childs
         int nrOfChilds = parent->getNumberOfChilds();
@@ -73,31 +76,31 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
         rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
     	parent->addChild(rp);
     	parent->setModified();
-		mPV.addRenderProjectToView(parent, rp);
+		mPTreeView.addRenderProjectToView(parent, rp);
     }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 {
-	ATExplorerProject* p = mPV.createNewATExplorerProject();
-    mPV.addProjectToView(p);
+	ATExplorerProject* p = mPTreeView.createNewATExplorerProject();
+    mPTreeView.addProjectToView(p);
 	ProjectTView->SetFocus();
-    mPV.selectProject(p);
+    mPTreeView.selectProject(p);
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
 {
     string f(stdstr(FileOpen1->Dialog->FileName));
-	ATExplorerProject* p = mPV.createNewATExplorerProject();
+	ATExplorerProject* p = mPTreeView.createNewATExplorerProject();
 
 	if(p->loadXMLFromFile(f))
     {
     	Log(lInfo) << "Loaded project file: "<<f;
         p->open();
-        mPV.updateView(p);
-        mPV.expandView(p);
+        mPTreeView.createView(p);
+        mPTreeView.expandView(p);
     }
 }
 

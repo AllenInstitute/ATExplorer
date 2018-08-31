@@ -43,7 +43,7 @@ class ProjectsTreeView : public ATObject
             bool	                        removeProject(Project* p);
 
             TTreeNode*                      getItemForProject(Project* p);
-            void                            updateView(Project* p);
+            void                            createView(Project* p);
 			TTreeNode* 						addChildProjectToView(Project* parent, Project* child);
             void                            expandView(Project* p);
 
@@ -52,7 +52,7 @@ class ProjectsTreeView : public ATObject
 			TTreeView*                      mTree;
 
                                             //The model..
-                                            //This container is responsible to dispose of any projects
+                                            //This container (ProjectsTreeView) is responsible to dispose of any projects
             Projects                        mProjects;
 };
 

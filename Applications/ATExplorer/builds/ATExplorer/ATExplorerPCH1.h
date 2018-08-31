@@ -3,11 +3,28 @@
 
 //#include "TMainForm.h"
 #include <vcl.h>
+#include <System.Actions.hpp>
+#include <System.Classes.hpp>
+#include <System.ImageList.hpp>
+#include <Vcl.ActnList.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.Dialogs.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.ImgList.hpp>
+#include <Vcl.Menus.hpp>
+#include <Vcl.StdActns.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.ToolWin.hpp>
+
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
 
 #include <windows.h>
 #include <tchar.h>
+#include <string>
+#include <vector>
 #include <list>
 
 
