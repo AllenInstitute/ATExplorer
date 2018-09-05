@@ -46,9 +46,27 @@ bool RenderClient::init(const string& owner, const string& project, const string
     return true;
 }
 
+bool RenderClient::init(const RenderProject& rp,
+					    const string& imageType, int z, const RegionOfInterest& box, double scale, int minInt, int maxInt)
+{
+    mRenderProject.init(rp.getProjectOwner(), rp.getProjectName(), rp.getSelectedStackName());
+    mImageType = (imageType);
+    mZ = (z);
+    mRegionOfInterest = (box);
+	mScale = (scale);
+	mMinIntensity = (minInt);
+	mMaxIntensity = (maxInt);
+    return true;
+}
+
 RenderClient::~RenderClient()
 {
 	delete mImageMemory;
+}
+
+RenderServiceParameters RenderClient::getRenderServiceParameters()
+{
+    return mRenderServiceURL;
 }
 
 string RenderClient::getCacheRoot()

@@ -16,6 +16,7 @@ RenderLayer::RenderLayer(const string& url, const string& localCacheRootFolder)
 :
 mURL(url),
 mRenderProject(url),
+mCache(localCacheRootFolder, mRenderProject),
 mScheme(mURL.getScheme()),
 mAuthority(mURL.getAuthority()),
 mHost(mURL.getHost()),
@@ -23,8 +24,7 @@ mPort(mURL.getPort()),
 mPath(mURL.getPath()),   //"/render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/5/box/-4515,-2739,9027,5472,0.1338/jpeg-image"
 mQuery(mURL.getQuery()), //"minIntensity=0&maxIntensity=6000"
 mFragment(mURL.getFragment()),
-mPathEtc(mURL.getPathEtc()),
-mCache(localCacheRootFolder, mRenderProject)
+mPathEtc(mURL.getPathEtc())
 {
     //Parse it..
     //Get min and max intensity from query

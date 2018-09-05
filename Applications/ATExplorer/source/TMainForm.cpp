@@ -81,8 +81,8 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
     {
 		ATExplorerProject* p = (ATExplorerProject*) item->Data;
 
-
         Project* parent = p->getParent();
+
         if(!parent)
         {
             parent = p;
@@ -282,6 +282,14 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 
     //Delete project here..
     delete p;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::RenameClick(TObject *Sender)
+{
+	mPTreeView.getTreeView()->ReadOnly = false;
+	TTreeNode* n = mPTreeView.getSelectedNode();
+    n->EditText();
 }
 
 

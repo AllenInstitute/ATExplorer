@@ -7,6 +7,8 @@
 #include "dslFileUtils.h"
 #include <gdiplus.h>
 #include "atApplicationSupportFunctions.h"
+#include "Poco/Path.h"
+#include "boost/filesystem.hpp"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTPropertyCheckBox"
@@ -23,20 +25,22 @@
 TRenderProjectFrame *RenderProjectFrame;
 using namespace dsl;
 using namespace at;
+using namespace Poco;
+
 int frameNr(0);
 
 //---------------------------------------------------------------------------
-__fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject* rp, TComponent* Owner)
+__fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject& rp, TComponent* Owner)
 	: TFrame(Owner),
     mRP(rp),
     mRC(IdHTTP1),
-   	mCurrentROI(0,0,1000,1000),
+   	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
     mRenderEnabled(false),
     Drawing(false)
 {
 	mRC.setBaseURL(mHostURL);
     mRC.assignOnImageCallback(onImage);
-    mRC.setLocalCacheFolder(rp->getLocalCacheFolder());
+    mRC.setLocalCacheFolder(rp.getLocalCacheFolder());
     this->Name = string("RPFrame_" +  dsl::toString(frameNr++)).c_str();
     populate();
     mCurrentROI.assignOnChangeCallback(onROIChanged);
@@ -44,20 +48,40 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject* rp, TComponen
 
 void TRenderProjectFrame::populate()
 {
-    OwnerE->setValue(mRP->getProjectOwner());
-    ProjectE->setValue(mRP->getRenderProjectName());
+    OwnerE->setValue(mRP.getProjectOwner());
+    ProjectE->setValue(mRP.getRenderProjectName());
 
-    RenderServiceParameters rsp(mRP->getRenderServiceParameters());
+    RenderServiceParameters rsp(mRP.getRenderServiceParameters());
 	mRC.setBaseURL(rsp.getBaseURL());
 
     //Get stacks for project
-    StringList stacks = mRC.getStacksForProject(mRP->getProjectOwner(), mRP->getRenderProjectName());
+    StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
     {
 		StackCB->ItemIndex = populateDropDown(stacks, 		StackCB);
-//		populateCheckListBox(stacks, 	StacksForProjectCB);
+
+        //Setup ROI
+		roiChanged();
+
+        //Min and max intensity
+        MinIntensityE->setReference(mRP.getMinIntensity());
+        MaxIntensityE->setReference(mRP.getMaxIntensity());
+
+        //Select stack
+        if(mRP.getSelectedStackName().size())
+        {
+	        int indx = StackCB->Items->IndexOf(mRP.getSelectedStackName().c_str());
+			StackCB->ItemIndex = indx;
+           	StackCBChange(NULL);
+        }
+
+        if(mRP.getSelectedSection() != -1)
+        {
+        	int indx = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
+            mZs->ItemIndex = indx;
+            ClickZ(NULL);
+        }
     }
-	StackCBChange(NULL);
 }
 
 void TRenderProjectFrame::onROIChanged(void* arg1, void* arg2)
@@ -102,15 +126,12 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
     {
 		return;
     }
-
-//    string stack = stdstr(StackCB->Items->Strings[StackCB->ItemIndex]);
-//	gAU.CurrentStack.setValue(stack);
-    mRC.init(mRP->getProjectOwner(), mRP->getRenderProjectName(), stdstr(StackCB->Text));
-
+    mRP.setSelectedStackName(stdstr(StackCB->Text));
+    mRC.init(mRP);
    	getValidZsForStack();
-
 	ClickZ(NULL);
     updateROIs();
+
     //Update stack generation page
 	//User changed stack.. Clear check list box and select current one
 //    for(int i = 0; i < StacksForProjectCB->Items->Count; i++)
@@ -130,12 +151,9 @@ void __fastcall TRenderProjectFrame::getValidZsForStack()
 {
 	//Fetch valid zs for current project
 
-    mRC.init(mRP->getProjectOwner(), mRP->getRenderProjectName(), stdstr(StackCB->Text));
-
+    mRC.init(mRP.getProjectOwner(), mRP.getRenderProjectName(), stdstr(StackCB->Text));
     StringList zs = mRC.getValidZs();
-
 	Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
-
 	Zs_GB->Caption = " Z Values (" + IntToStr((int) zs.count()) + ") ";
 
     //Populate list box
@@ -152,9 +170,10 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
     }
 
     int z = toInt(stdstr(mZs->Items->Strings[mZs->ItemIndex]));
+    mRP.setSelectedSection(z);
 
     //Fetch data using URL
-	mRC.init(mRP->getProjectOwner(), mRP->getRenderProjectName(), stdstr(StackCB->Text), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+	mRC.init(mRP.getProjectOwner(), mRP.getRenderProjectName(), stdstr(StackCB->Text), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
     {
@@ -171,7 +190,7 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
 //		OpenInNDVIZBtnClick(NULL);
     }
 
-//    URLE->setValue(createNDVIZURL());
+    URLE->setValue(createNDVIZURL());
 }
 
 //This is called from a thread and need to be synchronized with the UI main thread
@@ -437,6 +456,7 @@ void __fastcall TRenderProjectFrame::Image1MouseUp(TObject *Sender, TMouseButton
                                     mBottomRightSelCorner.X - mTopLeftSelCorner.X,
                                     mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
                                     mScaleE->getValue());
+
 //	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
 //	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
 //    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
@@ -527,5 +547,81 @@ void __fastcall TRenderProjectFrame::ROIKeyDown(TObject *Sender, WORD &Key,
 		ClickZ(Sender);
     }
 }
+
 //---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::openInChromeClick(TObject *Sender)
+{
+	ShellExecuteA(0,0, "chrome.exe", URLE->getValue().c_str(), 0, SW_SHOWMAXIMIZED);
+}
+
+string TRenderProjectFrame::createNDVIZURL()
+{
+    RenderServiceParameters rs = mRC.getRenderServiceParameters();
+
+    string baseURL = rs.getBaseURL();
+	string URL(baseURL + ":8001/#!{'layers':{'STACK':{'type':'image'_'source':'render://" + baseURL + "/OWNER/PROJECT/STACK'_'max':MAX_INTENSITY}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[X_CENTER_Y_CENTER_Z_VALUE]}}_'zoomFactor':ZOOM_FACTOR}}");
+
+	//http://localhost:8001/#!{'layers':{'TESTAcquisition_GFP':{'type':'image'_'source':'render://http://localhost/Testing/Test/TESTAcquisition_GFP'_'max':0.15259}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[3576_5709_403]}}_'zoomFactor':1.834862}}
+
+    double xCenter = XCoordE->getValue() + Width->getValue()/2.;
+	double yCenter = YCoordE->getValue() + Height->getValue()/2.;
+    URL = replaceSubstring("STACK", 	        stdstr(StackCB->Text), 	                                URL);
+    URL = replaceSubstring("OWNER", 	        stdstr(OwnerE->Text), 	                                URL);
+    URL = replaceSubstring("PROJECT", 	        stdstr(ProjectE->Text), 	                                URL);
+    URL = replaceSubstring("MAX_INTENSITY", 	dsl::toString(2.0 * (MaxIntensityE->getValue()/65535.0)), 	URL);
+    URL = replaceSubstring("X_CENTER", 			dsl::toString(xCenter), 					                URL);
+    URL = replaceSubstring("Y_CENTER", 			dsl::toString(yCenter), 					                URL);
+    URL = replaceSubstring("Z_VALUE", 			dsl::toString(getCurrentZ()), 	 			                URL);
+    URL = replaceSubstring("ZOOM_FACTOR", 		dsl::toString(0.5*(1.0/mScaleE->getValue())), 	 			URL);
+    Log(lDebug5) <<"NDVIZ url: "<< URL;
+	return URL;
+}
+
+void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
+{
+    TButton* b = dynamic_cast<TButton*>(Sender);
+    if(b == FetchSelectedZsBtn)
+    {
+        if(mCreateCacheThread.isRunning())
+        {
+            mCreateCacheThread.stop();
+        }
+        else
+        {
+		    RenderServiceParameters rs = mRC.getRenderServiceParameters();
+            int z = toInt(stdstr(mZs->Items->Strings[0]));
+            RenderClient rc(IdHTTP1, rs, mRP.getLocalCacheFolder());
+            rc.init(mRP.getProjectOwner(), mRP.getRenderProjectName(),
+                mRP.getSelectedStackName(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+
+            //Create image URLs
+            StringList urls;
+            for(int i = 0; i < mZs->Count; i++)
+            {
+                int	z = toInt(stdstr(mZs->Items->Strings[i]));
+                urls.append(rc.getURLForZ(z));
+            }
+
+    	    StringList paras;
+	        paras.append(string("&maxTileSpecsToRender=150"));// + 150)stdstr(maxTileSpecsToRenderE->Text));
+            mCreateCacheThread.setup(urls, mRP.getLocalCacheFolder());
+            mCreateCacheThread.addParameters(paras);
+            mCreateCacheThread.start();
+            CreateCacheTimer->Enabled = true;
+        }
+    }
+    else if(b == ClearCacheBtn)
+    {
+        //Clear cache for the current owner/project/stack
+        Path p(mRP.getLocalCacheFolder());
+
+        p.append(joinPath(mRP.getProjectOwner(), mRP.getRenderProjectName()));
+        p.append(mRP.getSelectedStackName());
+
+        Log(lInfo) << "Deleting local cache for stack: " << p.toString();
+        boost::filesystem::remove_all(p.toString());
+        checkCache();
+    }
+}
+
 

@@ -164,4 +164,89 @@ void RegionOfInterest::zoom(double f)
     mHeight = newHeight;
 }
 
+XMLElement* RegionOfInterest::addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLNode* parentNode)
+{
+    //Create XML for saving to file
+    XMLElement* roi(nullptr);
+    roi = doc.NewElement("roi");
 
+
+//    	int								mZ;
+//	    double                          mX;
+//    	double                          mY;
+//	    int                             mWidth;
+//    	int                             mHeight;
+//        double							mScale;
+
+    XMLElement* val(nullptr);
+    val = doc.NewElement("z");
+    val->SetText(mZ);
+    roi->InsertEndChild(val);
+
+    val = doc.NewElement("x");
+    val->SetText(mX);
+    roi->InsertEndChild(val);
+
+    val = doc.NewElement("y");
+    val->SetText(mY);
+    roi->InsertEndChild(val);
+
+    val = doc.NewElement("width");
+    val->SetText(mWidth);
+    roi->InsertEndChild(val);
+
+    val = doc.NewElement("height");
+    val->SetText(mHeight);
+    roi->InsertEndChild(val);
+
+    val = doc.NewElement("scale");
+    val->SetText(mScale);
+    roi->InsertEndChild(val);
+
+    parentNode->InsertEndChild(roi);
+
+
+    return roi;
+}
+
+bool RegionOfInterest::loadFromXML(dsl::XMLNode* node)
+{
+    XMLElement* e(nullptr);
+
+    e = node->FirstChildElement("z");
+    if(e)
+    {
+    	mZ = (e->GetText() ? dsl::toInt(e->GetText()) : 0);
+    }
+
+    e = node->FirstChildElement("x");
+    if(e)
+    {
+    	mX = (e->GetText() ? dsl::toInt(e->GetText()) : 0);
+    }
+
+    e = node->FirstChildElement("y");
+    if(e)
+    {
+    	mY = (e->GetText() ? dsl::toInt(e->GetText()) : 0);
+    }
+
+    e = node->FirstChildElement("width");
+    if(e)
+    {
+    	mWidth = (e->GetText() ? dsl::toInt(e->GetText()) : 100);
+    }
+
+    e = node->FirstChildElement("height");
+    if(e)
+    {
+    	mHeight = (e->GetText() ? dsl::toInt(e->GetText()) : 100);
+    }
+
+    e = node->FirstChildElement("scale");
+    if(e)
+    {
+    	mScale = (e->GetText() ? dsl::toDouble(e->GetText()) : 1);
+    }
+
+}

@@ -44,17 +44,27 @@ class PACKAGE RenderClient
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
-		bool							            init(				  	const string& owner 	    = gEmptyString,
-                        	                        					  	const string& project 	    = gEmptyString,
-                                                                          	const string& stack 	    = gEmptyString,
-                                                                          	const string& imageType     = "jpeg-image",
-                                                                          	int z 					    = 0,
-                                                                          	const RegionOfInterest& box 	    = RegionOfInterest(),
-                                                                            double scale 			    = 0.01,
-                                                                            int	minInt					= 0,
-                                                                            int maxInt					= 65535
-                                                                            );
+		bool							            init(const string& owner 	    	= gEmptyString,
+                        	                        	 const string& project 	    	= gEmptyString,
+                                                         const string& stack 	    	= gEmptyString,
+                                                         const string& imageType     	= "jpeg-image",
+                                                         int z 					    	= 0,
+                                                         const RegionOfInterest& box 	= RegionOfInterest(),
+                                                         double scale 			    	= 0.01,
+                                                         int minInt						= 0,
+                                                         int maxInt						= 65535
+                                                         );
 
+		bool							            init(const RenderProject&	rp,
+                                                         const string& imageType     	= "jpeg-image",
+                                                         int z 					    	= 0,
+                                                         const RegionOfInterest& box 	= RegionOfInterest(),
+                                                         double scale 			    	= 0.01,
+                                                         int minInt						= 0,
+                                                         int maxInt						= 65535
+                                                         );
+
+		RenderServiceParameters                     getRenderServiceParameters();
 		void							            setBaseURL(const string& baseURL);
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);

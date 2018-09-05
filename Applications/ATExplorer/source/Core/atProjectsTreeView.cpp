@@ -22,6 +22,11 @@ mTree(tv)
 ProjectsTreeView::~ProjectsTreeView()
 {}
 
+TTreeView* ProjectsTreeView::getTreeView()
+{
+    return mTree;
+}
+
 Project* ProjectsTreeView::getCurrent()
 {
     return mProjects.getCurrent();
@@ -82,8 +87,13 @@ bool ProjectsTreeView::selectProject(Project* p)
         return true;
     }
     return false;
-
 }
+
+TTreeNode* ProjectsTreeView::getSelectedNode()
+{
+	return mTree->Selected;
+}
+
 
 TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
 {

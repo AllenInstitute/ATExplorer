@@ -14,6 +14,7 @@ object MainForm: TMainForm
   KeyPreview = True
   Menu = MainMenu1
   OldCreateOrder = False
+  Position = poDefault
   ShowHint = True
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
@@ -355,7 +356,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800AC0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800B40210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0
@@ -770,6 +771,10 @@ object MainForm: TMainForm
     end
     object RemoveFromProject1: TMenuItem
       Action = RemoveFromProjectA
+    end
+    object Rename: TMenuItem
+      Caption = 'Rename'
+      OnClick = RenameClick
     end
     object Close2: TMenuItem
       Action = CloseProjectA

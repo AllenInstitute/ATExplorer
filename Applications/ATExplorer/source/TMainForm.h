@@ -103,6 +103,7 @@ __published:	// IDE-managed Components
 	TMenuItem *Properties1;
 	TAction *RemoveFromProjectA;
 	TMenuItem *RemoveFromProject1;
+	TMenuItem *Rename;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -136,6 +137,7 @@ __published:	// IDE-managed Components
 	void __fastcall MainPCContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
 	void __fastcall Close3Click(TObject *Sender);
 	void __fastcall RemoveFromProjectAExecute(TObject *Sender);
+	void __fastcall RenameClick(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;

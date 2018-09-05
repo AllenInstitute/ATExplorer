@@ -19,7 +19,7 @@ mRenderProject(rp)
     mTabSheet = unique_ptr<TTabSheet> (new TTabSheet(mPC));
     mTabSheet->PageControl = mPC;
     mTabSheet->Caption = rp->getProjectName().c_str();
-    mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(rp, mPC));
+    mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(*rp, mPC));
     mRenderProjectFrame->Parent =  mTabSheet.get();
     mRenderProjectFrame->Align = alClient;
 }

@@ -23,10 +23,13 @@
 #include "atRegionOfInterest.h"
 #include "RzSpnEdt.hpp"
 #include "dslTSTDStringLabeledEdit.h"
+#include "atFetchImagesThread.h"
+#include "atFetchImageThread.h"
 //---------------------------------------------------------------------------
 using at::RenderProject;
 using at::RenderClient;
-
+using at::FetchImagesThread;
+using at::FetchImageThread;
 //---------------------------------------------------------------------------
 class TRenderProjectFrame : public TFrame
 {
@@ -89,10 +92,7 @@ class TRenderProjectFrame : public TFrame
 	TFloatLabeledEdit *CustomImageRotationE;
 	TCheckBox *ShowImageGridCB;
 	TPopupMenu *ImagePopup;
-	TMenuItem *OpenaClone1;
 	TMenuItem *openInChrome;
-	TMenuItem *ToggleImageGridMI;
-	TMenuItem *HideLogWindow1;
 	TSTDStringLabeledEdit *OwnerE;
 	TSTDStringLabeledEdit *ProjectE;
 		void __fastcall StackCBChange(TObject *Sender);
@@ -107,18 +107,20 @@ class TRenderProjectFrame : public TFrame
 	void __fastcall IntensityKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall FrameMouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall ROIKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-
-
-
+	void __fastcall openInChromeClick(TObject *Sender);
+	void __fastcall FetchSelectedZsBtnClick(TObject *Sender);
 
     private:
-        RenderProject*			     	                mRP;
+   		FetchImagesThread								mCreateCacheThread;
+
+                                                        //A Reference to a render project
+        RenderProject&			     	                mRP;
         RenderClient                                    mRC;
    		bool        									mRenderEnabled;
         string 											mCurrentImageFile;
 
         //Render areas history
-		RegionOfInterest								mCurrentROI;
+		RegionOfInterest&								mCurrentROI;
         string                                          mHostURL;
         void                                            populate();
 		void __fastcall 								onImage();
@@ -143,11 +145,11 @@ class TRenderProjectFrame : public TFrame
         TPoint											mTopLeftSelCorner;
         TPoint											mBottomRightSelCorner;
 		void 											DrawShape(TPoint TopLeft, TPoint BottomRight, TPenMode AMode);
-
+		string 											createNDVIZURL();
 
     public:
-    						__fastcall 	TRenderProjectFrame(RenderProject* rp, TComponent* Owner);
-		void 				__fastcall 	getValidZsForStack();
+    						__fastcall 					TRenderProjectFrame(RenderProject& rp, TComponent* Owner);
+		void 				__fastcall 					getValidZsForStack();
 
 };
 

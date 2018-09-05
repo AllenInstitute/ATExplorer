@@ -1,9 +1,10 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "ateAppUtilities.h"
+#include "dslLogger.h"
 //---------------------------------------------------------------------------
 using namespace at;
-
+using namespace dsl;
 
 USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
 USEFORM("..\..\source\Frames\TATProjectOptionsFrame.cpp", ATProjectOptionsFrame); /* TFrame: File Type */
@@ -16,10 +17,10 @@ AppUtilities gAU;
 
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
-	gAU.init();
 
 	try
 	{
+		gAU.init();
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
@@ -30,11 +31,20 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->ShowException(&exception);
 	}
+    catch(DSLException& e)
+	{
+        stringstream s;
+        s << "There was an exception: \n";
+        s << e.what();
+        s <<"\n\nProgram will now exit";
+        MessageDlg(s.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
+        Log(lError) << s.str() << e.what();
+    }
 	catch (...)
 	{
 		try
 		{
-			throw Exception("");
+			throw Exception("Uncaught exception..");
 		}
 		catch (Exception &exception)
 		{

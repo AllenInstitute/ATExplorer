@@ -3,6 +3,15 @@
 #include <cstdlib>
 #include <string>
 #include <boost/function.hpp>
+#include "tinyxml2/tinyxml2.h"
+//---------------------------------------------------------------------------
+
+namespace dsl
+{
+    using tinyxml2::XMLDocument;
+    using tinyxml2::XMLElement;
+    using tinyxml2::XMLNode;
+}
 //---------------------------------------------------------------------------
 
 using std::abs;
@@ -44,6 +53,8 @@ class PACKAGE RegionOfInterest
 
         void 							zoom(double persent);
         void                            assignOnChangeCallback(OnChangeFnc f);
+        dsl::XMLElement*        		addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
+		bool 							loadFromXML(dsl::XMLNode* node);
 
 	protected:
     	int								mZ;
@@ -53,7 +64,6 @@ class PACKAGE RegionOfInterest
     	int                             mHeight;
         double							mScale;
         OnChangeFnc                     onChange;
-
 };
 
 #endif

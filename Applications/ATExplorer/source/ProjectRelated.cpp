@@ -32,6 +32,7 @@ void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
         ate->setModified();
 		SaveProjectA->Update();
     }
+	mPTreeView.getTreeView()->ReadOnly = true;
 }
 
 void __fastcall TMainForm::EditViewNodeExecute(TObject *Sender)

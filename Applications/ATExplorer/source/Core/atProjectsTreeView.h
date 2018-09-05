@@ -31,6 +31,9 @@ class ProjectsTreeView : public ATObject
                                             //!This function returns currently selected (sub)project
             Project*			            getSelectedProject();
 
+                                            //!This function returns currently selected (sub)project
+            TTreeNode*			            getSelectedNode();
+
 									        //!If selected item is a child, then its parent is returned
             Project*			            getParentForSelectedProject();
 
@@ -46,6 +49,7 @@ class ProjectsTreeView : public ATObject
             void                            createView(Project* p);
 			TTreeNode* 						addChildProjectToView(Project* parent, Project* child);
             void                            expandView(Project* p);
+            TTreeView*                      getTreeView();
 
         protected:
                                             //The View
