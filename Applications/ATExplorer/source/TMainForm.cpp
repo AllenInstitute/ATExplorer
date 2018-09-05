@@ -81,26 +81,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
     {
 		ATExplorerProject* p = (ATExplorerProject*) item->Data;
 
-        Project* parent = p->getParent();
-
-        if(!parent)
-        {
-            parent = p;
-        }
-        else
-        {
-            while(parent != NULL)
-            {
-                if(parent->getParent())
-                {
-                    parent = parent->getParent();
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
+        Project* parent = p->getProjectRoot();
 
 	    //user may cancel the request
         if(parent->isModified())
