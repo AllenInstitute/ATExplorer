@@ -1,3 +1,31 @@
+Release 0.6.6 (Sept 6)
+=======================
+* Added popup menus to checkboxes on Renderproject pages
+* Added code to open FileExplorer at certain items
+* Re-enabled creation of stacks and maximum intensity projections
+* Re enabled ROI CheckBox
+* Fixed focus of tab sheets
+* Starting developing ingesting of data
+* Getting image viewing back into application
+* More project handling logic
+* Added Dummy observer class to assist the the ProjectObservers class
+* Bunch of project changes
+* More on viewing projects...
+* Adding logic to remove sub projects
+* More project selection logic
+* Fixed application Icon Issue
+* Added auto selection of settings node
+* Getting a hold on properties
+* Creating infrastructure for dealing with properties and options
+* Moving properties to AppUtilites class
+* Setting up settings
+* Switch to use new ApplicationUtilities class for globals
+* Added maxtilespecs parameter for the multiple fetch thread
+* Changed submodule to use renderpython apps fork
+* Created a RenderService parameters class
+* Keeping browser hidden for now
+* Fixed build script
+
 Release 0.6.5 (Aug 14)
 =======================
 * Added a RenderLocalCache class
