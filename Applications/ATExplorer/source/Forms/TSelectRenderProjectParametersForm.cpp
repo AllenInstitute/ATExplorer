@@ -19,6 +19,7 @@ __fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersFor
     mRC(IdHTTP1)
 {
     mRC.setBaseURL(BaseURLE->getValue());
+
     //Populate owners
     StringList o = mRC.getOwners();
     if(o.size())
@@ -70,6 +71,22 @@ void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sende
 		populateDropDown(p, ProjectCB);
         ProjectCB->ItemIndex = 0;
         ProjectCB->Text = ProjectCB->Items->Strings[0];
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TSelectRenderProjectParametersForm::PopulateOwnersBtnClick(TObject *Sender)
+{
+    mRC.setBaseURL(BaseURLE->getValue());
+
+    //Populate owners
+    StringList o = mRC.getOwners();
+    if(o.size())
+    {
+		populateDropDown(o, OwnerCB);
+        OwnerCB->ItemIndex = 0;
+        OwnerCB->Text = OwnerCB->Items->Strings[0];
+		OwnerCBChange(NULL);
     }
 }
 

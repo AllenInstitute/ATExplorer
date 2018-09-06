@@ -12,10 +12,6 @@ object ATProjectOptionsFrame: TATProjectOptionsFrame
     Align = alClient
     Caption = 'General'
     TabOrder = 0
-    ExplicitLeft = 40
-    ExplicitTop = 32
-    ExplicitWidth = 185
-    ExplicitHeight = 105
     DesignSize = (
       745
       442)

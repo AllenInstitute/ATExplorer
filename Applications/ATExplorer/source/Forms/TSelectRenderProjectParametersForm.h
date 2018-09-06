@@ -35,8 +35,10 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
         TButton *Button1;
         TButton *Button2;
         TIdHTTP *IdHTTP1;
+	TButton *PopulateOwnersBtn;
 		void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 		void __fastcall OwnerCBChange(TObject *Sender);
+	void __fastcall PopulateOwnersBtnClick(TObject *Sender);
 
     private:
         RenderClient                    mRC;

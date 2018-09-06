@@ -29,6 +29,7 @@ class PACKAGE RenderProject : public ATExplorerProject
 		void							init(const string& owner, const string& project, const string& stack);
         void                            assignLocalCacheRootFolder(const string& rFolder);
         string                          getLocalCacheFolder() const;
+        string                          getSelectedSectionFileName();
 
 		string							getSelectedStackName() const ;
         bool                            setSelectedStackName(const string& stackName);

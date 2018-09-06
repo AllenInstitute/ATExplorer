@@ -112,6 +112,11 @@ void RenderProject::assignLocalCacheRootFolder(const string& rFolder)
     mLocalCacheRootFolder = rFolder;
 }
 
+string RenderProject::getSelectedSectionFileName()
+{
+	return "";
+}
+
 RegionOfInterest& RenderProject::getCurrentRegionOfInterestReference()
 {
     return mCurrentROI;

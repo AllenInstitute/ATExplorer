@@ -665,7 +665,7 @@ void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
     IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
 
     //Find all stacks for current ROI
-    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
 
     //Create MIP's for current stack file
 
@@ -677,17 +677,20 @@ void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
     }
 
     string currentStack(*temp);
-    string mipFName(getFileNameNoExtension(currentStack));
+    string* mipFName = new string(getFileNameNoExtension(currentStack));
 
-    mipFName += "_MIP.tif";
-    mipFName = replaceSubstring("stack_", "", mipFName);
+    *mipFName += "_MIP.tif";
+    *mipFName = replaceSubstring("stack_", "", *mipFName);
     stringstream cmdLine;
-    cmdLine << cvt <<" " << currentStack << " -evaluate-sequence max "<<mipFName;
+    cmdLine << cvt <<" " << currentStack << " -evaluate-sequence max "<<*mipFName;
     Log(lInfo) << "Running convert on " << cmdLine.str();
 
     IMConvert.setup(cmdLine.str(), mhCatchMessages);
     IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-    IMConvert.assignOpaqueData(StacksCB, nullptr);
+
+    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
+    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
+
 
     IMConvert.start(true);
 }
@@ -730,7 +733,6 @@ void __fastcall TRenderProjectFrame::CheckBoxClick(TObject *Sender)
     {
         //Get item
         TObject* item = lb->Items->Objects[lb->ItemIndex];
-
         if(item)
         {
 		    string* fName((string*) item);
@@ -739,6 +741,24 @@ void __fastcall TRenderProjectFrame::CheckBoxClick(TObject *Sender)
             iForm->Show();
         }
     }
+}
+
+void TRenderProjectFrame::OpenImageForm(string fName)
+{
+    struct TLocalArgs
+    {
+        string fName;
+        void __fastcall sync()
+        {
+            TImageForm* iForm (new TImageForm("", "", NULL));
+            iForm->load(fName);
+            iForm->Show();
+        }
+    };
+
+    TLocalArgs Args;
+    Args.fName = fName;
+    TThread::Synchronize(NULL, &Args.sync);
 }
 
 void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
@@ -751,6 +771,17 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
 	    checkCache();
         StacksCB->ItemIndex = itemIndx;
         StacksCB->OnClick(StacksCB);
+
+        //Open MIP window
+        if(arg2)
+        {
+        	string& fName = *((string*) arg2);
+            if(fileExists(fName))
+            {
+                OpenImageForm(fName);
+                delete &fName;
+            }
+        }
     }
     else if(arg1 == (void*) mZs)
     {
@@ -758,8 +789,6 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
 	    checkCache();
         StacksCB->ItemIndex = itemIndx;
     }
-
-
 }
 
 //---------------------------------------------------------------------------
@@ -768,15 +797,72 @@ void __fastcall TRenderProjectFrame::ROI_CBClick(TObject *Sender)
     //Switch ROI
     if(ROI_CB->ItemIndex != -1)
     {
-
 	    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
         RenderLayer rl(mRC.getProject(), roi, mRC.getCacheRoot());
 
         mCurrentROI = roi;
-
         mCurrentROI.setScale(rl.getLowestScaleInCache());
         mScaleE->setValue(mCurrentROI.getScale());
 		ClickZ(Sender);
+    }
+}
+
+string getFilePathFromSelectedCB(TCheckListBox* b)
+{
+    string fName("");
+    if(b->ItemIndex != -1)
+    {
+    	string* s = (string*) b->Items->Objects[b->ItemIndex];
+        if(s)
+        {
+            fName = *s;
+        }
+    }
+
+    return fName;
+}
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
+{
+    //Check who sender is
+
+    TAction* a = dynamic_cast<TAction*>(Sender);
+    if(!a)
+    {
+        return;
+    }
+
+    string fName("");
+
+    if(a->ActionComponent == OpenSectionInExplorer)
+    {
+        //Get section file from z's
+        if(mZs->ItemIndex != -1)
+        {
+            fName = mRC.getImageLocalCachePathAndFileName();
+        }
+    }
+    else if(a->ActionComponent == OpenStackInExplorer)
+    {
+        fName = getFilePathFromSelectedCB(StacksCB);
+	}
+    else if(a->ActionComponent == OpenMIPInExplorer)
+    {
+        fName = getFilePathFromSelectedCB(OtherCB);
+    }
+    else if(a->ActionComponent == OpenROIInExplorer)
+    {
+        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0)), getFilePathFromSelectedCB(ROI_CB));
+    }
+
+    if(fName.size())
+    {
+        ITEMIDLIST *pidl = ILCreateFromPath(fName.c_str());
+        if(pidl)
+        {
+            SHOpenFolderAndSelectItems(pidl,0,0,0);
+            ILFree(pidl);
+        }
     }
 }
 

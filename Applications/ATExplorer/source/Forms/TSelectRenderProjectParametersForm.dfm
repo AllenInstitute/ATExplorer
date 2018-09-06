@@ -30,7 +30,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     object BaseURLE: TSTDStringLabeledEdit
       Left = 16
       Top = 40
-      Width = 490
+      Width = 464
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 22
@@ -41,7 +41,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Value = 'http://localhost'
     end
     object HostPort: TIntegerLabeledEdit
-      Left = 512
+      Left = 486
       Top = 40
       Width = 49
       Height = 21
@@ -53,6 +53,15 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       TabOrder = 1
       Text = '80'
       Value = 80
+    end
+    object PopulateOwnersBtn: TButton
+      Left = 536
+      Top = 38
+      Width = 35
+      Height = 25
+      Caption = 'Go'
+      TabOrder = 2
+      OnClick = PopulateOwnersBtnClick
     end
   end
   object GroupBox2: TGroupBox
@@ -120,7 +129,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     object Button2: TButton
       Left = 486
       Top = 6
-      Width = 75
+      Width = 85
       Height = 25
       Caption = 'Ok'
       ModalResult = 1

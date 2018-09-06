@@ -35,8 +35,6 @@ using at::FetchImagesThread;
 using at::FetchImageThread;
 using dsl::Process;
 
-
-
 //---------------------------------------------------------------------------
 class TRenderProjectFrame : public TFrame
 {
@@ -104,9 +102,14 @@ class TRenderProjectFrame : public TFrame
 	TSTDStringLabeledEdit *ProjectE;
 	TAction *CreateTiffStackA;
 	TActionList *Actions;
-	TPopupMenu *PopupMenu1;
-	TMenuItem *MenuItem1;
 	TAction *CreateMIPA;
+	TMenuItem *OpenStackInExplorer;
+	TAction *OpenInExplorerA;
+	TMenuItem *OpenSectionInExplorer;
+	TPopupMenu *OtherPopupMenu;
+	TMenuItem *OpenMIPInExplorer;
+	TPopupMenu *ROIPopupMenu;
+	TMenuItem *OpenROIInExplorer;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -125,7 +128,7 @@ class TRenderProjectFrame : public TFrame
 	void __fastcall CreateMIPAExecute(TObject *Sender);
 	void __fastcall CheckBoxClick(TObject *Sender);
 	void __fastcall ROI_CBClick(TObject *Sender);
-
+	void __fastcall OpenInExplorerAExecute(TObject *Sender);
 
     private:
    		FetchImagesThread								mCreateCacheThread;
@@ -167,7 +170,7 @@ class TRenderProjectFrame : public TFrame
                                                         //Make this nicer later on
 	    Process 										mAProcess;
         void                                            onIMProcessFinished(void*, void*);
-
+		void 											OpenImageForm(string fName);
     public:
     						__fastcall 					TRenderProjectFrame(RenderProject& rp, TComponent* Owner);
 		void 				__fastcall 					getValidZsForStack();
