@@ -122,7 +122,7 @@ StringList RenderClient::getROIFoldersForCurrentStack()
 {
     //Create basepath
     stringstream path;
-    path << joinPath(mCache.getBasePath(), mRenderProject.getProjectName(), mRenderProject.getRenderProjectName(), mRenderProject.getSelectedStackName());
+    path << joinPath(mCache.getBasePath(), mRenderProject.getProjectOwner(), mRenderProject.getRenderProjectName(), mRenderProject.getSelectedStackName());
 
     return getSubFoldersInFolder(path.str(), false);
 }

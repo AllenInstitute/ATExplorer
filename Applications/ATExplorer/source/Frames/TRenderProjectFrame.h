@@ -25,11 +25,18 @@
 #include "dslTSTDStringLabeledEdit.h"
 #include "atFetchImagesThread.h"
 #include "atFetchImageThread.h"
+#include <System.Actions.hpp>
+#include <Vcl.ActnList.hpp>
+#include "dslProcess.h"
 //---------------------------------------------------------------------------
 using at::RenderProject;
 using at::RenderClient;
 using at::FetchImagesThread;
 using at::FetchImageThread;
+using dsl::Process;
+
+
+
 //---------------------------------------------------------------------------
 class TRenderProjectFrame : public TFrame
 {
@@ -95,6 +102,11 @@ class TRenderProjectFrame : public TFrame
 	TMenuItem *openInChrome;
 	TSTDStringLabeledEdit *OwnerE;
 	TSTDStringLabeledEdit *ProjectE;
+	TAction *CreateTiffStackA;
+	TActionList *Actions;
+	TPopupMenu *PopupMenu1;
+	TMenuItem *MenuItem1;
+	TAction *CreateMIPA;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -109,6 +121,11 @@ class TRenderProjectFrame : public TFrame
 	void __fastcall ROIKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall openInChromeClick(TObject *Sender);
 	void __fastcall FetchSelectedZsBtnClick(TObject *Sender);
+	void __fastcall CreateTiffStackExecute(TObject *Sender);
+	void __fastcall CreateMIPAExecute(TObject *Sender);
+	void __fastcall CheckBoxClick(TObject *Sender);
+	void __fastcall ROI_CBClick(TObject *Sender);
+
 
     private:
    		FetchImagesThread								mCreateCacheThread;
@@ -146,6 +163,10 @@ class TRenderProjectFrame : public TFrame
         TPoint											mBottomRightSelCorner;
 		void 											DrawShape(TPoint TopLeft, TPoint BottomRight, TPenMode AMode);
 		string 											createNDVIZURL();
+
+                                                        //Make this nicer later on
+	    Process 										mAProcess;
+        void                                            onIMProcessFinished(void*, void*);
 
     public:
     						__fastcall 					TRenderProjectFrame(RenderProject& rp, TComponent* Owner);

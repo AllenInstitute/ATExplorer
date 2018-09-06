@@ -152,7 +152,7 @@ __published:	// IDE-managed Components
 
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);
-
+		void										    selectTabForProject(Project* p);
 	public:
 		__fastcall 			  							TMainForm(TComponent* Owner);
 		__fastcall 			  							~TMainForm();

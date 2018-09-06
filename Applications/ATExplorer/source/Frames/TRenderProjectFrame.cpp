@@ -9,6 +9,8 @@
 #include "atApplicationSupportFunctions.h"
 #include "Poco/Path.h"
 #include "boost/filesystem.hpp"
+#include "TImageForm.h"
+#include "atRenderLayer.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTPropertyCheckBox"
@@ -103,6 +105,7 @@ void __fastcall TRenderProjectFrame::roiChanged()
 void TRenderProjectFrame::checkCache()
 {
     //OtherCB
+    //Todo reimplement this, to preserve any selected items, as clear remove any selected ones
     StacksCB->Clear();
     OtherCB->Clear();
     StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
@@ -131,15 +134,6 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
    	getValidZsForStack();
 	ClickZ(NULL);
     updateROIs();
-
-    //Update stack generation page
-	//User changed stack.. Clear check list box and select current one
-//    for(int i = 0; i < StacksForProjectCB->Items->Count; i++)
-//    {
-//    	StacksForProjectCB->Checked[i] = (StacksForProjectCB->Items->Strings[i] == StackCB->Text) ? true : false;
-//    }
-
-//	StackCB->Hint = vclstr(stack);
 
     //Disable uninitialized sections of the UI
 	enableDisableGroupBox(imageParasGB, true);
@@ -191,6 +185,7 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
     }
 
     URLE->setValue(createNDVIZURL());
+    checkCache();
 }
 
 //This is called from a thread and need to be synchronized with the UI main thread
@@ -621,6 +616,167 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
         Log(lInfo) << "Deleting local cache for stack: " << p.toString();
         boost::filesystem::remove_all(p.toString());
         checkCache();
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
+{
+//    Process IMConvert("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe", mRC.getImageLocalCachePath());
+//    Process IMConvert("dir.exe", mRC.getImageLocalCachePath());
+    Process& IMConvert = mAProcess;
+
+    IMConvert.setExecutable("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+
+    //Extract selected filenames from checked z's
+    StringList sections = getCheckedItems(mZs);
+
+    //Creat output filename
+    string stackFName("stack_" + getUUID());
+
+    //Create commandline for imagemagicks convert program
+    stringstream cmdLine;
+    for(int i = 0; i < sections.count(); i++)
+    {
+        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(toInt(sections[i]))));
+        cmdLine << fName <<" ";
+    }
+
+	cmdLine << stackFName << ".tif";
+
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+	IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+    IMConvert.assignOpaqueData(mZs, nullptr);
+
+    IMConvert.start(true);
+
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
+{
+    string cvt("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+    Process& IMConvert = mAProcess;
+    IMConvert.reset();
+    IMConvert.setExecutable(cvt);
+    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+
+    //Find all stacks for current ROI
+    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+
+    //Create MIP's for current stack file
+
+    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+    if(!temp)
+    {
+        Log(lError) << "Failed to extract string item";
+        return;
+    }
+
+    string currentStack(*temp);
+    string mipFName(getFileNameNoExtension(currentStack));
+
+    mipFName += "_MIP.tif";
+    mipFName = replaceSubstring("stack_", "", mipFName);
+    stringstream cmdLine;
+    cmdLine << cvt <<" " << currentStack << " -evaluate-sequence max "<<mipFName;
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+    IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+    IMConvert.assignOpaqueData(StacksCB, nullptr);
+
+    IMConvert.start(true);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::CheckBoxClick(TObject *Sender)
+{
+    //Open mip
+    TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
+    if(lb == StacksCB && StacksCB->ItemIndex != -1)
+    {
+        string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+        if(!temp)
+        {
+            Log(lError) << "Failed to extract string item";
+            return;
+        }
+
+        string currentStack(replaceSubstring(".tif", "", replaceSubstring("stack_", "", *temp)));
+
+        //Populate mips for current stack
+        OtherCB->Clear();
+        StringList mipFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+        for(int i = 0; i < mipFiles.count(); i++)
+        {
+            if(endsWith("_MIP.tif", mipFiles[i]))
+            {
+                //Setup something robust here later on
+                string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
+                if(item && contains(currentStack, *item))
+                {
+                    stringstream itemCaption;
+    	            itemCaption << "MIP_" << i + 1;
+	                OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+                }
+            }
+        }
+    }
+    else if(lb == OtherCB)
+    {
+        //Get item
+        TObject* item = lb->Items->Objects[lb->ItemIndex];
+
+        if(item)
+        {
+		    string* fName((string*) item);
+            TImageForm* iForm (new TImageForm("", "", this));
+            iForm->load(*fName);
+            iForm->Show();
+        }
+    }
+}
+
+void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
+{
+    Log(lInfo) << "Process Finished";
+
+    if(arg1 == (void*) StacksCB)
+    {
+        int itemIndx = StacksCB->ItemIndex;
+	    checkCache();
+        StacksCB->ItemIndex = itemIndx;
+        StacksCB->OnClick(StacksCB);
+    }
+    else if(arg1 == (void*) mZs)
+    {
+        int itemIndx = StacksCB->ItemIndex;
+	    checkCache();
+        StacksCB->ItemIndex = itemIndx;
+    }
+
+
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::ROI_CBClick(TObject *Sender)
+{
+    //Switch ROI
+    if(ROI_CB->ItemIndex != -1)
+    {
+
+	    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
+        RenderLayer rl(mRC.getProject(), roi, mRC.getCacheRoot());
+
+        mCurrentROI = roi;
+
+        mCurrentROI.setScale(rl.getLowestScaleInCache());
+        mScaleE->setValue(mCurrentROI.getScale());
+		ClickZ(Sender);
     }
 }
 

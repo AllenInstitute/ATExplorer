@@ -195,6 +195,28 @@ void __fastcall TMainForm::ProjectTViewDblClick(TObject *Sender)
         createProjectView(p);
     }
 	mPTreeView.selectProject(p);
+
+    //Select the page with projectView
+    selectTabForProject(p);
+}
+
+void TMainForm::selectTabForProject(Project* p)
+{
+    RenderProject* rp = dynamic_cast<RenderProject*>(p);
+    if(!rp)
+    {
+        return;
+    }
+
+    for(int i = 0; i < MainPC->PageCount; i++)
+    {
+        TTabSheet* sh = MainPC->Pages[i];
+        if(sh && compareStrings(stdstr(sh->Caption), rp->getProjectName()))
+        {
+			MainPC->TabIndex = i;
+            return;
+        }
+    }
 }
 
 bool TMainForm::createProjectView(Project* p)
