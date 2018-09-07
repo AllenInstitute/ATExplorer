@@ -28,15 +28,16 @@
 #include <System.Actions.hpp>
 #include <Vcl.ActnList.hpp>
 #include "dslProcess.h"
+#include "atImageGrid.h"
 //---------------------------------------------------------------------------
 using at::RenderProject;
 using at::RenderClient;
 using at::FetchImagesThread;
 using at::FetchImageThread;
 using dsl::Process;
-
+using at::ImageGrid;
 //---------------------------------------------------------------------------
-class TRenderProjectFrame : public TFrame
+class PACKAGE TRenderProjectFrame : public TFrame
 {
     __published:	// IDE-managed Components
         TPanel *mLeftPanel;
@@ -110,6 +111,7 @@ class TRenderProjectFrame : public TFrame
 	TMenuItem *OpenMIPInExplorer;
 	TPopupMenu *ROIPopupMenu;
 	TMenuItem *OpenROIInExplorer;
+	TAction *ToggleImageGridA;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -120,7 +122,6 @@ class TRenderProjectFrame : public TFrame
 	void __fastcall Image1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
 	void __fastcall IntensityKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-	void __fastcall FrameMouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
 	void __fastcall ROIKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall openInChromeClick(TObject *Sender);
 	void __fastcall FetchSelectedZsBtnClick(TObject *Sender);
@@ -129,9 +130,20 @@ class TRenderProjectFrame : public TFrame
 	void __fastcall CheckBoxClick(TObject *Sender);
 	void __fastcall ROI_CBClick(TObject *Sender);
 	void __fastcall OpenInExplorerAExecute(TObject *Sender);
+	void __fastcall mZoomOutBtnClick(TObject *Sender);
+	void __fastcall RzSpinButtons1DownLeftClick(TObject *Sender);
+	void __fastcall RzSpinButtons1UpRightClick(TObject *Sender);
+	void __fastcall ToggleImageGridAExecute(TObject *Sender);
+	void __fastcall ToggleImageGridAUpdate(TObject *Sender);
+	void __fastcall PaintBox1Paint(TObject *Sender);
+	void __fastcall OtherCBDblClick(TObject *Sender);
+	void __fastcall PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
 
     private:
    		FetchImagesThread								mCreateCacheThread;
+        string                                          mIMPath;
+        ImageGrid                                       mImageGrid;
 
                                                         //A Reference to a render project
         RenderProject&			     	                mRP;
@@ -172,7 +184,7 @@ class TRenderProjectFrame : public TFrame
         void                                            onIMProcessFinished(void*, void*);
 		void 											OpenImageForm(string fName);
     public:
-    						__fastcall 					TRenderProjectFrame(RenderProject& rp, TComponent* Owner);
+    						__fastcall 					TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner);
 		void 				__fastcall 					getValidZsForStack();
 
 };

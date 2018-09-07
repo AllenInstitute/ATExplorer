@@ -23,7 +23,7 @@ class ProjectObservers;
 //Its main purpose is to remove items from the container as they are
 //destroyed. It does that by being itself an observer and thus
 //subscribes to subject (projects) events
-class DummyProjectViewObserver : public dsl::Observer
+class PACKAGE DummyProjectViewObserver : public dsl::Observer
 {
     public:
 							        DummyProjectViewObserver(ProjectObservers& o, RenderProjectView& rpv);

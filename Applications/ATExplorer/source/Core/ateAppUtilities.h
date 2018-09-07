@@ -36,6 +36,9 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
                                                 //!Used to open up the Settings Treeview where it was last time
           	Property<string>                	LastSelectedSettingsSection;
 
+          	Property<string>                	ImageMagickPath;
+
+
                                                 //These properties may be exposed for change in the UI ========
         	Property<bool>	                	ConnectSSHServersOnStartup;
 			Property<LogLevel>	 	           	LogLevel;

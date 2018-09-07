@@ -120,7 +120,7 @@
         <VerInfo_MinorVer>6</VerInfo_MinorVer>
         <VerInfo_Release>6</VerInfo_Release>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=0.6.6.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <PostBuildEvent><![CDATA[REM $(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)
+        <PostBuildEvent><![CDATA[$(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)
 $(PostBuildEvent)]]></PostBuildEvent>
         <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
         <Icon_MainIcon>..\..\source\ATExplorer.ico</Icon_MainIcon>
@@ -140,71 +140,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="..\..\source\ClosingDown.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atApplicationSupportFunctions.cpp">
-            <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atATExplorerProject.cpp">
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atDummyProjectViewObserver.cpp">
-            <DependentOn>..\..\source\Core\atDummyProjectViewObserver.h</DependentOn>
-            <BuildOrder>23</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\ateAppUtilities.cpp">
-            <DependentOn>..\..\source\Core\ateAppUtilities.h</DependentOn>
-            <BuildOrder>14</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectManager.cpp">
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectObservers.cpp">
-            <DependentOn>..\..\source\Core\atProjectObservers.h</DependentOn>
-            <BuildOrder>22</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectsTreeView.cpp">
-            <DependentOn>..\..\source\Core\atProjectsTreeView.h</DependentOn>
-            <BuildOrder>17</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderProject.cpp">
-            <BuildOrder>16</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderProjectView.cpp">
-            <DependentOn>..\..\source\Core\atRenderProjectView.h</DependentOn>
-            <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderServiceParameters.cpp">
-            <BuildOrder>21</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Forms\TATESettingsForm.cpp">
-            <Form>ATESettingsForm</Form>
             <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TATESettingsForm.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TSelectRenderProjectParametersForm.cpp">
-            <Form>SelectRenderProjectParametersForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TSelectRenderProjectParametersForm.h</DependentOn>
-            <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Frames\TATProjectOptionsFrame.cpp">
-            <Form>ATProjectOptionsFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\source\Frames\TATProjectOptionsFrame.h</DependentOn>
-            <BuildOrder>18</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Frames\TGeneralPropertiesFrame.cpp">
-            <Form>GeneralPropertiesFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\source\Frames\TGeneralPropertiesFrame.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Frames\TRenderProjectFrame.cpp">
-            <FormType>dfm</FormType>
-            <BuildOrder>19</BuildOrder>
+            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Initializing.cpp">
             <BuildOrder>6</BuildOrder>
@@ -221,10 +159,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\TMainForm.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="P:\libs\dsl\Common\dslPropertiesContainer.cpp">
-            <DependentOn>P:\libs\dsl\Common\dslPropertiesContainer.h</DependentOn>
-            <BuildOrder>14</BuildOrder>
-        </CppCompile>
         <CppCompile Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp">
             <Form>LogMemoFrame</Form>
             <FormType>dfm</FormType>
@@ -232,12 +166,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
-        <FormResources Include="..\..\source\Frames\TATProjectOptionsFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectRenderProjectParametersForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
-        <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <FormResources Include="..\..\source\TMainForm.dfm"/>
+        <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -762,7 +692,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>REM $(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)</PostBuildEvent>
+        <PostBuildEvent>$(SH_EXE) postbuild.sh $(OUTPUTDIR)  $(APP_RELEASES) $(OUTPUTFILENAME) $(BDSCOMMONDIR)</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

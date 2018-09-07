@@ -19,6 +19,7 @@ ConnectSSHServersOnStartup(false,""),
 LastSelectedSettingsSection("",""),
 LogLevel(lAny),
 BottomPanelHeight(205),
+ImageMagickPath(""),
 //CurrentProject(""),
 //CurrentOwner(""),
 //CurrentStack(""),
@@ -51,6 +52,7 @@ bool AppUtilities::setupIniParameters()
 
     //This should be part of a project
     GeneralProperties->add((BaseProperty*)  &BaseURL.setup(   						"BASE_URL",  						"http://ibs-forrestc-ux1.corp.alleninstitute.org"));
+    GeneralProperties->add((BaseProperty*)  &ImageMagickPath.setup(   				"IMAGE_MAGICK_PATH",  				"C:\\"));
 //    GeneralProperties->add((BaseProperty*)  &CurrentOwner.setup(		       		"OWNER", 		                    ""));
 //    GeneralProperties->add((BaseProperty*)  &CurrentProject.setup(	    			"PROJECT", 		                    ""));
 //    GeneralProperties->add((BaseProperty*)  &CurrentStack.setup(	          		"STACK_NAME", 	                    ""));

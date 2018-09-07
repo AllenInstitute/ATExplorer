@@ -12,7 +12,7 @@
 
 using dsl::Properties;
 //---------------------------------------------------------------------------
-class TGeneralPropertiesFrame : public TFrame
+class PACKAGE TGeneralPropertiesFrame : public TFrame
 {
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
@@ -25,6 +25,8 @@ class TGeneralPropertiesFrame : public TFrame
         TButton *mBrowseForCacheFolder;
         TPropertyCheckBox *ConnectSSHServersOnStartupCB;
         TPanel *Panel1;
+	TGroupBox *GroupBox2;
+	TSTDStringLabeledEdit *ImageMagickPathE;
 		void __fastcall mBrowseForCacheFolderClick(TObject *Sender);
 
     private:

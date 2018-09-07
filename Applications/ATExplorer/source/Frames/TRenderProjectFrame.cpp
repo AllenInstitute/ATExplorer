@@ -32,13 +32,15 @@ using namespace Poco;
 int frameNr(0);
 
 //---------------------------------------------------------------------------
-__fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject& rp, TComponent* Owner)
+__fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner)
 	: TFrame(Owner),
     mRP(rp),
     mRC(IdHTTP1),
    	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
     mRenderEnabled(false),
-    Drawing(false)
+    Drawing(false),
+    mIMPath(imPath),
+    mImageGrid(Image1, PaintBox1->Canvas)
 {
 	mRC.setBaseURL(mHostURL);
     mRC.assignOnImageCallback(onImage);
@@ -308,8 +310,6 @@ int	TRenderProjectFrame::getCurrentZ()
 //---------------------------------------------------------------------------
 void TRenderProjectFrame::updateScale()
 {
-//    mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
-
     //Scale the scaling
     double scale  = (double) Image1->Height / (double) mCurrentROI.getHeight();
     Log(lDebug5) << "Image Scale: " << scale;
@@ -374,7 +374,6 @@ void __fastcall TRenderProjectFrame::FrameMouseDown(TObject *Sender, TMouseButto
 void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftState Shift,
           int X, int Y)
 {
-
 	if(Drawing)
   	{
 		DrawShape(Origin, MovePt, pmNotXor);
@@ -386,22 +385,22 @@ void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftStat
     double stretchF = getImageStretchFactor();
 	XE->Caption = IntToStr((int) (p.X * stretchF) + XCoordE->getValue()) ;
 	YE->Caption = IntToStr((int) (p.Y * stretchF) + YCoordE->getValue());
-//    ImageWidthL->Caption = IntToStr((int) Image1->Width);
-//    ImageHeightL->Caption = IntToStr((int) Image1->Height);
+	//    ImageWidthL->Caption = IntToStr((int) Image1->Width);
+	//    ImageHeightL->Caption = IntToStr((int) Image1->Height);
 
 	//Convert to world image coords (minus offset)
     double stretchFactor = getImageStretchFactor();
     if(stretchFactor)
     {
 	    p = controlToImage(p, mScaleE->getValue(), stretchFactor);
-//	  	mX->setValue(p.X);
-//		mY->setValue(p.Y);
+	//	  	mX->setValue(p.X);
+	//		mY->setValue(p.Y);
     }
 
 	if(GetAsyncKeyState(VK_MBUTTON) < 0)
     {
     	//Move the picture
-//        Image1->Top = Image1->Top + 1;
+	//        Image1->Top = Image1->Top + 1;
     }
 }
 
@@ -409,61 +408,61 @@ void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftStat
 void __fastcall TRenderProjectFrame::Image1MouseUp(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y)
 {
-    double stretchFactor = getImageStretchFactor();
-	if(Button == TMouseButton::mbMiddle)
-    {
-	  	Screen->Cursor = crDefault;
-    	TPoint p2;
-		p2 = Mouse->CursorPos;
-		p2 = this->Image1->ScreenToClient(p2);
-	    p2 = controlToImage(p2, mScaleE->getValue(), stretchFactor);
-
-		//Convert to world image coords (minus offset)
-		XCoordE->setValue(XCoordE->getValue() + (mTopLeftSelCorner.X - p2.X));
-		YCoordE->setValue(YCoordE->getValue() + (mTopLeftSelCorner.Y - p2.Y));
-
-		mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
-       	ClickZ(Sender);
-    }
-
-	if(!Drawing || (Button == TMouseButton::mbRight))
-    {
-    	return;
-    }
-
-	Drawing = false;
-
-    //For selection
-	mBottomRightSelCorner = this->Image1->ScreenToClient(Mouse->CursorPos);
-
-	//Convert to world image coords (minus offset)
-    mBottomRightSelCorner = controlToImage(mBottomRightSelCorner, mScaleE->getValue(), stretchFactor);
-
-	//Check if selection indicate a 'reset'
-	if(mBottomRightSelCorner.X - mTopLeftSelCorner.X <= 0 || mBottomRightSelCorner.Y - mTopLeftSelCorner.Y <= 0)
-    {
-    	ResetButtonClick(NULL);
-		return;
-    }
-
-	mCurrentROI = RegionOfInterest(	XCoordE->getValue() + mTopLeftSelCorner.X,
-    				 				YCoordE->getValue() + mTopLeftSelCorner.Y,
-                                    mBottomRightSelCorner.X - mTopLeftSelCorner.X,
-                                    mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
-                                    mScaleE->getValue());
-
-//	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
-//	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
-//    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
-//    Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
-
-//	mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
-    updateScale();
-	roiChanged();
-
-    updateROIs();
-	ClickZ(NULL);
-    checkCache();
+//    double stretchFactor = getImageStretchFactor();
+//	if(Button == TMouseButton::mbMiddle)
+//    {
+//	  	Screen->Cursor = crDefault;
+//    	TPoint p2;
+//		p2 = Mouse->CursorPos;
+//		p2 = this->Image1->ScreenToClient(p2);
+//	    p2 = controlToImage(p2, mScaleE->getValue(), stretchFactor);
+//
+//		//Convert to world image coords (minus offset)
+//		XCoordE->setValue(XCoordE->getValue() + (mTopLeftSelCorner.X - p2.X));
+//		YCoordE->setValue(YCoordE->getValue() + (mTopLeftSelCorner.Y - p2.Y));
+//
+//		mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
+//       	ClickZ(Sender);
+//    }
+//
+//	if(!Drawing || (Button == TMouseButton::mbRight))
+//    {
+//    	return;
+//    }
+//
+//	Drawing = false;
+//
+//    //For selection
+//	mBottomRightSelCorner = this->Image1->ScreenToClient(Mouse->CursorPos);
+//
+//	//Convert to world image coords (minus offset)
+//    mBottomRightSelCorner = controlToImage(mBottomRightSelCorner, mScaleE->getValue(), stretchFactor);
+//
+//	//Check if selection indicate a 'reset'
+//	if(mBottomRightSelCorner.X - mTopLeftSelCorner.X <= 0 || mBottomRightSelCorner.Y - mTopLeftSelCorner.Y <= 0)
+//    {
+//    	ResetButtonClick(NULL);
+//		return;
+//    }
+//
+//	mCurrentROI = RegionOfInterest(	XCoordE->getValue() + mTopLeftSelCorner.X,
+//    				 				YCoordE->getValue() + mTopLeftSelCorner.Y,
+//                                    mBottomRightSelCorner.X - mTopLeftSelCorner.X,
+//                                    mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
+//                                    mScaleE->getValue());
+//
+////	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
+////	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
+////    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
+////    Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
+//
+////	mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
+//    updateScale();
+//	roiChanged();
+//
+//    updateROIs();
+//	ClickZ(NULL);
+//    checkCache();
 }
 
 //---------------------------------------------------------------------------
@@ -518,19 +517,6 @@ void __fastcall TRenderProjectFrame::IntensityKeyDown(TObject *Sender, WORD &Key
 }
 
 
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::FrameMouseMove(TObject *Sender, TShiftState Shift,
-          int X, int Y)
-{
-	if(Drawing)
-  	{
-		DrawShape(Origin, MovePt, pmNotXor);
-		MovePt = Point(X, Y);
-		DrawShape(Origin, MovePt, pmNotXor);
-  	}
-
-	Image1MouseMove(Sender, Shift, X, Y);
-}
 
 
 void __fastcall TRenderProjectFrame::ROIKeyDown(TObject *Sender, WORD &Key,
@@ -626,7 +612,7 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 //    Process IMConvert("dir.exe", mRC.getImageLocalCachePath());
     Process& IMConvert = mAProcess;
 
-    IMConvert.setExecutable("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+    IMConvert.setExecutable(joinPath(mIMPath, "convert.exe"));
     IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
 
     //Extract selected filenames from checked z's
@@ -658,7 +644,7 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
 {
-    string cvt("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe");
+    string cvt(joinPath(mIMPath, "convert.exe"));
     Process& IMConvert = mAProcess;
     IMConvert.reset();
     IMConvert.setExecutable(cvt);
@@ -731,15 +717,6 @@ void __fastcall TRenderProjectFrame::CheckBoxClick(TObject *Sender)
     }
     else if(lb == OtherCB)
     {
-        //Get item
-        TObject* item = lb->Items->Objects[lb->ItemIndex];
-        if(item)
-        {
-		    string* fName((string*) item);
-            TImageForm* iForm (new TImageForm("", "", this));
-            iForm->load(*fName);
-            iForm->Show();
-        }
     }
 }
 
@@ -866,4 +843,169 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
     }
 }
 
+
+void __fastcall TRenderProjectFrame::mZoomOutBtnClick(TObject *Sender)
+{
+	TButton* b = dynamic_cast<TButton*>(Sender);
+
+	double zoomFactor = mZoomFactor->getValue();
+    if(b == mZoomOutBtn)
+    {
+		zoomFactor *= (-1.0);
+    }
+
+	//Modify bounding box with x%
+    mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
+    mCurrentROI.zoom(zoomFactor);
+
+	XCoordE->setValue(mCurrentROI.getX1());
+    YCoordE->setValue(mCurrentROI.getY1());
+    Width->setValue( mCurrentROI.getWidth());
+    Height->setValue(mCurrentROI.getHeight());
+
+    updateScale();
+	ClickZ(Sender);
+    checkCache();
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::RzSpinButtons1DownLeftClick(TObject *Sender)
+
+{
+	CustomImageRotationE->setValue(CustomImageRotationE->getValue() - 0.5);
+	double val = CustomImageRotationE->getValue();
+	paintRotatedImage(val);
+
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::RzSpinButtons1UpRightClick(TObject *Sender)
+
+{
+	CustomImageRotationE->setValue(CustomImageRotationE->getValue() +0.5);
+	double val = CustomImageRotationE->getValue();
+	paintRotatedImage(val);
+}
+
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::ToggleImageGridAExecute(TObject *Sender)
+
+{
+    Log(lDebug5) << "Action Component: " << stdstr(ToggleImageGridA->ActionComponent->Name);
+
+    TMenuItem* ac = dynamic_cast<TMenuItem*>(ToggleImageGridA->ActionComponent);
+    if(ac)
+    {
+        ShowImageGridCB->Checked = !ShowImageGridCB->Checked;
+    }
+    else
+    {
+   		PaintBox1Paint(NULL);
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::ToggleImageGridAUpdate(TObject *Sender)
+{
+    if(!Drawing)
+    {
+        PaintBox1->BringToFront();
+		PaintBox1->Invalidate();
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::PaintBox1Paint(TObject *Sender)
+{
+//    if(ShutDownTimer->Enabled)
+//    {
+//        return;
+//    }
+
+    if(ShowImageGridCB->Checked)
+    {
+        mImageGrid.paint();
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::OtherCBDblClick(TObject *Sender)
+{
+    TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
+    if(lb != OtherCB)
+    {
+        return;
+    }
+
+    //Get item
+    TObject* item = lb->Items->Objects[lb->ItemIndex];
+    if(item)
+    {
+        string* fName((string*) item);
+        TImageForm* iForm (new TImageForm("", "", this));
+        iForm->load(*fName);
+        iForm->Show();
+    }
+}
+
+void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y)
+{
+    double stretchFactor = getImageStretchFactor();
+	if(Button == TMouseButton::mbMiddle)
+    {
+	  	Screen->Cursor = crDefault;
+    	TPoint p2;
+		p2 = Mouse->CursorPos;
+		p2 = this->Image1->ScreenToClient(p2);
+	    p2 = controlToImage(p2, mScaleE->getValue(), stretchFactor);
+
+		//Convert to world image coords (minus offset)
+		XCoordE->setValue(XCoordE->getValue() + (mTopLeftSelCorner.X - p2.X));
+		YCoordE->setValue(YCoordE->getValue() + (mTopLeftSelCorner.Y - p2.Y));
+
+		mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
+       	ClickZ(Sender);
+    }
+
+	if(!Drawing || (Button == TMouseButton::mbRight))
+    {
+    	return;
+    }
+
+	Drawing = false;
+
+    //For selection
+	mBottomRightSelCorner = this->Image1->ScreenToClient(Mouse->CursorPos);
+
+	//Convert to world image coords (minus offset)
+    mBottomRightSelCorner = controlToImage(mBottomRightSelCorner, mScaleE->getValue(), stretchFactor);
+
+	//Check if selection indicate a 'reset'
+	if(mBottomRightSelCorner.X - mTopLeftSelCorner.X <= 0 || mBottomRightSelCorner.Y - mTopLeftSelCorner.Y <= 0)
+    {
+//    	resetButtonClick(NULL);
+		return;
+    }
+
+	mCurrentROI = RegionOfInterest(	XCoordE->getValue() + mTopLeftSelCorner.X,
+    				 				YCoordE->getValue() + mTopLeftSelCorner.Y,
+                                    mBottomRightSelCorner.X - mTopLeftSelCorner.X,
+                                    mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
+                                    mScaleE->getValue());
+//	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
+//	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
+//    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
+//    Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
+
+//	mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
+    updateScale();
+	roiChanged();
+
+    updateROIs();
+	ClickZ(NULL);
+    checkCache();
+}
+//---------------------------------------------------------------------------
 

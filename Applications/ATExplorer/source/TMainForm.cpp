@@ -8,6 +8,7 @@
 #include "ateAppUtilities.h"
 #include "atRenderProject.h"
 #include "atRenderPRojectView.h"
+#include <gdiplus.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -21,6 +22,8 @@ using namespace Poco;
 
 extern at::AppUtilities gAU;
 
+Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
+ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
@@ -29,11 +32,13 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 {
     setupAndReadIniParameters();
     Application->ShowHint = true;
+    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 }
 
 __fastcall TMainForm::~TMainForm()
 {
 	mObservers.clear();
+   	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
 //---------------------------------------------------------------------------
@@ -238,7 +243,7 @@ bool TMainForm::createProjectView(Project* p)
 
         //Create a new tab page
         //Views deletes themselves when subjects dies
-        RenderProjectView* obs = new RenderProjectView(MainPC, rp);
+        RenderProjectView* obs = new RenderProjectView(MainPC,  rp, gAU.ImageMagickPath.getValue());
         mObservers.append(obs);
     }
     return true;

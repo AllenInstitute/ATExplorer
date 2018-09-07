@@ -14,7 +14,7 @@ class ATExplorerProject;
 class RenderProject;
 
 //Rename this to ProjectTreeView
-class ProjectsTreeView : public ATObject
+class PACKAGE ProjectsTreeView : public ATObject
 {
         public:
                                             ProjectsTreeView(TTreeView* tv);

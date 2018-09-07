@@ -8,22 +8,24 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 451
-    Height = 305
+    Width = 697
+    Height = 449
     Align = alClient
     Caption = 'General'
     TabOrder = 0
+    ExplicitWidth = 451
+    ExplicitHeight = 305
     object GroupBox4: TGroupBox
       Left = 2
       Top = 131
-      Width = 447
-      Height = 176
+      Width = 693
+      Height = 126
       Align = alTop
       Caption = 'Render Service Settings'
       TabOrder = 0
       DesignSize = (
         447
-        176)
+        126)
       object BaseURLE: TSTDStringLabeledEdit
         Left = 13
         Top = 42
@@ -47,8 +49,8 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
         TabOrder = 1
       end
       object maxTileSpecsToRenderE: TIntegerLabeledEdit
-        Left = 16
-        Top = 144
+        Left = 152
+        Top = 88
         Width = 121
         Height = 21
         EditLabel.Width = 121
@@ -112,6 +114,33 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
         Caption = '...'
         TabOrder = 2
         OnClick = mBrowseForCacheFolderClick
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 2
+      Top = 257
+      Width = 447
+      Height = 105
+      Align = alTop
+      Caption = 'Image Magick'
+      TabOrder = 2
+      ExplicitLeft = 184
+      ExplicitTop = 344
+      ExplicitWidth = 185
+      DesignSize = (
+        447
+        105)
+      object ImageMagickPathE: TSTDStringLabeledEdit
+        Left = 16
+        Top = 40
+        Width = 428
+        Height = 21
+        Anchors = [akLeft, akTop, akRight]
+        EditLabel.Width = 90
+        EditLabel.Height = 13
+        EditLabel.Caption = 'Image Magick Path'
+        TabOrder = 0
+        ExplicitWidth = 674
       end
     end
   end

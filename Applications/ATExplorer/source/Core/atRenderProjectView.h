@@ -14,10 +14,10 @@ using dsl::SubjectEvent;
 
 class RenderProject;
 
-class RenderProjectView : public dsl::Observer
+class PACKAGE RenderProjectView : public dsl::Observer
 {
         public:
-                            		            RenderProjectView(TPageControl* pc, RenderProject* rp);
+                            		            RenderProjectView(TPageControl* pc, RenderProject* rp, const string& imPath);
                             		            ~RenderProjectView();
 
         	virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);

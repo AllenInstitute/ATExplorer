@@ -34,8 +34,8 @@ void ImageGrid::paint()
 	double h = getCurrentImageHeight(mImage);
 
     mCanvas->Pen->Mode = pmCopy;
-    mCanvas->Pen->Color = clYellow;
-    mCanvas->Pen->Width = 1;
+    mCanvas->Pen->Color = clGray;
+    mCanvas->Pen->Width = 0.5;
 
     int nrOfXLines(20);
     int yOffset(h/nrOfXLines);

@@ -17,7 +17,7 @@ using dsl::shared_ptr;
 
 typedef shared_ptr<DummyProjectViewObserver> observer;
 
-class ProjectObservers : public ATObject
+class PACKAGE ProjectObservers : public ATObject
 {
 
     public:

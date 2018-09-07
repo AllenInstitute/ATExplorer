@@ -5,8 +5,8 @@
 #include <windows.h>
 
 
-#include "Poco/Condition.h"
-#include "Poco/Mutex.h"
+//#include "Poco/Condition.h"
+//#include "Poco/Mutex.h"
 //#include "Poco/Path.h"
 //#include "Poco/File.h"
 //#include "Poco/Glob.h"
@@ -27,12 +27,12 @@
 //#include <cerrno>
 //#include <set>
 
-#include "dslCommonExporter.h"
-#include "dslLogger.h"
-#include "dslObject.h"
-//#include "dslProperty.h"
-#include "dslStringUtils.h"
-#include "dslVCLUtils.h"
+//#include "dslCommonExporter.h"
+//#include "dslLogger.h"
+//#include "dslObject.h"
+////#include "dslProperty.h"
+//#include "dslStringUtils.h"
+//#include "dslVCLUtils.h"
 
 
 

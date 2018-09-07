@@ -204,8 +204,6 @@ XMLElement* RegionOfInterest::addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl
     roi->InsertEndChild(val);
 
     parentNode->InsertEndChild(roi);
-
-
     return roi;
 }
 
@@ -248,5 +246,5 @@ bool RegionOfInterest::loadFromXML(dsl::XMLNode* node)
     {
     	mScale = (e->GetText() ? dsl::toDouble(e->GetText()) : 1);
     }
-
+    return true;
 }

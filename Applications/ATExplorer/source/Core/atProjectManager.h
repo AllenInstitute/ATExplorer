@@ -34,7 +34,7 @@ class PACKAGE ProjectManager
 
 		bool 										selectNode(ATExplorerProject* vcp);
         ATExplorerProject*							getCurrentProject();
-        int                                         projectCount(){return mProjects.count();}
+//        int                                         projectCount(){return mProjects.count();}
 
 	private:
         Projects                                    mProjects;
