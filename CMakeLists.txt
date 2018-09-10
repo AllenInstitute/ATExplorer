@@ -55,7 +55,8 @@ endif()
 #Warning string looks different depending on the compiler..
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SUPPRESS_WARNINGS}")
 
-set(TP_INCLUDE                     ${CMAKE_INSTALL_PREFIX}/include)
+set(TP_INCLUDES                     ${CMAKE_INSTALL_PREFIX}/include)
+set(TP_LIBS                        ${CMAKE_INSTALL_PREFIX}/lib)
 
 if(${INSTALL_PYTHON})
     OPTION(INSTALL_PYTHON_EXAMPLES  "Install Python Examples"	                 ON)
@@ -65,6 +66,7 @@ if(${INSTALL_PYTHON})
     include_directories(
     ${PYTHON_INCLUDE_DIRS}
     )
+    add_subdirectory(wrappers/python)
 endif()    
  
 include_directories(
@@ -72,11 +74,6 @@ ${PYTHON_INCLUDE_DIRS}
 ${BOOST_ROOT}
 ${BOOST_ROOT}/boost/tr1/tr1
 )
-
-link_directories(
-${THIRD_PARTY_INSTALL_PREFIX}/lib
-)
-   
 #Source Code Folders
 add_subdirectory(source)
 

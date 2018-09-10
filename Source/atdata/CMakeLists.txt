@@ -6,9 +6,9 @@ ${ATEXPLORER_ROOT}
 ${ATEXPLORER_ROOT}/source/core
 ${CG_BOOST_ROOT}
 ${TR1_ROOT}
-${TP_INCLUDE}
-${TP_INCLUDE}/dsl
-${TP_INCLUDE}/atexplorer
+${TP_INCLUDES}
+${TP_INCLUDES}/dsl
+${TP_INCLUDES}/atexplorer
 )
 
 SET(src

@@ -14,24 +14,26 @@ message("Current folder: "          ${CMAKE_CURRENT_SOURCE_DIR})
 set(PyModule "atexplorer")
 
 include_directories(
-.
+    .
+    ${BOOST_ROOT}
+    ${BOOST_ROOT}/boost/tr1/tr1
     ${PYTHON_INCLUDE_PATH}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${ATEXPLORER_ROOT}
     ${ATEXPLORER_ROOT}/CPP/Source
     ${ATEXPLORER_ROOT}/CPP/Source/ATData
-    ${THIRD_PARTY_INSTALL_PREFIX}/include
-    ${THIRD_PARTY_INSTALL_PREFIX}/include/dsl
-    ${THIRD_PARTY_INSTALL_PREFIX}/include/atexplorer
-)
+    ${TP_INCLUDES}
+    ${TP_INCLUDES}/dsl
+    ${TP_INCLUDES}/atexplorer
+) 
 
 link_directories(
-${THIRD_PARTY_INSTALL_PREFIX}/lib
+${TP_LIBS}/lib
 ${CMAKE_BINARY_DIR}/lib
 ${PYTHON_LIB_FOLDER}
 )
 
-set(CMAKE_MODULE_LINKER_FLAGS "P:\\atExplorer\\CPP\\Wrappers\\Python\\${PyModule}.def")
+set(CMAKE_MODULE_LINKER_FLAGS "P:\\atExplorer\\Wrappers\\python\\${PyModule}.def")
 
 set_source_files_properties(${PyModule}.i PROPERTIES CPLUSPLUS ON)
 set_source_files_properties(${PyModule}.i PROPERTIES SWIG_FLAGS "-threads")
@@ -42,12 +44,12 @@ SWIG_ADD_LIBRARY(${PyModule}
     SOURCES ${PyModule}.i
     )
     
-TARGET_LINK_LIBRARIES (${PyModule}
-    atData
-    ${CMAKE_INSTALL_PREFIX}/lib/atExplorerCore.lib
-    ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
-    ${CMAKE_INSTALL_PREFIX}/lib/dslPythonPlugins.lib
-    ${THIRD_PARTY_INSTALL_PREFIX}/lib/poco_foundation.lib
+TARGET_LINK_LIBRARIES (_${PyModule}
+    atExplorerData
+    atExplorerCore
+    ${TP_LIBS}/dslFoundation.lib
+    ${TP_LIBS}/dslPythonPlugins.lib
+    ${TP_LIBS}/poco_foundation.lib
     ${PYTHON_LIB_FOLDER}/Python37_CG.lib
 )
 
@@ -57,7 +59,7 @@ execute_process(COMMAND python -c "import site; print(site.getsitepackages()[0])
 message("PYTHON_SITE_PACKAGES = ${PYTHON_SITE_PACKAGES}")
 
 install(
-    TARGETS ${PyModule}
+    TARGETS _${PyModule}
     DESTINATION ${PYTHON_SITE_PACKAGES})
 
 install(

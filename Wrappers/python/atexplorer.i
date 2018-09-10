@@ -7,8 +7,8 @@
 #include "dslObject.h"
 #include "dslLogger.h"
 #include "dslLogOutput.h"
-#include "atATObject.h"
-#include "atCore.h"
+#include "atExplorerObject.h"
+#include "atExplorerCore.h"
 #include "atATData.h"
 #include "atATIFData.h"
 #include "atRibbon.h"
@@ -19,7 +19,7 @@
 
 using namespace dsl;
 using namespace std;
-using namespace at;
+using namespace ate;
 %}
  
 //The atexplorer module is using many features from dsl
@@ -27,8 +27,8 @@ using namespace at;
 %include "std_sstream.i"
 %include "std_vector.i"
 
-#define AT_CORE
-#define ATDATA
+#define ATE_CORE
+#define ATE_DATA
 //ATCore header only contains a few utlity functions, e.g. getVersion
 
 %include "Poco/Path.h"
@@ -36,12 +36,12 @@ using namespace at;
 %include "dslLogging.h"
 %include "dslLogOutput.h"
 
-%include "atCore.h"
+%include "atExplorerCore.h"
 %include "atRibbon.h"
 %include "atRibbons.h"
 %include "atSection.h"
 %include "atSections.h"
-%include "atATObject.h"
+%include "atExplorerObject.h"
 %include "atATData.h"
 %include "atATIFData.h"
 
