@@ -5,11 +5,11 @@
 import atexplorer as at
 import dsl
 try:
-    gLogger = dsl.gLogger
-    gLogger.logToFile("p:\\MyLog.txt")
+    #gLogger = dsl.gLogger
+    #gLogger.logToFile("p:\\MyLog.txt")
 
     print("AtExplorer version: " + at.getVersion())
-    dataPath = "F:\\data\\M335503_Ai139_smallvol\\"
+    dataPath = "F:\\data\\M33\\"
 
     #Create an empty ATData object
     atData = at.ATIFData(dataPath, False)
@@ -26,9 +26,9 @@ try:
         ribbon = atData.getNextRibbon()
 
 
-    Render render("anOwner", "aProject")
-    stackList = {"DAPI_STACK", "GFP"}
-    atData.createRenderStack(stackList, dapiChannel, RAW, 0, 45)
+    #Render render("anOwner", "aProject")
+    #stackList = {"DAPI_STACK", "GFP"}
+    #atData.createRenderStack(stackList, dapiChannel, RAW, 0, 45)
 
 
     if atData.validate():

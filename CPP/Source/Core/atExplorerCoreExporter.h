@@ -2,13 +2,13 @@
 #define atExplorerCoreExporterH
 
 #if defined (_WIN32)
-    #if defined(EXPORT_AT_E_CORE)
-        #define AT_E_CORE __declspec(dllexport)
+    #if defined(EXPORT_ATE_CORE)
+        #define ATE_CORE __declspec(dllexport)
     #else
-        #define AT_E_CORE __declspec(dllimport)
+        #define ATE_CORE __declspec(dllimport)
     #endif
 #else
-    #define AT_E_CORE
+    #define ATE_CORE
 #endif
 
 #endif
