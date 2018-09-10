@@ -1,14 +1,14 @@
-SET(target atData)
+SET(target atExplorerData)
 
 INCLUDE_DIRECTORIES(
 .
 ${ATEXPLORER_ROOT}
-${ATEXPLORER_ROOT}/CPP/source
+${ATEXPLORER_ROOT}/source/core
 ${CG_BOOST_ROOT}
 ${TR1_ROOT}
-${THIRD_PARTY_INSTALL_PREFIX}/include
-${THIRD_PARTY_INSTALL_PREFIX}/include/dsl
-${THIRD_PARTY_INSTALL_PREFIX}/include/atexplorer
+${TP_INCLUDE}
+${TP_INCLUDE}/dsl
+${TP_INCLUDE}/atexplorer
 )
 
 SET(src
@@ -31,11 +31,6 @@ atSession
 atTile
 )
 
-link_directories(
-${THIRD_PARTY_INSTALL_PREFIX}/lib
-)
-
-
 #===== Shared library
 if(BUILD_SHARED_LIBS)
     message("Building shared ATData lib")
@@ -44,11 +39,11 @@ if(BUILD_SHARED_LIBS)
     )
 
     SET_PROPERTY(TARGET ${target}  PROPERTY COMPILE_DEFINITIONS 
-    EXPORT_AT_DATA
+    EXPORT_ATE_DATA
     )
 
     TARGET_LINK_LIBRARIES(${target} 
-        ${CMAKE_INSTALL_PREFIX}/lib/atCore.lib
+        atExplorerCore
         ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
         ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
     )

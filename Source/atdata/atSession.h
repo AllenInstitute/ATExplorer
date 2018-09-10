@@ -1,16 +1,16 @@
 #ifndef atSessionH
 #define atSessionH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atChannel.h"
 #include "atChannels.h"
 #include "atTiles.h"
 #include "atRibbon.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
-class AT_DATA Session : public ATObject
+class ATE_DATA Session : public ExplorerObject
 {
         public:
                             Session(const string& lbl);//, Ribbon& r);

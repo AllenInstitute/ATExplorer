@@ -6,14 +6,14 @@
 #include "atFileSystemObject.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 using Poco::Path;
 using std::vector;
 using std::string;
 
 
-class AT_DATA File : public FileSystemObject
+class ATE_DATA File : public FileSystemObject
 {
     public:
         File(const string &name, FileFolder *parent)

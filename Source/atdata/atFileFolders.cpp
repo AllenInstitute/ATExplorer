@@ -2,7 +2,7 @@
 #pragma hdrstop
 #include "atFileFolders.h"
 
-namespace at
+namespace ate
 {
 
 FileFolders::FileFolders()

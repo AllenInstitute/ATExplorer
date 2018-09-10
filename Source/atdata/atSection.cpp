@@ -3,7 +3,7 @@
 #include "atTiles.h"
 #include "atChannel.h"
 
-namespace at
+namespace ate
 {
 
 Section::Section(int id, const Ribbon& r)

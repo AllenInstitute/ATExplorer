@@ -5,7 +5,7 @@
 #include "dslStringList.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using std::set;
@@ -15,9 +15,9 @@ class Section;
 class FileFolder;
 enum  ATDataFileFormat {atAllen, atKM, atBase};
 
-int 	  AT_DATA		getSectionID(const string& filePath);
-int 	  AT_DATA		getTileID(const string& filePath);
-int 	  AT_DATA		getNrOfSections(FileFolder* channelFolder);
+int 	  ATE_DATA		getSectionID(const string& filePath);
+int 	  ATE_DATA		getTileID(const string& filePath);
+int 	  ATE_DATA		getNrOfSections(FileFolder* channelFolder);
 
 }
 

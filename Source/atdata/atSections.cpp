@@ -2,7 +2,7 @@
 #include "atSections.h"
 #include "atSection.h"
 
-namespace at
+namespace ate
 {
 
 Sections::Sections()

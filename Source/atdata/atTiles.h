@@ -1,12 +1,12 @@
 #ifndef atTilesH
 #define atTilesH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atATDataExporter.h"
 #include <map>
 #include "Poco/Path.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using std::map;
@@ -17,7 +17,7 @@ class Channel;
 
 //!A container for tiles.
 //!Tiles are grouped by channel
-class AT_DATA Tiles : public ATObject
+class ATE_DATA Tiles : public ExplorerObject
 {
     public:
                                     Tiles(const Channel& s);

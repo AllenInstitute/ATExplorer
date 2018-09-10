@@ -15,11 +15,11 @@ using Poco::Path;
 using std::string;
 using std::vector;
 
-namespace at
+namespace ate
 {
 
 class ATData;
-class AT_E_CORE ATDataProjectItem : public ATProjectItem
+class ATE_CORE ATDataProjectItem : public ATProjectItem
 {
     public:
                                         ATDataProjectItem(const string& lbl, const shared_ptr<ATData>& data = shared_ptr<ATData>());

@@ -8,7 +8,7 @@
 using namespace dsl;
 
 
-namespace at
+namespace ate
 {
 
 ATDataProjectItem::ATDataProjectItem(const string& lbl, const shared_ptr<ATData>& data)

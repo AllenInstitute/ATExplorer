@@ -1,19 +1,19 @@
 #ifndef atSectionsH
 #define atSectionsH
 #include <vector>
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atATDataExporter.h"
 
 using std::vector;
 
-namespace at
+namespace ate
 {
 
 class Section;
 //!Sections is a container for individual AT "sections".
 //!A Ribbon is a set of consecutive sections
 //---------------------------------------------------------------------------
-class AT_DATA Sections : public vector<Section*>, public ATObject
+class ATE_DATA Sections : public vector<Section*>, public ExplorerObject
 {
 
         public:

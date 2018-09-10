@@ -7,7 +7,7 @@
 #include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using namespace Poco;

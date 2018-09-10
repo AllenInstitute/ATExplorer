@@ -93,7 +93,6 @@ int main()
 }
 
 #pragma comment(lib, "dslFoundation")
-#pragma comment(lib, "atCore")
-#pragma comment(lib, "atExplorer")
+#pragma comment(lib, "atExplorerCore")
 #pragma comment(lib, "poco_foundation")
 #pragma comment(lib, "tinyxml2")

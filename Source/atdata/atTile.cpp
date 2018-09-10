@@ -2,7 +2,7 @@
 #include "atTile.h"
 #include "atATDataUtils.h"
 //---------------------------------------------------------------------------
-namespace at
+namespace ate
 {
 
 Tile::Tile(Channel& c, Section& s, int tileID, const Path& p)

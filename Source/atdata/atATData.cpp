@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------------
 using namespace dsl;
 
-namespace at
+namespace ate
 {
 
 ATData::ATData(const Path& basePath)

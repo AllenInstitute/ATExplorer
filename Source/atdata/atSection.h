@@ -1,10 +1,10 @@
 #ifndef atSectionH
 #define atSectionH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atATDataExporter.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 class Ribbon;
@@ -14,7 +14,7 @@ class Tiles;
 
 //!An atSection is part of a ribbon.
 //!It may have some associated tiles
-class AT_DATA Section : public ATObject
+class ATE_DATA Section : public ExplorerObject
 {
     public:
                                                     Section(int id, const Ribbon& r);

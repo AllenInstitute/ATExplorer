@@ -1,17 +1,17 @@
 #ifndef atChannelsH
 #define atChannelsH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include <vector>
 #include "atChannel.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using std::vector;
 
 //!The Channels class is a container for AT Channels
-class AT_DATA Channels : public vector<Channel*>, public ATObject
+class ATE_DATA Channels : public vector<Channel*>, public ExplorerObject
 {
 
         public:

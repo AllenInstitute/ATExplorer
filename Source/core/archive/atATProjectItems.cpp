@@ -2,7 +2,7 @@
 #include "atATProjectItems.h"
 #include "atATProjectItem.h"
 //---------------------------------------------------------------------------
-namespace at
+namespace ate
 {
 
 ATProjectItems::ATProjectItems()

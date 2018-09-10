@@ -1,10 +1,10 @@
 #ifndef atSessionsH
 #define atSessionsH
 #include <vector>
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atATDataExporter.h"
 
-namespace at
+namespace ate
 {
 
 using std::vector;
@@ -14,7 +14,7 @@ class Session;
 //!Sessions is a container for individual AT "Sessions".
 //!A session
 //---------------------------------------------------------------------------
-class AT_DATA Sessions : public vector<Session*>, public ATObject
+class ATE_DATA Sessions : public vector<Session*>, public ExplorerObject
 {
         public:
                                                 Sessions();

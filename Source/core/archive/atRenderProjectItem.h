@@ -11,10 +11,10 @@ using std::string;
 using std::vector;
 using dsl::gEmptyString;
 using dsl::StringList;
-namespace at
+namespace ate
 {
 
-class AT_E_CORE RenderProjectItem : public ATProjectItem
+class ATE_CORE RenderProjectItem : public ATProjectItem
 {
     public:
                                         RenderProjectItem(const string& name, const string& owner, const string& project, const string& stack);

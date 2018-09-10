@@ -1,6 +1,6 @@
 #ifndef atATDataH
 #define atATDataH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "Poco/Path.h"
 #include "atFileFolder.h"
 #include "atRibbons.h"
@@ -10,11 +10,11 @@
 #include "atATDataUtils.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 //!The ATData class abstracts ArrayTomography data
-class AT_DATA ATData : public ATObject
+class ATE_DATA ATData : public ExplorerObject
 {
     public:
                         	        ATData(const Path& basePath);

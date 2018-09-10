@@ -1,8 +1,8 @@
 #pragma hdrstop
 #include "atRibbon.h"
 #include "atSection.h"
-#include "atCore.h"
-namespace at
+//#include "atExplorerCore.h"
+namespace ate
 {
 
 Ribbon::Ribbon(int id, const string& alias)
@@ -18,7 +18,7 @@ Ribbon::~Ribbon()
 
 bool Ribbon::clear()
 {
-	for(at::uint i = 0; i < size(); i++)
+	for(unsigned int i = 0; i < size(); i++)
     {
         delete at(i);
     }

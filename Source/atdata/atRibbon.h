@@ -1,15 +1,15 @@
 #ifndef atRibbonH
 #define atRibbonH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atSections.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 //!The ribbon class abstracts a AT Ribbon..
 //!A Ribbon is a bunch of consecutive sections
-class AT_DATA Ribbon : public Sections
+class ATE_DATA Ribbon : public Sections
 {
         public:
                             Ribbon(int id, const string& alias = "");

@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "atRibbons.h"
 //---------------------------------------------------------------------------
-namespace at
+namespace ate
 {
 
 

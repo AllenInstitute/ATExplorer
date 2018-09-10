@@ -1,14 +1,14 @@
 #ifndef atChannelH
 #define atChannelH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atTiles.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 class Session;
-class AT_DATA Channel : public ATObject
+class ATE_DATA Channel : public ExplorerObject
 {
 
         public:

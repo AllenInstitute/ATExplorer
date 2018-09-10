@@ -1,6 +1,6 @@
 #ifndef atATProjectItemsH
 #define atATProjectItemsH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include <vector>
 #include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
@@ -8,13 +8,13 @@
 using std::vector;
 using dsl::shared_ptr;
 
-namespace at
+namespace ate
 {
 
 class ATProjectItem;
 typedef shared_ptr<ATProjectItem> ProjItemPtr;
 
-class ATProjectItems : public ATObject
+class ATProjectItems : public ExplorerObject
 {
     public:
                                             ATProjectItems();

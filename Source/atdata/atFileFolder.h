@@ -11,7 +11,7 @@
 
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using std::pair;
@@ -24,7 +24,7 @@ using dsl::StringList;
 typedef pair<int, int> FolderInfo;
 
 //!A File folder is FileSystem object.
-class AT_DATA FileFolder : public FileSystemObject
+class ATE_DATA FileFolder : public FileSystemObject
 {
     public:
                             		FileFolder(const Path& name, FileFolder* parent = NULL);

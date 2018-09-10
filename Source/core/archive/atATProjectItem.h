@@ -1,15 +1,14 @@
 #ifndef atATProjectItemH
 #define atATProjectItemH
 #include "atExplorerCoreExporter.h"
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "dslProject.h"
 #include "dslConstants.h"
-#include "atATObject.h"
 #include "atATProjectItems.h"
 #include <vector>
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 extern const string gATProjectFileVersion;
@@ -38,7 +37,7 @@ ATProjectItemType 		toATProjectItemType(const string& str);
 //!in a ATExplorer UI
 //!ATProject is the baseclass for such objects.
 
-class AT_E_CORE ATProjectItem : public dsl::Project, public ATObject
+class ATE_CORE ATProjectItem : public dsl::Project, public ExplorerObject
 {
 
     public:
@@ -51,9 +50,9 @@ class AT_E_CORE ATProjectItem : public dsl::Project, public ATObject
         virtual bool                            save(const string& fName = dsl::gEmptyString);
         virtual bool                            open(const string& fName = dsl::gEmptyString);
         virtual bool							addChild(ProjItemPtr child);
-        virtual bool							addProjectObject(ATObject* child);
+        virtual bool							addProjectObject(ExplorerObject* child);
 
-		string 									getATObjectTypeAsString();
+		string 									getATExplorerObjectTypeAsString();
 
         										//!Info text is used if the user want to document the purpose of
                                                 //a particular process

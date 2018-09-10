@@ -3,25 +3,22 @@ SET(target atExplorerCore)
 INCLUDE_DIRECTORIES(
 .
 ${ATEXPLORER_ROOT}
-${ATEXPLORER_ROOT}/CPP/source
+${ATEXPLORER_ROOT}/source/core
 ${CG_BOOST_ROOT}
 ${TR1_ROOT}
-${THIRD_PARTY_INSTALL_PREFIX}/include
-${THIRD_PARTY_INSTALL_PREFIX}/include/dsl
-${THIRD_PARTY_INSTALL_PREFIX}/include/atexplorer
+${TP_INCLUDE}
+${TP_INCLUDE}/dsl
 )
 
 SET(src
-atATProjectItem
-atATProjectItems
+atExplorerCore
+atExplorerObject
+atExceptions
+#atATProjectItem
+#atATProjectItems
 #atATDataProjectItem
 #atRenderProjectItem
 )
-
-link_directories(
-${THIRD_PARTY_INSTALL_PREFIX}/lib
-)
-
 
 #===== Shared library
 if(BUILD_SHARED_LIBS)
@@ -31,12 +28,10 @@ if(BUILD_SHARED_LIBS)
     )
 
     SET_PROPERTY(TARGET ${target}  PROPERTY COMPILE_DEFINITIONS 
-    EXPORT_AT_E_CORE
+    EXPORT_ATE_CORE
     )
 
     TARGET_LINK_LIBRARIES(${target} 
-        atData
-        ${CMAKE_INSTALL_PREFIX}/lib/atCore.lib
         ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
         ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
         ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib

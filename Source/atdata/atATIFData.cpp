@@ -8,7 +8,7 @@
 #include "atTile.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using namespace dsl;

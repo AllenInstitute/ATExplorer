@@ -44,7 +44,7 @@ SWIG_ADD_LIBRARY(${PyModule}
     
 TARGET_LINK_LIBRARIES (${PyModule}
     atData
-    ${CMAKE_INSTALL_PREFIX}/lib/atCore.lib
+    ${CMAKE_INSTALL_PREFIX}/lib/atExplorerCore.lib
     ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
     ${CMAKE_INSTALL_PREFIX}/lib/dslPythonPlugins.lib
     ${THIRD_PARTY_INSTALL_PREFIX}/lib/poco_foundation.lib

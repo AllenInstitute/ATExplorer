@@ -8,7 +8,7 @@
 
 using namespace dsl;
 using namespace tinyxml2;
-namespace at
+namespace ate
 {
 //XML Version history
 /*
@@ -17,7 +17,7 @@ namespace at
 
 const string gATProjectFileVersion    = "0.6";
 
-string ATProjectItem::getATObjectTypeAsString()
+string ATProjectItem::getATExplorerObjectTypeAsString()
 {
 	return ::toString(mATProjectItemType);
 }
@@ -85,7 +85,7 @@ bool ATProjectItem::addChild(ProjItemPtr child)
 	return false;
 }
 
-bool ATProjectItem::addProjectObject(ATObject* child)
+bool ATProjectItem::addProjectObject(ExplorerObject* child)
 {
     //Check what kind of object that was passed by dynamic casting
     if(!child)
@@ -139,7 +139,7 @@ XMLElement* ATProjectItem::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLNode*
     XMLNode*    rootNode 		= doc.InsertFirstChild(objectNode);
 
     //Attributes
-    objectNode->SetAttribute("type", getATObjectTypeAsString().c_str());
+    objectNode->SetAttribute("type", getATExplorerObjectTypeAsString().c_str());
     objectNode->SetAttribute("name", getProjectName().c_str());
 
 	XMLElement* dataval1 = doc.NewElement("info");

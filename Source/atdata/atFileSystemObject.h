@@ -4,11 +4,11 @@
 #include "Poco/Path.h"
 #include <vector>
 #include <string>
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 using Poco::Path;
 using std::vector;
@@ -16,7 +16,7 @@ using std::string;
 class FileFolder;
 using dsl::shared_ptr;
 
-class AT_DATA FileSystemObject : public ATObject
+class ATE_DATA FileSystemObject : public ExplorerObject
 {
     public:
         bool                        isDirectory();

@@ -1,16 +1,16 @@
 #ifndef atFileFoldersH
 #define atFileFoldersH
 #include <vector>
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atATDataExporter.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 class FileFolder;
 using std::vector;
 
-class AT_DATA FileFolders : public vector<FileFolder*>, public ATObject
+class ATE_DATA FileFolders : public vector<FileFolder*>, public ExplorerObject
 {
 
         public:

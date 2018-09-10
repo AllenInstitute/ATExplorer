@@ -1,17 +1,17 @@
 #ifndef atTileH
 #define atTileH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include "atChannel.h"
 #include "Poco/Path.h"
 //---------------------------------------------------------------------------
-namespace at
+namespace ate
 {
 class Section;
 using Poco::Path;
 
 //!A tile is a (TIFF) image (on disk), typically part of an imaged section
 //A tile knows which section it belongs too, its id, its channel, and z-stack.
-class AT_DATA Tile : public ATObject
+class ATE_DATA Tile : public ExplorerObject
 {
 
         public:

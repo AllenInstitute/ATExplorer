@@ -6,7 +6,7 @@
 #include "Poco/Glob.h"
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using namespace dsl;

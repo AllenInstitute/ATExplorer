@@ -1,18 +1,18 @@
-#ifndef atATEObjectH
-#define atATEObjectH
+#ifndef atExplorerObjectH
+#define atExplorerObjectH
 #include "atExplorerCoreExporter.h"
 #include <string>
 //---------------------------------------------------------------------------
 
-namespace at
+namespace ate
 {
 
 using std::string;
-class ATE_CORE ATEObject
+class ATE_CORE ExplorerObject
 {
 	public:
-    							        ATEObject(){}
-		virtual					        ~ATEObject() = 0;
+    							        ExplorerObject();
+		virtual					        ~ExplorerObject() = 0;
         virtual const string 	        getTypeName() const;
 };
 }
