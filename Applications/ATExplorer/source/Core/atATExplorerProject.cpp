@@ -34,7 +34,7 @@ mATEObjectType(ateBaseType)
 
 ATExplorerProject::~ATExplorerProject()
 {
-    Log(lDebug3) << "In destructor of project: " << getProjectName();
+    Log(lDebug5) << "In destructor of project: " << getProjectName();
 }
 
 

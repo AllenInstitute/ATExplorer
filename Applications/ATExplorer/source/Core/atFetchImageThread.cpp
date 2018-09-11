@@ -94,7 +94,7 @@ void FetchImageThread::worker()
         }
         else
         {
-            Log(lDebug4) << "Thread is fetching: "<<getImageZFromURL(url);
+            Log(lInfo) << "Fetching Section #: "<<getImageZFromURL(url);
 
             CURL *curl_handle;
             CURLcode res;

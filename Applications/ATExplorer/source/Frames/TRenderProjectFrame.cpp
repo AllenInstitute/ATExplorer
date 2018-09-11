@@ -612,8 +612,20 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 //    Process IMConvert("dir.exe", mRC.getImageLocalCachePath());
     Process& IMConvert = mAProcess;
 
-    IMConvert.setExecutable(joinPath(mIMPath, "convert.exe"));
+    string convertExe(joinPath(mIMPath, "convert.exe"));
+
+    if(!fileExists(convertExe))
+    {
+        stringstream msg;
+        msg << "Image magicks 'convert.exe' was not found in the path:\n";
+        msg << getFilePath(convertExe) << endl << endl;
+        msg << "Make sure you have a proper installation of Image Magick";
+        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
+        return;
+    }
+    IMConvert.setExecutable(convertExe);
     IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+
 
     //Extract selected filenames from checked z's
     StringList sections = getCheckedItems(mZs);
