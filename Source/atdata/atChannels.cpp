@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "atChannels.h"
 //---------------------------------------------------------------------------
-namespace ate
+namespace at
 {
 
 Channels::Channels()

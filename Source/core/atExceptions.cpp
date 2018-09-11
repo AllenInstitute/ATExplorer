@@ -2,7 +2,7 @@
 #include "atExceptions.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
     Exception::Exception(const string& desc)
     :

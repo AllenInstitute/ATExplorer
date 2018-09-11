@@ -3,7 +3,7 @@
 #include "atTile.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 Tiles::Tiles(const Channel& s)

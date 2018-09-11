@@ -10,7 +10,7 @@
 #include "atATDataUtils.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 //!The ATData class abstracts ArrayTomography data

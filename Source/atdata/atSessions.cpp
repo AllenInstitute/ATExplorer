@@ -3,7 +3,7 @@
 #include "atSession.h"
 
 
-namespace ate
+namespace at
 {
 Sessions::Sessions()
 {}

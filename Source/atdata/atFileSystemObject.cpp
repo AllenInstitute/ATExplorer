@@ -8,7 +8,7 @@
 using namespace Poco;
 using namespace dsl;
 
-namespace ate
+namespace at
 {
 
 bool FileSystemObject::isDirectory()

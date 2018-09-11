@@ -8,7 +8,7 @@
 #include "atTile.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 using namespace dsl;
@@ -112,9 +112,9 @@ bool ATIFData::populateRibbons()
     FileFolders ribbonFolders = getRibbonFolders();
 
 	//Create ribbons
-    for(int i = 0; i < ribbonFolders.size(); i++)
+    for(int i = 0; i < ribbonFolders.count(); i++)
     {
-        mRibbons.push_back(new Ribbon(i+1, ribbonFolders[i]->getLastPartOfPath()));
+        mRibbons.append(new Ribbon(i+1, ribbonFolders[i]->getLastPartOfPath()));
     }
 
     //For each ribbon, create sections
@@ -133,7 +133,7 @@ bool ATIFData::populateRibbons()
             if(channelFolder)
             {
                 int nrOfSections = getNrOfSections(channelFolder);
-                Log(lInfo) << "There are:" << nrOfSections <<" sections in ribbon" << ribbonID+1;
+                Log(lInfo) << "There are " << nrOfSections <<" sections in ribbon " << ribbonID + 1;
 
                 //Make sure section container is empty
                 mRibbons[ribbonID]->clear();
@@ -141,7 +141,7 @@ bool ATIFData::populateRibbons()
                 //Append 'empty' sections
                 for(int i = 0; i < nrOfSections; i++)
                 {
-                    Section* s = new Section(i+1, *(mRibbons[i]));
+                    Section* s = new Section(i, *(mRibbons[i]));
 					mRibbons[ribbonID]->appendSection(s);
                 }
             }
@@ -225,11 +225,11 @@ FileFolders	ATIFData::getSessionFolders(FileFolder* fldr)
 	FileFolders subFolders = fldr->getSubFolders();
 	FileFolders sessionFolders;
 
-	for(int i = 0; i < subFolders.size(); i++)
+	for(int i = 0; i < subFolders.count(); i++)
     {
         if(contains("session", subFolders[i]->toString()))
         {
-        	sessionFolders.push_back(subFolders[i]);
+        	sessionFolders.append(subFolders[i]);
         }
     }
     return sessionFolders;
@@ -249,7 +249,7 @@ int ATIFData::getNumberOfRibbonFolders()
     FileFolders fldrs = mRibbonsDataFolder.getSubFolders();
 
     int count(0);
-	for(int i = 0; i < fldrs.size(); i++)
+	for(int i = 0; i < fldrs.count(); i++)
     {
         if(contains("Ribbon", fldrs[i]->toString()))
         {
@@ -270,11 +270,11 @@ FileFolders ATIFData::getRibbonFolders()
 	FileFolders ribbonFolders;
 	FileFolders allSubFolders = mRibbonsDataFolder.getSubFolders();
 
-	for(int i = 0; i < allSubFolders.size(); i++)
+	for(int i = 0; i < allSubFolders.count(); i++)
     {
         if(contains("Ribbon", allSubFolders[i]->toString()))
         {
-	        ribbonFolders.push_back(allSubFolders[i]);
+	        ribbonFolders.append(allSubFolders[i]);
         }
     }
 
@@ -286,7 +286,7 @@ FileFolder* ATIFData::getRibbonFolder(int fldr)
     FileFolders fldrs = mRibbonsDataFolder.getSubFolders();
     int count(0);
 
-	for(int i = 0; i < fldrs.size(); i++)
+	for(int i = 0; i < fldrs.count(); i++)
     {
         if(contains("Ribbon", fldrs[i]->toString()))
         {

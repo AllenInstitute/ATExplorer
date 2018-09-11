@@ -15,7 +15,7 @@ using Poco::Path;
 using std::string;
 using std::vector;
 
-namespace ate
+namespace at
 {
 
 class ATData;

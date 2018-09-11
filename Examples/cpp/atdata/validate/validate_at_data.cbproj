@@ -58,7 +58,7 @@
         <IncludePath>P:\atExplorer\Source\core;P:\atExplorer\Source\atdata;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>..\..\..\CPP\Source\Core\;..\..\..\CPP\Source\ATData\;..\..\..\CPP\Source\;P:\atExplorer\Examples\CPP\ATData\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <_TCHARMapping>char</_TCHARMapping>
-        <SanitizedProjectName>atdata</SanitizedProjectName>
+        <SanitizedProjectName>validate_at_data</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
         <PackageImports>bindcomp;bindcompdbx;bindcompfmx;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapxml;FireDACCommonODBC;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;rtl;tethering;xmlrtl;$(PackageImports)</PackageImports>
@@ -173,9 +173,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\bin\atdata.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="p:\build\bin\validate_at_data.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
-                        <RemoteName>atdata.tds</RemoteName>
+                        <RemoteName>validate_at_data.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -204,9 +204,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\bin\atdata.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="p:\build\bin\validate_at_data.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>atdata.exe</RemoteName>
+                        <RemoteName>validate_at_data.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

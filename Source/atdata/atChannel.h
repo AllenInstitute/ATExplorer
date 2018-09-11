@@ -4,7 +4,7 @@
 #include "atTiles.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 class Session;

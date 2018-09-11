@@ -5,7 +5,7 @@
 #include "dslStringList.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 using std::set;

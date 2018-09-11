@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------------
 using namespace dsl;
 
-namespace ate
+namespace at
 {
 
 ATData::ATData(const Path& basePath)
@@ -38,7 +38,7 @@ Ribbons* ATData::getRibbons()
 
 Ribbon* ATData::getRibbon(int count)
 {
-    if(count > 0 && count <= mRibbons.size())
+    if(count > 0 && count <= mRibbons.count())
     {
     	return mRibbons[count];
     }

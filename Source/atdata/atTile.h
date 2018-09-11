@@ -4,7 +4,7 @@
 #include "atChannel.h"
 #include "Poco/Path.h"
 //---------------------------------------------------------------------------
-namespace ate
+namespace at
 {
 class Section;
 using Poco::Path;

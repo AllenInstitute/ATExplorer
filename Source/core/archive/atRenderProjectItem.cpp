@@ -6,7 +6,7 @@
 using namespace dsl;
 
 
-namespace ate
+namespace at
 {
 RenderProjectItem::RenderProjectItem(const string& name, const string& owner, const string& project, const string& stack)
 :

@@ -11,7 +11,7 @@ using std::string;
 using std::vector;
 using dsl::gEmptyString;
 using dsl::StringList;
-namespace ate
+namespace at
 {
 
 class ATE_CORE RenderProjectItem : public ATProjectItem

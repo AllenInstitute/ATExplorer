@@ -5,7 +5,7 @@
 #include "atChannel.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 using std::vector;

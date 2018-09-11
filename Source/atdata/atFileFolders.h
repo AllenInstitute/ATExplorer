@@ -5,12 +5,12 @@
 #include "atATDataExporter.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 class FileFolder;
 using std::vector;
 
-class ATE_DATA FileFolders : public vector<FileFolder*>, public ExplorerObject
+class ATE_DATA FileFolders : public ExplorerObject
 {
 
         public:
@@ -18,15 +18,15 @@ class ATE_DATA FileFolders : public vector<FileFolder*>, public ExplorerObject
                             				~FileFolders();
             FileFolder*     				getFirst();
             FileFolder*     				getNext();
+            FileFolder*                     operator[](int i);
+            void                            append(FileFolder*);
 
 
-            int             				count(){return size();}
+            int             				count(){return mFolders.size();}
 
         protected:
            vector<FileFolder*>::iterator    mFolderIterator;
-
-        private:
-
+           vector<FileFolder*>              mFolders;
 };
 
 }

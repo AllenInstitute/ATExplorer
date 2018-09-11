@@ -8,7 +8,7 @@
 using std::vector;
 using dsl::shared_ptr;
 
-namespace ate
+namespace at
 {
 
 class ATProjectItem;

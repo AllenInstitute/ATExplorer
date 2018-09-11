@@ -6,7 +6,7 @@
 #include "Poco/Path.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 using std::map;

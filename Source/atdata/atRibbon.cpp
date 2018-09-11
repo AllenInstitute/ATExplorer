@@ -2,7 +2,7 @@
 #include "atRibbon.h"
 #include "atSection.h"
 //#include "atExplorerCore.h"
-namespace ate
+namespace at
 {
 
 Ribbon::Ribbon(int id, const string& alias)

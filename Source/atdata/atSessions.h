@@ -4,7 +4,7 @@
 #include "atExplorerObject.h"
 #include "atATDataExporter.h"
 
-namespace ate
+namespace at
 {
 
 using std::vector;

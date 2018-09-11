@@ -15,7 +15,7 @@ using std::vector;
 using dsl::gEmptyString;
 using dsl::StringList;
 
-class PACKAGE RenderProject : public ATExplorerProject
+class ATE_CORE RenderProject : public ATExplorerProject
 {
 	public:                             //!Simplify ctors
         	    	                    RenderProject(const string& url);

@@ -1,9 +1,8 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atRenderProject.h"
 #include "dslXMLUtils.h"
 #include "Poco/URI.h"
-#pragma package(smart_init)
+
 //---------------------------------------------------------------------------
 
 namespace at

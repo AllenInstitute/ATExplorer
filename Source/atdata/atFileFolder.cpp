@@ -7,7 +7,7 @@
 #include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 using namespace Poco;
@@ -74,7 +74,7 @@ FileFolder* FileFolder::getSubFolder(const Path& p)
     Path subPath(p);
     FileFolder* subfolder(NULL);
 
-    for(int i = 0; i < mSubFolders.size(); i++)
+    for(int i = 0; i < mSubFolders.count(); i++)
     {
         Path thisPath(mPath);
         FileFolder* subFldr = dynamic_cast<FileFolder*>(mSubFolders[i]);
@@ -102,7 +102,7 @@ FileFolders FileFolder::getSubFolders(const Path& subPath)
     //if a subPath is provided, return subfolders of that..
 
 	FileFolders subFolders;
-    int count(mSubFolders.size());
+    int count(mSubFolders.count());
     if(!count)
     {
         return subFolders;
@@ -116,7 +116,7 @@ FileFolders FileFolder::getSubFolders(const Path& subPath)
         {
             FileSystemObject* fObj = mSubFolders[i];
             FileFolder* folder = dynamic_cast<FileFolder*>(fObj);
-            subFolders.push_back(folder);
+            subFolders.append(folder);
         }
     }
     return subFolders;
@@ -127,17 +127,17 @@ StringList FileFolder::getSubFoldersAsList()
     StringList li;
     FileFolders subs = getSubFolders();
 
-    for(int i = 0; i < subs.size(); i++)
+    for(int i = 0; i < subs.count(); i++)
     {
         StringList parts(subs[i]->toString(), '\\');
-        li.append(parts[parts.size() - 1]);
+        li.append(parts[parts.count() - 1]);
     }
     return li;
 }
 
 bool FileFolder::isPresent(FileSystemObject* child)
 {
-    for(int i = 0; i < mSubFolders.size(); i++)
+    for(int i = 0; i < mSubFolders.count(); i++)
     {
         if(mSubFolders[i] == child)
         {
@@ -161,7 +161,7 @@ void FileFolder::addSubFolder(FileFolder* child)
 {
     if(!isPresent(child))
     {
-		mSubFolders.push_back(child);
+		mSubFolders.append(child);
     }
 }
 

@@ -9,7 +9,7 @@
 using std::string;
 using std::stringstream;
 
-namespace ate
+namespace at
 {
     class ATE_CORE Exception : public std::exception, public ExplorerObject
     {

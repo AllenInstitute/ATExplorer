@@ -4,7 +4,7 @@
 #include <string>
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 using std::string;

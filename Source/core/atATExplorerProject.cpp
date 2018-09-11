@@ -1,10 +1,9 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atATExplorerProject.h"
 #include "dslXMLUtils.h"
 #include "dslLogger.h"
 #include "atRenderProject.h"
-#pragma package(smart_init)
+
 //---------------------------------------------------------------------------
 
 namespace at

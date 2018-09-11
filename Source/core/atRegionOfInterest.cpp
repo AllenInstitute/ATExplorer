@@ -1,11 +1,10 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atRegionOfInterest.h"
 #include <math.h>
 #include "Poco/URI.h"
 #include "dslStringList.h"
 #include <sstream>
-#pragma package(smart_init)
+
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace dsl;

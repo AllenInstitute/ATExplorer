@@ -6,7 +6,7 @@
 #include "atFileSystemObject.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 using Poco::Path;
 using std::vector;

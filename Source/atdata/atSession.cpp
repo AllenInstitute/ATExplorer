@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "atSession.h"
 //---------------------------------------------------------------------------
-namespace ate
+namespace at
 {
 
 Session::Session(const string& lbl)//, Ribbon& r)

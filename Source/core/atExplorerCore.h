@@ -4,7 +4,7 @@
 #include <string>
 
 using std::string;
-namespace ate
+namespace at
 {
     typedef unsigned int uint;
 

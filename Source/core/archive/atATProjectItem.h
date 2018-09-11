@@ -8,7 +8,7 @@
 #include <vector>
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 extern const string gATProjectFileVersion;

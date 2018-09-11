@@ -3,7 +3,7 @@
 #include "atATData.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 //!The ATIFData class maps the dataformats used in Smith Lab..

@@ -4,7 +4,7 @@
 #include "atSections.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 //!The ribbon class abstracts a AT Ribbon..

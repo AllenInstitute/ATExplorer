@@ -2,7 +2,7 @@
 #include "atExplorerObject.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
     ExplorerObject::ExplorerObject()
     {}

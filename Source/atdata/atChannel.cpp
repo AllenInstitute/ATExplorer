@@ -4,7 +4,7 @@
 #include "atSession.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 Channel::Channel(const string& lbl, Session* s)

@@ -19,7 +19,7 @@ using std::string;
 
 //!TODO, write code to update the box when something changes..
 typedef boost::function<void(void*, void*)> OnChangeFnc;
-class PACKAGE RegionOfInterest
+class ATE_CORE RegionOfInterest
 {
 	public:
 	    								RegionOfInterest(int x = 0, int y = 0, int width = 0, int height = 0, double scale = 1);

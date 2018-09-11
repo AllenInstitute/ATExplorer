@@ -6,7 +6,7 @@
 
 using std::vector;
 
-namespace ate
+namespace at
 {
 
 class Section;

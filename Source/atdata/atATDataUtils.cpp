@@ -6,7 +6,7 @@
 #include "Poco/Glob.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 using namespace dsl;
@@ -72,7 +72,10 @@ int getNrOfSections(FileFolder* channelFolder)
 
     //Glob tif files
     set<string> files;
-    Glob::glob(channelFolder->getPath().toString() + "*.tif", files);
+
+    string path(channelFolder->getPath().toString());
+
+    Glob::glob(path + "*.tif", files);
     Log(lDebug) << "Found: " << files.size() << " tif files";
 
 

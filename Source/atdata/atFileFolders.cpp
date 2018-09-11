@@ -2,7 +2,7 @@
 #pragma hdrstop
 #include "atFileFolders.h"
 
-namespace ate
+namespace at
 {
 
 FileFolders::FileFolders()
@@ -11,30 +11,31 @@ FileFolders::FileFolders()
 FileFolders::~FileFolders()
 {}
 
+FileFolder* FileFolders::operator[](int i)
+{
+    return mFolders[i];
+}
+
+void FileFolders::append(FileFolder* ff)
+{
+    mFolders.push_back(ff);
+}
 
 FileFolder* FileFolders::getFirst()
 {
-    mFolderIterator = begin();
+    mFolderIterator = mFolders.begin();
     return *(mFolderIterator);
 }
 
 FileFolder* FileFolders::getNext()
 {
-    if(mFolderIterator == end())
+    if(mFolderIterator == mFolders.end())
     {
         return NULL;
     }
 
     mFolderIterator++;
-
-    if(mFolderIterator == end())
-    {
-        return NULL;
-    }
-    else
-    {
-        return *(mFolderIterator);
-    }
+    return (mFolderIterator == mFolders.end()) ? NULL : *(mFolderIterator);
 }
 
 }

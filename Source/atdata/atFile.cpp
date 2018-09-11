@@ -7,7 +7,7 @@
 using namespace Poco;
 using namespace dsl;
 
-namespace ate
+namespace at
 {}
 
 

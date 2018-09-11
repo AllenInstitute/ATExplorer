@@ -4,7 +4,7 @@
 #include "atATDataExporter.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 class Ribbon;

@@ -7,7 +7,7 @@
 #include "atRibbon.h"
 //---------------------------------------------------------------------------
 
-namespace ate
+namespace at
 {
 
 class ATE_DATA Session : public ExplorerObject

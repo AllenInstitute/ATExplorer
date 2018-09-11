@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B7B51022-2781-4D05-AA0B-D243334880D9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="validate_at_data.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="atExplorerFoundation">
+        <MSBuild Projects="..\..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Clean">
+        <MSBuild Projects="..\..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Make">
+        <MSBuild Projects="..\..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="validate_at_data">
+        <MSBuild Projects="validate_at_data.cbproj"/>
+    </Target>
+    <Target Name="validate_at_data:Clean">
+        <MSBuild Projects="validate_at_data.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="validate_at_data:Make">
+        <MSBuild Projects="validate_at_data.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="atExplorerFoundation;validate_at_data"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="atExplorerFoundation:Clean;validate_at_data:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="atExplorerFoundation:Make;validate_at_data:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

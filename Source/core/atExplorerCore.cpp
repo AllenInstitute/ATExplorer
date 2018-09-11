@@ -3,7 +3,7 @@
 //#include "dslStringUtils.h"
 //#include "dslWin32Utils.h"
 
-namespace ate
+namespace at
 {
 
 //using namespace dsl;
