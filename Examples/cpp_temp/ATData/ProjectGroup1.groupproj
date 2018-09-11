@@ -3,9 +3,6 @@
         <ProjectGuid>{B7B51022-2781-4D05-AA0B-D243334880D9}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\..\CPP\Builds\atExplorer\atExplorer.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="atdata.cbproj">
             <Dependencies/>
         </Projects>
@@ -17,15 +14,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="atExplorer">
-        <MSBuild Projects="..\..\..\CPP\Builds\atExplorer\atExplorer.cbproj"/>
-    </Target>
-    <Target Name="atExplorer:Clean">
-        <MSBuild Projects="..\..\..\CPP\Builds\atExplorer\atExplorer.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="atExplorer:Make">
-        <MSBuild Projects="..\..\..\CPP\Builds\atExplorer\atExplorer.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="atdata">
         <MSBuild Projects="atdata.cbproj"/>
     </Target>
@@ -36,13 +24,13 @@
         <MSBuild Projects="atdata.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="atExplorer;atdata"/>
+        <CallTarget Targets="atdata"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="atExplorer:Clean;atdata:Clean"/>
+        <CallTarget Targets="atdata:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="atExplorer:Make;atdata:Make"/>
+        <CallTarget Targets="atdata:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

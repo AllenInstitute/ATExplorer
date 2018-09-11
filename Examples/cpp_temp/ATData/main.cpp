@@ -4,10 +4,10 @@
 #include "dslLogger.h"
 #include "atExceptions.h"
 #include "atSession.h"
-#include "atATProjectItem.h"
+//#include "atATProjectItem.h"
 
 using namespace dsl;
-using namespace at;
+using namespace ate;
 int main()
 {
     //Setup logging
@@ -20,8 +20,8 @@ int main()
     {
         Path dataPath("F:\\data\\M335503_Ai139_smallvol\\");
         Path projectFilePath("P:\\ATProjects\\AFirstProject.atp");
-        ATProjectItem atProject("MyFirstProject");
-        atProject.open(projectFilePath.toString());
+//        ATProjectItem atProject("MyFirstProject");
+//        atProject.open(projectFilePath.toString());
 
 
         ATData *atData = new ATIFData(dataPath, false);
@@ -29,8 +29,8 @@ int main()
         //!Don't allow two items with the same name.. print error and don't
         //add
 
-        atProject.addProjectObject(atData);
-        atProject.save();
+//        atProject.addProjectObject(atData);
+//        atProject.save();
 
 
 
