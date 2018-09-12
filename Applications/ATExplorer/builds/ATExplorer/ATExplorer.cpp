@@ -53,9 +53,10 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 #pragma comment(lib, "dslFoundation")
 #pragma comment(lib, "dslVCLCommon.lib")
 #pragma comment(lib, "dslVCLComponents.bpi")
-#pragma comment(lib, "dslVCLVisualComponents.bpi")
+//#pragma comment(lib, "dslVCLVisualComponents.bpi")
 
 #pragma comment(lib, "atFoundation.lib")
+#pragma comment(lib, "atExplorerFoundation.lib")
 #pragma comment(lib, "atVCLCommon.lib")
 
 #pragma comment(lib, "ATExplorerAppPackage.bpi")

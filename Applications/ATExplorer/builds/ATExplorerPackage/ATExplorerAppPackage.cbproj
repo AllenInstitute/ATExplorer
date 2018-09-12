@@ -108,7 +108,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_Description>Support package for ATExplorer</ILINK_Description>
         <ILINK_GenerateLibFile>false</ILINK_GenerateLibFile>
-        <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;$(IncludePath)</IncludePath>
+        <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;P:\atExplorer\source\core;$(IncludePath)</IncludePath>
         <DCC_HppOutput>$(DEBUG_BCC32)\include</DCC_HppOutput>
         <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
@@ -157,10 +157,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>40</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atATExplorerProject.cpp">
-            <DependentOn>..\..\source\Core\atATExplorerProject.h</DependentOn>
-            <BuildOrder>16</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Core\atDummyProjectViewObserver.cpp">
             <DependentOn>..\..\source\Core\atDummyProjectViewObserver.h</DependentOn>
             <BuildOrder>38</BuildOrder>
@@ -168,14 +164,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="..\..\source\Core\ateAppUtilities.cpp">
             <DependentOn>..\..\source\Core\ateAppUtilities.h</DependentOn>
             <BuildOrder>36</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atFetchImagesThread.cpp">
-            <DependentOn>..\..\source\Core\atFetchImagesThread.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atFetchImageThread.cpp">
-            <DependentOn>..\..\source\Core\atFetchImageThread.h</DependentOn>
-            <BuildOrder>14</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atImageGrid.cpp">
             <DependentOn>..\..\source\Core\atImageGrid.h</DependentOn>
@@ -185,10 +173,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atImageProcessingFunctions.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectManager.cpp">
-            <DependentOn>..\..\source\Core\atProjectManager.h</DependentOn>
-            <BuildOrder>33</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Core\atProjectObservers.cpp">
             <DependentOn>..\..\source\Core\atProjectObservers.h</DependentOn>
             <BuildOrder>34</BuildOrder>
@@ -197,45 +181,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atProjectsTreeView.h</DependentOn>
             <BuildOrder>35</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRegionOfInterest.cpp">
-            <DependentOn>..\..\source\Core\atRegionOfInterest.h</DependentOn>
-            <BuildOrder>35</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Core\atRemoteScripter.cpp">
             <DependentOn>..\..\source\Core\atRemoteScripter.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderClient.cpp">
-            <DependentOn>..\..\source\Core\atRenderClient.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderClientUtils.cpp">
-            <DependentOn>..\..\source\Core\atRenderClientUtils.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderLayer.cpp">
-            <DependentOn>..\..\source\Core\atRenderLayer.h</DependentOn>
-            <BuildOrder>6</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderLocalCache.cpp">
-            <DependentOn>..\..\source\Core\atRenderLocalCache.h</DependentOn>
-            <BuildOrder>34</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderProject.cpp">
-            <DependentOn>..\..\source\Core\atRenderProject.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Core\atRenderProjectView.cpp">
             <DependentOn>..\..\source\Core\atRenderProjectView.h</DependentOn>
             <BuildOrder>37</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderServiceParameters.cpp">
-            <DependentOn>..\..\source\Core\atRenderServiceParameters.h</DependentOn>
-            <BuildOrder>35</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atROIHistory.cpp">
-            <DependentOn>..\..\source\Core\atROIHistory.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atSSHUtils.cpp">
             <DependentOn>..\..\source\Core\atSSHUtils.h</DependentOn>

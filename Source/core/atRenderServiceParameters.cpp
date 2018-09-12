@@ -1,12 +1,11 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atRenderServiceParameters.h"
 #include "dslStringUtils.h"
 #include <sstream>
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
 
 using namespace std;
+
 namespace at
 {
 

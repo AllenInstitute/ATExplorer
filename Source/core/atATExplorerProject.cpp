@@ -3,7 +3,6 @@
 #include "dslXMLUtils.h"
 #include "dslLogger.h"
 #include "atRenderProject.h"
-
 //---------------------------------------------------------------------------
 
 namespace at
@@ -35,7 +34,6 @@ ATExplorerProject::~ATExplorerProject()
 {
     Log(lDebug5) << "In destructor of project: " << getProjectName();
 }
-
 
 bool ATExplorerProject::isModified()
 {

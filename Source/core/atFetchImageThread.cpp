@@ -1,14 +1,13 @@
-#include <vcl.h>
 #pragma hdrstop
 #include <Classes.hpp>
 #include "atFetchImageThread.h"
 #include "dslLogger.h"
 #include <curl/curl.h>
-#include <curl/easy.h>
+////#include <curl/easy.h>
+
 #include "Poco/File.h"
 #include "dslFileUtils.h"
 #include "atRenderClient.h"
-#pragma package(smart_init)
 //---------------------------------------------------------------------------
 
 namespace at

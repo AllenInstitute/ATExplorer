@@ -9,6 +9,7 @@
 #include "atRenderServiceParameters.h"
 #include <string>
 #include <vector>
+#include "atExplorerCoreExporter.h"
 //---------------------------------------------------------------------------
 
 namespace Idhttp
@@ -35,9 +36,9 @@ using std::string;
 using at::RenderLocalCache;
 using System::Classes::TMemoryStream;
 
-//typedef void  (__closure *RCCallBack)(void);
+typedef void __fastcall (__closure *RCCallBack)(void);
 
-class PACKAGE RenderClient
+class ATE_CORE RenderClient
 {
 	public:
 							                        RenderClient(Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);

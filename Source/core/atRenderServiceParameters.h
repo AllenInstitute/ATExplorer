@@ -1,12 +1,13 @@
 #ifndef atRenderServiceParametersH
 #define atRenderServiceParametersH
-#include "atATObject.h"
-
+#include "atExplorerCoreExporter.h"
+#include "atExplorerObject.h"
 //---------------------------------------------------------------------------
+
 namespace at
 {
 
-class PACKAGE RenderServiceParameters : public ATObject
+class ATE_CORE RenderServiceParameters : public ExplorerObject
 {
 
         public:

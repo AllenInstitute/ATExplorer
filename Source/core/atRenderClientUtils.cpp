@@ -1,11 +1,9 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atRenderClientUtils.h"
 #include "dslStringUtils.h"
 #include <vector>
 #include "atRenderLayer.h"
 #include <sstream>
-#pragma package(smart_init)
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace std;

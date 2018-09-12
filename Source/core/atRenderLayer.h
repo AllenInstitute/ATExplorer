@@ -10,7 +10,7 @@ namespace at
 {
 
 //!A Render layer denote a certain xyz region of data, existing on render and perhaps in a local cache
-class ATE_CORE RenderLayer : public ATObject
+class ATE_CORE RenderLayer : public ExplorerObject
 {
 
     public:

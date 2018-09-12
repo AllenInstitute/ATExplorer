@@ -2,7 +2,6 @@
 #include "atRenderProject.h"
 #include "dslXMLUtils.h"
 #include "Poco/URI.h"
-
 //---------------------------------------------------------------------------
 
 namespace at

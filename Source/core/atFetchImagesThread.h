@@ -1,17 +1,18 @@
 #ifndef atFetchImagesThreadH
 #define atFetchImagesThreadH
-//#include <windows.h>
 #include "dslThread.h"
 #include "dslStringList.h"
+#include "atExplorerCoreExporter.h"
 //---------------------------------------------------------------------------
 
 
 namespace at
 {
+
 using dsl::StringList;
 using dsl::Thread;
 
-class PACKAGE FetchImagesThread : public dsl::Thread
+class ATE_CORE FetchImagesThread : public dsl::Thread
 {
 	public:
 							                FetchImagesThread(const StringList& urls = StringList(""), const string& cacheRoot = "p:\\cache");

@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include <System.Classes.hpp>
 #include <IdHTTP.hpp>
@@ -6,13 +5,22 @@
 #include <vector>
 #include "atRenderClient.h"
 #include "dslStringUtils.h"
+#include "dslUtils.h"
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "dslPoint.h"
 #include "dslMathUtils.h"
 #include "dslFileUtils.h"
-#pragma package(smart_init)
 //---------------------------------------------------------------------------
+
+
+using std::wstring;
+
+string __fastcall stdstr(const String& str)
+{
+    wstring test(str.c_str());
+    return dsl::stdstr(test);
+}
 
 namespace at
 {

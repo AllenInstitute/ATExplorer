@@ -1,5 +1,6 @@
 #ifndef atROIHistoryH
 #define atROIHistoryH
+#include "atExplorerCoreExporter.h"
 #include "atRenderClient.h"
 #include <deque>
 //---------------------------------------------------------------------------

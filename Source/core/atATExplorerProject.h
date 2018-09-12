@@ -2,9 +2,10 @@
 #define atATExplorerProjectH
 #include "dslProject.h"
 #include "dslConstants.h"
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include <vector>
 #include "dslSharedPointer.h"
+#include "atExplorerCoreExporter.h"
 //---------------------------------------------------------------------------
 
 namespace tinyxml2
@@ -38,7 +39,7 @@ ATEObjectType 	toATEObjectType(const string& str);
 //!A ATExplorerProject captures (is a container) for renderprojects and other possible objects related to a project
 //!in ATExplorer
 //!An ATExplorerProject is the baseclass for such objects.
-class ATE_CORE ATExplorerProject : public dsl::Project, public at::ATObject
+class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 {
 
     public:

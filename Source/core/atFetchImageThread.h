@@ -15,7 +15,7 @@ typedef void __fastcall (__closure *RCCallBack)(void);
 
 class RenderClient;
 
-class PACKAGE FetchImageThread : public dsl::Thread
+class ATE_CORE FetchImageThread : public dsl::Thread
 {
 	public:
 							                FetchImageThread(RenderClient& rc);

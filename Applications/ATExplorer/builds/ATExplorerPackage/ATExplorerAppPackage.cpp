@@ -30,6 +30,7 @@ extern "C" int _libmain(unsigned long reason)
 #pragma comment(lib, "dslVCLVisualComponents.bpi")
 
 #pragma comment(lib, "atFoundation.lib")
+#pragma comment(lib, "atExplorerFoundation.lib")
 #pragma comment(lib, "atVCLCommon.lib")
 
 #pragma comment(lib, "poco_foundation.lib")

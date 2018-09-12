@@ -1,14 +1,12 @@
 #ifndef atATDataUtilsH
 #define atATDataUtilsH
 #include "atATDataExporter.h"
-#include <set>
 #include "dslStringList.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
-using std::set;
 using dsl::StringList;
 
 class Section;

@@ -1,11 +1,9 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atRenderLocalCache.h"
 #include "Poco/Path.h"
 #include "dslLogger.h"
 #include "dslStringList.h"
 #include "dslFileUtils.h"
-#pragma package(smart_init)
 //---------------------------------------------------------------------------
 namespace at
 {

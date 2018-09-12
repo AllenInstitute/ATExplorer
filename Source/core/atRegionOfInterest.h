@@ -1,5 +1,6 @@
 #ifndef atRegionOfInterestH
 #define atRegionOfInterestH
+#include "atExplorerCoreExporter.h"
 #include <cstdlib>
 #include <string>
 #include <boost/function.hpp>

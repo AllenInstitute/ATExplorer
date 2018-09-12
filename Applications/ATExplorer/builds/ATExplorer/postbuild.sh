@@ -43,6 +43,7 @@ $BUILD_FOLDER/dslFoundation.dll
 $BUILD_FOLDER/dslVCLCommon.dll                      
 $BUILD_FOLDER/atSSI.dll                             
 $BUILD_FOLDER/atFoundation.dll                   
+$BUILD_FOLDER/atExplorerFoundation.dll                   
 $BUILD_FOLDER/atVCLCommon.dll                       
 $BUILD_FOLDER/poco_foundation.dll
 $BUILD_FOLDER/tinyxml2.dll
@@ -60,7 +61,7 @@ $BUILD_FOLDER/Thorlabs.MotionControl.TCube.StepperMotor.dll
 $BUILD_FOLDER/Thorlabs.MotionControl.TDIEngine.dll
 
 $BDSCOMMONDIR/BPL/dslVCLComponents.bpl          
-#$BDSCOMMONDIR/BPL/dslVCLVisualComponents.bpl    
+$BDSCOMMONDIR/BPL/dslVCLVisualComponents.bpl    
 $BDSCOMMONDIR/BPL/atVCLComponents.bpl               
 $BDSCOMMONDIR/BPL/atVCLVisualComponents.bpl         
 $BDSCOMMONDIR/BPL/atVCLAPTVisualComponents.bpl      

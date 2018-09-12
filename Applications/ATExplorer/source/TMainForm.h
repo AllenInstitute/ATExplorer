@@ -15,7 +15,7 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.ToolWin.hpp>
 #include "dslTLogMemoFrame.h"
-#include "atProjectManager.h"
+//#include "atProjectManager.h"
 #include "dslTRegistryForm.h"
 #include "atProjectsTreeView.h"
 #include "dslObserver.h"
@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 
 //typedef void __fastcall (__closure *sshCallback)(const string&);
-using at::ProjectManager;
+//using at::ProjectManager;
 using at::ProjectsTreeView;
 using at::ATExplorerProject;
 using at::RenderProjectView;

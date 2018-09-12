@@ -1,6 +1,5 @@
 #pragma hdrstop
 #include "atROIHistory.h"
-
 //---------------------------------------------------------------------------
 
 ROIHistory::ROIHistory()

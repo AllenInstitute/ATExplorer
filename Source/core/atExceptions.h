@@ -25,18 +25,18 @@ namespace at
             string                              mMessage;
     };
 
-    class ATE_CORE FileSystemException : public Exception
+    class ATE_CORE FileSystemException : public at::Exception
     {
         public:
-                                                FileSystemException(const string& desc) : Exception(desc){}
-                                                FileSystemException(const stringstream& msg) : Exception(msg){}
+                                                FileSystemException(const string& desc) : at::Exception(desc){}
+                                                FileSystemException(const stringstream& msg) : at::Exception(msg){}
     };
 
     class ATE_CORE DataException : public Exception
     {
         public:
-                                                DataException(const string& desc) : Exception(desc){}
-                                                DataException(const stringstream& msg) : Exception(msg){}
+                                                DataException(const string& desc) : at::Exception(desc){}
+                                                DataException(const stringstream& msg) : at::Exception(msg){}
     };
 
 
