@@ -16,7 +16,7 @@
 
 using std::wstring;
 
-string __fastcall stdstr(const String& str)
+string stdstr(const String& str)
 {
     wstring test(str.c_str());
     return dsl::stdstr(test);
@@ -30,37 +30,23 @@ using namespace dsl;
 
 const int HTTP_RESPONSE_OK = 200;
 
-RenderClient::RenderClient(Idhttp::TIdHTTP* c, const RenderServiceParameters& p, const string& cacheFolder)
+RenderClient::RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters& p, const string& cacheFolder)
 :
 mC(c),
+mRenderProject(rp),
 mRenderServiceURL(p),
-mRenderProject("","","",""),
 mCache(cacheFolder, mRenderProject),
-mFetchImageThread(*this)
+mFetchImageThread(*this),
+mImageType("jpeg-image")
 {
 	mImageMemory = new TMemoryStream();
 }
 
-bool RenderClient::init(const string& owner, const string& project, const string& stack,
-					    const string& imageType, int z, const RegionOfInterest& box, double scale, int minInt, int maxInt)
+bool RenderClient::init(const string& imageType,
+						int z, double scale, int minInt, int maxInt)
 {
-    mRenderProject.init(owner, project, stack);
     mImageType = (imageType);
     mZ = (z);
-    mRegionOfInterest = (box);
-	mScale = (scale);
-	mMinIntensity = (minInt);
-	mMaxIntensity = (maxInt);
-    return true;
-}
-
-bool RenderClient::init(const RenderProject& rp,
-					    const string& imageType, int z, const RegionOfInterest& box, double scale, int minInt, int maxInt)
-{
-    mRenderProject.init(rp.getProjectOwner(), rp.getProjectName(), rp.getSelectedStackName());
-    mImageType = (imageType);
-    mZ = (z);
-    mRegionOfInterest = (box);
 	mScale = (scale);
 	mMinIntensity = (minInt);
 	mMaxIntensity = (maxInt);
@@ -75,6 +61,11 @@ RenderClient::~RenderClient()
 RenderServiceParameters RenderClient::getRenderServiceParameters()
 {
     return mRenderServiceURL;
+}
+
+void RenderClient::setSelectedStackName(const string& sName)
+{
+    mRenderProject.setSelectedStackName(sName);
 }
 
 string RenderClient::getCacheRoot()
@@ -421,13 +412,14 @@ void RenderClient::clearImageMemory()
 string RenderClient::getURLForZ(int z)
 {
 	stringstream sUrl;
+    RegionOfInterest& roi = mRenderProject.getCurrentRegionOfInterestReference();
     sUrl << mRenderServiceURL.asString();
     sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
     sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
     sUrl << "/stack/"		<< mRenderProject.getSelectedStackName();
     sUrl << "/z/"			<<z;
-    sUrl << "/box/"			<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1() << "," << (int) mRegionOfInterest.getWidth() << ","<< (int) mRegionOfInterest.getHeight() << ","<<mScale;
-    sUrl << "/jpeg-image";
+    sUrl << "/box/"			<<roi.getX1()<<","<<roi.getY1() << "," << (int) roi.getWidth() << ","<< (int) roi.getHeight() << ","<<mScale;
+    sUrl << "/"<<mImageType;
 	sUrl << "?minIntensity="<<mMinIntensity;
 	sUrl << "&maxIntensity="<<mMaxIntensity;
 
@@ -436,19 +428,7 @@ string RenderClient::getURLForZ(int z)
 
 string RenderClient::getURL()
 {
-	//("http://ibs-forrestc-ux1.corp.alleninstitute.org:8080/render-ws/v1/owner/Sharmishtaas/project/M259292_Scnn1aTg2_1/stack/{0}/
-    //z/{1}/box/5000,9000,1300,1300,{2}/tiff-image");
-	stringstream sUrl;
-    sUrl << mRenderServiceURL.asString();
-    sUrl << "/owner/" 	<< mRenderProject.getProjectOwner();
-    sUrl << "/project/" << mRenderProject.getRenderProjectName();
-    sUrl << "/stack/"	<<mRenderProject.getSelectedStackName();
-    sUrl << "/z/"		<<mZ;
-    sUrl << "/box/"		<<round(mRegionOfInterest.getX1())<<","<<round(mRegionOfInterest.getY1()) << "," << round(mRegionOfInterest.getWidth()) << ","<<round(mRegionOfInterest.getHeight()) << ","<<mScale;
-    sUrl << "/jpeg-image";
-	sUrl << "?minIntensity="<<mMinIntensity;
-	sUrl << "&maxIntensity="<<mMaxIntensity;
-	return sUrl.str();
+    return getURLForZ(mZ);
 }
 
 StringList RenderClient::getZs()

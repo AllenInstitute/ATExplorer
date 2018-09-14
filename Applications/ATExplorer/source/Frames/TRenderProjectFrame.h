@@ -30,8 +30,13 @@
 #include "dslProcess.h"
 #include "atImageGrid.h"
 //---------------------------------------------------------------------------
+
+
+class TCreateLocalVolumesForm;
+
 using at::RenderProject;
 using at::RenderClient;
+using at::RegionOfInterest;
 using at::FetchImagesThread;
 using at::FetchImageThread;
 using dsl::Process;
@@ -112,6 +117,11 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TPopupMenu *ROIPopupMenu;
 	TMenuItem *OpenROIInExplorer;
 	TAction *ToggleImageGridA;
+	TCheckListBox *RenderStacksCB;
+	TGroupBox *GroupBox3;
+	TPopupMenu *PopupMenu1;
+	TPopupMenu *RenderStacksPopup;
+	TButton *Button2;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -119,8 +129,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
           int X, int Y);
 	void __fastcall Image1MouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y);
-	void __fastcall Image1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          int X, int Y);
+
 	void __fastcall IntensityKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall ROIKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall openInChromeClick(TObject *Sender);
@@ -139,6 +148,9 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall OtherCBDblClick(TObject *Sender);
 	void __fastcall PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
+	void __fastcall CreateCacheTimerTimer(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
 
     private:
    		FetchImagesThread								mCreateCacheThread;
@@ -183,6 +195,8 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	    Process 										mAProcess;
         void                                            onIMProcessFinished(void*, void*);
 		void 											OpenImageForm(string fName);
+
+		TCreateLocalVolumesForm*                        mCreateVolumesForm;
     public:
     						__fastcall 					TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner);
 		void 				__fastcall 					getValidZsForStack();

@@ -3,8 +3,6 @@
 #include "atFetchImageThread.h"
 #include "dslLogger.h"
 #include <curl/curl.h>
-////#include <curl/easy.h>
-
 #include "Poco/File.h"
 #include "dslFileUtils.h"
 #include "atRenderClient.h"
@@ -94,7 +92,6 @@ void FetchImageThread::worker()
         else
         {
             Log(lInfo) << "Fetching Section #: "<<getImageZFromURL(url);
-
             CURL *curl_handle;
             CURLcode res;
 
@@ -114,6 +111,7 @@ void FetchImageThread::worker()
                 theURL += mExtraParameters[i];
             }
 
+            Log(lDebug3) << "Fetching using URL: "<<theURL;
 //            string theUrl(url + string("&maxTileSpecsToRender=50"));
             /* specify URL to get */
             curl_easy_setopt(curl_handle, CURLOPT_URL, theURL.c_str());

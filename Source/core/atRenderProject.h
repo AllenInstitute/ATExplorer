@@ -17,13 +17,12 @@ using dsl::StringList;
 
 class ATE_CORE RenderProject : public ATExplorerProject
 {
-	public:                             //!Simplify ctors
+	public:                             //!Simplify ctors, too many
         	    	                    RenderProject(const string& url);
         	    	                    RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project);
 			    	                    RenderProject(const string& name, const string& owner, const string& project, const string& stack);
                                         RenderProject(const RenderProject& rp);
 		virtual    	                    ~RenderProject();
-
 
         RenderProject&                  operator = (const RenderProject& rhs);
 		void							init(const string& owner, const string& project, const string& stack);
@@ -40,7 +39,6 @@ class ATE_CORE RenderProject : public ATExplorerProject
         RenderServiceParameters         getRenderServiceParameters() const;
 		string							getRenderProjectName() const;
 		string							getProjectOwner() const;
-
 
         								//!ProjectManagement
 		virtual bool 	   	            write();
@@ -65,13 +63,9 @@ class ATE_CORE RenderProject : public ATExplorerProject
         string                          mSelectedStack;
         StringList					   	mStacks;
 
-
         int                             mMinIntensity;
         int                             mMaxIntensity;
-
-
 		RenderServiceParameters         mRenderService;
-
 };
 
 }

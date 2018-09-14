@@ -11,8 +11,8 @@ using namespace dsl;
 
 RenderProject::RenderProject(const string& _url)
 :
-mRenderService(""),
-mLocalCacheRootFolder("")
+mLocalCacheRootFolder(""),
+mRenderService("")
 {
 	//"http://ibs-forrestc-ux1.corp.alleninstitute.org:8988/render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image?minIntensity=0&maxIntensity=6000"
     //Extract owner,project and stack from url
@@ -44,11 +44,10 @@ mOwner(owner),
 mLocalCacheRootFolder(""),
 mRenderProjectName(project),
 mSelectedStack(stack),
-mRenderService(""),
 mCurrentROI(0,0,500,500),
 mMinIntensity(0),
-mMaxIntensity(65535)
-
+mMaxIntensity(65535),
+mRenderService("")
 {
 	mATEObjectType = (ateRenderProject);
 }
@@ -74,14 +73,16 @@ ATExplorerProject(rp),
 mRenderService(rp.mRenderService),
 mCurrentROI(rp.mCurrentROI)
 {
-    mInfo	 	        = rp.mInfo;
-    mOwner		        = rp.mOwner;
-    mRenderProjectName  = rp.mRenderProjectName;
-    mSelectedStack		= rp.mSelectedStack;
-    mStacks				= rp.mStacks;
-    mCurrentROI         = rp.mCurrentROI;
-    mMinIntensity		= rp.mMinIntensity;
-	mMaxIntensity		= rp.mMaxIntensity;
+    mInfo	 	            = rp.mInfo;
+    mOwner		            = rp.mOwner;
+    mRenderProjectName      = rp.mRenderProjectName;
+    mSelectedStack		    = rp.mSelectedStack;
+    mStacks				    = rp.mStacks;
+    mLocalCacheRootFolder 	= rp.mLocalCacheRootFolder;
+    mCurrentROI             = rp.mCurrentROI;
+    mMinIntensity		    = rp.mMinIntensity;
+	mMaxIntensity		    = rp.mMaxIntensity;
+
 }
 
 RenderProject::~RenderProject()

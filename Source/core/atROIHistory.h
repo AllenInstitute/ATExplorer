@@ -5,6 +5,8 @@
 #include <deque>
 //---------------------------------------------------------------------------
 
+namespace at
+{
 using std::deque;
 class ATE_CORE ROIHistory
 {
@@ -27,4 +29,5 @@ class ATE_CORE ROIHistory
     	deque<RegionOfInterest> 			mHistory;
         deque<RegionOfInterest>::iterator	mCurrent;
 };
+}
 #endif

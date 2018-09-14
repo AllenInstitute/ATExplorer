@@ -13,13 +13,17 @@ namespace dsl
     using tinyxml2::XMLElement;
     using tinyxml2::XMLNode;
 }
-//---------------------------------------------------------------------------
+
+namespace at
+{
 
 using std::abs;
 using std::string;
 
 //!TODO, write code to update the box when something changes..
 typedef boost::function<void(void*, void*)> OnChangeFnc;
+
+//---------------------------------------------------------------------------
 class ATE_CORE RegionOfInterest
 {
 	public:
@@ -67,4 +71,5 @@ class ATE_CORE RegionOfInterest
         OnChangeFnc                     onChange;
 };
 
+}
 #endif

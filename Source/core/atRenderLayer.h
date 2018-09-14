@@ -9,7 +9,7 @@
 namespace at
 {
 
-//!A Render layer denote a certain xyz region of data, existing on render and perhaps in a local cache
+//!A Render layer denote a certain xyz region of imagedata, existing on render and perhaps in a local cache
 class ATE_CORE RenderLayer : public ExplorerObject
 {
 
@@ -50,6 +50,7 @@ class ATE_CORE RenderLayer : public ExplorerObject
         string                                          mQuery;
         string                                          mFragment;
         string                                          mPathEtc;
+        string                                          mImageType;
 };
 
 }

@@ -20,14 +20,34 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 FetchImagesThread::FetchImagesThread(const StringList& urls, const string& cacheRoot)
 :
 mImageURLs(urls),
-mCacheRootFolder(cacheRoot)
+mCacheRootFolder(cacheRoot),
+onEnter(nullptr),
+onProgress(nullptr),
+onExit(nullptr)
 {}
+
+void FetchImagesThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
+{
+    onEnter = one;
+    onProgress = two;
+    onExit = three;
+}
 
 void FetchImagesThread::setup(const StringList& urls, const string& cacheFolder)
 {
 	mExtraParameters.clear();
 	mImageURLs = urls;
     mCacheRootFolder = cacheFolder;
+}
+
+StringList FetchImagesThread::getImageURLs()
+{
+    return mImageURLs;
+}
+
+string FetchImagesThread::getCacheRootFolder()
+{
+    return mCacheRootFolder;
 }
 
 void FetchImagesThread::addParameter(const string& api)
@@ -68,15 +88,21 @@ void FetchImagesThread::worker()
 {
 	mIsRunning = true;
     mIsTimeToDie = false;
+
+    if(onEnter)
+    {
+        onEnter(this, NULL);
+    }
+
     while(!mIsTimeToDie)
     {
 		Log(lDebug4) << "Started Image fetching thread..";
-
         curl_global_init(CURL_GLOBAL_ALL);
 
+
+        //Rewrite this later to use threadpools and say # of threads
 	    for(uint i = 0; i < mImageURLs.count(); i++)
 	    {
-
         	if(mIsTimeToDie)
             {
             	break;
@@ -87,13 +113,13 @@ void FetchImagesThread::worker()
             //Check cache first. if already in cache, don't fetch
             string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder);
            	Poco::File f(outFilePathANDFileName);
-            if(fileExists(outFilePathANDFileName) && f.getSize() > 200)
+            if(f.exists() && f.getSize() > 200)
             {
-            	Log(lDebug3) << "File "<<outFilePathANDFileName<<" is in local cache";
+            	Log(lDebug3) << "File "<<f.path()<<" is in local cache";
             }
             else
 			{
-            	Log(lInfo) << "Fetching section#: "<<getImageZFromURL(url);
+            	Log(lInfo) << "Fetching section # "<<getImageZFromURL(url);
 
                 CURL *curl_handle;
                 CURLcode res;
@@ -114,9 +140,8 @@ void FetchImagesThread::worker()
                     theURL += mExtraParameters[i];
                 }
 
-//            string theUrl(url + string("&maxTileSpecsToRender=50"));
-            /* specify URL to get */
-            curl_easy_setopt(curl_handle, CURLOPT_URL, theURL.c_str());
+	            /* specify URL to get */
+            	curl_easy_setopt(curl_handle, CURLOPT_URL, theURL.c_str());
 
                 /* send all data to this function  */
                 curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
@@ -142,11 +167,11 @@ void FetchImagesThread::worker()
                    * chunk.memory points to a memory block that is chunk.size
                    * bytes big and contains the remote file.
                    */
-                    string out = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder);
+
                     //Make sure path exists, if not create it
-                    if(createFolder(getFilePath(out)))
+                    if(createFolder(getFilePath(f.path())))
                     {
-                        ofstream of( out.c_str(), std::ofstream::binary);
+                        ofstream of(f.path().c_str(), std::ofstream::binary);
                         of.write(&chunk.memory[0], chunk.size);
 
                         Log(lDebug3) <<  (long)chunk.size << " bytes retrieved";
@@ -154,7 +179,7 @@ void FetchImagesThread::worker()
                     }
                     else
                     {
-                        Log(lError) << "Failed to write filePath: "<<out;
+                        Log(lError) << "Failed to write file: "<<f.path();
                     }
                 }
 
@@ -164,12 +189,23 @@ void FetchImagesThread::worker()
 
                 /* we're done with libcurl, so clean it up */
                 curl_global_cleanup();
+
+                if(onProgress)
+                {
+                    onProgress(this,  &i);
+                }
             }
         }
 
         mIsTimeToDie = true;
 	}
   	Log(lInfo) << "Finished Images Fetching Thread.";
+
+    if(onExit)
+    {
+        onExit(this, NULL);
+    }
+
     mIsRunning = false;
     mIsFinished = true;
 }

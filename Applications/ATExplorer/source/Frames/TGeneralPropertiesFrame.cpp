@@ -26,7 +26,7 @@ bool TGeneralPropertiesFrame::populate(Properties& props)
     props.disableEdits();
     if(props.getProperty("LOCAL_CACHE_FOLDER"))
     {
- 		ImageCacheFolderE			->assignExternalProperty(dynamic_cast< Property<string>* >(props.getProperty("LOCAL_CACHE_FOLDER")), 			false);
+// 		ImageCacheFolderE			->assignExternalProperty(dynamic_cast< Property<string>* >(props.getProperty("LOCAL_CACHE_FOLDER")), 			false);
 		ConnectSSHServersOnStartupCB->assignExternalProperty(dynamic_cast< Property<bool>*   >(props.getProperty("CONNECT_SERVERS_ON_STARTUP")), 	false);
     }
 	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(props.getProperty("IMAGE_MAGICK_PATH")), 			false);
@@ -35,19 +35,30 @@ bool TGeneralPropertiesFrame::populate(Properties& props)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TGeneralPropertiesFrame::mBrowseForCacheFolderClick(TObject *Sender)
+void __fastcall TGeneralPropertiesFrame::BrowseForFolderClick(TObject *Sender)
 {
-	//Browse for folder
-	string res = browseForFolder(ImageCacheFolderE->getValue());
-    if(folderExists(res))
+    TButton* btn = dynamic_cast<TButton*>(Sender);
+
+    if(btn == BrowseForImageMagickPathBtn)
     {
-		ImageCacheFolderE->setValue(res);
-    }
-    else
-    {
-    	Log(lWarning) << "Cache folder was not set..";
+        //Browse for folder
+        string res = browseForFolder(ImageMagickPathE->getValue());
+        if(folderExists(res))
+        {
+            ImageMagickPathE->setValue(res);
+        }
+        else
+        {
+            Log(lWarning) << "Image Magick Path was not set..";
+        }
     }
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TGeneralPropertiesFrame::TestRenderServiceBtnClick(TObject *Sender)
+{
+    //Get some render owners
+    MessageDlg("Not Implemented yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
+}
 
 

@@ -16,7 +16,8 @@ using namespace dsl;
 //---------------------------------------------------------------------------
 __fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersForm(TComponent* Owner)
 	: TForm(Owner),
-    mRC(IdHTTP1)
+    mRP("", "", "" , ""),
+    mRC(mRP,IdHTTP1)
 {
     mRC.setBaseURL(BaseURLE->getValue());
 

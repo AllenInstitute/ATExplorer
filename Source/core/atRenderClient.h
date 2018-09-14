@@ -41,25 +41,13 @@ typedef void __fastcall (__closure *RCCallBack)(void);
 class ATE_CORE RenderClient
 {
 	public:
-							                        RenderClient(Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);
+							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
-		bool							            init(const string& owner 	    	= gEmptyString,
-                        	                        	 const string& project 	    	= gEmptyString,
-                                                         const string& stack 	    	= gEmptyString,
+		bool							            init(
                                                          const string& imageType     	= "jpeg-image",
                                                          int z 					    	= 0,
-                                                         const RegionOfInterest& box 	= RegionOfInterest(),
-                                                         double scale 			    	= 0.01,
-                                                         int minInt						= 0,
-                                                         int maxInt						= 65535
-                                                         );
-
-		bool							            init(const RenderProject&	rp,
-                                                         const string& imageType     	= "jpeg-image",
-                                                         int z 					    	= 0,
-                                                         const RegionOfInterest& box 	= RegionOfInterest(),
                                                          double scale 			    	= 0.01,
                                                          int minInt						= 0,
                                                          int maxInt						= 65535
@@ -74,7 +62,7 @@ class ATE_CORE RenderClient
         StringList                                  getROIFoldersForCurrentStack();
 		TMemoryStream*								getImageMemory();
         bool                                        renameStack(const string& currentStackName, const string& newName);
-
+        void                                        setSelectedStackName(const string& sName);
 		void				                        clearImageMemory();
 		string				                        getURL();
 		const char* 		                        getURLC();
@@ -90,6 +78,7 @@ class ATE_CORE RenderClient
 
         void							            setLocalCacheFolder(const string& f);
         string							            getLocalCacheFolder();
+
         StringList						            getZs();
         vector<int>						            getValidZs();
 		RegionOfInterest 						    getLayerBoundsForZ(int z);
@@ -122,10 +111,10 @@ class ATE_CORE RenderClient
 
         RenderServiceParameters                     mRenderServiceURL;
 
-        RenderProject					            mRenderProject;
+        RenderProject&					            mRenderProject;
         RenderLocalCache                            mCache;
         string 			                            mImageType;
-        RegionOfInterest			                mRegionOfInterest;
+//        RegionOfInterest			                mRegionOfInterest;
         int								            mMinIntensity;
         int								            mMaxIntensity;
         RegionOfInterest						    parseBoundsResponse(const string& s);

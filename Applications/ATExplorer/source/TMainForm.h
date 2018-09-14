@@ -104,6 +104,8 @@ __published:	// IDE-managed Components
 	TAction *RemoveFromProjectA;
 	TMenuItem *RemoveFromProject1;
 	TMenuItem *Rename;
+	TAction *Action1;
+	TAction *OpenProjectOptionsA;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -138,6 +140,7 @@ __published:	// IDE-managed Components
 	void __fastcall Close3Click(TObject *Sender);
 	void __fastcall RemoveFromProjectAExecute(TObject *Sender);
 	void __fastcall RenameClick(TObject *Sender);
+	void __fastcall OpenProjectOptionsAExecute(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;
@@ -148,7 +151,6 @@ __published:	// IDE-managed Components
         //Should really be unique ptrs
         //make observers, an observer too
         ProjectObservers                                mObservers;
-//        vector< RenderProjectView* >        			mObservers;
 
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);

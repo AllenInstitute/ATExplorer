@@ -15,8 +15,8 @@ using namespace at;
 //---------------------------------------------------------------------------
 __fastcall TRenderPythonRemoteScriptFrame::TRenderPythonRemoteScriptFrame(const string& scriptName, TComponent* Owner)
 	: TFrame(Owner),
-    mScripter(scriptName),
-    mRC(NULL)
+    mScripter(scriptName)//,
+//    mRC(NULL)
 {
 }
 

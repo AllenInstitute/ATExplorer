@@ -14,11 +14,12 @@
 #include <Vcl.ExtCtrls.hpp>
 #include "atRenderClient.h"
 #include "atRenderServiceParameters.h"
+
 //---------------------------------------------------------------------------
 
 using at::RenderClient;
 using at::RenderServiceParameters;
-
+using at::RenderProject;
 //---------------------------------------------------------------------------
 class PACKAGE TSelectRenderProjectParametersForm : public TForm
 {
@@ -41,6 +42,7 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
 	void __fastcall PopulateOwnersBtnClick(TObject *Sender);
 
     private:
+        RenderProject                   mRP;
         RenderClient                    mRC;
 
     public:

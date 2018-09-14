@@ -50,6 +50,7 @@ mPathEtc(mURL.getPathEtc())
     mZ 	= toInt(pairs[10]);
     mRegionOfInterest = RegionOfInterest(pairs[12]);
     mScale = mRegionOfInterest.getScale();
+    mImageType = pairs[13];
 }
 
 RenderLayer::RenderLayer(RenderProject& rp, const RegionOfInterest& roi, const string& localCacheRootFolder)
@@ -91,7 +92,20 @@ string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder)
     	<<"\\"<<mRenderProject.getRenderProjectName()
         <<"\\"<<mRenderProject.getSelectedStackName()
         <<"\\"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1()<<","<<mRegionOfInterest.getWidth()<<","<<mRegionOfInterest.getHeight()<<"\\"
-        <<mZ<<"_"<<mMinIntensity<<"_"<<mMaxIntensity<<"_"<<mScale<<".jpg";
+        <<mZ<<"_"<<mMinIntensity<<"_"<<mMaxIntensity<<"_"<<mScale;//<<".jpg";
+        if(mImageType == "jpeg-image")
+        {
+            s << ".jpg";
+        }
+        else if(mImageType == "png-image")
+        {
+			s << ".png";
+        }
+        else if(mImageType == "tiff-image")
+        {
+			s << ".tiff";
+        }
+
 
     return s.str();
 }

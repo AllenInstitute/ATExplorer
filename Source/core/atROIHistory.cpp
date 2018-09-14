@@ -2,6 +2,8 @@
 #include "atROIHistory.h"
 //---------------------------------------------------------------------------
 
+namespace at
+{
 ROIHistory::ROIHistory()
 {
     mCurrent = mHistory.begin();
@@ -78,3 +80,4 @@ RegionOfInterest* ROIHistory::previous()
 
 }
 
+}

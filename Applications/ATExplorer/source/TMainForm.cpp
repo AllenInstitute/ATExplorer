@@ -161,15 +161,17 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
         ATExplorerProject* ate = (ATExplorerProject*) node->Data;
         if(dynamic_cast<RenderProject*>(ate))
         {
-            AddRenderProject->Enabled = false;
-	        CloseProjectA->Visible = false;
+            AddRenderProject->Enabled 	= false;
+	        CloseProjectA->Visible 		= false;
             RemoveFromProjectA->Visible = true;
+            OpenProjectOptionsA->Visible = false;
         }
         else
         {
-            AddRenderProject->Enabled = true;
-	        CloseProjectA->Visible = true;
+            AddRenderProject->Enabled 	= true;
+	        CloseProjectA->Visible 		= true;
             RemoveFromProjectA->Visible = false;
+            OpenProjectOptionsA->Visible = true;
         }
     }
     else
@@ -298,6 +300,12 @@ void __fastcall TMainForm::RenameClick(TObject *Sender)
 	mPTreeView.getTreeView()->ReadOnly = false;
 	TTreeNode* n = mPTreeView.getSelectedNode();
     n->EditText();
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenProjectOptionsAExecute(TObject *Sender)
+{
+    MessageDlg("Not Implemented Yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
 }
 
 

@@ -21,13 +21,12 @@ class PACKAGE TGeneralPropertiesFrame : public TFrame
         TButton *TestRenderServiceBtn;
         TIntegerLabeledEdit *maxTileSpecsToRenderE;
         TIntegerLabeledEdit *RenderPort;
-        TSTDStringLabeledEdit *ImageCacheFolderE;
-        TButton *mBrowseForCacheFolder;
         TPropertyCheckBox *ConnectSSHServersOnStartupCB;
-        TPanel *Panel1;
 	TGroupBox *GroupBox2;
 	TSTDStringLabeledEdit *ImageMagickPathE;
-		void __fastcall mBrowseForCacheFolderClick(TObject *Sender);
+	TButton *BrowseForImageMagickPathBtn;
+		void __fastcall BrowseForFolderClick(TObject *Sender);
+	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
 
     private:
 

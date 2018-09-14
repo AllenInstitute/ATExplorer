@@ -11,6 +11,7 @@
 #include "boost/filesystem.hpp"
 #include "TImageForm.h"
 #include "atRenderLayer.h"
+#include "TCreateLocalVolumesForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTPropertyCheckBox"
@@ -29,23 +30,24 @@ using namespace dsl;
 using namespace at;
 using namespace Poco;
 
-int frameNr(0);
+int rpFrameNr(0);
 
 //---------------------------------------------------------------------------
 __fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner)
 	: TFrame(Owner),
     mRP(rp),
-    mRC(IdHTTP1),
-   	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
+    mRC(rp, IdHTTP1),
     mRenderEnabled(false),
+   	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
     Drawing(false),
     mIMPath(imPath),
-    mImageGrid(Image1, PaintBox1->Canvas)
+    mImageGrid(Image1, PaintBox1->Canvas),
+    mCreateVolumesForm(NULL)
 {
 	mRC.setBaseURL(mHostURL);
     mRC.assignOnImageCallback(onImage);
     mRC.setLocalCacheFolder(rp.getLocalCacheFolder());
-    this->Name = string("RPFrame_" +  dsl::toString(frameNr++)).c_str();
+    this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();
     populate();
     mCurrentROI.assignOnChangeCallback(onROIChanged);
 }
@@ -86,6 +88,7 @@ void TRenderProjectFrame::populate()
             ClickZ(NULL);
         }
     }
+    populateCheckListBox(stacks, RenderStacksCB);
 }
 
 void TRenderProjectFrame::onROIChanged(void* arg1, void* arg2)
@@ -132,7 +135,6 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
 		return;
     }
     mRP.setSelectedStackName(stdstr(StackCB->Text));
-    mRC.init(mRP);
    	getValidZsForStack();
 	ClickZ(NULL);
     updateROIs();
@@ -146,8 +148,8 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
 void __fastcall TRenderProjectFrame::getValidZsForStack()
 {
 	//Fetch valid zs for current project
+	mRP.setSelectedStackName(stdstr(StackCB->Text));
 
-    mRC.init(mRP.getProjectOwner(), mRP.getRenderProjectName(), stdstr(StackCB->Text));
     StringList zs = mRC.getValidZs();
 	Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
 	Zs_GB->Caption = " Z Values (" + IntToStr((int) zs.count()) + ") ";
@@ -169,7 +171,8 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
     mRP.setSelectedSection(z);
 
     //Fetch data using URL
-	mRC.init(mRP.getProjectOwner(), mRP.getRenderProjectName(), stdstr(StackCB->Text), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+    mRP.setSelectedStackName(stdstr(StackCB->Text));
+	mRC.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
     {
@@ -404,67 +407,6 @@ void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftStat
     }
 }
 
-
-void __fastcall TRenderProjectFrame::Image1MouseUp(TObject *Sender, TMouseButton Button,
-          TShiftState Shift, int X, int Y)
-{
-//    double stretchFactor = getImageStretchFactor();
-//	if(Button == TMouseButton::mbMiddle)
-//    {
-//	  	Screen->Cursor = crDefault;
-//    	TPoint p2;
-//		p2 = Mouse->CursorPos;
-//		p2 = this->Image1->ScreenToClient(p2);
-//	    p2 = controlToImage(p2, mScaleE->getValue(), stretchFactor);
-//
-//		//Convert to world image coords (minus offset)
-//		XCoordE->setValue(XCoordE->getValue() + (mTopLeftSelCorner.X - p2.X));
-//		YCoordE->setValue(YCoordE->getValue() + (mTopLeftSelCorner.Y - p2.Y));
-//
-//		mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
-//       	ClickZ(Sender);
-//    }
-//
-//	if(!Drawing || (Button == TMouseButton::mbRight))
-//    {
-//    	return;
-//    }
-//
-//	Drawing = false;
-//
-//    //For selection
-//	mBottomRightSelCorner = this->Image1->ScreenToClient(Mouse->CursorPos);
-//
-//	//Convert to world image coords (minus offset)
-//    mBottomRightSelCorner = controlToImage(mBottomRightSelCorner, mScaleE->getValue(), stretchFactor);
-//
-//	//Check if selection indicate a 'reset'
-//	if(mBottomRightSelCorner.X - mTopLeftSelCorner.X <= 0 || mBottomRightSelCorner.Y - mTopLeftSelCorner.Y <= 0)
-//    {
-//    	ResetButtonClick(NULL);
-//		return;
-//    }
-//
-//	mCurrentROI = RegionOfInterest(	XCoordE->getValue() + mTopLeftSelCorner.X,
-//    				 				YCoordE->getValue() + mTopLeftSelCorner.Y,
-//                                    mBottomRightSelCorner.X - mTopLeftSelCorner.X,
-//                                    mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
-//                                    mScaleE->getValue());
-//
-////	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
-////	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
-////    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
-////    Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
-//
-////	mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
-//    updateScale();
-//	roiChanged();
-//
-//    updateROIs();
-//	ClickZ(NULL);
-//    checkCache();
-}
-
 //---------------------------------------------------------------------------
 double TRenderProjectFrame::getImageStretchFactor()
 {
@@ -571,9 +513,8 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
         {
 		    RenderServiceParameters rs = mRC.getRenderServiceParameters();
             int z = toInt(stdstr(mZs->Items->Strings[0]));
-            RenderClient rc(IdHTTP1, rs, mRP.getLocalCacheFolder());
-            rc.init(mRP.getProjectOwner(), mRP.getRenderProjectName(),
-                mRP.getSelectedStackName(), "jpeg-image", z, mCurrentROI, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+            RenderClient rc(mRP, IdHTTP1, rs, mRP.getLocalCacheFolder());
+            rc.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs
             StringList urls;
@@ -611,7 +552,6 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 //    Process IMConvert("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe", mRC.getImageLocalCachePath());
 //    Process IMConvert("dir.exe", mRC.getImageLocalCachePath());
     Process& IMConvert = mAProcess;
-
     string convertExe(joinPath(mIMPath, "convert.exe"));
 
     if(!fileExists(convertExe))
@@ -677,10 +617,10 @@ void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
     string currentStack(*temp);
     string* mipFName = new string(getFileNameNoExtension(currentStack));
 
-    *mipFName += "_MIP.tif";
+    *mipFName = "mip_" + *mipFName + ".tif";
     *mipFName = replaceSubstring("stack_", "", *mipFName);
     stringstream cmdLine;
-    cmdLine << cvt <<" " << currentStack << " -evaluate-sequence max "<<*mipFName;
+    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
     Log(lInfo) << "Running convert on " << cmdLine.str();
 
     IMConvert.setup(cmdLine.str(), mhCatchMessages);
@@ -688,8 +628,6 @@ void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
 
     *mipFName = joinPath(getFilePath(currentStack), *mipFName);
     IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
-
-
     IMConvert.start(true);
 }
 
@@ -1019,5 +957,39 @@ void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseBut
 	ClickZ(NULL);
     checkCache();
 }
+
 //---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::CreateCacheTimerTimer(TObject *Sender)
+{
+	if(mCreateCacheThread.isRunning())
+    {
+		FetchSelectedZsBtn->Caption = "Stop";
+    }
+    else
+    {
+		CreateCacheTimer->Enabled = false;
+		FetchSelectedZsBtn->Caption = "Generate";
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::Button1Click(TObject *Sender)
+{
+	updateROIs();
+}
+
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
+{
+    //Open creat volumes form
+	if(!mCreateVolumesForm)
+    {
+    	mCreateVolumesForm = new TCreateLocalVolumesForm(mRP, mIMPath, this);
+    }
+
+    mCreateVolumesForm->populate(mCurrentROI);
+    mCreateVolumesForm->Show();
+}
+
 

@@ -6,6 +6,9 @@
 #include <sstream>
 
 //---------------------------------------------------------------------------
+
+namespace at
+{
 using namespace std;
 using namespace dsl;
 
@@ -246,4 +249,6 @@ bool RegionOfInterest::loadFromXML(dsl::XMLNode* node)
     	mScale = (e->GetText() ? dsl::toDouble(e->GetText()) : 1);
     }
     return true;
+}
+
 }
