@@ -60,8 +60,8 @@
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <_TCHARMapping>char</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>ATExplorerAppPackage</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <BCC_wcsu>false</BCC_wcsu>
@@ -245,6 +245,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\source\Frames\TRenderProjectFrame.h</DependentOn>
             <BuildOrder>39</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\..\Source\core\atTiffStack.cpp">
+            <DependentOn>..\..\..\..\Source\core\atTiffStack.h</DependentOn>
+            <BuildOrder>31</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\..\Source\vcl\TCreateStackThreadFrame.cpp">
             <Form>CreateStackThreadFrame</Form>

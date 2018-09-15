@@ -18,6 +18,7 @@ class PACKAGE TCreateStackThreadFrame : public TFrame
         TProgressBar *ProgressBar1;
         TButton *Button1;
         TLabel *CurrentZ;
+	void __fastcall Button1Click(TObject *Sender);
     private:
         FetchImagesThread&   mThread;
 

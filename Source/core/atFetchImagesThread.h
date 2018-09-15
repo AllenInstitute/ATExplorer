@@ -30,7 +30,7 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
 
 	private:
     	StringList							mImageURLs;
-        string								mCacheRootFolder;
+        string								mOutputDataFolder;
         StringList                          mExtraParameters;
         FITCallBack                         onEnter;
         FITCallBack                         onProgress;

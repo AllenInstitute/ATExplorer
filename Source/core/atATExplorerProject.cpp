@@ -71,7 +71,7 @@ bool ATExplorerProject::addChild(ATExplorerProject* child)
 }
 
 //Re implemented in derived objects
-XMLElement* ATExplorerProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
+XMLElement* ATExplorerProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLElement* docRoot)
 {
 	return NULL;
 }
@@ -94,6 +94,23 @@ bool ATExplorerProject::resetXML()
     mProjectRoot->InsertEndChild(xmlElement);
     return true;
 }
+bool ATExplorerProject::save(const string& fName)
+{
+    resetXML();
+
+    XMLElement* at_objects 	= newElement("at_objects");
+    Project* 	child 		= mChilds.getFirst();
+    while(child != nullptr)
+    {
+        XMLElement* atobject_node = child->addToXMLDocument(mTheXML, at_objects);
+        child->addToXMLDocumentAsChild(mTheXML, atobject_node);
+        at_objects->InsertEndChild(atobject_node);
+        child = mChilds.getNext();
+    }
+
+    mProjectRoot->InsertEndChild(at_objects);
+    return saveToFile(fName);
+}
 
 //Create header for VCObject node
 XMLElement* ATExplorerProject::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLNode* docRoot)
@@ -106,35 +123,14 @@ XMLElement* ATExplorerProject::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLN
     objectNode->SetAttribute("type", getATEObjectTypeAsString().c_str());
     objectNode->SetAttribute("name", getProjectName().c_str());
 
-	XMLElement* dataval1 = doc.NewElement("info");
-    dataval1->SetText(mInfoText.c_str());
-	objectNode->InsertEndChild(dataval1);
+    //	XMLElement* dataval1 = doc.NewElement("info");
+    //    dataval1->SetText(mInfoText.c_str());
+    //	objectNode->InsertEndChild(dataval1);
 
     objectNode->InsertEndChild(rootNode);
-    docRoot->InsertEndChild(objectNode);
-
     return objectNode;
 }
 
-bool ATExplorerProject::save(const string& fName)
-{
-    resetXML();
-
-    XMLElement* objects = newElement("at_objects");
-
-    Project* child = mChilds.getFirst();
-    while(child != nullptr)
-    {
-        XMLElement* node = child->addToXMLDocument(mTheXML, objects);
-        child->addToXMLDocumentAsChild(mTheXML, node);
-        objects->InsertEndChild(node);
-        child = mChilds.getNext();
-
-    }
-
-    mProjectRoot->InsertEndChild(objects);
-    return saveToFile(fName);
-}
 
 bool ATExplorerProject::open(const string& fname)
 {
@@ -182,6 +178,7 @@ int ATExplorerProject::loadATObjects()
     }
 
     int nrOfObjects = 0;
+
     //Load child by child
     XMLElement* p = project->FirstChildElement();
     while(p)
@@ -249,7 +246,7 @@ string toString(ATEObjectType tp)
     {
     	case ateBaseType: 			return "atExplorerProject";
     	case ateRenderProject: 		return "renderProject";
-        case ateVolume:				return "volume";
+        case ateTiffStack:			return "tiffstack";
         default:					return "unKnownObject";
     }
 }
@@ -258,7 +255,7 @@ ATEObjectType toATEObjectType(const string& ateObject)
 {
 	if(     ateObject == "atExplorerProject") 		return ateBaseType;
 	else if(ateObject == "renderProject") 			return ateRenderProject;
-	else if(ateObject == "volume") 					return ateVolume;
+	else if(ateObject == "tiffStack")  				return ateTiffStack;
 	else if(ateObject == "unKnownObject") 			return ateUnknown;
 
    	return ateUnknown;

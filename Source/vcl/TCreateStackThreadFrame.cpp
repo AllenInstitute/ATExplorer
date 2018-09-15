@@ -18,3 +18,10 @@ __fastcall TCreateStackThreadFrame::TCreateStackThreadFrame(FetchImagesThread& t
 
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TCreateStackThreadFrame::Button1Click(TObject *Sender)
+{
+    //Exit thread
+    mThread.stop();
+}
+

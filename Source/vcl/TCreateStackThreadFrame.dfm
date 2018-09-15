@@ -44,6 +44,7 @@ object CreateStackThreadFrame: TCreateStackThreadFrame
       Anchors = [akTop, akRight]
       Caption = 'x'
       TabOrder = 1
+      OnClick = Button1Click
     end
   end
 end

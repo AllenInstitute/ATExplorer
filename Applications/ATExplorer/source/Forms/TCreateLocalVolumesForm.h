@@ -32,6 +32,12 @@ using dsl::shared_ptr;
 using std::map;
 class TCreateStackThreadFrame;
 
+namespace at
+{
+class TiffStack;
+}
+
+
 typedef map< shared_ptr<FetchImagesThread>, shared_ptr<TCreateStackThreadFrame> > ThreadFrameThreadContainer;
 //---------------------------------------------------------------------------
 class PACKAGE TCreateLocalVolumesForm : public TForm
@@ -73,7 +79,8 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
 	void __fastcall FormShow(TObject *Sender);
 
     private:
-        RenderProject                       mRP;
+                                            //A New TiffStack becomes part of this project
+        RenderProject&         		        mRP;
         RegionOfInterest       	            mROI;
         RenderClient                        mRC;
 		StringList 				            getValidZsForStack(const string& stackName);
@@ -87,7 +94,7 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
         void								onThreadProgress(void*, void*);
         void								onThreadExit(void*, 	void*);
         TCreateStackThreadFrame*			getFrameForRawThread(FetchImagesThread* t);
-        bool                                createTiffStack(const StringList& l);
+        at:: TiffStack*                     createTiffStack(const StringList& l, const string& wd, const string& outFolder);
         string                              getImageType();
 
     public:

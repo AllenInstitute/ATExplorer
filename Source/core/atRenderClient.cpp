@@ -50,6 +50,7 @@ bool RenderClient::init(const string& imageType,
 	mScale = (scale);
 	mMinIntensity = (minInt);
 	mMaxIntensity = (maxInt);
+    setLocalCacheFolder(mRenderProject.getLocalCacheFolder());
     return true;
 }
 

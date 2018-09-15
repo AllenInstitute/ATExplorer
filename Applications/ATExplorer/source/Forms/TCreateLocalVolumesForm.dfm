@@ -96,7 +96,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       ItemHeight = 13
       TabOrder = 1
       OnClick = RenderStacksCBClick
-      ExplicitHeight = 309
+      ExplicitTop = 5
     end
     object Panel2: TPanel
       Left = 161

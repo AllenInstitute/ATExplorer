@@ -123,7 +123,7 @@ void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
 void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
 {
     Project* p = mPTreeView.getRootForSelectedProject();
-	SaveProjectA->Enabled = (p && p->isModified()) ? true : false;
+	SaveProjectA->Enabled = true;//(p && p->isModified()) ? true : false;
 }
 
 //---------------------------------------------------------------------------

@@ -23,25 +23,25 @@ using dsl::gEmptyString;
 
 //!A render project is a project as exposed by Render
 class RenderProject;
+class TiffStack;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
 enum ATEObjectType
 {
 	ateBaseType = 0,
     ateRenderProject,
-    ateVolume,
+    ateTiffStack,
     ateUnknown
 };
 
 string 			toString(ATEObjectType tp);
 ATEObjectType 	toATEObjectType(const string& str);
 
-//!A ATExplorerProject captures (is a container) for renderprojects and other possible objects related to a project
+//!An ATExplorerProject captures (is a container) for renderprojects and other possible objects related to a project
 //!in ATExplorer
 //!An ATExplorerProject is the baseclass for such objects.
 class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 {
-
     public:
                                                 ATExplorerProject(const string& projectName = gEmptyString);
         virtual                                 ~ATExplorerProject();
@@ -54,7 +54,7 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 
         string                                  getPresentXMLModelVersion();
         virtual dsl::XMLElement*           		addToXMLDocument(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
-		virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLNode* node);
+		virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* node);
 
         virtual bool   							loadFromXML(dsl::XMLNode* node);
 		string 									getATEObjectTypeAsString();
@@ -73,6 +73,7 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 
         ATExplorerProject*			         	createATObject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
+		TiffStack*								createTiffStackProject(tinyxml2::XMLElement* element);
 };
 
 }

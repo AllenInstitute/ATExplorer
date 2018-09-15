@@ -83,6 +83,16 @@ string RenderLayer::getImageLocalCachePath(const string& rootFolder)
     return s.str();
 }
 
+string RenderLayer::getRenderProjectLocalDataRoot(const string& rootFolder)
+{
+    stringstream s;
+    //Construct filePath
+	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
+    s 	<< rootFolder << "\\"<<mRenderProject.getProjectOwner()
+    	<<"\\"<<mRenderProject.getRenderProjectName();
+    return s.str();
+}
+
 string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder)
 {
     stringstream s;

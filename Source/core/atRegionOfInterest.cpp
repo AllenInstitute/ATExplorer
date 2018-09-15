@@ -172,13 +172,12 @@ XMLElement* RegionOfInterest::addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl
     XMLElement* roi(nullptr);
     roi = doc.NewElement("roi");
 
-
 //    	int								mZ;
 //	    double                          mX;
 //    	double                          mY;
 //	    int                             mWidth;
 //    	int                             mHeight;
-//        double							mScale;
+//      double							mScale;
 
     XMLElement* val(nullptr);
     val = doc.NewElement("z");

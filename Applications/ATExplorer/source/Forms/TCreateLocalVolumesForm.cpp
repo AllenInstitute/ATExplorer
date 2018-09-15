@@ -8,6 +8,8 @@
 #include "Poco/File.h"
 #include "dslFileUtils.h"
 #include "dslProcess.h"
+#include <functional>
+#include "atTiffStack.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -26,7 +28,6 @@ __fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, c
     mRC(rp, IdHTTP1),
     mImageMagickPath(imageMagickPath)
 {
-    mRC.setLocalCacheFolder(mRP.getLocalCacheFolder());
     mConvertExe = (joinPath(mImageMagickPath, "convert.exe"));
 }
 
@@ -130,7 +131,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
 
     if(getNumberOfRunningThreads())
     {
-//        mCreateStackThread.stop();
+        MessageDlg("Not Implemented", mtInformation, TMsgDlgButtons() << mbOK, 0);
     }
     else
     {
@@ -146,6 +147,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                 RenderServiceParameters rs = mRC.getRenderServiceParameters();
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
 
+                mRC.setRenderProject(mRP);
                 mRC.init(getImageType(), z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
                 //Create image URLs
@@ -275,7 +277,7 @@ void TCreateLocalVolumesForm::onThreadProgress(void* arg1, void* arg2)
 
 void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
 {
-    //Use this callback to create the stack
+    //Use this callback to create a stack
     FetchImagesThread* rawThread = (FetchImagesThread*) arg1;
 
     if(!rawThread)
@@ -284,14 +286,22 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 
     StringList urls(rawThread->getImageURLs());
+
+    if(urls.size() < 1)
+    {
+        return;
+    }
+
     StringList imageFiles;
-    string cacheFolder(rawThread->getCacheRootFolder());
+    string dataRoot(rawThread->getCacheRootFolder());
+    string imagesFolder(getImageLocalCachePathFromURL(urls[0], dataRoot));
+    string stackOutputFolder(getRenderProjectLocalDataRootFolderFromURL(urls[0], dataRoot));
 
     for(uint i = 0; i < urls.count(); i++)
     {
         string url = urls[i];
         //Make sure file exists
-        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, cacheFolder);
+        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName))
         {
@@ -301,14 +311,19 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 
     //  CreateStack (blocking)
-    createTiffStack(imageFiles);
+    TiffStack* tiffStack = createTiffStack(imageFiles, imagesFolder, stackOutputFolder);
+
+    // Create Stack Metadata file
+
+    //Add to project
+    mRP.addChild(tiffStack);
     if(RemoveSectionsCB->Checked)
     {
         for(uint i = 0; i < urls.count(); i++)
         {
             string url = urls[i];
             //Make sure file exists
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, cacheFolder);
+            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
             Poco::File f(outFilePathANDFileName);
             if(f.exists())
             {
@@ -319,14 +334,19 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 }
 
-bool TCreateLocalVolumesForm::createTiffStack(const StringList& images)
+//This will create a physical tiffstack on file, as well as a tiffstack project holding meta data
+TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, const string& wd, const string& outFolder)
 {
+
 	Process IMConvert;
     IMConvert.setExecutable(mConvertExe);
-    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+    IMConvert.setWorkingDirectory(wd);
 
     //Creat output filename
+    //Instead of UUID, create a hash from the section numbers involved
     string stackFName("stack_" + getUUID());
+
+    TiffStack* tiffStack = new TiffStack(stackFName, outFolder);
 
     //Create commandline for imagemagicks convert program
     stringstream cmdLine;
@@ -337,11 +357,12 @@ bool TCreateLocalVolumesForm::createTiffStack(const StringList& images)
         cmdLine << fName <<" ";
     }
 
-	cmdLine << stackFName << ".tif";
+	cmdLine << joinPath(outFolder, stackFName) << ".tif";
 
-    Log(lInfo) << "Running convert on " << cmdLine.str();
+    Log(lInfo) << "Running convert.exe using command line:" << cmdLine.str();
 	IMConvert.setup(cmdLine.str(), mhCatchMessages);
     IMConvert.start(false);
+    return tiffStack;
 }
 //---------------------------------------------------------------------------
 void __fastcall TCreateLocalVolumesForm::FormShow(TObject *Sender)

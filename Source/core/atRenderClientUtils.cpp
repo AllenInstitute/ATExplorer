@@ -30,6 +30,13 @@ string getImageLocalCachePathFromURL(const string& url, const string& cacheRootF
     RenderLayer rl(url);
 	return rl.getImageLocalCachePath(cacheRootFolder);
 }
+
+string getRenderProjectLocalDataRootFolderFromURL(const string& url, const string& cacheFolder)
+{
+    RenderLayer rl(url);
+	return rl.getRenderProjectLocalDataRoot(cacheFolder);
+}
+
 //---------------------------------------------------------------------------
 string getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder)
 {

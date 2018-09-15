@@ -20,7 +20,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 FetchImagesThread::FetchImagesThread(const StringList& urls, const string& cacheRoot)
 :
 mImageURLs(urls),
-mCacheRootFolder(cacheRoot),
+mOutputDataFolder(cacheRoot),
 onEnter(nullptr),
 onProgress(nullptr),
 onExit(nullptr)
@@ -37,7 +37,7 @@ void FetchImagesThread::setup(const StringList& urls, const string& cacheFolder)
 {
 	mExtraParameters.clear();
 	mImageURLs = urls;
-    mCacheRootFolder = cacheFolder;
+    mOutputDataFolder = cacheFolder;
 }
 
 StringList FetchImagesThread::getImageURLs()
@@ -47,7 +47,7 @@ StringList FetchImagesThread::getImageURLs()
 
 string FetchImagesThread::getCacheRootFolder()
 {
-    return mCacheRootFolder;
+    return mOutputDataFolder;
 }
 
 void FetchImagesThread::addParameter(const string& api)
@@ -63,14 +63,14 @@ void FetchImagesThread::addParameters(const StringList& paras)
 bool FetchImagesThread::setCacheRoot(const string& cr)
 {
 	//Check if path exists, if not try to create it
-	mCacheRootFolder = cr;
-    if(folderExists(mCacheRootFolder))
+	mOutputDataFolder = cr;
+    if(folderExists(mOutputDataFolder))
     {
     	return true;
     }
     else
     {
-    	return createFolder(mCacheRootFolder);
+    	return createFolder(mOutputDataFolder);
     }
 }
 
@@ -111,7 +111,7 @@ void FetchImagesThread::worker()
 	    	string url = mImageURLs[i];
 
             //Check cache first. if already in cache, don't fetch
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder);
+            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mOutputDataFolder);
            	Poco::File f(outFilePathANDFileName);
             if(f.exists() && f.getSize() > 200)
             {

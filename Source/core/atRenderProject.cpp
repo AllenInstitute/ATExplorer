@@ -52,20 +52,20 @@ mRenderService("")
 	mATEObjectType = (ateRenderProject);
 }
 
-RenderProject::RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project)
-:
-ATExplorerProject(name),
-mLocalCacheRootFolder(""),
-mOwner(owner),
-mRenderProjectName(project),
-mSelectedStack("<none>"),
-mRenderService(rs),
-mCurrentROI(0,0,500,500),
-mMinIntensity(0),
-mMaxIntensity(65535)
-{
-	mATEObjectType = (ateRenderProject);
-}
+//RenderProject::RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project)
+//:
+//ATExplorerProject(name),
+//mLocalCacheRootFolder(""),
+//mOwner(owner),
+//mRenderProjectName(project),
+//mSelectedStack("<none>"),
+//mRenderService(rs),
+//mCurrentROI(0,0,500,500),
+//mMinIntensity(0),
+//mMaxIntensity(65535)
+//{
+//	mATEObjectType = (ateRenderProject);
+//}
 
 RenderProject::RenderProject(const RenderProject& rp)
 :
@@ -77,12 +77,12 @@ mCurrentROI(rp.mCurrentROI)
     mOwner		            = rp.mOwner;
     mRenderProjectName      = rp.mRenderProjectName;
     mSelectedStack		    = rp.mSelectedStack;
-    mStacks				    = rp.mStacks;
+    mRenderStacks		    = rp.mRenderStacks;
     mLocalCacheRootFolder 	= rp.mLocalCacheRootFolder;
     mCurrentROI             = rp.mCurrentROI;
     mMinIntensity		    = rp.mMinIntensity;
 	mMaxIntensity		    = rp.mMaxIntensity;
-
+    mRenderService          = rp.mRenderService;
 }
 
 RenderProject::~RenderProject()
@@ -97,13 +97,19 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
         mOwner		            = rhs.mOwner;
         mRenderProjectName	    = rhs.mRenderProjectName;
         mSelectedStack		    = rhs.mSelectedStack;
-        mStacks				    = rhs.mStacks;
+        mRenderStacks		    = rhs.mRenderStacks;
         mLocalCacheRootFolder 	= rhs.mLocalCacheRootFolder;
         mCurrentROI             = rhs.mCurrentROI;
     	mMinIntensity			= rhs.mMinIntensity;
 		mMaxIntensity			= rhs.mMaxIntensity;
+        mRenderService          = rhs.mRenderService;
     }
     return *this;
+}
+
+bool RenderProject::setRenderServiceParameters(const RenderServiceParameters& rsp)
+{
+    mRenderService = rsp;
 }
 
 void RenderProject::assignLocalCacheRootFolder(const string& rFolder)
@@ -180,7 +186,7 @@ int& RenderProject::getMaxIntensity()
     return mMaxIntensity;
 }
 
-XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLNode* parentNode)
+XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLElement* parentNode)
 {
     //Create XML for saving to file
     XMLElement* val(nullptr);
@@ -222,6 +228,17 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
     parentNode->InsertEndChild(val);
 
     mCurrentROI.addToXMLDocumentAsChild(doc, parentNode);
+
+   	//Create XML for saving to file
+   	XMLElement* tiffStacks = doc.NewElement("tiffstacks");
+    Project* child = mChilds.getFirst();
+    while(child != nullptr)
+    {
+        XMLElement* stackNode = child->addToXMLDocumentAsChild(doc, tiffStacks);
+        child = mChilds.getNext();
+    }
+
+    parentNode->InsertEndChild(tiffStacks);
     return val;
 }
 
@@ -288,7 +305,6 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
     {
     	mMaxIntensity = (e->GetText() ? dsl::toInt(e->GetText()) : 0);
     }
-
 
     e = node->FirstChildElement("roi");
     if(e)
