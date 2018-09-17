@@ -70,10 +70,6 @@ class PACKAGE TRenderProjectFrame : public TFrame
         TGroupBox *CacheGB;
         TButton *FetchSelectedZsBtn;
         TButton *ClearCacheBtn;
-        TGroupBox *GroupBox2;
-        TCheckListBox *OtherCB;
-        TGroupBox *GroupBox7;
-        TCheckListBox *StacksCB;
         TPopupMenu *ZsPopUpMenu;
         TMenuItem *Checkrange1;
         TMenuItem *CheckAll1;
@@ -122,6 +118,8 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TPopupMenu *PopupMenu1;
 	TPopupMenu *RenderStacksPopup;
 	TButton *Button2;
+	TSTDStringLabeledEdit *OutputDataRootFolderE;
+	TButton *BrowseForDataOutputPathBtn;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -151,6 +149,9 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall CreateCacheTimerTimer(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
+	void __fastcall OutputDataRootFolderEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+
 
     private:
    		FetchImagesThread								mCreateCacheThread;

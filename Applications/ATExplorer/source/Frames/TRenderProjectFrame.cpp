@@ -60,6 +60,8 @@ void TRenderProjectFrame::populate()
     RenderServiceParameters rsp(mRP.getRenderServiceParameters());
 	mRC.setBaseURL(rsp.getBaseURL());
 
+	OutputDataRootFolderE->setValue(mRP.getLocalCacheFolder());
+
     //Get stacks for project
     StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
@@ -80,13 +82,30 @@ void TRenderProjectFrame::populate()
 			StackCB->ItemIndex = indx;
            	StackCBChange(NULL);
         }
-
-        if(mRP.getSelectedSection() != -1)
+        else
         {
-        	int indx = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
-            mZs->ItemIndex = indx;
-            ClickZ(NULL);
+            if(StackCB->Items->Count)
+            {
+	            //Select the first stack
+		        StackCB->ItemIndex = 0;
+           		StackCBChange(NULL);
+            }
         }
+
+       	int indx = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
+        if(indx == -1 && mZs->Items->Count > 0)
+        {
+            mZs->ItemIndex = 0;
+        }
+        else
+        {
+            mZs->ItemIndex = indx;
+        }
+
+        ClickZ(NULL);
+        //Then select layer bounds
+        ResetButton->Click();
+        ClickZ(NULL);
     }
     populateCheckListBox(stacks, RenderStacksCB);
 }
@@ -111,20 +130,19 @@ void TRenderProjectFrame::checkCache()
 {
     //OtherCB
     //Todo reimplement this, to preserve any selected items, as clear remove any selected ones
-    StacksCB->Clear();
-    OtherCB->Clear();
-    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
-    for(int i = 0; i < stackFiles.count(); i++)
-    {
-        if(startsWith("stack_", stackFiles[i]))
-        {
-            //Setup something robust here later on
-            string* item = new string(joinPath(mRC.getImageLocalCachePath(), stackFiles[i]));
-            stringstream itemCaption;
-            itemCaption << "Stack_"<<i + 1;
-            StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
-        }
-    }
+//    OtherCB->Clear();
+//    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+//    for(int i = 0; i < stackFiles.count(); i++)
+//    {
+//        if(startsWith("stack_", stackFiles[i]))
+//        {
+//            //Setup something robust here later on
+//            string* item = new string(joinPath(mRC.getImageLocalCachePath(), stackFiles[i]));
+//            stringstream itemCaption;
+//            itemCaption << "Stack_"<<i + 1;
+//            StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+//        }
+//    }
 }
 
 //---------------------------------------------------------------------------
@@ -458,9 +476,6 @@ void __fastcall TRenderProjectFrame::IntensityKeyDown(TObject *Sender, WORD &Key
     ClickZ(NULL);
 }
 
-
-
-
 void __fastcall TRenderProjectFrame::ROIKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift)
 {
@@ -596,39 +611,39 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
 {
-    string cvt(joinPath(mIMPath, "convert.exe"));
-    Process& IMConvert = mAProcess;
-    IMConvert.reset();
-    IMConvert.setExecutable(cvt);
-    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
-
-    //Find all stacks for current ROI
-    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
-
-    //Create MIP's for current stack file
-
-    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
-    if(!temp)
-    {
-        Log(lError) << "Failed to extract string item";
-        return;
-    }
-
-    string currentStack(*temp);
-    string* mipFName = new string(getFileNameNoExtension(currentStack));
-
-    *mipFName = "mip_" + *mipFName + ".tif";
-    *mipFName = replaceSubstring("stack_", "", *mipFName);
-    stringstream cmdLine;
-    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
-    Log(lInfo) << "Running convert on " << cmdLine.str();
-
-    IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-
-    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
-    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
-    IMConvert.start(true);
+//    string cvt(joinPath(mIMPath, "convert.exe"));
+//    Process& IMConvert = mAProcess;
+//    IMConvert.reset();
+//    IMConvert.setExecutable(cvt);
+//    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+//
+//    //Find all stacks for current ROI
+//    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
+//
+//    //Create MIP's for current stack file
+//
+//    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+//    if(!temp)
+//    {
+//        Log(lError) << "Failed to extract string item";
+//        return;
+//    }
+//
+//    string currentStack(*temp);
+//    string* mipFName = new string(getFileNameNoExtension(currentStack));
+//
+//    *mipFName = "mip_" + *mipFName + ".tif";
+//    *mipFName = replaceSubstring("stack_", "", *mipFName);
+//    stringstream cmdLine;
+//    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
+//    Log(lInfo) << "Running convert on " << cmdLine.str();
+//
+//    IMConvert.setup(cmdLine.str(), mhCatchMessages);
+//    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+//
+//    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
+//    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
+//    IMConvert.start(true);
 }
 
 //---------------------------------------------------------------------------
@@ -636,38 +651,38 @@ void __fastcall TRenderProjectFrame::CheckBoxClick(TObject *Sender)
 {
     //Open mip
     TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
-    if(lb == StacksCB && StacksCB->ItemIndex != -1)
-    {
-        string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
-        if(!temp)
-        {
-            Log(lError) << "Failed to extract string item";
-            return;
-        }
-
-        string currentStack(replaceSubstring(".tif", "", replaceSubstring("stack_", "", *temp)));
-
-        //Populate mips for current stack
-        OtherCB->Clear();
-        StringList mipFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
-        for(int i = 0; i < mipFiles.count(); i++)
-        {
-            if(endsWith("_MIP.tif", mipFiles[i]))
-            {
-                //Setup something robust here later on
-                string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
-                if(item && contains(currentStack, *item))
-                {
-                    stringstream itemCaption;
-    	            itemCaption << "MIP_" << i + 1;
-	                OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
-                }
-            }
-        }
-    }
-    else if(lb == OtherCB)
-    {
-    }
+//    if(lb == StacksCB && StacksCB->ItemIndex != -1)
+//    {
+//        string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+//        if(!temp)
+//        {
+//            Log(lError) << "Failed to extract string item";
+//            return;
+//        }
+//
+//        string currentStack(replaceSubstring(".tif", "", replaceSubstring("stack_", "", *temp)));
+//
+//        //Populate mips for current stack
+//        OtherCB->Clear();
+//        StringList mipFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+//        for(int i = 0; i < mipFiles.count(); i++)
+//        {
+//            if(endsWith("_MIP.tif", mipFiles[i]))
+//            {
+//                //Setup something robust here later on
+//                string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
+//                if(item && contains(currentStack, *item))
+//                {
+//                    stringstream itemCaption;
+//    	            itemCaption << "MIP_" << i + 1;
+//	                OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+//                }
+//            }
+//        }
+//    }
+//    else if(lb == OtherCB)
+//    {
+//    }
 }
 
 void TRenderProjectFrame::OpenImageForm(string fName)
@@ -692,30 +707,30 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
 {
     Log(lInfo) << "Process Finished";
 
-    if(arg1 == (void*) StacksCB)
-    {
-        int itemIndx = StacksCB->ItemIndex;
-	    checkCache();
-        StacksCB->ItemIndex = itemIndx;
-        StacksCB->OnClick(StacksCB);
-
-        //Open MIP window
-        if(arg2)
-        {
-        	string& fName = *((string*) arg2);
-            if(fileExists(fName))
-            {
-                OpenImageForm(fName);
-                delete &fName;
-            }
-        }
-    }
-    else if(arg1 == (void*) mZs)
-    {
-        int itemIndx = StacksCB->ItemIndex;
-	    checkCache();
-        StacksCB->ItemIndex = itemIndx;
-    }
+//    if(arg1 == (void*) StacksCB)
+//    {
+//        int itemIndx = StacksCB->ItemIndex;
+//	    checkCache();
+//        StacksCB->ItemIndex = itemIndx;
+//        StacksCB->OnClick(StacksCB);
+//
+//        //Open MIP window
+//        if(arg2)
+//        {
+//        	string& fName = *((string*) arg2);
+//            if(fileExists(fName))
+//            {
+//                OpenImageForm(fName);
+//                delete &fName;
+//            }
+//        }
+//    }
+//    else if(arg1 == (void*) mZs)
+//    {
+//        int itemIndx = StacksCB->ItemIndex;
+//	    checkCache();
+//        StacksCB->ItemIndex = itemIndx;
+//    }
 }
 
 //---------------------------------------------------------------------------
@@ -769,14 +784,14 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
             fName = mRC.getImageLocalCachePathAndFileName();
         }
     }
-    else if(a->ActionComponent == OpenStackInExplorer)
-    {
-        fName = getFilePathFromSelectedCB(StacksCB);
-	}
-    else if(a->ActionComponent == OpenMIPInExplorer)
-    {
-        fName = getFilePathFromSelectedCB(OtherCB);
-    }
+//    else if(a->ActionComponent == OpenStackInExplorer)
+//    {
+//        fName = getFilePathFromSelectedCB(StacksCB);
+//	}
+//    else if(a->ActionComponent == OpenMIPInExplorer)
+//    {
+//        fName = getFilePathFromSelectedCB(OtherCB);
+//    }
     else if(a->ActionComponent == OpenROIInExplorer)
     {
         fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0)), getFilePathFromSelectedCB(ROI_CB));
@@ -882,21 +897,21 @@ void __fastcall TRenderProjectFrame::PaintBox1Paint(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::OtherCBDblClick(TObject *Sender)
 {
-    TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
-    if(lb != OtherCB)
-    {
-        return;
-    }
-
-    //Get item
-    TObject* item = lb->Items->Objects[lb->ItemIndex];
-    if(item)
-    {
-        string* fName((string*) item);
-        TImageForm* iForm (new TImageForm("", "", this));
-        iForm->load(*fName);
-        iForm->Show();
-    }
+//    TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
+//    if(lb != OtherCB)
+//    {
+//        return;
+//    }
+//
+//    //Get item
+//    TObject* item = lb->Items->Objects[lb->ItemIndex];
+//    if(item)
+//    {
+//        string* fName((string*) item);
+//        TImageForm* iForm (new TImageForm("", "", this));
+//        iForm->load(*fName);
+//        iForm->Show();
+//    }
 }
 
 void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseButton Button,
@@ -990,6 +1005,38 @@ void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
 
     mCreateVolumesForm->populate(mCurrentROI);
     mCreateVolumesForm->Show();
+}
+
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::BrowseForDataOutputPathBtnClick(TObject *Sender)
+
+{
+    TButton* btn = dynamic_cast<TButton*>(Sender);
+    if(btn == BrowseForDataOutputPathBtn)
+    {
+        //Browse for folder
+        string res = browseForFolder(OutputDataRootFolderE->getValue());
+        if(folderExists(res))
+        {
+            OutputDataRootFolderE->setValue(res);
+            mRP.assignLocalCacheRootFolder(res);
+        }
+        else
+        {
+            Log(lWarning) << "Path was not set..!";
+        }
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::OutputDataRootFolderEKeyDown(TObject *Sender,
+          WORD &Key, TShiftState Shift)
+{
+    if(Key == VK_RETURN)
+    {
+		mRP.assignLocalCacheRootFolder(OutputDataRootFolderE->getValue());
+    }
 }
 
 

@@ -4,6 +4,7 @@
 #include "dslStringList.h"
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -50,6 +51,11 @@ string TSelectRenderProjectParametersForm::getRenderProject()
     return stdstr(ProjectCB->Text);
 }
 
+string TSelectRenderProjectParametersForm::getOutputFolderLocation()
+{
+    return OutputDataRootFolderE->getValue();
+}
+
 RenderServiceParameters TSelectRenderProjectParametersForm::getRenderService()
 {
 	RenderServiceParameters service(BaseURLE->getValue(), HostPort->getValue());
@@ -63,7 +69,7 @@ void __fastcall TSelectRenderProjectParametersForm::FormCloseQuery(TObject *Send
     {
         if(OwnerCB->Text.Length() < 1 || ProjectCB->Text.Length() < 1)
         {
-            MessageDlg("Select an Owner and Project", mtInformation, TMsgDlgButtons() << mbOK, 0);
+            MessageDlg("Please select an Owner and a Project", mtInformation, TMsgDlgButtons() << mbOK, 0);
             CanClose = false;
         }
     }
@@ -96,6 +102,26 @@ void __fastcall TSelectRenderProjectParametersForm::PopulateOwnersBtnClick(TObje
         OwnerCB->ItemIndex = 0;
         OwnerCB->Text = OwnerCB->Items->Strings[0];
 		OwnerCBChange(NULL);
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TSelectRenderProjectParametersForm::BrowseForDataOutputPathBtnClick(TObject *Sender)
+{
+    TButton* btn = dynamic_cast<TButton*>(Sender);
+
+    if(btn == BrowseForDataOutputPathBtn)
+    {
+        //Browse for folder
+        string res = browseForFolder(OutputDataRootFolderE->getValue());
+        if(folderExists(res))
+        {
+            OutputDataRootFolderE->setValue(res);
+        }
+        else
+        {
+            Log(lWarning) << "Path was not set..!";
+        }
     }
 }
 

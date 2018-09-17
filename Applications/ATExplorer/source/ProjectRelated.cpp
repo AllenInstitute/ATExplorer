@@ -71,7 +71,8 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 	  	//RenderProject* rp (new RenderProject(rs, "", f->getRenderOwner(), f->getRenderProject()));
 		RenderProject* rp (new RenderProject("", f->getRenderOwner(), f->getRenderProject(), ""));
         rp->setRenderServiceParameters(rs);
-        rp->assignLocalCacheRootFolder(gAU.LocalCacheFolder);
+        rp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
+
 
 	    //Check how many renderproject childs
         int nrOfChilds = parent->getNumberOfChilds();

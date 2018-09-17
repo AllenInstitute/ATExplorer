@@ -3,7 +3,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   Top = 0
   ActiveControl = HostPort
   Caption = 'Setup Render Project'
-  ClientHeight = 305
+  ClientHeight = 278
   ClientWidth = 574
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -28,7 +28,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       574
       81)
     object BaseURLE: TSTDStringLabeledEdit
-      Left = 16
+      Left = 10
       Top = 40
       Width = 464
       Height = 21
@@ -41,7 +41,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Value = 'http://ibs-forrestc-ux1'
     end
     object HostPort: TIntegerLabeledEdit
-      Left = 486
+      Left = 480
       Top = 40
       Width = 49
       Height = 21
@@ -55,7 +55,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Value = 80
     end
     object PopulateOwnersBtn: TButton
-      Left = 536
+      Left = 530
       Top = 38
       Width = 35
       Height = 25
@@ -68,16 +68,17 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Left = 0
     Top = 81
     Width = 574
-    Height = 183
-    Align = alClient
+    Height = 78
+    Align = alTop
     Caption = 'Project'
     TabOrder = 1
+    ExplicitHeight = 183
     DesignSize = (
       574
-      183)
+      78)
     object Label2: TLabel
-      Left = 17
-      Top = 74
+      Left = 255
+      Top = 19
       Width = 34
       Height = 13
       Caption = 'Project'
@@ -90,8 +91,8 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Caption = 'Owner'
     end
     object ProjectCB: TComboBox
-      Left = 16
-      Top = 93
+      Left = 255
+      Top = 38
       Width = 225
       Height = 21
       Style = csDropDownList
@@ -100,7 +101,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       TabOrder = 0
     end
     object OwnerCB: TComboBox
-      Left = 17
+      Left = 10
       Top = 38
       Width = 224
       Height = 21
@@ -112,14 +113,15 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   end
   object Panel1: TPanel
     Left = 0
-    Top = 264
+    Top = 237
     Width = 574
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 264
     object Button1: TButton
-      Left = 405
-      Top = 6
+      Left = 396
+      Top = 9
       Width = 75
       Height = 25
       Caption = 'Cancel'
@@ -127,13 +129,51 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       TabOrder = 0
     end
     object Button2: TButton
-      Left = 486
-      Top = 6
+      Left = 477
+      Top = 9
       Width = 85
       Height = 25
       Caption = 'Ok'
       ModalResult = 1
       TabOrder = 1
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Top = 159
+    Width = 574
+    Height = 78
+    Align = alClient
+    Caption = 'Data Output'
+    TabOrder = 3
+    ExplicitLeft = -32
+    ExplicitTop = 270
+    ExplicitHeight = 105
+    DesignSize = (
+      574
+      78)
+    object OutputDataRootFolderE: TSTDStringLabeledEdit
+      Left = 10
+      Top = 41
+      Width = 518
+      Height = 21
+      Anchors = [akLeft, akTop, akRight]
+      EditLabel.Width = 86
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Output Data Root'
+      TabOrder = 0
+      Text = 'C:\ImageCache'
+      Value = 'C:\ImageCache'
+    end
+    object BrowseForDataOutputPathBtn: TButton
+      Left = 534
+      Top = 41
+      Width = 28
+      Height = 21
+      Anchors = [akTop, akRight]
+      Caption = '...'
+      TabOrder = 1
+      OnClick = BrowseForDataOutputPathBtnClick
     end
   end
   object IdHTTP1: TIdHTTP
@@ -150,7 +190,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 448
-    Top = 125
+    Left = 456
+    Top = 165
   end
 end
