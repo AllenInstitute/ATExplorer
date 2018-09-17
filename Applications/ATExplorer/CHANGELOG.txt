@@ -1,3 +1,18 @@
+Release 0.6.7 (Sept 19)
+=======================
+* Added RenderStackName to generated TIFF stacks
+* Added a splitter to stackname listbox in CreateVolumes form
+* RenderProject now have their own DataOutputfolder, that can be set upon creation as well as on the RenderProject form
+* Removed Stacks and the "other' list boxes on the RenderProject form. Instead, they should become items in the treeview
+* Fixed creation of atrenderproject bug
+* Adding TiffStack registration to project file
+* Mostly finished custom create tiffstacks form stuff
+* Moved low level units to source/core of the API.
+* Added check for ImageMagick convert.exe
+* Organizing code into proper modules
+* Added setting for ImageMagick path
+* Moved bunch of units to package
+
 Release 0.6.6 (Sept 6)
 =======================
 * Added popup menus to checkboxes on Renderproject pages
