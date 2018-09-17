@@ -7,7 +7,6 @@
 TCreateStackThreadFrame *CreateStackThreadFrame;
 //---------------------------------------------------------------------------
 
-
 extern int frameNr(0);
 //---------------------------------------------------------------------------
 __fastcall TCreateStackThreadFrame::TCreateStackThreadFrame(FetchImagesThread& t, TComponent* Owner)
@@ -15,7 +14,6 @@ __fastcall TCreateStackThreadFrame::TCreateStackThreadFrame(FetchImagesThread& t
     mThread(t)
 {
     this->Name = "Frame_" + IntToStr(frameNr++);
-
 }
 
 //---------------------------------------------------------------------------

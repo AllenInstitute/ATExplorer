@@ -68,6 +68,7 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
 	TPanel *MainPanel;
 	TScrollBox *ThreadsPanel;
 	TPropertyCheckBox *RemoveSectionsCB;
+	TSplitter *Splitter1;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);

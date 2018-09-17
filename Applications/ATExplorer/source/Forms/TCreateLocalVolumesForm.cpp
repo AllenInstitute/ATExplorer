@@ -161,7 +161,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                     }
                 }
 
-                shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread());
+                shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread(mRP.getSelectedStackName()));
         		t->setup(urls, mRP.getLocalCacheFolder());
 	    	    t->addParameters(paras);
                 t->assignCallBacks(onThreadEnter, onThreadProgress, onThreadExit);
@@ -295,7 +295,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     StringList imageFiles;
     string dataRoot(rawThread->getCacheRootFolder());
     string imagesFolder(getImageLocalCachePathFromURL(urls[0], dataRoot));
-    string stackOutputFolder(getRenderProjectLocalDataRootFolderFromURL(urls[0], dataRoot));
+
 
     for(uint i = 0; i < urls.count(); i++)
     {
@@ -310,8 +310,12 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         }
     }
 
+    string stackOutputFileNameAndPath(getRenderProjectLocalDataRootFolderFromURL(urls[0], dataRoot));
+
+    stackOutputFileNameAndPath = joinPath(stackOutputFileNameAndPath, "stack_" + rawThread->getRenderStackName());
+
     //  CreateStack (blocking)
-    TiffStack* tiffStack = createTiffStack(imageFiles, imagesFolder, stackOutputFolder);
+    TiffStack* tiffStack = createTiffStack(imageFiles, imagesFolder, stackOutputFileNameAndPath);
 
     // Create Stack Metadata file
 
@@ -335,18 +339,14 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
 }
 
 //This will create a physical tiffstack on file, as well as a tiffstack project holding meta data
-TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, const string& wd, const string& outFolder)
+TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, const string& wd, const string& outFName)
 {
-
 	Process IMConvert;
     IMConvert.setExecutable(mConvertExe);
     IMConvert.setWorkingDirectory(wd);
 
-    //Creat output filename
-    //Instead of UUID, create a hash from the section numbers involved
-    string stackFName("stack_" + getUUID());
 
-    TiffStack* tiffStack = new TiffStack(stackFName, outFolder);
+    TiffStack* tiffStack = new TiffStack(getFileNameNoPath(outFName), getFilePath(outFName));
 
     //Create commandline for imagemagicks convert program
     stringstream cmdLine;
@@ -357,7 +357,8 @@ TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, co
         cmdLine << fName <<" ";
     }
 
-	cmdLine << joinPath(outFolder, stackFName) << ".tif";
+    //Creat output filename
+	cmdLine << outFName << ".tif";
 
     Log(lInfo) << "Running convert.exe using command line:" << cmdLine.str();
 	IMConvert.setup(cmdLine.str(), mhCatchMessages);

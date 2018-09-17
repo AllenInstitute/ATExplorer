@@ -17,10 +17,11 @@ using namespace dsl;
 
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
-FetchImagesThread::FetchImagesThread(const StringList& urls, const string& cacheRoot)
+FetchImagesThread::FetchImagesThread(const string& renderStackName, const StringList& urls, const string& cacheRoot)
 :
 mImageURLs(urls),
 mOutputDataFolder(cacheRoot),
+mRenderStackName(renderStackName),
 onEnter(nullptr),
 onProgress(nullptr),
 onExit(nullptr)
@@ -39,6 +40,12 @@ void FetchImagesThread::setup(const StringList& urls, const string& cacheFolder)
 	mImageURLs = urls;
     mOutputDataFolder = cacheFolder;
 }
+
+string FetchImagesThread::getRenderStackName()
+{
+    return mRenderStackName;
+}
+
 
 StringList FetchImagesThread::getImageURLs()
 {

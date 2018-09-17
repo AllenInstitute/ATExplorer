@@ -13,17 +13,13 @@ object CreateStackThreadFrame: TCreateStackThreadFrame
     Align = alClient
     Caption = 'StackName'
     TabOrder = 0
-    ExplicitLeft = 96
-    ExplicitTop = 88
-    ExplicitWidth = 185
-    ExplicitHeight = 105
     DesignSize = (
       262
       68)
     object CurrentZ: TLabel
       Left = 198
       Top = 48
-      Width = 43
+      Width = 29
       Height = 13
       Anchors = [akTop, akRight]
       Caption = '0 (20)'
