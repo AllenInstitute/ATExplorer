@@ -270,8 +270,8 @@ object MainForm: TMainForm
     object FileOpen1: TFileOpen
       Category = 'File'
       Caption = '&Open...'
-      Dialog.DefaultExt = 'vc'
-      Dialog.Filter = '*.vc||*.*'
+      Dialog.DefaultExt = 'atp'
+      Dialog.Filter = 'ATExplorer Project *.atp|*.atp|Any (*.*)| *.*'
       Hint = 'Open|Opens an existing file'
       ImageIndex = 1
       ShortCut = 16463
@@ -356,7 +356,7 @@ object MainForm: TMainForm
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'atp'
-    Filter = 'ATExplorer Project|*.atp'
+    Filter = 'ATExplorer Project (*.atp)|*.atp|Any|*.*'
     Left = 32
     Top = 448
   end
@@ -364,7 +364,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800CC0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800D00210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0
