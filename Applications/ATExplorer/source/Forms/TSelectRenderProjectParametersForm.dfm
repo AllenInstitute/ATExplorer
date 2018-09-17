@@ -37,8 +37,8 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       EditLabel.Height = 13
       EditLabel.Caption = 'Host'
       TabOrder = 0
-      Text = 'http://localhost'
-      Value = 'http://localhost'
+      Text = 'http://ibs-forrestc-ux1'
+      Value = 'http://ibs-forrestc-ux1'
     end
     object HostPort: TIntegerLabeledEdit
       Left = 486

@@ -26,7 +26,6 @@ bool TGeneralPropertiesFrame::populate(Properties& props)
     props.disableEdits();
     if(props.getProperty("LOCAL_CACHE_FOLDER"))
     {
-// 		ImageCacheFolderE			->assignExternalProperty(dynamic_cast< Property<string>* >(props.getProperty("LOCAL_CACHE_FOLDER")), 			false);
 		ConnectSSHServersOnStartupCB->assignExternalProperty(dynamic_cast< Property<bool>*   >(props.getProperty("CONNECT_SERVERS_ON_STARTUP")), 	false);
     }
 	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(props.getProperty("IMAGE_MAGICK_PATH")), 			false);

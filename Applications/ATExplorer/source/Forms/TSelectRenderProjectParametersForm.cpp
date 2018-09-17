@@ -3,6 +3,7 @@
 #include "TSelectRenderProjectParametersForm.h"
 #include "dslStringList.h"
 #include "dslVCLUtils.h"
+#include "dslLogger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -19,16 +20,23 @@ __fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersFor
     mRP("", "", "" , ""),
     mRC(mRP,IdHTTP1)
 {
-    mRC.setBaseURL(BaseURLE->getValue());
-
-    //Populate owners
-    StringList o = mRC.getOwners();
-    if(o.size())
+    try
     {
-		populateDropDown(o, OwnerCB);
-        OwnerCB->ItemIndex = 0;
-        OwnerCB->Text = OwnerCB->Items->Strings[0];
-		OwnerCBChange(NULL);
+        mRC.setBaseURL(BaseURLE->getValue());
+
+        //Populate owners
+        StringList o = mRC.getOwners();
+        if(o.size())
+        {
+            populateDropDown(o, OwnerCB);
+            OwnerCB->ItemIndex = 0;
+            OwnerCB->Text = OwnerCB->Items->Strings[0];
+            OwnerCBChange(NULL);
+        }
+    }
+    catch(...)
+    {
+        Log(lError) << "We were not able to connect to host: " << BaseURLE->getValue();
     }
 }
 
