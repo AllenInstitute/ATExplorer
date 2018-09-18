@@ -16,6 +16,7 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
 {
 	public:
 							                FetchImagesThread(const string& renderStackName = dsl::gEmptyString, const StringList& urls = StringList(dsl::gEmptyString), const string& cacheRoot = dsl::gEmptyString);
+							                ~FetchImagesThread();
 		void				                setup(const StringList& urls, const string& cacheFolder);
         void                                assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three);
         string                              getRenderStackName();

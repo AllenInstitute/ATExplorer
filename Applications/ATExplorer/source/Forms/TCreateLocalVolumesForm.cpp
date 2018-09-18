@@ -111,6 +111,7 @@ void __fastcall TCreateLocalVolumesForm::FormCloseQuery(TObject *Sender, bool &C
 void __fastcall TCreateLocalVolumesForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
     //Cleanup and stop any running threads
+	mThreads.clear();
 }
 
 //---------------------------------------------------------------------------

@@ -26,7 +26,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
     Height = 44
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 329
     DesignSize = (
       825
       44)
@@ -60,7 +59,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
     Align = alClient
     Constraints.MinHeight = 311
     TabOrder = 1
-    ExplicitHeight = 329
     object Splitter1: TSplitter
       Left = 230
       Top = 1
@@ -77,8 +75,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       Align = alLeft
       Caption = 'Sections'
       TabOrder = 0
-      ExplicitLeft = 443
-      ExplicitHeight = 327
       object mZs: TCheckListBox
         Left = 2
         Top = 15
@@ -106,8 +102,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       Height = 309
       Align = alLeft
       TabOrder = 2
-      ExplicitLeft = 164
-      ExplicitHeight = 327
       object imageParasGB: TGroupBox
         Left = 1
         Top = 157
@@ -116,7 +110,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
         Align = alBottom
         Caption = 'Region of Interest (ROI)'
         TabOrder = 0
-        ExplicitTop = 175
         object mScaleE: TFloatLabeledEdit
           Left = 16
           Top = 34
@@ -209,7 +202,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
         Align = alClient
         Caption = 'Image Output'
         TabOrder = 1
-        ExplicitHeight = 152
         object Label4: TLabel
           Left = 71
           Top = 59
@@ -266,9 +258,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       Height = 309
       Align = alClient
       TabOrder = 3
-      ExplicitLeft = 537
-      ExplicitWidth = 287
-      ExplicitHeight = 327
     end
   end
   object IdHTTP1: TIdHTTP

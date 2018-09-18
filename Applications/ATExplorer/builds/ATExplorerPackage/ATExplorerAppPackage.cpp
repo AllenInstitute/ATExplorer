@@ -1,15 +1,15 @@
 #include <vcl.h>
 #pragma hdrstop
 USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
+USEFORM("..\..\source\Forms\TCreateLocalVolumesForm.cpp", CreateLocalVolumesForm);
 USEFORM("..\..\source\Forms\TImageForm.cpp", ImageForm);
-USEFORM("..\..\source\Forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
 USEFORM("..\..\source\Frames\TRenderProjectFrame.cpp", RenderProjectFrame); /* TFrame: File Type */
+USEFORM("..\..\..\..\Source\vcl\frames\TCreateStackThreadFrame.cpp", CreateStackThreadFrame); /* TFrame: File Type */
 USEFORM("P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
-USEFORM("..\..\source\Frames\TImageControlsFrame.cpp", ImageControlsFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
 USEFORM("..\..\source\Forms\TSelectZsForm.cpp", SelectZsForm);
 USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
-USEFORM("..\..\source\Forms\TCreateLocalVolumesForm.cpp", CreateLocalVolumesForm);
-USEFORM("..\..\..\..\Source\vcl\TCreateStackThreadFrame.cpp", CreateStackThreadFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Frames\TImageControlsFrame.cpp", ImageControlsFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------

@@ -23,7 +23,8 @@ class PACKAGE TCreateStackThreadFrame : public TFrame
         FetchImagesThread&   mThread;
 
     public:
-        __fastcall TCreateStackThreadFrame(FetchImagesThread& thread, TComponent* Owner);
+			        __fastcall 	TCreateStackThreadFrame(FetchImagesThread& thread, TComponent* Owner);
+			        __fastcall	~TCreateStackThreadFrame();
 };
 
 extern PACKAGE TCreateStackThreadFrame *CreateStackThreadFrame;
