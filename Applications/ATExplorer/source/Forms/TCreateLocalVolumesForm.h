@@ -97,10 +97,11 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
         TCreateStackThreadFrame*			getFrameForRawThread(FetchImagesThread* t);
         at:: TiffStack*                     createTiffStack(const StringList& l, const string& wd, const string& outFolder);
         string                              getImageType();
+        void                                populateZs(const string& stack);
 
     public:
 				     __fastcall             TCreateLocalVolumesForm(RenderProject& rp, const string& imageMagickPath, TComponent* Owner);
-        void					            populate(const RegionOfInterest& roi);
+        void					            populate(const RegionOfInterest& roi, const StringList& stacks);
 };
 
 extern PACKAGE TCreateLocalVolumesForm *CreateLocalVolumesForm;

@@ -31,37 +31,58 @@ __fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, c
     mConvertExe = (joinPath(mImageMagickPath, "convert.exe"));
 }
 
-void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi)
+void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const StringList& checked_stacks)
 {
     mROI = roi;
 
     RenderServiceParameters rsp(mRP.getRenderServiceParameters());
 	mRC.setBaseURL(rsp.getBaseURL());
 
+    //Setup ROI
+    XCoordE->setValue(mROI.getX1());
+    YCoordE->setValue(mROI.getY1());
+    Width->setValue(mROI.getWidth());
+    Height->setValue(mROI.getHeight());
+    mScaleE->setValue(mROI.getScale());
+
+    //Min and max intensity
+    MinIntensityE->setReference(mRP.getMinIntensity());
+    MaxIntensityE->setReference(mRP.getMaxIntensity());
+
     //Get stacks for project
     StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
     {
 	    populateCheckListBox(stacks, RenderStacksCB);
-	   	StringList zs = getValidZsForStack(stacks[0]);
-        Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
-        Zs_GB->Caption = " Z Values (" + IntToStr((int) zs.count()) + ") ";
-
-        //Populate list box
-        populateCheckListBox(zs, mZs);
-        mZs->CheckAll(cbChecked);
-
-        //Setup ROI
-        XCoordE->setValue(mROI.getX1());
-        YCoordE->setValue(mROI.getY1());
-        Width->setValue(mROI.getWidth());
-        Height->setValue(mROI.getHeight());
-        mScaleE->setValue(mROI.getScale());
-
-        //Min and max intensity
-        MinIntensityE->setReference(mRP.getMinIntensity());
-        MaxIntensityE->setReference(mRP.getMaxIntensity());
     }
+
+    //Check stacks from supplied list
+    for(int i = 0; i < checked_stacks.count(); i++)
+    {
+		int iToCheck = RenderStacksCB->Items->IndexOf(checked_stacks[i].c_str());
+        if(iToCheck != -1)
+        {
+			RenderStacksCB->Checked[iToCheck] = true;
+        }
+
+        if(i == 0 && iToCheck != -1)
+        {
+        	RenderStacksCB->Selected[iToCheck] = true;
+        	RenderStacksCB->ItemIndex = iToCheck;
+        }
+    }
+	RenderStacksCBClick(NULL);
+}
+
+void TCreateLocalVolumesForm::populateZs(const string& stack)
+{
+    StringList zs = getValidZsForStack(stack);
+    Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
+    Zs_GB->Caption = " Z Values (" + IntToStr((int) zs.count()) + ") ";
+
+    //Populate list box
+    populateCheckListBox(zs, mZs);
+    mZs->CheckAll(cbChecked);
 }
 
 StringList TCreateLocalVolumesForm::getValidZsForStack(const string& stackName)
@@ -191,7 +212,7 @@ string TCreateLocalVolumesForm::getImageType()
     switch(ImageTypeRG->ItemIndex)
     {
         case 0: return "jpeg-image";
-        case 1: return "tiff-image";
+        case 1: return "tiff16-image";
         case 2: return "png-image";
     }
 
@@ -210,11 +231,36 @@ void __fastcall TCreateLocalVolumesForm::RenderStacksCBClick(TObject *Sender)
         }
     }
 
+    //Populate z's
 	RunBtn->Enabled = checkedCount > 0 ? true : false;
+	string stack = stdstr(RenderStacksCB->Items->Strings[RenderStacksCB->ItemIndex]);
+
+    //If we have one checked stack, make sure succesivley checked stacks have the same z's
+    if(checkedCount)
+    {
+       	StringList zs = getValidZsForStack(stack);
+
+		//make sure these z's are the same as the currenttly seleted ones
+       	StringList currentzs = getStrings(mZs);
+
+       	if(zs != currentzs && currentzs.count() != 0)
+       	{
+            MessageDlg("This stack can't be checked as it does not contain the same z's as other checked stacks!", mtError, TMsgDlgButtons() << mbOK, 0);
+            RenderStacksCB->Checked[RenderStacksCB->ItemIndex] = false;
+       	}
+        else
+        {
+			populateZs(stack);
+        }
+    }
+    else
+    {
+    	//Repopulate z's
+	    populateZs(stack);
+    }
 }
 
 void __fastcall TCreateLocalVolumesForm::CreateStacksTimerTimer(TObject *Sender)
-
 {
 	if(getNumberOfRunningThreads())
     {

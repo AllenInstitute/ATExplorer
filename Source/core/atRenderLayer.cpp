@@ -111,7 +111,7 @@ string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder)
         {
 			s << ".png";
         }
-        else if(mImageType == "tiff-image")
+        else if(mImageType == "tiff16-image")
         {
 			s << ".tiff";
         }

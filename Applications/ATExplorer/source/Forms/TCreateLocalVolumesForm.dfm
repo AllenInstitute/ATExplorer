@@ -2,7 +2,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
   Left = 0
   Top = 0
   Caption = 'Create Volumes'
-  ClientHeight = 373
+  ClientHeight = 355
   ClientWidth = 825
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,11 +21,12 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 329
+    Top = 311
     Width = 825
     Height = 44
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 329
     DesignSize = (
       825
       44)
@@ -55,31 +56,34 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
     Left = 0
     Top = 0
     Width = 825
-    Height = 329
+    Height = 311
     Align = alClient
     Constraints.MinHeight = 311
     TabOrder = 1
+    ExplicitHeight = 329
     object Splitter1: TSplitter
-      Left = 161
+      Left = 230
       Top = 1
-      Height = 327
+      Height = 309
       ExplicitLeft = 152
       ExplicitTop = -4
+      ExplicitHeight = 327
     end
     object Zs_GB: TGroupBox
-      Left = 443
+      Left = 512
       Top = 1
       Width = 94
-      Height = 327
+      Height = 309
       Align = alLeft
       Caption = 'Sections'
       TabOrder = 0
-      ExplicitLeft = 440
+      ExplicitLeft = 443
+      ExplicitHeight = 327
       object mZs: TCheckListBox
         Left = 2
         Top = 15
         Width = 90
-        Height = 310
+        Height = 292
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
@@ -88,29 +92,31 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
     object RenderStacksCB: TCheckListBox
       Left = 1
       Top = 1
-      Width = 160
-      Height = 327
+      Width = 229
+      Height = 309
       Align = alLeft
       ItemHeight = 13
       TabOrder = 1
       OnClick = RenderStacksCBClick
     end
     object Panel2: TPanel
-      Left = 164
+      Left = 233
       Top = 1
       Width = 279
-      Height = 327
+      Height = 309
       Align = alLeft
       TabOrder = 2
-      ExplicitLeft = 161
+      ExplicitLeft = 164
+      ExplicitHeight = 327
       object imageParasGB: TGroupBox
         Left = 1
-        Top = 175
+        Top = 157
         Width = 277
         Height = 151
         Align = alBottom
         Caption = 'Region of Interest (ROI)'
         TabOrder = 0
+        ExplicitTop = 175
         object mScaleE: TFloatLabeledEdit
           Left = 16
           Top = 34
@@ -199,10 +205,11 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
         Left = 1
         Top = 1
         Width = 277
-        Height = 174
+        Height = 156
         Align = alClient
         Caption = 'Image Output'
         TabOrder = 1
+        ExplicitHeight = 152
         object Label4: TLabel
           Left = 71
           Top = 59
@@ -210,6 +217,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           Height = 13
           Caption = 'Image type'
           Enabled = False
+          Visible = False
         end
         object ImageTypeRG: TRadioGroup
           Left = 5
@@ -252,14 +260,15 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       end
     end
     object ThreadsPanel: TScrollBox
-      Left = 537
+      Left = 606
       Top = 1
-      Width = 287
-      Height = 327
+      Width = 218
+      Height = 309
       Align = alClient
       TabOrder = 3
-      ExplicitLeft = 534
-      ExplicitWidth = 290
+      ExplicitLeft = 537
+      ExplicitWidth = 287
+      ExplicitHeight = 327
     end
   end
   object IdHTTP1: TIdHTTP

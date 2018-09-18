@@ -1003,7 +1003,9 @@ void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
     	mCreateVolumesForm = new TCreateLocalVolumesForm(mRP, mIMPath, this);
     }
 
-    mCreateVolumesForm->populate(mCurrentROI);
+    StringList stacks;
+    stacks.append(stdstr(StackCB->Text));
+    mCreateVolumesForm->populate(mCurrentROI, stacks);
     mCreateVolumesForm->Show();
 }
 
