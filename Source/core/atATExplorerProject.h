@@ -57,6 +57,8 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 		virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* node);
 
         virtual bool   							loadFromXML(dsl::XMLNode* node);
+
+        ATEObjectType                           getProjectType();
 		string 									getATEObjectTypeAsString();
 
         										//!Info text is used if the user want to document the purpose of

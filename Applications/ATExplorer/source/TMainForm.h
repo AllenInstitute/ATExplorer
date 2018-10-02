@@ -140,7 +140,6 @@ __published:	// IDE-managed Components
 	void __fastcall Close3Click(TObject *Sender);
 	void __fastcall RemoveFromProjectAExecute(TObject *Sender);
 	void __fastcall RenameClick(TObject *Sender);
-	void __fastcall OpenProjectOptionsAExecute(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;

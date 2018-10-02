@@ -267,10 +267,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\source\Frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="..\..\..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
         <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
         <FormResources Include="..\..\source\Frames\TImageControlsFrame.dfm"/>

@@ -17,11 +17,6 @@ using namespace tinyxml2;
 
 const string gATExplorerProjectFileVersion    = "0.6";
 
-string ATExplorerProject::getATEObjectTypeAsString()
-{
-	return at::toString(mATEObjectType);
-}
-
 ATExplorerProject::ATExplorerProject(const string& projName)
 :
 Project(projName, "atp"),
@@ -33,6 +28,16 @@ mATEObjectType(ateBaseType)
 ATExplorerProject::~ATExplorerProject()
 {
     Log(lDebug5) << "In destructor of project: " << getProjectName();
+}
+
+string ATExplorerProject::getATEObjectTypeAsString()
+{
+	return at::toString(mATEObjectType);
+}
+
+ATEObjectType ATExplorerProject::getProjectType()
+{
+    return mATEObjectType;
 }
 
 bool ATExplorerProject::isModified()
@@ -130,7 +135,6 @@ XMLElement* ATExplorerProject::addToXMLDocument(tinyxml2::XMLDocument& doc, XMLN
     objectNode->InsertEndChild(rootNode);
     return objectNode;
 }
-
 
 bool ATExplorerProject::open(const string& fname)
 {

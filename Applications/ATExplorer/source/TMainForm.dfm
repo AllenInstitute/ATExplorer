@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   AlphaBlendValue = 100
   Caption = 'Volume Creator'
-  ClientHeight = 694
+  ClientHeight = 708
   ClientWidth = 1442
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -25,21 +25,23 @@ object MainForm: TMainForm
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 675
+    Top = 689
     Width = 1442
     Height = 19
     Panels = <>
+    ExplicitTop = 675
   end
   object MainPanel: TPanel
     Left = 0
     Top = 25
     Width = 1442
-    Height = 650
+    Height = 664
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 650
     object Splitter2: TSplitter
       Left = 1
-      Top = 510
+      Top = 524
       Width = 1440
       Height = 3
       Cursor = crVSplit
@@ -51,19 +53,20 @@ object MainForm: TMainForm
     object Splitter1: TSplitter
       Left = 201
       Top = 1
-      Height = 490
+      Height = 504
       ExplicitLeft = 195
       ExplicitTop = 19
       ExplicitHeight = 837
     end
     object BottomPanel: TPanel
       Left = 1
-      Top = 513
+      Top = 527
       Width = 1440
       Height = 136
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
+      ExplicitTop = 513
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -97,14 +100,15 @@ object MainForm: TMainForm
       Left = 1
       Top = 1
       Width = 200
-      Height = 490
+      Height = 504
       Align = alLeft
       TabOrder = 1
+      ExplicitHeight = 490
       object ProjectTView: TTreeView
         Left = 1
         Top = 1
         Width = 198
-        Height = 488
+        Height = 502
         Align = alClient
         Indent = 19
         PopupMenu = ProjTreeViewPopup
@@ -117,27 +121,31 @@ object MainForm: TMainForm
         OnDblClick = ProjectTViewDblClick
         OnEdited = ProjectTViewEdited
         OnEditing = ProjectTViewEditing
+        ExplicitHeight = 488
       end
     end
     object ShowBottomPanelBtn: TButton
       Left = 1
-      Top = 491
+      Top = 505
       Width = 1440
       Height = 19
       Action = ToggleBottomPanelA
       Align = alBottom
       TabOrder = 2
       Visible = False
+      ExplicitTop = 491
     end
     object MainPC: TPageControl
       Left = 204
       Top = 1
       Width = 1237
-      Height = 490
+      Height = 504
       Align = alClient
       PopupMenu = MainPCPopup
       TabOrder = 3
       OnContextPopup = MainPCContextPopup
+      ExplicitLeft = 269
+      ExplicitTop = 49
     end
   end
   object TopPanel2: TPanel
@@ -350,8 +358,7 @@ object MainForm: TMainForm
     end
     object OpenProjectOptionsA: TAction
       Category = 'TreeView'
-      Caption = 'Open Project Options'
-      OnExecute = OpenProjectOptionsAExecute
+      Caption = 'Properties'
     end
   end
   object SaveDialog1: TSaveDialog
@@ -364,7 +371,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800D00210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800D40210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0

@@ -302,10 +302,4 @@ void __fastcall TMainForm::RenameClick(TObject *Sender)
     n->EditText();
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::OpenProjectOptionsAExecute(TObject *Sender)
-{
-    MessageDlg("Not Implemented Yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
-}
-
 

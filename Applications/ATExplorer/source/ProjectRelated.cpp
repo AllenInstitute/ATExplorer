@@ -8,6 +8,7 @@
 #include "atRenderProject.h"
 #include "TSelectRenderProjectParametersForm.h"
 #include "ateAppUtilities.h"
+#include "atUtilities.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;
@@ -25,13 +26,32 @@ void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
           UnicodeString &S)
 {
 	//Update underlying object with new valuse..
-    ATExplorerProject* ate = (ATExplorerProject*) Node->Data;
-    if(ate)
+    ATExplorerProject* p = (ATExplorerProject*) Node->Data;
+    if(!p)
     {
-    	ate->setProjectName(stdstr(S));
-        ate->setModified();
-		SaveProjectA->Update();
+		mPTreeView.getTreeView()->ReadOnly = true;
+        return;
     }
+
+    if(p->getProjectType() == ateBaseType)
+    {
+
+    }
+    else if(p->getProjectType() == ateRenderProject)
+    {
+        //Check for opened tabs, and change their captions
+        string n = p->getProjectName();
+        TTabSheet* ts = getTabWithCaption(n, MainPC);
+        if(ts)
+        {
+        	ts->Caption = S;
+        }
+    }
+
+    p->setProjectName(stdstr(S));
+    p->setModified();
+    SaveProjectA->Update();
+
 	mPTreeView.getTreeView()->ReadOnly = true;
 }
 

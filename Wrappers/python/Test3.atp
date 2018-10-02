@@ -1,0 +1,26 @@
+<at_project>
+    <version>0.6</version>
+    <name>ATExplorer Project 1</name>
+    <at_objects>
+        <at_object type="renderProject" name="Render project 1">
+            <renderhost>http://ibs-forrestc-ux1</renderhost>
+            <renderhostport>80</renderhostport>
+            <renderhostversion>/render-ws/v1</renderhostversion>
+            <owner>1_ribbon_QCtests</owner>
+            <project>M355360_Control</project>
+            <selected_stack>Acquisition_0_DAPI_1</selected_stack>
+            <local_cache_folder>F:\OutData</local_cache_folder>
+            <min_intensity>0</min_intensity>
+            <max_intensity>65535</max_intensity>
+            <roi>
+                <z>101</z>
+                <x>0</x>
+                <y>0</y>
+                <width>5323</width>
+                <height>6961</height>
+                <scale>0.10300244217784801</scale>
+            </roi>
+            <tiffstacks/>
+        </at_object>
+    </at_objects>
+</at_project>
