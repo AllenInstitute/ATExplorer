@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F1EF8DA0-6146-4BAC-981B-90975E108F2B}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="builds\ATExplorer\ATExplorer.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ATExplorerAppPackage">
+        <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj"/>
+    </Target>
+    <Target Name="ATExplorerAppPackage:Clean">
+        <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ATExplorerAppPackage:Make">
+        <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ATExplorer">
+        <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj"/>
+    </Target>
+    <Target Name="ATExplorer:Clean">
+        <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ATExplorer:Make">
+        <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ATExplorerAppPackage;ATExplorer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ATExplorerAppPackage:Make;ATExplorer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
