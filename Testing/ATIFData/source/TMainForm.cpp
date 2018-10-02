@@ -8,7 +8,9 @@
 #include "ateAppUtilities.h"
 #include "atRenderProject.h"
 #include "atRenderPRojectView.h"
+#include "atATIFDataProject.h"
 #include <gdiplus.h>
+#include "TCreateATIFDataProjectForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -307,6 +309,44 @@ void __fastcall TMainForm::RenameClick(TObject *Sender)
 void __fastcall TMainForm::OpenProjectOptionsAExecute(TObject *Sender)
 {
     MessageDlg("", mtInformation, TMsgDlgButtons() << mbOK, 0);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::AddATIFDataActionExecute(TObject *Sender)
+{
+
+    TTreeNode* atNode = ProjectTView->Selected;
+    if(!atNode)
+    {
+        return;
+    }
+	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
+
+    if(parent)
+    {
+        //If we can cast this to a ATIFDataProject, add to parent
+        if(dynamic_cast<ATIFDataProject*>(parent))
+        {
+            parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
+        }
+        //Open dialog to capture render parameters
+		unique_ptr<TCreateATIFDataProjectForm> f (new TCreateATIFDataProjectForm(this));
+
+        if(f->ShowModal() == mrCancel)
+        {
+            return;
+        }
+
+		ATIFDataProject* rp (new ATIFDataProject("", f->getDataRootFolderLocation()));
+
+	    //Check how many renderproject childs
+        int nrOfChilds = parent->getNumberOfChilds();
+
+        rp->setProjectName("ATIFData project " + dsl::toString(nrOfChilds + 1));
+    	parent->addChild(rp);
+    	parent->setModified();
+		mPTreeView.addATIFDataProjectToView(parent, rp);
+    }
 }
 
 

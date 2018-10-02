@@ -3,11 +3,14 @@
         <ProjectGuid>{F1EF8DA0-6146-4BAC-981B-90975E108F2B}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="builds\ATExplorer\ATExplorer.cbproj">
-            <Dependencies/>
+            <Dependencies>builds\ATExplorerPackage\ATExplorerAppPackage.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -17,6 +20,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="atExplorerFoundation">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Clean">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Make">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="ATExplorerAppPackage">
         <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj"/>
     </Target>
@@ -26,23 +38,23 @@
     <Target Name="ATExplorerAppPackage:Make">
         <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ATExplorer">
+    <Target Name="ATExplorer" DependsOnTargets="ATExplorerAppPackage">
         <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj"/>
     </Target>
-    <Target Name="ATExplorer:Clean">
+    <Target Name="ATExplorer:Clean" DependsOnTargets="ATExplorerAppPackage:Clean">
         <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ATExplorer:Make">
+    <Target Name="ATExplorer:Make" DependsOnTargets="ATExplorerAppPackage:Make">
         <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="ATExplorerAppPackage;ATExplorer"/>
+        <CallTarget Targets="atExplorerFoundation;ATExplorerAppPackage;ATExplorer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="atExplorerFoundation:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ATExplorerAppPackage:Make;ATExplorer:Make"/>
+        <CallTarget Targets="atExplorerFoundation:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

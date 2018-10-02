@@ -190,6 +190,9 @@
             <DependentOn>..\..\Source\core\atATExplorerProject.h</DependentOn>
             <BuildOrder>26</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atATIFDataProject.cpp">
+            <BuildOrder>33</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atExceptions.cpp">
             <DependentOn>..\..\Source\core\atExceptions.h</DependentOn>
             <BuildOrder>3</BuildOrder>

@@ -19,7 +19,6 @@ typedef shared_ptr<DummyProjectViewObserver> observer;
 
 class PACKAGE ProjectObservers : public ATObject
 {
-
     public:
                                             ProjectObservers();
                                             ~ProjectObservers();

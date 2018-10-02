@@ -3,6 +3,7 @@
 #include "atProjectsTreeView.h"
 #include "atATExplorerProject.h"
 #include "atRenderProject.h"
+#include "atATIFDataProject.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
@@ -266,6 +267,22 @@ Project* ProjectsTreeView::getParentForSelectedProject()
 }
 
 TTreeNode* ProjectsTreeView::addRenderProjectToView(ATExplorerProject* parent, RenderProject* rp)
+{
+    if(!parent)
+    {
+    	Log(lError) <<"Parent is NULL";
+        return nullptr;
+    }
+
+    TTreeNode* parentNode = getItemForProject(parent);
+	TTreeNode* n = mTree->Items->AddChildObject(parentNode, "", (void*) rp);
+    n->Text = rp->getProjectName().c_str();
+	mTree->Items->GetFirstNode()->Expand(true);
+    mTree->Select(n);
+    return n;
+}
+
+TTreeNode* ProjectsTreeView::addATIFDataProjectToView(ATExplorerProject* parent, ATIFDataProject* rp)
 {
     if(!parent)
     {

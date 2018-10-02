@@ -12,6 +12,7 @@ using dsl::Projects;
 
 class ATExplorerProject;
 class RenderProject;
+class ATIFDataProject;
 
 //Rename this to ProjectTreeView
 class PACKAGE ProjectsTreeView : public ATObject
@@ -40,6 +41,7 @@ class PACKAGE ProjectsTreeView : public ATObject
             ATExplorerProject*			   	createNewATExplorerProject();
             void                            selectLast();
 			TTreeNode*						addRenderProjectToView(ATExplorerProject* vcNode, RenderProject* rp);
+			TTreeNode*						addATIFDataProjectToView(ATExplorerProject* vcNode, ATIFDataProject* rp);
             int                             mProjectCount();
             bool                            selectProject(Project* p);
             string                          closeProject(Project* p);

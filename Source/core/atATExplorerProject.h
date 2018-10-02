@@ -23,12 +23,14 @@ using dsl::gEmptyString;
 
 //!A render project is a project as exposed by Render
 class RenderProject;
+class ATIFDataProject;
 class TiffStack;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
 enum ATEObjectType
 {
 	ateBaseType = 0,
+    ateATIFDataProject,
     ateRenderProject,
     ateTiffStack,
     ateUnknown
@@ -74,8 +76,10 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
         ATEObjectType		  		            mATEObjectType;
 
         ATExplorerProject*			         	createATObject(tinyxml2::XMLElement* element);
+		ATIFDataProject*	 					createATIFDataProject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 		TiffStack*								createTiffStackProject(tinyxml2::XMLElement* element);
+
 };
 
 }

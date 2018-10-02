@@ -3,6 +3,7 @@
 #include "dslXMLUtils.h"
 #include "dslLogger.h"
 #include "atRenderProject.h"
+#include "atATIFDataProject.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -220,9 +221,32 @@ ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* eleme
     {
         case ateRenderProject:
         	return createRenderProject(element);
+
+        case ATEObjectType::ateATIFDataProject:
+        	return createATIFDataProject(element);
+
         default:
         	return nullptr;
     }
+}
+
+ATIFDataProject* ATExplorerProject::createATIFDataProject(tinyxml2::XMLElement* element)
+{
+    if(!element || !compareStrings(element->Name(), "at_object", csCaseInsensitive))
+    {
+    	Log(lError) <<"Bad 'render_project' xml!";
+    	return nullptr;
+    }
+
+	const char* name = element->Attribute("name");
+
+	ATIFDataProject* p (new ATIFDataProject(name ? string(name) : string(""), ""));
+	if(!p->loadFromXML(element))
+    {
+    	Log(lError) << "There was a problem loading model from XML";
+    }
+
+    return p;
 }
 
 RenderProject* ATExplorerProject::createRenderProject(tinyxml2::XMLElement* element)
@@ -249,6 +273,7 @@ string toString(ATEObjectType tp)
 	switch(tp)
     {
     	case ateBaseType: 			return "atExplorerProject";
+    	case ateATIFDataProject:  	return "atifDataProject";
     	case ateRenderProject: 		return "renderProject";
         case ateTiffStack:			return "tiffstack";
         default:					return "unKnownObject";
@@ -258,6 +283,7 @@ string toString(ATEObjectType tp)
 ATEObjectType toATEObjectType(const string& ateObject)
 {
 	if(     ateObject == "atExplorerProject") 		return ateBaseType;
+	else if(ateObject == "atifDataProject") 		return ateATIFDataProject;
 	else if(ateObject == "renderProject") 			return ateRenderProject;
 	else if(ateObject == "tiffStack")  				return ateTiffStack;
 	else if(ateObject == "unKnownObject") 			return ateUnknown;
