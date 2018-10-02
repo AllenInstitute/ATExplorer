@@ -4,7 +4,6 @@
 #include "dslLogger.h"
 #include "atExceptions.h"
 #include "atSession.h"
-//#include "atATProjectItem.h"
 
 using namespace dsl;
 using namespace at;
@@ -19,23 +18,12 @@ int main()
     try
     {
         Path dataPath("F:\\data\\M33\\");
-        Path projectFilePath("P:\\ATProjects\\AFirstProject.atp");
-//        ATProjectItem atProject("MyFirstProject");
-//        atProject.open(projectFilePath.toString());
-
 
         ATData *atData = new ATIFData(dataPath, false);
 
-        //!Don't allow two items with the same name.. print error and don't
-        //add
 
-//        atProject.addProjectObject(atData);
-//        atProject.save();
-
-
-
-//        //!Populating the data object causes a scan of folders and files
-//        //!representing the data. No image data is loaded
+        //!Populating the data object causes a scan of folders and files
+        //!representing the data. No image data is loaded
         atData->populate();
 
         //Print some information about ribbons and sections

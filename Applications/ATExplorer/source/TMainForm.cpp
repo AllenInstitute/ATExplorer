@@ -303,3 +303,10 @@ void __fastcall TMainForm::RenameClick(TObject *Sender)
 }
 
 
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenProjectOptionsAExecute(TObject *Sender)
+{
+    MessageDlg("", mtInformation, TMsgDlgButtons() << mbOK, 0);
+}
+
+

@@ -29,7 +29,6 @@ object MainForm: TMainForm
     Width = 1442
     Height = 19
     Panels = <>
-    ExplicitTop = 675
   end
   object MainPanel: TPanel
     Left = 0
@@ -38,7 +37,6 @@ object MainForm: TMainForm
     Height = 664
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 650
     object Splitter2: TSplitter
       Left = 1
       Top = 524
@@ -66,7 +64,6 @@ object MainForm: TMainForm
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
-      ExplicitTop = 513
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -103,7 +100,6 @@ object MainForm: TMainForm
       Height = 504
       Align = alLeft
       TabOrder = 1
-      ExplicitHeight = 490
       object ProjectTView: TTreeView
         Left = 1
         Top = 1
@@ -121,7 +117,6 @@ object MainForm: TMainForm
         OnDblClick = ProjectTViewDblClick
         OnEdited = ProjectTViewEdited
         OnEditing = ProjectTViewEditing
-        ExplicitHeight = 488
       end
     end
     object ShowBottomPanelBtn: TButton
@@ -133,7 +128,6 @@ object MainForm: TMainForm
       Align = alBottom
       TabOrder = 2
       Visible = False
-      ExplicitTop = 491
     end
     object MainPC: TPageControl
       Left = 204
@@ -144,8 +138,6 @@ object MainForm: TMainForm
       PopupMenu = MainPCPopup
       TabOrder = 3
       OnContextPopup = MainPCContextPopup
-      ExplicitLeft = 269
-      ExplicitTop = 49
     end
   end
   object TopPanel2: TPanel
@@ -359,6 +351,7 @@ object MainForm: TMainForm
     object OpenProjectOptionsA: TAction
       Category = 'TreeView'
       Caption = 'Properties'
+      OnExecute = OpenProjectOptionsAExecute
     end
   end
   object SaveDialog1: TSaveDialog
@@ -371,7 +364,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800D40210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800D80210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0

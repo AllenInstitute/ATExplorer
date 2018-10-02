@@ -8,8 +8,8 @@ namespace at
 
 //!The ATIFData class maps the dataformats used in Smith Lab..
 //!Some assumptions:
-//!	Number of tiles for a particular section, for a particular ribbon, are equal across channels(sessions)
-//! A section do always belong to a ribbon
+//!Number of tiles for a particular section, for a particular ribbon, are equal across channels(sessions)
+//!A section do always belong to a ribbon
 
 class ATE_DATA ATIFData : public ATData
 {

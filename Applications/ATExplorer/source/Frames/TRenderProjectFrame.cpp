@@ -313,6 +313,10 @@ void __fastcall TRenderProjectFrame::ResetButtonClick(TObject *Sender)
 	    checkCache();
         updateROIs();
     }
+    catch (const EIdHTTPProtocolException& e)
+    {
+        Log(lError) << "There was an exception: " << stdstr(e.Message);
+    }
     catch(...)
     {}
 }
