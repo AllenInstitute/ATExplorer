@@ -170,9 +170,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>40</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atDummyProjectViewObserver.cpp">
-            <DependentOn>..\..\source\Core\atDummyProjectViewObserver.h</DependentOn>
-            <BuildOrder>38</BuildOrder>
+        <CppCompile Include="..\..\source\Core\atATIFDataProjectView.cpp">
+            <DependentOn>..\..\source\Core\atATIFDataProjectView.h</DependentOn>
+            <BuildOrder>37</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\ateAppUtilities.cpp">
             <DependentOn>..\..\source\Core\ateAppUtilities.h</DependentOn>
@@ -200,7 +200,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atRenderProjectView.cpp">
             <DependentOn>..\..\source\Core\atRenderProjectView.h</DependentOn>
-            <BuildOrder>37</BuildOrder>
+            <BuildOrder>34</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Core\atSSHUtils.cpp">
             <DependentOn>..\..\source\Core\atSSHUtils.h</DependentOn>
@@ -242,6 +242,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Forms\TSelectZsForm.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Frames\TATIFDataProjectFrame.cpp">
+            <Form>ATIFDataProjectFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\source\Frames\TATIFDataProjectFrame.h</DependentOn>
+            <BuildOrder>39</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Frames\TGeneralPropertiesFrame.cpp">
             <Form>GeneralPropertiesFrame</Form>
             <FormType>dfm</FormType>
@@ -261,7 +268,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\source\Frames\TRenderProjectFrame.h</DependentOn>
-            <BuildOrder>39</BuildOrder>
+            <BuildOrder>33</BuildOrder>
         </CppCompile>
         <CppCompile Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp">
             <Form>SSHFrame</Form>
@@ -271,16 +278,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <BuildOrder>34</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TCreateLocalVolumesForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
-        <FormResources Include="..\..\source\Frames\TRenderProjectFrame.dfm"/>
-        <FormResources Include="..\..\..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
-        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
         <FormResources Include="..\..\source\Forms\TCreateATIFDataProjectForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
         <FormResources Include="..\..\source\Frames\TImageControlsFrame.dfm"/>
+        <FormResources Include="..\..\source\Frames\TRenderProjectFrame.dfm"/>
+        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
+        <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
         <FormResources Include="..\..\source\Forms\TSelectRenderProjectParametersForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
+        <FormResources Include="..\..\source\Frames\TATIFDataProjectFrame.dfm"/>
+        <FormResources Include="..\..\..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

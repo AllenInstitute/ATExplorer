@@ -35,7 +35,7 @@ void DummyProjectViewObserver::update(Subject* theChangedSubject, SubjectEvent s
     {
         //remove from Host..
         Log(lInfo) << "Subject being destroyed..";
-        mHost.removeObserver(this);
+//        mHost.removeObserver(this);
     }
 }
 

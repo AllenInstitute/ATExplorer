@@ -7,7 +7,8 @@
 #include "TATESettingsForm.h"
 #include "ateAppUtilities.h"
 #include "atRenderProject.h"
-#include "atRenderPRojectView.h"
+#include "atRenderProjectView.h"
+#include "atATIFDataProjectView.h"
 #include "atATIFDataProject.h"
 #include <gdiplus.h>
 #include "TCreateATIFDataProjectForm.h"
@@ -39,7 +40,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 
 __fastcall TMainForm::~TMainForm()
 {
-	mObservers.clear();
+//	mProjectObservers.clear();
    	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
@@ -97,6 +98,12 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
             {
                 return;
             }
+        }
+
+        //Make mProjectObservers an observer too, and the following code becomes reduntant..
+        for(int i = 0; i < parent->getNumberOfChilds(); i++)
+        {
+	        mProjectObservers.removeViewForProject(parent->getChild(i));
         }
 
 	    gAU.LastOpenedProject = mPTreeView.closeProject(parent);
@@ -231,11 +238,12 @@ void TMainForm::selectTabForProject(Project* p)
 bool TMainForm::createProjectView(Project* p)
 {
     RenderProject* rp = dynamic_cast<RenderProject*>(p);
+	ATIFDataProject* ifData = dynamic_cast<ATIFDataProject*>(p);
     //Check what kind of project we are to create a view for
     if(rp)
     {
         //Check if there is already a tab with this view.. if so, switch to it
-        TTabSheet* sh = mObservers.getTabForProject(rp);
+        TTabSheet* sh = mProjectObservers.getTabForProject(rp);
         if(sh)
         {
             MainPC->ActivePage = sh;
@@ -247,8 +255,33 @@ bool TMainForm::createProjectView(Project* p)
 
         //Create a new tab page
         //Views deletes themselves when subjects dies
-        RenderProjectView* obs = new RenderProjectView(MainPC,  rp, gAU.ImageMagickPath.getValue());
-        mObservers.append(obs);
+        shared_ptr<RenderProjectView> obs(new RenderProjectView(MainPC,  rp, gAU.ImageMagickPath.getValue()));
+        mProjectObservers.append(obs);
+
+    }
+//    else if(ifData)
+//    {
+//        //Check if there is already a tab with this view.. if so, switch to it
+//        TTabSheet* sh = mProjectObservers.getTabForProject(ifData);
+//        if(sh)
+//        {
+//            MainPC->ActivePage = sh;
+//            return false;
+//        }
+//
+//        //Creat a renderproject view
+//        Log(lInfo) << "Creating a ATIF Data Project View";
+//
+//        //Create a new tab page
+//        //Views deletes themselves when subjects dies
+//        ATIFDataProjectView* obs = new ATIFDataProjectView(MainPC, ifData);
+//        mProjectObservers.append(obs);
+//    }
+
+
+    else
+    {
+        Log(lInfo) << "There is no view for this type of object";
     }
     return true;
 }
@@ -271,7 +304,7 @@ void __fastcall TMainForm::Close3Click(TObject *Sender)
     TTabSheet* ts = MainPC->ActivePage;
     if(ts)
     {
-        mObservers.removeViewOnTabSheet(ts);
+        mProjectObservers.removeViewOnTabSheet(ts);
     }
 }
 
@@ -290,7 +323,7 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
     //Close any views
     p->notifyObservers(SubjectBeingDestroyed);
     mPTreeView.removeProject(p);
-    mObservers.removeViewForProject(p);
+    mProjectObservers.removeViewForProject(p);
 
     //Delete project here..
     delete p;

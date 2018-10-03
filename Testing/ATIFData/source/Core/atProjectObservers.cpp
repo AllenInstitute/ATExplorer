@@ -16,18 +16,19 @@ ProjectObservers::ProjectObservers()
 {}
 
 ProjectObservers::~ProjectObservers()
-{}
-
-void ProjectObservers::clear()
 {
-
-    mViews.clear();
+//    Log(lInfo) << "Removing views: " << mViews.size();
 }
 
-void  ProjectObservers::append(RenderProjectView* v)
+void ProjectObservers::closeAll()
 {
-    shared_ptr<DummyProjectViewObserver> dummy ( new DummyProjectViewObserver (*this, *v));
-	mViews.push_back(dummy);
+	mViews.clear();
+}
+
+void ProjectObservers::append(shared_ptr<RenderProjectView> v)
+{
+	mViews.push_back(v);
+//    this->observe(v->getSubject());
 }
 
 unsigned int ProjectObservers::count()
@@ -35,43 +36,21 @@ unsigned int ProjectObservers::count()
     return mViews.size();
 }
 
-bool ProjectObservers::removeObserver(DummyProjectViewObserver* o)
+//Just deleting the view.. not the subject..
+bool ProjectObservers::removeViewOnTabSheet(TTabSheet* ts)
 {
+    int nrOfViews = mViews.size();
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        observer obs = mViews[i];
-        if(obs)
+        shared_ptr<RenderProjectView> rpv = mViews[i];
+        if(rpv && rpv->getTabSheet() == ts)
         {
-            DummyProjectViewObserver* dObs = obs.get();
-            if(dObs == o)
-            {
-                mViews.erase(mViews.begin() + i);
-                return true;
-            }
+            //Tell this observer to go away...
+            mViews.erase(mViews.begin() + i);
         }
     }
-    return false;
-}
-
-
-//Just deleteing the view.. not subject!
-bool ProjectObservers::removeViewOnTabSheet(TTabSheet* ts)
-{
-        //Find observer object
-        for(int i = 0; i < mViews.size(); i++)
-        {
-	        shared_ptr<DummyProjectViewObserver> dummy = mViews[i];
-            RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(dummy->getView());
-            if(rpv && rpv->getTabSheet() == ts)
-            {
-                //Tell this observer to go away...
-                mViews.erase(mViews.begin() + i);
-                delete rpv;
-                return true; //Can only be on one sheet
-            }
-        }
-    return false;
+    return (nrOfViews > mViews.size()) ? true : false;
 }
 
 //Should not be needed..
@@ -80,9 +59,8 @@ bool ProjectObservers::removeViewForProject(Project* p)
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        shared_ptr<DummyProjectViewObserver> dummy = mViews[i];
-        RenderProjectView* rpv = dynamic_cast<RenderProjectView*>(dummy->getView());
-        if(rpv && rpv->getRenderProject() == p)
+        shared_ptr<RenderProjectView> rpv = mViews[i];
+        if(rpv && rpv->getRenderProject() == p || rpv->getSubject() == p)
         {
             //Tell this observer to go away...
             mViews.erase(mViews.begin() + i);
@@ -94,31 +72,39 @@ bool ProjectObservers::removeViewForProject(Project* p)
 
 TTabSheet* ProjectObservers::getTabForProject(Project* p)
 {
-	vector< shared_ptr<DummyProjectViewObserver> >::iterator it;
+	vector< shared_ptr<RenderProjectView> >::iterator it;
     for(it = mViews.begin(); it != mViews.end(); ++it)
     {
-		shared_ptr<DummyProjectViewObserver> ptr = (*it);
+		shared_ptr<RenderProjectView> ptr = (*it);
         if(ptr)
         {
-            if(ptr->getView()->getRenderProject() == p)
+            if(ptr->getRenderProject() == p)
             {
-                return ptr->getView()->getTabSheet();
+                return ptr->getTabSheet();
             }
         }
     }
     return nullptr;
 }
 
-void ProjectObservers::update(Subject* theChangedSubject, SubjectEvent se)
-{
-    if(se == SubjectEvent::SubjectBeingDestroyed)
-    {
-        //Go away..
-        Log(lInfo) << "Subject being destroyed..";
-		//Remove from container
-                delete this;
-    }
-}
-
+//void ProjectObservers::update(Subject* s, SubjectEvent se)
+//{
+////    if(se == SubjectEvent::SubjectBeingDestroyed)
+////    {
+////        //Find subject in container and remove it.
+////        //Find observer object
+////        for(int i = 0; i < mViews.size(); i++)
+////        {
+////            shared_ptr<RenderProjectView> rpv = mViews[i];
+////            if(rpv && rpv->getSubject() == s)
+////            {
+////                //Tell this observer to go away...
+////                mViews.erase(mViews.begin() + i);
+////                return;
+////            }
+////        }
+////	}
+//}
+//
 
 }

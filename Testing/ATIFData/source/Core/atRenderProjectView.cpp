@@ -45,7 +45,7 @@ void RenderProjectView::update(Subject* theChangedSubject, SubjectEvent se)
     {
         //Go away..
         Log(lInfo) << "Subject being destroyed..";
-        delete this;
+//        delete this;
     }
 }
 

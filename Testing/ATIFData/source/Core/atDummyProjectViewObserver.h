@@ -16,6 +16,7 @@ using dsl::Subject;
 using dsl::SubjectEvent;
 
 class RenderProjectView;
+class ATIFDataProjectView;
 class ProjectObservers;
 
 //!The DummyProjectViewObserver is a helper class to
@@ -23,6 +24,8 @@ class ProjectObservers;
 //Its main purpose is to remove items from the container as they are
 //destroyed. It does that by being itself an observer and thus
 //subscribes to subject (projects) events
+
+//Seems like code smell...??
 class PACKAGE DummyProjectViewObserver : public dsl::Observer
 {
     public:

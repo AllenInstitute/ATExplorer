@@ -95,7 +95,6 @@ TTreeNode* ProjectsTreeView::getSelectedNode()
 	return mTree->Selected;
 }
 
-
 TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
 {
     TTreeNode* item = mTree->Items->GetFirstNode();
@@ -164,7 +163,6 @@ void ProjectsTreeView::expandView(Project* p)
 string ProjectsTreeView::closeProject(Project* p)
 {
     string pFile = joinPath(p->getFileFolder(), p->getFileName());
-    mProjects.remove(p);
     TTreeNode* n = getItemForProject(p);
     if(n)
     {
@@ -173,9 +171,8 @@ string ProjectsTreeView::closeProject(Project* p)
     }
     mProjects.selectFirst();
 
-    //Projects are delte HERE...
-    //Notify any observers
-    p->notifyObservers(SubjectBeingDestroyed);
+    mProjects.remove(p);
+    //Projects are deleted HERE... should be in the remove function?
     delete p;
     return pFile;
 }
@@ -191,7 +188,6 @@ bool ProjectsTreeView::removeProject(Project* p)
 
     parent->removeChild(p);
 
-    mProjects.remove(p);
     TTreeNode* n = getItemForProject(p);
     if(n)
     {
@@ -200,6 +196,7 @@ bool ProjectsTreeView::removeProject(Project* p)
     }
 
     selectProject(parent);
+    mProjects.remove(p);
     return true;
 }
 

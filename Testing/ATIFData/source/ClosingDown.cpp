@@ -22,8 +22,13 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
 {
 	ShutDownTimer->Enabled = false;
 
-    //Check projects for saving etc..
+    //Close project views
+    if(mProjectObservers.count())
+    {
+        mProjectObservers.closeAll();
+    }
 
+    //Check projects for saving etc..
 	Project* p  = mPTreeView.getFirst();
 
 	if(p && p->isNeverSaved() == true)
@@ -51,31 +56,19 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
     }
 
 
-//	if(TSSHFrame1->isConnected())
-//    {
-//		TSSHFrame1->disconnect();
-//	}
-
     Close();
 }
 
 void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
-//    IdHTTP1->Disconnect();
 	Log(lInfo) << "In FormClose";
 
 	gAU.LogLevel.setValue(gLogger.getLogLevel());
-//	if(gImageForm)
-//    {
-//		gImageForm->mPrepareForDeletion = true;
-//    	gImageForm->Close();
-//    }
 
 	//Save project history
 	gAU.BottomPanelHeight = BottomPanel->Height;
     gAU.ProjectPanelWidth = ProjectManagerPanel->Width;
 
-//    Log(lInfo) << "CB Value: " << ConnectSSHServersOnStartupCB->getProperty()->getValue();
 	gAU.GeneralProperties->write();
 	gAU.ServerProperties->write();
 
@@ -87,15 +80,13 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 void __fastcall TMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
 	Log(lInfo) << "Closing down....";
-
-
 	//Check if we can close.. abort all threads..
-//	if(TSSHFrame1->isConnected())
-//    {
-//		CanClose = false;
-//    }
 
-    if(mPTreeView.mProjectCount() > 0)
+    if(mProjectObservers.count())
+    {
+		CanClose = false;
+    }
+    else if(mPTreeView.mProjectCount() > 0)
     {
 		CanClose = false;
     }

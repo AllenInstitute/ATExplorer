@@ -153,7 +153,7 @@ __published:	// IDE-managed Components
 
         //Should really be unique ptrs
         //make observers, an observer too
-        ProjectObservers                                mObservers;
+        ProjectObservers                                mProjectObservers;
 
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);
