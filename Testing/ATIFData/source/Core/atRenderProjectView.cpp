@@ -10,14 +10,8 @@ namespace at
 using namespace dsl;
 RenderProjectView::RenderProjectView(TPageControl* pc, RenderProject* rp, const string& imPath)
 :
-Observer(rp),
-mPC(pc),
-mRenderProject(rp)
+TabbedProjectView(pc, rp)
 {
-    this->observe(rp);
-
-    mTabSheet = unique_ptr<TTabSheet> (new TTabSheet(mPC));
-    mTabSheet->PageControl = mPC;
     mTabSheet->Caption = rp->getProjectName().c_str();
     mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(*rp, imPath, mPC));
     mRenderProjectFrame->Parent =  mTabSheet.get();
@@ -27,16 +21,6 @@ mRenderProject(rp)
 RenderProjectView::~RenderProjectView()
 {
     Log(lDebug3) << "Closing RenderProjectView..";
-}
-
-RenderProject* RenderProjectView::getRenderProject()
-{
-    return mRenderProject;
-}
-
-TTabSheet* RenderProjectView::getTabSheet()
-{
-    return mTabSheet.get();
 }
 
 void RenderProjectView::update(Subject* theChangedSubject, SubjectEvent se)

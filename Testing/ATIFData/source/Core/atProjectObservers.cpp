@@ -25,7 +25,7 @@ void ProjectObservers::closeAll()
 	mViews.clear();
 }
 
-void ProjectObservers::append(shared_ptr<RenderProjectView> v)
+void ProjectObservers::append(shared_ptr<TabbedProjectView> v)
 {
 	mViews.push_back(v);
 //    this->observe(v->getSubject());
@@ -43,7 +43,7 @@ bool ProjectObservers::removeViewOnTabSheet(TTabSheet* ts)
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        shared_ptr<RenderProjectView> rpv = mViews[i];
+        shared_ptr<TabbedProjectView> rpv = mViews[i];
         if(rpv && rpv->getTabSheet() == ts)
         {
             //Tell this observer to go away...
@@ -59,8 +59,8 @@ bool ProjectObservers::removeViewForProject(Project* p)
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        shared_ptr<RenderProjectView> rpv = mViews[i];
-        if(rpv && rpv->getRenderProject() == p || rpv->getSubject() == p)
+        shared_ptr<TabbedProjectView> rpv = mViews[i];
+        if(rpv && rpv->getProject() == p || rpv->getSubject() == p)
         {
             //Tell this observer to go away...
             mViews.erase(mViews.begin() + i);
@@ -72,13 +72,13 @@ bool ProjectObservers::removeViewForProject(Project* p)
 
 TTabSheet* ProjectObservers::getTabForProject(Project* p)
 {
-	vector< shared_ptr<RenderProjectView> >::iterator it;
+	vector< shared_ptr<TabbedProjectView> >::iterator it;
     for(it = mViews.begin(); it != mViews.end(); ++it)
     {
-		shared_ptr<RenderProjectView> ptr = (*it);
+		shared_ptr<TabbedProjectView> ptr = (*it);
         if(ptr)
         {
-            if(ptr->getRenderProject() == p)
+            if(ptr->getProject() == p)
             {
                 return ptr->getTabSheet();
             }
@@ -95,7 +95,7 @@ TTabSheet* ProjectObservers::getTabForProject(Project* p)
 ////        //Find observer object
 ////        for(int i = 0; i < mViews.size(); i++)
 ////        {
-////            shared_ptr<RenderProjectView> rpv = mViews[i];
+////            shared_ptr<TabbedProjectView> rpv = mViews[i];
 ////            if(rpv && rpv->getSubject() == s)
 ////            {
 ////                //Tell this observer to go away...

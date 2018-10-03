@@ -11,19 +11,17 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Graphics.hpp>
 //---------------------------------------------------------------------------
-
-
-class TCreateLocalVolumesForm;
-
 using at::ATIFDataProject;
+
 //---------------------------------------------------------------------------
 class PACKAGE TATIFDataProjectFrame : public TFrame
 {
     __published:	// IDE-managed Components
+	TGroupBox *GroupBox1;
 
     private:
                                                         //A Reference to a atifdata project
-        ATIFDataProject&		      	                mRP;
+        ATIFDataProject&		      	                mProject;
         void                                            populate();
 
     public:

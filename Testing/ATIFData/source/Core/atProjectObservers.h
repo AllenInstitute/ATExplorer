@@ -20,9 +20,9 @@ using dsl::Subject;
 using dsl::SubjectEvent;
 using dsl::shared_ptr;
 using dsl::Project;
-class RenderProjectView;
+class TabbedProjectView;
 
-typedef vector< shared_ptr<RenderProjectView > > Views;
+typedef vector< shared_ptr<TabbedProjectView > > Views;
 
 //!Observer: this is not a great design. A views subject, if deleted, is not removed from the Views container.
 //!We need to make ProjectObservers an observer of the projects, too..
@@ -34,7 +34,7 @@ class PACKAGE ProjectObservers : public ATObject
                                             ~ProjectObservers();
 //        virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
         unsigned int                        count();
-		void 								append(shared_ptr<RenderProjectView> v);
+		void 								append(shared_ptr<TabbedProjectView> v);
         bool					            removeViewOnTabSheet(TTabSheet* s);
         bool                                removeViewForProject(Project* p);
         TTabSheet* 							getTabForProject(Project* p);

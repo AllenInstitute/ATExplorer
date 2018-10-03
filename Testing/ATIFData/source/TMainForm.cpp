@@ -259,26 +259,24 @@ bool TMainForm::createProjectView(Project* p)
         mProjectObservers.append(obs);
 
     }
-//    else if(ifData)
-//    {
-//        //Check if there is already a tab with this view.. if so, switch to it
-//        TTabSheet* sh = mProjectObservers.getTabForProject(ifData);
-//        if(sh)
-//        {
-//            MainPC->ActivePage = sh;
-//            return false;
-//        }
-//
-//        //Creat a renderproject view
-//        Log(lInfo) << "Creating a ATIF Data Project View";
-//
-//        //Create a new tab page
-//        //Views deletes themselves when subjects dies
-//        ATIFDataProjectView* obs = new ATIFDataProjectView(MainPC, ifData);
-//        mProjectObservers.append(obs);
-//    }
+    else if(ifData)
+    {
+        //Check if there is already a tab with this view.. if so, switch to it
+        TTabSheet* sh = mProjectObservers.getTabForProject(ifData);
+        if(sh)
+        {
+            MainPC->ActivePage = sh;
+            return false;
+        }
 
+        //Creat a renderproject view
+        Log(lInfo) << "Creating a ATIF Data Project View";
 
+        //Create a new tab page
+        //Views deletes themselves when subjects dies
+        shared_ptr<ATIFDataProjectView> obs (new ATIFDataProjectView(MainPC, ifData));
+        mProjectObservers.append(obs);
+    }
     else
     {
         Log(lInfo) << "There is no view for this type of object";

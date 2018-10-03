@@ -206,6 +206,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atSSHUtils.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\Core\atTabbedProjectView.cpp">
+            <DependentOn>..\..\source\Core\atTabbedProjectView.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\Forms\TAboutATExplorerForm.cpp">
             <Form>AboutATExplorer</Form>
             <FormType>dfm</FormType>

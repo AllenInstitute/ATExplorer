@@ -8,18 +8,11 @@
 namespace at
 {
 using namespace dsl;
-ATIFDataProjectView::ATIFDataProjectView(TPageControl* pc, ATIFDataProject* rp)
+ATIFDataProjectView::ATIFDataProjectView(TPageControl* pc, ATIFDataProject* p)
 :
-Observer(rp),
-mPC(pc),
-mATIFDataProject(rp)
+TabbedProjectView(pc, p)
 {
-    this->observe(rp);
-
-    mTabSheet = unique_ptr<TTabSheet> (new TTabSheet(mPC));
-    mTabSheet->PageControl = mPC;
-    mTabSheet->Caption = rp->getProjectName().c_str();
-    mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(*rp, mPC));
+    mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(*p, mPC));
     mATIFDataProjectFrame->Parent =  mTabSheet.get();
     mATIFDataProjectFrame->Align = alClient;
 }
@@ -27,16 +20,6 @@ mATIFDataProject(rp)
 ATIFDataProjectView::~ATIFDataProjectView()
 {
     Log(lDebug3) << "Closing ATIFDataProjectView..";
-}
-
-ATIFDataProject* ATIFDataProjectView::getATIFDataProject()
-{
-    return mATIFDataProject;
-}
-
-TTabSheet* ATIFDataProjectView::getTabSheet()
-{
-    return mTabSheet.get();
 }
 
 void ATIFDataProjectView::update(Subject* theChangedSubject, SubjectEvent se)

@@ -5,4 +5,12 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   Height = 305
   Align = alClient
   TabOrder = 0
+  object GroupBox1: TGroupBox
+    Left = 80
+    Top = 56
+    Width = 185
+    Height = 105
+    Caption = 'GroupBox1'
+    TabOrder = 0
+  end
 end

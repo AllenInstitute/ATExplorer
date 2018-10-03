@@ -22,7 +22,6 @@ object CreateATIFDataProjectForm: TCreateATIFDataProjectForm
     Height = 41
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 237
     object Button1: TButton
       Left = 396
       Top = 9
@@ -50,8 +49,6 @@ object CreateATIFDataProjectForm: TCreateATIFDataProjectForm
     Align = alClient
     Caption = 'Data Output'
     TabOrder = 1
-    ExplicitTop = 159
-    ExplicitHeight = 78
     DesignSize = (
       574
       90)
@@ -65,8 +62,8 @@ object CreateATIFDataProjectForm: TCreateATIFDataProjectForm
       EditLabel.Height = 13
       EditLabel.Caption = 'Data Root Folder'
       TabOrder = 0
-      Text = 'C:\Data'
-      Value = 'C:\Data'
+      Text = 'F:\data\M33'
+      Value = 'F:\data\M33'
     end
     object BrowseForDataOutputPathBtn: TButton
       Left = 534
