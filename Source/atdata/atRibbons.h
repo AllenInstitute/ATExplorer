@@ -22,10 +22,11 @@ class ATE_DATA Ribbons : public ExplorerObject
         Ribbon*                        	getFirstRibbon();
         Ribbon*                        	getNextRibbon();
         void                            append(Ribbon* r);
-
+        void                            clear();
         int                             count();
 
     protected:
+        //Rewrite using shared pointers?
         vector<Ribbon*>::iterator   	mRibbonIterator;
         vector<Ribbon*>                 mRibbons;
 };

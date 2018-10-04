@@ -19,13 +19,12 @@ class ATIFDataProject;
 //The view manages the VCL frame..
 class PACKAGE ATIFDataProjectView : public TabbedProjectView
 {
-        public:
-                            		            ATIFDataProjectView(TPageControl* pc, ATIFDataProject* rp);
-                            		            ~ATIFDataProjectView();
-        	virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
+    public:
+                                            ATIFDataProjectView(TPageControl* pc, ATIFDataProject* rp);
+        virtual            		            ~ATIFDataProjectView();
 
-        protected:
-       		unique_ptr<TATIFDataProjectFrame>  	mATIFDataProjectFrame;
+    protected:
+        unique_ptr<TATIFDataProjectFrame>  	mATIFDataProjectFrame;
 };
 
 }

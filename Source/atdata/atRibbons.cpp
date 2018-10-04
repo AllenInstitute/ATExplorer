@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include "atRibbons.h"
+#include "atRibbon.h"
 //---------------------------------------------------------------------------
 namespace at
 {
@@ -19,6 +20,17 @@ Ribbons::~Ribbons()
 void Ribbons::append(Ribbon* r)
 {
     mRibbons.push_back(r);
+}
+
+void Ribbons::clear()
+{
+//    mRibbonIterator = mRibbons.begin();
+//
+    for(int i = 0; i < mRibbons.size(); i++)
+    {
+        delete mRibbons[i];
+    }
+    mRibbons.clear();
 }
 
 Ribbon* Ribbons::getRibbon(int i)

@@ -18,7 +18,7 @@ Ribbon::~Ribbon()
 
 bool Ribbon::clear()
 {
-	for(unsigned int i = 0; i < size(); i++)
+	for(unsigned int i = 0; i < count(); i++)
     {
         delete at(i);
     }
@@ -27,12 +27,12 @@ bool Ribbon::clear()
 
 void Ribbon::appendSection(Section* sec)
 {
-	push_back(sec);
+	mSections.push_back(sec);
 }
 
 int Ribbon::sectionCount()
 {
-    return Sections::size();
+    return mSections.size();
 }
 
 void Ribbon::assignLongRibbonID(const string& lid)

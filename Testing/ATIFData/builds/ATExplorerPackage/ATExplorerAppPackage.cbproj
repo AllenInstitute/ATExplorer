@@ -60,8 +60,8 @@
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <_TCHARMapping>char</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\..\..\Source\atdata\;..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\..\..\Source\atdata\;..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>ATExplorerAppPackage</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <BCC_wcsu>false</BCC_wcsu>
@@ -108,7 +108,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_Description>Support package for ATExplorer</ILINK_Description>
         <ILINK_GenerateLibFile>false</ILINK_GenerateLibFile>
-        <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;P:\atExplorer\source\core;$(IncludePath)</IncludePath>
+        <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;P:\atExplorer\source\core;P:\atExplorer\source;$(IncludePath)</IncludePath>
         <DCC_HppOutput>$(DEBUG_BCC32)\include</DCC_HppOutput>
         <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
@@ -122,6 +122,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="..\..\..\..\Source\atdata\atPopulateATDataThread.cpp">
+            <DependentOn>..\..\..\..\Source\atdata\atPopulateATDataThread.h</DependentOn>
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\..\..\Source\core\atTiffStack.cpp">
             <DependentOn>..\..\..\..\Source\core\atTiffStack.h</DependentOn>
             <BuildOrder>31</BuildOrder>
@@ -320,7 +324,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">

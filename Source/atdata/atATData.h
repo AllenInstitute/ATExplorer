@@ -18,16 +18,18 @@ class ATE_DATA ATData : public ExplorerObject
 {
     public:
                         	        ATData(const Path& basePath);
+		virtual            	        ~ATData();
 		virtual ATDataFileFormat    getFileFormat() = 0;
         Path                        getBasePath();
+
+                                    //!Resets the data object, excepts the basepath
+        virtual void                reset();
 
                                     //!populating a ATData object typically include
                                     //!parsing through a folder structure in descendant data
                                     //!type objects
         virtual bool                populate() = 0;
         virtual bool                validate() = 0;
-
-
         Ribbons*                    getRibbons();
         Ribbon*     	            getRibbon(int count);
         Ribbon*     	            getFirstRibbon();

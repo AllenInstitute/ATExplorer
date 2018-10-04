@@ -20,9 +20,7 @@ class PACKAGE RenderProjectView : public TabbedProjectView
 {
     public:
                                             RenderProjectView(TPageControl* pc, RenderProject* rp, const string& imPath);
-                                            ~RenderProjectView();
-
-        virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
+        virtual                             ~RenderProjectView();
 
     protected:
         unique_ptr<TRenderProjectFrame>    	mRenderProjectFrame;

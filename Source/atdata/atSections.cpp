@@ -10,10 +10,15 @@ Sections::Sections()
 
 Sections::~Sections()
 {
-    for(int i = 0; i < size(); i++)
+    for(int i = 0; i < count(); i++)
     {
-        delete this->operator[](i);
+        delete mSections[i];
     }
+}
+
+Section* Sections::at(unsigned int i)
+{
+    return mSections[i];
 }
 
 Section* Sections::getSection(int sectionID)
@@ -31,14 +36,14 @@ Section* Sections::getSection(int sectionID)
 
 Section* Sections::getFirstSection()
 {
-    mSectionIterator = begin();
+    mSectionIterator = mSections.begin();
     return *(mSectionIterator);
 }
 
 Section* Sections::getNextSection()
 {
 	mSectionIterator++;
-    if(mSectionIterator != end())
+    if(mSectionIterator != mSections.end())
     {
 	    return *(mSectionIterator);
     }
@@ -48,7 +53,7 @@ Section* Sections::getNextSection()
 Section* Sections::getPreviousSection()
 {
 	mSectionIterator--;
-    if(mSectionIterator != begin() -1 )
+    if(mSectionIterator != mSections.begin() -1 )
     {
 	    return *(mSectionIterator);
     }
@@ -62,7 +67,7 @@ Section* Sections::getLastSection()
         return NULL;
     }
 
-    mSectionIterator = end();
+    mSectionIterator = mSections.end();
 	mSectionIterator--;
     return *(mSectionIterator);
 }

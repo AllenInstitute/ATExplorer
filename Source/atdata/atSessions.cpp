@@ -11,16 +11,25 @@ Sessions::Sessions()
 Sessions::~Sessions()
 {}
 
+void Sessions::clear()
+{
+    for(int i = 0; i < mSessions.size(); i++)
+    {
+        delete mSessions[i];
+    }
+    mSessions.clear();
+}
+
 Session* Sessions::getFirstSession()
 {
-    mSessionIterator = begin();
+    mSessionIterator = mSessions.begin();
     return *(mSessionIterator);
 }
 
 Session* Sessions::getNextSession()
 {
 	mSessionIterator++;
-    if(mSessionIterator != end())
+    if(mSessionIterator != mSessions.end())
     {
 	    return *(mSessionIterator);
     }

@@ -7,8 +7,6 @@
 #include "atFileSystemObject.h"
 #include "dslStringList.h"
 #include "atFileFolders.h"
-
-
 //---------------------------------------------------------------------------
 
 namespace at
@@ -29,6 +27,7 @@ class ATE_DATA FileFolder : public FileSystemObject
     public:
                             		FileFolder(const Path& name, FileFolder* parent = NULL);
                             		~FileFolder();
+        void                        reset();
         FileFolder*                 getFirstSubFolder();
         FileFolder*                 getNextSubFolder();
 

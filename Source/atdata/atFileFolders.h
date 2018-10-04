@@ -12,21 +12,24 @@ using std::vector;
 
 class ATE_DATA FileFolders : public ExplorerObject
 {
+    public:
+                                        FileFolders();
+                                        ~FileFolders();
+                                        FileFolders(const FileFolders& f);
+        FileFolders&                    operator=(const FileFolders& rhs);
+        FileFolder*                     operator[](int i);
+        FileFolder*                     operator[](int i) const;
 
-        public:
-                            				FileFolders();
-                            				~FileFolders();
-            FileFolder*     				getFirst();
-            FileFolder*     				getNext();
-            FileFolder*                     operator[](int i);
-            void                            append(FileFolder*);
+        void                            reset();
+        FileFolder*     				getFirst();
+        FileFolder*     				getNext();
 
+        void                            append(FileFolder*);
+        int             				count() const {return mFolders.size();}
 
-            int             				count(){return mFolders.size();}
-
-        protected:
-           vector<FileFolder*>::iterator    mFolderIterator;
-           vector<FileFolder*>              mFolders;
+    protected:
+       vector<FileFolder*>::iterator    mFolderIterator;
+       vector<FileFolder*>              mFolders;
 };
 
 }

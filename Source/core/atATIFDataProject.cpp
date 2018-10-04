@@ -2,6 +2,7 @@
 #include "atATIFDataProject.h"
 #include "dslXMLUtils.h"
 #include "Poco/URI.h"
+#include "atATIFData.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -12,7 +13,8 @@ using namespace dsl;
 ATIFDataProject::ATIFDataProject(const string& pName, const string& rootFolder)
 :
 ATExplorerProject(pName),
-mDataRootFolder(rootFolder)
+mDataRootFolder(rootFolder),
+mATData(nullptr)
 {
     mATEObjectType = (ateATIFDataProject);
 }
@@ -25,7 +27,9 @@ mDataRootFolder(rp.mDataRootFolder)
 }
 
 ATIFDataProject::~ATIFDataProject()
-{}
+{
+    delete mATData;
+}
 
 //Shallow copy..
 ATIFDataProject& ATIFDataProject::operator=(const ATIFDataProject& rhs)

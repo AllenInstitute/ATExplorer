@@ -1,6 +1,6 @@
 #pragma hdrstop
 #pragma argsused
-#include "atATIFData.h"
+#include "atData/atATIFData.h"
 #include "dslLogger.h"
 #include "atExceptions.h"
 #include "atSession.h"

@@ -34,6 +34,15 @@ ATDataFileFormat ATIFData::getFileFormat()
     return mFileFormat;
 }
 
+void ATIFData::reset()
+{
+    ATData::reset();
+    mRibbonsDataFolder.reset();
+    mProcessedDataFolder.reset();
+    mScriptsDataFolder.reset();
+
+}
+
 ATIFData::ATIFData(const Path& basePath, bool pop)
 :
 ATData(basePath),
@@ -171,7 +180,7 @@ bool ATIFData::populateSessions()
         while(sessionFolder)
         {
             Session* session = new Session(sessionFolder->toString());//, *(mRibbons[i]));
-          	mSessions.push_back(session);
+          	mSessions.append(session);
 
 			Log(lDebug) << "Checking session folder: "<<sessionFolder->toString()<<" for channels.";
             FileFolder* channelFolder = sessionFolder->getFirstSubFolder();

@@ -24,6 +24,8 @@ FileSystemObject(path, parent)
     {
         stringstream msg;
         msg << "The path: " << path.toString() <<" is not an existing directory.";
+        Log(lError) << msg.str();
+
         throw(FileSystemException(msg));
     }
 
@@ -34,7 +36,15 @@ FileSystemObject(path, parent)
 }
 
 FileFolder::~FileFolder()
-{}
+{
+
+}
+
+void FileFolder::reset()
+{
+    mSubFolders.reset();
+    mFiles.clear();
+}
 
 FolderInfo FileFolder::scan()
 {

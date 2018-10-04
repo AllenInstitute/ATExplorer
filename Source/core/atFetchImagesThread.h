@@ -12,6 +12,7 @@ namespace at
 using dsl::StringList;
 using dsl::Thread;
 typedef boost::function<void(void*, void*)> FITCallBack;
+
 class ATE_CORE FetchImagesThread : public dsl::Thread
 {
 	public:

@@ -23,15 +23,5 @@ RenderProjectView::~RenderProjectView()
     Log(lDebug3) << "Closing RenderProjectView..";
 }
 
-void RenderProjectView::update(Subject* theChangedSubject, SubjectEvent se)
-{
-    if(se == SubjectEvent::SubjectBeingDestroyed)
-    {
-        //Go away..
-        Log(lInfo) << "Subject being destroyed..";
-//        delete this;
-    }
-}
-
 }
 

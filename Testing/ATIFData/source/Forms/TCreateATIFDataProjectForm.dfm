@@ -62,8 +62,8 @@ object CreateATIFDataProjectForm: TCreateATIFDataProjectForm
       EditLabel.Height = 13
       EditLabel.Caption = 'Data Root Folder'
       TabOrder = 0
-      Text = 'F:\data\M33'
-      Value = 'F:\data\M33'
+      Text = 'F:\data\M33\'
+      Value = 'F:\data\M33\'
     end
     object BrowseForDataOutputPathBtn: TButton
       Left = 534

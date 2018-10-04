@@ -3,6 +3,7 @@
 #include <string>
 #include "atATExplorerProject.h"
 #include "dslStringList.h"
+#include "atATData.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -19,7 +20,6 @@ class ATE_CORE ATIFDataProject : public ATExplorerProject
         	    	                        ATIFDataProject(const string& pName, const string& dataRootFolder);
                                             ATIFDataProject(const ATIFDataProject& rp);
 		virtual    	                        ~ATIFDataProject();
-
         ATIFDataProject&                    operator = (const ATIFDataProject& rhs);
 
 		void 								setDataRootFolder(const string& rFolder);
@@ -30,8 +30,12 @@ class ATE_CORE ATIFDataProject : public ATExplorerProject
         virtual dsl::XMLElement*            addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* docRoot);
 		virtual bool 					    loadFromXML(dsl::XMLNode* node);
 
+                                            //Leave this public for convenience..
+        ATData*        		                mATData;
+
 	protected:
     	string 		                        mDataRootFolder;
+
 };
 
 }

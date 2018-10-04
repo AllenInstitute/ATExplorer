@@ -17,6 +17,7 @@ class ATE_DATA ATIFData : public ATData
                     					ATIFData(const string& basePath,	bool populate = false);
                     					ATIFData(const Path&   basePath, 	bool populate = false);
 		ATDataFileFormat            	getFileFormat();
+        virtual void                    reset();
         virtual bool        			validate();
         virtual bool                    populate();
 

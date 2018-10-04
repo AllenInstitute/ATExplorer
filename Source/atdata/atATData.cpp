@@ -15,9 +15,23 @@ mBasePath(basePath)
 {
 }
 
+ATData::~ATData()
+{
+    //Use smart pointers to allow worry free deallocation..
+}
+
 Path ATData::getBasePath()
 {
     return mBasePath;
+}
+
+void ATData::reset()
+{
+    Log(lInfo) << "Resetting ATData - Ribbons";
+    mRibbons.clear();
+
+    Log(lInfo) << "Resetting ATData - Sessions";
+    mSessions.clear();
 }
 
 bool ATData::validate()

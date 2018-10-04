@@ -22,15 +22,6 @@ ATIFDataProjectView::~ATIFDataProjectView()
     Log(lDebug3) << "Closing ATIFDataProjectView..";
 }
 
-void ATIFDataProjectView::update(Subject* theChangedSubject, SubjectEvent se)
-{
-    if(se == SubjectEvent::SubjectBeingDestroyed)
-    {
-        //Go away..
-        Log(lInfo) << "Subject being destroyed..";
-        delete this;
-    }
-}
 
 }
 
