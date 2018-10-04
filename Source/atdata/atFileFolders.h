@@ -3,12 +3,16 @@
 #include <vector>
 #include "atExplorerObject.h"
 #include "atATDataExporter.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 class FileFolder;
 using std::vector;
+using dsl::shared_ptr;
+
+typedef shared_ptr<FileFolder>  FileFolderSP;
 
 class ATE_DATA FileFolders : public ExplorerObject
 {
@@ -17,19 +21,19 @@ class ATE_DATA FileFolders : public ExplorerObject
                                         ~FileFolders();
                                         FileFolders(const FileFolders& f);
         FileFolders&                    operator=(const FileFolders& rhs);
-        FileFolder*                     operator[](int i);
-        FileFolder*                     operator[](int i) const;
+        FileFolderSP                    operator[](int i);
+        FileFolderSP                    operator[](int i) const;
 
         void                            reset();
-        FileFolder*     				getFirst();
-        FileFolder*     				getNext();
+        FileFolderSP    				getFirst();
+        FileFolderSP    				getNext();
 
-        void                            append(FileFolder*);
+        void                            append(FileFolderSP ff);
         int             				count() const {return mFolders.size();}
 
     protected:
-       vector<FileFolder*>::iterator    mFolderIterator;
-       vector<FileFolder*>              mFolders;
+       vector<FileFolderSP>::iterator   mFolderIterator;
+       vector<FileFolderSP>             mFolders;
 };
 
 }

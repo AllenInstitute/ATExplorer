@@ -12,6 +12,8 @@ namespace at
 class Section;
 //!Sections is a container for individual AT "sections".
 //!A Ribbon is a set of consecutive sections
+
+//typedef shared_ptr<Section> SectionSP;
 //---------------------------------------------------------------------------
 class ATE_DATA Sections : public ExplorerObject
 {

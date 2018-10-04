@@ -6,6 +6,7 @@
 #include "atSession.h"
 #include "atExceptions.h"
 #include "atTile.h"
+#include "atFileFolder.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -18,11 +19,12 @@ using namespace Poco;
 ATIFData::ATIFData(const string& basePath, bool pop)
 :
 ATData(basePath),
-mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\")))),
-mRibbonsDataFolder(mRibbonsFolderPath),
-mProcessedDataFolder(joinPath(mBasePath.toString(), "processed")),
-mScriptsDataFolder(joinPath(mBasePath.toString(), 	"scripts"))
+mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))
 {
+	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
+	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
+	mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+
     if(pop)
     {
         populate();
@@ -37,20 +39,24 @@ ATDataFileFormat ATIFData::getFileFormat()
 void ATIFData::reset()
 {
     ATData::reset();
-    mRibbonsDataFolder.reset();
-    mProcessedDataFolder.reset();
-    mScriptsDataFolder.reset();
+    mRibbonsDataFolder->reset();
+    mProcessedDataFolder->reset();
+    mScriptsDataFolder->reset();
 
 }
 
 ATIFData::ATIFData(const Path& basePath, bool pop)
 :
 ATData(basePath),
-mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\")))),
-mRibbonsDataFolder(mRibbonsFolderPath),
-mProcessedDataFolder(joinPath(mBasePath.toString(), "processed")),
-mScriptsDataFolder(joinPath(mBasePath.toString(), 	"scripts"))
+mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))//,
+//mRibbonsDataFolder(mRibbonsFolderPath),
+//mProcessedDataFolder(joinPath(mBasePath.toString(), "processed")),
+//mScriptsDataFolder(joinPath(mBasePath.toString(), 	"scripts"))
 {
+	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
+	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
+	mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+
     if(pop)
     {
         populate();
@@ -115,7 +121,8 @@ bool ATIFData::populateRibbons()
     }
 
     //All raw data is in the ribbons datafolder, populate it first
-	FolderInfo fInfo = mRibbonsDataFolder.scan();
+	FolderInfo fInfo = mRibbonsDataFolder->scan();
+
     Log(lInfo) << "Found " <<fInfo.first << " folders and " << fInfo.second << " files";
 
     FileFolders ribbonFolders = getRibbonFolders();
@@ -134,11 +141,11 @@ bool ATIFData::populateRibbons()
         FileFolders sessionFolders = getSessionFolders(ribbonFolders[ribbonID]);
 
 	    //Get first session folder
-        FileFolder* sessionFolder = sessionFolders.getFirst();
+        FileFolderSP sessionFolder = sessionFolders.getFirst();
         if(sessionFolder)
         {
 			Log(lDebug) << "Checking session folder: "<<sessionFolder->toString()<<" for sections.";
-            FileFolder* channelFolder = sessionFolder->getFirstSubFolder();
+            FileFolderSP channelFolder = sessionFolder->getFirstSubFolder();
             if(channelFolder)
             {
                 int nrOfSections = getNrOfSections(channelFolder);
@@ -176,14 +183,14 @@ bool ATIFData::populateSessions()
         FileFolders sessionFolders = getSessionFolders(ribbonFolders[i]);
 
 	    //Get first session folder (
-        FileFolder* sessionFolder = sessionFolders.getFirst();
+        FileFolderSP sessionFolder = sessionFolders.getFirst();
         while(sessionFolder)
         {
             Session* session = new Session(sessionFolder->toString());//, *(mRibbons[i]));
           	mSessions.append(session);
 
 			Log(lDebug) << "Checking session folder: "<<sessionFolder->toString()<<" for channels.";
-            FileFolder* channelFolder = sessionFolder->getFirstSubFolder();
+            FileFolderSP channelFolder = sessionFolder->getFirstSubFolder();
 
             while(channelFolder)
             {
@@ -229,7 +236,7 @@ bool ATIFData::populateSessions()
     return true;
 }
 
-FileFolders	ATIFData::getSessionFolders(FileFolder* fldr)
+FileFolders	ATIFData::getSessionFolders(FileFolderSP fldr)
 {
 	FileFolders subFolders = fldr->getSubFolders();
 	FileFolders sessionFolders;
@@ -244,9 +251,9 @@ FileFolders	ATIFData::getSessionFolders(FileFolder* fldr)
     return sessionFolders;
 }
 
-FileFolders ATIFData::getChannelFolders(FileFolder* sessionFolder)
+FileFolders ATIFData::getChannelFolders(FileFolderSP sessionFolder)
 {
-    Log(lInfo) << "Retrieving Channel Folders for session: " << sessionFolder->toString() << " on ribbon: " << sessionFolder->getParent()->toString();
+//    Log(lInfo) << "Retrieving Channel Folders for session: " << sessionFolder->toString() << " on ribbon: " << sessionFolder->getParent()->toString();
     return sessionFolder->getSubFolders();
 }
 
@@ -255,7 +262,7 @@ int ATIFData::getNumberOfRibbonFolders()
     //Check how many Ribbon folders that are present
     //The Ribbon folder is assumed to be under basepath/raw/data/
 
-    FileFolders fldrs = mRibbonsDataFolder.getSubFolders();
+    FileFolders fldrs = mRibbonsDataFolder->getSubFolders();
 
     int count(0);
 	for(int i = 0; i < fldrs.count(); i++)
@@ -268,16 +275,16 @@ int ATIFData::getNumberOfRibbonFolders()
     return count;
 }
 
-FileFolder* ATIFData::getRibbonsDataFolder()
+FileFolderSP ATIFData::getRibbonsDataFolder()
 {
-    return &mRibbonsDataFolder;
+    return mRibbonsDataFolder;
 }
 
 FileFolders ATIFData::getRibbonFolders()
 {
     //First get the folder holding ribbon folder
 	FileFolders ribbonFolders;
-	FileFolders allSubFolders = mRibbonsDataFolder.getSubFolders();
+	FileFolders allSubFolders = mRibbonsDataFolder->getSubFolders();
 
 	for(int i = 0; i < allSubFolders.count(); i++)
     {
@@ -290,9 +297,9 @@ FileFolders ATIFData::getRibbonFolders()
     return ribbonFolders;
 }
 
-FileFolder* ATIFData::getRibbonFolder(int fldr)
+FileFolderSP ATIFData::getRibbonFolder(int fldr)
 {
-    FileFolders fldrs = mRibbonsDataFolder.getSubFolders();
+    FileFolders fldrs = mRibbonsDataFolder->getSubFolders();
     int count(0);
 
 	for(int i = 0; i < fldrs.count(); i++)
@@ -307,7 +314,7 @@ FileFolder* ATIFData::getRibbonFolder(int fldr)
         }
     }
 
-    return NULL;
+    return FileFolderSP();
 }
 
 

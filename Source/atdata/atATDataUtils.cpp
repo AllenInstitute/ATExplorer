@@ -63,7 +63,7 @@ int getTileID(const string& filePath)
     }
 }
 
-int getNrOfSections(FileFolder* channelFolder)
+int getNrOfSections(FileFolderSP channelFolder)
 {
     if(!channelFolder)
     {

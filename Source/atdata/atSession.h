@@ -13,18 +13,16 @@ namespace at
 class ATE_DATA Session : public ExplorerObject
 {
         public:
-                            Session(const string& lbl);//, Ribbon& r);
+                            Session(const string& lbl);
                             ~Session();
             string          getLabel(){return mLabel;}
             bool        	appendChannel(Channel* channel);
             Channels*       getChannels(){return &mChannels;}
             Channel*        getFirstChannel();
             Channel*        getNextChannel();
-//            Ribbon*         getRibbon(){return &mRibbon;}
 
 	protected:
             string          mLabel;
-//            Ribbon&   		mRibbon;
             Channels        mChannels;
 };
 

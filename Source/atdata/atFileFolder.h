@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <boost/enable_shared_from_this.hpp>
 #include "Poco/Path.h"
 #include "atFileSystemObject.h"
 #include "dslStringList.h"
@@ -21,22 +22,23 @@ using dsl::StringList;
 
 typedef pair<int, int> FolderInfo;
 
+
 //!A File folder is FileSystem object.
-class ATE_DATA FileFolder : public FileSystemObject
+class ATE_DATA FileFolder : public FileSystemObject , public boost::enable_shared_from_this<FileFolder>
 {
     public:
-                            		FileFolder(const Path& name, FileFolder* parent = NULL);
+                            		FileFolder(const Path& name, FileFolderSP parent = FileFolderSP());
                             		~FileFolder();
         void                        reset();
-        FileFolder*                 getFirstSubFolder();
-        FileFolder*                 getNextSubFolder();
+        FileFolderSP                getFirstSubFolder();
+        FileFolderSP                getNextSubFolder();
 
-        FileFolder*   				getSubFolder(const Path& p);
+        FileFolderSP  				getSubFolder(const Path& p);
         FileFolders         		getSubFolders(const Path& subPath = Path("."));
         const set<string>&          getFiles(const string& globPattern = "*.*");
         StringList          		getSubFoldersAsList();
         bool                        isPresent(FileSystemObject* child);
-        void 				        addSubFolder(FileFolder* child);
+        void 				        addSubFolder(FileFolderSP child);
         void 				        removeChild(FileSystemObject* child);
         string						getLastPartOfPath();
         string                      directoryName(int n);
@@ -47,8 +49,5 @@ class ATE_DATA FileFolder : public FileSystemObject
         set<string>                 mFiles;
 };
 
-
 }
-
-
 #endif

@@ -23,18 +23,18 @@ class ATE_DATA ATIFData : public ATData
 
                                         //!Ribbonfolder functions..
 		FileFolders                     getRibbonFolders();
-        FileFolder* 					getRibbonFolder(int fldr);
-        FileFolder*          			getRibbonsDataFolder();
+        FileFolderSP					getRibbonFolder(int fldr);
+        FileFolderSP 	       			getRibbonsDataFolder();
         int                 			getNumberOfRibbonFolders();
 
-		FileFolders						getSessionFolders(FileFolder* ribbonFolder);
-   		FileFolders                     getChannelFolders(FileFolder* sessionFolder);
+		FileFolders						getSessionFolders(FileFolderSP ribbonFolder);
+   		FileFolders                     getChannelFolders(FileFolderSP sessionFolder);
 
     protected:
         Path 							mRibbonsFolderPath;
-        FileFolder				        mRibbonsDataFolder;
-        FileFolder   	    			mProcessedDataFolder;
-        FileFolder	        			mScriptsDataFolder;
+        FileFolderSP			        mRibbonsDataFolder;
+        FileFolderSP   	    			mProcessedDataFolder;
+        FileFolderSP        			mScriptsDataFolder;
         bool                            populateRibbons();
         bool                            populateSessions();
 };
