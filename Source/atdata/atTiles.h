@@ -12,13 +12,12 @@ namespace at
 {
 
 using std::map;
-using dsl::shared_ptr;
 class Tile;
 class Section;
 
 //!A container for tiles.
 //!Tiles are grouped by channel
-typedef shared_ptr<Tile> TileSP;
+typedef std::tr1::shared_ptr<Tile> TileSP;
 
 
 class ATE_DATA Tiles : public ExplorerObject

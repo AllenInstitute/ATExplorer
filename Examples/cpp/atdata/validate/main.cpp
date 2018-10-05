@@ -80,6 +80,8 @@ int main()
             //Total number of tiles??
             long nrOfTiles = atData->getNumberOfTiles();
             Log(lInfo) << "Number of Tiles: " << nrOfTiles;
+
+
         }
         catch(const FileSystemException& e)
         {

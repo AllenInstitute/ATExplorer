@@ -20,7 +20,7 @@ try:
     ribbon = atData.getFirstRibbon()
 
     while ribbon:
-        #print ("Ribbon Alias: " + ribbon.getAlias())
+        print ("Ribbon Alias: " + ribbon.getAlias())
         print ("Number of sections: " + str(ribbon.getSectionCount()))
         ribbon = atData.getNextRibbon()
 

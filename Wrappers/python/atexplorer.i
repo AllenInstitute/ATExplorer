@@ -27,6 +27,8 @@ using namespace at;
 %include "std_sstream.i"
 %include "std_vector.i"
 %include <boost_shared_ptr.i>
+%shared_ptr(at::Ribbon)
+
 #define ATE_CORE
 #define ATE_DATA
 //ATCore header only contains a few utlity functions, e.g. getVersion
@@ -35,6 +37,7 @@ using namespace at;
 %include "dslLogger.h"
 %include "dslLogging.h"
 %include "dslLogOutput.h"
+%include "dslSharedPointer.h"
 
 %include "atExplorerCore.h"
 %include "atRibbon.h"
@@ -45,7 +48,6 @@ using namespace at;
 %include "atATData.h"
 %include "atATIFData.h"
 
-%shared_ptr(Ribbon)
 
 //Add alias function to class Ribbon
 %extend at::Ribbon {

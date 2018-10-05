@@ -18,7 +18,6 @@ namespace at
 
 extern const string gATExplorerProjectFileVersion;
 
-using dsl::shared_ptr;
 using dsl::gEmptyString;
 
 //!A render project is a project as exposed by Render

@@ -8,11 +8,11 @@
 namespace at
 {
 
-using dsl::shared_ptr;
+
 class Session;
 
 class Channel;
-typedef shared_ptr<Channel> ChannelSP;
+typedef std::tr1::shared_ptr<Channel> ChannelSP;
 
 //!A channel belong to a specific Session
 class ATE_DATA Channel : public ExplorerObject

@@ -9,13 +9,12 @@ namespace at
 {
 
 using dsl::StringList;
-using dsl::shared_ptr;
 
 class Section;
 class FileFolder;
 enum  ATDataFileFormat {atAllen, atKM, atBase};
 
-typedef shared_ptr<FileFolder>  FileFolderSP;
+typedef std::tr1::shared_ptr<FileFolder>  FileFolderSP;
 
 int 	  ATE_DATA		getSectionID(const string& filePath);
 int 	  ATE_DATA		getTileID(const string& filePath);

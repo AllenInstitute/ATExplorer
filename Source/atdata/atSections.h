@@ -9,12 +9,11 @@ using std::vector;
 namespace at
 {
 
-using dsl::shared_ptr;
 class Section;
 //!Sections is a container for individual AT "sections".
 //!A Ribbon is a set of consecutive sections
 
-typedef shared_ptr<Section> SectionSP;
+typedef std::tr1::shared_ptr<Section> SectionSP;
 //---------------------------------------------------------------------------
 class ATE_DATA Sections : public ExplorerObject
 {

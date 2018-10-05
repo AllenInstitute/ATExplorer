@@ -9,11 +9,10 @@
 namespace at
 {
 
-using dsl::shared_ptr;
 using std::vector;
 class Ribbon;
 
-typedef shared_ptr<Ribbon> RibbonSP;
+typedef std::tr1::shared_ptr<Ribbon> RibbonSP;
 
 //!The Ribbons class is a container for AT Ribbons
 class ATE_DATA Ribbons : public ExplorerObject

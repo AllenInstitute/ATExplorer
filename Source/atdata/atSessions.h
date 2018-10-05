@@ -8,7 +8,6 @@
 namespace at
 {
 
-using dsl::shared_ptr;
 using std::vector;
 
 class Session;
@@ -16,7 +15,7 @@ class Session;
 //!Sessions is a container for individual AT "Sessions".
 //!A session
 
-typedef shared_ptr<Session> SessionSP;
+typedef std::tr1::shared_ptr<Session> SessionSP;
 //---------------------------------------------------------------------------
 class ATE_DATA Sessions : public ExplorerObject
 {

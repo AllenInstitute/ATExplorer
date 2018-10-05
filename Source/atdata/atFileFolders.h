@@ -10,9 +10,8 @@ namespace at
 {
 class FileFolder;
 using std::vector;
-using dsl::shared_ptr;
 
-typedef shared_ptr<FileFolder>  FileFolderSP;
+typedef std::tr1::shared_ptr<FileFolder>  FileFolderSP;
 
 class ATE_DATA FileFolders : public ExplorerObject
 {

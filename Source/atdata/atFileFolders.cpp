@@ -8,9 +8,7 @@ FileFolders::FileFolders()
 {}
 
 FileFolders::~FileFolders()
-{
-}
-
+{}
 
 FileFolderSP FileFolders::operator[](int i)
 {

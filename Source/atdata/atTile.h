@@ -10,11 +10,10 @@ namespace at
 {
 
 using Poco::Path;
-using dsl::shared_ptr;
 class Section;
 
 class Tile;
-typedef shared_ptr<Tile> TileSP;
+typedef std::tr1::shared_ptr<Tile> TileSP;
 
 //!A tile is a (TIFF) image (on disk), typically part of an imaged section
 //A tile is associated with a section and channel, and has an id.
