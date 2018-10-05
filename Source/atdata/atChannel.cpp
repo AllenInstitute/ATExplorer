@@ -7,22 +7,21 @@
 namespace at
 {
 
-Channel::Channel(const string& lbl, Session* s)
+Channel::Channel(const string& lbl, Session& s)
 :
 mLabel(lbl),
-mSession(s),
-mTiles(*this)
+mSession(s)//,
+//mTiles(*this)
 {}
 
 Channel::~Channel()
 {}
 
-bool Channel::appendTile(Tile* t)
-{
-    //Populate the map with tile paths
-    mTiles.append(t);
-
-}
+//bool Channel::appendTile(TileSP t)
+//{
+//    //Populate the map with tile paths
+//    mTiles.append(t);
+//}
 
 
 }

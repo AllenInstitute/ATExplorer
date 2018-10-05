@@ -7,6 +7,7 @@
 #include "atExceptions.h"
 #include "atTile.h"
 #include "atFileFolder.h"
+#include "atRibbon.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -127,10 +128,11 @@ bool ATIFData::populateRibbons()
 
     FileFolders ribbonFolders = getRibbonFolders();
 
+    mRibbons.clear();
 	//Create ribbons
     for(int i = 0; i < ribbonFolders.count(); i++)
     {
-        mRibbons.append(new Ribbon(i+1, ribbonFolders[i]->getLastPartOfPath()));
+        mRibbons.append(RibbonSP(new Ribbon(i+1, ribbonFolders[i]->getLastPartOfPath())));
     }
 
     //For each ribbon, create sections
@@ -157,7 +159,7 @@ bool ATIFData::populateRibbons()
                 //Append 'empty' sections
                 for(int i = 0; i < nrOfSections; i++)
                 {
-                    Section* s = new Section(i, *(mRibbons[i]));
+                    SectionSP s = SectionSP(new Section(i, *(mRibbons[ribbonID])));
 					mRibbons[ribbonID]->appendSection(s);
                 }
             }
@@ -175,7 +177,7 @@ bool ATIFData::populateSessions()
 {
     FileFolders ribbonFolders = getRibbonFolders();
 
-    //Each ribbon may go through several rounds (sessions) of imaging. Paths to individual frames
+    //Each ribbon may go through several rounds (sessions) of imaging. Paths to individual tiles
     //are captured in Sessions, Channel objects
     //Now, populate tiles
     for(int i = 0; i < ribbonFolders.count(); i++)
@@ -195,7 +197,7 @@ bool ATIFData::populateSessions()
             while(channelFolder)
             {
 				Log(lDebug) << "Checking channel folder: "<<channelFolder->toString()<<" for tiles.";
-                Channel* channel = new Channel(channelFolder->getLastPartOfPath(), session);
+                ChannelSP channel = ChannelSP(new Channel(channelFolder->getLastPartOfPath(), *session));
                 session->appendChannel(channel);
 
                 //The Session and Channel objects don't know anything about paths..
@@ -218,9 +220,9 @@ bool ATIFData::populateSessions()
                     }
 
                     //A tile need to know which section it belongs to
-                    Section* section = mRibbons[i]->getSection(secNr);
-                	Tile* t = new Tile(*channel, *section, tileID, p);
-                	channel->appendTile(t);
+                    SectionSP section = mRibbons[i]->getSection(secNr);
+//                	TileSP t = TileSP(new Tile(*channel, *(section.get()), tileID, p));
+//                	channel->appendTile(t);
 
                     iter++;
                 }

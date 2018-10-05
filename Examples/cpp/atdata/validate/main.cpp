@@ -4,6 +4,7 @@
 #include "dslLogger.h"
 #include "atExceptions.h"
 #include "atSession.h"
+#include "atRibbon.h"
 
 using namespace dsl;
 using namespace at;
@@ -29,15 +30,14 @@ int main()
 
         try
         {
-
             //!Populating the data object causes a scan of folders and files
             //!representing the data. No image data is loaded
             atData->populate();
 
             //Print some information about ribbons and sections
-            Log(lInfo) << "This is a "<<atData->getNumberOfRibbons()<<" ribbons dataset";
+            Log(lInfo) << "This is a "<<atData->getNumberOfRibbons()<<" ribbon(s) dataset";
 
-            Ribbon* ribbon = atData->getFirstRibbon();
+            RibbonSP ribbon = atData->getFirstRibbon();
             while(ribbon)
             {
                 Log(lInfo) << "There are "<<ribbon->sectionCount()<<" sections in ribbon "<< ribbon->getAlias();
@@ -50,25 +50,25 @@ int main()
             {
                 Log(lInfo) << "Checking session " << session->getLabel();
                 //Get Channels in session
-                Channel* chan = atData->getFirstChannel(session);
-                while(chan)
+
+                StringList chanLabels = atData->getChannelLabelsForSession(session);
+                for(int i = 0; i < chanLabels.count(); i++)
                 {
-                    Log(lInfo) << "Checking channel: " << chan->getLabel();
-                    Ribbon* ribbon = atData->getFirstRibbon();
+                    Log(lInfo) << "Checking channel: " << chanLabels[i];
+                    RibbonSP ribbon = atData->getFirstRibbon();
                     while(ribbon)
                     {
-                        Section* section = ribbon->getFirstSection();
-                        //Loop through frames
+                        SectionSP section = ribbon->getFirstSection();
+                        //Loop through sections
                         while(section)
                         {
-                            Tiles& tiles = section->getTiles(*chan);
-                            Log(lInfo) << "There are " << tiles.count() << " tiles in section: " << section->id()<< ", channel \"" << chan->getLabel() << "\" on ribbon \"" << ribbon->getAlias() << "\"";
+//                            Tiles& tiles = section->getTiles(*chan);
+//                            Log(lInfo) << "There are " << tiles.count() << " tiles in section: " << section->id()<< ", channel \"" << chan->getLabel() << "\" on ribbon \"" << ribbon->getAlias() << "\"";
                             section = ribbon->getNextSection();
                         }
 
                         ribbon = atData->getNextRibbon();
                     }
-                    chan = atData->getNextChannel(session);
                 }
                 session = atData->getNextSession();
             }

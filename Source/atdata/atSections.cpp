@@ -10,61 +10,62 @@ Sections::Sections()
 
 Sections::~Sections()
 {
-    for(int i = 0; i < count(); i++)
-    {
-        delete mSections[i];
-    }
 }
 
-Section* Sections::at(unsigned int i)
+SectionSP Sections::at(unsigned int i)
 {
     return mSections[i];
 }
 
-Section* Sections::getSection(int sectionID)
+void Sections::clear()
+{
+	mSections.clear();
+}
+
+SectionSP Sections::getSection(int sectionID)
 {
     for(int i = 0; i < count(); i++)
     {
-        Section* s = at(i);
+        SectionSP s = at(i);
         if(s->id() == sectionID)
         {
             return s;
         }
     }
-    return NULL;
+    return SectionSP();
 }
 
-Section* Sections::getFirstSection()
+SectionSP Sections::getFirstSection()
 {
     mSectionIterator = mSections.begin();
     return *(mSectionIterator);
 }
 
-Section* Sections::getNextSection()
+SectionSP Sections::getNextSection()
 {
 	mSectionIterator++;
     if(mSectionIterator != mSections.end())
     {
 	    return *(mSectionIterator);
     }
-    return NULL;
+    return SectionSP();
 }
 
-Section* Sections::getPreviousSection()
+SectionSP Sections::getPreviousSection()
 {
 	mSectionIterator--;
     if(mSectionIterator != mSections.begin() -1 )
     {
 	    return *(mSectionIterator);
     }
-    return NULL;
+    return SectionSP();
 }
 
-Section* Sections::getLastSection()
+SectionSP Sections::getLastSection()
 {
     if(!count())
     {
-        return NULL;
+        return SectionSP();
     }
 
     mSectionIterator = mSections.end();

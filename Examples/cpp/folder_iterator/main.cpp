@@ -25,16 +25,16 @@ int main()
 
         folder->scan();
 
-//        FileFolders sf = folder->getSubFolders();
-//
-//        for(int i = 0; i < sf.count(); i++)
-//        {
-//             Log(lInfo) << sf[i]->toString();
-//             if(sf[i]->getSubFolders().count())
-//             {
-//                listSubFolders(sf[i]);
-//             }
-//        }
+        FileFolders sf = folder->getSubFolders();
+
+        for(int i = 0; i < sf.count(); i++)
+        {
+             Log(lInfo) << sf[i]->toString();
+             if(sf[i]->getSubFolders().count())
+             {
+                listSubFolders(sf[i]);
+             }
+        }
     }
 
 	return 0;

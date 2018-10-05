@@ -50,21 +50,21 @@ Ribbons* ATData::getRibbons()
     return &mRibbons;
 }
 
-Ribbon* ATData::getRibbon(int count)
+RibbonSP ATData::getRibbon(int count)
 {
     if(count > 0 && count <= mRibbons.count())
     {
     	return mRibbons[count];
     }
-    return NULL;
+    return RibbonSP();
 }
 
-Ribbon* ATData::getFirstRibbon()
+RibbonSP ATData::getFirstRibbon()
 {
     return mRibbons.getFirstRibbon();
 }
 
-Ribbon* ATData::getNextRibbon()
+RibbonSP ATData::getNextRibbon()
 {
     return mRibbons.getNextRibbon();
 }
@@ -84,20 +84,11 @@ Session* ATData::getNextSession()
     return mSessions.getNextSession();
 }
 
-Channels* ATData::getChannels(Session* session)
+StringList ATData::getChannelLabelsForSession(Session* session)
 {
-    return session->getChannels();
+    return session->getChannelLabels();
 }
 
-Channel* ATData::getFirstChannel(Session* session)
-{
-    return session->getFirstChannel();
-}
-
-Channel* ATData::getNextChannel(Session* session)
-{
-    return session->getNextChannel();
-}
 
 int ATData::getNumberOfRibbons()
 {

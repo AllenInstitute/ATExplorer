@@ -11,51 +11,41 @@ Ribbons::Ribbons()
 
 Ribbons::~Ribbons()
 {
-    for(int i = 0; i < count(); i++)
-    {
-        delete mRibbons[i];
-    }
 }
 
-void Ribbons::append(Ribbon* r)
+void Ribbons::append(RibbonSP r)
 {
     mRibbons.push_back(r);
 }
 
 void Ribbons::clear()
 {
-//    mRibbonIterator = mRibbons.begin();
-//
-    for(int i = 0; i < mRibbons.size(); i++)
-    {
-        delete mRibbons[i];
-    }
     mRibbons.clear();
 }
 
-Ribbon* Ribbons::getRibbon(int i)
+RibbonSP Ribbons::getRibbon(int i)
 {
 	return mRibbons.at(i);
 }
 
-Ribbon* Ribbons::operator[](int i)
+RibbonSP Ribbons::operator[](int i)
 {
     return mRibbons[i];
 }
-Ribbon* Ribbons::getFirstRibbon()
+RibbonSP Ribbons::getFirstRibbon()
 {
     mRibbonIterator = mRibbons.begin();
     return *(mRibbonIterator);
 }
 
-Ribbon* Ribbons::getNextRibbon()
+RibbonSP Ribbons::getNextRibbon()
 {
 	mRibbonIterator++;
     if(mRibbonIterator != mRibbons.end())
     {
 	    return *(mRibbonIterator);
     }
-    return NULL;
+    return RibbonSP();
 }
 
 int Ribbons::count()

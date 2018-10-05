@@ -14,7 +14,7 @@ mChannel(&s)
 Tiles::~Tiles()
 {}
 
-bool Tiles::append(Tile* t)
+bool Tiles::append(TileSP t)
 {
     mTiles[t->getID()] = t;
     return true;

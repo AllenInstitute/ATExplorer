@@ -16,16 +16,12 @@ mLongRibbonID("")
 Ribbon::~Ribbon()
 {}
 
-bool Ribbon::clear()
+void Ribbon::removeSections()
 {
-	for(unsigned int i = 0; i < count(); i++)
-    {
-        delete at(i);
-    }
-    return true;
+    Sections::clear();
 }
 
-void Ribbon::appendSection(Section* sec)
+void Ribbon::appendSection(SectionSP sec)
 {
 	mSections.push_back(sec);
 }

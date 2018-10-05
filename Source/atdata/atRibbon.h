@@ -14,7 +14,7 @@ class ATE_DATA Ribbon : public Sections
     public:
                         Ribbon(int id, const string& alias = "");
         virtual         ~Ribbon();
-        bool            clear();
+        virtual void    removeSections();
         void            assignLongRibbonID(const string& lid);
 
         string          getAlias(){return mAlias;}
@@ -22,7 +22,7 @@ class ATE_DATA Ribbon : public Sections
         string          getLongRibbonID(){return mLongRibbonID;}
 
         int             sectionCount();
-        void            appendSection(Section* sec);
+        void            appendSection(SectionSP sec);
 
     protected:
 

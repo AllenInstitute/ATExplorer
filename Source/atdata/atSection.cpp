@@ -15,10 +15,10 @@ mRibbon(r)
 Section::~Section()
 {}
 
-Tiles& Section::getTiles(Channel& ch)
-{
-    return ch.getTiles();
-}
+//Tiles& Section::getTiles(Channel& ch)
+//{
+//    return ch.getTiles();
+//}
 
 }
 

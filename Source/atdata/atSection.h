@@ -21,7 +21,7 @@ class ATE_DATA Section : public ExplorerObject
         virtual                                     ~Section();
 
         int                                         id() const{return mID;}
-        Tiles&                                      getTiles(Channel& ch);
+//        Tiles&                                      getTiles(Channel& ch);
 
     protected:
         int                                         mID;

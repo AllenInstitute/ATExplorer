@@ -13,17 +13,22 @@ mLabel(lbl)//,
 Session::~Session()
 {}
 
-bool Session::appendChannel(Channel* ch)
+bool Session::appendChannel(ChannelSP ch)
 {
 	return mChannels.append(ch);
 }
 
-Channel* Session::getFirstChannel()
+StringList Session::getChannelLabels()
+{
+	return mChannels.asStringList();
+}
+
+ChannelSP Session::getFirstChannel()
 {
     return mChannels.getFirstChannel();
 }
 
-Channel* Session::getNextChannel()
+ChannelSP Session::getNextChannel()
 {
     return mChannels.getNextChannel();
 }

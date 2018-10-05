@@ -17,55 +17,54 @@ namespace at
 class ATE_DATA ATData : public ExplorerObject
 {
     public:
-                        	        ATData(const Path& basePath);
-		virtual            	        ~ATData();
-		virtual ATDataFileFormat    getFileFormat() = 0;
-        Path                        getBasePath();
+                        	                    ATData(const Path& basePath);
+		virtual            	                    ~ATData();
+		virtual ATDataFileFormat                getFileFormat() = 0;
+        Path                                    getBasePath();
 
-                                    //!Resets the data object, excepts the basepath
-        virtual void                reset();
+                                                //!Resets the data object, excepts the basepath
+        virtual void                            reset();
 
-                                    //!populating a ATData object typically include
-                                    //!parsing through a folder structure in descendant data
-                                    //!type objects
-        virtual bool                populate() = 0;
-        virtual bool                validate() = 0;
-        Ribbons*                    getRibbons();
-        Ribbon*     	            getRibbon(int count);
-        Ribbon*     	            getFirstRibbon();
-        Ribbon*     	            getNextRibbon();
+                                                //!populating a ATData object typically include
+                                                //!parsing through a folder structure in descendant data
+                                                //!type objects
+        virtual bool                            populate() = 0;
+        virtual bool                            validate() = 0;
+        Ribbons*                                getRibbons();
+        RibbonSP     	                        getRibbon(int count);
+        RibbonSP     	                        getFirstRibbon();
+        RibbonSP     	                        getNextRibbon();
 
-                                    //!A session is the same as a "group of stains" => one or more channel data
-        Sessions*                   getSessions();
-        Session*                    getFirstSession();
-        Session*                    getNextSession();
+                                                //!A session is the same as a "group of stains" => one or more channel data
+        Sessions*                               getSessions();
+        Session*                                getFirstSession();
+        Session*                                getNextSession();
 
-        Channels*                   getChannels(Session* session);
-        Channel*                    getFirstChannel(Session* session);
-        Channel*                    getNextChannel(Session* session);
+        StringList                              getChannelLabelsForSession(Session* session);
 
-                                    //!Utilities
-        int                         getNumberOfRibbons();
-        int                         getNumberOfSections();
-		int                         getNumberOfTiles();
+
+                                                //!Utilities
+        int                                     getNumberOfRibbons();
+        int                                     getNumberOfSections();
+		int                                     getNumberOfTiles();
 
     protected:
-                                    //A Ribbon contain consecutive sections,
-                                    //Ribbons capture the "physical" properties of a ribbon and sections
-        Ribbons                     mRibbons;
+                                                //A Ribbon contain consecutive sections,
+                                                //Ribbons capture the "physical" properties of a ribbon and sections
+        Ribbons                                 mRibbons;
 
-                                    //!A session denote a data acqusition 'session' using one or more
-                                    //immuno fluorescent 'stains', channels.
-                                    //Microscopy data is acquired during a session, and typically
-                                    //ordered (in some format) on disk, representing tissue sections and ribbons
-        Sessions                    mSessions;
+                                                //!A session denote a data acqusition 'session' using one or more
+                                                //immuno fluorescent 'stains', channels.
+                                                //Microscopy data is acquired during a session, and typically
+                                                //ordered (in some format) on disk, representing tissue sections and ribbons
+        Sessions                                mSessions;
 
-                                    //!The data need to have a format on disk..
-        ATDataFileFormat            mFileFormat;
+                                                //!The data need to have a format on disk..
+        ATDataFileFormat                        mFileFormat;
 
-                                	//!Basepath of raw data. All IF data need to be accesible
-                            	    //below this folder
-        Path	     			    mBasePath;
+                                	            //!Basepath of raw data. All IF data need to be accesible
+                            	                //below this folder
+        Path	     			                mBasePath;
 };
 
 }

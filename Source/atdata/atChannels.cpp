@@ -10,26 +10,41 @@ Channels::Channels()
 Channels::~Channels()
 {}
 
-bool Channels::append(Channel* ch)
+bool Channels::append(ChannelSP ch)
 {
-    push_back(ch);
+    mChannels.push_back(ch);
     return true;
 }
 
-Channel* Channels::getFirstChannel()
+StringList Channels::asStringList()
 {
-    mChannelIterator = begin();
+    StringList l;
+    for(int i = 0; i < mChannels.size(); i++)
+	{
+        l.append(mChannels[i]->getLabel());
+    }
+    return l;
+}
+
+ChannelSP Channels::getFirstChannel()
+{
+    if(mChannels.size() == 0)
+    {
+	    return ChannelSP();
+    }
+
+    mChannelIterator = mChannels.begin();
     return *(mChannelIterator);
 }
 
-Channel* Channels::getNextChannel()
+ChannelSP Channels::getNextChannel()
 {
 	mChannelIterator++;
-    if(mChannelIterator != end())
+    if(mChannelIterator != mChannels.end())
     {
 	    return *(mChannelIterator);
     }
-    return NULL;
+    return ChannelSP();
 }
 
 
