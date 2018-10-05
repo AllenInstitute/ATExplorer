@@ -19,14 +19,14 @@
 
 using namespace dsl;
 using namespace std;
-using namespace ate;
+using namespace at;
 %}
  
 //The atexplorer module is using many features from dsl
 %include "dsl.i"
 %include "std_sstream.i"
 %include "std_vector.i"
-
+%include <boost_shared_ptr.i>
 #define ATE_CORE
 #define ATE_DATA
 //ATCore header only contains a few utlity functions, e.g. getVersion
@@ -45,6 +45,7 @@ using namespace ate;
 %include "atATData.h"
 %include "atATIFData.h"
 
+%shared_ptr(Ribbon)
 
 //Add alias function to class Ribbon
 %extend at::Ribbon {

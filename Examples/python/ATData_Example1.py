@@ -14,14 +14,13 @@ try:
     #Create an empty ATData object
     atData = at.ATIFData(dataPath, False)
     atData.populate()
-    r = at.Ribbon(0)
 
     #Some trivial data info
     print( "Number of Ribbons: " + str(atData.getNumberOfRibbons()))
     ribbon = atData.getFirstRibbon()
 
     while ribbon:
-        print ("Ribbon Alias: " + ribbon.getAlias())
+        #print ("Ribbon Alias: " + ribbon.getAlias())
         print ("Number of sections: " + str(ribbon.getSectionCount()))
         ribbon = atData.getNextRibbon()
 

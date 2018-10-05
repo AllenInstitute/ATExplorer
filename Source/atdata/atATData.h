@@ -47,6 +47,9 @@ class ATE_DATA ATData : public ExplorerObject
 		int                                     getNumberOfTiles();
 
     protected:
+                                                //!The data need to have a format on disk..
+        ATDataFileFormat                        mFileFormat;
+
                                                 //A Ribbon contain consecutive sections,
                                                 //Ribbons capture the "physical" properties of a ribbon and sections
         Ribbons                                 mRibbons;
@@ -56,9 +59,6 @@ class ATE_DATA ATData : public ExplorerObject
                                                 //Microscopy data is acquired during a session, and typically
                                                 //ordered (in some format) on disk, representing tissue sections and ribbons
         Sessions                                mSessions;
-
-                                                //!The data need to have a format on disk..
-        ATDataFileFormat                        mFileFormat;
 
                                 	            //!Basepath of raw data. All IF data need to be accesible
                             	                //below this folder

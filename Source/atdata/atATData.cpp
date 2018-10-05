@@ -13,13 +13,10 @@ namespace at
 ATData::ATData(const Path& basePath)
 :
 mBasePath(basePath)
-{
-}
+{}
 
 ATData::~ATData()
-{
-    //Use smart pointers to allow worry free deallocation..
-}
+{}
 
 Path ATData::getBasePath()
 {
@@ -89,7 +86,6 @@ StringList ATData::getChannelLabelsForSession(SessionSP session)
 {
     return session->getChannelLabels();
 }
-
 
 int ATData::getNumberOfRibbons()
 {

@@ -19,19 +19,19 @@ typedef shared_ptr<Ribbon> RibbonSP;
 class ATE_DATA Ribbons : public ExplorerObject
 {
 	public:
-                                        Ribbons();
-        virtual            	            ~Ribbons();
-        RibbonSP                        operator[](int i);
-        RibbonSP                        getRibbon(int i);
-        RibbonSP                        getFirstRibbon();
-        RibbonSP                        getNextRibbon();
-        void                            append(RibbonSP r);
-        void                            clear();
-        int                             count();
+                                                    Ribbons();
+        virtual            	                        ~Ribbons();
+        RibbonSP                                    operator[](int i);
+        RibbonSP                                    getRibbon(int i);
+        RibbonSP                                    getFirstRibbon();
+        RibbonSP                                    getNextRibbon();
+        void                                        append(RibbonSP r);
+        void                                        clear();
+        int                                         count();
 
     protected:
-        vector<RibbonSP>::iterator   	mRibbonIterator;
-        vector<RibbonSP>           		mRibbons;
+        vector<RibbonSP>::iterator   	            mRibbonIterator;
+        vector<RibbonSP>           		            mRibbons;
 };
 
 }
