@@ -20,7 +20,7 @@ int main()
 
 	ATData* atData(nullptr);
 
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 1; i++)
     {
         if(atData)
         {
@@ -45,16 +45,16 @@ int main()
             }
 
             //Check Sessions and channels, i.e. actual data
-            Session* session =  atData->getFirstSession();
+            SessionSP session =  atData->getFirstSession();
             while(session)
             {
                 Log(lInfo) << "Checking session " << session->getLabel();
                 //Get Channels in session
 
-                StringList chanLabels = atData->getChannelLabelsForSession(session);
-                for(int i = 0; i < chanLabels.count(); i++)
+                ChannelSP ch = session->getFirstChannel();
+                while(ch)
                 {
-                    Log(lInfo) << "Checking channel: " << chanLabels[i];
+                    Log(lInfo) << "Checking channel: " << ch->getLabel();
                     RibbonSP ribbon = atData->getFirstRibbon();
                     while(ribbon)
                     {
@@ -62,19 +62,24 @@ int main()
                         //Loop through sections
                         while(section)
                         {
-//                            Tiles& tiles = section->getTiles(*chan);
-//                            Log(lInfo) << "There are " << tiles.count() << " tiles in section: " << section->id()<< ", channel \"" << chan->getLabel() << "\" on ribbon \"" << ribbon->getAlias() << "\"";
+                            TilesSP tiles = section->getTiles(ch);
+                            if(tiles)
+                            {
+    	                        Log(lInfo) << "There are " << tiles->count() << " tiles in section: " << section->id()<< ", channel \"" << tiles->getChannel().getLabel() << "\" in session: "<<session->getLabel()<<" on ribbon \"" << ribbon->getAlias() << "\"";
+                            }
                             section = ribbon->getNextSection();
                         }
 
                         ribbon = atData->getNextRibbon();
                     }
+                    ch = session->getNextChannel();
                 }
                 session = atData->getNextSession();
             }
 
-
-    //        atProject.save();
+            //Total number of tiles??
+            long nrOfTiles = atData->getNumberOfTiles();
+            Log(lInfo) << "Number of Tiles: " << nrOfTiles;
         }
         catch(const FileSystemException& e)
         {

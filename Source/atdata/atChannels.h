@@ -20,17 +20,17 @@ typedef shared_ptr<Channel> ChannelSP;
 class ATE_DATA Channels : public ExplorerObject
 {
     public:
-                                    Channels();
-                                    ~Channels();
-        bool                        append(ChannelSP ch);
-        bool                        append(const Channels& chns);
-        ChannelSP                   getFirstChannel();
-        ChannelSP                   getNextChannel();
-        StringList                  asStringList();
+                                                Channels();
+                                                ~Channels();
+        bool                                    append(ChannelSP ch);
+        bool                                    append(const Channels& chns);
+        ChannelSP                               getFirstChannel();
+        ChannelSP                               getNextChannel();
+        StringList                              asStringList();
 
     protected:
-        vector<ChannelSP>::iterator mChannelIterator;
-        vector<ChannelSP>           mChannels;
+        vector<ChannelSP>::iterator             mChannelIterator;
+        vector<ChannelSP>                       mChannels;
 };
 
 }

@@ -10,19 +10,20 @@ namespace at
 
 class ATE_DATA Session : public ExplorerObject
 {
-        public:
-                            Session(const string& lbl);
-                            ~Session();
-            string          getLabel(){return mLabel;}
-            bool        	appendChannel(ChannelSP channel);
+	public:
+                                    Session(const string& lbl);
+                                    ~Session();
+        string                      getLabel() const {return mLabel;}
+        bool        	            appendChannel(ChannelSP channel);
 
-            ChannelSP       getFirstChannel();
-            ChannelSP       getNextChannel();
-            StringList      getChannelLabels();
+        ChannelSP                   getFirstChannel();
+        ChannelSP                   getNextChannel();
+        StringList                  getChannelLabels();
+        bool                        operator==(const Session& s) const;
 
 	protected:
-            string          mLabel;
-            Channels        mChannels;
+        string                      mLabel;
+        Channels                    mChannels;
 };
 
 }

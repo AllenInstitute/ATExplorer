@@ -9,8 +9,7 @@ Sections::Sections()
 {}
 
 Sections::~Sections()
-{
-}
+{}
 
 SectionSP Sections::at(unsigned int i)
 {
@@ -37,6 +36,10 @@ SectionSP Sections::getSection(int sectionID)
 
 SectionSP Sections::getFirstSection()
 {
+    if(mSections.size() == 0)
+    {
+        return SectionSP();
+    }
     mSectionIterator = mSections.begin();
     return *(mSectionIterator);
 }

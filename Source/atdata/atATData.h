@@ -37,11 +37,9 @@ class ATE_DATA ATData : public ExplorerObject
 
                                                 //!A session is the same as a "group of stains" => one or more channel data
         Sessions*                               getSessions();
-        Session*                                getFirstSession();
-        Session*                                getNextSession();
-
-        StringList                              getChannelLabelsForSession(Session* session);
-
+        SessionSP                               getFirstSession();
+        SessionSP                               getNextSession();
+        StringList                              getChannelLabelsForSession(SessionSP session);
 
                                                 //!Utilities
         int                                     getNumberOfRibbons();

@@ -3,6 +3,7 @@
 #include "dslLogger.h"
 #include "atSections.h"
 #include "atSession.h"
+#include "atRibbon.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 
@@ -74,17 +75,17 @@ Sessions* ATData::getSessions()
     return &mSessions;
 }
 
-Session* ATData::getFirstSession()
+SessionSP ATData::getFirstSession()
 {
     return mSessions.getFirstSession();
 }
 
-Session* ATData::getNextSession()
+SessionSP ATData::getNextSession()
 {
     return mSessions.getNextSession();
 }
 
-StringList ATData::getChannelLabelsForSession(Session* session)
+StringList ATData::getChannelLabelsForSession(SessionSP session)
 {
     return session->getChannelLabels();
 }
@@ -97,12 +98,29 @@ int ATData::getNumberOfRibbons()
 
 int ATData::getNumberOfTiles()
 {
-    return -1;
+    int tileCount(0);
+    for(int r = 0; r < mRibbons.count(); r++)
+    {
+        RibbonSP ribbon = mRibbons[r];
+        for(int ss = 0; ss < ribbon->sectionCount(); ss++)
+        {
+            SectionSP section = ribbon->getSection(ss);
+            tileCount += section->getTotalNumberOfTiles();
+        }
+
+    }
+    return tileCount;
 }
 
 int ATData::getNumberOfSections()
 {
-    return -1;
+    int nrOfSections(0);
+    for(int i = 0; i < mRibbons.count(); i++)
+    {
+        nrOfSections += mRibbons[i]->sectionCount();
+    }
+
+    return nrOfSections;
 }
 
 

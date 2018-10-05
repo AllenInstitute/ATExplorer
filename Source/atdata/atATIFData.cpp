@@ -132,7 +132,7 @@ bool ATIFData::populateRibbons()
 	//Create ribbons
     for(int i = 0; i < ribbonFolders.count(); i++)
     {
-        mRibbons.append(RibbonSP(new Ribbon(i+1, ribbonFolders[i]->getLastPartOfPath())));
+        mRibbons.append(RibbonSP(new Ribbon(i, ribbonFolders[i]->getLastPartOfPath())));
     }
 
     //For each ribbon, create sections
@@ -151,7 +151,7 @@ bool ATIFData::populateRibbons()
             if(channelFolder)
             {
                 int nrOfSections = getNrOfSections(channelFolder);
-                Log(lInfo) << "There are " << nrOfSections <<" sections in ribbon " << ribbonID + 1;
+                Log(lInfo) << "There are " << nrOfSections <<" sections in ribbon " << ribbonID;
 
                 //Make sure section container is empty
                 mRibbons[ribbonID]->clear();
@@ -188,9 +188,8 @@ bool ATIFData::populateSessions()
         FileFolderSP sessionFolder = sessionFolders.getFirst();
         while(sessionFolder)
         {
-            Session* session = new Session(sessionFolder->toString());//, *(mRibbons[i]));
+            SessionSP session = SessionSP(new Session(sessionFolder->toString()));
           	mSessions.append(session);
-
 			Log(lDebug) << "Checking session folder: "<<sessionFolder->toString()<<" for channels.";
             FileFolderSP channelFolder = sessionFolder->getFirstSubFolder();
 
@@ -203,14 +202,15 @@ bool ATIFData::populateSessions()
                 //The Session and Channel objects don't know anything about paths..
                 const set<string>& files = channelFolder->getFiles("*.tif");
 				Log(lDebug) << "Found "<<files.size()<<" tiles.";
+
                 set<string>::const_iterator iter;
                 iter = files.begin();
                 while(iter != files.end())
                 {
                 	//Log(lDebug5) << "Found tile: " << *(iter);
                     Path p(*iter);
-                    int secNr = getSectionID(p.getFileName()) + 1; //Section ID starts at 1, not 0;
-                    int tileID = getTileID(p.getFileName()) + 1;
+                    int secNr = getSectionID(p.getFileName()); //Section ID starts at 1, not 0;
+                    int tileID = getTileID(p.getFileName());
 
                     if(secNr == -1 || tileID == -1)
                     {
@@ -221,8 +221,17 @@ bool ATIFData::populateSessions()
 
                     //A tile need to know which section it belongs to
                     SectionSP section = mRibbons[i]->getSection(secNr);
-//                	TileSP t = TileSP(new Tile(*channel, *(section.get()), tileID, p));
-//                	channel->appendTile(t);
+                    if(section)
+                    {
+                        TileSP t = TileSP(new Tile(*channel, *(section.get()), tileID, p));
+                        Log(lDebug3) << "Adding tile: " << t->getPath().toString();
+                        //Associate the tile with the section
+                        section->addTile(t);
+                    }
+                    else
+                    {
+                        Log(lError) << "Error processing filePath: " <<p.toString();
+                    }
 
                     iter++;
                 }

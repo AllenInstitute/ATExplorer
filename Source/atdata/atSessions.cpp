@@ -13,27 +13,27 @@ Sessions::~Sessions()
 
 void Sessions::clear()
 {
-    for(int i = 0; i < mSessions.size(); i++)
-    {
-        delete mSessions[i];
-    }
     mSessions.clear();
 }
 
-Session* Sessions::getFirstSession()
+SessionSP Sessions::getFirstSession()
 {
+    if(mSessions.size() == 0)
+    {
+        return SessionSP();
+    }
     mSessionIterator = mSessions.begin();
     return *(mSessionIterator);
 }
 
-Session* Sessions::getNextSession()
+SessionSP Sessions::getNextSession()
 {
 	mSessionIterator++;
     if(mSessionIterator != mSessions.end())
     {
 	    return *(mSessionIterator);
     }
-    return NULL;
+    return SessionSP();
 }
 
 }

@@ -8,7 +8,7 @@ namespace at
 
 Tiles::Tiles(const Channel& s)
 :
-mChannel(&s)
+mChannel(s)
 {}
 
 Tiles::~Tiles()

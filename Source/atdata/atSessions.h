@@ -3,16 +3,20 @@
 #include <vector>
 #include "atExplorerObject.h"
 #include "atATDataExporter.h"
+#include "dslSharedPointer.h"
 
 namespace at
 {
 
+using dsl::shared_ptr;
 using std::vector;
 
 class Session;
 
 //!Sessions is a container for individual AT "Sessions".
 //!A session
+
+typedef shared_ptr<Session> SessionSP;
 //---------------------------------------------------------------------------
 class ATE_DATA Sessions : public ExplorerObject
 {
@@ -20,14 +24,14 @@ class ATE_DATA Sessions : public ExplorerObject
                                                 Sessions();
                                                 ~Sessions();
 			void 								clear();
-            Session*                            getFirstSession();
-            Session*                            getNextSession();
+            SessionSP                           getFirstSession();
+            SessionSP                           getNextSession();
             int                                 count(){return mSessions.size();}
-            void                                append(Session* s){mSessions.push_back(s);}
+            void                                append(SessionSP s){mSessions.push_back(s);}
 
         protected:
-        	vector<Session*>::iterator  		mSessionIterator;
-            vector<Session*>                    mSessions;
+        	vector<SessionSP>::iterator  		mSessionIterator;
+            vector<SessionSP>                   mSessions;
 };
 
 }
