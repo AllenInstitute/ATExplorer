@@ -28,7 +28,6 @@ using at::RegionOfInterest;
 using at::RenderClient;
 using at::FetchImagesThread;
 using dsl::StringList;
-using dsl::shared_ptr;
 using std::map;
 class TCreateStackThreadFrame;
 

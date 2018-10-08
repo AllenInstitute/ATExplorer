@@ -22,6 +22,8 @@ using namespace std;
 using namespace at;
 %}
  
+#define SWIG_SHARED_PTR_SUBNAMESPACE tr1
+ 
 //The atexplorer module is using many features from dsl
 %include "dsl.i"
 %include "std_sstream.i"

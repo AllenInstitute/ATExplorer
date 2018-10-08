@@ -33,7 +33,6 @@ using at::RenderProjectView;
 using at::ProjectObservers;
 using dsl::Project;
 using dsl::Observer;
-using dsl::shared_ptr;
 using std::vector;
 
 

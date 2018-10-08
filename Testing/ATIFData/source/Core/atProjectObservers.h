@@ -18,7 +18,6 @@ namespace at
 using std::vector;
 using dsl::Subject;
 using dsl::SubjectEvent;
-using dsl::shared_ptr;
 using dsl::Project;
 class TabbedProjectView;
 

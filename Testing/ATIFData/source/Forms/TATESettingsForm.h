@@ -14,7 +14,6 @@
 
 using std::list;
 using dsl::PropertiesContainer;
-using dsl::shared_ptr;
 //---------------------------------------------------------------------------
 class PACKAGE TATESettingsForm : public TForm
 {

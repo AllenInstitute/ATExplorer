@@ -12,7 +12,6 @@ namespace at
 
 using dsl::Property;
 using dsl::IniFileProperties;
-using dsl::shared_ptr;
 using dsl::LogLevel;
 
 class PACKAGE AppUtilities : public dsl::ApplicationProperties
