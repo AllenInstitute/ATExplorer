@@ -8,11 +8,38 @@
 
 using namespace dsl;
 using namespace at;
+
+//Arg1 -> AtData
+void onStartingPopulating( void* arg1, void* arg2)
+{
+    Log(lInfo) << "Starting populating data..";
+}
+
+//Arg1 -> AtData
+void onProgressPopulating(void* arg1, void* arg2)
+{
+    ATData* data = (ATData*)arg1;
+    Log(lInfo) << "Progressing populating data: ";
+    if(data)
+    {
+        Log(lInfo) << "Sections: " <<data->getNumberOfSections();
+    }
+}
+
+//Arg1 -> AtData
+void onFinishedPopulating(void* arg1, void* arg2)
+{
+    ATData* data = (ATData*)arg1;
+
+    Log(lInfo) << "Finished populating data";
+   	Log(lInfo) << data->getInfo();
+}
+
 int main()
 {
     //Setup logging
     LogOutput::mShowLogLevel = true;
-    gLogger.setLogLevel(lDebug3);
+    gLogger.setLogLevel(lInfo);
     gLogger.logToConsole(true);
     gLogger.logToFile("p:\\ATProjects\\MyLog.txt");
 
@@ -20,14 +47,14 @@ int main()
 
 	ATData* atData(nullptr);
 
-    for(int i = 0; i < 1; i++)
+    for(int i = 0; i < 100; i++)
     {
         if(atData)
         {
             delete atData;
         }
         atData = new ATIFData(dataPath, false);
-
+	    atData->assignOnPoplateCallbacks(onStartingPopulating, onProgressPopulating, onFinishedPopulating);
         try
         {
             //!Populating the data object causes a scan of folders and files
@@ -40,7 +67,7 @@ int main()
             RibbonSP ribbon = atData->getFirstRibbon();
             while(ribbon)
             {
-                Log(lInfo) << "There are "<<ribbon->sectionCount()<<" sections in ribbon "<< ribbon->getAlias();
+                Log(lInfo) << "There are "<<ribbon->getNumberOfSections()<<" sections in ribbon "<< ribbon->getAlias();
                 ribbon = atData->getNextRibbon();
             }
 
@@ -65,7 +92,7 @@ int main()
                             TilesSP tiles = section->getTiles(ch);
                             if(tiles)
                             {
-    	                        Log(lInfo) << "There are " << tiles->count() << " tiles in section: " << section->id()<< ", channel \"" << tiles->getChannel().getLabel() << "\" in session: "<<session->getLabel()<<" on ribbon \"" << ribbon->getAlias() << "\"";
+    	                        Log(lDebug) << "There are " << tiles->count() << " tiles in section: " << section->id()<< ", channel \"" << tiles->getChannel().getLabel() << "\" in session: "<<session->getLabel()<<" on ribbon \"" << ribbon->getAlias() << "\"";
                             }
                             section = ribbon->getNextSection();
                         }
@@ -80,8 +107,6 @@ int main()
             //Total number of tiles??
             long nrOfTiles = atData->getNumberOfTiles();
             Log(lInfo) << "Number of Tiles: " << nrOfTiles;
-
-
         }
         catch(const FileSystemException& e)
         {

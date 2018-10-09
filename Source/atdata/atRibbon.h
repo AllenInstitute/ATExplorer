@@ -2,6 +2,7 @@
 #define atRibbonH
 #include "atExplorerObject.h"
 #include "atSections.h"
+#include "atChannel.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -17,12 +18,13 @@ class ATE_DATA Ribbon : public Sections
         virtual void    removeSections();
         void            assignLongRibbonID(const string& lid);
 
-        string          getAlias(){return mAlias;}
-        int		        getShortRibbonID(){return mShortRibbonID;}
-        string          getLongRibbonID(){return mLongRibbonID;}
+        string          getAlias();
+        int		        getShortRibbonID();
+        string          getLongRibbonID();
 
-        int             sectionCount();
         void            appendSection(SectionSP sec);
+        int             getNumberOfSections();
+        int             getTileCount(const ChannelSP ch);
 
     protected:
 

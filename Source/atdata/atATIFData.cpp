@@ -8,6 +8,7 @@
 #include "atTile.h"
 #include "atFileFolder.h"
 #include "atRibbon.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -49,10 +50,7 @@ void ATIFData::reset()
 ATIFData::ATIFData(const Path& basePath, bool pop)
 :
 ATData(basePath),
-mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))//,
-//mRibbonsDataFolder(mRibbonsFolderPath),
-//mProcessedDataFolder(joinPath(mBasePath.toString(), "processed")),
-//mScriptsDataFolder(joinPath(mBasePath.toString(), 	"scripts"))
+mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))
 {
 	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
 	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
@@ -66,46 +64,18 @@ mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))
 
 bool ATIFData::populate()
 {
+    if(onStartingPopulating)
+    {
+        onStartingPopulating(this, nullptr);
+    }
+
     populateRibbons();
 	populateSessions();
-    return true;
-}
 
-bool ATIFData::validate()
-{
-    //Do some simple validation
-	//Number of tiles for a particular section, for a particular ribbon, are equal across channels(sessions)
-//    Ribbon* ribbon = atData->getFirstRibbon();
-//    //Check Sessions and channels, i.e. actual data
-//    Session* session =  atData->getFirstSession();
-//    while(session)
-//    {
-//        Log(lInfo) << "Checking session " << session->getLabel();
-//        //Get Channels in session
-//        Channel* chan = atData->getFirstChannel(session);
-//        while(chan)
-//        {
-//            Log(lInfo) << "Checking channel: " << chan->getLabel();
-//            Ribbon* ribbon = atData->getFirstRibbon();
-//            while(ribbon)
-//            {
-//                Section* section = ribbon->getFirstSection();
-//                //Loop through frames
-//                while(section)
-//                {
-//                    Tiles& tiles = section->getTiles(*chan);
-//                    Log(lInfo) << "There are " << tiles.count() << " tiles in section: " << section->id()<< " channel: " << chan->getLabel() << " on ribbon: " << ribbon->getAlias();
-//                    section = ribbon->getNextSection();
-//                }
-//
-//                ribbon = atData->getNextRibbon();
-//            }
-//            chan = atData->getNextChannel(session);
-//        }
-//        session = atData->getNextSession();
-//    }
-//
-//
+    if(onFinishedPopulating)
+    {
+        onFinishedPopulating(this, nullptr);
+    }
 
     return true;
 }
@@ -124,7 +94,7 @@ bool ATIFData::populateRibbons()
     //All raw data is in the ribbons datafolder, populate it first
 	FolderInfo fInfo = mRibbonsDataFolder->scan();
 
-    Log(lInfo) << "Found " <<fInfo.first << " folders and " << fInfo.second << " files";
+    Log(lInfo) << "Found " <<fInfo.NrOfFolders << " folders and " << fInfo.NrOfFiles << " files";
 
     FileFolders ribbonFolders = getRibbonFolders();
 
@@ -133,6 +103,11 @@ bool ATIFData::populateRibbons()
     for(int i = 0; i < ribbonFolders.count(); i++)
     {
         mRibbons.append(RibbonSP(new Ribbon(i, ribbonFolders[i]->getLastPartOfPath())));
+
+        if(onProgressPopulating)
+        {
+            onProgressPopulating(this, nullptr);
+        }
     }
 
     //For each ribbon, create sections
@@ -161,6 +136,11 @@ bool ATIFData::populateRibbons()
                 {
                     SectionSP s = SectionSP(new Section(i, *(mRibbons[ribbonID])));
 					mRibbons[ribbonID]->appendSection(s);
+
+                    if(onProgressPopulating)
+                    {
+                        onProgressPopulating(this, nullptr);
+                    }
                 }
             }
             else
@@ -188,16 +168,28 @@ bool ATIFData::populateSessions()
         FileFolderSP sessionFolder = sessionFolders.getFirst();
         while(sessionFolder)
         {
-            SessionSP session = SessionSP(new Session(sessionFolder->toString()));
-          	mSessions.append(session);
+            string sessionLabel(getLastFolderInPath(sessionFolder->toString()));
+            SessionSP session(mSessions.getSession(sessionLabel));
+
+            if(!session)
+            {
+            	session = SessionSP(new Session(sessionLabel));
+	          	mSessions.append(session);
+            }
+
 			Log(lDebug) << "Checking session folder: "<<sessionFolder->toString()<<" for channels.";
             FileFolderSP channelFolder = sessionFolder->getFirstSubFolder();
 
             while(channelFolder)
             {
 				Log(lDebug) << "Checking channel folder: "<<channelFolder->toString()<<" for tiles.";
-                ChannelSP channel = ChannelSP(new Channel(channelFolder->getLastPartOfPath(), *session));
-                session->appendChannel(channel);
+                ChannelSP channel(session->getChannel(channelFolder->getLastPartOfPath()));
+
+                if(!channel)
+                {
+	                channel = ChannelSP(new Channel(channelFolder->getLastPartOfPath(), *session));
+                    session->appendChannel(channel);
+                }
 
                 //The Session and Channel objects don't know anything about paths..
                 const set<string>& files = channelFolder->getFiles("*.tif");
@@ -237,7 +229,6 @@ bool ATIFData::populateSessions()
                 }
 
                 channelFolder = sessionFolder->getNextSubFolder();
-
             }
             //Move to next session folder
             sessionFolder = sessionFolders.getNext();
@@ -326,6 +317,45 @@ FileFolderSP ATIFData::getRibbonFolder(int fldr)
     }
 
     return FileFolderSP();
+}
+
+bool ATIFData::validate()
+{
+    //Do some simple validation
+	//Number of tiles for a particular section, for a particular ribbon, are equal across channels(sessions)
+//    Ribbon* ribbon = atData->getFirstRibbon();
+//    //Check Sessions and channels, i.e. actual data
+//    Session* session =  atData->getFirstSession();
+//    while(session)
+//    {
+//        Log(lInfo) << "Checking session " << session->getLabel();
+//        //Get Channels in session
+//        Channel* chan = atData->getFirstChannel(session);
+//        while(chan)
+//        {
+//            Log(lInfo) << "Checking channel: " << chan->getLabel();
+//            Ribbon* ribbon = atData->getFirstRibbon();
+//            while(ribbon)
+//            {
+//                Section* section = ribbon->getFirstSection();
+//                //Loop through frames
+//                while(section)
+//                {
+//                    Tiles& tiles = section->getTiles(*chan);
+//                    Log(lInfo) << "There are " << tiles.count() << " tiles in section: " << section->id()<< " channel: " << chan->getLabel() << " on ribbon: " << ribbon->getAlias();
+//                    section = ribbon->getNextSection();
+//                }
+//
+//                ribbon = atData->getNextRibbon();
+//            }
+//            chan = atData->getNextChannel(session);
+//        }
+//        session = atData->getNextSession();
+//    }
+//
+//
+
+    return true;
 }
 
 

@@ -15,6 +15,8 @@ class ATE_DATA Session : public ExplorerObject
                                     ~Session();
         string                      getLabel() const {return mLabel;}
         bool        	            appendChannel(ChannelSP channel);
+        ChannelSP                   getChannel(const string& channelLbl);
+        ChannelSP                   getChannel(ChannelSP channel);
 
         ChannelSP                   getFirstChannel();
         ChannelSP                   getNextChannel();

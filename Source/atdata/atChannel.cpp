@@ -17,6 +17,7 @@ Channel::~Channel()
 
 bool Channel::operator==(const Channel& c) const
 {
-    return (mLabel == c.getLabel() && mSession == c.mSession) ? true : false;
+    bool value = (mLabel == c.getLabel() && mSession == c.mSession) ? true : false;
+    return value;
 }
 }

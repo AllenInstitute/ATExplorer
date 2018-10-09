@@ -28,6 +28,7 @@ RibbonSP Ribbons::getRibbon(int i)
 	return mRibbons.at(i);
 }
 
+int                                         getNumberOfSection();
 RibbonSP Ribbons::operator[](int i)
 {
     return mRibbons[i];
@@ -40,10 +41,17 @@ RibbonSP Ribbons::getFirstRibbon()
 
 RibbonSP Ribbons::getNextRibbon()
 {
-	mRibbonIterator++;
     if(mRibbonIterator != mRibbons.end())
     {
-	    return *(mRibbonIterator);
+		mRibbonIterator++;
+        if(mRibbonIterator == mRibbons.end())
+        {
+            return RibbonSP();
+        }
+        else
+        {
+	    	return *(mRibbonIterator);
+        }
     }
     return RibbonSP();
 }

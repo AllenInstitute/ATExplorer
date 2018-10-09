@@ -46,11 +46,20 @@ SectionSP Sections::getFirstSection()
 
 SectionSP Sections::getNextSection()
 {
-	mSectionIterator++;
     if(mSectionIterator != mSections.end())
     {
-	    return *(mSectionIterator);
+		mSectionIterator++;
+
+        if(mSectionIterator == mSections.end())
+        {
+            return SectionSP();
+        }
+        else
+        {
+	    	return *(mSectionIterator);
+        }
     }
+
     return SectionSP();
 }
 

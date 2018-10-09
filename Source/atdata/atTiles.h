@@ -25,14 +25,14 @@ class ATE_DATA Tiles : public ExplorerObject
     public:
                                     Tiles(const Channel& ch);
                                     ~Tiles();
-        const Channel&              getChannel(){return mChannel;}
+        const Channel&              getChannel() const;
+        int                         count();
         bool                        append(TileSP t);
-        int                         count(){return mTiles.size();}
+
 
     protected:
         const Channel&              mChannel;
         map<int, TileSP>  			mTiles;
-
 };
 
 }

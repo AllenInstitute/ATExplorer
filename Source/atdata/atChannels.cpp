@@ -10,10 +10,37 @@ Channels::Channels()
 Channels::~Channels()
 {}
 
-bool Channels::append(ChannelSP ch)
+bool Channels::append(ChannelSP new_ch)
 {
-    mChannels.push_back(ch);
+    //Make sure we don't add a channel twice
+    for(int i = 0; i < mChannels.size(); i++)
+	{
+        ChannelSP c = mChannels[i];
+        if(c == new_ch)
+        {
+            return false;
+        }
+    }
+  	mChannels.push_back(new_ch);
     return true;
+}
+
+ChannelSP Channels::getChannel(const string& chLbl)
+{
+    for(int i = 0; i < mChannels.size(); i++)
+	{
+        ChannelSP c = mChannels[i];
+        if(c->getLabel() == chLbl)
+        {
+            return c;
+        }
+    }
+    return ChannelSP();
+}
+
+ChannelSP Channels::getChannel(ChannelSP ch)
+{
+    return getChannel(ch->getLabel());
 }
 
 StringList Channels::asStringList()
@@ -39,10 +66,17 @@ ChannelSP Channels::getFirstChannel()
 
 ChannelSP Channels::getNextChannel()
 {
-	mChannelIterator++;
     if(mChannelIterator != mChannels.end())
     {
-	    return *(mChannelIterator);
+		mChannelIterator++;
+        if(mChannelIterator == mChannels.end())
+        {
+            return ChannelSP();
+        }
+        else
+        {
+	    	return *(mChannelIterator);
+        }
     }
     return ChannelSP();
 }

@@ -8,10 +8,13 @@
 #include "atChannels.h"
 #include "atSection.h"
 #include "atATDataUtils.h"
+#include <boost/function.hpp>
 //---------------------------------------------------------------------------
 
 namespace at
 {
+
+typedef boost::function<void(void*, void*)> ATDataPopulateCallback;
 
 //!The ATData class abstracts ArrayTomography data
 class ATE_DATA ATData : public ExplorerObject
@@ -19,8 +22,12 @@ class ATE_DATA ATData : public ExplorerObject
     public:
                         	                    ATData(const Path& basePath);
 		virtual            	                    ~ATData();
+        void                                    assignOnPoplateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
 		virtual ATDataFileFormat                getFileFormat() = 0;
         Path                                    getBasePath();
+
+                                        		//!Return some information about the current data
+        string                                  getInfo();
 
                                                 //!Resets the data object, excepts the basepath
         virtual void                            reset();
@@ -63,6 +70,14 @@ class ATE_DATA ATData : public ExplorerObject
                                 	            //!Basepath of raw data. All IF data need to be accesible
                             	                //below this folder
         Path	     			                mBasePath;
+
+                                                //!These callbacks can be used by clients to get feedback on progress when
+                                                //!populating the data
+		ATDataPopulateCallback                  onStartingPopulating;
+		ATDataPopulateCallback                  onProgressPopulating;
+		ATDataPopulateCallback                  onFinishedPopulating;
+
+
 };
 
 }

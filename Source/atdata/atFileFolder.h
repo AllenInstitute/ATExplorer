@@ -20,7 +20,13 @@ using std::string;
 using Poco::Path;
 using dsl::StringList;
 
-typedef pair<int, int> FolderInfo;
+struct FolderInfo
+{
+				    FolderInfo(int folders = 0, int files = 0)
+                    : NrOfFolders(0), NrOfFiles(0){}
+    int NrOfFolders;
+    int NrOfFiles;
+};
 
 
 //!A File folder is FileSystem object.

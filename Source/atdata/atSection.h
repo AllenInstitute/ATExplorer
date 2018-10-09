@@ -26,8 +26,8 @@ class ATE_DATA Section : public ExplorerObject
         int                                         id() const{return mID;}
         void                                        addTile(TileSP tile);
         TilesSP                                     getTiles(const ChannelSP& ch);
-
         int                                         getTotalNumberOfTiles();
+        int                                         getNumberOfTiles(const ChannelSP& ch);
 
 
     protected:

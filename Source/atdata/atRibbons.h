@@ -25,6 +25,7 @@ class ATE_DATA Ribbons : public ExplorerObject
         RibbonSP                                    getFirstRibbon();
         RibbonSP                                    getNextRibbon();
         void                                        append(RibbonSP r);
+
         void                                        clear();
         int                                         count();
 

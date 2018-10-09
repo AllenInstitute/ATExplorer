@@ -16,7 +16,7 @@ class Tile;
 typedef std::tr1::shared_ptr<Tile> TileSP;
 
 //!A tile is a (TIFF) image (on disk), typically part of an imaged section
-//A tile is associated with a section and channel, and has an id.
+//A tile is associated with a section and channel, and has an id (starting at 0).
 class ATE_DATA Tile : public ExplorerObject
 {
     public:
@@ -24,10 +24,10 @@ class ATE_DATA Tile : public ExplorerObject
         virtual                     ~Tile();
 
         bool                        assignPath(Path& p, bool checkIfExists = false);
-        int                         getID(){return mID;}
-        Path                        getPath(){return mRawDataPath;}
-        const Channel&     		    getChannel(){return mChannel;}
-        const Section&              getSection(){return mSection;}
+        int                         getID();
+        Path                        getPath();
+        const Channel&     		    getChannel();
+        const Section&              getSection();
 
     protected:
                                     //!Assign from path

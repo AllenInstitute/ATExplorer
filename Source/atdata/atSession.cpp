@@ -7,7 +7,6 @@ namespace at
 Session::Session(const string& lbl)
 :
 mLabel(lbl)
-
 {}
 
 Session::~Session()
@@ -17,6 +16,16 @@ bool Session::operator==(const Session& s) const
 {
     //We only need to compare labels
     return mLabel == s.getLabel() ? true : false;
+}
+
+ChannelSP Session::getChannel(ChannelSP channel)
+{
+    return mChannels.getChannel(channel);
+}
+
+ChannelSP Session::getChannel(const string& channelLabel)
+{
+    return mChannels.getChannel(channelLabel);
 }
 
 bool Session::appendChannel(ChannelSP ch)

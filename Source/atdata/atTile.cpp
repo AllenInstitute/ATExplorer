@@ -18,6 +18,26 @@ mID(tileID)
 Tile::~Tile()
 {}
 
+int Tile::getID()
+{
+	return mID;
+}
+
+Path Tile::getPath()
+{
+	return mRawDataPath;
+}
+
+const Channel& Tile::getChannel()
+{
+	return mChannel;
+}
+
+const Section& Tile::getSection()
+{
+	return mSection;
+}
+
 bool Tile::assignPath(Path& p, bool checkOnDisk)
 {
     mRawDataPath = p;

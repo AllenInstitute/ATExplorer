@@ -195,7 +195,7 @@ FolderInfo populateFolderStructure(FileFolderSP folder)
     	if(it->isDirectory())
     	{
             //Found a folder
-            info.first++;
+            info.NrOfFolders++;
             Path ffPath(it->path() + gPathSeparator);
             FileFolderSP ff (new FileFolder(ffPath));//, folder));
 
@@ -204,12 +204,12 @@ FolderInfo populateFolderStructure(FileFolderSP folder)
 
             //Recursive call ------
       		FolderInfo i = populateFolderStructure(ff);
-            info.first  += i.first;
-            info.second += i.second;
+            info.NrOfFolders  += i.NrOfFolders;
+            info.NrOfFiles += i.NrOfFiles;
     	}
         else if(it->isFile())
         {
-            info.second++;
+            info.NrOfFiles++;
         }
   	}
     return info;

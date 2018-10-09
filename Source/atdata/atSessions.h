@@ -4,7 +4,7 @@
 #include "atExplorerObject.h"
 #include "atATDataExporter.h"
 #include "dslSharedPointer.h"
-
+//---------------------------------------------------------------------------
 namespace at
 {
 
@@ -13,24 +13,24 @@ using std::vector;
 class Session;
 
 //!Sessions is a container for individual AT "Sessions".
-//!A session
-
+//!A session label need to be unique..
 typedef std::tr1::shared_ptr<Session> SessionSP;
 //---------------------------------------------------------------------------
 class ATE_DATA Sessions : public ExplorerObject
 {
-        public:
-                                                Sessions();
-                                                ~Sessions();
-			void 								clear();
-            SessionSP                           getFirstSession();
-            SessionSP                           getNextSession();
-            int                                 count(){return mSessions.size();}
-            void                                append(SessionSP s){mSessions.push_back(s);}
+    public:
+                                            Sessions();
+                                            ~Sessions();
+        void 								clear();
+        SessionSP                           getSession(const string& lbl);
+        SessionSP                           getFirstSession();
+        SessionSP                           getNextSession();
+        int                                 count();
+        bool                                append(SessionSP s);
 
-        protected:
-        	vector<SessionSP>::iterator  		mSessionIterator;
-            vector<SessionSP>                   mSessions;
+    protected:
+        vector<SessionSP>::iterator  		mSessionIterator;
+        vector<SessionSP>                   mSessions;
 };
 
 }

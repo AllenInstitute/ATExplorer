@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "atSessions.h"
 #include "atSession.h"
-
+//---------------------------------------------------------------------------
 
 namespace at
 {
@@ -10,6 +10,39 @@ Sessions::Sessions()
 
 Sessions::~Sessions()
 {}
+
+int Sessions::count()
+{
+	return mSessions.size();
+}
+
+SessionSP Sessions::getSession(const string& lbl)
+{
+    for(int i = 0; i < mSessions.size(); i++)
+    {
+        SessionSP s = mSessions[i];
+        if(s->getLabel() == lbl)
+        {
+            return s;
+        }
+    }
+    return SessionSP();
+}
+
+bool Sessions::append(SessionSP ns)
+{
+    //Make sure the session label don't exist
+    for(int i = 0; i < mSessions.size(); i++)
+    {
+        SessionSP s = mSessions[i];
+        if(s->getLabel() == ns->getLabel())
+        {
+            return false;
+        }
+    }
+	mSessions.push_back(ns);
+    return true;
+}
 
 void Sessions::clear()
 {
@@ -28,10 +61,17 @@ SessionSP Sessions::getFirstSession()
 
 SessionSP Sessions::getNextSession()
 {
-	mSessionIterator++;
     if(mSessionIterator != mSessions.end())
     {
-	    return *(mSessionIterator);
+		mSessionIterator++;
+        if(mSessionIterator == mSessions.end())
+        {
+            return SessionSP();
+        }
+        else
+        {
+	    	return *(mSessionIterator);
+        }
     }
     return SessionSP();
 }

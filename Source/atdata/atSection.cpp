@@ -15,16 +15,6 @@ mRibbon(r)
 Section::~Section()
 {}
 
-int Section::getTotalNumberOfTiles()
-{
-    int nrOfTiles(0);
-    for(int i = 0; i < mTiles.size(); i++)
-    {
-    	nrOfTiles += mTiles[i]->count();
-    }
-    return nrOfTiles;
-}
-
 void Section::addTile(TileSP tile)
 {
     //Get Tiles container for the tiles channel. If it does not exists, create a new one
@@ -59,6 +49,29 @@ TilesSP Section::getTiles(const ChannelSP& ch)
         }
     }
     return TilesSP();
+}
+
+int Section::getTotalNumberOfTiles()
+{
+    int nrOfTiles(0);
+    for(int i = 0; i < mTiles.size(); i++)
+    {
+    	nrOfTiles += mTiles[i]->count();
+    }
+    return nrOfTiles;
+}
+
+int Section::getNumberOfTiles(const ChannelSP& ch)
+{
+	TilesSP tiles = getTiles(ch);
+    if(tiles)
+    {
+    	return tiles->count();
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 }
