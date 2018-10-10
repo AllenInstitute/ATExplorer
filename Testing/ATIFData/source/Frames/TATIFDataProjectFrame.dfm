@@ -1,25 +1,29 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 305
+  Width = 700
+  Height = 302
   Align = alClient
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 451
-    Height = 305
+    Width = 700
+    Height = 302
     Align = alClient
     Caption = 'AT IF Data Properties'
     TabOrder = 0
+    ExplicitWidth = 451
+    ExplicitHeight = 305
     DesignSize = (
-      451
-      305)
+      700
+      302)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 417
+      Width = 666
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -27,6 +31,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       EditLabel.Caption = 'DataRootFolderE'
       Enabled = False
       TabOrder = 0
+      ExplicitWidth = 417
     end
     object ScanDataBtn: TButton
       Left = 16
@@ -39,31 +44,31 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     end
     object GroupBox2: TGroupBox
       Left = 16
-      Top = 128
+      Top = 120
       Width = 417
       Height = 105
       Caption = 'Quick Info'
       TabOrder = 2
       object Label1: TLabel
-        Left = 12
+        Left = 10
         Top = 22
         Width = 98
         Height = 13
         Caption = 'Number of Ribbons: '
       end
       object Label2: TLabel
-        Left = 12
+        Left = 10
         Top = 48
         Width = 100
         Height = 13
         Caption = 'Number of Sections: '
       end
       object Label3: TLabel
-        Left = 236
-        Top = 48
-        Width = 108
+        Left = 10
+        Top = 73
+        Width = 81
         Height = 13
-        Caption = 'Total Number of Tiles: '
+        Caption = 'Number of Tiles: '
       end
       object Label4: TLabel
         Left = 236
@@ -73,14 +78,14 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
         Caption = 'Number of Sessions:'
       end
       object NrOfRibbonsLbl: TLabel
-        Left = 128
+        Left = 134
         Top = 22
         Width = 6
         Height = 13
         Caption = '0'
       end
       object NrOfSectionsLbl: TLabel
-        Left = 128
+        Left = 134
         Top = 48
         Width = 6
         Height = 13
@@ -89,17 +94,39 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       object NrOfSessionsLbl: TLabel
         Left = 360
         Top = 22
-        Width = 17
+        Width = 6
         Height = 13
         Caption = '0'
       end
       object NrOfTilesLbl: TLabel
-        Left = 360
-        Top = 48
-        Width = 17
+        Left = 134
+        Top = 73
+        Width = 6
         Height = 13
         Caption = '0'
       end
+      object Label5: TLabel
+        Left = 236
+        Top = 41
+        Width = 101
+        Height = 13
+        Caption = 'Number of Channels:'
+      end
+      object NrOfChannelsLbl: TLabel
+        Left = 360
+        Top = 41
+        Width = 6
+        Height = 13
+        Caption = '0'
+      end
+    end
+    object PopulatePB: TProgressBar
+      Left = 103
+      Top = 88
+      Width = 579
+      Height = 17
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 3
     end
   end
 end

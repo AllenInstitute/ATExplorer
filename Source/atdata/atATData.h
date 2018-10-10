@@ -22,9 +22,10 @@ class ATE_DATA ATData : public ExplorerObject
     public:
                         	                    ATData(const Path& basePath);
 		virtual            	                    ~ATData();
-        void                                    assignOnPoplateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
+        void                                    assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
 		virtual ATDataFileFormat                getFileFormat() = 0;
         Path                                    getBasePath();
+        virtual bool                            setBasePath(const string& p);
 
                                         		//!Return some information about the current data
         string                                  getInfo();
@@ -35,7 +36,7 @@ class ATE_DATA ATData : public ExplorerObject
                                                 //!populating a ATData object typically include
                                                 //!parsing through a folder structure in descendant data
                                                 //!type objects
-        virtual bool                            populate() = 0;
+        virtual bool                            populate(const bool& exitPoplation) = 0;
         virtual bool                            validate() = 0;
         Ribbons*                                getRibbons();
         RibbonSP     	                        getRibbon(int count);
@@ -52,8 +53,14 @@ class ATE_DATA ATData : public ExplorerObject
         int                                     getNumberOfRibbons();
         int                                     getNumberOfSections();
 		int                                     getNumberOfTiles();
+		int                                     getNumberOfSessions();
+		int                                     getNumberOfChannels();
 
     protected:
+                                	            //!Basepath of raw data. All IF data need to be accesible
+                            	                //below this folder
+        Path	     			                mBasePath;
+
                                                 //!The data need to have a format on disk..
         ATDataFileFormat                        mFileFormat;
 
@@ -67,9 +74,6 @@ class ATE_DATA ATData : public ExplorerObject
                                                 //ordered (in some format) on disk, representing tissue sections and ribbons
         Sessions                                mSessions;
 
-                                	            //!Basepath of raw data. All IF data need to be accesible
-                            	                //below this folder
-        Path	     			                mBasePath;
 
                                                 //!These callbacks can be used by clients to get feedback on progress when
                                                 //!populating the data
@@ -77,7 +81,8 @@ class ATE_DATA ATData : public ExplorerObject
 		ATDataPopulateCallback                  onProgressPopulating;
 		ATDataPopulateCallback                  onFinishedPopulating;
 
-
+                                                //!If we need to stop the population of data
+        const bool*                             mStopPopulation;
 };
 
 }

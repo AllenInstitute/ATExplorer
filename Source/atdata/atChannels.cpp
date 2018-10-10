@@ -10,6 +10,11 @@ Channels::Channels()
 Channels::~Channels()
 {}
 
+int Channels::count()
+{
+    return mChannels.size();
+}
+
 bool Channels::append(ChannelSP new_ch)
 {
     //Make sure we don't add a channel twice

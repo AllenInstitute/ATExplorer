@@ -44,6 +44,19 @@ bool Sessions::append(SessionSP ns)
     return true;
 }
 
+int Sessions::getNumberOfChannels()
+{
+    int channelCount(0);
+    for(int i = 0; i < mSessions.size(); i++)
+    {
+        SessionSP s = mSessions[i];
+        if(s)
+        {
+            channelCount += s->getNumberOfChannels();
+        }
+    }
+    return channelCount;
+}
 void Sessions::clear()
 {
     mSessions.clear();

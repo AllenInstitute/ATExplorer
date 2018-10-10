@@ -14,7 +14,7 @@ class ATExplorerProject;
 class RenderProject;
 class ATIFDataProject;
 
-//Rename this to ProjectTreeView
+
 class PACKAGE ProjectsTreeView : public ATObject
 {
     public:

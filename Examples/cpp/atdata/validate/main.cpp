@@ -76,8 +76,8 @@ int main()
             while(session)
             {
                 Log(lInfo) << "Checking session " << session->getLabel();
-                //Get Channels in session
 
+                //Get Channels in session
                 ChannelSP ch = session->getFirstChannel();
                 while(ch)
                 {

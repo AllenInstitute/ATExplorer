@@ -27,6 +27,7 @@ class ATE_DATA Sessions : public ExplorerObject
         SessionSP                           getNextSession();
         int                                 count();
         bool                                append(SessionSP s);
+        int                                 getNumberOfChannels();
 
     protected:
         vector<SessionSP>::iterator  		mSessionIterator;

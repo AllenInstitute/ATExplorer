@@ -18,18 +18,36 @@ using namespace dsl;
 using namespace std;
 using namespace Poco;
 
-ATIFData::ATIFData(const string& basePath, bool pop)
+ATIFData::ATIFData(const string& basePath)
+:
+ATData(basePath),
+mRibbonsFolderPath()
+{
+	setBasePath(basePath);
+}
+
+ATIFData::ATIFData(const Path& basePath)
 :
 ATData(basePath),
 mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))
 {
-	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
-	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
-	mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+	setBasePath(basePath.toString());
+}
 
-    if(pop)
+bool ATIFData::setBasePath(const string& bp)
+{
+    if(folderExists(bp))
     {
-        populate();
+	    mBasePath = Path(bp);
+        mRibbonsFolderPath 		= Path(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))));
+        mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
+        mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
+        mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
@@ -44,37 +62,20 @@ void ATIFData::reset()
     mRibbonsDataFolder->reset();
     mProcessedDataFolder->reset();
     mScriptsDataFolder->reset();
-
 }
 
-ATIFData::ATIFData(const Path& basePath, bool pop)
-:
-ATData(basePath),
-mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))
+bool ATIFData::populate(const bool& timeToDie)
 {
-	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
-	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
-	mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
-
-    if(pop)
+    mStopPopulation = &timeToDie;
+    if(!timeToDie)
     {
-        populate();
-    }
-}
+        populateRibbons();
+        populateSessions();
 
-bool ATIFData::populate()
-{
-    if(onStartingPopulating)
-    {
-        onStartingPopulating(this, nullptr);
-    }
-
-    populateRibbons();
-	populateSessions();
-
-    if(onFinishedPopulating)
-    {
-        onFinishedPopulating(this, nullptr);
+        if(onFinishedPopulating)
+        {
+            onFinishedPopulating(this, nullptr);
+        }
     }
 
     return true;
@@ -95,6 +96,11 @@ bool ATIFData::populateRibbons()
 	FolderInfo fInfo = mRibbonsDataFolder->scan();
 
     Log(lInfo) << "Found " <<fInfo.NrOfFolders << " folders and " << fInfo.NrOfFiles << " files";
+
+    if(onStartingPopulating)
+    {
+        onStartingPopulating(this, nullptr);
+    }
 
     FileFolders ribbonFolders = getRibbonFolders();
 
@@ -141,6 +147,11 @@ bool ATIFData::populateRibbons()
                     {
                         onProgressPopulating(this, nullptr);
                     }
+
+                    if(*mStopPopulation == true)
+                    {
+                        return false;
+                    }
                 }
             }
             else
@@ -160,6 +171,8 @@ bool ATIFData::populateSessions()
     //Each ribbon may go through several rounds (sessions) of imaging. Paths to individual tiles
     //are captured in Sessions, Channel objects
     //Now, populate tiles
+    int tileCount(0);
+
     for(int i = 0; i < ribbonFolders.count(); i++)
     {
         FileFolders sessionFolders = getSessionFolders(ribbonFolders[i]);
@@ -219,6 +232,19 @@ bool ATIFData::populateSessions()
                         Log(lDebug3) << "Adding tile: " << t->getPath().toString();
                         //Associate the tile with the section
                         section->addTile(t);
+                        tileCount++;
+                        if(onProgressPopulating)
+                        {
+                            if(tileCount % 1000 == 0)
+                            {
+                            	onProgressPopulating(this, nullptr);
+                            }
+                        }
+
+                        if(*mStopPopulation == true)
+                        {
+                            return false;
+                        }
                     }
                     else
                     {

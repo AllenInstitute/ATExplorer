@@ -22,6 +22,7 @@ class ATE_DATA Session : public ExplorerObject
         ChannelSP                   getNextChannel();
         StringList                  getChannelLabels();
         bool                        operator==(const Session& s) const;
+        int                         getNumberOfChannels();
 
 	protected:
         string                      mLabel;

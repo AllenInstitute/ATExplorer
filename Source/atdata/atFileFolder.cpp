@@ -47,7 +47,13 @@ void FileFolder::reset()
 
 FolderInfo FileFolder::scan()
 {
-  	return populateFolderStructure(shared_from_this());
+	mFolderInfo = populateFolderStructure(shared_from_this());
+  	return mFolderInfo;
+}
+
+FolderInfo FileFolder::getFolderInfo()
+{
+    return mFolderInfo;
 }
 
 string FileFolder::getLastPartOfPath()
@@ -109,7 +115,6 @@ FileFolderSP FileFolder::getSubFolder(const Path& p)
 FileFolders FileFolder::getSubFolders(const Path& subPath)
 {
     //if a subPath is provided, return subfolders of that..
-
 	FileFolders subFolders;
     int count(mSubFolders.count());
     if(!count)
@@ -119,13 +124,9 @@ FileFolders FileFolder::getSubFolders(const Path& subPath)
 
     for(int i = 0; i < count; i++)
     {
-        //Checking
         //Log(lDebug) << "Checking: " << mSubFolders[i]->toString();
         if(mSubFolders[i]->isDirectory())
         {
-//            FileSystemObject* fObj = mSubFolders[i];
-
-//            FileFolderSP folder = dynamic_cast<FileFolderSP>(fObj);
             FileFolderSP folder = mSubFolders[i];
             subFolders.append(folder);
         }
@@ -176,14 +177,10 @@ void FileFolder::addSubFolder(FileFolderSP child)
     }
 }
 
-void FileFolder::removeChild(FileSystemObject* child)
+bool FileFolder::removeChild(FileSystemObject* child)
 {
-//    if(!contain(child))
-//    {
-//		mSubFolders.push_back(child);
-//    }
+    return false;
 }
-
 
 FolderInfo populateFolderStructure(FileFolderSP folder)
 {
@@ -197,7 +194,7 @@ FolderInfo populateFolderStructure(FileFolderSP folder)
             //Found a folder
             info.NrOfFolders++;
             Path ffPath(it->path() + gPathSeparator);
-            FileFolderSP ff (new FileFolder(ffPath));//, folder));
+            FileFolderSP ff (new FileFolder(ffPath));
 
             folder->addSubFolder(ff);
 	        Log(lDebug5) << "Adding child: "<<it->path();
@@ -209,7 +206,12 @@ FolderInfo populateFolderStructure(FileFolderSP folder)
     	}
         else if(it->isFile())
         {
-            info.NrOfFiles++;
+            //Check extension
+            string p(it->path());
+            if(getFileExtension(p) == "tif")
+            {
+            	info.NrOfFiles++;
+            }
         }
   	}
     return info;

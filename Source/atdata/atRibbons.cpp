@@ -10,8 +10,7 @@ Ribbons::Ribbons()
 {}
 
 Ribbons::~Ribbons()
-{
-}
+{}
 
 void Ribbons::append(RibbonSP r)
 {
@@ -28,11 +27,11 @@ RibbonSP Ribbons::getRibbon(int i)
 	return mRibbons.at(i);
 }
 
-int                                         getNumberOfSection();
 RibbonSP Ribbons::operator[](int i)
 {
     return mRibbons[i];
 }
+
 RibbonSP Ribbons::getFirstRibbon()
 {
     mRibbonIterator = mRibbons.begin();

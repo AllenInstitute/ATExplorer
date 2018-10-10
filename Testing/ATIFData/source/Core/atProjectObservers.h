@@ -31,7 +31,6 @@ class PACKAGE ProjectObservers : public ATObject
     public:
                                             ProjectObservers();
                                             ~ProjectObservers();
-//        virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
         unsigned int                        count();
 		void 								append(shared_ptr<TabbedProjectView> v);
         bool					            removeViewOnTabSheet(TTabSheet* s);

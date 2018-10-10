@@ -24,6 +24,7 @@ class ATE_DATA Channels : public ExplorerObject
 
         bool                                    append(ChannelSP ch);
         bool                                    append(const Channels& chns);
+        int                                     count();
         ChannelSP                               getFirstChannel();
         ChannelSP                               getNextChannel();
 		ChannelSP                               getChannel(ChannelSP c);

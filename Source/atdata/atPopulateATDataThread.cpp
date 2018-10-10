@@ -13,7 +13,7 @@ namespace at
 {
 using namespace dsl;
 
-PopulateATDataThread::PopulateATDataThread(ATData* d)
+PopulateATDataThread::PopulateATDataThread(ATDataSP d)
 :
 mTheData(d),
 onEnter(nullptr),
@@ -21,10 +21,22 @@ onProgress(nullptr),
 onExit(nullptr)
 {}
 
-void PopulateATDataThread::setData(ATData* d)
+void PopulateATDataThread::setData(ATDataSP d)
 {
 	mTheData = d;
 }
+
+void PopulateATDataThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
+{
+    onEnter 	= one;
+    onProgress 	= two;
+    onExit 		= three;
+    if(mTheData)
+    {
+        mTheData->assignOnPopulateCallbacks(one, two, three);
+    }
+}
+
 
 void PopulateATDataThread::run()
 {
@@ -38,7 +50,7 @@ void PopulateATDataThread::worker()
 
     if(onEnter)
     {
-        onEnter(this, NULL);
+        onEnter(mTheData.get(), NULL);
     }
 
     if(!mTheData)
@@ -47,61 +59,15 @@ void PopulateATDataThread::worker()
     }
     else
     {
-
         Log(lDebug4) << "Started populating ATData from root folder: " << mTheData->getBasePath().toString();
-
         try
         {
-
             //!Populating the data object causes a scan of folders and files
             //!representing the data. No image data is loaded
-            mTheData->populate();
+            mTheData->populate(mIsTimeToDie);
 
             //Print some information about ribbons and sections
             Log(lInfo) << "This is a "<<mTheData->getNumberOfRibbons()<<" ribbons dataset";
-
-            //Add ribbon items to TreeView
-
-//
-//            Ribbon* ribbon = mTheData->getFirstRibbon();
-//            while(ribbon)
-//            {
-//                Log(lInfo) << "There are "<<ribbon->sectionCount()<<" sections in ribbon "<< ribbon->getAlias();
-//                ribbon = mTheData->getNextRibbon();
-//            }
-//
-//            //Check Sessions and channels, i.e. actual data
-//            Session* session =  mTheData->getFirstSession();
-//            while(session)
-//            {
-//                Log(lInfo) << "Checking session " << session->getLabel();
-//                //Get Channels in session
-//                Channel* chan = mTheData->getFirstChannel(session);
-//                while(chan)
-//                {
-//                    Log(lInfo) << "Checking channel: " << chan->getLabel();
-//                    Ribbon* ribbon = mTheData->getFirstRibbon();
-//                    while(ribbon)
-//                    {
-//                        Section* section = ribbon->getFirstSection();
-//                        //Loop through frames
-//                        while(section)
-//                        {
-//                            Tiles& tiles = section->getTiles(*chan);
-//                            section = ribbon->getNextSection();
-//                        }
-//
-//                        ribbon = mTheData->getNextRibbon();
-//                    }
-//                    chan = mTheData->getNextChannel(session);
-//                }
-//                session = mTheData->getNextSession();
-//            }
-
-            if(onProgress)
-            {
-                onProgress(this, mTheData);
-            }
 
         }
         catch(const FileSystemException& e)
@@ -118,18 +84,11 @@ void PopulateATDataThread::worker()
 
     if(onExit)
     {
-        onExit(this, NULL);
+    	onExit(mTheData.get(), nullptr);
     }
 
     mIsRunning = false;
     mIsFinished = true;
-}
-
-void PopulateATDataThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
-{
-    onEnter 	= one;
-    onProgress 	= two;
-    onExit 		= three;
 }
 
 }

@@ -45,14 +45,16 @@ class ATE_DATA FileFolder : public FileSystemObject , public boost::enable_share
         StringList          		getSubFoldersAsList();
         bool                        isPresent(FileSystemObject* child);
         void 				        addSubFolder(FileFolderSP child);
-        void 				        removeChild(FileSystemObject* child);
+        bool 				        removeChild(FileSystemObject* child);
         string						getLastPartOfPath();
         string                      directoryName(int n);
         FolderInfo                	scan();
+        FolderInfo                  getFolderInfo();
 
     private:
 	    FileFolders					mSubFolders;
         set<string>                 mFiles;
+        FolderInfo                  mFolderInfo;
 };
 
 }

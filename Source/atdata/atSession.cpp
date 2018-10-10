@@ -18,6 +18,11 @@ bool Session::operator==(const Session& s) const
     return mLabel == s.getLabel() ? true : false;
 }
 
+int Session::getNumberOfChannels()
+{
+    return mChannels.count();
+}
+
 ChannelSP Session::getChannel(ChannelSP channel)
 {
     return mChannels.getChannel(channel);

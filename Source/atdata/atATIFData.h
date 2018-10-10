@@ -10,16 +10,20 @@ namespace at
 //!Some assumptions:
 //!Number of tiles for a particular section, for a particular ribbon, are equal across channels(sessions)
 //!A section do always belong to a ribbon
+class ATIFData;
+typedef shared_ptr<ATIFData> ATIFDataSP;
+
 
 class ATE_DATA ATIFData : public ATData
 {
     public:
-                    					ATIFData(const string& basePath,	bool populate = false);
-                    					ATIFData(const Path&   basePath, 	bool populate = false);
+                    					ATIFData(const string& basePath);
+                    					ATIFData(const Path&   basePath);
+        virtual bool                    setBasePath(const string& bp);
 		ATDataFileFormat            	getFileFormat();
         virtual void                    reset();
         virtual bool        			validate();
-        virtual bool                    populate();
+        virtual bool                    populate(const bool& exitPopulation);
 
                                         //!Ribbonfolder functions..
 		FileFolders                     getRibbonFolders();

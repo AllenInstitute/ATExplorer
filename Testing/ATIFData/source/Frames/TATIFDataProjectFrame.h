@@ -31,6 +31,9 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
 	TLabel *NrOfSectionsLbl;
 	TLabel *NrOfSessionsLbl;
 	TLabel *NrOfTilesLbl;
+	TProgressBar *PopulatePB;
+	TLabel *Label5;
+	TLabel *NrOfChannelsLbl;
 	void __fastcall ScanDataBtnClick(TObject *Sender);
 
     private:

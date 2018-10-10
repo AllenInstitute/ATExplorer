@@ -13,44 +13,50 @@ using namespace dsl;
 ATIFDataProject::ATIFDataProject(const string& pName, const string& rootFolder)
 :
 ATExplorerProject(pName),
-mDataRootFolder(rootFolder),
-mATData(nullptr)
+//mATData(ATDataSP(new ATIFData(rootFolder)))
+mATData()
 {
     mATEObjectType = (ateATIFDataProject);
 }
 
-ATIFDataProject::ATIFDataProject(const ATIFDataProject& rp)
-:
-ATExplorerProject(rp),
-mDataRootFolder(rp.mDataRootFolder)
-{
-}
+//ATIFDataProject::ATIFDataProject(const ATIFDataProject& rp)
+//:
+//ATExplorerProject(rp),
+////mDataRootFolder(rp.mDataRootFolder)
+//{}
 
 ATIFDataProject::~ATIFDataProject()
-{
-    delete mATData;
-}
+{}
 
-//Shallow copy..
-ATIFDataProject& ATIFDataProject::operator=(const ATIFDataProject& rhs)
-{
-	if(this != &rhs)
-    {
-    }
-    return *this;
-}
-
+////Shallow copy..
+//ATIFDataProject& ATIFDataProject::operator=(const ATIFDataProject& rhs)
+//{
+//	if(this != &rhs)
+//    {
+//    }
+//    return *this;
+//}
 
 void ATIFDataProject::setDataRootFolder(const string& rFolder)
 {
-    mDataRootFolder = rFolder;
+//    mDataRootFolder = rFolder;
+	if(mATData)
+    {
+		mATData->setBasePath(rFolder);
+    }
 }
 
 string ATIFDataProject::getDataRootFolder() const
 {
-    return mDataRootFolder;
+    if(mATData)
+    {
+    	return mATData->getBasePath().toString();
+    }
+    else
+    {
+        return "";
+    }
 }
-
 
 XMLElement* ATIFDataProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLElement* parentNode)
 {
@@ -58,19 +64,19 @@ XMLElement* ATIFDataProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc,
     XMLElement* val(nullptr);
 
     val = doc.NewElement("datarootfolder");
-    val->SetText(mDataRootFolder.c_str());
+    val->SetText(mATData->getBasePath().toString().c_str());
     parentNode->InsertEndChild(val);
-
     return val;
 }
 
 bool ATIFDataProject::loadFromXML(dsl::XMLNode* node)
 {
     XMLElement* e(nullptr);
+	mATData = ATIFDataSP(new ATIFData(string("")));
     e = node->FirstChildElement("datarootfolder");
     if(e)
     {
-    	mDataRootFolder = (e->GetText() ? string(e->GetText()) : string(""));
+    	mATData->setBasePath(e->GetText() ? string(e->GetText()) : string(""));
     }
 
 	return true;

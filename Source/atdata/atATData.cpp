@@ -5,6 +5,7 @@
 #include "atSession.h"
 #include "atRibbon.h"
 #include <sstream>
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace std;
@@ -14,7 +15,8 @@ namespace at
 
 ATData::ATData(const Path& basePath)
 :
-mBasePath(basePath)
+mBasePath(basePath),
+mStopPopulation(NULL)
 {}
 
 ATData::~ATData()
@@ -23,6 +25,12 @@ ATData::~ATData()
 Path ATData::getBasePath()
 {
     return mBasePath;
+}
+
+bool ATData::setBasePath(const string& p)
+{
+    mBasePath = Poco::Path(p);
+    return folderExists(p);
 }
 
 string ATData::getInfo()
@@ -74,7 +82,7 @@ string ATData::getInfo()
 
     return s.str();
 }
-void ATData::assignOnPoplateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit)
+void ATData::assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit)
 {
 	onStartingPopulating = onenter;
 	onProgressPopulating = onprogress;
@@ -161,7 +169,6 @@ int ATData::getNumberOfTiles()
             SectionSP section = ribbon->getSection(ss);
             tileCount += section->getTotalNumberOfTiles();
         }
-
     }
     return tileCount;
 }
@@ -177,7 +184,15 @@ int ATData::getNumberOfSections()
     return nrOfSections;
 }
 
+int ATData::getNumberOfSessions()
+{
+	return mSessions.count();
+}
 
-
+int ATData::getNumberOfChannels()
+{
+	return mSessions.getNumberOfChannels();
+}
 
 }
+

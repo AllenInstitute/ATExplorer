@@ -21,20 +21,16 @@ class ATE_CORE RenderProject : public ATExplorerProject
         	    	                        RenderProject(const string& url);
 			    	                        RenderProject(const string& name, const string& owner, const string& project, const string& stack);
                                             RenderProject(const RenderProject& rp);
-//        	    	                        RenderProject(const RenderServiceParameters& rs, const string& name, const string& owner, const string& project);
-
-
 		virtual    	                        ~RenderProject();
-
         RenderProject&                      operator = (const RenderProject& rhs);
+
 		void							    init(const string& owner, const string& project, const string& stack);
+
         void                                assignLocalCacheRootFolder(const string& rFolder);
         string                              getLocalCacheFolder() const;
         string                              getSelectedSectionFileName();
-
 		string							    getSelectedStackName() const ;
         bool                                setSelectedStackName(const string& stackName);
-
         bool                                setSelectedSection(int secNr);
         int	                                getSelectedSection();
 
@@ -74,8 +70,6 @@ class ATE_CORE RenderProject : public ATExplorerProject
 
         //Tiffstack(projects) container are children
         //TiffStacks                          mTiffStacks;
-
-
 };
 
 }
