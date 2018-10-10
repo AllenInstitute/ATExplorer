@@ -3,11 +3,8 @@
 #include "ateAppUtilities.h"
 
 USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
-USEFORM("..\..\source\Frames\TImageControlsFrame.cpp", ImageControlsFrame); /* TFrame: File Type */
-USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
-USEFORM("..\..\source\Forms\TSelectZsForm.cpp", SelectZsForm);
-USEFORM("..\..\source\Forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
 USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
+USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
