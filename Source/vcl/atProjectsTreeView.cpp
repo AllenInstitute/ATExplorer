@@ -3,6 +3,7 @@
 #include "atProjectsTreeView.h"
 #include "atATExplorerProject.h"
 #include "atRenderProject.h"
+#include "atATIFDataProject.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
@@ -94,7 +95,6 @@ TTreeNode* ProjectsTreeView::getSelectedNode()
 	return mTree->Selected;
 }
 
-
 TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
 {
     TTreeNode* item = mTree->Items->GetFirstNode();
@@ -163,7 +163,6 @@ void ProjectsTreeView::expandView(Project* p)
 string ProjectsTreeView::closeProject(Project* p)
 {
     string pFile = joinPath(p->getFileFolder(), p->getFileName());
-    mProjects.remove(p);
     TTreeNode* n = getItemForProject(p);
     if(n)
     {
@@ -172,9 +171,8 @@ string ProjectsTreeView::closeProject(Project* p)
     }
     mProjects.selectFirst();
 
-    //Projects are delte HERE...
-    //Notify any observers
-    p->notifyObservers(SubjectBeingDestroyed);
+    mProjects.remove(p);
+    //Projects are deleted HERE... should be in the remove function?
     delete p;
     return pFile;
 }
@@ -190,7 +188,6 @@ bool ProjectsTreeView::removeProject(Project* p)
 
     parent->removeChild(p);
 
-    mProjects.remove(p);
     TTreeNode* n = getItemForProject(p);
     if(n)
     {
@@ -199,6 +196,7 @@ bool ProjectsTreeView::removeProject(Project* p)
     }
 
     selectProject(parent);
+    mProjects.remove(p);
     return true;
 }
 
@@ -266,6 +264,22 @@ Project* ProjectsTreeView::getParentForSelectedProject()
 }
 
 TTreeNode* ProjectsTreeView::addRenderProjectToView(ATExplorerProject* parent, RenderProject* rp)
+{
+    if(!parent)
+    {
+    	Log(lError) <<"Parent is NULL";
+        return nullptr;
+    }
+
+    TTreeNode* parentNode = getItemForProject(parent);
+	TTreeNode* n = mTree->Items->AddChildObject(parentNode, "", (void*) rp);
+    n->Text = rp->getProjectName().c_str();
+	mTree->Items->GetFirstNode()->Expand(true);
+    mTree->Select(n);
+    return n;
+}
+
+TTreeNode* ProjectsTreeView::addATIFDataProjectToView(ATExplorerProject* parent, ATIFDataProject* rp)
 {
     if(!parent)
     {

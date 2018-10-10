@@ -29,6 +29,7 @@ class ATE_CORE FetchImageThread : public dsl::Thread
 		void				                worker();
 
           							        //!The on Image callback is called when image data is retrieved from the server
+                                            //Make this a non-vcl dependent callback!
         RCCallBack							onImage;
 
 	private:
@@ -38,7 +39,6 @@ class ATE_CORE FetchImageThread : public dsl::Thread
 
         					                //A renderclient is host, manager for this thread. Give it the memory that is retrieved
         RenderClient&		                mRenderClient;
-
 };
 
 }

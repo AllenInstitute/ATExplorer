@@ -12,7 +12,6 @@
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;
-extern at::AppUtilities gAU;
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ProjectTViewEditing(TObject *Sender, TTreeNode *Node,

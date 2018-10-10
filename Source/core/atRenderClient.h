@@ -98,6 +98,8 @@ class ATE_CORE RenderClient
 
     private:
     												//!This is the HTTP connection
+                                                    //!Could use CURL instead..
+
 		Idhttp::TIdHTTP* 	                        mC;
 
         											//!Memory to hold image data retrieved from server

@@ -6,8 +6,7 @@
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
-extern at::AppUtilities gAU;
-
+using namespace at;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
 {

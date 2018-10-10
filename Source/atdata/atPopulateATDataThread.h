@@ -4,6 +4,7 @@
 #include "dslStringList.h"
 #include "atATData.h"
 #include <boost/function.hpp>
+#include "atExplorerObject.h"
 //---------------------------------------------------------------------------
 
 
@@ -13,7 +14,8 @@ using dsl::StringList;
 using dsl::Thread;
 typedef boost::function<void(void*, void*)> FITCallBack;
 typedef shared_ptr<ATData> ATDataSP;
-class PACKAGE PopulateATDataThread : public dsl::Thread
+
+class ATE_DATA PopulateATDataThread : public dsl::Thread, public ExplorerObject
 {
 	public:
 							                PopulateATDataThread(ATDataSP d);

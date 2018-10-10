@@ -6,7 +6,7 @@
 #include "atRenderClient.h"
 #include "dslStringUtils.h"
 #include "dslUtils.h"
-#include "dslVCLUtils.h"
+//#include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "dslPoint.h"
 #include "dslMathUtils.h"
@@ -16,7 +16,7 @@
 
 using std::wstring;
 
-string stdstr(const String& str)
+string stdstring(const String& str)
 {
     wstring test(str.c_str());
     return dsl::stdstr(test);
@@ -177,7 +177,7 @@ StringList RenderClient::getOwners()
 
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
-            string s = stdstr(zstrings->DataString);
+            string s = stdstring(zstrings->DataString);
             s = stripCharacters("\"[]", s);
             owners.appendList(StringList(s, ','));
         }
@@ -205,7 +205,7 @@ StringList RenderClient::getProjectsForOwner(const string& o)
 
     if( mC->ResponseCode == HTTP_RESPONSE_OK)
     {
-        string s = stdstr(zstrings->DataString);
+        string s = stdstring(zstrings->DataString);
         s = stripCharacters("\"[]{}", s);
         Log(lDebug5) << "Render Response: "<<s;
         //Parse result
@@ -301,7 +301,7 @@ RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
 
     if( mC->ResponseCode == HTTP_RESPONSE_OK)
     {
-        string s = stdstr(zstrings->DataString);
+        string s = stdstring(zstrings->DataString);
         b = parseBoundsResponse(s);
     }
     else
@@ -331,7 +331,7 @@ RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
 
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
-            string s = stdstr(zstrings->DataString);
+            string s = stdstring(zstrings->DataString);
             RegionOfInterest sec_bounds = parseBoundsResponse(s);
             sec_bounds.setZ(zs[z]);
 			mLayerBounds.push_back(sec_bounds);
@@ -474,7 +474,7 @@ vector<int> RenderClient::getValidZs()
 
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
-            string s = stdstr(zstrings->DataString);
+            string s = stdstring(zstrings->DataString);
             s = stripCharacters("[]", s);
             zs.appendList(StringList(s,','));
         }
@@ -551,7 +551,7 @@ StringList RenderClient::getStacksForProject(const string& owner, const string& 
 
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
-            string s = stdstr(zstrings->DataString);
+            string s = stdstring(zstrings->DataString);
             s = stripCharacters("\"[]}", s);
             Log(lDebug3) << "Got Render Data String: " << s;
 

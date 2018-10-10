@@ -154,6 +154,10 @@
             <DependentOn>..\..\Source\atdata\atFileSystemObject.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\atdata\atPopulateATDataThread.cpp">
+            <DependentOn>..\..\Source\atdata\atPopulateATDataThread.h</DependentOn>
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atRibbon.cpp">
             <DependentOn>..\..\Source\atdata\atRibbon.h</DependentOn>
             <BuildOrder>10</BuildOrder>
@@ -243,6 +247,10 @@
         <CppCompile Include="..\..\Source\core\atROIHistory.cpp">
             <DependentOn>..\..\Source\core\atROIHistory.h</DependentOn>
             <BuildOrder>22</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atTiffStack.cpp">
+            <DependentOn>..\..\Source\core\atTiffStack.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

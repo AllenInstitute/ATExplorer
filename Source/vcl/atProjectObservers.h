@@ -3,39 +3,43 @@
 #include "atATObject.h"
 #include "dslSubject.h"
 #include <vector>
-#include "atDummyProjectViewObserver.h"
 #include "dslSharedPointer.h"
+#include "dslObserver.h"
 //---------------------------------------------------------------------------
+
+namespace dsl
+{
+    class Project;
+}
 
 namespace at
 {
 
+using std::vector;
 using dsl::Subject;
 using dsl::SubjectEvent;
-using std::vector;
-using dsl::shared_ptr;
+using dsl::Project;
+class TabbedProjectView;
 
-typedef shared_ptr<DummyProjectViewObserver> observer;
+typedef vector< shared_ptr<TabbedProjectView > > Views;
+
+//!Observer: this is not a great design. A views subject, if deleted, is not removed from the Views container.
+//!We need to make ProjectObservers an observer of the projects, too..
 
 class PACKAGE ProjectObservers : public ATObject
 {
-
     public:
                                             ProjectObservers();
                                             ~ProjectObservers();
         unsigned int                        count();
-        void                                clear();
-
-        void                                append(RenderProjectView* v);
+		void 								append(shared_ptr<TabbedProjectView> v);
         bool					            removeViewOnTabSheet(TTabSheet* s);
         bool                                removeViewForProject(Project* p);
-
-        void 								update(Subject* theChangedSubject, SubjectEvent se);
         TTabSheet* 							getTabForProject(Project* p);
-        bool                                removeObserver(DummyProjectViewObserver* o);
+        void                                closeAll();
 
     protected:
-        vector< observer > 					mViews;
+        Views								mViews;
 };
 
 }

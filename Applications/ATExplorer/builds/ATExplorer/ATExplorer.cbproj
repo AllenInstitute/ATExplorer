@@ -108,7 +108,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;IndySystem.bpi;IndyProtocols.bpi;IndyCore.bpi;RaizeComponentsVcl.bpi;dslVCLComponents.bpi;dslVCLVisualComponents.bpi;sbridge250.bpi</LinkPackageImports>
-        <IncludePath>..\..\Source\\Forms;..\..\Source\\Frames;P:\atExplorer\Source\core;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Source\\Forms;..\..\Source\\Frames;P:\atExplorer\Source\core;P:\atExplorer\Source\vcl;P:\atExplorer\Source\atdata;P:\atExplorer\Source\vcl\frames;P:\atExplorer\Source\vcl\forms;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BCC_PCHInject>ATExplorerPCH1.h</BCC_PCHInject>
@@ -139,14 +139,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </CppCompile>
         <CppCompile Include="..\..\source\ClosingDown.cpp">
             <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atUtilities.cpp">
-            <DependentOn>..\..\source\Core\atUtilities.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TATESettingsForm.cpp">
-            <FormType>dfm</FormType>
-            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Initializing.cpp">
             <BuildOrder>6</BuildOrder>
@@ -199,7 +191,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
@@ -250,8 +243,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -260,8 +253,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

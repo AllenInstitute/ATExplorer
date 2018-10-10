@@ -6,7 +6,7 @@
 
 using std::string;
 
-TTabSheet*      getTabWithCaption(const string& c, TPageControl* pc);
+PACKAGE TTabSheet*      getTabWithCaption(const string& c, TPageControl* pc);
 
 
 #endif

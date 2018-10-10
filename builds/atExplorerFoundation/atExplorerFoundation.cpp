@@ -26,10 +26,11 @@ extern "C" int _libmain(unsigned long reason)
 }
 
 #pragma comment(lib, "dslFoundation")
-#pragma comment(lib, "dslVCLCommon.lib")
 #pragma comment(lib, "poco_foundation")
 #pragma comment(lib, "tinyxml2")
 #pragma comment(lib, "libcurl_imp")
+
+//Cause we are using TThread
 #pragma comment(lib, "vcl.bpi")
 #pragma comment(lib, "rtl.bpi")
 #pragma comment(lib, "IndyProtocols.bpi")

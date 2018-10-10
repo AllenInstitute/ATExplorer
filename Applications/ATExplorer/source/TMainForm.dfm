@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   AlphaBlendValue = 100
   Caption = 'Volume Creator'
-  ClientHeight = 708
+  ClientHeight = 775
   ClientWidth = 1442
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -25,7 +25,7 @@ object MainForm: TMainForm
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 689
+    Top = 756
     Width = 1442
     Height = 19
     Panels = <>
@@ -34,12 +34,12 @@ object MainForm: TMainForm
     Left = 0
     Top = 25
     Width = 1442
-    Height = 664
+    Height = 731
     Align = alClient
     TabOrder = 1
     object Splitter2: TSplitter
       Left = 1
-      Top = 524
+      Top = 591
       Width = 1440
       Height = 3
       Cursor = crVSplit
@@ -51,19 +51,21 @@ object MainForm: TMainForm
     object Splitter1: TSplitter
       Left = 201
       Top = 1
-      Height = 504
+      Height = 571
       ExplicitLeft = 195
       ExplicitTop = 19
       ExplicitHeight = 837
     end
     object BottomPanel: TPanel
       Left = 1
-      Top = 527
+      Top = 594
       Width = 1440
       Height = 136
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
+      ExplicitTop = 20
+      ExplicitWidth = 302
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -73,16 +75,16 @@ object MainForm: TMainForm
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 1438
+        ExplicitWidth = 300
         ExplicitHeight = 134
         inherited Panel1: TPanel
           Width = 1438
           Height = 134
-          ExplicitWidth = 1438
+          ExplicitWidth = 300
           ExplicitHeight = 134
           inherited GroupBox1: TGroupBox
             Width = 1436
-            ExplicitWidth = 1436
+            ExplicitWidth = 298
           end
           inherited infoMemo: TMemo
             Width = 1436
@@ -97,14 +99,14 @@ object MainForm: TMainForm
       Left = 1
       Top = 1
       Width = 200
-      Height = 504
+      Height = 571
       Align = alLeft
       TabOrder = 1
       object ProjectTView: TTreeView
         Left = 1
         Top = 1
         Width = 198
-        Height = 502
+        Height = 569
         Align = alClient
         Indent = 19
         PopupMenu = ProjTreeViewPopup
@@ -121,7 +123,7 @@ object MainForm: TMainForm
     end
     object ShowBottomPanelBtn: TButton
       Left = 1
-      Top = 505
+      Top = 572
       Width = 1440
       Height = 19
       Action = ToggleBottomPanelA
@@ -133,7 +135,7 @@ object MainForm: TMainForm
       Left = 204
       Top = 1
       Width = 1237
-      Height = 504
+      Height = 571
       Align = alClient
       PopupMenu = MainPCPopup
       TabOrder = 3
@@ -353,6 +355,11 @@ object MainForm: TMainForm
       Caption = 'Properties'
       OnExecute = OpenProjectOptionsAExecute
     end
+    object AddATIFDataAction: TAction
+      Category = 'TreeView'
+      Caption = 'Add ATIF Data'
+      OnExecute = AddATIFDataActionExecute
+    end
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'atp'
@@ -364,7 +371,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800D80210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800FC0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0
@@ -773,6 +780,9 @@ object MainForm: TMainForm
     Top = 224
     object ProjectOptions1: TMenuItem
       Action = OpenProjectOptionsA
+    end
+    object AddRenderProject2: TMenuItem
+      Action = AddATIFDataAction
     end
     object AddRenderProject1: TMenuItem
       Action = AddRenderProject

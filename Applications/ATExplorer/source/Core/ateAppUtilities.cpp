@@ -8,6 +8,7 @@
 namespace at
 {
 
+AppUtilities gAU;
 using namespace dsl;
 AppUtilities::AppUtilities()
 :

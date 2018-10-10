@@ -6,11 +6,14 @@
         <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj">
+        <Projects Include="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj">
             <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
         </Projects>
+        <Projects Include="..\..\Applications\ATExplorer\builds\ATExplorerPackage\ATExplorerAppPackage.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="builds\ATExplorer\ATExplorer.cbproj">
-            <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj;builds\ATExplorerPackage\ATExplorerAppPackage.cbproj</Dependencies>
+            <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj;..\..\builds\atExplorerVCL\atExplorerVCL.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -29,32 +32,41 @@
     <Target Name="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ATExplorerAppPackage" DependsOnTargets="atExplorerFoundation">
-        <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj"/>
+    <Target Name="atExplorerVCL" DependsOnTargets="atExplorerFoundation">
+        <MSBuild Projects="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj"/>
     </Target>
-    <Target Name="ATExplorerAppPackage:Clean" DependsOnTargets="atExplorerFoundation:Clean">
-        <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Clean"/>
+    <Target Name="atExplorerVCL:Clean" DependsOnTargets="atExplorerFoundation:Clean">
+        <MSBuild Projects="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ATExplorerAppPackage:Make" DependsOnTargets="atExplorerFoundation:Make">
-        <MSBuild Projects="builds\ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Make"/>
+    <Target Name="atExplorerVCL:Make" DependsOnTargets="atExplorerFoundation:Make">
+        <MSBuild Projects="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ATExplorer" DependsOnTargets="atExplorerFoundation;ATExplorerAppPackage">
+    <Target Name="ATExplorerAppPackage">
+        <MSBuild Projects="..\..\Applications\ATExplorer\builds\ATExplorerPackage\ATExplorerAppPackage.cbproj"/>
+    </Target>
+    <Target Name="ATExplorerAppPackage:Clean">
+        <MSBuild Projects="..\..\Applications\ATExplorer\builds\ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ATExplorerAppPackage:Make">
+        <MSBuild Projects="..\..\Applications\ATExplorer\builds\ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ATExplorer" DependsOnTargets="atExplorerFoundation;atExplorerVCL">
         <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj"/>
     </Target>
-    <Target Name="ATExplorer:Clean" DependsOnTargets="atExplorerFoundation:Clean;ATExplorerAppPackage:Clean">
+    <Target Name="ATExplorer:Clean" DependsOnTargets="atExplorerFoundation:Clean;atExplorerVCL:Clean">
         <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ATExplorer:Make" DependsOnTargets="atExplorerFoundation:Make;ATExplorerAppPackage:Make">
+    <Target Name="ATExplorer:Make" DependsOnTargets="atExplorerFoundation:Make;atExplorerVCL:Make">
         <MSBuild Projects="builds\ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="atExplorerFoundation;ATExplorerAppPackage;ATExplorer"/>
+        <CallTarget Targets="atExplorerFoundation;atExplorerVCL;ATExplorerAppPackage;ATExplorer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="atExplorerFoundation:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="atExplorerFoundation:Clean;atExplorerVCL:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="atExplorerFoundation:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
+        <CallTarget Targets="atExplorerFoundation:Make;atExplorerVCL:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

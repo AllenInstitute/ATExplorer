@@ -1,10 +1,9 @@
 #ifndef atChannelsH
 #define atChannelsH
 #include "atExplorerObject.h"
-#include <vector>
 #include "atChannel.h"
-#include "dslSharedPointer.h"
 #include "dslStringList.h"
+#include <vector>
 //---------------------------------------------------------------------------
 
 namespace at

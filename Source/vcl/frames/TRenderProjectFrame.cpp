@@ -6,7 +6,6 @@
 #include "dslLogger.h"
 #include "dslFileUtils.h"
 #include <gdiplus.h>
-#include "atApplicationSupportFunctions.h"
 #include "Poco/Path.h"
 #include "boost/filesystem.hpp"
 #include "TImageForm.h"
@@ -31,6 +30,8 @@ using namespace at;
 using namespace Poco;
 
 int rpFrameNr(0);
+
+TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
 
 //---------------------------------------------------------------------------
 __fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner)
@@ -1045,4 +1046,15 @@ void __fastcall TRenderProjectFrame::OutputDataRootFolderEKeyDown(TObject *Sende
     }
 }
 
+
+TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
+{
+	TPoint pt;
+    if(scale > 0)
+    {
+    	pt.X = (p.X / scale) / stretchFactor;
+	    pt.Y = (p.Y / scale) / stretchFactor;
+    }
+	return pt;
+}
 

@@ -12,52 +12,54 @@ using dsl::Projects;
 
 class ATExplorerProject;
 class RenderProject;
+class ATIFDataProject;
 
-//Rename this to ProjectTreeView
+
 class PACKAGE ProjectsTreeView : public ATObject
 {
-        public:
-                                            ProjectsTreeView(TTreeView* tv);
-                                            ~ProjectsTreeView();
-            Project*                       	getCurrent();
-            Project*             			getFirst();
-            Project*             			getNext();
+    public:
+                                        ProjectsTreeView(TTreeView* tv);
+                                        ~ProjectsTreeView();
+        Project*                       	getCurrent();
+        Project*             			getFirst();
+        Project*             			getNext();
 
-			TTreeNode*						addProjectToView(Project* project);
+        TTreeNode*						addProjectToView(Project* project);
 
-                                            //!This function returns the root project
-            Project*			            getRootForSelectedProject();
+                                        //!This function returns the root project
+        Project*			            getRootForSelectedProject();
 
-                                            //!This function returns currently selected (sub)project
-            Project*			            getSelectedProject();
+                                        //!This function returns currently selected (sub)project
+        Project*			            getSelectedProject();
 
-                                            //!This function returns currently selected (sub)project
-            TTreeNode*			            getSelectedNode();
+                                        //!This function returns currently selected (sub)project
+        TTreeNode*			            getSelectedNode();
 
-									        //!If selected item is a child, then its parent is returned
-            Project*			            getParentForSelectedProject();
+                                        //!If selected item is a child, then its parent is returned
+        Project*			            getParentForSelectedProject();
 
-            ATExplorerProject*			   	createNewATExplorerProject();
-            void                            selectLast();
-			TTreeNode*						addRenderProjectToView(ATExplorerProject* vcNode, RenderProject* rp);
-            int                             mProjectCount();
-            bool                            selectProject(Project* p);
-            string                          closeProject(Project* p);
-            bool	                        removeProject(Project* p);
+        ATExplorerProject*			   	createNewATExplorerProject();
+        void                            selectLast();
+        TTreeNode*						addRenderProjectToView(ATExplorerProject* vcNode, RenderProject* rp);
+        TTreeNode*						addATIFDataProjectToView(ATExplorerProject* vcNode, ATIFDataProject* rp);
+        int                             mProjectCount();
+        bool                            selectProject(Project* p);
+        string                          closeProject(Project* p);
+        bool	                        removeProject(Project* p);
 
-            TTreeNode*                      getItemForProject(Project* p);
-            void                            createView(Project* p);
-			TTreeNode* 						addChildProjectToView(Project* parent, Project* child);
-            void                            expandView(Project* p);
-            TTreeView*                      getTreeView();
+        TTreeNode*                      getItemForProject(Project* p);
+        void                            createView(Project* p);
+        TTreeNode* 						addChildProjectToView(Project* parent, Project* child);
+        void                            expandView(Project* p);
+        TTreeView*                      getTreeView();
 
-        protected:
-                                            //The View
-			TTreeView*                      mTree;
+    protected:
+                                        //The View
+        TTreeView*                      mTree;
 
-                                            //The model..
-                                            //This container (ProjectsTreeView) is responsible to dispose of any projects
-            Projects                        mProjects;
+                                        //The model..
+                                        //This container (ProjectsTreeView) is responsible to dispose of any projects
+        Projects                        mProjects;
 };
 
 }
