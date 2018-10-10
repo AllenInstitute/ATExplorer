@@ -12,11 +12,17 @@
 \usepackage{epstopdf}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{tikz}
 
 \graphicspath{{figures/}} %Setting the graphicspath
 \begin{document}
 \newcommand{\ate}{ATExplorer }
 \newcommand{\at}{Array Tomography }
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\newcommand*\cn[1]{\small \circled{\small {#1}}}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -48,9 +54,7 @@
 
 \noindent Copyright \copyright\ 2016-2019 Allen Institute for Brain Science\\ % Copyright notice
 
-
-
-%%------------------ PREFACE
+%%------------------ PREFACE --------------------------
 \include{preface}
 
 %%----------------------------------------------------------------------------------------
@@ -70,59 +74,50 @@
 %----------------------------------------------------------------------------------------
 \part{Part One}
 
-
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
 %----------------------------------------------------------------------------------------
-
-\chapterimage{chapterimage_1.jpg} % Chapter heading image
-
-\chapter{Overview of the \ate{} Software Application}
-\section{Introduction}\index{Introduction}
-
-\doublespacing
-This document gives an overview of the software that is named \emph{ATExplorer}.
-
-The following section discusses the application in greater detail.
-
-\clearpage
-
-\section{The \ate UI}
-
-\begin{figure}[h]
-\centering\includegraphics[scale=0.85]{ATExplorerUI_1}
-\caption{\ate{} UI. The circled numbers in the figure indicate relevant elements of the UI; 1) Project(s) TreeView. 2) Tabbed Project Item View. 3) Information and Application Log Messages.}
-\end{figure}
-
-\clearpage
-
-\chapterimage{chapterimage_2.jpg} 
-
-\chapter{Software Design and Software Components}
-\section{Rough Software setup - picture}
+\include{chapter_1}
+\include{chapter_2}
 
 \begin{appendices}
+\chapter{Software Design and Software Components}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.35]{ATExplorer_APIs}
+\caption{An overview of some of ATExplorer API's}
+\end{figure}
+
+
+\section{ATExplorer Software API's}\index{ATExplorer Software API's}
+\subsection{atCore}
+\subsection{atData}
+\subsection{atVCLCore}
+
+\section{ThirdParty libraries}
+\subsection{Poco}
+\subsection{libCurl}
+\subsection{SQLite 3}
+\subsection{TinyXML2}
+\subsection{Dune Scientific libraries: dslFoundation}
+
+\chapter{Python Enabled API's}
+
 \chapter{Get the source code}
 
 Public Software Repository: $\mathbf{git@github.com:TotteKarlsson/ATExplorer.git}$
 
-\chapter{Software API's}
+\chapter{How to Build \ate  and its API's}
 
-\section{ATExplorer Software API's}\index{ATExplorer Software API's}
-\subsection{abCore}
-\subsection{abVCLCore}
+\chapter{Setup a RenderHost and Python - ATDeployable}
 
-\section{ThirdParty libraries}
-\subsection{Poco}
-\subsection{libcurl}
-\subsection{SQLite}
-\subsection{tinyxml2}
-\subsection{Dune Scientific libraries: dsl::Foundation}
+\begin{figure}[h]
+\centering\includegraphics[scale=0.52]{ATDeployable_1}
+\caption{A deployed system}
+\end{figure}
+
 
 \end{appendices}
-
-
-
 
 %%----------------------------------------------------------------------------------------
 %%	BIBLIOGRAPHY
