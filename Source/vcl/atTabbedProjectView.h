@@ -18,16 +18,16 @@ class ATExplorerProject;
 class PACKAGE TabbedProjectView : public dsl::Observer
 {
     public:
-                                            TabbedProjectView(TPageControl* pc, ATExplorerProject* rp);
+                                            TabbedProjectView(TPageControl* pc, ATExplorerProject& rp);
                                             ~TabbedProjectView();
 
         virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
         TTabSheet*                          getTabSheet();
-        ATExplorerProject*                  getProject();
+        const ATExplorerProject*            getProject();
 
     protected:
         TPageControl*       				mPC;
-        ATExplorerProject*                  mATExplorerProject;
+        ATExplorerProject&                  mATExplorerProject;
         unique_ptr<TTabSheet> 				mTabSheet;
 };
 

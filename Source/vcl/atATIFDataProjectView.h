@@ -20,7 +20,7 @@ class ATIFDataProject;
 class PACKAGE ATIFDataProjectView : public TabbedProjectView
 {
     public:
-                                            ATIFDataProjectView(TPageControl* pc, ATIFDataProject* rp);
+                                            ATIFDataProjectView(TPageControl* pc, ATIFDataProject& rp);
         virtual            		            ~ATIFDataProjectView();
 
     protected:

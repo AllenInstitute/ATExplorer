@@ -25,7 +25,7 @@ class ATE_DATA ATData : public ExplorerObject
         virtual const string                    getTypeName() const;
         void                                    assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
 		virtual ATDataFileFormat                getFileFormat() = 0;
-        Path                                    getBasePath();
+        Path                                    getBasePath() const;
         virtual bool                            setBasePath(const string& p);
 
                                         		//!Return some information about the current data

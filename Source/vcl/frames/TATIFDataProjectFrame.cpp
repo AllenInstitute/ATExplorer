@@ -26,7 +26,7 @@ static int frameNr(0);
 __fastcall TATIFDataProjectFrame::TATIFDataProjectFrame(ATIFDataProject& dp, TComponent* Owner)
 	: TFrame(Owner),
     mProject(dp),
-	mPopulateDataThread(dp.mATData)
+	mPopulateDataThread(dp)
 {
     this->Name = string("ATIFDataFrame_" +  dsl::toString(frameNr++)).c_str();
     populate();
@@ -43,7 +43,7 @@ void __fastcall TATIFDataProjectFrame::ScanDataBtnClick(TObject *Sender)
 {
     if(ScanDataBtn->Caption == "Scan Data")
     {
-        if(!mProject.mATData)
+//        if(!mProject.mATData)
         {
             //Pretty ugly
             if(mProject.getDataRootFolder().size() && mProject.getDataRootFolder()[mProject.getDataRootFolder().size() -1] != gPathSeparator)
@@ -51,10 +51,11 @@ void __fastcall TATIFDataProjectFrame::ScanDataBtnClick(TObject *Sender)
                 mProject.setDataRootFolder(mProject.getDataRootFolder() + gPathSeparator);
             }
 
-            mProject.mATData = shared_ptr<ATIFData>( new ATIFData(mProject.getDataRootFolder()));
+            //mProject.mATData = shared_ptr<ATIFData>( new ATIFData(mProject.getDataRootFolder()));
         }
-        mProject.mATData->reset();
-        mPopulateDataThread.setData(mProject.mATData);
+
+        mProject.reset();
+//        mPopulateDataThread.setData(mProject);
         mPopulateDataThread.assignCallBacks(onThreadEnter,onThreadProgress, onThreadExit);
         mPopulateDataThread.start(true);
     }

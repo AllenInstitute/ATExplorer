@@ -73,7 +73,7 @@ void ProjectsTreeView::updateRepresentation(Subject* s)
         if(atIFDatap)
         {
             Log(lInfo) << "Updating tree for project: "<< atIFDatap->getProjectName();
-            Sessions* sessions = atIFDatap->mATData->getSessions();
+            Sessions* sessions = atIFDatap->getSessions();
             TTreeNode* parent_node (getItemForProject(atIFDatap));
 
             if(parent_node)
@@ -105,9 +105,10 @@ void ProjectsTreeView::updateRepresentation(Subject* s)
                     {
                         RibbonSP ribbon = atIFDatap->getRibbon(r);
                         //Add sections for each channel
-                        for(int s = 0; s < atIFDatap->mATData->getNumberOfSections(); s++)
+                        for(int s = 0; s < atIFDatap->getNumberOfSections(); s++)
                         {
-                            SectionSP section = atIFDatap->mATData->getSection(channel, s);
+                            //SectionSP section = atIFDatap->getSection(channel, s);
+                            //TTreeNode* section_node = mTree->Items->AddChildObject(ch_node, "", (void*) atIFDatap);
                             TTreeNode* section_node = mTree->Items->AddChildObject(ch_node, "", (void*) atIFDatap);
                             section_node->EditText();
                             section_node->Text = toString(s + 1).c_str();

@@ -8,12 +8,12 @@
 namespace at
 {
 using namespace dsl;
-RenderProjectView::RenderProjectView(TPageControl* pc, RenderProject* rp, const string& imPath)
+RenderProjectView::RenderProjectView(TPageControl* pc, RenderProject& rp, const string& imPath)
 :
 TabbedProjectView(pc, rp)
 {
-    mTabSheet->Caption = rp->getProjectName().c_str();
-    mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(*rp, imPath, mPC));
+    mTabSheet->Caption = rp.getProjectName().c_str();
+    mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(rp, imPath, mPC));
     mRenderProjectFrame->Parent =  mTabSheet.get();
     mRenderProjectFrame->Align = alClient;
 }

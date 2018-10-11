@@ -15,7 +15,9 @@ using std::vector;
 using std::map;
 class Ribbon;
 class Tiles;
-typedef std::tr1::shared_ptr<Tiles> TilesSP;
+class Section;
+typedef shared_ptr<Tiles> TilesSP;
+typedef shared_ptr<Section> SectionSP;
 
 //!An atSection is part of a ribbon.
 class ATE_DATA Section : public ExplorerObject

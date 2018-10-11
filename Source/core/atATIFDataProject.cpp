@@ -49,14 +49,16 @@ void ATIFDataProject::setDataRootFolder(const string& rFolder)
 
 string ATIFDataProject::getDataRootFolder() const
 {
-    if(mATData)
-    {
-    	return mATData->getBasePath().toString();
-    }
-    else
-    {
-        return "";
-    }
+//    if(mATData)
+//    {
+//    	return mATData->getBasePath().toString();
+        string path = 	getBasePath().toString();
+        return path;
+//    }
+//    else
+//    {
+//        return "";
+//    }
 }
 
 XMLElement* ATIFDataProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLElement* parentNode)
@@ -65,7 +67,7 @@ XMLElement* ATIFDataProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc,
     XMLElement* val(nullptr);
 
     val = doc.NewElement("datarootfolder");
-    val->SetText(mATData->getBasePath().toString().c_str());
+    val->SetText(getBasePath().toString().c_str());
     parentNode->InsertEndChild(val);
     return val;
 }
@@ -73,11 +75,11 @@ XMLElement* ATIFDataProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc,
 bool ATIFDataProject::loadFromXML(dsl::XMLNode* node)
 {
     XMLElement* e(nullptr);
-	mATData = ATIFDataSP(new ATIFData(string("")));
+//	mATData = ATIFDataSP(new ATIFData(string("")));
     e = node->FirstChildElement("datarootfolder");
     if(e)
     {
-    	mATData->setBasePath(e->GetText() ? string(e->GetText()) : string(""));
+    	setBasePath(e->GetText() ? string(e->GetText()) : string(""));
     }
 
 	return true;

@@ -260,7 +260,7 @@ bool TMainForm::createProjectView(Project* p)
 
         //Create a new tab page
         //Views deletes themselves when subjects dies
-        shared_ptr<RenderProjectView> obs(new RenderProjectView(MainPC,  rp, gAU.ImageMagickPath.getValue()));
+        shared_ptr<RenderProjectView> obs(new RenderProjectView(MainPC,  *rp, gAU.ImageMagickPath.getValue()));
         mProjectObservers.append(obs);
 
     }
@@ -279,7 +279,7 @@ bool TMainForm::createProjectView(Project* p)
 
         //Create a new tab page
         //Views deletes themselves when subjects dies
-        shared_ptr<ATIFDataProjectView> obs (new ATIFDataProjectView(MainPC, ifData));
+        shared_ptr<ATIFDataProjectView> obs (new ATIFDataProjectView(MainPC, *ifData));
         mProjectObservers.append(obs);
     }
     else

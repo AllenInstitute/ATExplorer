@@ -27,7 +27,7 @@ const string ATData::getTypeName() const
     return "aTData";
 }
 
-Path ATData::getBasePath()
+Path ATData::getBasePath() const
 {
     return mBasePath;
 }
