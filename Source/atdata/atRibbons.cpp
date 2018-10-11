@@ -5,7 +5,6 @@
 namespace at
 {
 
-
 Ribbons::Ribbons()
 {}
 

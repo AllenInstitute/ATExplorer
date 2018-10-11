@@ -110,6 +110,7 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
 bool RenderProject::setRenderServiceParameters(const RenderServiceParameters& rsp)
 {
     mRenderService = rsp;
+    return true;
 }
 
 void RenderProject::assignLocalCacheRootFolder(const string& rFolder)

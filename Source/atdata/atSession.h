@@ -13,6 +13,7 @@ class ATE_DATA Session : public ExplorerObject
 	public:
                                     Session(const string& lbl);
                                     ~Session();
+        virtual const string        getTypeName() const;
         string                      getLabel() const {return mLabel;}
         bool        	            appendChannel(ChannelSP channel);
         ChannelSP                   getChannel(const string& channelLbl);

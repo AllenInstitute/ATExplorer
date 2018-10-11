@@ -22,6 +22,7 @@ class ATE_DATA Sessions : public ExplorerObject
                                             Sessions();
                                             ~Sessions();
         void 								clear();
+        SessionSP                           getSession(int indx);
         SessionSP                           getSession(const string& lbl);
         SessionSP                           getFirstSession();
         SessionSP                           getNextSession();

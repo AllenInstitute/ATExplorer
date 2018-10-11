@@ -11,7 +11,9 @@ USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFram
 //   Package source.
 
 using namespace at;
-AppUtilities PACKAGE gAU;
+
+//This GLOBAL object carries application specific paarametes, utilities etc..
+//AppUtilities PACKAGE gAU;
 
 #pragma argsused
 extern "C" int _libmain(unsigned long reason)

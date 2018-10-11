@@ -14,7 +14,7 @@ ATIFDataProject::ATIFDataProject(const string& pName, const string& rootFolder)
 :
 ATExplorerProject(pName),
 //mATData(ATDataSP(new ATIFData(rootFolder)))
-mATData()
+ATIFData(rootFolder)
 {
     mATEObjectType = (ateATIFDataProject);
 }
@@ -40,9 +40,10 @@ ATIFDataProject::~ATIFDataProject()
 void ATIFDataProject::setDataRootFolder(const string& rFolder)
 {
 //    mDataRootFolder = rFolder;
-	if(mATData)
+//	if(mATData)
     {
-		mATData->setBasePath(rFolder);
+		//mATData->setBasePath(rFolder);
+		setBasePath(rFolder);
     }
 }
 

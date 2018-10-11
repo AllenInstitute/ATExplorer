@@ -22,6 +22,7 @@ class ATE_DATA ATData : public ExplorerObject
     public:
                         	                    ATData(const Path& basePath);
 		virtual            	                    ~ATData();
+        virtual const string                    getTypeName() const;
         void                                    assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
 		virtual ATDataFileFormat                getFileFormat() = 0;
         Path                                    getBasePath();
@@ -36,25 +37,28 @@ class ATE_DATA ATData : public ExplorerObject
                                                 //!populating a ATData object typically include
                                                 //!parsing through a folder structure in descendant data
                                                 //!type objects
-        virtual bool                            populate(const bool& exitPoplation) = 0;
+        virtual bool                            populate(const bool& exitPopulation) = 0;
         virtual bool                            validate() = 0;
+        int                                     getNumberOfRibbons();
         Ribbons*                                getRibbons();
         RibbonSP     	                        getRibbon(int count);
         RibbonSP     	                        getFirstRibbon();
         RibbonSP     	                        getNextRibbon();
 
                                                 //!A session is the same as a "group of stains" => one or more channel data
+		int                                     getNumberOfSessions();
         Sessions*                               getSessions();
         SessionSP                               getFirstSession();
         SessionSP                               getNextSession();
         StringList                              getChannelLabelsForSession(SessionSP session);
 
                                                 //!Utilities
-        int                                     getNumberOfRibbons();
         int                                     getNumberOfSections();
 		int                                     getNumberOfTiles();
-		int                                     getNumberOfSessions();
+
 		int                                     getNumberOfChannels();
+
+//        Sections                                getSections(const ChannelSP channel);
 
     protected:
                                 	            //!Basepath of raw data. All IF data need to be accesible

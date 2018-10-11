@@ -18,20 +18,20 @@ typedef std::tr1::shared_ptr<Section> SectionSP;
 class ATE_DATA Sections : public ExplorerObject
 {
     public:
-                                        Sections();
-        virtual                         ~Sections();
-        int                             count(){return mSections.size();}
-        virtual void                    clear();
-        SectionSP                       getFirstSection();
-        SectionSP                       getNextSection();
-        SectionSP                       getPreviousSection();
-        SectionSP                       getLastSection();
-        SectionSP                       getSection(int sectionID);
-        SectionSP                       at(unsigned int i);
+                                                        Sections();
+        virtual                                         ~Sections();
+        int                                             count(){return mSections.size();}
+        virtual void                                    clear();
+        SectionSP                                       getFirstSection();
+        SectionSP                                       getNextSection();
+        SectionSP                                       getPreviousSection();
+        SectionSP                                       getLastSection();
+        SectionSP                                       getSection(int sectionID);
+        SectionSP                                       at(unsigned int i);
 
     protected:
-        vector<SectionSP>::iterator  	mSectionIterator;
-        vector<SectionSP>               mSections;
+        vector<SectionSP>::iterator  	                mSectionIterator;
+        vector<SectionSP>                               mSections;
 };
 
 }

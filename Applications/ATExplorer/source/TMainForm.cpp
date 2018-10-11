@@ -23,8 +23,6 @@ using namespace std;
 using namespace at;
 using namespace Poco;
 
-//extern at::AppUtilities gAU;
-
 Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
 ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
@@ -72,12 +70,19 @@ void __fastcall TMainForm::ProjectTViewClick(TObject *Sender)
         return;
     }
 
+    //Figure out what type of item the user clicked
+    ExplorerObject* eo = (ExplorerObject*) item->Data;
+
+    Log(lInfo) << "ItemType: " << eo->getTypeName();
+
     Project* p = (Project*) item->Data;
     if(p)
     {
-        Log(lDebug) << "User clicked: " << p->getProjectName();
+        Log(lDebug) << "User clicked item in project: " << p->getProjectName() << "and item caption: " << stdstr(item->Text);
     }
-	mPTreeView.selectProject(p);
+
+	//mPTreeView.selectProject(p);
+//    mPTreeView.selectItem(item);
 }
 
 

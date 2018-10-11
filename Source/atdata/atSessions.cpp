@@ -16,6 +16,11 @@ int Sessions::count()
 	return mSessions.size();
 }
 
+SessionSP Sessions::getSession(int indx)
+{
+	return mSessions[indx];
+}
+
 SessionSP Sessions::getSession(const string& lbl)
 {
     for(int i = 0; i < mSessions.size(); i++)

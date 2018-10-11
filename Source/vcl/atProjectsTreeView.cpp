@@ -6,9 +6,10 @@
 #include "atATIFDataProject.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
+#include "atSession.h"
+#include "atSection.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-
 
 namespace at
 {
@@ -43,6 +44,81 @@ Project* ProjectsTreeView::getNext()
     return mProjects.getNext();
 }
 
+void ProjectsTreeView::update(Subject* theChangedSubject, SubjectEvent se)
+{
+    //!Find the subject and do whats needed..
+    switch(se)
+    {
+        case SubjectBeingDestroyed:
+	        this->stopObserving();
+        break;
+
+        case UpdateRepresentation:
+            updateRepresentation(theChangedSubject);
+        break;
+
+        default:
+            Log(lWarning) << "Subject Event: " << se <<" not handled in update function.";
+    }
+}
+
+void ProjectsTreeView::updateRepresentation(Subject* s)
+{
+	//Check what kind of project the subject is
+    ATExplorerProject* atep = dynamic_cast<ATExplorerProject*>(s);
+    ATIFDataProject*  atIFDatap = dynamic_cast<ATIFDataProject*>(s);
+
+    if(atep)
+    {
+        if(atIFDatap)
+        {
+            Log(lInfo) << "Updating tree for project: "<< atIFDatap->getProjectName();
+            Sessions* sessions = atIFDatap->mATData->getSessions();
+            TTreeNode* parent_node (getItemForProject(atIFDatap));
+
+            if(parent_node)
+            {
+                parent_node->DeleteChildren();
+            }
+
+            for(int i = 0; i < sessions->count(); i++)
+            {
+                SessionSP session = sessions->getSession(i);
+                //add session as child node to parent
+                TTreeNode* parent_node (getItemForProject(atIFDatap));
+                TTreeNode* session_node = mTree->Items->AddChildObject(parent_node, "", (void*) session.get());
+                session_node->EditText();
+                session_node->Text = session->getLabel().c_str();
+
+                //Add Channels for each session
+
+                StringList chs = session->getChannelLabels();
+                for(int j = 0; j < chs.count(); j++)
+                {
+                    string ch = chs[j];
+                    ChannelSP channel = session->getChannel(ch);
+                    TTreeNode* ch_node = mTree->Items->AddChildObject(session_node, "", (void*) channel.get());
+                    ch_node->EditText();
+                    ch_node->Text = ch.c_str();
+
+                    for(int r = 0; r < atIFDatap->getNumberOfRibbons(); r++)
+                    {
+                        RibbonSP ribbon = atIFDatap->getRibbon(r);
+                        //Add sections for each channel
+                        for(int s = 0; s < atIFDatap->mATData->getNumberOfSections(); s++)
+                        {
+                            SectionSP section = atIFDatap->mATData->getSection(channel, s);
+                            TTreeNode* section_node = mTree->Items->AddChildObject(ch_node, "", (void*) atIFDatap);
+                            section_node->EditText();
+                            section_node->Text = toString(s + 1).c_str();
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 TTreeNode* ProjectsTreeView::addProjectToView(Project* project)
 {
     ATExplorerProject* p = dynamic_cast<ATExplorerProject*>(project);
@@ -51,6 +127,9 @@ TTreeNode* ProjectsTreeView::addProjectToView(Project* project)
         Log(lError) << "Non Explorer Project in addProjectToView..";
         return false;
     }
+    project->setTag("Hello");
+    this->observe(project);
+    this->mObserverTag = "ProjectsTreeView";
 
     //Store a reference to the pointer in the TreeView
 	TTreeNode* n = mTree->Items->AddObject(NULL, project->getProjectName().c_str(), (void*) project);
@@ -71,6 +150,9 @@ TTreeNode* ProjectsTreeView::addChildProjectToView(Project* parent, Project* chi
     {
         return NULL;
     }
+
+    //Every child need to be observed?
+    this->observe(child);
 
 	TTreeNode* child_node = mTree->Items->AddChildObject(parent_node, "", (void*) child);
     child_node->EditText();

@@ -71,11 +71,6 @@ bool ATIFData::populate(const bool& timeToDie)
     {
         populateRibbons();
         populateSessions();
-
-        if(onFinishedPopulating)
-        {
-            onFinishedPopulating(this, nullptr);
-        }
     }
 
     return true;

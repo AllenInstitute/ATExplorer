@@ -124,3 +124,10 @@ void TATIFDataProjectFrame::onThreadExit(void* arg1, void* arg2)
 }
 
 
+//---------------------------------------------------------------------------
+void __fastcall TATIFDataProjectFrame::Button1Click(TObject *Sender)
+{
+    mProject.notifyObservers(UpdateRepresentation);
+}
+
+

@@ -22,6 +22,11 @@ mStopPopulation(NULL)
 ATData::~ATData()
 {}
 
+const string ATData::getTypeName() const
+{
+    return "aTData";
+}
+
 Path ATData::getBasePath()
 {
     return mBasePath;
@@ -82,6 +87,25 @@ string ATData::getInfo()
 
     return s.str();
 }
+
+//Sections ATData::getSections(const ChannelSP channel)
+//{
+////    Sections sections;
+////    RibbonSP ribbon = this->getFirstRibbon();
+////    while(ribbon)
+////    {
+////        int nrOfSections = ribbon->getNumberOfSections();
+////        int tileCount = ribbon->getTileCount(ch);
+////        string ribbonAlias = ribbon->getAlias();
+////
+////        s <<  "\t\t\t" << "There are " << tileCount << " tiles in "
+////        << nrOfSections <<" sections "<< "in Ribbon \"" << ribbonAlias << "\""<< endl;
+////        ribbon = this->getNextRibbon();
+////    }
+//
+//}
+
+
 void ATData::assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit)
 {
 	onStartingPopulating = onenter;

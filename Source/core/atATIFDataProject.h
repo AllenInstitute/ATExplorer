@@ -3,7 +3,7 @@
 #include <string>
 #include "atATExplorerProject.h"
 #include "dslStringList.h"
-#include "atATData.h"
+#include "atATIFData.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -15,7 +15,7 @@ using dsl::gEmptyString;
 using dsl::StringList;
 
 typedef shared_ptr<ATData> ATDataSP;
-class ATE_CORE ATIFDataProject : public ATExplorerProject
+class ATE_CORE ATIFDataProject : public ATExplorerProject, public ATIFData
 {
 	public:                                 //!Simplify ctors, too many
         	    	                        ATIFDataProject(const string& pName, const string& dataRootFolder);
@@ -31,11 +31,8 @@ class ATE_CORE ATIFDataProject : public ATExplorerProject
         virtual dsl::XMLElement*            addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* docRoot);
 		virtual bool 					    loadFromXML(dsl::XMLNode* node);
 
-                                            //Leave this public for convenience (?), or write handlers..
-        shared_ptr<ATData>	                mATData;
-
-//	protected:
-//    	string 		                        mDataRootFolder;
+//                                            //Leave this public for convenience (?), or write handlers..
+//        shared_ptr<ATData>	                mATData;
 
 };
 

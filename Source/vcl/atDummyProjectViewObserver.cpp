@@ -23,7 +23,6 @@ mRPV(rpv)
 DummyProjectViewObserver::~DummyProjectViewObserver()
 {}
 
-
 RenderProjectView* DummyProjectViewObserver::getView()
 {
     return &mRPV;

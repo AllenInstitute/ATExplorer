@@ -12,6 +12,11 @@ mLabel(lbl)
 Session::~Session()
 {}
 
+const string Session::getTypeName() const
+{
+    return "session";
+}
+
 bool Session::operator==(const Session& s) const
 {
     //We only need to compare labels

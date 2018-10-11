@@ -1,29 +1,25 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 700
-  Height = 302
+  Width = 451
+  Height = 305
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 700
-    Height = 302
+    Width = 451
+    Height = 305
     Align = alClient
     Caption = 'AT IF Data Properties'
     TabOrder = 0
-    ExplicitWidth = 451
-    ExplicitHeight = 305
     DesignSize = (
-      700
-      302)
+      451
+      305)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 666
+      Width = 417
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -31,7 +27,6 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       EditLabel.Caption = 'DataRootFolderE'
       Enabled = False
       TabOrder = 0
-      ExplicitWidth = 417
     end
     object ScanDataBtn: TButton
       Left = 16
@@ -123,10 +118,19 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     object PopulatePB: TProgressBar
       Left = 103
       Top = 88
-      Width = 579
+      Width = 330
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
+    end
+    object Button1: TButton
+      Left = 16
+      Top = 240
+      Width = 75
+      Height = 25
+      Caption = 'Button1'
+      TabOrder = 4
+      OnClick = Button1Click
     end
   end
 end
