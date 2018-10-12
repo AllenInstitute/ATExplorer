@@ -1,6 +1,6 @@
 #ifndef atProjectsTreeViewH
 #define atProjectsTreeViewH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include <Vcl.Controls.hpp>
 #include "dslProjects.h"
 #include "dslObserver.h"
@@ -23,13 +23,13 @@ class Channel;
 
 //!This class manages Projects viewable on a TreeView
 //!The ProjectsTreeView is an observer of projects, that are 'subjects'
-class PACKAGE ProjectsTreeView : public dsl::Observer, public ATObject
+class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
 {
     public:
                                         ProjectsTreeView(TTreeView& tv, TreeItemObservers& v);
                                         ~ProjectsTreeView();
 
-        void                            handleNodeClick(TTreeNode* node, bool isDoubleClick);
+        bool                            handleNodeClick(TTreeNode* node, bool isDoubleClick);
 
         void                            updateRepresentation(Subject* s);
         Project*                       	getCurrent();
@@ -71,9 +71,6 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ATObject
                                         //The Tree View
         TTreeView&                      mTree;
         TreeItemObservers&              mViews;
-
-        bool        					createRenderProjectView(RenderProject* p);
-        bool        					createATIFDataProjectView(ATIFDataProject* p);
 
                                         //The model..
                                         //This container (ProjectsTreeView) is responsible to dispose of any projects

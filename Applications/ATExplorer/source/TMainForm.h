@@ -25,7 +25,6 @@
 //---------------------------------------------------------------------------
 
 //typedef void __fastcall (__closure *sshCallback)(const string&);
-//using at::ProjectManager;
 using at::ProjectsTreeView;
 using at::ATExplorerProject;
 using at::RenderProjectView;
@@ -33,7 +32,6 @@ using at::TreeItemObservers;
 using dsl::Project;
 using dsl::Observer;
 using std::vector;
-
 
 class PACKAGE TMainForm : public TRegistryForm
 {
@@ -146,7 +144,12 @@ __published:	// IDE-managed Components
 	private:
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
+
+                                                        //!Practical Container for 'views'
         TreeItemObservers                               mTreeItemObservers;
+
+                                                        //!Object that manages data and
+                                                        //!behaviour in the TreeView
 	    ProjectsTreeView                                mPTreeView;
 
 		int 		 									saveProject(Project* p);

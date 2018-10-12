@@ -23,26 +23,29 @@ class TabbedProjectView;
 
 typedef vector< shared_ptr<TabbedProjectView > > Views;
 
-//!Observer: this is not a great design. A views subject, if deleted, is not removed from the Views container.
-//!We need to make ProjectObservers an observer of the TreeItemObjects , too..
-
+//!The TreeItemObservers class is a container for 'Views'
+//!It is responsible for creation of the views and management of related PageControl Tabs
 class PACKAGE TreeItemObservers : public dsl::Observer
 {
     public:
                                             TreeItemObservers(TPageControl& pc);
                                             ~TreeItemObservers();
 
-		bool 								createView(Subject* o);
+        TTabSheet* 							getTabForSubject(Subject* p);
+        bool                                selectTabWithView(TabbedProjectView* v);
+
+		TabbedProjectView*					createView(Subject* o);
+
         unsigned int                        count();
 //		void 								append(shared_ptr<TabbedProjectView> v);
         bool					            removeViewOnTabSheet(TTabSheet* s);
         bool                                removeViewForSubject(Subject* p);
-        TTabSheet* 							getTabForSubject(Subject* p);
+
         void                                closeAll();
 		void 								update(Subject* s, SubjectEvent se);
 
     protected:
-        TPageControl&                       mMainPC;
+        TPageControl&                       MainPC;
         Views								mViews;
 };
 

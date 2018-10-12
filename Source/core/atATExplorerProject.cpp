@@ -31,6 +31,11 @@ ATExplorerProject::~ATExplorerProject()
     Log(lDebug5) << "In destructor of project: " << getProjectName();
 }
 
+string ATExplorerProject::getTypeName() const
+{
+    return "aTExplorerProject";
+}
+
 string ATExplorerProject::getATEObjectTypeAsString()
 {
 	return at::toString(mATEObjectType);

@@ -50,16 +50,15 @@ Project* ProjectsTreeView::getNext()
     return mProjects.getNext();
 }
 
-void ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
+bool ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
 {
     if(!node)
     {
-        return;
+        return false;
     }
 
     //Figure out what type of item the user clicked
     ExplorerObject* eo = (ExplorerObject*) node->Data;
-    Log(lInfo) << "ItemType: " << eo->getTypeName();
 
     if(dynamic_cast<ATIFDataProject*>(eo))
     {
@@ -67,36 +66,35 @@ void ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
         if(o)
         {
             Log(lInfo) << "Clicked on ATIFData project item: " << o->getProjectName();
-            handleClick(o, isDoubleClick);
+            return handleClick(o, isDoubleClick);
         }
     }
-    if(dynamic_cast<RenderProject*>(eo))
+    else if(dynamic_cast<RenderProject*>(eo))
     {
         RenderProject* o = dynamic_cast<RenderProject*>(eo);
         if(o)
         {
             Log(lInfo) << "Clicked on RenderProject project item: " << o->getProjectName();
-            handleClick(o, isDoubleClick);
+            return handleClick(o, isDoubleClick);
         }
     }
 
-    if(dynamic_cast<ATExplorerProject*>(eo))
+    else if(dynamic_cast<ATExplorerProject*>(eo))
     {
         ATExplorerProject* o = dynamic_cast<ATExplorerProject*>(eo);
         if(o)
         {
             Log(lInfo) << "Clicked on ATExplorerProject project item: " << o->getProjectName();
-            handleClick(o, isDoubleClick);
+            return handleClick(o, isDoubleClick);
         }
     }
-
     else if(dynamic_cast<Channel*>(eo))
     {
         Channel* o = dynamic_cast<Channel*>(eo);
         if(o)
         {
             Log(lInfo) << "Clicked on channel item: " << o->getLabel();
-            handleClick(o, isDoubleClick);
+            return handleClick(o, isDoubleClick);
         }
     }
     else if(dynamic_cast<Session*>(eo))
@@ -105,7 +103,7 @@ void ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
         if(o)
         {
             Log(lInfo) << "Clicked on session item: " << o->getLabel();
-            handleClick(o, isDoubleClick);
+            return handleClick(o, isDoubleClick);
         }
     }
     else if(dynamic_cast<Ribbon*>(eo))
@@ -114,48 +112,52 @@ void ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
         if(o)
         {
             Log(lInfo) << "Clicked on Ribbon item: " << o->getAlias();
-            handleClick(o, isDoubleClick);
+            return handleClick(o, isDoubleClick);
         }
     }
-}
 
+    return false;
+}
 
 bool ProjectsTreeView::handleClick(ATExplorerProject* o, bool isDoubleClick)
 {
+    Log(lInfo) << "In function: " << __FUNC__;
+    return true;
 }
 
 bool ProjectsTreeView::handleClick(ATIFDataProject* p, bool isDoubleClick)
 {
     if(!p)
     {
-        return true;
+        return false;
     }
 
     if(isDoubleClick)
     {
-    	createATIFDataProjectView(p);
+    	TabbedProjectView* view = mViews.createView(p);
+		//Select the page with projectView
+	    mViews.selectTabWithView(view);
     }
 
-	selectProject(p);
-
-    //Select the page with projectView
-//    selectTabForTreeItem(item);
+//	selectProject(p);
     return true;
 }
 
+
 bool ProjectsTreeView::handleClick(RenderProject* o, bool isDoubleClick)
 {
-//    Project* p = (Project*) item->Data;
-//    if(p)
-//    {
-//        Log(lDebug) << "User double clicked: " << p->getProjectName();
-//        createProjectView(p);
-//    }
-//
-//	mPTreeView.selectProject(p);
-//
-//    //Select the page with projectView
-//    selectTabForTreeItem(item);
+    if(!o)
+    {
+        return false;
+    }
+
+    if(isDoubleClick)
+    {
+    	TabbedProjectView* view = mViews.createView(o);
+		//Select the page with projectView
+	    return mViews.selectTabWithView(view);
+    }
+    return true;
 }
 
 
@@ -524,48 +526,6 @@ void ProjectsTreeView::selectLast()
 }
 
 
-bool ProjectsTreeView::createRenderProjectView(RenderProject* rp)
-{
-    //Check what kind of project we are to create a view for
-    if(rp)
-    {
-        //Check if there is already a tab with this view.. if so, switch to it
-        TTabSheet* sh = mViews.getTabForSubject(rp);
-//        if(sh)
-//        {
-//            mMainPC.ActivePage = sh;
-//            return false;
-//        }
-//
-        //Creat a renderproject view
-        Log(lInfo) << "Showing a Render ProjectView";
-
-        //Create a new tab page
-        //Views deletes themselves when subjects dies
-//        shared_ptr<RenderProjectView> obs(new RenderProjectView(mMainPC,  *rp, gAU.ImageMagickPath.getValue()));
-//        mViews.append(obs);
-
-    }
-}
-
-bool ProjectsTreeView::createATIFDataProjectView(ATIFDataProject* ifData)
-{
-    if(ifData)
-    {
-        //Check if there is already a tab with this view.. if so, switch to it
-        //Creat a renderproject view
-        Log(lInfo) << "Creating a ATIF Data Project View";
-
-        //Create a new tab page
-        //Views deletes themselves when subjects dies
-        mViews.createView(ifData);
-    }
-    else
-    {
-        Log(lInfo) << "There is no view for this type of object";
-    }
-    return true;
-}
 
 
 

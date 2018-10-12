@@ -243,11 +243,6 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 
     Log(lInfo) << "Removing subProject: " << p->getProjectName();
 
-    //Close any views
-//    p->notifyObservers(SubjectBeingDestroyed);
-    mPTreeView.removeProject(p);
-//    mTreeItemObservers.removeViewForProject(p);
-
     //Delete project here..
     delete p;
 }

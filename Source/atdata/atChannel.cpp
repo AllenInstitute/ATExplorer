@@ -15,7 +15,7 @@ mSession(s)
 Channel::~Channel()
 {}
 
-const string Channel::getTypeName() const
+string Channel::getTypeName() const
 {
     return "channel";
 }

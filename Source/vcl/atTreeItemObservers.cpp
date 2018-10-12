@@ -11,19 +11,18 @@
 #include "atRibbon.h"
 #include "atRenderProjectView.h"
 #include "atATIFDataProjectView.h"
-
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-
 
 namespace at
 {
 
 using namespace dsl;
 using namespace std;
+
 TreeItemObservers::TreeItemObservers(TPageControl& pc)
 :
-mMainPC(pc)
+MainPC(pc)
 {
     this->mObserverTag = "TreeItemObservers";
 }
@@ -33,38 +32,68 @@ TreeItemObservers::~TreeItemObservers()
 	this->setInActive();
 }
 
-bool TreeItemObservers::createView(Subject* eo)
+bool TreeItemObservers::selectTabWithView(TabbedProjectView* v)
 {
-    TTabSheet* sh = getTabForSubject(eo);
-    if(sh)
+    if(!v)
     {
-        mMainPC.ActivePage = sh;
         return false;
     }
 
+    TTabSheet* theSheet = getTabForSubject(v->getSubject());
+
+    for(int i = 0; i < MainPC.PageCount; i++)
+    {
+        TTabSheet* sh = MainPC.Pages[i];
+        if(sh == theSheet)
+        {
+			MainPC.TabIndex = i;
+            return true;
+        }
+    }
+    return false;
+}
+
+TabbedProjectView* TreeItemObservers::createView(Subject* eo)
+{
+	if(!eo)
+    {
+        return false;
+    }
     Log(lInfo) << "ItemType: " << eo->getTypeName();
 
-    if(dynamic_cast<ATIFDataProject*>(eo))
+    TTabSheet* sh = getTabForSubject(eo);
+    if(sh)
+    {
+        MainPC.ActivePage = sh;
+        return dynamic_cast<TabbedProjectView*>(eo);
+    }
+
+    else if(dynamic_cast<ATIFDataProject*>(eo))
     {
         ATIFDataProject* o = dynamic_cast<ATIFDataProject*>(eo);
         if(o)
         {
-            Log(lInfo) << "Clicked on ATIFData project item: " << o->getProjectName();
-	       	shared_ptr<ATIFDataProjectView> obs (new ATIFDataProjectView(mMainPC, *o));
-        	mViews.push_back(obs);
-		    this->observe(obs->getSubject());
+            Log(lInfo) << "Creating a ATIFData project view";
+	       	shared_ptr<ATIFDataProjectView> aView(new ATIFDataProjectView(MainPC, *o));
+        	mViews.push_back(aView);
+		    this->observe(aView->getSubject());
+            return aView.get();
         }
     }
-    if(dynamic_cast<RenderProject*>(eo))
+    else if(dynamic_cast<RenderProject*>(eo))
     {
         RenderProject* o = dynamic_cast<RenderProject*>(eo);
         if(o)
         {
-            Log(lInfo) << "Clicked on RenderProject project item: " << o->getProjectName();
+            Log(lInfo) << "Creating a Render ProjectView";
+            shared_ptr<RenderProjectView> aView(new RenderProjectView(MainPC,  *o));//, gAU.ImageMagickPath.getValue()));
+           	mViews.push_back(aView);
+            this->observe(aView->getSubject());
+            return aView.get();
         }
     }
 
-    if(dynamic_cast<ATExplorerProject*>(eo))
+    else if(dynamic_cast<ATExplorerProject*>(eo))
     {
         ATExplorerProject* o = dynamic_cast<ATExplorerProject*>(eo);
         if(o)
@@ -98,20 +127,13 @@ bool TreeItemObservers::createView(Subject* eo)
         }
     }
 
-    return true;
+    return nullptr;
 }
-
 
 void TreeItemObservers::closeAll()
 {
 	mViews.clear();
 }
-
-//void TreeItemObservers::append(shared_ptr<TabbedProjectView> v)
-//{
-//	mViews.push_back(v);
-//
-//}
 
 unsigned int TreeItemObservers::count()
 {
@@ -121,7 +143,6 @@ unsigned int TreeItemObservers::count()
 //Just deleting the view.. not the subject..
 bool TreeItemObservers::removeViewOnTabSheet(TTabSheet* ts)
 {
-    int nrOfViews = mViews.size();
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
@@ -129,10 +150,10 @@ bool TreeItemObservers::removeViewOnTabSheet(TTabSheet* ts)
         if(rpv && rpv->getTabSheet() == ts)
         {
             //Tell this observer to go away...
-            removeViewForSubject(rpv->getSubject());
+            return removeViewForSubject(rpv->getSubject());
         }
     }
-    return (nrOfViews > mViews.size()) ? true : false;
+    return false;
 }
 
 //Should not be needed..

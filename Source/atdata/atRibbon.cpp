@@ -17,7 +17,7 @@ mLongRibbonID("")
 Ribbon::~Ribbon()
 {}
 
-const string Ribbon::getTypeName() const
+string Ribbon::getTypeName() const
 {
     return "ribbon";
 }

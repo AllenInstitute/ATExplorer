@@ -20,7 +20,7 @@ class ATE_DATA Channel : public ExplorerObject
     public:
                                     Channel(const string& lbl, Session& s);
                                     ~Channel();
-        virtual const string        getTypeName() const;
+        virtual string         		getTypeName() const;
     	string                      getLabel() const {return mLabel;}
         bool                        operator==(const Channel& c) const;
 

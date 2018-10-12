@@ -22,6 +22,7 @@ class ATE_CORE RenderProject : public ATExplorerProject
 			    	                        RenderProject(const string& name, const string& owner, const string& project, const string& stack);
                                             RenderProject(const RenderProject& rp);
 		virtual    	                        ~RenderProject();
+        virtual string                      getTypeName() const;
         RenderProject&                      operator = (const RenderProject& rhs);
 
 		void							    init(const string& owner, const string& project, const string& stack);

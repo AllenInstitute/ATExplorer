@@ -22,7 +22,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
     public:
                         	                    ATData(const Path& basePath = Path("<not set>"));
 		virtual            	                    ~ATData();
-        virtual const string                    getTypeName() const;
+        virtual string                    		getTypeName() const;
         void                                    assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
 		virtual ATDataFileFormat                getFileFormat() = 0;
         Path                                    getBasePath() const;

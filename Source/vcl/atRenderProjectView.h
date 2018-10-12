@@ -19,7 +19,7 @@ class RenderProject;
 class PACKAGE RenderProjectView : public TabbedProjectView
 {
     public:
-                                            RenderProjectView(TPageControl& pc, RenderProject& rp, const string& imPath);
+                                            RenderProjectView(TPageControl& pc, RenderProject& rp, const string& imPath = gEmptyString);
         virtual                             ~RenderProjectView();
 
     protected:

@@ -15,7 +15,7 @@ mRibbon(r)
 Section::~Section()
 {}
 
-const string Section::getTypeName() const
+string Section::getTypeName() const
 {
     return "section";
 }

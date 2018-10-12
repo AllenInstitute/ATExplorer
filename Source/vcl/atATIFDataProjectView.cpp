@@ -17,6 +17,7 @@ TabbedProjectView(pc, p)
     mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(p, &mPC));
     mATIFDataProjectFrame->Parent =  mTabSheet.get();
     mATIFDataProjectFrame->Align = alClient;
+    mTabSheet->Caption = p.getProjectName().c_str();
 }
 
 ATIFDataProjectView::~ATIFDataProjectView()

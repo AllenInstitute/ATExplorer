@@ -14,7 +14,7 @@ using dsl::SubjectEvent;
 class ATExplorerProject;
 
 //VCL frames can't do multiple inheritance. This class is necessary, for "observing" reasons..
-//The view manages a VCL frame in descendants..
+//The view manages a VCL frame in descendants.
 class PACKAGE TabbedProjectView : public dsl::Observer
 {
     public:

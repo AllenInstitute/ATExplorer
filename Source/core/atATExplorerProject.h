@@ -46,6 +46,7 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
     public:
                                                 ATExplorerProject(const string& projectName = gEmptyString);
         virtual                                 ~ATExplorerProject();
+        virtual string                          getTypeName() const;
 
 		virtual bool 							isModified();
         virtual bool                            save(const string& fName = dsl::gEmptyString);
