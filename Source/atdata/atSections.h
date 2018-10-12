@@ -20,6 +20,7 @@ class ATE_DATA Sections : public ExplorerObject
     public:
                                                         Sections();
         virtual                                         ~Sections();
+	    virtual const string 	    				    getTypeName() const;
         int                                             count(){return mSections.size();}
         virtual void                                    clear();
         SectionSP                                       getFirstSection();

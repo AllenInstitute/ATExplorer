@@ -17,6 +17,11 @@ mLongRibbonID("")
 Ribbon::~Ribbon()
 {}
 
+const string Ribbon::getTypeName() const
+{
+    return "ribbon";
+}
+
 void Ribbon::removeSections()
 {
     Sections::clear();

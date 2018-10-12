@@ -15,6 +15,9 @@ class ATE_DATA Ribbon : public Sections
     public:
                                                 Ribbon(int id, const string& alias = "");
         virtual                                 ~Ribbon();
+		const string 							getTypeName() const;
+
+
         virtual void                            removeSections();
         void                                    assignLongRibbonID(const string& lid);
 

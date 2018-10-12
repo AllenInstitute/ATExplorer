@@ -15,6 +15,11 @@ mSession(s)
 Channel::~Channel()
 {}
 
+const string Channel::getTypeName() const
+{
+    return "channel";
+}
+
 bool Channel::operator==(const Channel& c) const
 {
     bool value = (mLabel == c.getLabel() && mSession == c.mSession) ? true : false;

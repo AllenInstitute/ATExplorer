@@ -2,7 +2,7 @@
 #include "atDummyProjectViewObserver.h"
 #include "atRenderProjectView.h"
 #include "dslLogger.h"
-#include "atProjectObservers.h"
+#include "atTreeItemObservers.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -11,13 +11,13 @@ namespace at
 
 using namespace dsl;
 
-DummyProjectViewObserver::DummyProjectViewObserver(ProjectObservers& o, RenderProjectView& rpv)
+DummyProjectViewObserver::DummyProjectViewObserver(TreeItemObservers& o, RenderProjectView& rpv)
 :
-Observer(rpv.getSubject()),
+//Observer(rpv.getSubject()),
 mHost(o),
 mRPV(rpv)
 {
-	observe(rpv.getSubject());
+//	observe(rpv.getSubject());
 }
 
 DummyProjectViewObserver::~DummyProjectViewObserver()

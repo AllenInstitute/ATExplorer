@@ -19,7 +19,6 @@ class ATE_DATA PopulateATDataThread : public dsl::Thread, public ExplorerObject
 {
 	public:
 							                PopulateATDataThread(ATData& d);
-//        void                                setData(ATData& d);
         void                                assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three);
 		virtual void                        run();
         void				                worker();

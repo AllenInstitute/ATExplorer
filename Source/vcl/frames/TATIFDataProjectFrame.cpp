@@ -26,7 +26,7 @@ static int frameNr(0);
 __fastcall TATIFDataProjectFrame::TATIFDataProjectFrame(ATIFDataProject& dp, TComponent* Owner)
 	: TFrame(Owner),
     mProject(dp),
-	mPopulateDataThread(dp)
+	mPopulateDataThread(dp.mATIFData)
 {
     this->Name = string("ATIFDataFrame_" +  dsl::toString(frameNr++)).c_str();
     populate();
@@ -54,7 +54,7 @@ void __fastcall TATIFDataProjectFrame::ScanDataBtnClick(TObject *Sender)
             //mProject.mATData = shared_ptr<ATIFData>( new ATIFData(mProject.getDataRootFolder()));
         }
 
-        mProject.reset();
+        mProject.mATIFData.reset();
 //        mPopulateDataThread.setData(mProject);
         mPopulateDataThread.assignCallBacks(onThreadEnter,onThreadProgress, onThreadExit);
         mPopulateDataThread.start(true);
@@ -64,7 +64,6 @@ void __fastcall TATIFDataProjectFrame::ScanDataBtnClick(TObject *Sender)
         mPopulateDataThread.stop();
     }
 }
-
 
 void TATIFDataProjectFrame::onThreadEnter(void* arg1, void* arg2)
 {

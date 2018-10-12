@@ -167,10 +167,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\atImageGrid.h</DependentOn>
             <BuildOrder>13</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\atProjectObservers.cpp">
-            <DependentOn>..\..\Source\vcl\atProjectObservers.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atProjectsTreeView.cpp">
             <DependentOn>..\..\Source\vcl\atProjectsTreeView.h</DependentOn>
             <BuildOrder>14</BuildOrder>
@@ -182,6 +178,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="..\..\Source\vcl\atTabbedProjectView.cpp">
             <DependentOn>..\..\Source\vcl\atTabbedProjectView.h</DependentOn>
             <BuildOrder>18</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\atTreeItemObservers.cpp">
+            <DependentOn>..\..\Source\vcl\atTreeItemObservers.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atUtilities.cpp">
             <DependentOn>..\..\Source\vcl\atUtilities.h</DependentOn>
@@ -251,10 +251,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

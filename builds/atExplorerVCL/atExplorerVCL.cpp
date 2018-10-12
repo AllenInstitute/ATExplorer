@@ -5,10 +5,10 @@ USEFORM("..\..\Source\vcl\forms\TCreateLocalVolumesForm.cpp", CreateLocalVolumes
 USEFORM("..\..\Source\vcl\frames\TCreateStackThreadFrame.cpp", CreateStackThreadFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TRenderProjectFrame.cpp", RenderProjectFrame); /* TFrame: File Type */
 USEFORM("P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp", SSHFrame); /* TFrame: File Type */
-USEFORM("..\..\Source\vcl\forms\TImageForm.cpp", ImageForm);
-USEFORM("..\..\Source\vcl\frames\TATIFDataProjectFrame.cpp", ATIFDataProjectFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TATProjectOptionsFrame.cpp", ATProjectOptionsFrame); /* TFrame: File Type */
+USEFORM("..\..\Source\vcl\forms\TImageForm.cpp", ImageForm);
 USEFORM("..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
+USEFORM("..\..\Source\vcl\frames\TATIFDataProjectFrame.cpp", ATIFDataProjectFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------

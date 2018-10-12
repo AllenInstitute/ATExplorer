@@ -138,11 +138,12 @@ Ribbons* ATData::getRibbons()
     return &mRibbons;
 }
 
+//!Don't have the user to say getRibbon(0)..
 RibbonSP ATData::getRibbon(int count)
 {
     if(count > 0 && count <= mRibbons.count())
     {
-    	return mRibbons[count];
+    	return mRibbons[count - 1];
     }
     return RibbonSP();
 }

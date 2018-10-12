@@ -1,6 +1,6 @@
-#ifndef atProjectObserversH
-#define atProjectObserversH
-#include "atATObject.h"
+#ifndef atTreeItemObserversH
+#define atTreeItemObserversH
+#include "atExplorerObject.h"
 #include "dslSubject.h"
 #include <vector>
 #include "dslSharedPointer.h"
@@ -24,21 +24,25 @@ class TabbedProjectView;
 typedef vector< shared_ptr<TabbedProjectView > > Views;
 
 //!Observer: this is not a great design. A views subject, if deleted, is not removed from the Views container.
-//!We need to make ProjectObservers an observer of the projects, too..
+//!We need to make ProjectObservers an observer of the TreeItemObjects , too..
 
-class PACKAGE ProjectObservers : public ATObject
+class PACKAGE TreeItemObservers : public dsl::Observer
 {
     public:
-                                            ProjectObservers();
-                                            ~ProjectObservers();
+                                            TreeItemObservers(TPageControl& pc);
+                                            ~TreeItemObservers();
+
+		bool 								createView(Subject* o);
         unsigned int                        count();
-		void 								append(shared_ptr<TabbedProjectView> v);
+//		void 								append(shared_ptr<TabbedProjectView> v);
         bool					            removeViewOnTabSheet(TTabSheet* s);
-        bool                                removeViewForProject(Project* p);
-        TTabSheet* 							getTabForProject(Project* p);
+        bool                                removeViewForSubject(Subject* p);
+        TTabSheet* 							getTabForSubject(Subject* p);
         void                                closeAll();
+		void 								update(Subject* s, SubjectEvent se);
 
     protected:
+        TPageControl&                       mMainPC;
         Views								mViews;
 };
 

@@ -25,6 +25,7 @@ class ATE_DATA Section : public ExplorerObject
     public:
                                                     Section(int id, const Ribbon& r);
         virtual                                     ~Section();
+        virtual const string                        getTypeName() const;
         int                                         id() const{return mID;}
         void                                        addTile(TileSP tile);
         TilesSP                                     getTiles(const ChannelSP& ch);

@@ -8,20 +8,32 @@
 namespace at
 {
 using namespace dsl;
-ATIFDataProjectView::ATIFDataProjectView(TPageControl* pc, ATIFDataProject& p)
+ATIFDataProjectView::ATIFDataProjectView(TPageControl& pc, ATIFDataProject& p)
 :
 TabbedProjectView(pc, p)
 {
-    mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(p, mPC));
+    this->mObserverTag = "ATIFDataProjectView";
+
+    mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(p, &mPC));
     mATIFDataProjectFrame->Parent =  mTabSheet.get();
     mATIFDataProjectFrame->Align = alClient;
 }
 
 ATIFDataProjectView::~ATIFDataProjectView()
 {
-    Log(lDebug3) << "Closing ATIFDataProjectView..";
+    Log(lInfo) << "Closing ATIFDataProjectView..";
 }
 
+//Views are managed by shared pointers so no need to call delete..
+void ATIFDataProjectView::update(Subject* theChangedSubject, SubjectEvent se)
+{
+    if(se == SubjectEvent::SubjectBeingDestroyed)
+    {
+        //Go away..
+        Log(lInfo) << "Subject being destroyed..";
+//        delete this;
+    }
+}
 
 }
 

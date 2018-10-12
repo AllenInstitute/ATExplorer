@@ -15,6 +15,11 @@ mRibbon(r)
 Section::~Section()
 {}
 
+const string Section::getTypeName() const
+{
+    return "section";
+}
+
 void Section::addTile(TileSP tile)
 {
     //Get Tiles container for the tiles channel. If it does not exists, create a new one

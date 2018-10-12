@@ -8,26 +8,21 @@
 namespace at
 {
 using namespace dsl;
-TabbedProjectView::TabbedProjectView(TPageControl* pc, ATExplorerProject& p)
+TabbedProjectView::TabbedProjectView(TPageControl& pc, Subject& p)
 :
 Observer(&p),
-mPC(pc),
-mATExplorerProject(p)
+mPC(pc)
 {
+    this->mObserverTag = "TabbedProjectView";
     this->observe(&p);
-    mTabSheet = unique_ptr<TTabSheet> (new TTabSheet(mPC));
-    mTabSheet->PageControl = mPC;
-    mTabSheet->Caption = p.getProjectName().c_str();
+    mTabSheet = unique_ptr<TTabSheet> (new TTabSheet(&mPC));
+    mTabSheet->PageControl = &mPC;
+    mTabSheet->Caption = p.getTypeName().c_str();
 }
 
 TabbedProjectView::~TabbedProjectView()
 {
     Log(lDebug3) << "Destroying a TabbedProjectView..";
-}
-
-const ATExplorerProject* TabbedProjectView::getProject()
-{
-    return &mATExplorerProject;
 }
 
 TTabSheet* TabbedProjectView::getTabSheet()

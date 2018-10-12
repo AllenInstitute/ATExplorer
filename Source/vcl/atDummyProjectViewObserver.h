@@ -17,26 +17,26 @@ using dsl::SubjectEvent;
 
 class RenderProjectView;
 class ATIFDataProjectView;
-class ProjectObservers;
+class TreeItemObservers;
 
 //!The DummyProjectViewObserver is a helper class to
-//the container holding project observers, ProjectObservers.
+//the container holding project observers, TreeItemObservers.
 //Its main purpose is to remove items from the container as they are
 //destroyed. It does that by being itself an observer and thus
 //subscribes to subject (projects) events
 
 //Seems like code smell...??
-class PACKAGE DummyProjectViewObserver : public dsl::Observer
+class PACKAGE DummyProjectViewObserver //: public dsl::Observer
 {
     public:
-							        DummyProjectViewObserver(ProjectObservers& o, RenderProjectView& rpv);
+							        DummyProjectViewObserver(TreeItemObservers& o, RenderProjectView& rpv);
 							        ~DummyProjectViewObserver();
 
     	virtual void                update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
         RenderProjectView*          getView();
 
     private:
-        ProjectObservers&           mHost;
+        TreeItemObservers&           mHost;
         RenderProjectView&          mRPV;
 };
 

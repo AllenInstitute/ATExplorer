@@ -15,14 +15,13 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.ToolWin.hpp>
 #include "dslTLogMemoFrame.h"
-//#include "atProjectManager.h"
 #include "dslTRegistryForm.h"
 #include "atProjectsTreeView.h"
 #include "dslObserver.h"
 #include <memory>
 #include "atRenderProjectView.h"
 #include "dslSharedPointer.h"
-#include "atProjectObservers.h"
+#include "atTreeItemObservers.h"
 //---------------------------------------------------------------------------
 
 //typedef void __fastcall (__closure *sshCallback)(const string&);
@@ -30,7 +29,7 @@
 using at::ProjectsTreeView;
 using at::ATExplorerProject;
 using at::RenderProjectView;
-using at::ProjectObservers;
+using at::TreeItemObservers;
 using dsl::Project;
 using dsl::Observer;
 using std::vector;
@@ -147,16 +146,12 @@ __published:	// IDE-managed Components
 	private:
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
-        bool        									createProjectView(Project* p);
+        TreeItemObservers                               mTreeItemObservers;
 	    ProjectsTreeView                                mPTreeView;
-
-        //Should really be unique ptrs
-        //make observers, an observer too
-        ProjectObservers                                mProjectObservers;
 
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);
-		void										    selectTabForProject(Project* p);
+		void										    selectTabForTreeItem(Project* p);
 	public:
 		__fastcall 			  							TMainForm(TComponent* Owner);
 		__fastcall 			  							~TMainForm();

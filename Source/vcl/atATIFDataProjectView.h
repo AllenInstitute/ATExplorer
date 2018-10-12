@@ -20,8 +20,9 @@ class ATIFDataProject;
 class PACKAGE ATIFDataProjectView : public TabbedProjectView
 {
     public:
-                                            ATIFDataProjectView(TPageControl* pc, ATIFDataProject& rp);
+                                            ATIFDataProjectView(TPageControl& pc, ATIFDataProject& rp);
         virtual            		            ~ATIFDataProjectView();
+        virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
 
     protected:
         unique_ptr<TATIFDataProjectFrame>  	mATIFDataProjectFrame;

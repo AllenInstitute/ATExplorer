@@ -22,9 +22,9 @@ void __fastcall TMainForm::ShutDownTimerTimer(TObject *Sender)
 	ShutDownTimer->Enabled = false;
 
     //Close project views
-    if(mProjectObservers.count())
+    if(mTreeItemObservers.count())
     {
-        mProjectObservers.closeAll();
+        mTreeItemObservers.closeAll();
     }
 
     //Check projects for saving etc..
@@ -81,7 +81,7 @@ void __fastcall TMainForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 	Log(lInfo) << "Closing down....";
 	//Check if we can close.. abort all threads..
 
-    if(mProjectObservers.count())
+    if(mTreeItemObservers.count())
     {
 		CanClose = false;
     }

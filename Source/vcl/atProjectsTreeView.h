@@ -4,6 +4,7 @@
 #include <Vcl.Controls.hpp>
 #include "dslProjects.h"
 #include "dslObserver.h"
+#include "atTreeItemObservers.h"
 //---------------------------------------------------------------------------
 namespace at
 {
@@ -15,21 +16,29 @@ using dsl::SubjectEvent;
 class ATExplorerProject;
 class RenderProject;
 class ATIFDataProject;
+class Ribbon;
+class Section;
+class Session;
+class Channel;
 
 //!This class manages Projects viewable on a TreeView
 //!The ProjectsTreeView is an observer of projects, that are 'subjects'
 class PACKAGE ProjectsTreeView : public dsl::Observer, public ATObject
 {
     public:
-                                        ProjectsTreeView(TTreeView* tv);
+                                        ProjectsTreeView(TTreeView& tv, TreeItemObservers& v);
                                         ~ProjectsTreeView();
+
+        void                            handleNodeClick(TTreeNode* node, bool isDoubleClick);
+
         void                            updateRepresentation(Subject* s);
         Project*                       	getCurrent();
         Project*             			getFirst();
         Project*             			getNext();
 
                                         //!start observation of the project..
-        TTreeNode*						addProjectToView(Project* project);
+        TTreeNode*						addProjectToTree(Project* project);
+        TTreeNode* 						addChildProjectToTree(Project* parent, Project* child);
 
         virtual void                    update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
                                         //!This function returns the root project
@@ -55,17 +64,27 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ATObject
 
         TTreeNode*                      getItemForProject(Project* p);
         void                            createView(Project* p);
-        TTreeNode* 						addChildProjectToView(Project* parent, Project* child);
         void                            expandView(Project* p);
-        TTreeView*                      getTreeView();
+        const TTreeView*                getTreeView();
 
     protected:
-                                        //The View
-        TTreeView*                      mTree;
+                                        //The Tree View
+        TTreeView&                      mTree;
+        TreeItemObservers&              mViews;
+
+        bool        					createRenderProjectView(RenderProject* p);
+        bool        					createATIFDataProjectView(ATIFDataProject* p);
 
                                         //The model..
                                         //This container (ProjectsTreeView) is responsible to dispose of any projects
         Projects                        mProjects;
+		bool							handleClick(RenderProject* o, bool isDoubleClick);
+		bool							handleClick(ATIFDataProject* o, bool isDoubleClick);
+		bool 							handleClick(ATExplorerProject* o, bool isDoubleClick);
+		bool							handleClick(Ribbon*  o, bool isDoubleClick);
+		bool							handleClick(Section* o, bool isDoubleClick);
+		bool							handleClick(Session* o, bool isDoubleClick);
+		bool							handleClick(Channel* o, bool isDoubleClick);
 };
 
 }

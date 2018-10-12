@@ -28,7 +28,7 @@ void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
     ATExplorerProject* p = (ATExplorerProject*) Node->Data;
     if(!p)
     {
-		mPTreeView.getTreeView()->ReadOnly = true;
+		ProjectTView->ReadOnly = true;
         return;
     }
 
@@ -51,7 +51,7 @@ void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
     p->setModified();
     SaveProjectA->Update();
 
-	mPTreeView.getTreeView()->ReadOnly = true;
+	ProjectTView->ReadOnly = true;
 }
 
 void __fastcall TMainForm::EditViewNodeExecute(TObject *Sender)
@@ -107,7 +107,7 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 {
 	ATExplorerProject* p = mPTreeView.createNewATExplorerProject();
-    mPTreeView.addProjectToView(p);
+    mPTreeView.addProjectToTree(p);
 	ProjectTView->SetFocus();
     mPTreeView.selectProject(p);
 }

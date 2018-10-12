@@ -21,22 +21,13 @@ onProgress(nullptr),
 onExit(nullptr)
 {}
 
-//void PopulateATDataThread::setData(ATDataSP d)
-//{
-//	mTheData = d;
-//}
-
 void PopulateATDataThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
 {
     onEnter 	= one;
     onProgress 	= two;
     onExit 		= three;
-//    if(mTheData)
-    {
-        mTheData.assignOnPopulateCallbacks(one, two, three);
-    }
+    mTheData.assignOnPopulateCallbacks(one, two, three);
 }
-
 
 void PopulateATDataThread::run()
 {
@@ -53,30 +44,23 @@ void PopulateATDataThread::worker()
         onEnter(&mTheData, NULL);
     }
 
-//    if(!mTheData)
-//    {
-//        Log(lError) << "Tried to populate NULL data object in thread..";
-//    }
-//    else
+    Log(lDebug4) << "Started populating ATData from root folder: " << mTheData.getBasePath().toString();
+    try
     {
-        Log(lDebug4) << "Started populating ATData from root folder: " << mTheData.getBasePath().toString();
-        try
-        {
-            //!Populating the data object causes a scan of folders and files
-            //!representing the data. No image data is loaded
-            mTheData.populate(mIsTimeToDie);
+        //!Populating the data object causes a scan of folders and files
+        //!representing the data. No image data is loaded
+        mTheData.populate(mIsTimeToDie);
 
-            //Print some information about ribbons and sections
-            Log(lInfo) << "This is a "<<mTheData.getNumberOfRibbons()<<" ribbons dataset";
+        //Print some information about ribbons and sections
+        Log(lInfo) << "This is a "<<mTheData.getNumberOfRibbons()<<" ribbons dataset";
 
-        }
-        catch(const FileSystemException& e)
-        {
-            Log(lError) << "Exception: " << e.what();
-        }
-        catch(...)
-        {
-        }
+    }
+    catch(const FileSystemException& e)
+    {
+        Log(lError) << "Exception: " << e.what();
+    }
+    catch(...)
+    {
     }
 
     //Finish line...

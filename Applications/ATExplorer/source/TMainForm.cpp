@@ -28,8 +28,10 @@ ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
-    mIsStyleMenuPopulated(false),
-     mPTreeView(ProjectTView)
+     mIsStyleMenuPopulated(false),
+     mTreeItemObservers(*MainPC),
+     mPTreeView(*ProjectTView, mTreeItemObservers)
+
 {
     setupAndReadIniParameters();
     Application->ShowHint = true;
@@ -38,7 +40,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 
 __fastcall TMainForm::~TMainForm()
 {
-//	mProjectObservers.clear();
+//	mTreeItemObservers.clear();
    	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
@@ -64,27 +66,15 @@ void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
 void __fastcall TMainForm::ProjectTViewClick(TObject *Sender)
 {
 	//Get current node from the treeview
-	TTreeNode* item = ProjectTView->Selected;
-    if(!item)
-    {
-        return;
-    }
-
-    //Figure out what type of item the user clicked
-    ExplorerObject* eo = (ExplorerObject*) item->Data;
-
-    Log(lInfo) << "ItemType: " << eo->getTypeName();
-
-    Project* p = (Project*) item->Data;
-    if(p)
-    {
-        Log(lDebug) << "User clicked item in project: " << p->getProjectName() << "and item caption: " << stdstr(item->Text);
-    }
-
-	//mPTreeView.selectProject(p);
-//    mPTreeView.selectItem(item);
+	mPTreeView.handleNodeClick(ProjectTView->Selected, false);
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::ProjectTViewDblClick(TObject *Sender)
+{
+	//Get current node from the treeview
+    mPTreeView.handleNodeClick(ProjectTView->Selected, true);
+}
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
@@ -105,11 +95,11 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
             }
         }
 
-        //Make mProjectObservers an observer too, and the following code becomes reduntant..
-        for(int i = 0; i < parent->getNumberOfChilds(); i++)
-        {
-	        mProjectObservers.removeViewForProject(parent->getChild(i));
-        }
+//        //Make mTreeItemObservers an observer too, and the following code becomes reduntant..
+//        for(int i = 0; i < parent->getNumberOfChilds(); i++)
+//        {
+//	        mTreeItemObservers.removeViewForSubject(parent->getChild(i));
+//        }
 
 	    gAU.LastOpenedProject = mPTreeView.closeProject(parent);
     }
@@ -117,7 +107,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 
 void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
 {
-   	CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
+   	//CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
@@ -136,8 +126,8 @@ void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
 {
-    Project* p = mPTreeView.getRootForSelectedProject();
-	SaveProjectA->Enabled = true;//(p && p->isModified()) ? true : false;
+//    Project* p = mPTreeView.getRootForSelectedProject();
+//	SaveProjectA->Enabled = true;//(p && p->isModified()) ? true : false;
 }
 
 //---------------------------------------------------------------------------
@@ -199,29 +189,7 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
     }
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::ProjectTViewDblClick(TObject *Sender)
-{
-	//Get current node from the treeview
-	TTreeNode* item = ProjectTView->Selected;
-    if(!item)
-    {
-        return;
-    }
-
-    Project* p = (Project*) item->Data;
-    if(p)
-    {
-        Log(lDebug) << "User double clicked: " << p->getProjectName();
-        createProjectView(p);
-    }
-	mPTreeView.selectProject(p);
-
-    //Select the page with projectView
-    selectTabForProject(p);
-}
-
-void TMainForm::selectTabForProject(Project* p)
+void TMainForm::selectTabForTreeItem(Project* p)
 {
     RenderProject* rp = dynamic_cast<RenderProject*>(p);
     if(!rp)
@@ -240,54 +208,6 @@ void TMainForm::selectTabForProject(Project* p)
     }
 }
 
-bool TMainForm::createProjectView(Project* p)
-{
-    RenderProject* rp = dynamic_cast<RenderProject*>(p);
-	ATIFDataProject* ifData = dynamic_cast<ATIFDataProject*>(p);
-    //Check what kind of project we are to create a view for
-    if(rp)
-    {
-        //Check if there is already a tab with this view.. if so, switch to it
-        TTabSheet* sh = mProjectObservers.getTabForProject(rp);
-        if(sh)
-        {
-            MainPC->ActivePage = sh;
-            return false;
-        }
-
-        //Creat a renderproject view
-        Log(lInfo) << "Showing a Render ProjectView";
-
-        //Create a new tab page
-        //Views deletes themselves when subjects dies
-        shared_ptr<RenderProjectView> obs(new RenderProjectView(MainPC,  *rp, gAU.ImageMagickPath.getValue()));
-        mProjectObservers.append(obs);
-
-    }
-    else if(ifData)
-    {
-        //Check if there is already a tab with this view.. if so, switch to it
-        TTabSheet* sh = mProjectObservers.getTabForProject(ifData);
-        if(sh)
-        {
-            MainPC->ActivePage = sh;
-            return false;
-        }
-
-        //Creat a renderproject view
-        Log(lInfo) << "Creating a ATIF Data Project View";
-
-        //Create a new tab page
-        //Views deletes themselves when subjects dies
-        shared_ptr<ATIFDataProjectView> obs (new ATIFDataProjectView(MainPC, *ifData));
-        mProjectObservers.append(obs);
-    }
-    else
-    {
-        Log(lInfo) << "There is no view for this type of object";
-    }
-    return true;
-}
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
@@ -307,7 +227,7 @@ void __fastcall TMainForm::Close3Click(TObject *Sender)
     TTabSheet* ts = MainPC->ActivePage;
     if(ts)
     {
-        mProjectObservers.removeViewOnTabSheet(ts);
+        mTreeItemObservers.removeViewOnTabSheet(ts);
     }
 }
 
@@ -324,9 +244,9 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
     Log(lInfo) << "Removing subProject: " << p->getProjectName();
 
     //Close any views
-    p->notifyObservers(SubjectBeingDestroyed);
+//    p->notifyObservers(SubjectBeingDestroyed);
     mPTreeView.removeProject(p);
-    mProjectObservers.removeViewForProject(p);
+//    mTreeItemObservers.removeViewForProject(p);
 
     //Delete project here..
     delete p;
@@ -335,7 +255,7 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::RenameClick(TObject *Sender)
 {
-	mPTreeView.getTreeView()->ReadOnly = false;
+	ProjectTView->ReadOnly = false;
 	TTreeNode* n = mPTreeView.getSelectedNode();
     n->EditText();
 }

@@ -16,6 +16,11 @@ SectionSP Sections::at(unsigned int i)
     return mSections[i];
 }
 
+const string Sections::getTypeName() const
+{
+    return "sections";
+}
+
 void Sections::clear()
 {
 	mSections.clear();

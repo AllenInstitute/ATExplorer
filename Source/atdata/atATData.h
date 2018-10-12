@@ -17,10 +17,10 @@ namespace at
 typedef boost::function<void(void*, void*)> ATDataPopulateCallback;
 
 //!The ATData class abstracts ArrayTomography data
-class ATE_DATA ATData : public ExplorerObject
+class ATE_DATA ATData : virtual public ExplorerObject
 {
     public:
-                        	                    ATData(const Path& basePath);
+                        	                    ATData(const Path& basePath = Path("<not set>"));
 		virtual            	                    ~ATData();
         virtual const string                    getTypeName() const;
         void                                    assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
@@ -41,6 +41,8 @@ class ATE_DATA ATData : public ExplorerObject
         virtual bool                            validate() = 0;
         int                                     getNumberOfRibbons();
         Ribbons*                                getRibbons();
+
+                                                //!Start at 1(!)
         RibbonSP     	                        getRibbon(int count);
         RibbonSP     	                        getFirstRibbon();
         RibbonSP     	                        getNextRibbon();

@@ -15,7 +15,7 @@ using dsl::gEmptyString;
 using dsl::StringList;
 
 typedef shared_ptr<ATData> ATDataSP;
-class ATE_CORE ATIFDataProject : public ATExplorerProject, public ATIFData
+class ATE_CORE ATIFDataProject : public ATExplorerProject
 {
 	public:                                 //!Simplify ctors, too many
         	    	                        ATIFDataProject(const string& pName, const string& dataRootFolder);
@@ -31,8 +31,8 @@ class ATE_CORE ATIFDataProject : public ATExplorerProject, public ATIFData
         virtual dsl::XMLElement*            addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* docRoot);
 		virtual bool 					    loadFromXML(dsl::XMLNode* node);
 
-//                                            //Leave this public for convenience (?), or write handlers..
-//        shared_ptr<ATData>	                mATData;
+                                            //Leave this public for convenience (?), or write handlers..
+        ATIFData   			                mATIFData;
 
 };
 
