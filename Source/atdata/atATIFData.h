@@ -13,7 +13,6 @@ namespace at
 class ATIFData;
 typedef shared_ptr<ATIFData> ATIFDataSP;
 
-
 class ATE_DATA ATIFData : public ATData
 {
     public:

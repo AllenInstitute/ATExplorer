@@ -22,7 +22,7 @@ mStopPopulation(NULL)
 ATData::~ATData()
 {}
 
-const string ATData::getTypeName() const
+string ATData::getTypeName() const
 {
     return "aTData";
 }

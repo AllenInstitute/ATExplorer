@@ -68,9 +68,8 @@ __published:	// IDE-managed Components
 	TMenuItem *ReopenMenu;
 	TMenuItem *N3;
 	TTreeView *ProjectTView;
-	TPopupMenu *ProjTreeViewPopup;
+	TPopupMenu *ATIFDataPopup;
 	TAction *AddRenderProject;
-	TMenuItem *AddRenderProject1;
 	TMenuItem *Close2;
 	TPanel *MainPanel;
 	TAction *EditViewNode;
@@ -103,7 +102,20 @@ __published:	// IDE-managed Components
 	TAction *Action1;
 	TAction *OpenProjectOptionsA;
 	TAction *AddATIFDataAction;
-	TMenuItem *AddRenderProject2;
+	TPopupMenu *RenderProjectPopup;
+	TMenuItem *MenuItem1;
+	TMenuItem *MenuItem4;
+	TMenuItem *MenuItem5;
+	TMenuItem *MenuItem6;
+	TPopupMenu *ExplorerProjectPopup;
+	TMenuItem *MenuItem2;
+	TMenuItem *MenuItem3;
+	TMenuItem *MenuItem7;
+	TMenuItem *AddRenderProject1;
+	TMenuItem *AddATIFData1;
+	TAction *OpenViewA;
+	TMenuItem *CloseProject1;
+	TMenuItem *Open3;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -132,7 +144,7 @@ __published:	// IDE-managed Components
 	void __fastcall ToggleBottomPanelAExecute(TObject *Sender);
 	void __fastcall ToggleBottomPanelAUpdate(TObject *Sender);
 	void __fastcall OpenSettingsAExecute(TObject *Sender);
-	void __fastcall ProjTreeViewPopupPopup(TObject *Sender);
+	void __fastcall ATIFDataPopupPopup(TObject *Sender);
 	void __fastcall ProjectTViewDblClick(TObject *Sender);
 	void __fastcall MainPCContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
 	void __fastcall Close3Click(TObject *Sender);
@@ -140,6 +152,7 @@ __published:	// IDE-managed Components
 	void __fastcall RenameClick(TObject *Sender);
 	void __fastcall OpenProjectOptionsAExecute(TObject *Sender);
 	void __fastcall AddATIFDataActionExecute(TObject *Sender);
+	void __fastcall OpenViewAExecute(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;

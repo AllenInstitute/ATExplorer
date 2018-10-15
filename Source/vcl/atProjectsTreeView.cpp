@@ -136,13 +136,11 @@ bool ProjectsTreeView::handleClick(ATIFDataProject* p, bool isDoubleClick)
     {
     	TabbedProjectView* view = mViews.createView(p);
 		//Select the page with projectView
-	    mViews.selectTabWithView(view);
+	    return mViews.selectTabWithView(view);
     }
 
-//	selectProject(p);
     return true;
 }
-
 
 bool ProjectsTreeView::handleClick(RenderProject* o, bool isDoubleClick)
 {
@@ -154,6 +152,7 @@ bool ProjectsTreeView::handleClick(RenderProject* o, bool isDoubleClick)
     if(isDoubleClick)
     {
     	TabbedProjectView* view = mViews.createView(o);
+
 		//Select the page with projectView
 	    return mViews.selectTabWithView(view);
     }
@@ -211,7 +210,7 @@ void ProjectsTreeView::updateRepresentation(Subject* s)
         {
             Log(lInfo) << "Updating tree for project: "<< atIFDatap->getProjectName();
             Sessions* sessions = atIFDatap->mATIFData.getSessions();
-            TTreeNode* parent_node (getItemForProject(atIFDatap));
+            TTreeNode* parent_node (getTreeNodeForProject(atIFDatap));
 
             if(parent_node)
             {
@@ -222,7 +221,7 @@ void ProjectsTreeView::updateRepresentation(Subject* s)
             {
                 SessionSP session = sessions->getSession(i);
                 //add session as child node to parent
-                TTreeNode* parent_node (getItemForProject(atIFDatap));
+                TTreeNode* parent_node (getTreeNodeForProject(atIFDatap));
                 TTreeNode* session_node = mTree.Items->AddChildObject(parent_node, "", (void*) session.get());
                 session_node->EditText();
                 session_node->Text = session->getLabel().c_str();
@@ -288,7 +287,7 @@ TTreeNode* ProjectsTreeView::addProjectToTree(Project* project)
 TTreeNode* ProjectsTreeView::addChildProjectToTree(Project* parent, Project* child)
 {
     //Get node for the parent
-	TTreeNode* parent_node (getItemForProject(parent));
+	TTreeNode* parent_node (getTreeNodeForProject(parent));
     if(!parent_node)
     {
         return NULL;
@@ -306,7 +305,7 @@ TTreeNode* ProjectsTreeView::addChildProjectToTree(Project* parent, Project* chi
 bool ProjectsTreeView::selectProject(Project* p)
 {
 	mProjects.selectProject(p);
-	TTreeNode* n (getItemForProject(p));
+	TTreeNode* n (getTreeNodeForProject(p));
     if(n)
     {
         n->Selected = true;
@@ -320,7 +319,7 @@ TTreeNode* ProjectsTreeView::getSelectedNode()
 	return mTree.Selected;
 }
 
-TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
+TTreeNode* ProjectsTreeView::getTreeNodeForProject(Project* p)
 {
     TTreeNode* item = mTree.Items->GetFirstNode();
 
@@ -340,17 +339,23 @@ TTreeNode* ProjectsTreeView::getItemForProject(Project* p)
     return nullptr;
 }
 
-void ProjectsTreeView::createView(Project* _p)
+
+TabbedProjectView* ProjectsTreeView::createTabbedView(Project* p)
+{
+
+}
+
+void ProjectsTreeView::createTreeViewNodes(Project* _p)
 {
     ATExplorerProject* p (dynamic_cast<ATExplorerProject*>(_p));
 
     if(!p)
     {
-    	Log(lWarning) << "Bad project type passed to updateView function";
+    	Log(lWarning) << "Bad project type passed to createView function";
         return;
     }
 
-	TTreeNode* root_node (getItemForProject(p));
+	TTreeNode* root_node (getTreeNodeForProject(p));
 
     if(!root_node)
     {
@@ -364,7 +369,7 @@ void ProjectsTreeView::createView(Project* _p)
         for(int i = 0; i < p->getNumberOfChilds(); i++)
         {
             Project* child = p->getChild(i);
-            if(!getItemForProject(child))
+            if(!getTreeNodeForProject(child))
             {
                 addChildProjectToTree(p, child);
             }
@@ -374,7 +379,7 @@ void ProjectsTreeView::createView(Project* _p)
 
 void ProjectsTreeView::expandView(Project* p)
 {
-    TTreeNode* n = getItemForProject(p);
+    TTreeNode* n = getTreeNodeForProject(p);
     if(n)
     {
     	n->Expand(true);
@@ -388,7 +393,7 @@ void ProjectsTreeView::expandView(Project* p)
 string ProjectsTreeView::closeProject(Project* p)
 {
     string pFile = joinPath(p->getFileFolder(), p->getFileName());
-    TTreeNode* n = getItemForProject(p);
+    TTreeNode* n = getTreeNodeForProject(p);
     if(n)
     {
     	n->DeleteChildren();
@@ -402,7 +407,7 @@ string ProjectsTreeView::closeProject(Project* p)
     return pFile;
 }
 
-bool ProjectsTreeView::removeProject(Project* p)
+bool ProjectsTreeView::removeSubProject(Project* p)
 {
     Project* parent = p->getParent();
 
@@ -413,7 +418,7 @@ bool ProjectsTreeView::removeProject(Project* p)
 
     parent->removeChild(p);
 
-    TTreeNode* n = getItemForProject(p);
+    TTreeNode* n = getTreeNodeForProject(p);
     if(n)
     {
     	n->DeleteChildren();
@@ -488,7 +493,7 @@ Project* ProjectsTreeView::getParentForSelectedProject()
 	return nullptr;
 }
 
-TTreeNode* ProjectsTreeView::addRenderProjectToView(ATExplorerProject* parent, RenderProject* rp)
+TTreeNode* ProjectsTreeView::addProjectToTreeView(ATExplorerProject* parent, Project* project)
 {
     if(!parent)
     {
@@ -496,30 +501,30 @@ TTreeNode* ProjectsTreeView::addRenderProjectToView(ATExplorerProject* parent, R
         return nullptr;
     }
 
-    TTreeNode* parentNode = getItemForProject(parent);
-	TTreeNode* n = mTree.Items->AddChildObject(parentNode, "", (void*) rp);
-    n->Text = rp->getProjectName().c_str();
+    TTreeNode* parentNode = getTreeNodeForProject(parent);
+	TTreeNode* n = mTree.Items->AddChildObject(parentNode, "", (void*) project);
+    n->Text = project->getProjectName().c_str();
 	mTree.Items->GetFirstNode()->Expand(true);
     mTree.Select(n);
     return n;
 }
 
-TTreeNode* ProjectsTreeView::addATIFDataProjectToView(ATExplorerProject* parent, ATIFDataProject* rp)
-{
-    if(!parent)
-    {
-    	Log(lError) <<"Parent is NULL";
-        return nullptr;
-    }
-
-    TTreeNode* parentNode = getItemForProject(parent);
-	TTreeNode* n = mTree.Items->AddChildObject(parentNode, "", (void*) rp);
-    n->Text = rp->getProjectName().c_str();
-	mTree.Items->GetFirstNode()->Expand(true);
-    mTree.Select(n);
-    return n;
-}
-
+//TTreeNode* ProjectsTreeView::addATIFDataProjectToTreeView(ATExplorerProject* parent, ATIFDataProject* rp)
+//{
+//    if(!parent)
+//    {
+//    	Log(lError) <<"Parent is NULL";
+//        return nullptr;
+//    }
+//
+//    TTreeNode* parentNode = getTreeNodeForProject(parent);
+//	TTreeNode* n = mTree.Items->AddChildObject(parentNode, "", (void*) rp);
+//    n->Text = rp->getProjectName().c_str();
+//	mTree.Items->GetFirstNode()->Expand(true);
+//    mTree.Select(n);
+//    return n;
+//}
+//
 void ProjectsTreeView::selectLast()
 {
 //	TTreeNode* n = mTree.Items->AddChildObject(vcNode, "", (void*) rp);

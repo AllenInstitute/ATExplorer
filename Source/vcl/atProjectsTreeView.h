@@ -31,6 +31,7 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
 
         bool                            handleNodeClick(TTreeNode* node, bool isDoubleClick);
 
+                                        //!The update representation updates a subjects rep
         void                            updateRepresentation(Subject* s);
         Project*                       	getCurrent();
         Project*             			getFirst();
@@ -55,15 +56,18 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
 
         ATExplorerProject*			   	createNewATExplorerProject();
         void                            selectLast();
-        TTreeNode*						addRenderProjectToView(ATExplorerProject* vcNode, RenderProject* rp);
-        TTreeNode*						addATIFDataProjectToView(ATExplorerProject* vcNode, ATIFDataProject* rp);
+        TTreeNode*						addProjectToTreeView(ATExplorerProject* vcNode, Project* rp);
+//        TTreeNode*						addATIFDataProjectToTreeView(ATExplorerProject* vcNode, ATIFDataProject* rp);
         int                             mProjectCount();
         bool                            selectProject(Project* p);
         string                          closeProject(Project* p);
-        bool	                        removeProject(Project* p);
+        bool	                        removeSubProject(Project* p);
 
-        TTreeNode*                      getItemForProject(Project* p);
-        void                            createView(Project* p);
+        TTreeNode*                      getTreeNodeForProject(Project* p);
+
+        void                            createTreeViewNodes(Project* p);
+
+        TabbedProjectView*              createTabbedView(Project* p);
         void                            expandView(Project* p);
         const TTreeView*                getTreeView();
 

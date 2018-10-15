@@ -19,21 +19,20 @@ class ATE_CORE ATIFDataProject : public ATExplorerProject
 {
 	public:                                 //!Simplify ctors, too many
         	    	                        ATIFDataProject(const string& pName, const string& dataRootFolder);
-//                                            ATIFDataProject(const ATIFDataProject& rp);
 		virtual    	                        ~ATIFDataProject();
-//        ATIFDataProject&                    operator = (const ATIFDataProject& rhs);
+		//                                            ATIFDataProject(const ATIFDataProject& rp);
+        //        ATIFDataProject&                    operator = (const ATIFDataProject& rhs);
 
 		void 								setDataRootFolder(const string& rFolder);
 		string 								getDataRootFolder() const;
 
-        								    //!ProjectManagement
+        								    //!ProjectManagement (xml)
 		virtual bool 	   	                write();
         virtual dsl::XMLElement*            addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* docRoot);
 		virtual bool 					    loadFromXML(dsl::XMLNode* node);
 
                                             //Leave this public for convenience (?), or write handlers..
         ATIFData   			                mATIFData;
-
 };
 
 }

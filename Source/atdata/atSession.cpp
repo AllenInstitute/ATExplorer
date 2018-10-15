@@ -12,7 +12,7 @@ mLabel(lbl)
 Session::~Session()
 {}
 
-const string Session::getTypeName() const
+string Session::getTypeName() const
 {
     return "session";
 }

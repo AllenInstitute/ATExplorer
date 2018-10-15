@@ -64,45 +64,6 @@ void __fastcall TMainForm::EditViewNodeExecute(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
-{
-    TTreeNode* atNode = ProjectTView->Selected;
-	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
-
-    if(parent)
-    {
-        //If we can cast this to a RenderProject, add to parent
-        if(dynamic_cast<RenderProject*>(parent))
-        {
-            parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
-        }
-        //Open dialog to capture render parameters
-		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
-
-        if(f->ShowModal() == mrCancel)
-        {
-            return;
-        }
-
-        RenderServiceParameters rs(f->getRenderService());
-
-		//Create a render project and associate with current ATE project
-        //Use shared pointer later on
-		RenderProject* rp (new RenderProject("", f->getRenderOwner(), f->getRenderProject(), ""));
-        rp->setRenderServiceParameters(rs);
-        rp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
-
-	    //Check how many renderproject childs
-        int nrOfChilds = parent->getNumberOfChilds();
-
-        rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
-    	parent->addChild(rp);
-    	parent->setModified();
-		mPTreeView.addRenderProjectToView(parent, rp);
-    }
-}
-
-//---------------------------------------------------------------------------
 void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 {
 	ATExplorerProject* p = mPTreeView.createNewATExplorerProject();
@@ -121,7 +82,7 @@ void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
     {
     	Log(lInfo) << "Loaded project file: "<<f;
         p->open();
-        mPTreeView.createView(p);
+        mPTreeView.createTreeViewNodes(p);
         mPTreeView.expandView(p);
     }
 }

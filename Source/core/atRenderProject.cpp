@@ -109,7 +109,7 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
 
 string RenderProject::getTypeName() const
 {
-    return renderProject;
+    return "renderProject";
 }
 
 bool RenderProject::setRenderServiceParameters(const RenderServiceParameters& rsp)

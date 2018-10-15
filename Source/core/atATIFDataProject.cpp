@@ -19,18 +19,17 @@ mATIFData(rootFolder)
     mTag = pName;
 }
 
+ATIFDataProject::~ATIFDataProject()
+{}
+
 //ATIFDataProject::ATIFDataProject(const ATIFDataProject& rp)
 //:
 //ATExplorerProject(rp),
 ////mDataRootFolder(rp.mDataRootFolder)
 //{}
 
-ATIFDataProject::~ATIFDataProject()
-{
 
-}
-
-////Shallow copy..
+//Shallow copy..
 //ATIFDataProject& ATIFDataProject::operator=(const ATIFDataProject& rhs)
 //{
 //	if(this != &rhs)
@@ -41,26 +40,13 @@ ATIFDataProject::~ATIFDataProject()
 
 void ATIFDataProject::setDataRootFolder(const string& rFolder)
 {
-//    mDataRootFolder = rFolder;
-//	if(mATData)
-    {
-		mATIFData.setBasePath(rFolder);
-		//setBasePath(rFolder);
-    }
+	mATIFData.setBasePath(rFolder);
 }
 
 string ATIFDataProject::getDataRootFolder() const
 {
-//    if(mATData)
-//    {
-//    	return mATData->getBasePath().toString();
-        string path = 	mATIFData.getBasePath().toString();
-        return path;
-//    }
-//    else
-//    {
-//        return "";
-//    }
+	string path = 	mATIFData.getBasePath().toString();
+    return path;
 }
 
 XMLElement* ATIFDataProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLElement* parentNode)
@@ -77,7 +63,6 @@ XMLElement* ATIFDataProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc,
 bool ATIFDataProject::loadFromXML(dsl::XMLNode* node)
 {
     XMLElement* e(nullptr);
-//	mATData = ATIFDataSP(new ATIFData(string("")));
     e = node->FirstChildElement("datarootfolder");
     if(e)
     {

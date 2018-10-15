@@ -13,6 +13,7 @@
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{tikz}
+\usepackage{titletoc}
 
 \graphicspath{{figures/}} %Setting the graphicspath
 \begin{document}
@@ -81,7 +82,45 @@
 \include{chapter_2}
 
 \begin{appendices}
+
+\startcontents[chapter]
+\printcontents[chapter]{l}{0}{\setcounter{tocdepth}{1}}
+
+\chapter{Setup a RenderHost and Python}
+\begin{figure}[h]
+\centering\includegraphics[scale=0.50]{ATDeployable_1}
+\caption{A deployed system}
+\end{figure}
+
+\chapter{Python Enabled API's}
+
 \chapter{Software Design and Software Components}
+
+\section{\ate UI}
+The \ate UI is Microsoft Windows desktop application implemented using Embarcadero's C++ Builder tools. 
+This environment provide a programmer with hundreds of components for efficient and rapid development of Windows applications.
+
+In addition, thousands of third party components are available as well.
+This appendix discusses some of the software designs used when implementing the \ate
+
+
+\subsection{Observers and subjects}
+The Tree view and PageControl .
+
+
+\subsection{The TreeView}
+The items in the Treeview stores data objects as (void*) pointers. Any object registered with the tree (as a node) need to be a descendant of the class ExplorerObject.
+Typical scenario:
+\begin{verbatim}
+ExplorerObject* eo = (ExplorerObject*) node->Data
+
+if(dynamic_cast<...>(eo))
+{
+...
+}
+\end{verbatim}
+
+\subsection{Populating an ATData object}
 
 \begin{figure}[h]
 \centering\includegraphics[scale=0.35]{ATExplorer_APIs}
@@ -101,20 +140,11 @@
 \subsection{TinyXML2}
 \subsection{Dune Scientific libraries: dslFoundation}
 
-\chapter{Python Enabled API's}
-
-\chapter{Get the source code}
-
-Public Software Repository: $\mathbf{git@github.com:TotteKarlsson/ATExplorer.git}$
 
 \chapter{How to Build \ate  and its API's}
 
-\chapter{Setup a RenderHost and Python - ATDeployable}
+Public Software Repository: $\mathbf{git@github.com:TotteKarlsson/ATExplorer.git}$
 
-\begin{figure}[h]
-\centering\includegraphics[scale=0.52]{ATDeployable_1}
-\caption{A deployed system}
-\end{figure}
 
 
 \end{appendices}

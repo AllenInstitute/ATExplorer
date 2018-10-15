@@ -64,8 +64,6 @@ object MainForm: TMainForm
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
-      ExplicitTop = 20
-      ExplicitWidth = 302
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -75,16 +73,16 @@ object MainForm: TMainForm
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 300
+        ExplicitWidth = 1438
         ExplicitHeight = 134
         inherited Panel1: TPanel
           Width = 1438
           Height = 134
-          ExplicitWidth = 300
+          ExplicitWidth = 1438
           ExplicitHeight = 134
           inherited GroupBox1: TGroupBox
             Width = 1436
-            ExplicitWidth = 298
+            ExplicitWidth = 1436
           end
           inherited infoMemo: TMemo
             Width = 1436
@@ -109,7 +107,6 @@ object MainForm: TMainForm
         Height = 569
         Align = alClient
         Indent = 19
-        PopupMenu = ProjTreeViewPopup
         ReadOnly = True
         RightClickSelect = True
         RowSelect = True
@@ -302,7 +299,7 @@ object MainForm: TMainForm
     end
     object CloseProjectA: TAction
       Category = 'File'
-      Caption = 'Close'
+      Caption = 'Close Project'
       Hint = 'Close Project'
       OnExecute = CloseProjectAExecute
       OnUpdate = CloseProjectAUpdate
@@ -357,8 +354,13 @@ object MainForm: TMainForm
     end
     object AddATIFDataAction: TAction
       Category = 'TreeView'
-      Caption = 'Add ATIF Data'
+      Caption = 'Add a ATIF Data Project'
       OnExecute = AddATIFDataActionExecute
+    end
+    object OpenViewA: TAction
+      Category = 'TreeView'
+      Caption = 'Open'
+      OnExecute = OpenViewAExecute
     end
   end
   object SaveDialog1: TSaveDialog
@@ -371,7 +373,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800140310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800200310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0
@@ -774,18 +776,13 @@ object MainForm: TMainForm
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
   end
-  object ProjTreeViewPopup: TPopupMenu
-    OnPopup = ProjTreeViewPopupPopup
+  object ATIFDataPopup: TPopupMenu
+    AutoPopup = False
+    OnPopup = ATIFDataPopupPopup
     Left = 48
     Top = 224
-    object ProjectOptions1: TMenuItem
-      Action = OpenProjectOptionsA
-    end
-    object AddRenderProject2: TMenuItem
-      Action = AddATIFDataAction
-    end
-    object AddRenderProject1: TMenuItem
-      Action = AddRenderProject
+    object Open3: TMenuItem
+      Action = OpenViewA
     end
     object RemoveFromProject1: TMenuItem
       Action = RemoveFromProjectA
@@ -796,6 +793,9 @@ object MainForm: TMainForm
     end
     object Close2: TMenuItem
       Action = CloseProjectA
+    end
+    object ProjectOptions1: TMenuItem
+      Action = OpenProjectOptionsA
     end
   end
   object PopupMenu1: TPopupMenu
@@ -814,6 +814,50 @@ object MainForm: TMainForm
     end
     object Properties1: TMenuItem
       Caption = 'Properties'
+    end
+  end
+  object RenderProjectPopup: TPopupMenu
+    AutoPopup = False
+    OnPopup = ATIFDataPopupPopup
+    Left = 144
+    Top = 224
+    object MenuItem1: TMenuItem
+      Action = OpenProjectOptionsA
+    end
+    object MenuItem4: TMenuItem
+      Action = RemoveFromProjectA
+    end
+    object MenuItem5: TMenuItem
+      Caption = 'Rename'
+      OnClick = RenameClick
+    end
+    object MenuItem6: TMenuItem
+      Action = CloseProjectA
+    end
+  end
+  object ExplorerProjectPopup: TPopupMenu
+    AutoPopup = False
+    OnPopup = ATIFDataPopupPopup
+    Left = 40
+    Top = 288
+    object AddRenderProject1: TMenuItem
+      Action = AddRenderProject
+    end
+    object AddATIFData1: TMenuItem
+      Action = AddATIFDataAction
+    end
+    object MenuItem3: TMenuItem
+      Action = RemoveFromProjectA
+    end
+    object MenuItem7: TMenuItem
+      Caption = 'Rename'
+      OnClick = RenameClick
+    end
+    object MenuItem2: TMenuItem
+      Action = OpenProjectOptionsA
+    end
+    object CloseProject1: TMenuItem
+      Action = CloseProjectA
     end
   end
 end
