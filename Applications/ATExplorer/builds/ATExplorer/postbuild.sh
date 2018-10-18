@@ -62,6 +62,7 @@ $BUILD_FOLDER/Thorlabs.MotionControl.TDIEngine.dll
 
 $BDSCOMMONDIR/BPL/dslVCLComponents.bpl          
 $BDSCOMMONDIR/BPL/dslVCLVisualComponents.bpl    
+$BDSCOMMONDIR/BPL/atExplorerVCL.bpl          
 $BDSCOMMONDIR/BPL/atVCLComponents.bpl               
 $BDSCOMMONDIR/BPL/atVCLVisualComponents.bpl         
 $BDSCOMMONDIR/BPL/atVCLAPTVisualComponents.bpl      
