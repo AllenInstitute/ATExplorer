@@ -3,6 +3,7 @@
 #include <vector>
 #include "atExplorerObject.h"
 #include "atATDataExporter.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -11,23 +12,26 @@ namespace at
 using std::vector;
 class Ribbon;
 
+typedef std::tr1::shared_ptr<Ribbon> RibbonSP;
+
 //!The Ribbons class is a container for AT Ribbons
 class ATE_DATA Ribbons : public ExplorerObject
 {
 	public:
-                                        Ribbons();
-        virtual            	            ~Ribbons();
-        Ribbon*                         operator[](int i);
-        Ribbon*                         getRibbon(int i);
-        Ribbon*                        	getFirstRibbon();
-        Ribbon*                        	getNextRibbon();
-        void                            append(Ribbon* r);
+                                                    Ribbons();
+        virtual            	                        ~Ribbons();
+        RibbonSP                                    operator[](int i);
+        RibbonSP                                    getRibbon(int i);
+        RibbonSP                                    getFirstRibbon();
+        RibbonSP                                    getNextRibbon();
+        void                                        append(RibbonSP r);
 
-        int                             count();
+        void                                        clear();
+        int                                         count();
 
     protected:
-        vector<Ribbon*>::iterator   	mRibbonIterator;
-        vector<Ribbon*>                 mRibbons;
+        vector<RibbonSP>::iterator   	            mRibbonIterator;
+        vector<RibbonSP>           		            mRibbons;
 };
 
 }

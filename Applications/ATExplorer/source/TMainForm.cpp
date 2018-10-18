@@ -7,8 +7,13 @@
 #include "TATESettingsForm.h"
 #include "ateAppUtilities.h"
 #include "atRenderProject.h"
-#include "atRenderPRojectView.h"
+#include "atRenderProjectView.h"
+#include "atATIFDataProjectView.h"
+#include "atATIFDataProject.h"
 #include <gdiplus.h>
+#include "TCreateATIFDataProjectForm.h"
+#include "dslFileUtils.h"
+#include "TSelectRenderProjectParametersForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -20,15 +25,15 @@ using namespace std;
 using namespace at;
 using namespace Poco;
 
-extern at::AppUtilities gAU;
-
 Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
 ULONG_PTR  			         	                gdiplusToken;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
-    mIsStyleMenuPopulated(false),
-     mPTreeView(ProjectTView)
+     mIsStyleMenuPopulated(false),
+     mTreeItemObservers(*MainPC),
+     mPTreeView(*ProjectTView, mTreeItemObservers)
+
 {
     setupAndReadIniParameters();
     Application->ShowHint = true;
@@ -37,7 +42,6 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 
 __fastcall TMainForm::~TMainForm()
 {
-	mObservers.clear();
    	Gdiplus::GdiplusShutdown(gdiplusToken);
 }
 
@@ -63,20 +67,15 @@ void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
 void __fastcall TMainForm::ProjectTViewClick(TObject *Sender)
 {
 	//Get current node from the treeview
-	TTreeNode* item = ProjectTView->Selected;
-    if(!item)
-    {
-        return;
-    }
-
-    Project* p = (Project*) item->Data;
-    if(p)
-    {
-        Log(lDebug) << "User clicked: " << p->getProjectName();
-    }
-	mPTreeView.selectProject(p);
+	mPTreeView.handleNodeClick(ProjectTView->Selected, false);
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::ProjectTViewDblClick(TObject *Sender)
+{
+	//Get current node from the treeview
+    mPTreeView.handleNodeClick(ProjectTView->Selected, true);
+}
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
@@ -97,13 +96,19 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
             }
         }
 
+//        //Make mTreeItemObservers an observer too, and the following code becomes reduntant..
+//        for(int i = 0; i < parent->getNumberOfChilds(); i++)
+//        {
+//	        mTreeItemObservers.removeViewForSubject(parent->getChild(i));
+//        }
+
 	    gAU.LastOpenedProject = mPTreeView.closeProject(parent);
     }
 }
 
 void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
 {
-   	CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
+   	//CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
@@ -122,8 +127,8 @@ void __fastcall TMainForm::SaveProjectAsAUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::SaveProjectAUpdate(TObject *Sender)
 {
-    Project* p = mPTreeView.getRootForSelectedProject();
-	SaveProjectA->Enabled = true;//(p && p->isModified()) ? true : false;
+//    Project* p = mPTreeView.getRootForSelectedProject();
+//	SaveProjectA->Enabled = true;//(p && p->isModified()) ? true : false;
 }
 
 //---------------------------------------------------------------------------
@@ -134,7 +139,7 @@ void __fastcall TMainForm::SaveProjectAExecute(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::ProjTreeViewPopupPopup(TObject *Sender)
+void __fastcall TMainForm::ATIFDataPopupPopup(TObject *Sender)
 {
 //    //We gotta filter actions depending on what item is selected in the tree
 //    Project* p = mPTreeView.getParentForSelectedProject();
@@ -157,21 +162,24 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
     {
     	Handled = false;
 
+        int pY = MousePos.Y + 80;
         //Check what item is held by the treeview, and modify popup depending on what
-        ATExplorerProject* ate = (ATExplorerProject*) node->Data;
-        if(dynamic_cast<RenderProject*>(ate))
+        ExplorerObject* eo = (ExplorerObject*) node->Data;
+        if(!eo)
         {
-            AddRenderProject->Enabled 	= false;
-	        CloseProjectA->Visible 		= false;
-            RemoveFromProjectA->Visible = true;
-            OpenProjectOptionsA->Visible = false;
+            return;
         }
-        else
+        else if(dynamic_cast<RenderProject*>(eo))
         {
-            AddRenderProject->Enabled 	= true;
-	        CloseProjectA->Visible 		= true;
-            RemoveFromProjectA->Visible = false;
-            OpenProjectOptionsA->Visible = true;
+            RenderProjectPopup->Popup(MousePos.X, pY);
+        }
+        else if(dynamic_cast<ATIFDataProject*>(eo))
+        {
+            ATIFDataPopup->Popup(MousePos.X, pY);
+        }
+        else if(dynamic_cast<ATExplorerProject*>(eo))
+        {
+            ExplorerProjectPopup->Popup(MousePos.X, pY);
         }
     }
     else
@@ -185,29 +193,7 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
     }
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TMainForm::ProjectTViewDblClick(TObject *Sender)
-{
-	//Get current node from the treeview
-	TTreeNode* item = ProjectTView->Selected;
-    if(!item)
-    {
-        return;
-    }
-
-    Project* p = (Project*) item->Data;
-    if(p)
-    {
-        Log(lDebug) << "User double clicked: " << p->getProjectName();
-        createProjectView(p);
-    }
-	mPTreeView.selectProject(p);
-
-    //Select the page with projectView
-    selectTabForProject(p);
-}
-
-void TMainForm::selectTabForProject(Project* p)
+void TMainForm::selectTabForTreeItem(Project* p)
 {
     RenderProject* rp = dynamic_cast<RenderProject*>(p);
     if(!rp)
@@ -226,30 +212,6 @@ void TMainForm::selectTabForProject(Project* p)
     }
 }
 
-bool TMainForm::createProjectView(Project* p)
-{
-    RenderProject* rp = dynamic_cast<RenderProject*>(p);
-    //Check what kind of project we are to create a view for
-    if(rp)
-    {
-        //Check if there is already a tab with this view.. if so, switch to it
-        TTabSheet* sh = mObservers.getTabForProject(rp);
-        if(sh)
-        {
-            MainPC->ActivePage = sh;
-            return false;
-        }
-
-        //Creat a renderproject view
-        Log(lInfo) << "Showing a Render ProjectView";
-
-        //Create a new tab page
-        //Views deletes themselves when subjects dies
-        RenderProjectView* obs = new RenderProjectView(MainPC,  rp, gAU.ImageMagickPath.getValue());
-        mObservers.append(obs);
-    }
-    return true;
-}
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
@@ -257,9 +219,7 @@ void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
 {
 	//Check current page
     if(MainPC->PageCount < 1)
-    {
-
-    }
+    {    }
 }
 
 //---------------------------------------------------------------------------
@@ -269,7 +229,7 @@ void __fastcall TMainForm::Close3Click(TObject *Sender)
     TTabSheet* ts = MainPC->ActivePage;
     if(ts)
     {
-        mObservers.removeViewOnTabSheet(ts);
+        mTreeItemObservers.removeViewOnTabSheet(ts);
     }
 }
 
@@ -286,18 +246,17 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
     Log(lInfo) << "Removing subProject: " << p->getProjectName();
 
     //Close any views
-    p->notifyObservers(SubjectBeingDestroyed);
-    mPTreeView.removeProject(p);
-    mObservers.removeViewForProject(p);
+    mPTreeView.removeSubProject(p);
 
-    //Delete project here..
+    //Delete project here.. if we were to use shared pointers
+    //this will be unescarry..
     delete p;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::RenameClick(TObject *Sender)
 {
-	mPTreeView.getTreeView()->ReadOnly = false;
+	ProjectTView->ReadOnly = false;
 	TTreeNode* n = mPTreeView.getSelectedNode();
     n->EditText();
 }
@@ -305,7 +264,100 @@ void __fastcall TMainForm::RenameClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OpenProjectOptionsAExecute(TObject *Sender)
 {
-    MessageDlg("Not Implemented Yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
+    MessageDlg("", mtInformation, TMsgDlgButtons() << mbOK, 0);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::AddATIFDataActionExecute(TObject *Sender)
+{
+    TTreeNode* atNode = ProjectTView->Selected;
+    if(!atNode)
+    {
+        return;
+    }
+	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
+
+    if(parent)
+    {
+        //If we can cast this to a ATIFDataProject, add to parent
+        if(dynamic_cast<ATIFDataProject*>(parent))
+        {
+            parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
+        }
+        //Open dialog to capture render parameters
+		unique_ptr<TCreateATIFDataProjectForm> f (new TCreateATIFDataProjectForm(this));
+
+        if(f->ShowModal() == mrCancel)
+        {
+            return;
+        }
+
+		ATIFDataProject* dataProject (new ATIFDataProject("", f->getDataRootFolderLocation()));
+
+	    //Check how many renderproject childs
+        int nrOfChilds = parent->getNumberOfChilds();
+        dataProject->setProjectName(getLastFolderInPath(dataProject->getDataRootFolder()));
+
+        //Make sure that no project with the same name exists in the view
+        if(parent->hasChild(dataProject->getProjectName()))
+        {
+            MessageDlg("This data is already added to the current project!", mtWarning, TMsgDlgButtons() << mbOK, 0);
+            return;
+        }
+
+        parent->addChild(dataProject);
+    	parent->setModified();
+
+		mPTreeView.addProjectToTreeView(parent, dataProject);
+        mPTreeView.createTreeViewNodes(dataProject);
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
+{
+    TTreeNode* atNode = ProjectTView->Selected;
+	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
+
+    if(parent)
+    {
+        //If we can cast this to a RenderProject, add to parent
+        if(dynamic_cast<RenderProject*>(parent))
+        {
+            parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
+        }
+        //Open dialog to capture render parameters
+		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
+
+        if(f->ShowModal() == mrCancel)
+        {
+            return;
+        }
+
+        RenderServiceParameters rs(f->getRenderService());
+
+		//Create a render project and associate with current ATE project
+        //Use shared pointer later on
+		RenderProject* rp (new RenderProject("", f->getRenderOwner(), f->getRenderProject(), ""));
+        rp->setRenderServiceParameters(rs);
+        rp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
+
+	    //Check how many renderproject childs
+        int nrOfChilds = parent->getNumberOfChilds();
+
+        rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
+    	parent->addChild(rp);
+    	parent->setModified();
+		mPTreeView.addProjectToTreeView(parent, rp);
+    }
+}
+
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenViewAExecute(TObject *Sender)
+{
+    //Get selected node
+	mPTreeView.handleNodeClick(mPTreeView.getSelectedNode(), true);
 }
 
 

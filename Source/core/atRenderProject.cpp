@@ -107,9 +107,15 @@ RenderProject& RenderProject::operator=(const RenderProject& rhs)
     return *this;
 }
 
+string RenderProject::getTypeName() const
+{
+    return "renderProject";
+}
+
 bool RenderProject::setRenderServiceParameters(const RenderServiceParameters& rsp)
 {
     mRenderService = rsp;
+    return true;
 }
 
 void RenderProject::assignLocalCacheRootFolder(const string& rFolder)

@@ -1,7 +1,6 @@
-//---------------------------------------------------------------------------
 #pragma hdrstop
 #include "atFileFolders.h"
-
+#include "atFileFolder.h"
 namespace at
 {
 
@@ -11,31 +10,56 @@ FileFolders::FileFolders()
 FileFolders::~FileFolders()
 {}
 
-FileFolder* FileFolders::operator[](int i)
+FileFolderSP FileFolders::operator[](int i)
 {
-    return mFolders[i];
+    return mFolders.at(i);
 }
 
-void FileFolders::append(FileFolder* ff)
+FileFolderSP FileFolders::operator[](int i) const
+{
+    return mFolders.at(i);
+}
+
+FileFolders::FileFolders(const FileFolders& ffs)
+{
+    for(int i = 0; i < ffs.count(); i++)
+    {
+        FileFolderSP ff = ffs[i];
+        append(ff);
+    }
+}
+
+FileFolders& FileFolders::operator=(const FileFolders& rhs)
+{
+
+    return *this;
+}
+
+void FileFolders::reset()
+{
+    mFolders.clear();
+}
+
+void FileFolders::append(FileFolderSP ff)
 {
     mFolders.push_back(ff);
 }
 
-FileFolder* FileFolders::getFirst()
+FileFolderSP FileFolders::getFirst()
 {
     mFolderIterator = mFolders.begin();
     return *(mFolderIterator);
 }
 
-FileFolder* FileFolders::getNext()
+FileFolderSP FileFolders::getNext()
 {
     if(mFolderIterator == mFolders.end())
     {
-        return NULL;
+        return FileFolderSP();
     }
 
     mFolderIterator++;
-    return (mFolderIterator == mFolders.end()) ? NULL : *(mFolderIterator);
+    return (mFolderIterator == mFolders.end()) ? FileFolderSP() : *(mFolderIterator);
 }
 
 }

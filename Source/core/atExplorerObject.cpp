@@ -10,7 +10,7 @@ namespace at
     ExplorerObject::~ExplorerObject()
     {}
 
-    const string ExplorerObject::getTypeName() const
+    string ExplorerObject::getTypeName() const
     {
     	return "TYPENAME NOT IMPLEMENTED";
     }

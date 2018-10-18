@@ -63,7 +63,7 @@ int getTileID(const string& filePath)
     }
 }
 
-int getNrOfSections(FileFolder* channelFolder)
+int getNrOfSections(FileFolderSP channelFolder)
 {
     if(!channelFolder)
     {
@@ -77,7 +77,6 @@ int getNrOfSections(FileFolder* channelFolder)
 
     Glob::glob(path + "*.tif", files);
     Log(lDebug) << "Found: " << files.size() << " tif files";
-
 
     //The files set holds files from a "channel folder"
     //A simple algorithm to count sections..
@@ -116,11 +115,4 @@ int getNrOfSections(FileFolder* channelFolder)
     return count + 1; //As first section is numbered S0000
 }
 
-
-
-//StringList getTileFileNamesForSection(const set<string>& files, Section* sec)
-//{
-//    StringList names;
-//    return names;
-//}
 }

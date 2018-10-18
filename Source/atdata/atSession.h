@@ -3,8 +3,6 @@
 #include "atExplorerObject.h"
 #include "atChannel.h"
 #include "atChannels.h"
-#include "atTiles.h"
-#include "atRibbon.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -12,20 +10,25 @@ namespace at
 
 class ATE_DATA Session : public ExplorerObject
 {
-        public:
-                            Session(const string& lbl);//, Ribbon& r);
-                            ~Session();
-            string          getLabel(){return mLabel;}
-            bool        	appendChannel(Channel* channel);
-            Channels*       getChannels(){return &mChannels;}
-            Channel*        getFirstChannel();
-            Channel*        getNextChannel();
-//            Ribbon*         getRibbon(){return &mRibbon;}
+	public:
+                                    Session(const string& lbl);
+                                    ~Session();
+        virtual string        		getTypeName() const;
+        string                      getLabel() const {return mLabel;}
+        int                      	getID() const;
+        bool        	            appendChannel(ChannelSP channel);
+        ChannelSP                   getChannel(const string& channelLbl);
+        ChannelSP                   getChannel(ChannelSP channel);
+
+        ChannelSP                   getFirstChannel();
+        ChannelSP                   getNextChannel();
+        StringList                  getChannelLabels();
+        bool                        operator==(const Session& s) const;
+        int                         getNumberOfChannels();
 
 	protected:
-            string          mLabel;
-//            Ribbon&   		mRibbon;
-            Channels        mChannels;
+        string                      mLabel;
+        Channels                    mChannels;
 };
 
 }

@@ -1,0 +1,176 @@
+\documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
+
+\input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+\usepackage[toc,page]{appendix}
+\usepackage{setspace}
+
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{titletoc}
+
+\graphicspath{{figures/}} %Setting the graphicspath
+\begin{document}
+\newcommand{\ate}{ATExplorer }
+\newcommand{\at}{Array Tomography }
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
+
+\newcommand*\cn[1]{\small \circled{\small {#1}}}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begingroup
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+\coordinate [below=12cm] (midpoint) at (current page.north);
+\node at (current page.north west){
+\begin{tikzpicture}[remember picture,overlay]
+\node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{background}}; % Background image
+\draw[anchor=north] (midpoint) node [fill=gray!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]{\Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}{\centering ATExplorer 1.0 - User Manual\\[15pt] % Book title
+{\Large Smith Lab, Allen Institute for Brain Science}\\[20pt] % Subtitle
+{\small October 2018}\\[20pt] % Subtitle
+{\huge }}}; % Author name
+\end{tikzpicture}};
+\end{tikzpicture}
+\vfill
+\endgroup
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\newpage
+~\vfill
+\thispagestyle{empty}
+
+\noindent Copyright \copyright\ 2016-2019 Allen Institute for Brain Science\\ % Copyright notice
+
+%%------------------ PREFACE --------------------------
+\include{preface}
+
+%%----------------------------------------------------------------------------------------
+%%	TABLE OF CONTENTS
+%%----------------------------------------------------------------------------------------
+%\usechapterimagefalse % If you don't want to include a chapter image, use this to toggle images off - it can be enabled later with \usechapterimagetrue
+%\chapterimage{chapter_head_1.pdf} % Table of contents heading image
+%\pagestyle{empty} % No headers
+%\tableofcontents % Print the table of contents itself
+%\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+%\pagestyle{fancy} % Print headers again
+%%
+\usechapterimagetrue % If you don't want to include a chapter image, use this to toggle images off - it can be enabled later with \usechapterimagetrue
+
+%%----------------------------------------------------------------------------------------
+%	PART
+%----------------------------------------------------------------------------------------
+\part{Part One}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 1
+%----------------------------------------------------------------------------------------
+\include{chapter_1}
+\include{chapter_2}
+
+\begin{appendices}
+
+\startcontents[chapter]
+\printcontents[chapter]{l}{0}{\setcounter{tocdepth}{1}}
+
+\chapter{Setup a RenderHost and Python}
+\begin{figure}[h]
+\centering\includegraphics[scale=0.50]{ATDeployable_1}
+\caption{A deployed system}
+\end{figure}
+
+\chapter{Python Enabled API's}
+
+\chapter{Software Design and Software Components}
+
+\section{\ate UI}
+The \ate UI is Microsoft Windows desktop application implemented using Embarcadero's C++ Builder tools. 
+This environment provide a programmer with hundreds of components for efficient and rapid development of Windows applications.
+
+In addition, thousands of third party components are available as well.
+This appendix discusses some of the software designs used when implementing the \ate
+
+
+\subsection{Observers and subjects}
+The Tree view and PageControl .
+
+
+\subsection{The TreeView}
+The items in the Treeview stores data objects as (void*) pointers. Any object registered with the tree (as a node) need to be a descendant of the class ExplorerObject.
+Typical scenario:
+\begin{verbatim}
+ExplorerObject* eo = (ExplorerObject*) node->Data
+
+if(dynamic_cast<...>(eo))
+{
+...
+}
+\end{verbatim}
+
+\subsection{Populating an ATData object}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.35]{ATExplorer_APIs}
+\caption{An overview of some of ATExplorer API's}
+\end{figure}
+
+
+\section{ATExplorer Software API's}\index{ATExplorer Software API's}
+\subsection{atCore}
+\subsection{atData}
+\subsection{atVCLCore}
+
+\section{ThirdParty libraries}
+\subsection{Poco}
+\subsection{libCurl}
+\subsection{SQLite 3}
+\subsection{TinyXML2}
+\subsection{Dune Scientific libraries: dslFoundation}
+
+
+\chapter{How to Build \ate  and its API's}
+
+Public Software Repository: $\mathbf{git@github.com:TotteKarlsson/ATExplorer.git}$
+
+
+
+\end{appendices}
+
+%%----------------------------------------------------------------------------------------
+%%	BIBLIOGRAPHY
+%%----------------------------------------------------------------------------------------
+%\chapter*{Bibliography}
+%\addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}}
+%\section*{Books}
+%\addcontentsline{toc}{section}{Books}
+%\printbibliography[heading=bibempty,type=book]
+%\section*{Articles}
+%\addcontentsline{toc}{section}{Articles}
+%\printbibliography[heading=bibempty,type=article]
+%
+%%----------------------------------------------------------------------------------------
+%%	INDEX
+%%----------------------------------------------------------------------------------------
+%
+%\cleardoublepage
+%\phantomsection
+%\setlength{\columnsep}{0.75cm}
+%\addcontentsline{toc}{chapter}{\textcolor{ocre}{Index}}
+%\printindex
+%
+%%----------------------------------------------------------------------------------------
+%
+\end{document}

@@ -9,60 +9,83 @@ Sections::Sections()
 {}
 
 Sections::~Sections()
+{}
+
+SectionSP Sections::at(unsigned int i)
 {
-    for(int i = 0; i < size(); i++)
-    {
-        delete this->operator[](i);
-    }
+    return mSections[i];
 }
 
-Section* Sections::getSection(int sectionID)
+string Sections::getTypeName() const
+{
+    return "sections";
+}
+
+void Sections::clear()
+{
+	mSections.clear();
+}
+
+SectionSP Sections::getSection(int sectionID)
 {
     for(int i = 0; i < count(); i++)
     {
-        Section* s = at(i);
+        SectionSP s = at(i);
         if(s->id() == sectionID)
         {
             return s;
         }
     }
-    return NULL;
+    return SectionSP();
 }
 
-Section* Sections::getFirstSection()
+SectionSP Sections::getFirstSection()
 {
-    mSectionIterator = begin();
+    if(mSections.size() == 0)
+    {
+        return SectionSP();
+    }
+    mSectionIterator = mSections.begin();
     return *(mSectionIterator);
 }
 
-Section* Sections::getNextSection()
+SectionSP Sections::getNextSection()
 {
-	mSectionIterator++;
-    if(mSectionIterator != end())
+    if(mSectionIterator != mSections.end())
     {
-	    return *(mSectionIterator);
+		mSectionIterator++;
+
+        if(mSectionIterator == mSections.end())
+        {
+            return SectionSP();
+        }
+        else
+        {
+	    	return *(mSectionIterator);
+        }
     }
-    return NULL;
+
+    return SectionSP();
 }
 
-Section* Sections::getPreviousSection()
+SectionSP Sections::getPreviousSection()
 {
 	mSectionIterator--;
-    if(mSectionIterator != begin() -1 )
+    if(mSectionIterator != mSections.begin() -1 )
     {
 	    return *(mSectionIterator);
     }
-    return NULL;
+    return SectionSP();
 }
 
-Section* Sections::getLastSection()
+SectionSP Sections::getLastSection()
 {
     if(!count())
     {
-        return NULL;
+        return SectionSP();
     }
 
-    mSectionIterator = end();
+    mSectionIterator = mSections.end();
 	mSectionIterator--;
     return *(mSectionIterator);
 }

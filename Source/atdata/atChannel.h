@@ -1,26 +1,32 @@
 #ifndef atChannelH
 #define atChannelH
 #include "atExplorerObject.h"
-#include "atTiles.h"
+#include "atATDataExporter.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
+
 class Session;
+
+class Channel;
+typedef std::tr1::shared_ptr<Channel> ChannelSP;
+
+//!A channel belong to a specific Session
 class ATE_DATA Channel : public ExplorerObject
 {
+    public:
+                                    Channel(const string& lbl, Session& s);
+                                    ~Channel();
+        virtual string         		getTypeName() const;
+    	string                      getLabel() const {return mLabel;}
+        bool                        operator==(const Channel& c) const;
 
-        public:
-                                        Channel(const string& lbl, Session* s);
-                                        ~Channel();
-            bool                        appendTile(Tile* t);
-            Tiles&          		    getTiles(){return mTiles;}
-            string                      getLabel(){return mLabel;}
-        protected:
-            string                      mLabel;
-            Session*                    mSession;
-            Tiles                       mTiles;
+    protected:
+        string                      mLabel;
+        Session&                    mSession;
 };
 
 }

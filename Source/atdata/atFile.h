@@ -16,8 +16,8 @@ using std::string;
 class ATE_DATA File : public FileSystemObject
 {
     public:
-        File(const string &name, FileFolder *parent)
-        :FileSystemObject(name, parent)
+        File(const string &name)
+        : FileSystemObject(name)
         {}
 };
 

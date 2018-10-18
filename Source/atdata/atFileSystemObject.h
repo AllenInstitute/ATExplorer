@@ -14,23 +14,18 @@ namespace at
 using Poco::Path;
 using std::vector;
 using std::string;
-class FileFolder;
-using dsl::shared_ptr;
 
+//!Either a folder or a file..
 class ATE_DATA FileSystemObject : public ExplorerObject
 {
     public:
         bool                        isDirectory();
         virtual string              toString();
         Poco::Path&                 getPath();
-        FileFolder*    				getParent();
 
     protected:
-        					        FileSystemObject(const Path& name, FileFolder* parent = NULL);
+        					        FileSystemObject(const Path& name);
         Path 				        mPath;
-
-                                    //!use shared pointers later on
-        FileFolder*      			mParent;
 };
 
 }

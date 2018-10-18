@@ -18,17 +18,18 @@ namespace at
 
 extern const string gATExplorerProjectFileVersion;
 
-using dsl::shared_ptr;
 using dsl::gEmptyString;
 
 //!A render project is a project as exposed by Render
 class RenderProject;
+class ATIFDataProject;
 class TiffStack;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
 enum ATEObjectType
 {
 	ateBaseType = 0,
+    ateATIFDataProject,
     ateRenderProject,
     ateTiffStack,
     ateUnknown
@@ -45,23 +46,29 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
     public:
                                                 ATExplorerProject(const string& projectName = gEmptyString);
         virtual                                 ~ATExplorerProject();
+        virtual string                          getTypeName() const;
 
 		virtual bool 							isModified();
         virtual bool                            save(const string& fName = dsl::gEmptyString);
         virtual bool                            open(const string& fName = dsl::gEmptyString);
 
         virtual bool							addChild(ATExplorerProject* child);
+        virtual bool                            hasChild(const string& pName);
 
         string                                  getPresentXMLModelVersion();
         virtual dsl::XMLElement*           		addToXMLDocument(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
 		virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* node);
 
         virtual bool   							loadFromXML(dsl::XMLNode* node);
+
+        ATEObjectType                           getProjectType();
 		string 									getATEObjectTypeAsString();
 
         										//!Info text is used if the user want to document the purpose of
                                                 //a particular process
         string									mInfoText;
+
+
 
     protected:
         bool                                    resetXML();
@@ -72,6 +79,7 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
         ATEObjectType		  		            mATEObjectType;
 
         ATExplorerProject*			         	createATObject(tinyxml2::XMLElement* element);
+		ATIFDataProject*	 					createATIFDataProject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 		TiffStack*								createTiffStackProject(tinyxml2::XMLElement* element);
 };

@@ -12,7 +12,7 @@
 TATESettingsForm *ATESettingsForm;
 
 using namespace dsl;
-extern at::AppUtilities gAU;
+using namespace at;
 
 TTreeNode* getItemWithCaption(const string& c, TTreeView* tv);
 //---------------------------------------------------------------------------

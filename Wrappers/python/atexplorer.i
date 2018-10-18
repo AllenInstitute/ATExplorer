@@ -19,13 +19,17 @@
 
 using namespace dsl;
 using namespace std;
-using namespace ate;
+using namespace at;
 %}
+ 
+#define SWIG_SHARED_PTR_SUBNAMESPACE tr1
  
 //The atexplorer module is using many features from dsl
 %include "dsl.i"
 %include "std_sstream.i"
 %include "std_vector.i"
+%include <boost_shared_ptr.i>
+%shared_ptr(at::Ribbon)
 
 #define ATE_CORE
 #define ATE_DATA
@@ -35,6 +39,7 @@ using namespace ate;
 %include "dslLogger.h"
 %include "dslLogging.h"
 %include "dslLogOutput.h"
+%include "dslSharedPointer.h"
 
 %include "atExplorerCore.h"
 %include "atRibbon.h"

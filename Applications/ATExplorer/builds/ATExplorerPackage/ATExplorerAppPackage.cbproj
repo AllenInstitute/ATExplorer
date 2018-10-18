@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{5BFCCD2A-8831-437E-9C48-62EC8E2782F3}</ProjectGuid>
+        <ProjectGuid>{A2AAD0A9-B192-486A-BDF1-F8280C7B878B}</ProjectGuid>
         <ProjectVersion>18.4</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <MainSource>ATExplorerAppPackage.cpp</MainSource>
@@ -60,8 +60,8 @@
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <_TCHARMapping>char</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>ATExplorerAppPackage</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <BCC_wcsu>false</BCC_wcsu>
@@ -159,41 +159,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>40</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\atDummyProjectViewObserver.cpp">
-            <DependentOn>..\..\source\Core\atDummyProjectViewObserver.h</DependentOn>
-            <BuildOrder>38</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Core\ateAppUtilities.cpp">
             <DependentOn>..\..\source\Core\ateAppUtilities.h</DependentOn>
             <BuildOrder>36</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atImageGrid.cpp">
-            <DependentOn>..\..\source\Core\atImageGrid.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atImageProcessingFunctions.cpp">
-            <DependentOn>..\..\source\Core\atImageProcessingFunctions.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectObservers.cpp">
-            <DependentOn>..\..\source\Core\atProjectObservers.h</DependentOn>
-            <BuildOrder>34</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atProjectsTreeView.cpp">
-            <DependentOn>..\..\source\Core\atProjectsTreeView.h</DependentOn>
-            <BuildOrder>35</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRemoteScripter.cpp">
-            <DependentOn>..\..\source\Core\atRemoteScripter.h</DependentOn>
-            <BuildOrder>10</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atRenderProjectView.cpp">
-            <DependentOn>..\..\source\Core\atRenderProjectView.h</DependentOn>
-            <BuildOrder>37</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\atSSHUtils.cpp">
-            <DependentOn>..\..\source\Core\atSSHUtils.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Forms\TAboutATExplorerForm.cpp">
             <Form>AboutATExplorer</Form>
@@ -201,79 +169,22 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Forms\TAboutATExplorerForm.h</DependentOn>
             <BuildOrder>27</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TCreateLocalVolumesForm.cpp">
-            <Form>CreateLocalVolumesForm</Form>
+        <CppCompile Include="..\..\source\Forms\TATESettingsForm.cpp">
+            <Form>ATESettingsForm</Form>
             <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TCreateLocalVolumesForm.h</DependentOn>
-            <BuildOrder>31</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TImageForm.cpp">
-            <Form>ImageForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TImageForm.h</DependentOn>
-            <BuildOrder>28</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TSelectRenderProjectParametersForm.cpp">
-            <Form>SelectRenderProjectParametersForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TSelectRenderProjectParametersForm.h</DependentOn>
-            <BuildOrder>41</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TSelectZsForm.cpp">
-            <Form>SelectZsForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TSelectZsForm.h</DependentOn>
-            <BuildOrder>29</BuildOrder>
+            <DependentOn>..\..\source\Forms\TATESettingsForm.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Frames\TGeneralPropertiesFrame.cpp">
             <Form>GeneralPropertiesFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\source\Frames\TGeneralPropertiesFrame.h</DependentOn>
-            <BuildOrder>42</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Frames\TImageControlsFrame.cpp">
-            <Form>ImageControlsFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\source\Frames\TImageControlsFrame.h</DependentOn>
-            <BuildOrder>33</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Frames\TRenderProjectFrame.cpp">
-            <Form>RenderProjectFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\source\Frames\TRenderProjectFrame.h</DependentOn>
-            <BuildOrder>39</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\..\..\Source\core\atTiffStack.cpp">
-            <DependentOn>..\..\..\..\Source\core\atTiffStack.h</DependentOn>
-            <BuildOrder>31</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\..\..\Source\vcl\TCreateStackThreadFrame.cpp">
-            <Form>CreateStackThreadFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\..\..\Source\vcl\TCreateStackThreadFrame.h</DependentOn>
-            <BuildOrder>32</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp">
-            <Form>SSHFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
-            <BuildOrder>34</BuildOrder>
+            <BuildOrder>15</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TImageForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectRenderProjectParametersForm.dfm"/>
-        <FormResources Include="..\..\source\Frames\TRenderProjectFrame.dfm"/>
-        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
-        <FormResources Include="..\..\source\Frames\TImageControlsFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TSelectZsForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
         <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TCreateLocalVolumesForm.dfm"/>
-        <FormResources Include="..\..\..\..\Source\vcl\TCreateStackThreadFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

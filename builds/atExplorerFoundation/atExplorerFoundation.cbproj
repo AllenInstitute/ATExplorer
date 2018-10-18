@@ -138,6 +138,10 @@
             <DependentOn>..\..\Source\atdata\atChannels.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\atdata\atCreateATIFDataStateTablesThread.cpp">
+            <DependentOn>..\..\Source\atdata\atCreateATIFDataStateTablesThread.h</DependentOn>
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atFile.cpp">
             <DependentOn>..\..\Source\atdata\atFile.h</DependentOn>
             <BuildOrder>6</BuildOrder>
@@ -153,6 +157,10 @@
         <CppCompile Include="..\..\Source\atdata\atFileSystemObject.cpp">
             <DependentOn>..\..\Source\atdata\atFileSystemObject.h</DependentOn>
             <BuildOrder>9</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\atdata\atPopulateATDataThread.cpp">
+            <DependentOn>..\..\Source\atdata\atPopulateATDataThread.h</DependentOn>
+            <BuildOrder>36</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atRibbon.cpp">
             <DependentOn>..\..\Source\atdata\atRibbon.h</DependentOn>
@@ -189,6 +197,9 @@
         <CppCompile Include="..\..\Source\core\atATExplorerProject.cpp">
             <DependentOn>..\..\Source\core\atATExplorerProject.h</DependentOn>
             <BuildOrder>26</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atATIFDataProject.cpp">
+            <BuildOrder>33</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atExceptions.cpp">
             <DependentOn>..\..\Source\core\atExceptions.h</DependentOn>
@@ -240,6 +251,10 @@
         <CppCompile Include="..\..\Source\core\atROIHistory.cpp">
             <DependentOn>..\..\Source\core\atROIHistory.h</DependentOn>
             <BuildOrder>22</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atTiffStack.cpp">
+            <DependentOn>..\..\Source\core\atTiffStack.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

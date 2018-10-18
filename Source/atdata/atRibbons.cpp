@@ -1,49 +1,57 @@
 #pragma hdrstop
 #include "atRibbons.h"
+#include "atRibbon.h"
 //---------------------------------------------------------------------------
 namespace at
 {
-
 
 Ribbons::Ribbons()
 {}
 
 Ribbons::~Ribbons()
-{
-    for(int i = 0; i < count(); i++)
-    {
-        delete mRibbons[i];
-    }
-}
+{}
 
-void Ribbons::append(Ribbon* r)
+void Ribbons::append(RibbonSP r)
 {
     mRibbons.push_back(r);
 }
 
-Ribbon* Ribbons::getRibbon(int i)
+void Ribbons::clear()
+{
+    mRibbons.clear();
+}
+
+RibbonSP Ribbons::getRibbon(int i)
 {
 	return mRibbons.at(i);
 }
 
-Ribbon* Ribbons::operator[](int i)
+RibbonSP Ribbons::operator[](int i)
 {
     return mRibbons[i];
 }
-Ribbon* Ribbons::getFirstRibbon()
+
+RibbonSP Ribbons::getFirstRibbon()
 {
     mRibbonIterator = mRibbons.begin();
     return *(mRibbonIterator);
 }
 
-Ribbon* Ribbons::getNextRibbon()
+RibbonSP Ribbons::getNextRibbon()
 {
-	mRibbonIterator++;
     if(mRibbonIterator != mRibbons.end())
     {
-	    return *(mRibbonIterator);
+		mRibbonIterator++;
+        if(mRibbonIterator == mRibbons.end())
+        {
+            return RibbonSP();
+        }
+        else
+        {
+	    	return *(mRibbonIterator);
+        }
     }
-    return NULL;
+    return RibbonSP();
 }
 
 int Ribbons::count()

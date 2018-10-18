@@ -2,9 +2,12 @@
 #include "atRibbon.h"
 #include "atSection.h"
 //#include "atExplorerCore.h"
+#include "dslStringUtils.h"
+//---------------------------------------------------------------------------
 namespace at
 {
 
+using namespace dsl;
 Ribbon::Ribbon(int id, const string& alias)
 :
 Sections(),
@@ -16,23 +19,56 @@ mLongRibbonID("")
 Ribbon::~Ribbon()
 {}
 
-bool Ribbon::clear()
+string Ribbon::getTypeName() const
 {
-	for(unsigned int i = 0; i < size(); i++)
+    return "ribbon";
+}
+
+void Ribbon::removeSections()
+{
+    Sections::clear();
+}
+
+string Ribbon::getAlias()
+{
+	return mAlias;
+}
+
+int Ribbon::getAliasAsInt()
+{
+    string s = stripToDigit(mAlias);
+	return toInt(s);
+}
+
+int	Ribbon::getShortRibbonID()
+{
+	return mShortRibbonID;
+}
+
+string Ribbon::getLongRibbonID()
+{
+	return mLongRibbonID;
+}
+
+int Ribbon::getTileCount(const ChannelSP ch)
+{
+    int count(0);
+    for(int i = 0; i < getNumberOfSections(); i++)
     {
-        delete at(i);
+        SectionSP s = getSection(i);
+        count += s->getNumberOfTiles(ch);
     }
-    return true;
+    return count;
 }
 
-void Ribbon::appendSection(Section* sec)
+void Ribbon::appendSection(SectionSP sec)
 {
-	push_back(sec);
+	mSections.push_back(sec);
 }
 
-int Ribbon::sectionCount()
+int Ribbon::getNumberOfSections()
 {
-    return Sections::size();
+    return mSections.size();
 }
 
 void Ribbon::assignLongRibbonID(const string& lid)

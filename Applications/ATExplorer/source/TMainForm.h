@@ -15,27 +15,23 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.ToolWin.hpp>
 #include "dslTLogMemoFrame.h"
-//#include "atProjectManager.h"
 #include "dslTRegistryForm.h"
 #include "atProjectsTreeView.h"
 #include "dslObserver.h"
 #include <memory>
 #include "atRenderProjectView.h"
 #include "dslSharedPointer.h"
-#include "atProjectObservers.h"
+#include "atTreeItemObservers.h"
 //---------------------------------------------------------------------------
 
 //typedef void __fastcall (__closure *sshCallback)(const string&);
-//using at::ProjectManager;
 using at::ProjectsTreeView;
 using at::ATExplorerProject;
 using at::RenderProjectView;
-using at::ProjectObservers;
+using at::TreeItemObservers;
 using dsl::Project;
 using dsl::Observer;
-using dsl::shared_ptr;
 using std::vector;
-
 
 class PACKAGE TMainForm : public TRegistryForm
 {
@@ -72,9 +68,8 @@ __published:	// IDE-managed Components
 	TMenuItem *ReopenMenu;
 	TMenuItem *N3;
 	TTreeView *ProjectTView;
-	TPopupMenu *ProjTreeViewPopup;
+	TPopupMenu *ATIFDataPopup;
 	TAction *AddRenderProject;
-	TMenuItem *AddRenderProject1;
 	TMenuItem *Close2;
 	TPanel *MainPanel;
 	TAction *EditViewNode;
@@ -106,6 +101,21 @@ __published:	// IDE-managed Components
 	TMenuItem *Rename;
 	TAction *Action1;
 	TAction *OpenProjectOptionsA;
+	TAction *AddATIFDataAction;
+	TPopupMenu *RenderProjectPopup;
+	TMenuItem *MenuItem1;
+	TMenuItem *MenuItem4;
+	TMenuItem *MenuItem5;
+	TMenuItem *MenuItem6;
+	TPopupMenu *ExplorerProjectPopup;
+	TMenuItem *MenuItem2;
+	TMenuItem *MenuItem3;
+	TMenuItem *MenuItem7;
+	TMenuItem *AddRenderProject1;
+	TMenuItem *AddATIFData1;
+	TAction *OpenViewA;
+	TMenuItem *CloseProject1;
+	TMenuItem *Open3;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -134,27 +144,30 @@ __published:	// IDE-managed Components
 	void __fastcall ToggleBottomPanelAExecute(TObject *Sender);
 	void __fastcall ToggleBottomPanelAUpdate(TObject *Sender);
 	void __fastcall OpenSettingsAExecute(TObject *Sender);
-	void __fastcall ProjTreeViewPopupPopup(TObject *Sender);
+	void __fastcall ATIFDataPopupPopup(TObject *Sender);
 	void __fastcall ProjectTViewDblClick(TObject *Sender);
 	void __fastcall MainPCContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
 	void __fastcall Close3Click(TObject *Sender);
 	void __fastcall RemoveFromProjectAExecute(TObject *Sender);
 	void __fastcall RenameClick(TObject *Sender);
 	void __fastcall OpenProjectOptionsAExecute(TObject *Sender);
+	void __fastcall AddATIFDataActionExecute(TObject *Sender);
+	void __fastcall OpenViewAExecute(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
-        bool        									createProjectView(Project* p);
-	    ProjectsTreeView                                mPTreeView;
 
-        //Should really be unique ptrs
-        //make observers, an observer too
-        ProjectObservers                                mObservers;
+                                                        //!Practical Container for 'views'
+        TreeItemObservers                               mTreeItemObservers;
+
+                                                        //!Object that manages data and
+                                                        //!behaviour in the TreeView
+	    ProjectsTreeView                                mPTreeView;
 
 		int 		 									saveProject(Project* p);
 		int			 									saveProjectAs(Project* p);
-		void										    selectTabForProject(Project* p);
+		void										    selectTabForTreeItem(Project* p);
 	public:
 		__fastcall 			  							TMainForm(TComponent* Owner);
 		__fastcall 			  							~TMainForm();

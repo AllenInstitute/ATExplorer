@@ -7,7 +7,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="validate_at_data.cbproj">
-            <Dependencies/>
+            <Dependencies>..\..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -26,13 +26,13 @@
     <Target Name="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="validate_at_data">
+    <Target Name="validate_at_data" DependsOnTargets="atExplorerFoundation">
         <MSBuild Projects="validate_at_data.cbproj"/>
     </Target>
-    <Target Name="validate_at_data:Clean">
+    <Target Name="validate_at_data:Clean" DependsOnTargets="atExplorerFoundation:Clean">
         <MSBuild Projects="validate_at_data.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="validate_at_data:Make">
+    <Target Name="validate_at_data:Make" DependsOnTargets="atExplorerFoundation:Make">
         <MSBuild Projects="validate_at_data.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">

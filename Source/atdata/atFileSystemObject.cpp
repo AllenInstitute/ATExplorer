@@ -11,6 +11,22 @@ using namespace dsl;
 namespace at
 {
 
+FileSystemObject::FileSystemObject(const Path& name)
+:
+mPath(name)
+{}
+
+Poco::Path& FileSystemObject::getPath()
+{
+	return mPath;
+}
+
+//FileFolderSP FileSystemObject::getParent()
+//{
+//	return mParent;
+//}
+//
+
 bool FileSystemObject::isDirectory()
 {
     return mPath.isDirectory();
@@ -19,21 +35,6 @@ bool FileSystemObject::isDirectory()
 string FileSystemObject::toString()
 {
     return mPath.toString();
-}
-
-FileSystemObject::FileSystemObject(const Path& name, FileFolder *parent)
-:
-mPath(name), mParent(parent)
-{}
-
-Poco::Path& FileSystemObject::getPath()
-{
-	return mPath;
-}
-
-FileFolder* FileSystemObject::getParent()
-{
-	return mParent;
 }
 
 }

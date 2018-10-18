@@ -7,7 +7,8 @@
 //---------------------------------------------------------------------------
 
 using namespace dsl;
-extern at::AppUtilities gAU;
+using namespace at;
+
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::About1Click(TObject *Sender)
 {

@@ -3,6 +3,7 @@
 #include <vector>
 #include "atExplorerObject.h"
 #include "atATDataExporter.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -10,23 +11,28 @@ namespace at
 class FileFolder;
 using std::vector;
 
+typedef std::tr1::shared_ptr<FileFolder>  FileFolderSP;
+
 class ATE_DATA FileFolders : public ExplorerObject
 {
+    public:
+                                        FileFolders();
+                                        ~FileFolders();
+                                        FileFolders(const FileFolders& f);
+        FileFolders&                    operator=(const FileFolders& rhs);
+        FileFolderSP                    operator[](int i);
+        FileFolderSP                    operator[](int i) const;
 
-        public:
-                            				FileFolders();
-                            				~FileFolders();
-            FileFolder*     				getFirst();
-            FileFolder*     				getNext();
-            FileFolder*                     operator[](int i);
-            void                            append(FileFolder*);
+        void                            reset();
+        FileFolderSP    				getFirst();
+        FileFolderSP    				getNext();
 
+        void                            append(FileFolderSP ff);
+        int             				count() const {return mFolders.size();}
 
-            int             				count(){return mFolders.size();}
-
-        protected:
-           vector<FileFolder*>::iterator    mFolderIterator;
-           vector<FileFolder*>              mFolders;
+    protected:
+       vector<FileFolderSP>::iterator   mFolderIterator;
+       vector<FileFolderSP>             mFolders;
 };
 
 }

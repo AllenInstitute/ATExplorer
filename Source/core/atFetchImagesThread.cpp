@@ -27,6 +27,11 @@ onProgress(nullptr),
 onExit(nullptr)
 {}
 
+FetchImagesThread::~FetchImagesThread()
+{
+    Log(lDebug) << "Destructing a FetchImagesThread";
+}
+
 void FetchImagesThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
 {
     onEnter = one;

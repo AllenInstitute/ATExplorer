@@ -14,7 +14,6 @@ try:
     #Create an empty ATData object
     atData = at.ATIFData(dataPath, False)
     atData.populate()
-    r = at.Ribbon(0)
 
     #Some trivial data info
     print( "Number of Ribbons: " + str(atData.getNumberOfRibbons()))

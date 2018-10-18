@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   AlphaBlendValue = 100
   Caption = 'Volume Creator'
-  ClientHeight = 694
+  ClientHeight = 775
   ClientWidth = 1442
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -25,7 +25,7 @@ object MainForm: TMainForm
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 675
+    Top = 756
     Width = 1442
     Height = 19
     Panels = <>
@@ -34,12 +34,12 @@ object MainForm: TMainForm
     Left = 0
     Top = 25
     Width = 1442
-    Height = 650
+    Height = 731
     Align = alClient
     TabOrder = 1
     object Splitter2: TSplitter
       Left = 1
-      Top = 510
+      Top = 591
       Width = 1440
       Height = 3
       Cursor = crVSplit
@@ -51,19 +51,21 @@ object MainForm: TMainForm
     object Splitter1: TSplitter
       Left = 201
       Top = 1
-      Height = 490
+      Height = 571
       ExplicitLeft = 195
       ExplicitTop = 19
       ExplicitHeight = 837
     end
     object BottomPanel: TPanel
       Left = 1
-      Top = 513
+      Top = 594
       Width = 1440
       Height = 136
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
+      ExplicitTop = 20
+      ExplicitWidth = 302
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -73,16 +75,16 @@ object MainForm: TMainForm
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 1438
+        ExplicitWidth = 300
         ExplicitHeight = 134
         inherited Panel1: TPanel
           Width = 1438
           Height = 134
-          ExplicitWidth = 1438
+          ExplicitWidth = 300
           ExplicitHeight = 134
           inherited GroupBox1: TGroupBox
             Width = 1436
-            ExplicitWidth = 1436
+            ExplicitWidth = 298
           end
           inherited infoMemo: TMemo
             Width = 1436
@@ -97,17 +99,16 @@ object MainForm: TMainForm
       Left = 1
       Top = 1
       Width = 200
-      Height = 490
+      Height = 571
       Align = alLeft
       TabOrder = 1
       object ProjectTView: TTreeView
         Left = 1
         Top = 1
         Width = 198
-        Height = 488
+        Height = 569
         Align = alClient
         Indent = 19
-        PopupMenu = ProjTreeViewPopup
         ReadOnly = True
         RightClickSelect = True
         RowSelect = True
@@ -121,7 +122,7 @@ object MainForm: TMainForm
     end
     object ShowBottomPanelBtn: TButton
       Left = 1
-      Top = 491
+      Top = 572
       Width = 1440
       Height = 19
       Action = ToggleBottomPanelA
@@ -133,7 +134,7 @@ object MainForm: TMainForm
       Left = 204
       Top = 1
       Width = 1237
-      Height = 490
+      Height = 571
       Align = alClient
       PopupMenu = MainPCPopup
       TabOrder = 3
@@ -270,8 +271,8 @@ object MainForm: TMainForm
     object FileOpen1: TFileOpen
       Category = 'File'
       Caption = '&Open...'
-      Dialog.DefaultExt = 'vc'
-      Dialog.Filter = '*.vc||*.*'
+      Dialog.DefaultExt = 'atp'
+      Dialog.Filter = 'ATExplorer Project *.atp|*.atp|Any (*.*)| *.*'
       Hint = 'Open|Opens an existing file'
       ImageIndex = 1
       ShortCut = 16463
@@ -300,7 +301,7 @@ object MainForm: TMainForm
     end
     object CloseProjectA: TAction
       Category = 'File'
-      Caption = 'Close'
+      Caption = 'Close Project'
       Hint = 'Close Project'
       OnExecute = CloseProjectAExecute
       OnUpdate = CloseProjectAUpdate
@@ -350,13 +351,23 @@ object MainForm: TMainForm
     end
     object OpenProjectOptionsA: TAction
       Category = 'TreeView'
-      Caption = 'Open Project Options'
+      Caption = 'Properties'
       OnExecute = OpenProjectOptionsAExecute
+    end
+    object AddATIFDataAction: TAction
+      Category = 'TreeView'
+      Caption = 'Add a ATIF Data Project'
+      OnExecute = AddATIFDataActionExecute
+    end
+    object OpenViewA: TAction
+      Category = 'TreeView'
+      Caption = 'Open'
+      OnExecute = OpenViewAExecute
     end
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'atp'
-    Filter = 'ATExplorer Project|*.atp'
+    Filter = 'ATExplorer Project (*.atp)|*.atp|Any|*.*'
     Left = 32
     Top = 448
   end
@@ -364,7 +375,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800CC0210001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010109001800280310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0
@@ -767,15 +778,13 @@ object MainForm: TMainForm
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
   end
-  object ProjTreeViewPopup: TPopupMenu
-    OnPopup = ProjTreeViewPopupPopup
+  object ATIFDataPopup: TPopupMenu
+    AutoPopup = False
+    OnPopup = ATIFDataPopupPopup
     Left = 48
     Top = 224
-    object ProjectOptions1: TMenuItem
-      Action = OpenProjectOptionsA
-    end
-    object AddRenderProject1: TMenuItem
-      Action = AddRenderProject
+    object Open3: TMenuItem
+      Action = OpenViewA
     end
     object RemoveFromProject1: TMenuItem
       Action = RemoveFromProjectA
@@ -786,6 +795,9 @@ object MainForm: TMainForm
     end
     object Close2: TMenuItem
       Action = CloseProjectA
+    end
+    object ProjectOptions1: TMenuItem
+      Action = OpenProjectOptionsA
     end
   end
   object PopupMenu1: TPopupMenu
@@ -804,6 +816,50 @@ object MainForm: TMainForm
     end
     object Properties1: TMenuItem
       Caption = 'Properties'
+    end
+  end
+  object RenderProjectPopup: TPopupMenu
+    AutoPopup = False
+    OnPopup = ATIFDataPopupPopup
+    Left = 144
+    Top = 224
+    object MenuItem1: TMenuItem
+      Action = OpenProjectOptionsA
+    end
+    object MenuItem4: TMenuItem
+      Action = RemoveFromProjectA
+    end
+    object MenuItem5: TMenuItem
+      Caption = 'Rename'
+      OnClick = RenameClick
+    end
+    object MenuItem6: TMenuItem
+      Action = CloseProjectA
+    end
+  end
+  object ExplorerProjectPopup: TPopupMenu
+    AutoPopup = False
+    OnPopup = ATIFDataPopupPopup
+    Left = 40
+    Top = 288
+    object AddRenderProject1: TMenuItem
+      Action = AddRenderProject
+    end
+    object AddATIFData1: TMenuItem
+      Action = AddATIFDataAction
+    end
+    object MenuItem3: TMenuItem
+      Action = RemoveFromProjectA
+    end
+    object MenuItem7: TMenuItem
+      Caption = 'Rename'
+      OnClick = RenameClick
+    end
+    object MenuItem2: TMenuItem
+      Action = OpenProjectOptionsA
+    end
+    object CloseProject1: TMenuItem
+      Action = CloseProjectA
     end
   end
 end

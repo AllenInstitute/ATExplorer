@@ -8,62 +8,87 @@
 #include "atChannels.h"
 #include "atSection.h"
 #include "atATDataUtils.h"
+#include <boost/function.hpp>
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
+typedef boost::function<void(void*, void*)> ATDataPopulateCallback;
+
 //!The ATData class abstracts ArrayTomography data
-class ATE_DATA ATData : public ExplorerObject
+class ATE_DATA ATData : virtual public ExplorerObject
 {
     public:
-                        	        ATData(const Path& basePath);
-		virtual ATDataFileFormat    getFileFormat() = 0;
-        Path                        getBasePath();
+                        	                    ATData(const Path& basePath = Path("<not set>"));
+		virtual            	                    ~ATData();
+        virtual string                    		getTypeName() const;
+        void                                    assignOnPopulateCallbacks(ATDataPopulateCallback onenter, ATDataPopulateCallback onprogress, ATDataPopulateCallback onexit);
+		virtual ATDataFileFormat                getFileFormat() = 0;
+        Path                                    getBasePath() const;
+        virtual bool                            setBasePath(const string& p);
 
-                                    //!populating a ATData object typically include
-                                    //!parsing through a folder structure in descendant data
-                                    //!type objects
-        virtual bool                populate() = 0;
-        virtual bool                validate() = 0;
+                                        		//!Return some information about the current data
+        string                                  getInfo();
 
+                                                //!Resets the data object, excepts the basepath
+        virtual void                            reset();
 
-        Ribbons*                    getRibbons();
-        Ribbon*     	            getRibbon(int count);
-        Ribbon*     	            getFirstRibbon();
-        Ribbon*     	            getNextRibbon();
+                                                //!populating a ATData object typically include
+                                                //!parsing through a folder structure in descendant data
+                                                //!type objects
+        virtual bool                            populate(const bool& exitPopulation) = 0;
+        virtual bool                            validate() = 0;
+        int                                     getNumberOfRibbons();
+        Ribbons*                                getRibbons();
 
-                                    //!A session is the same as a "group of stains" => one or more channel data
-        Sessions*                   getSessions();
-        Session*                    getFirstSession();
-        Session*                    getNextSession();
+                                                //!Start at 1(!)
+        RibbonSP     	                        getRibbon(int count);
+        RibbonSP     	                        getFirstRibbon();
+        RibbonSP     	                        getNextRibbon();
 
-        Channels*                   getChannels(Session* session);
-        Channel*                    getFirstChannel(Session* session);
-        Channel*                    getNextChannel(Session* session);
+                                                //!A session is the same as a "group of stains" => one or more channel data
+		int                                     getNumberOfSessions();
+        Sessions*                               getSessions();
+        SessionSP                               getFirstSession();
+        SessionSP                               getNextSession();
+        StringList                              getChannelLabelsForSession(SessionSP session);
 
-                                    //!Utilities
-        int                         getNumberOfRibbons();
-        int                         getNumberOfSections();
-		int                         getNumberOfTiles();
+                                                //!Utilities
+        int                                     getNumberOfSections();
+		int                                     getNumberOfTiles();
+
+		int                                     getNumberOfChannels();
+
+//        Sections                                getSections(const ChannelSP channel);
 
     protected:
-                                    //A Ribbon contain consecutive sections,
-                                    //Ribbons capture the "physical" properties of a ribbon and sections
-        Ribbons                     mRibbons;
+                                	            //!Basepath of raw data. All IF data need to be accesible
+                            	                //below this folder
+        Path	     			                mBasePath;
 
-                                    //!A session denote a data acqusition 'session' using one or more
-                                    //immuno fluorescent 'stains', channels.
-                                    //Microscopy data is acquired during a session, and typically
-                                    //ordered (in some format) on disk, representing tissue sections and ribbons
-        Sessions                    mSessions;
+                                                //!The data need to have a format on disk..
+        ATDataFileFormat                        mFileFormat;
 
-                                    //!The data need to have a format on disk..
-        ATDataFileFormat            mFileFormat;
+                                                //A Ribbon contain consecutive sections,
+                                                //Ribbons capture the "physical" properties of a ribbon and sections
+        Ribbons                                 mRibbons;
 
-                                	//!Basepath of raw data. All IF data need to be accesible
-                            	    //below this folder
-        Path	     			    mBasePath;
+                                                //!A session denote a data acqusition 'session' using one or more
+                                                //immuno fluorescent 'stains', channels.
+                                                //Microscopy data is acquired during a session, and typically
+                                                //ordered (in some format) on disk, representing tissue sections and ribbons
+        Sessions                                mSessions;
+
+
+                                                //!These callbacks can be used by clients to get feedback on progress when
+                                                //!populating the data
+		ATDataPopulateCallback                  onStartingPopulating;
+		ATDataPopulateCallback                  onProgressPopulating;
+		ATDataPopulateCallback                  onFinishedPopulating;
+
+                                                //!If we need to stop the population of data
+        const bool*                             mStopPopulation;
 };
 
 }

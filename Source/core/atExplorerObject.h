@@ -13,7 +13,7 @@ class ATE_CORE ExplorerObject
 	public:
     							        ExplorerObject();
 		virtual					        ~ExplorerObject() = 0;
-        virtual const string 	        getTypeName() const;
+        virtual string 	        		getTypeName() const;
 };
 }
 #endif

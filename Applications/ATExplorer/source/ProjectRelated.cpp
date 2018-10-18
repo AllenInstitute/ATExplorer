@@ -8,10 +8,10 @@
 #include "atRenderProject.h"
 #include "TSelectRenderProjectParametersForm.h"
 #include "ateAppUtilities.h"
+#include "atUtilities.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;
-extern at::AppUtilities gAU;
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ProjectTViewEditing(TObject *Sender, TTreeNode *Node,
@@ -25,14 +25,33 @@ void __fastcall TMainForm::ProjectTViewEdited(TObject *Sender, TTreeNode *Node,
           UnicodeString &S)
 {
 	//Update underlying object with new valuse..
-    ATExplorerProject* ate = (ATExplorerProject*) Node->Data;
-    if(ate)
+    ATExplorerProject* p = (ATExplorerProject*) Node->Data;
+    if(!p)
     {
-    	ate->setProjectName(stdstr(S));
-        ate->setModified();
-		SaveProjectA->Update();
+		ProjectTView->ReadOnly = true;
+        return;
     }
-	mPTreeView.getTreeView()->ReadOnly = true;
+
+    if(p->getProjectType() == ateBaseType)
+    {
+
+    }
+    else if(p->getProjectType() == ateRenderProject)
+    {
+        //Check for opened tabs, and change their captions
+        string n = p->getProjectName();
+        TTabSheet* ts = getTabWithCaption(n, MainPC);
+        if(ts)
+        {
+        	ts->Caption = S;
+        }
+    }
+
+    p->setProjectName(stdstr(S));
+    p->setModified();
+    SaveProjectA->Update();
+
+	ProjectTView->ReadOnly = true;
 }
 
 void __fastcall TMainForm::EditViewNodeExecute(TObject *Sender)
@@ -45,50 +64,10 @@ void __fastcall TMainForm::EditViewNodeExecute(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
-{
-    TTreeNode* atNode = ProjectTView->Selected;
-	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
-
-    if(parent)
-    {
-        //If we can cast this to a RenderProject, add to parent
-        if(dynamic_cast<RenderProject*>(parent))
-        {
-            parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
-        }
-        //Open dialog to capture render parameters
-		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
-
-        if(f->ShowModal() == mrCancel)
-        {
-            return;
-        }
-
-        RenderServiceParameters rs(f->getRenderService());
-
-		//Create a render project and associate with current VC project
-	  	//RenderProject* rp (new RenderProject(rs, "", f->getRenderOwner(), f->getRenderProject()));
-		RenderProject* rp (new RenderProject("", f->getRenderOwner(), f->getRenderProject(), ""));
-        rp->setRenderServiceParameters(rs);
-        rp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
-
-
-	    //Check how many renderproject childs
-        int nrOfChilds = parent->getNumberOfChilds();
-
-        rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
-    	parent->addChild(rp);
-    	parent->setModified();
-		mPTreeView.addRenderProjectToView(parent, rp);
-    }
-}
-
-//---------------------------------------------------------------------------
 void __fastcall TMainForm::NewProjectAExecute(TObject *Sender)
 {
 	ATExplorerProject* p = mPTreeView.createNewATExplorerProject();
-    mPTreeView.addProjectToView(p);
+    mPTreeView.addProjectToTree(p);
 	ProjectTView->SetFocus();
     mPTreeView.selectProject(p);
 }
@@ -103,7 +82,7 @@ void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
     {
     	Log(lInfo) << "Loaded project file: "<<f;
         p->open();
-        mPTreeView.createView(p);
+        mPTreeView.createTreeViewNodes(p);
         mPTreeView.expandView(p);
     }
 }

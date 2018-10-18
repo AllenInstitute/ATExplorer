@@ -4,30 +4,35 @@
 #include "atATDataExporter.h"
 #include <map>
 #include "Poco/Path.h"
+#include "dslSharedPointer.h"
+#include "atChannel.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
 using std::map;
-using Poco::Path;
 class Tile;
-class Channel;
-
+class Section;
 
 //!A container for tiles.
 //!Tiles are grouped by channel
+typedef std::tr1::shared_ptr<Tile> TileSP;
+
+
 class ATE_DATA Tiles : public ExplorerObject
 {
     public:
-                                    Tiles(const Channel& s);
+                                    Tiles(const Channel& ch);
                                     ~Tiles();
-        bool                        append(Tile* t);
-        int                         count(){return mTiles.size();}
+        const Channel&              getChannel() const;
+        int                         count();
+        bool                        append(TileSP t);
+
 
     protected:
-        const Channel*		        mChannel;
-        map<int, Tile*>  			mTiles;
+        const Channel&              mChannel;
+        map<int, TileSP>  			mTiles;
 };
 
 }

@@ -1,0 +1,66 @@
+\chapterimage{chapterimage_1.jpg} % Chapter heading image
+
+\chapter{Overview of the \ate{} UI and API}
+\section{Introduction}\index{Introduction}
+
+\doublespacing
+This chapter gives an overview of the software that is named \emph{ATExplorer}.
+
+The following section discusses the application in greater detail.
+
+The \ate was designed and implemented due to an emerging need to allow non-programmers to process, manage and explorer \at data on a routine basis.
+
+Depending on the actual protocols, an \at data set can range in size from pretty small, a few hundred megabytes, to very large, like several Terra bytes and depending on number of stains and sessions, the complexity of the data-sets range from trivial to complex.
+
+The main challenge in \at is the precise reconstruction of an original volume, from individually cut and imaged slices of tissue of the same.
+
+.. even before volume reconstruction can begin various pre data processing algorithms may need to be applied, such as median filtering, flatfield correction and de-convolution.
+
+These processing algorithms are all, to some extent, complex. \ate attempts to provide the non-programmer user with intuitive and easy to use UI components to guide the through the process in order to get to data that are useful for scientific discoveries and exploration.
+
+\clearpage
+
+\section{The \ate UI}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.85]{ATExplorerUI_1}
+
+\caption{\ate{} UI. The circled numbers in the figure indicate relevant elements of the UI; \protect\cn{1} Project(s) TreeView. \protect\cn{2} Tabbed Project Item View. \protect\cn{3} Information and Application Log Messages.}
+\end{figure}
+
+\subsection{Importing Data}
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{red!50!black}]
+\item [Importing process] Give an overview on what happens when data is being imported to \ate.
+\item [Data Formats] Describe the Allen Institute format, and Kristinas format.
+\end{description}
+
+\subsection{Processing Data}
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{red!50!black}]
+\item [Median calculation]
+\item [FlatField correction]
+\item [Deconvolution]
+\item [Stitching]
+\item [Registration]
+\item [Rough aligning] 
+\item [Fine aligning] 
+\item [Other]
+\end{description}
+
+\begin{figure}[h]
+\centering\includegraphics[scale=0.65]{LMDataProcessing_1}
+
+\caption{Processing ..........}
+\end{figure}
+
+\subsection{Connecting to a a Remote (or local) RenderHost}
+
+\subsection{Managing Stacks in Render}
+
+\subsection{Exploring Data}
+
+
+\clearpage
+
+
+\section{Python Bindings}

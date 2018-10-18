@@ -9,8 +9,6 @@ using namespace dsl;
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
 USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
-AppUtilities gAU;
-
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
@@ -59,7 +57,10 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 #pragma comment(lib, "atExplorerFoundation.lib")
 #pragma comment(lib, "atVCLCommon.lib")
 
+
+#pragma comment(lib, "atExplorerVCL.bpi")
 #pragma comment(lib, "ATExplorerAppPackage.bpi")
+
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "tinyxml2.lib")
 
