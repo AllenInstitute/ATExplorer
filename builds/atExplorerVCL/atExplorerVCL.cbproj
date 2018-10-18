@@ -193,6 +193,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\forms\TCreateATIFDataProjectForm.h</DependentOn>
             <BuildOrder>26</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.cpp">
+            <Form>CreateATIFDataStateTablesForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.h</DependentOn>
+            <BuildOrder>28</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.cpp">
             <Form>CreateLocalVolumesForm</Form>
             <FormType>dfm</FormType>
@@ -255,6 +261,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

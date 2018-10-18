@@ -138,6 +138,10 @@
             <DependentOn>..\..\Source\atdata\atChannels.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\atdata\atCreateATIFDataStateTablesThread.cpp">
+            <DependentOn>..\..\Source\atdata\atCreateATIFDataStateTablesThread.h</DependentOn>
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atFile.cpp">
             <DependentOn>..\..\Source\atdata\atFile.h</DependentOn>
             <BuildOrder>6</BuildOrder>
@@ -156,7 +160,7 @@
         </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atPopulateATDataThread.cpp">
             <DependentOn>..\..\Source\atdata\atPopulateATDataThread.h</DependentOn>
-            <BuildOrder>35</BuildOrder>
+            <BuildOrder>36</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atRibbon.cpp">
             <DependentOn>..\..\Source\atdata\atRibbon.h</DependentOn>

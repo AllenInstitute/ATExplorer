@@ -9,6 +9,7 @@
 #include "atdata/atRibbon.h"
 #include "atdata/atSession.h"
 #include "atExceptions.h"
+#include "TCreateATIFDataStateTablesForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTSTDStringLabeledEdit"
@@ -43,19 +44,13 @@ void __fastcall TATIFDataProjectFrame::ScanDataBtnClick(TObject *Sender)
 {
     if(ScanDataBtn->Caption == "Scan Data")
     {
-//        if(!mProject.mATData)
+        //Pretty ugly
+        if(mProject.getDataRootFolder().size() && mProject.getDataRootFolder()[mProject.getDataRootFolder().size() -1] != gPathSeparator)
         {
-            //Pretty ugly
-            if(mProject.getDataRootFolder().size() && mProject.getDataRootFolder()[mProject.getDataRootFolder().size() -1] != gPathSeparator)
-            {
-                mProject.setDataRootFolder(mProject.getDataRootFolder() + gPathSeparator);
-            }
-
-            //mProject.mATData = shared_ptr<ATIFData>( new ATIFData(mProject.getDataRootFolder()));
+            mProject.setDataRootFolder(mProject.getDataRootFolder() + gPathSeparator);
         }
 
         mProject.mATIFData.reset();
-//        mPopulateDataThread.setData(mProject);
         mPopulateDataThread.assignCallBacks(onThreadEnter,onThreadProgress, onThreadExit);
         mPopulateDataThread.start(true);
     }
@@ -79,7 +74,7 @@ void TATIFDataProjectFrame::onThreadEnter(void* arg1, void* arg2)
 }
 
 //A way to use TThread::Synchronize with arguments
-struct TLocalArgs
+struct TLocalArgs1
 {
     ATIFData* data;
     TATIFDataProjectFrame* frame;
@@ -91,7 +86,10 @@ struct TLocalArgs
         frame->NrOfTilesLbl->Caption 		= IntToStr(data->getNumberOfTiles());
         frame->NrOfSessionsLbl->Caption     = IntToStr(data->getNumberOfSessions());
         frame->NrOfChannelsLbl->Caption     = IntToStr(data->getNumberOfChannels());
-        frame->PopulatePB->Position = data->getNumberOfTiles();
+
+        int nrOfStateTables = data->getNumberOfRibbons() * data->getNumberOfSessions() * data->getNumberOfSections();
+        frame->StateTablesLbl->Caption = IntToStr(data->getNumberOfStateTables()) + " (" + IntToStr(nrOfStateTables) + ")";
+        frame->PopulatePB->Position 		= data->getNumberOfTiles();
     }
 };
 
@@ -101,7 +99,7 @@ void TATIFDataProjectFrame::onThreadProgress(void* arg1, void* arg2)
     {
     	ATIFData* data = (ATIFData*) arg1;
 
-        TLocalArgs Args;
+        TLocalArgs1 Args;
         Args.data = data;
         Args.frame = this;
         TThread::Synchronize(NULL, &Args.sync);
@@ -114,7 +112,7 @@ void TATIFDataProjectFrame::onThreadExit(void* arg1, void* arg2)
     {
     	ATIFData* data = (ATIFData*) arg1;
 
-        TLocalArgs Args;
+        TLocalArgs1 Args;
         Args.data = data;
         Args.frame = this;
         TThread::Synchronize(NULL, &Args.sync);
@@ -123,11 +121,13 @@ void TATIFDataProjectFrame::onThreadExit(void* arg1, void* arg2)
     mProject.notifyObservers(UpdateRepresentation);
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TATIFDataProjectFrame::Button1Click(TObject *Sender)
 {
-    mProject.notifyObservers(UpdateRepresentation);
+    //Open Generate state tables form..
+	unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, this->Owner));
+    f->ShowModal();
+
 }
 
 

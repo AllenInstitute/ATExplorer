@@ -9,7 +9,6 @@ using namespace dsl;
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
 USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
-
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try

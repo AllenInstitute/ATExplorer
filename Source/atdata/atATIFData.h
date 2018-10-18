@@ -32,14 +32,17 @@ class ATE_DATA ATIFData : public ATData
 
 		FileFolders						getSessionFolders(FileFolderSP ribbonFolder);
    		FileFolders                     getChannelFolders(FileFolderSP sessionFolder);
+        int	                            getNumberOfStateTables(bool refresh = false);
 
     protected:
         Path 							mRibbonsFolderPath;
         FileFolderSP			        mRibbonsDataFolder;
         FileFolderSP   	    			mProcessedDataFolder;
         FileFolderSP        			mScriptsDataFolder;
+        StringList                      mStateTables;
         bool                            populateRibbons();
         bool                            populateSessions();
+        bool                            populateStateTables();
 };
 }
 #endif

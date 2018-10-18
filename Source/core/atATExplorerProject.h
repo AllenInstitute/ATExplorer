@@ -53,6 +53,7 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
         virtual bool                            open(const string& fName = dsl::gEmptyString);
 
         virtual bool							addChild(ATExplorerProject* child);
+        virtual bool                            hasChild(const string& pName);
 
         string                                  getPresentXMLModelVersion();
         virtual dsl::XMLElement*           		addToXMLDocument(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
@@ -67,6 +68,8 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
                                                 //a particular process
         string									mInfoText;
 
+
+
     protected:
         bool                                    resetXML();
         int                                     loadATObjects();
@@ -79,7 +82,6 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 		ATIFDataProject*	 					createATIFDataProject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 		TiffStack*								createTiffStackProject(tinyxml2::XMLElement* element);
-
 };
 
 }

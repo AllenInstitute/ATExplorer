@@ -1,9 +1,11 @@
 #pragma hdrstop
 #include "atSession.h"
+#include "dslStringUtils.h"
 //---------------------------------------------------------------------------
 namespace at
 {
 
+using namespace dsl;
 Session::Session(const string& lbl)
 :
 mLabel(lbl)
@@ -15,6 +17,12 @@ Session::~Session()
 string Session::getTypeName() const
 {
     return "session";
+}
+
+int  Session::getID() const
+{
+    string id(stripToDigit(mLabel));
+	return toInt(id);
 }
 
 bool Session::operator==(const Session& s) const

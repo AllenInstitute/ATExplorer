@@ -54,3 +54,4 @@ html
 /Docs/manual/*.maf
 /Docs/manual/*.mtc
 /Docs/manual/*.mtc0
+*.pyc

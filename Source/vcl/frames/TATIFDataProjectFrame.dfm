@@ -1,25 +1,27 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 305
+  Width = 958
+  Height = 548
   Align = alClient
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 451
-    Height = 305
-    Align = alClient
+    Width = 958
+    Height = 241
+    Align = alTop
     Caption = 'AT IF Data Properties'
     TabOrder = 0
     DesignSize = (
-      451
-      305)
+      958
+      241)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 417
+      Width = 924
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -27,6 +29,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       EditLabel.Caption = 'DataRootFolderE'
       Enabled = False
       TabOrder = 0
+      ExplicitWidth = 417
     end
     object ScanDataBtn: TButton
       Left = 16
@@ -102,35 +105,94 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       end
       object Label5: TLabel
         Left = 236
-        Top = 41
+        Top = 48
         Width = 101
         Height = 13
         Caption = 'Number of Channels:'
       end
       object NrOfChannelsLbl: TLabel
         Left = 360
-        Top = 41
+        Top = 48
         Width = 6
         Height = 13
         Caption = '0'
+      end
+      object Label6: TLabel
+        Left = 236
+        Top = 73
+        Width = 117
+        Height = 13
+        Caption = 'Number of State Tables:'
+      end
+      object StateTablesLbl: TLabel
+        Left = 360
+        Top = 73
+        Width = 23
+        Height = 13
+        Caption = '0 (0)'
       end
     end
     object PopulatePB: TProgressBar
       Left = 103
       Top = 88
-      Width = 330
+      Width = 837
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
+      ExplicitWidth = 330
     end
     object Button1: TButton
-      Left = 16
-      Top = 240
-      Width = 75
+      Left = 439
+      Top = 130
+      Width = 121
       Height = 25
-      Caption = 'Button1'
+      Caption = 'Generate State Tables'
       TabOrder = 4
       OnClick = Button1Click
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 241
+    Width = 958
+    Height = 307
+    Align = alClient
+    TabOrder = 1
+    ExplicitTop = -155
+    ExplicitWidth = 451
+    ExplicitHeight = 460
+    object GroupBox3: TGroupBox
+      Left = 16
+      Top = 16
+      Width = 241
+      Height = 153
+      Caption = 'Ribbons'
+      TabOrder = 0
+      object ListBox1: TListBox
+        Left = 2
+        Top = 15
+        Width = 237
+        Height = 136
+        Align = alClient
+        ItemHeight = 13
+        TabOrder = 0
+      end
+    end
+    object GroupBox5: TGroupBox
+      Left = 287
+      Top = 16
+      Width = 226
+      Height = 153
+      Caption = 'Ribbon Info'
+      TabOrder = 1
+    end
+    object GroupBox4: TGroupBox
+      Left = 544
+      Top = 16
+      Width = 226
+      Height = 153
+      Caption = 'ACQ Stacks'
+      TabOrder = 2
     end
   end
 end

@@ -2,10 +2,12 @@
 #include "atRibbon.h"
 #include "atSection.h"
 //#include "atExplorerCore.h"
+#include "dslStringUtils.h"
 //---------------------------------------------------------------------------
 namespace at
 {
 
+using namespace dsl;
 Ribbon::Ribbon(int id, const string& alias)
 :
 Sections(),
@@ -30,6 +32,12 @@ void Ribbon::removeSections()
 string Ribbon::getAlias()
 {
 	return mAlias;
+}
+
+int Ribbon::getAliasAsInt()
+{
+    string s = stripToDigit(mAlias);
+	return toInt(s);
 }
 
 int	Ribbon::getShortRibbonID()

@@ -70,6 +70,11 @@ string ATExplorerProject::getPresentXMLModelVersion()
     return gATExplorerProjectFileVersion;
 }
 
+bool ATExplorerProject::hasChild(const string& pName)
+{
+    return mChilds.hasProject(pName);
+}
+
 bool ATExplorerProject::addChild(ATExplorerProject* child)
 {
 	if(child)

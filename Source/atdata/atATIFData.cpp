@@ -40,13 +40,24 @@ bool ATIFData::setBasePath(const string& bp)
     {
 	    mBasePath = Path(bp);
         mRibbonsFolderPath 		= Path(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))));
-        mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
-        mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
-        mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+        if(folderExists(mRibbonsFolderPath.toString()))
+        {
+        	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
+        }
+        if(folderExists(joinPath(mBasePath.toString(), "processed")))
+        {
+        	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
+        }
+
+        if(folderExists(joinPath(mBasePath.toString(), 	"scripts")))
+        {
+        	mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+        }
         return true;
     }
     else
     {
+        Log(lWarning) << "Data folder: " << bp <<" don't exist";
         return false;
     }
 }
@@ -59,9 +70,29 @@ ATDataFileFormat ATIFData::getFileFormat()
 void ATIFData::reset()
 {
     ATData::reset();
-    mRibbonsDataFolder->reset();
-    mProcessedDataFolder->reset();
-    mScriptsDataFolder->reset();
+    if(mRibbonsDataFolder)
+    {
+    	mRibbonsDataFolder->reset();
+    }
+
+    if(mProcessedDataFolder)
+    {
+    	mProcessedDataFolder->reset();
+    }
+
+    if(mScriptsDataFolder)
+    {
+    	mScriptsDataFolder->reset();
+    }
+}
+
+int ATIFData::getNumberOfStateTables(bool refresh)
+{
+    if(refresh)
+    {
+        populateStateTables();
+    }
+	return mStateTables.count();
 }
 
 bool ATIFData::populate(const bool& timeToDie)
@@ -71,6 +102,26 @@ bool ATIFData::populate(const bool& timeToDie)
     {
         populateRibbons();
         populateSessions();
+        populateStateTables();
+    }
+    return true;
+}
+
+bool ATIFData::populateStateTables()
+{
+	mStateTables.clear();
+    //All raw data is in the ribbons datafolder, populate it first
+
+    if(!mScriptsDataFolder)
+    {
+        return false;
+    }
+
+	set<string> files  = mScriptsDataFolder->getFiles("statetable_ribbon*");
+    //Add statetables to StateTables container
+    for(set<string>::iterator it = files.begin(); it != files.end(); it++)
+    {
+		mStateTables.append(getFileNameNoPath((*it)));
     }
 
     return true;
@@ -89,7 +140,6 @@ bool ATIFData::populateRibbons()
 
     //All raw data is in the ribbons datafolder, populate it first
 	FolderInfo fInfo = mRibbonsDataFolder->scan();
-
     Log(lInfo) << "Found " <<fInfo.NrOfFolders << " folders and " << fInfo.NrOfFiles << " files";
 
     if(onStartingPopulating)

@@ -34,7 +34,14 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
         TProgressBar *PopulatePB;
         TLabel *Label5;
         TLabel *NrOfChannelsLbl;
+	TPanel *Panel1;
+	TGroupBox *GroupBox3;
+	TGroupBox *GroupBox5;
+	TListBox *ListBox1;
+	TGroupBox *GroupBox4;
 	TButton *Button1;
+	TLabel *Label6;
+	TLabel *StateTablesLbl;
         void __fastcall ScanDataBtnClick(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 

@@ -33,7 +33,7 @@ class TCreateStackThreadFrame;
 
 namespace at
 {
-class TiffStack;
+	class TiffStack;
 }
 
 

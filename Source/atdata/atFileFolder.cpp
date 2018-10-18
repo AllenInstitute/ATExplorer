@@ -28,7 +28,7 @@ FileSystemObject(path)
         throw(FileSystemException(msg));
     }
 
-//    if (parent)
+//    if (parent)                           `
 //    {
 //        parent->addSubFolder(shared_from_this());
 //    }

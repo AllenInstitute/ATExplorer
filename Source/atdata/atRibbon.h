@@ -22,6 +22,7 @@ class ATE_DATA Ribbon : public Sections
         void                                    assignLongRibbonID(const string& lid);
 
         string                                  getAlias();
+        int		                                getAliasAsInt();
         int		                                getShortRibbonID();
         string                                  getLongRibbonID();
 

@@ -296,10 +296,18 @@ void __fastcall TMainForm::AddATIFDataActionExecute(TObject *Sender)
 
 	    //Check how many renderproject childs
         int nrOfChilds = parent->getNumberOfChilds();
-
         dataProject->setProjectName(getLastFolderInPath(dataProject->getDataRootFolder()));
-    	parent->addChild(dataProject);
+
+        //Make sure that no project with the same name exists in the view
+        if(parent->hasChild(dataProject->getProjectName()))
+        {
+            MessageDlg("This data is already added to the current project!", mtWarning, TMsgDlgButtons() << mbOK, 0);
+            return;
+        }
+
+        parent->addChild(dataProject);
     	parent->setModified();
+
 		mPTreeView.addProjectToTreeView(parent, dataProject);
         mPTreeView.createTreeViewNodes(dataProject);
     }
