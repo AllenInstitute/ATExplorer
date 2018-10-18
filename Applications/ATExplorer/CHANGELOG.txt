@@ -1,3 +1,46 @@
+Release 0.6.8 (Oct 18)
+=======================
+* Added stuff in the DockerDataFolder pipeline folder
+* Got generation of statetable files working from within the UI
+* Added toc for manual appendix
+* Worked on the tree view logic
+* Cleaned up popup mechanisms when clicking on treeview nodes
+* Re enabled renderprojects in the tree
+* Fixed bugs in Observer design pattern code..
+* moved code logic from the MainForm into the ProjectsTreeView class
+* Removing some usage of pointers to object references
+* Testing inheriting from ATData in ATIFDataProject to ease usage of a ATIFDataProject object
+* Refactoring
+* Moved sources out of ATExplorer APP to ATExplorer API's folder
+* More ATData utilities and logic
+* Added callbacks to monitor, give feedback when population of ATData
+* Finished(?) implementing population of ATData
+* Updated manual with a preface section, and separate documentfile
+* Added an ATExplorer UI figure to manual to build on
+* Getting python working with smart pointers..
+* More conversions to shared pointers
+* Getting data structures more finalized
+* Converted to using shared pointers for sections and ribbons for easier book keeping
+* Added test program for FileFolder traversing code
+* Made all FileFolder code use shared pointers
+* Refactoring FileFolder class to use shared pointers
+* Created inheritance for "Tabbed Views"
+* Setting up ATIFData tabbed view
+* Worked on some problems with observer pattern..
+* Added code for creation of ATIFData project
+* Added testing code
+* Setting up a test project for ATIFData import code
+* Fixed renaming of open tabs, if changing name of a project leaf node
+* Added unit atUtilities
+* Added latex .gitignore
+* Manual work..
+* Added Latex skeleton for ATExplorer manual
+* Fixed(?) killing of threads
+* Added check of z indexes when creating stacks
+* Added automatic checking of current stack when opening the create volumes form
+* Updated version info in project file
+* Fixed file dialog filters when opening and saving projects
+
 Release 0.6.7 (Sept 19)
 =======================
 * Added RenderStackName to generated TIFF stacks
