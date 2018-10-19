@@ -62,6 +62,11 @@ bool ATIFData::setBasePath(const string& bp)
     }
 }
 
+StringList ATIFData::getStateTables()
+{
+    return mStateTables;
+}
+
 ATDataFileFormat ATIFData::getFileFormat()
 {
     return mFileFormat;

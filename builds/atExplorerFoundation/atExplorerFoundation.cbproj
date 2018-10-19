@@ -139,7 +139,10 @@
             <BuildOrder>5</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atCreateATIFDataStateTablesThread.cpp">
-            <DependentOn>..\..\Source\atdata\atCreateATIFDataStateTablesThread.h</DependentOn>
+            <BuildOrder>37</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\atdata\atCreateRawDataRenderStacksThread.cpp">
+            <DependentOn>..\..\Source\atdata\atCreateRawDataRenderStacksThread.h</DependentOn>
             <BuildOrder>35</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\atdata\atFile.cpp">
@@ -255,6 +258,10 @@
         <CppCompile Include="..\..\Source\core\atTiffStack.cpp">
             <DependentOn>..\..\Source\core\atTiffStack.h</DependentOn>
             <BuildOrder>34</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atUtils.cpp">
+            <DependentOn>..\..\Source\core\atUtils.h</DependentOn>
+            <BuildOrder>38</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

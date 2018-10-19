@@ -8,9 +8,8 @@
 #include "atRibbon.h"
 #include "atSession.h"
 #include "atExceptions.h"
-
+#include "atUtils.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
 
 namespace at
 {
@@ -141,8 +140,6 @@ void CreateATIFDataStateTablesThread::worker()
     mIsFinished = true;
 }
 
-string toPosixPath(const string& winpath);
-
 string createDockerCommand(const string& outFile, const string& projDir, int ribbon, int session, int section)
 {
 // Example
@@ -165,29 +162,5 @@ string createDockerCommand(const string& outFile, const string& projDir, int rib
     return cmdLine.str();
 }
 
-string stripToChar(const string& str, char theChar)
-{
-    // trim leading spaces
-    size_t startpos = str.find_first_of(theChar);
-    if(startpos != string::npos)
-    {
-	    string str2;
-        str2 = str.substr( startpos + 1 );
-	    return str2;
-    }
-    else
-    {
-        return str;
-    }
-}
 
-string toPosixPath(const string& winpath)
-{
-    //Strip driveletter
-    string pPath(stripToChar(winpath, ':'));
-	std::replace(pPath.begin(), pPath.end(), '\\', '/');
-
-    pPath = trimBack(pPath, '/');
-    return pPath;
-}
 }

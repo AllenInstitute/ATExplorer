@@ -33,6 +33,7 @@ class ATE_DATA ATIFData : public ATData
 		FileFolders						getSessionFolders(FileFolderSP ribbonFolder);
    		FileFolders                     getChannelFolders(FileFolderSP sessionFolder);
         int	                            getNumberOfStateTables(bool refresh = false);
+        StringList                      getStateTables();
 
     protected:
         Path 							mRibbonsFolderPath;

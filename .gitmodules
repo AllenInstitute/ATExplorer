@@ -3,4 +3,4 @@
 	url = https://github.com/TotteKarlsson/render-deploy.git
 [submodule "ThirdParty/Render-Python-Apps"]
 	path = ThirdParty/Render-Python-Apps
-	url = https://github.com/TotteKarlsson/render-python-apps.git
+	url = https://github.com/AllenInstitute/render-python-apps.git

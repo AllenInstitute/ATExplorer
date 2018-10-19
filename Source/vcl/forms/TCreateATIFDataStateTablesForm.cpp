@@ -53,6 +53,9 @@ void TCreateATIFDataStateTablesForm::onThreadEnter(void* arg1, void* arg2)
 }
 
 //A way to use TThread::Synchronize with arguments
+namespace CreateATIFDataStateTables
+{
+
 struct TLocalArgs
 {
     ATIFData* data;
@@ -76,13 +79,14 @@ struct TLocalArgs
         frame->PopulatePB->Position 		= data->getNumberOfStateTables();
     }
 };
+}
 
 void TCreateATIFDataStateTablesForm::onThreadProgress(void* arg1, void* arg2)
 {
     if(arg1)
     {
     	ATIFData* data = (ATIFData*) arg1;
-        TLocalArgs Args;
+        CreateATIFDataStateTables::TLocalArgs Args;
         Args.data = data;
         Args.frame = this;
         TThread::Synchronize(NULL, &Args.sync);
@@ -95,7 +99,7 @@ void TCreateATIFDataStateTablesForm::onThreadExit(void* arg1, void* arg2)
     {
     	ATIFData* data = (ATIFData*) arg1;
 
-        TLocalArgs Args;
+        CreateATIFDataStateTables::TLocalArgs Args;
         Args.data = data;
         Args.frame = this;
         TThread::Synchronize(NULL, &Args.sync);

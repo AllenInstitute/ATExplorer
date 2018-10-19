@@ -35,15 +35,13 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
         TLabel *Label5;
         TLabel *NrOfChannelsLbl;
 	TPanel *Panel1;
-	TGroupBox *GroupBox3;
-	TGroupBox *GroupBox5;
-	TListBox *ListBox1;
 	TGroupBox *GroupBox4;
-	TButton *Button1;
+	TButton *CreateStateTablesBtn;
 	TLabel *Label6;
 	TLabel *StateTablesLbl;
+	TButton *CreateRenderStacksBtn;
         void __fastcall ScanDataBtnClick(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall CreateStateTablesBtnClick(TObject *Sender);
 
     private:
                                             //A Reference to a atifdata project

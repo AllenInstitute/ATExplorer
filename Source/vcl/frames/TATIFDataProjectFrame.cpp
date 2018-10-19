@@ -10,6 +10,7 @@
 #include "atdata/atSession.h"
 #include "atExceptions.h"
 #include "TCreateATIFDataStateTablesForm.h"
+#include "TCreateACQRenderStacksForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTSTDStringLabeledEdit"
@@ -122,11 +123,21 @@ void TATIFDataProjectFrame::onThreadExit(void* arg1, void* arg2)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TATIFDataProjectFrame::Button1Click(TObject *Sender)
+void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender)
 {
-    //Open Generate state tables form..
-	unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, this->Owner));
-    f->ShowModal();
+    TButton* b = dynamic_cast<TButton*>(Sender);
+
+    if(b == CreateStateTablesBtn)
+    {
+        //Open Generate state tables form..
+        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, this->Owner));
+        f->ShowModal();
+    }
+    else if(b == CreateRenderStacksBtn)
+    {
+        unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, this->Owner));
+        f->ShowModal();
+    }
 
 }
 

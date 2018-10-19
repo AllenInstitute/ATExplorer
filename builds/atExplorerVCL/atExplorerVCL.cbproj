@@ -187,11 +187,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\atUtilities.h</DependentOn>
             <BuildOrder>22</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.cpp">
+            <Form>CreateACQRenderStacksForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\Source\vcl\forms\TCreateACQRenderStacksForm.h</DependentOn>
+            <BuildOrder>28</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.cpp">
             <Form>CreateATIFDataProjectForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>..\..\Source\vcl\forms\TCreateATIFDataProjectForm.h</DependentOn>
-            <BuildOrder>26</BuildOrder>
+            <BuildOrder>27</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.cpp">
             <Form>CreateATIFDataStateTablesForm</Form>
@@ -236,7 +242,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\Source\vcl\frames\TCreateStackThreadFrame.h</DependentOn>
-            <BuildOrder>26</BuildOrder>
+            <BuildOrder>29</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\frames\TRenderProjectFrame.cpp">
             <Form>RenderProjectFrame</Form>
@@ -252,16 +258,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
             <BuildOrder>34</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -1,8 +1,8 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 958
-  Height = 548
+  Width = 1052
+  Height = 710
   Align = alClient
   TabOrder = 0
   ExplicitWidth = 451
@@ -10,18 +10,19 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 958
+    Width = 1052
     Height = 241
     Align = alTop
-    Caption = 'AT IF Data Properties'
+    Caption = 'Raw AT IF Data Properties'
     TabOrder = 0
+    ExplicitWidth = 451
     DesignSize = (
-      958
+      1052
       241)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 924
+      Width = 1018
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -135,64 +136,51 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     object PopulatePB: TProgressBar
       Left = 103
       Top = 88
-      Width = 837
+      Width = 931
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
       ExplicitWidth = 330
     end
-    object Button1: TButton
+    object CreateStateTablesBtn: TButton
       Left = 439
       Top = 130
       Width = 121
       Height = 25
       Caption = 'Generate State Tables'
       TabOrder = 4
-      OnClick = Button1Click
+      OnClick = CreateStateTablesBtnClick
+    end
+    object CreateRenderStacksBtn: TButton
+      Left = 592
+      Top = 130
+      Width = 128
+      Height = 25
+      Caption = 'Generate Render Stacks'
+      TabOrder = 5
+      OnClick = CreateStateTablesBtnClick
     end
   end
   object Panel1: TPanel
     Left = 0
     Top = 241
-    Width = 958
-    Height = 307
+    Width = 1052
+    Height = 469
     Align = alClient
     TabOrder = 1
-    ExplicitTop = -155
     ExplicitWidth = 451
-    ExplicitHeight = 460
-    object GroupBox3: TGroupBox
-      Left = 16
-      Top = 16
-      Width = 241
-      Height = 153
-      Caption = 'Ribbons'
-      TabOrder = 0
-      object ListBox1: TListBox
-        Left = 2
-        Top = 15
-        Width = 237
-        Height = 136
-        Align = alClient
-        ItemHeight = 13
-        TabOrder = 0
-      end
-    end
-    object GroupBox5: TGroupBox
-      Left = 287
-      Top = 16
-      Width = 226
-      Height = 153
-      Caption = 'Ribbon Info'
-      TabOrder = 1
-    end
+    ExplicitHeight = 64
     object GroupBox4: TGroupBox
-      Left = 544
-      Top = 16
+      Left = 1
+      Top = 1
       Width = 226
-      Height = 153
+      Height = 467
+      Align = alLeft
       Caption = 'ACQ Stacks'
-      TabOrder = 2
+      TabOrder = 0
+      ExplicitLeft = 16
+      ExplicitTop = 6
+      ExplicitHeight = 153
     end
   end
 end
