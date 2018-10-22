@@ -84,7 +84,7 @@ if __name__ == "__main__":
     mediantemplate = "../DockerDataFolders/pipeline/median_record_template.json"
     num_iter = 20
     processDir = "f:\\data\\M33"
-    dirname = "f:\\data\\M33\\raw\\data\\Ribbon0004\\session02"
+    dirname = "f:\\data\\M33\\raw\\data\\Ribbon0004\\session01"
     print ("Processing folder: " + dirname)
 
     for sectnum in range(firstsection,lastsection+1):

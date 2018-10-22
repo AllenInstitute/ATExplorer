@@ -153,8 +153,8 @@ string createDockerCommand(const string& outFile, const string& projDir, int rib
 
 	stringstream cmdLine;
     cmdLine << "exec renderapps python /pipeline/make_state_table_ext_multi_pseudoz.py";
-	cmdLine << " --projectDirectory " 	<< joinPath("/mnt", toPosixPath(projDir), '/');
-    cmdLine << " --outputFile "         << joinPath("/mnt", toPosixPath(outFile), '/');
+	cmdLine << " --projectDirectory " 	<< toPosixPath(projDir, "/mnt");
+    cmdLine << " --outputFile "         << toPosixPath(outFile, "/mnt");
     cmdLine << " --oneribbononly "      << "True";
     cmdLine << " --ribbon "        		<< ribbon;
     cmdLine << " --session "        	<< session;

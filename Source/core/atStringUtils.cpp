@@ -19,10 +19,9 @@ string toPosixPath(const string& winpath, const string& prefixFolder)
 
     if(prefixFolder.size())
     {
-        pPath = "/" + prefixFolder + pPath;
+        pPath = prefixFolder + pPath;
     }
 
-	pPath = trimFront(pPath, '/');
     return pPath;
 }
 

@@ -255,13 +255,13 @@
             <DependentOn>..\..\Source\core\atROIHistory.h</DependentOn>
             <BuildOrder>22</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atStringUtils.cpp">
+            <DependentOn>..\..\Source\core\atStringUtils.h</DependentOn>
+            <BuildOrder>38</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atTiffStack.cpp">
             <DependentOn>..\..\Source\core\atTiffStack.h</DependentOn>
             <BuildOrder>34</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atUtils.cpp">
-            <DependentOn>..\..\Source\core\atUtils.h</DependentOn>
-            <BuildOrder>38</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

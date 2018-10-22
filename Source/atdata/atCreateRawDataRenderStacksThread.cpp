@@ -53,7 +53,6 @@ void CreateRawDataRenderStacksThread::worker()
     {
         Log(lInfo) << "About to process: " << mTheData.getNumberOfStateTables()<<" state tables into RenderStacks";
         StringList tables = mTheData.getStateTables();
-
         for(int i = 0; i < tables.count(); i++)
         {
 
