@@ -65,11 +65,11 @@ def parsefile(fname):
 
 if __name__ == "__main__":
 
-    owner = "TestOwner"
+    owner = "ATExplorer"
     firstsection = 0
-    lastsection = 24
+    lastsection = 23
 
-    dirname = "f:\\data\\M33\\raw\\data\\Ribbon0004\\session02"
+    dirname = "f:\\data\\M33\\raw\\data\\Ribbon0004\\session01"
 
     print ("Processing folder: " + dirname)
     for sectnum in range(firstsection,lastsection+1):
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         #--section 0
 
         #make state table
-        cmd = "docker exec renderapps python /pipeline/make_state_table_ext_multi_pseudoz.py "
+        cmd = "docker exec renderapps_multchan python /pipeline/make_state_table_ext_multi_pseudoz.py "
         cmd = cmd + " --projectDirectory %s"%projectRootPathP
         cmd = cmd + " --outputFile %s"%stateTablePathP
         cmd = cmd + " --oneribbononly True"

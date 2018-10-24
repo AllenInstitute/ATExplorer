@@ -4,3 +4,6 @@
 [submodule "ThirdParty/Render-Python-Apps"]
 	path = ThirdParty/Render-Python-Apps
 	url = https://github.com/AllenInstitute/render-python-apps.git
+[submodule "ThirdParty/Render-Modules"]
+	path = ThirdParty/Render-Modules
+	url = https://github.com/AllenInstitute/render-modules.git

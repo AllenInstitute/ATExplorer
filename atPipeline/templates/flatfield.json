@@ -4,7 +4,7 @@
         "port": 8080,
         "owner": "",
         "project": "",
-        "client_scripts": "/pipeline/render/render-ws-java-client/src/main/scripts"
+        "client_scripts": "/shared/render/render-ws-java-client/src/main/scripts"
     },
     "input_stack": "",
     "correction_stack": "",
