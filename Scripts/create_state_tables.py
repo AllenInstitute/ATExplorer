@@ -114,7 +114,7 @@ if __name__ == "__main__":
         cmd = cmd + " --ribbon %d"%ribbon
         cmd = cmd + " --session %d"%session
         cmd = cmd + " --section %d"%sectnum
-        print (cmd)
+        print ("Running: " + cmd)
 
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         for line in p.stdout.readlines():

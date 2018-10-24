@@ -2,6 +2,8 @@
 #pragma hdrstop
 #include "ateAppUtilities.h"
 #include "dslLogger.h"
+#include "atATExplorer.h"
+#include <memory>
 //---------------------------------------------------------------------------
 using namespace at;
 using namespace dsl;
@@ -13,6 +15,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
 	{
+        std::unique_ptr<ATExplorer> gATExplorer(new ATExplorer());
+
 		gAU.init();
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
@@ -27,7 +31,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
     catch(DSLException& e)
 	{
         stringstream s;
-        s << "There was an exception: \n";
+        s << "There was a DSL exception: \n";
         s << e.what();
         s <<"\n\nProgram will now exit";
         MessageDlg(s.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);

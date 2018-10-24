@@ -8,7 +8,7 @@
 #include "atRibbon.h"
 #include "atSession.h"
 #include "atExceptions.h"
-#include "atUtils.h"
+#include "atStringUtils.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -120,7 +120,7 @@ void CreateRawDataRenderStacksThread::worker()
 string createDockerCommand(const string& stateTablePathP, const string& projDir)
 {
 	stringstream cmdLine;
-    cmdLine << "exec renderapps python -m renderapps.dataimport.create_fast_stacks_multi";
+    cmdLine << "exec renderapps_multchan python -m renderapps.dataimport.create_fast_stacks_multi";
     cmdLine << " --render.client_scripts /shared/render/render-ws-java-client/src/main/scripts";
 	cmdLine << " --render.host W10DTMJ03EG6Z.corp.alleninstitute.org";
     cmdLine << " --render.port 8080";

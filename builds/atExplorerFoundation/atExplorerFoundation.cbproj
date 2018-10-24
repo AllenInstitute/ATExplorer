@@ -197,6 +197,10 @@
             <DependentOn>..\..\Source\atdata\atTiles.h</DependentOn>
             <BuildOrder>17</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atATExplorer.cpp">
+            <DependentOn>..\..\Source\core\atATExplorer.h</DependentOn>
+            <BuildOrder>39</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atATExplorerProject.cpp">
             <DependentOn>..\..\Source\core\atATExplorerProject.h</DependentOn>
             <BuildOrder>26</BuildOrder>

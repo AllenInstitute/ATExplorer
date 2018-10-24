@@ -58,7 +58,7 @@ string TSelectRenderProjectParametersForm::getOutputFolderLocation()
 
 RenderServiceParameters TSelectRenderProjectParametersForm::getRenderService()
 {
-	RenderServiceParameters service(BaseURLE->getValue(), HostPort->getValue());
+	RenderServiceParameters service("<not set>", BaseURLE->getValue(), HostPort->getValue());
     return service;
 }
 //---------------------------------------------------------------------------

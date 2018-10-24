@@ -72,7 +72,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Align = alTop
     Caption = 'Project'
     TabOrder = 1
-    ExplicitHeight = 183
     DesignSize = (
       574
       78)
@@ -118,7 +117,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 264
     object Button1: TButton
       Left = 396
       Top = 9
@@ -146,9 +144,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Align = alClient
     Caption = 'Data Output'
     TabOrder = 3
-    ExplicitLeft = -32
-    ExplicitTop = 270
-    ExplicitHeight = 105
     DesignSize = (
       574
       78)

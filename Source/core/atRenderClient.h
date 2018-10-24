@@ -41,7 +41,7 @@ typedef void __fastcall (__closure *RCCallBack)(void);
 class ATE_CORE RenderClient
 {
 	public:
-							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);
+							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("", "",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -116,7 +116,7 @@ class ATE_CORE RenderClient
         RenderProject&					            mRenderProject;
         RenderLocalCache                            mCache;
         string 			                            mImageType;
-//        RegionOfInterest			                mRegionOfInterest;
+
         int								            mMinIntensity;
         int								            mMaxIntensity;
         RegionOfInterest						    parseBoundsResponse(const string& s);
