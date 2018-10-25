@@ -7,3 +7,6 @@
 [submodule "ThirdParty/Render-Modules"]
 	path = ThirdParty/Render-Modules
 	url = https://github.com/AllenInstitute/render-modules.git
+[submodule "ThirdParty/atPipeline"]
+	path = ThirdParty/atPipeline
+	url = https://github.com/AllenInstitute/atPipeline
