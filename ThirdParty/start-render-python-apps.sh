@@ -12,7 +12,7 @@ docker rm $container
 echo "Starting container: $container"
 docker run -t --name $container  \
 -v F:/data:/mnt/data/  \
--v c:/pDisk/atExplorer/atPipeline:/pipeline  \
+-v c:/pDisk/atExplorer/ThirdParty/atPipeline:/pipeline  \
 -v c:/pDisk/atExplorer/ThirdParty/Render-Python-Apps:/usr/local/render-python-apps  \
 -i -t $image_tag /bin/bash
 
