@@ -10,3 +10,6 @@
 [submodule "ThirdParty/atPipeline"]
 	path = ThirdParty/atPipeline
 	url = https://github.com/AllenInstitute/atPipeline
+[submodule "ThirdParty/at_modules"]
+	path = ThirdParty/at_modules
+	url = https://github.com/AllenInstitute/at_modules
