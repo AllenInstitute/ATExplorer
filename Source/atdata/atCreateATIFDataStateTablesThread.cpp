@@ -9,6 +9,7 @@
 #include "atSession.h"
 #include "atExceptions.h"
 #include "atUtils.h"
+#include "atStringUtils.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -152,7 +153,7 @@ string createDockerCommand(const string& outFile, const string& projDir, int rib
 //            --section 0
 
 	stringstream cmdLine;
-    cmdLine << "exec renderapps python /pipeline/make_state_table_ext_multi_pseudoz.py";
+    cmdLine << "exec renderapps_multchan python /pipeline/make_state_table_ext_multi_pseudoz.py";
 	cmdLine << " --projectDirectory " 	<< toPosixPath(projDir, "/mnt");
     cmdLine << " --outputFile "         << toPosixPath(outFile, "/mnt");
     cmdLine << " --oneribbononly "      << "True";

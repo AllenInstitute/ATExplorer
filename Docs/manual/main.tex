@@ -1,5 +1,4 @@
 \documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
-
 \input{structure} % Insert the commands.tex file which contains the majority of the structure behind the template
 
 \usepackage[toc,page]{appendix}
@@ -14,8 +13,10 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{titletoc}
+\usepackage{pythonhighlight}
 
 \graphicspath{{figures/}} %Setting the graphicspath
+
 \begin{document}
 \newcommand{\ate}{ATExplorer }
 \newcommand{\at}{Array Tomography }
@@ -39,7 +40,7 @@
 \draw[anchor=north] (midpoint) node [fill=gray!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]{\Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}{\centering ATExplorer 1.0 - User Manual\\[15pt] % Book title
 {\Large Smith Lab, Allen Institute for Brain Science}\\[20pt] % Subtitle
 {\small October 2018}\\[20pt] % Subtitle
-{\huge }}}; % Author name
+{\huge }}}; % Author name/double
 \end{tikzpicture}};
 \end{tikzpicture}
 \vfill
@@ -86,7 +87,7 @@
 \startcontents[chapter]
 \printcontents[chapter]{l}{0}{\setcounter{tocdepth}{1}}
 
-\chapter{Setup a RenderHost and Python}
+\chapter{Setup a RenderHost and RenderPython}
 \begin{figure}[h]
 \centering\includegraphics[scale=0.50]{ATDeployable_1}
 \caption{A deployed system}
@@ -97,11 +98,11 @@
 \chapter{Software Design and Software Components}
 
 \section{\ate UI}
-The \ate UI is Microsoft Windows desktop application implemented using Embarcadero's C++ Builder tools. 
-This environment provide a programmer with hundreds of components for efficient and rapid development of Windows applications.
-
+The \ate UI is a Microsoft Windows desktop application implemented using Embarcadero's C++ Builder tools. 
+The C++ Builder environment provide a programmer with hundreds of components for efficient and rapid development of Windows applications. 
 In addition, thousands of third party components are available as well.
-This appendix discusses some of the software designs used when implementing the \ate
+
+This appendix discusses some of the software designs and software components employed when implementing the \ate
 
 
 \subsection{Observers and subjects}
@@ -145,6 +146,17 @@ if(dynamic_cast<...>(eo))
 
 Public Software Repository: $\mathbf{git@github.com:TotteKarlsson/ATExplorer.git}$
 
+\chapter{Data formats}
+\section{Allen institute stat format}
+
+\section {Kristina format}
+
+
+\chapter{Arraybot and ArrayCam}
+
+\chapter{atDB}
+
+\chapter{ATClassifier}
 
 
 \end{appendices}
