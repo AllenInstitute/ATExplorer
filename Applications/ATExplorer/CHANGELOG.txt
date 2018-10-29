@@ -1,3 +1,17 @@
+Release 0.6.9 (Oct 29)
+=======================
+* Worked on manual
+* Added at_modules as a submodule
+* Moved pipeline scripts to atPipeline repo
+* Working on pipeline scripts
+* Created an ATExplorer "super class"
+* Created container to hold renderhosts
+* Added 'pipeline files'
+* Added scripts and templates from leilas pipeline folder
+* Created code for Creating ACQ Render stacks
+* Debugging median calculation Scripts
+* Changed RenderPython apps module to point to AllenInstitute Repo
+
 Release 0.6.8 (Oct 18)
 =======================
 * Added stuff in the DockerDataFolder pipeline folder
