@@ -12,5 +12,6 @@ namespace at
 string ATE_CORE toPosixPath(const string& winpath, const string& prefixFolder = dsl::gEmptyString);
 string ATE_CORE stripToChar(const string& str, char theChar);
 
+
 }
 #endif

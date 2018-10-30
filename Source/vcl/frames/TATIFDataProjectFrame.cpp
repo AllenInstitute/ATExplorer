@@ -38,6 +38,9 @@ __fastcall TATIFDataProjectFrame::TATIFDataProjectFrame(ATIFDataProject& dp, TCo
 void TATIFDataProjectFrame::populate()
 {
     DataRootFolderE->setValue(mProject.getDataRootFolder());
+    FileListBox1->Drive = 'F';
+    FileListBox1->Directory = L"F:\\data\\M33\\scripts";
+
 }
 
 //---------------------------------------------------------------------------
@@ -137,6 +140,24 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
     {
         unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, this->Owner));
         f->ShowModal();
+    }
+
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TATIFDataProjectFrame::FileListBox1Change(TObject *Sender)
+{
+    if(FileListBox1->ItemIndex == -1)
+    {
+        return;
+    }
+	//Load file into memo
+	string fName = stdstr(FileListBox1->Items->Strings[FileListBox1->ItemIndex]);
+    fName = joinPath(stdstr(FileListBox1->Directory), fName);
+
+    if(fileExists(fName))
+    {
+        FileMemo->Lines->LoadFromFile(fName.c_str());
     }
 
 }

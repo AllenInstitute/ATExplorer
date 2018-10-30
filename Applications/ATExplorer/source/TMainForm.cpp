@@ -158,11 +158,11 @@ void __fastcall TMainForm::ATIFDataPopupPopup(TObject *Sender)
 void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled)
 {
 	TTreeNode* node = ProjectTView->GetNodeAt(MousePos.X, MousePos.Y);
+    TPoint popupCoord = ProjectTView->ClientToScreen(MousePos);
 	if(node)
     {
     	Handled = false;
 
-        int pY = MousePos.Y + 80;
         //Check what item is held by the treeview, and modify popup depending on what
         ExplorerObject* eo = (ExplorerObject*) node->Data;
         if(!eo)
@@ -171,16 +171,17 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
         }
         else if(dynamic_cast<RenderProject*>(eo))
         {
-            RenderProjectPopup->Popup(MousePos.X, pY);
+            RenderProjectPopup->Popup(popupCoord.X, popupCoord.Y);
         }
         else if(dynamic_cast<ATIFDataProject*>(eo))
         {
-            ATIFDataPopup->Popup(MousePos.X, pY);
+            ATIFDataPopup->Popup(popupCoord.X, popupCoord.Y);
         }
         else if(dynamic_cast<ATExplorerProject*>(eo))
         {
-            ExplorerProjectPopup->Popup(MousePos.X, pY);
+            ExplorerProjectPopup->Popup(popupCoord.X, popupCoord.Y);
         }
+        Handled = true;
     }
     else
     {

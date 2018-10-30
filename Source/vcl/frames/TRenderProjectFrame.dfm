@@ -1,29 +1,33 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 305
+  Width = 860
+  Height = 564
   Align = alClient
   TabOrder = 0
   OnMouseDown = FrameMouseDown
+  ExplicitWidth = 451
+  ExplicitHeight = 305
   object mLeftPanel: TPanel
     Left = 0
     Top = 0
     Width = 405
-    Height = 305
+    Height = 564
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 305
     object ScrollBox1: TScrollBox
       Left = 1
       Top = 1
       Width = 307
-      Height = 303
+      Height = 562
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
       Align = alClient
       Constraints.MinWidth = 290
       TabOrder = 0
+      ExplicitHeight = 303
       object GroupBox1: TGroupBox
         Left = 0
         Top = 0
@@ -337,37 +341,41 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 96
-      Height = 303
+      Height = 562
       Align = alRight
       TabOrder = 1
+      ExplicitHeight = 303
       object Zs_GB: TGroupBox
         Left = 1
         Top = 1
         Width = 94
-        Height = 163
+        Height = 422
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
+        ExplicitHeight = 163
         object mZs: TCheckListBox
           Left = 2
           Top = 15
           Width = 90
-          Height = 146
+          Height = 405
           Align = alClient
           ItemHeight = 13
           PopupMenu = ZsPopUpMenu
           TabOrder = 0
           OnClick = ClickZ
+          ExplicitHeight = 146
         end
       end
       object CacheGB: TGroupBox
         Left = 1
-        Top = 164
+        Top = 423
         Width = 94
         Height = 138
         Align = alBottom
         Caption = 'Local Cache'
         TabOrder = 1
+        ExplicitTop = 164
         object FetchSelectedZsBtn: TButton
           Left = 5
           Top = 19
@@ -392,22 +400,22 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 405
     Top = 0
-    Width = 46
-    Height = 305
+    Width = 455
+    Height = 564
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 46
+    ExplicitHeight = 305
     object TabSheet2: TTabSheet
       Caption = 'Local Explorer'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 38
+      ExplicitHeight = 277
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 38
-        Height = 277
+        Width = 447
+        Height = 536
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -415,11 +423,13 @@ object RenderProjectFrame: TRenderProjectFrame
         ParentBackground = False
         ParentDoubleBuffered = False
         TabOrder = 0
+        ExplicitWidth = 38
+        ExplicitHeight = 277
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 36
-          Height = 258
+          Width = 445
+          Height = 517
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -435,8 +445,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 36
-          Height = 258
+          Width = 445
+          Height = 517
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16467,8 +16477,8 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 259
-          Width = 36
+          Top = 518
+          Width = 445
           Height = 17
           Align = alBottom
           Sections = <
@@ -16478,6 +16488,8 @@ object RenderProjectFrame: TRenderProjectFrame
               Width = 50
             end>
           Visible = False
+          ExplicitTop = 259
+          ExplicitWidth = 36
         end
         object mZoomFactor: TIntegerEdit
           Left = 48

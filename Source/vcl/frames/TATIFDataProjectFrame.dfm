@@ -1,8 +1,8 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 1052
-  Height = 710
+  Width = 972
+  Height = 678
   Align = alClient
   TabOrder = 0
   ExplicitWidth = 451
@@ -10,19 +10,19 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 1052
+    Width = 972
     Height = 241
     Align = alTop
     Caption = 'Raw AT IF Data Properties'
     TabOrder = 0
     ExplicitWidth = 451
     DesignSize = (
-      1052
+      972
       241)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 1018
+      Width = 938
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -136,7 +136,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     object PopulatePB: TProgressBar
       Left = 103
       Top = 88
-      Width = 931
+      Width = 851
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
@@ -164,23 +164,51 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   object Panel1: TPanel
     Left = 0
     Top = 241
-    Width = 1052
-    Height = 469
+    Width = 972
+    Height = 437
     Align = alClient
     TabOrder = 1
     ExplicitWidth = 451
     ExplicitHeight = 64
-    object GroupBox4: TGroupBox
+    object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 226
-      Height = 467
-      Align = alLeft
-      Caption = 'ACQ Stacks'
+      Width = 970
+      Height = 435
+      ActivePage = TabSheet1
+      Align = alClient
       TabOrder = 0
-      ExplicitLeft = 16
-      ExplicitTop = 6
-      ExplicitHeight = 153
+      ExplicitLeft = 233
+      ExplicitTop = 24
+      ExplicitWidth = 600
+      ExplicitHeight = 337
+      object TabSheet1: TTabSheet
+        Caption = 'State Tables'
+        ExplicitWidth = 285
+        ExplicitHeight = 169
+        object FileListBox1: TFileListBox
+          Left = 0
+          Top = 0
+          Width = 361
+          Height = 407
+          Align = alLeft
+          ItemHeight = 13
+          Mask = '*'
+          TabOrder = 0
+          OnChange = FileListBox1Change
+        end
+        object FileMemo: TMemo
+          Left = 361
+          Top = 0
+          Width = 601
+          Height = 407
+          Align = alClient
+          ReadOnly = True
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+        end
+      end
     end
   end
 end

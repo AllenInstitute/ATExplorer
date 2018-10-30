@@ -12,6 +12,9 @@
 #include <Vcl.Graphics.hpp>
 #include "dslTSTDStringLabeledEdit.h"
 #include "atPopulateATDataThread.h"
+#include <Vcl.FileCtrl.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.Outline.hpp>
 //---------------------------------------------------------------------------
 using at::ATIFDataProject;
 
@@ -35,13 +38,17 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
         TLabel *Label5;
         TLabel *NrOfChannelsLbl;
 	TPanel *Panel1;
-	TGroupBox *GroupBox4;
 	TButton *CreateStateTablesBtn;
 	TLabel *Label6;
 	TLabel *StateTablesLbl;
 	TButton *CreateRenderStacksBtn;
+	TPageControl *PageControl1;
+	TTabSheet *TabSheet1;
+	TFileListBox *FileListBox1;
+	TMemo *FileMemo;
         void __fastcall ScanDataBtnClick(TObject *Sender);
 	void __fastcall CreateStateTablesBtnClick(TObject *Sender);
+	void __fastcall FileListBox1Change(TObject *Sender);
 
     private:
                                             //A Reference to a atifdata project

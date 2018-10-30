@@ -70,7 +70,6 @@ __published:	// IDE-managed Components
 	TTreeView *ProjectTView;
 	TPopupMenu *ATIFDataPopup;
 	TAction *AddRenderProject;
-	TMenuItem *Close2;
 	TPanel *MainPanel;
 	TAction *EditViewNode;
 	TPanel *TopPanel2;
@@ -106,7 +105,6 @@ __published:	// IDE-managed Components
 	TMenuItem *MenuItem1;
 	TMenuItem *MenuItem4;
 	TMenuItem *MenuItem5;
-	TMenuItem *MenuItem6;
 	TPopupMenu *ExplorerProjectPopup;
 	TMenuItem *MenuItem2;
 	TMenuItem *MenuItem3;
