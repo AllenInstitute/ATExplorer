@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atTabbedProjectView.h"
+#include "atProjectItemTabbedView.h"
 #include "atATExplorerProject.h"
 #include "dslLogger.h"
 //---------------------------------------------------------------------------
@@ -8,7 +8,7 @@
 namespace at
 {
 using namespace dsl;
-TabbedProjectView::TabbedProjectView(TPageControl* pc, ATExplorerProject* p)
+ProjectItemTabbedView::ProjectItemTabbedView(TPageControl* pc, ATExplorerProject* p)
 :
 Observer(p),
 mPC(pc),
@@ -20,23 +20,23 @@ mATExplorerProject(p)
     mTabSheet->Caption = p->getProjectName().c_str();
 }
 
-TabbedProjectView::~TabbedProjectView()
+ProjectItemTabbedView::~ProjectItemTabbedView()
 {
-    Log(lDebug3) << "Destroying a TabbedProjectView..";
+    Log(lDebug3) << "Destroying a ProjectItemTabbedView..";
 }
 
-ATExplorerProject* TabbedProjectView::getProject()
+ATExplorerProject* ProjectItemTabbedView::getProject()
 {
     return mATExplorerProject;
 }
 
-TTabSheet* TabbedProjectView::getTabSheet()
+TTabSheet* ProjectItemTabbedView::getTabSheet()
 {
     return mTabSheet.get();
 }
 
 //Views are managed by shared pointers so no need to call delete..
-void TabbedProjectView::update(Subject* theChangedSubject, SubjectEvent se)
+void ProjectItemTabbedView::update(Subject* theChangedSubject, SubjectEvent se)
 {
     if(se == SubjectEvent::SubjectBeingDestroyed)
     {

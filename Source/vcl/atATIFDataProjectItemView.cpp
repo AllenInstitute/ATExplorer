@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atATIFDataProjectView.h"
+#include "atATIFDataProjectItemView.h"
 #include "atRenderProject.h"
 #include "dslLogger.h"
 //---------------------------------------------------------------------------
@@ -8,11 +8,11 @@
 namespace at
 {
 using namespace dsl;
-ATIFDataProjectView::ATIFDataProjectView(TPageControl& pc, ATIFDataProject& p)
+ATIFDataProjectItemView::ATIFDataProjectItemView(TPageControl& pc, ATIFDataProject& p)
 :
-TabbedProjectView(pc, p)
+ProjectItemTabbedView(pc, p)
 {
-    this->mObserverTag = "ATIFDataProjectView";
+    this->mObserverTag = "ATIFDataProjectItemView";
 
     mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(p, &mPC));
     mATIFDataProjectFrame->Parent =  mTabSheet.get();
@@ -20,13 +20,13 @@ TabbedProjectView(pc, p)
     mTabSheet->Caption = p.getProjectName().c_str();
 }
 
-ATIFDataProjectView::~ATIFDataProjectView()
+ATIFDataProjectItemView::~ATIFDataProjectItemView()
 {
-    Log(lInfo) << "Closing ATIFDataProjectView..";
+    Log(lInfo) << "Closing ATIFDataProjectItemView..";
 }
 
 //Views are managed by shared pointers so no need to call delete..
-void ATIFDataProjectView::update(Subject* theChangedSubject, SubjectEvent se)
+void ATIFDataProjectItemView::update(Subject* theChangedSubject, SubjectEvent se)
 {
     if(se == SubjectEvent::SubjectBeingDestroyed)
     {

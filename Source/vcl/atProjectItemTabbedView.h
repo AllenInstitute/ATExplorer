@@ -1,5 +1,5 @@
-#ifndef atTabbedProjectViewH
-#define atTabbedProjectViewH
+#ifndef atProjectItemTabbedViewH
+#define atProjectItemTabbedViewH
 #include "dslObserver.h"
 #include <memory>
 //---------------------------------------------------------------------------
@@ -13,13 +13,13 @@ using dsl::SubjectEvent;
 
 class ATExplorerProject;
 
-//VCL frames can't do multiple inheritance. This class is necessary, for "observing" reasons..
+//VCL frames can't do multiple inheritance. This class is therefore necessary, for "observing" reasons..
 //The view manages a VCL frame in descendants.
-class PACKAGE TabbedProjectView : public dsl::Observer
+class PACKAGE ProjectItemTabbedView : public dsl::Observer
 {
     public:
-                                            TabbedProjectView(TPageControl& pc, Subject& rp);
-        virtual                             ~TabbedProjectView();
+                                            ProjectItemTabbedView(TPageControl& pc, Subject& rp);
+        virtual                             ~ProjectItemTabbedView();
 
         virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
         TTabSheet*                          getTabSheet();

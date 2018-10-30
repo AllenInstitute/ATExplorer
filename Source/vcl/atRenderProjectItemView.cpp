@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atRenderProjectView.h"
+#include "atRenderProjectItemView.h"
 #include "atRenderProject.h"
 #include "dslLogger.h"
 //---------------------------------------------------------------------------
@@ -8,9 +8,9 @@
 namespace at
 {
 using namespace dsl;
-RenderProjectView::RenderProjectView(TPageControl& pc, RenderProject& rp, const string& imPath)
+RenderProjectItemView::RenderProjectItemView(TPageControl& pc, RenderProject& rp, const string& imPath)
 :
-TabbedProjectView(pc, rp)
+ProjectItemTabbedView(pc, rp)
 {
     mTabSheet->Caption = rp.getProjectName().c_str();
     mRenderProjectFrame = unique_ptr<TRenderProjectFrame>(new TRenderProjectFrame(rp, imPath, &mPC));
@@ -18,9 +18,9 @@ TabbedProjectView(pc, rp)
     mRenderProjectFrame->Align = alClient;
 }
 
-RenderProjectView::~RenderProjectView()
+RenderProjectItemView::~RenderProjectItemView()
 {
-    Log(lDebug3) << "Closing RenderProjectView..";
+    Log(lDebug3) << "Closing RenderProjectItemView..";
 }
 
 }

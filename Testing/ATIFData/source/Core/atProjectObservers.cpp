@@ -25,7 +25,7 @@ void ProjectObservers::closeAll()
 	mViews.clear();
 }
 
-void ProjectObservers::append(shared_ptr<TabbedProjectView> v)
+void ProjectObservers::append(shared_ptr<ProjectItemTabbedView> v)
 {
 	mViews.push_back(v);
 //    this->observe(v->getSubject());
@@ -43,7 +43,7 @@ bool ProjectObservers::removeViewOnTabSheet(TTabSheet* ts)
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        shared_ptr<TabbedProjectView> rpv = mViews[i];
+        shared_ptr<ProjectItemTabbedView> rpv = mViews[i];
         if(rpv && rpv->getTabSheet() == ts)
         {
             //Tell this observer to go away...
@@ -59,7 +59,7 @@ bool ProjectObservers::removeViewForProject(Project* p)
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        shared_ptr<TabbedProjectView> rpv = mViews[i];
+        shared_ptr<ProjectItemTabbedView> rpv = mViews[i];
         if(rpv && rpv->getProject() == p || rpv->getSubject() == p)
         {
             //Tell this observer to go away...
@@ -72,10 +72,10 @@ bool ProjectObservers::removeViewForProject(Project* p)
 
 TTabSheet* ProjectObservers::getTabForProject(Project* p)
 {
-	vector< shared_ptr<TabbedProjectView> >::iterator it;
+	vector< shared_ptr<ProjectItemTabbedView> >::iterator it;
     for(it = mViews.begin(); it != mViews.end(); ++it)
     {
-		shared_ptr<TabbedProjectView> ptr = (*it);
+		shared_ptr<ProjectItemTabbedView> ptr = (*it);
         if(ptr)
         {
             if(ptr->getProject() == p)
@@ -95,7 +95,7 @@ TTabSheet* ProjectObservers::getTabForProject(Project* p)
 ////        //Find observer object
 ////        for(int i = 0; i < mViews.size(); i++)
 ////        {
-////            shared_ptr<TabbedProjectView> rpv = mViews[i];
+////            shared_ptr<ProjectItemTabbedView> rpv = mViews[i];
 ////            if(rpv && rpv->getSubject() == s)
 ////            {
 ////                //Tell this observer to go away...

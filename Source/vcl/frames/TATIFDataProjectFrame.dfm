@@ -2,7 +2,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
   Width = 972
-  Height = 678
+  Height = 676
   Align = alClient
   TabOrder = 0
   ExplicitWidth = 451
@@ -142,30 +142,12 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       TabOrder = 3
       ExplicitWidth = 330
     end
-    object CreateStateTablesBtn: TButton
-      Left = 439
-      Top = 130
-      Width = 121
-      Height = 25
-      Caption = 'Generate State Tables'
-      TabOrder = 4
-      OnClick = CreateStateTablesBtnClick
-    end
-    object CreateRenderStacksBtn: TButton
-      Left = 592
-      Top = 130
-      Width = 128
-      Height = 25
-      Caption = 'Generate Render Stacks'
-      TabOrder = 5
-      OnClick = CreateStateTablesBtnClick
-    end
   end
   object Panel1: TPanel
     Left = 0
     Top = 241
     Width = 972
-    Height = 437
+    Height = 435
     Align = alClient
     TabOrder = 1
     ExplicitWidth = 451
@@ -174,39 +156,86 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       Left = 1
       Top = 1
       Width = 970
-      Height = 435
+      Height = 433
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 233
-      ExplicitTop = 24
-      ExplicitWidth = 600
-      ExplicitHeight = 337
+      ExplicitHeight = 435
       object TabSheet1: TTabSheet
         Caption = 'State Tables'
         ExplicitWidth = 285
         ExplicitHeight = 169
         object FileListBox1: TFileListBox
           Left = 0
-          Top = 0
+          Top = 41
           Width = 361
-          Height = 407
+          Height = 364
           Align = alLeft
           ItemHeight = 13
           Mask = '*'
           TabOrder = 0
           OnChange = FileListBox1Change
+          ExplicitTop = 0
+          ExplicitHeight = 407
         end
         object FileMemo: TMemo
           Left = 361
-          Top = 0
+          Top = 41
           Width = 601
-          Height = 407
+          Height = 364
           Align = alClient
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 1
           WordWrap = False
+          ExplicitTop = 0
+          ExplicitHeight = 407
+        end
+        object Panel2: TPanel
+          Left = 0
+          Top = 0
+          Width = 962
+          Height = 41
+          Align = alTop
+          TabOrder = 2
+          ExplicitLeft = 184
+          ExplicitTop = 32
+          ExplicitWidth = 185
+          object CreateStateTablesBtn: TButton
+            Left = 11
+            Top = 10
+            Width = 121
+            Height = 25
+            Caption = 'Generate State Tables'
+            TabOrder = 0
+            OnClick = CreateStateTablesBtnClick
+          end
+          object CreateRenderStacksBtn: TButton
+            Left = 138
+            Top = 10
+            Width = 128
+            Height = 25
+            Caption = 'Generate Render Stacks'
+            TabOrder = 1
+            OnClick = CreateStateTablesBtnClick
+          end
+        end
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'Medians'
+        ImageIndex = 1
+        ExplicitHeight = 407
+        object FileListBox2: TFileListBox
+          Left = 0
+          Top = 0
+          Width = 281
+          Height = 405
+          Align = alLeft
+          ItemHeight = 13
+          Mask = '*'
+          TabOrder = 0
+          OnChange = FileListBox1Change
+          ExplicitHeight = 407
         end
       end
     end

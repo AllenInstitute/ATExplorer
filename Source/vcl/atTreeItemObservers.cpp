@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include "atTreeItemObservers.h"
-#include "atRenderProjectView.h"
+#include "atRenderProjectItemView.h"
 #include "dslProject.h"
 #include "dslLogger.h"
 #include "atATExplorerProject.h"
@@ -9,8 +9,7 @@
 #include "atSession.h"
 #include "atSection.h"
 #include "atRibbon.h"
-#include "atRenderProjectView.h"
-#include "atATIFDataProjectView.h"
+#include "atATIFDataProjectItemView.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -32,7 +31,7 @@ TreeItemObservers::~TreeItemObservers()
 	this->setInActive();
 }
 
-bool TreeItemObservers::selectTabWithView(TabbedProjectView* v)
+bool TreeItemObservers::selectTabWithView(ProjectItemTabbedView* v)
 {
     if(!v)
     {
@@ -53,7 +52,7 @@ bool TreeItemObservers::selectTabWithView(TabbedProjectView* v)
     return false;
 }
 
-TabbedProjectView* TreeItemObservers::createView(Subject* eo)
+ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
 {
 	if(!eo)
     {
@@ -65,7 +64,7 @@ TabbedProjectView* TreeItemObservers::createView(Subject* eo)
     if(sh)
     {
         MainPC.ActivePage = sh;
-        return dynamic_cast<TabbedProjectView*>(eo);
+        return dynamic_cast<ProjectItemTabbedView*>(eo);
     }
 
     else if(dynamic_cast<ATIFDataProject*>(eo))
@@ -74,7 +73,7 @@ TabbedProjectView* TreeItemObservers::createView(Subject* eo)
         if(o)
         {
             Log(lInfo) << "Creating a ATIFData project view";
-	       	shared_ptr<ATIFDataProjectView> aView(new ATIFDataProjectView(MainPC, *o));
+	       	shared_ptr<ATIFDataProjectItemView> aView(new ATIFDataProjectItemView(MainPC, *o));
         	mViews.push_back(aView);
 		    this->observe(aView->getSubject());
             return aView.get();
@@ -86,10 +85,10 @@ TabbedProjectView* TreeItemObservers::createView(Subject* eo)
         if(o)
         {
             Log(lInfo) << "Creating a Render ProjectView";
-            shared_ptr<RenderProjectView> aView(new RenderProjectView(MainPC,  *o));//, gAU.ImageMagickPath.getValue()));
-           	mViews.push_back(aView);
-            this->observe(aView->getSubject());
-            return aView.get();
+            shared_ptr<RenderProjectItemView> aItemView(new RenderProjectItemView(MainPC,  *o));//, gAU.ImageMagickPath.getValue()));
+           	mViews.push_back(aItemView);
+            this->observe(aItemView->getSubject());
+            return aItemView.get();
         }
     }
 
@@ -146,7 +145,7 @@ bool TreeItemObservers::removeViewOnTabSheet(TTabSheet* ts)
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        shared_ptr<TabbedProjectView> rpv = mViews[i];
+        shared_ptr<ProjectItemTabbedView> rpv = mViews[i];
         if(rpv && rpv->getTabSheet() == ts)
         {
             //Tell this observer to go away...
@@ -162,7 +161,7 @@ bool TreeItemObservers::removeViewForSubject(Subject* p)
     //Find observer object
     for(int i = 0; i < mViews.size(); i++)
     {
-        shared_ptr<TabbedProjectView> rpv = mViews[i];
+        shared_ptr<ProjectItemTabbedView> rpv = mViews[i];
         p->detachObserver(rpv.get());
 
         if(rpv && rpv->getSubject() == p )
@@ -176,10 +175,10 @@ bool TreeItemObservers::removeViewForSubject(Subject* p)
 
 TTabSheet* TreeItemObservers::getTabForSubject(Subject* o)
 {
-	vector< shared_ptr<TabbedProjectView> >::iterator it;
+	vector< shared_ptr<ProjectItemTabbedView> >::iterator it;
     for(it = mViews.begin(); it != mViews.end(); ++it)
     {
-		shared_ptr<TabbedProjectView> ptr = (*it);
+		shared_ptr<ProjectItemTabbedView> ptr = (*it);
         if(ptr)
         {
             if(ptr->getSubject() == o)

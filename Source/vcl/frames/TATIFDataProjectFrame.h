@@ -46,6 +46,9 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
 	TTabSheet *TabSheet1;
 	TFileListBox *FileListBox1;
 	TMemo *FileMemo;
+	TTabSheet *TabSheet2;
+	TPanel *Panel2;
+	TFileListBox *FileListBox2;
         void __fastcall ScanDataBtnClick(TObject *Sender);
 	void __fastcall CreateStateTablesBtnClick(TObject *Sender);
 	void __fastcall FileListBox1Change(TObject *Sender);

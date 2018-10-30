@@ -7,8 +7,8 @@
 #include "TATESettingsForm.h"
 #include "ateAppUtilities.h"
 #include "atRenderProject.h"
-#include "atRenderProjectView.h"
-#include "atATIFDataProjectView.h"
+#include "atRenderProjectItemView.h"
+#include "atATIFDataProjectItemView.h"
 #include "atATIFDataProject.h"
 #include <gdiplus.h>
 #include "TCreateATIFDataProjectForm.h"
@@ -352,7 +352,6 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 		mPTreeView.addProjectToTreeView(parent, rp);
     }
 }
-
 
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::OpenViewAExecute(TObject *Sender)

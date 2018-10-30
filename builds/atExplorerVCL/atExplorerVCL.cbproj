@@ -155,29 +155,25 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PackageImport Include="vclx.bpi">
             <BuildOrder>28</BuildOrder>
         </PackageImport>
-        <CppCompile Include="..\..\Source\vcl\atATIFDataProjectView.cpp">
-            <DependentOn>..\..\Source\vcl\atATIFDataProjectView.h</DependentOn>
-            <BuildOrder>23</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\atDummyProjectViewObserver.cpp">
-            <DependentOn>..\..\Source\vcl\atDummyProjectViewObserver.h</DependentOn>
+        <CppCompile Include="..\..\Source\vcl\atATIFDataProjectItemView.cpp">
+            <DependentOn>..\..\Source\vcl\atATIFDataProjectItemView.h</DependentOn>
             <BuildOrder>23</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atImageGrid.cpp">
             <DependentOn>..\..\Source\vcl\atImageGrid.h</DependentOn>
             <BuildOrder>13</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\atProjectItemTabbedView.cpp">
+            <DependentOn>..\..\Source\vcl\atProjectItemTabbedView.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atProjectsTreeView.cpp">
             <DependentOn>..\..\Source\vcl\atProjectsTreeView.h</DependentOn>
             <BuildOrder>14</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\atRenderProjectView.cpp">
-            <DependentOn>..\..\Source\vcl\atRenderProjectView.h</DependentOn>
+        <CppCompile Include="..\..\Source\vcl\atRenderProjectItemView.cpp">
+            <DependentOn>..\..\Source\vcl\atRenderProjectItemView.h</DependentOn>
             <BuildOrder>16</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\atTabbedProjectView.cpp">
-            <DependentOn>..\..\Source\vcl\atTabbedProjectView.h</DependentOn>
-            <BuildOrder>18</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atTreeItemObservers.cpp">
             <DependentOn>..\..\Source\vcl\atTreeItemObservers.h</DependentOn>
@@ -259,16 +255,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <BuildOrder>34</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

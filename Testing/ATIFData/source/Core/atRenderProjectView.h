@@ -1,6 +1,6 @@
 #ifndef atRenderProjectViewH
 #define atRenderProjectViewH
-#include "atTabbedProjectView.h"
+#include "atProjectItemTabbedView.h"
 #include "TRenderProjectFrame.h"
 #include <memory>
 //---------------------------------------------------------------------------
@@ -16,7 +16,7 @@ class RenderProject;
 
 //VCL frames can't do multiple inheritance. This class is therefore necessary, for "observing" reasons..
 //The view manages the VCL frame..
-class PACKAGE RenderProjectView : public TabbedProjectView
+class PACKAGE RenderProjectView : public ProjectItemTabbedView
 {
     public:
                                             RenderProjectView(TPageControl* pc, RenderProject* rp, const string& imPath);

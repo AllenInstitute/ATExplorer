@@ -10,7 +10,7 @@ namespace at
 using namespace dsl;
 ATIFDataProjectView::ATIFDataProjectView(TPageControl* pc, ATIFDataProject* p)
 :
-TabbedProjectView(pc, p)
+ProjectItemTabbedView(pc, p)
 {
     mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(*p, mPC));
     mATIFDataProjectFrame->Parent =  mTabSheet.get();

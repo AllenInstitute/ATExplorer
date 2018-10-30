@@ -9,7 +9,7 @@
 #include "atRenderServiceParameters.h"
 #include <string>
 #include <vector>
-#include "atExplorerCoreExporter.h"
+#include "atExplorerObject.h"
 //---------------------------------------------------------------------------
 
 namespace Idhttp
@@ -38,7 +38,7 @@ using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
-class ATE_CORE RenderClient
+class ATE_CORE RenderClient : public ExplorerObject
 {
 	public:
 							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("", "",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);

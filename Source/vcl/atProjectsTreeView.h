@@ -67,7 +67,7 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
 
         void                            createTreeViewNodes(Project* p);
 
-        TabbedProjectView*              createTabbedView(Project* p);
+        ProjectItemTabbedView*              createTabbedView(Project* p);
         void                            expandView(Project* p);
         const TTreeView*                getTreeView();
 

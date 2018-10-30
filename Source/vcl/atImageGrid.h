@@ -1,51 +1,24 @@
 #ifndef atImageGridH
 #define atImageGridH
-#include "atATObject.h"
+#include "atExplorerObject.h"
 #include <VCL.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-
-//namespace Vcl
-//{
-//namespace Extctrls
-//{
-//
-//    class TImage;
-//}
-//}
-//
-//namespace Vcl
-//{
-//namespace Graphics
-//{
-//
-//    class TCanvas;
-//
-//}
-//}
-//
 
 namespace at
 {
 
-//using Vcl::Extctrls::TImage;
-//using Vcl::Graphics::TCanvas;
-
-class PACKAGE ImageGrid : public ATObject
+class PACKAGE ImageGrid : public ExplorerObject
 {
+    public:
+                            ImageGrid(TImage* img, TCanvas* canvas);
+                            ~ImageGrid();
+        void                paint();
+        void                hide();
 
-        public:
-                                ImageGrid(TImage* img, TCanvas* canvas);
-                                ~ImageGrid();
-            void                paint();
-            void                hide();
-
-        protected:
-			TImage*				mImage;
-        	TCanvas*             mCanvas;
-
+    protected:
+        TImage*				mImage;
+        TCanvas*            mCanvas;
 };
-
 }
-
 
 #endif

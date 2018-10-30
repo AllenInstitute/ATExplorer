@@ -9,8 +9,8 @@
 #include "atSession.h"
 #include "atSection.h"
 #include "atRibbon.h"
-#include "atRenderProjectView.h"
-#include "atATIFDataProjectView.h"
+#include "atRenderProjectItemView.h"
+#include "atATIFDataProjectItemView.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -134,7 +134,7 @@ bool ProjectsTreeView::handleClick(ATIFDataProject* p, bool isDoubleClick)
 
     if(isDoubleClick)
     {
-    	TabbedProjectView* view = mViews.createView(p);
+    	ProjectItemTabbedView* view = mViews.createView(p);
 		//Select the page with projectView
 	    return mViews.selectTabWithView(view);
     }
@@ -151,7 +151,7 @@ bool ProjectsTreeView::handleClick(RenderProject* o, bool isDoubleClick)
 
     if(isDoubleClick)
     {
-    	TabbedProjectView* view = mViews.createView(o);
+    	ProjectItemTabbedView* view = mViews.createView(o);
 
 		//Select the page with projectView
 	    return mViews.selectTabWithView(view);
@@ -340,7 +340,7 @@ TTreeNode* ProjectsTreeView::getTreeNodeForProject(Project* p)
 }
 
 
-TabbedProjectView* ProjectsTreeView::createTabbedView(Project* p)
+ProjectItemTabbedView* ProjectsTreeView::createTabbedView(Project* p)
 {
 
 }

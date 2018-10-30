@@ -1,7 +1,7 @@
-#ifndef atATIFDataProjectViewH
-#define atATIFDataProjectViewH
+#ifndef atATIFDataProjectItemViewH
+#define atATIFDataProjectItemViewH
 #include "dslObserver.h"
-#include "atTabbedProjectView.h"
+#include "atProjectItemTabbedView.h"
 #include "TATIFDataProjectFrame.h"
 #include <memory>
 //---------------------------------------------------------------------------
@@ -17,11 +17,11 @@ class ATIFDataProject;
 
 //VCL frames can't do multiple inheritance. This class is therefore necessary, for "observing" reasons..
 //The view manages the VCL frame..
-class PACKAGE ATIFDataProjectView : public TabbedProjectView
+class PACKAGE ATIFDataProjectItemView : public ProjectItemTabbedView
 {
     public:
-                                            ATIFDataProjectView(TPageControl& pc, ATIFDataProject& rp);
-        virtual            		            ~ATIFDataProjectView();
+                                            ATIFDataProjectItemView(TPageControl& pc, ATIFDataProject& rp);
+        virtual            		            ~ATIFDataProjectItemView();
         virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
 
     protected:

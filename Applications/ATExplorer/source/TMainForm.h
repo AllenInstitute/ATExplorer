@@ -19,7 +19,7 @@
 #include "atProjectsTreeView.h"
 #include "dslObserver.h"
 #include <memory>
-#include "atRenderProjectView.h"
+#include "atRenderProjectItemView.h"
 #include "dslSharedPointer.h"
 #include "atTreeItemObservers.h"
 //---------------------------------------------------------------------------
@@ -27,7 +27,7 @@
 //typedef void __fastcall (__closure *sshCallback)(const string&);
 using at::ProjectsTreeView;
 using at::ATExplorerProject;
-using at::RenderProjectView;
+using at::RenderProjectItemView;
 using at::TreeItemObservers;
 using dsl::Project;
 using dsl::Observer;
@@ -156,7 +156,7 @@ __published:	// IDE-managed Components
 		bool          									mIsStyleMenuPopulated;
         bool                                            setupAndReadIniParameters();
 
-                                                        //!Practical Container for 'views'
+                                                        //!Practical Container for 'ItemViews'
         TreeItemObservers                               mTreeItemObservers;
 
                                                         //!Object that manages data and

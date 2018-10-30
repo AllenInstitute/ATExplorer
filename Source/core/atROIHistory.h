@@ -1,14 +1,15 @@
 #ifndef atROIHistoryH
 #define atROIHistoryH
-#include "atExplorerCoreExporter.h"
-#include "atRenderClient.h"
+#include "atRegionOfInterest.h"
 #include <deque>
 //---------------------------------------------------------------------------
 
 namespace at
 {
+
 using std::deque;
-class ATE_CORE ROIHistory
+
+class ATE_CORE ROIHistory : public ExplorerObject
 {
 	public:
     								        ROIHistory();
@@ -23,7 +24,6 @@ class ATE_CORE ROIHistory
 		RegionOfInterest*					last();
         RegionOfInterest*					next();
         RegionOfInterest*					previous();
-
 
     private:
     	deque<RegionOfInterest> 			mHistory;

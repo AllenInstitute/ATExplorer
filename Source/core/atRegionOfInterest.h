@@ -1,6 +1,6 @@
 #ifndef atRegionOfInterestH
 #define atRegionOfInterestH
-#include "atExplorerCoreExporter.h"
+#include "atExplorerObject.h"
 #include <cstdlib>
 #include <string>
 #include <boost/function.hpp>
@@ -24,7 +24,7 @@ using std::string;
 typedef boost::function<void(void*, void*)> OnChangeFnc;
 
 //---------------------------------------------------------------------------
-class ATE_CORE RegionOfInterest
+class ATE_CORE RegionOfInterest : public ExplorerObject
 {
 	public:
 	    								RegionOfInterest(int x = 0, int y = 0, int width = 0, int height = 0, double scale = 1);
