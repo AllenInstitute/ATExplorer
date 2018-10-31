@@ -7,7 +7,9 @@
 
 namespace at
 {
+
 using namespace dsl;
+
 ATIFDataProjectItemView::ATIFDataProjectItemView(TPageControl& pc, ATIFDataProject& p)
 :
 ProjectItemTabbedView(pc, p)

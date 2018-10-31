@@ -20,6 +20,7 @@ class Ribbon;
 class Section;
 class Session;
 class Channel;
+class TextFile;
 
 //!This class manages Projects viewable on a TreeView
 //!The ProjectsTreeView is an observer of projects, that are 'subjects'
@@ -57,17 +58,15 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
         ATExplorerProject*			   	createNewATExplorerProject();
         void                            selectLast();
         TTreeNode*						addProjectToTreeView(ATExplorerProject* vcNode, Project* rp);
-//        TTreeNode*						addATIFDataProjectToTreeView(ATExplorerProject* vcNode, ATIFDataProject* rp);
+
         int                             mProjectCount();
         bool                            selectProject(Project* p);
         string                          closeProject(Project* p);
         bool	                        removeSubProject(Project* p);
 
         TTreeNode*                      getTreeNodeForProject(Project* p);
-
         void                            createTreeViewNodes(Project* p);
-
-        ProjectItemTabbedView*              createTabbedView(Project* p);
+        ProjectItemTabbedView*          createTabbedView(Project* p);
         void                            expandView(Project* p);
         const TTreeView*                getTreeView();
 
@@ -86,6 +85,7 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
 		bool							handleClick(Section* o, bool isDoubleClick);
 		bool							handleClick(Session* o, bool isDoubleClick);
 		bool							handleClick(Channel* o, bool isDoubleClick);
+		bool							handleClick(TextFile* o, bool isDoubleClick);
 };
 
 }

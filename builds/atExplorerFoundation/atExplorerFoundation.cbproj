@@ -239,6 +239,9 @@
             <DependentOn>..\..\Source\core\atRenderClientUtils.h</DependentOn>
             <BuildOrder>31</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRenderHosts.cpp">
+            <BuildOrder>40</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderLayer.cpp">
             <DependentOn>..\..\Source\core\atRenderLayer.h</DependentOn>
             <BuildOrder>24</BuildOrder>
@@ -262,6 +265,9 @@
         <CppCompile Include="..\..\Source\core\atStringUtils.cpp">
             <DependentOn>..\..\Source\core\atStringUtils.h</DependentOn>
             <BuildOrder>38</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atTextFile.cpp">
+            <BuildOrder>41</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atTiffStack.cpp">
             <DependentOn>..\..\Source\core\atTiffStack.h</DependentOn>

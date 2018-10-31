@@ -11,6 +11,8 @@
 #include "atRibbon.h"
 #include "atRenderProjectItemView.h"
 #include "atATIFDataProjectItemView.h"
+#include "atTextFileItemView.h"
+#include "atTextFile.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -116,6 +118,16 @@ bool ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
         }
     }
 
+    else if(dynamic_cast<TextFile*>(eo))
+    {
+        TextFile* o = dynamic_cast<TextFile*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Clicked on TextFile item: " << o->getFileNameWithPath();
+            return handleClick(o, isDoubleClick);
+        }
+    }
+
     return false;
 }
 
@@ -180,6 +192,40 @@ bool ProjectsTreeView::handleClick(Channel* o, bool isDoubleClick)
     return true;
 }
 
+bool ProjectsTreeView::handleClick(TextFile* o, bool isDoubleClick)
+{
+    if(!o)
+    {
+        return false;
+    }
+
+    //Check if a textfileviewing tab is open. If so, load current file
+//	ProjectItemTabbedView* view = mViews.getFirst();
+//    while(view)
+//    {
+//        if(dynamic_cast< TextFileItemView* >(view))
+//        {
+//            //Found one..
+//            mViews.
+//            mViews.removeView(view);
+//            ProjectItemTabbedView* view = mViews.createView(o);
+//
+//            //Select the page with projectView
+//            return mViews.selectTabWithView(view);
+//        }
+//        view = mViews.getNext();
+//    }
+
+    if(isDoubleClick)
+    {
+    	ProjectItemTabbedView* view = mViews.createView(o);
+		//Select the page with projectView
+	    return mViews.selectTabWithView(view);
+    }
+
+    return true;
+}
+
 void ProjectsTreeView::update(Subject* theChangedSubject, SubjectEvent se)
 {
     //!Find the subject and do whats needed..
@@ -210,24 +256,23 @@ void ProjectsTreeView::updateRepresentation(Subject* s)
         {
             Log(lInfo) << "Updating tree for project: "<< atIFDatap->getProjectName();
             Sessions* sessions = atIFDatap->mATIFData.getSessions();
-            TTreeNode* parent_node (getTreeNodeForProject(atIFDatap));
+            TTreeNode* dataRootNode (getTreeNodeForProject(atIFDatap));
 
-            if(parent_node)
+            if(dataRootNode)
             {
-                parent_node->DeleteChildren();
+                dataRootNode->DeleteChildren();
             }
 
             for(int i = 0; i < sessions->count(); i++)
             {
                 SessionSP session = sessions->getSession(i);
+
                 //add session as child node to parent
-                TTreeNode* parent_node (getTreeNodeForProject(atIFDatap));
-                TTreeNode* session_node = mTree.Items->AddChildObject(parent_node, "", (void*) session.get());
+                TTreeNode* session_node = mTree.Items->AddChildObject(dataRootNode, "", (void*) session.get());
                 session_node->EditText();
                 session_node->Text = session->getLabel().c_str();
 
                 //Add Channels for each session
-
                 StringList chs = session->getChannelLabels();
                 for(int j = 0; j < chs.count(); j++)
                 {
@@ -244,8 +289,6 @@ void ProjectsTreeView::updateRepresentation(Subject* s)
                         TTreeNode* ribbon_node = mTree.Items->AddChildObject(ch_node, "", (void*) ribbon.get());
                         ribbon_node->EditText();
                         ribbon_node->Text = ribbon->getAlias().c_str();
-
-
 //                        for(int s = 0; s < atIFDatap->getNumberOfSections(); s++)
 //                        {
 //                            //SectionSP section = atIFDatap->getSection(channel, s);
@@ -256,6 +299,17 @@ void ProjectsTreeView::updateRepresentation(Subject* s)
 //                        }
                     }
                 }
+            }
+
+            //Add statetables
+            StringList stateTables = atIFDatap->mATIFData.getStateTables();
+            TTreeNode* stateTablesRootNode = mTree.Items->AddChildObject(dataRootNode, "StateTables", NULL);
+            for(int i = 0; i < stateTables.count(); i++)
+            {
+                //Fix this memory leak..
+                TextFile* tf = new TextFile(joinPath(atIFDatap->mATIFData.getBasePath().toString(), "scripts", stateTables[i]));
+                tf->setAlias(stateTables[i]);
+                TTreeNode* fileNode = mTree.Items->AddChildObject(stateTablesRootNode, stateTables[i].c_str(), (void*) tf);
             }
         }
     }

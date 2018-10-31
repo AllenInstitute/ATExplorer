@@ -113,7 +113,6 @@
         <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
 $(PostBuildEvent)]]></PostBuildEvent>
-        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
         <Debugger_HostApplication>P:\build\bin\ATExplorer.exe</Debugger_HostApplication>
         <Debugger_CWD>P:\build\bin\</Debugger_CWD>
     </PropertyGroup>
@@ -182,9 +181,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Frames\TGeneralPropertiesFrame.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
         <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
+        <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
+        <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -212,7 +211,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">

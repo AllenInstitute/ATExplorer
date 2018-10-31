@@ -10,6 +10,8 @@
 #include "atSection.h"
 #include "atRibbon.h"
 #include "atATIFDataProjectItemView.h"
+#include "atTextFile.h"
+#include "atTextFileItemView.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -126,12 +128,41 @@ ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
         }
     }
 
+    else if(dynamic_cast<TextFile*>(eo))
+    {
+        TextFile* o = dynamic_cast<TextFile*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Creating a TextFile view";
+            shared_ptr<TextFileItemView> aItemView(new TextFileItemView(MainPC,  *o));
+           	mViews.push_back(aItemView);
+            this->observe(aItemView->getSubject());
+            return aItemView.get();
+        }
+    }
+
     return nullptr;
 }
 
 void TreeItemObservers::closeAll()
 {
 	mViews.clear();
+}
+
+bool TreeItemObservers::removeView(ProjectItemTabbedView* v)
+{
+    //Find the view
+    for(int i = 0; i < mViews.size(); i++)
+    {
+        shared_ptr<ProjectItemTabbedView> aView = mViews[i];
+
+        if(aView && aView.get()  == v )
+        {
+            mViews.erase(mViews.begin() + i);
+            return true;
+        }
+    }
+    return false;
 }
 
 unsigned int TreeItemObservers::count()
@@ -171,6 +202,31 @@ bool TreeItemObservers::removeViewForSubject(Subject* p)
         }
     }
     return false;
+}
+
+ProjectItemTabbedView* TreeItemObservers::getFirst()
+{
+    if(!mViews.size())
+    {
+        return nullptr;
+    }
+
+	mViewsIterator = mViews.begin();
+    return (*mViewsIterator).get();
+}
+
+
+ProjectItemTabbedView* TreeItemObservers::getNext()
+{
+    if(mViewsIterator != mViews.end())
+    {
+        mViewsIterator++;
+        if(mViewsIterator != mViews.end())
+        {
+            return (*mViewsIterator).get();
+        }
+    }
+    return nullptr;
 }
 
 TTabSheet* TreeItemObservers::getTabForSubject(Subject* o)

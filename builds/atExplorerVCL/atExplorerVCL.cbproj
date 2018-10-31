@@ -113,7 +113,6 @@
         <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
 $(PostBuildEvent)]]></PostBuildEvent>
-        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
         <Debugger_HostApplication>P:\build\bin\ATExplorer.exe</Debugger_HostApplication>
         <Debugger_CWD>P:\build\bin\</Debugger_CWD>
     </PropertyGroup>
@@ -156,8 +155,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <BuildOrder>28</BuildOrder>
         </PackageImport>
         <CppCompile Include="..\..\Source\vcl\atATIFDataProjectItemView.cpp">
-            <DependentOn>..\..\Source\vcl\atATIFDataProjectItemView.h</DependentOn>
-            <BuildOrder>23</BuildOrder>
+            <BuildOrder>28</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atImageGrid.cpp">
             <DependentOn>..\..\Source\vcl\atImageGrid.h</DependentOn>
@@ -174,6 +172,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="..\..\Source\vcl\atRenderProjectItemView.cpp">
             <DependentOn>..\..\Source\vcl\atRenderProjectItemView.h</DependentOn>
             <BuildOrder>16</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\atTextFileItemView.cpp">
+            <DependentOn>..\..\Source\vcl\atTextFileItemView.h</DependentOn>
+            <BuildOrder>23</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atTreeItemObservers.cpp">
             <DependentOn>..\..\Source\vcl\atTreeItemObservers.h</DependentOn>
@@ -224,7 +226,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\Source\vcl\frames\TATIFDataProjectFrame.h</DependentOn>
-            <BuildOrder>25</BuildOrder>
+            <BuildOrder>29</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.cpp">
             <Form>ATProjectOptionsFrame</Form>
@@ -247,21 +249,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TRenderProjectFrame.h</DependentOn>
             <BuildOrder>23</BuildOrder>
         </CppCompile>
-        <CppCompile Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.cpp">
-            <Form>SSHFrame</Form>
+        <CppCompile Include="..\..\Source\vcl\frames\TTextFileFrame.cpp">
+            <Form>TextFileFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
-            <DependentOn>P:\libs\atapi\source\vcl\frames\TSSHFrame.h</DependentOn>
-            <BuildOrder>34</BuildOrder>
+            <DependentOn>..\..\Source\vcl\frames\TTextFileFrame.h</DependentOn>
+            <BuildOrder>25</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
-        <FormResources Include="P:\libs\atapi\source\vcl\frames\TSSHFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>

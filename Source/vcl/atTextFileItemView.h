@@ -1,8 +1,8 @@
-#ifndef atTextItemViewH
-#define atTextItemViewH
+#ifndef atTextFileItemViewH
+#define atTextFileItemViewH
 #include "dslObserver.h"
 #include "atProjectItemTabbedView.h"
-#include "TATIFDataProjectFrame.h"
+#include "TTextFileFrame.h"
 #include <memory>
 //---------------------------------------------------------------------------
 
@@ -13,19 +13,20 @@ using std::unique_ptr;
 using dsl::Subject;
 using dsl::SubjectEvent;
 
-class ATIFDataProject;
+class TextFile;
 
 //VCL frames can't do multiple inheritance. This class is therefore necessary, for "observing" reasons..
 //The view manages the VCL frame..
-class PACKAGE ATIFDataProjectItemView : public ProjectItemTabbedView
+class PACKAGE TextFileItemView : public ProjectItemTabbedView
 {
     public:
-                                            ATIFDataProjectItemView(TPageControl& pc, ATIFDataProject& rp);
-        virtual            		            ~ATIFDataProjectItemView();
+                                            TextFileItemView(TPageControl& pc, TextFile& rp);
+        virtual            		            ~TextFileItemView();
         virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
 
+
     protected:
-        unique_ptr<TATIFDataProjectFrame>  	mATIFDataProjectFrame;
+        unique_ptr<TTextFileFrame>  		mTextFileFrame;
 };
 
 }

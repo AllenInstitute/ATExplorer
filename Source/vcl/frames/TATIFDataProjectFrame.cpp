@@ -141,7 +141,6 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
         unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, this->Owner));
         f->ShowModal();
     }
-
 }
 
 //---------------------------------------------------------------------------

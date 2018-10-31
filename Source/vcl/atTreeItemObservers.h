@@ -21,7 +21,8 @@ using dsl::SubjectEvent;
 using dsl::Project;
 class ProjectItemTabbedView;
 
-typedef vector< shared_ptr<ProjectItemTabbedView > > Views;
+typedef shared_ptr<ProjectItemTabbedView> ProjectItemTabbedViewSP;
+typedef vector< ProjectItemTabbedViewSP > Views;
 
 //!The TreeItemObservers class is a container for 'Views'
 //!It is responsible for creation of the views and management of related PageControl Tabs
@@ -30,23 +31,24 @@ class PACKAGE TreeItemObservers : public dsl::Observer
     public:
                                             TreeItemObservers(TPageControl& pc);
                                             ~TreeItemObservers();
-
+		ProjectItemTabbedView*   			getFirst();
+		ProjectItemTabbedView*   			getNext();
         TTabSheet* 							getTabForSubject(Subject* p);
         bool                                selectTabWithView(ProjectItemTabbedView* v);
 
-		ProjectItemTabbedView*					createView(Subject* o);
-
+		ProjectItemTabbedView*		  		createView(Subject* o);
         unsigned int                        count();
-//		void 								append(shared_ptr<ProjectItemTabbedView> v);
+
+        bool					            removeView(ProjectItemTabbedView* v);
         bool					            removeViewOnTabSheet(TTabSheet* s);
         bool                                removeViewForSubject(Subject* p);
-
         void                                closeAll();
 		void 								update(Subject* s, SubjectEvent se);
 
     protected:
         TPageControl&                       MainPC;
         Views								mViews;
+        Views::iterator                     mViewsIterator;
 };
 
 }
