@@ -8,7 +8,6 @@
 #include "atRibbon.h"
 #include "atSession.h"
 #include "atExceptions.h"
-#include "atUtils.h"
 #include "atStringUtils.h"
 //---------------------------------------------------------------------------
 
@@ -16,37 +15,20 @@ namespace at
 {
 using namespace dsl;
 
-CreateATIFDataStateTablesThread::CreateATIFDataStateTablesThread(ATIFData& d)
+CreateATIFDataStateTablesThread::CreateATIFDataStateTablesThread(ATIFData& d, const string& dc)
 :
-mTheData(d),
-onEnter(nullptr),
-onProgress(nullptr),
-onExit(nullptr)
+ATIFDataProcessThread(d, dc)
 {}
 
-void CreateATIFDataStateTablesThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
-{
-    onEnter 	= one;
-    onProgress 	= two;
-    onExit 		= three;
-    mTheData.assignOnPopulateCallbacks(one, two, three);
-}
 
 void CreateATIFDataStateTablesThread::run()
-{
-    worker();
-}
-
-string createDockerCommand(const string& outFile, const string& projDir, int ribbon, int session, int section);
-
-void CreateATIFDataStateTablesThread::worker()
 {
 	mIsRunning 		= true;
     mIsTimeToDie 	= false;
 
     if(onEnter)
     {
-        onEnter(&mTheData, NULL);
+        onEnter(&mTheData, NULL, nullptr);
     }
 
     Log(lDebug4) << "Started creation of state tables";
@@ -77,10 +59,11 @@ void CreateATIFDataStateTablesThread::worker()
                 {
                     if(mIsTimeToDie)
                     {
-                        Log(lInfo) << "Aborting creation of StateTables";
+                        Log(lInfo) << "The creation of StateTables was ABORTED (check logs for any problems)";
                         //One fine time for using GOTO!
                         goto finish_line;
                     }
+
                     stringstream stateTblFileName;
                     stateTblFileName << "statetable_ribbon_";
                     stateTblFileName << aRibbon->getAliasAsInt();
@@ -94,12 +77,14 @@ void CreateATIFDataStateTablesThread::worker()
                     if(!fileExists(stateTblFileWithpath))
                     {
                         Process dp;
+                        dp.assignCallbacks(nullptr, onDockerProgress, nullptr);
                         dp.setWorkingDirectory(".");
                         dp.setExecutable("docker.exe");
                         string cmd = createDockerCommand(stateTblFileWithpath,  projDir, aRibbon->getAliasAsInt(), session + 1, section);
 
 
-                        if(!dp.setup(cmd, mhIgnoreMessages))
+                        if(!dp.setup(cmd, mhCatchMessages))
+//                        if(!dp.setup(cmd, mhIgnoreMessages))
                         {
                             Log(lError) << "Failed setting up docker process. CMD: "<<cmd;
                         }
@@ -114,7 +99,7 @@ void CreateATIFDataStateTablesThread::worker()
 
                     if(onProgress)
                     {
-                        onProgress(&mTheData, NULL);
+                        onProgress(&mTheData, NULL, nullptr);
                     }
                 }
             }
@@ -134,15 +119,29 @@ void CreateATIFDataStateTablesThread::worker()
 
     if(onExit)
     {
-    	onExit(&mTheData, nullptr);
+    	onExit(&mTheData, nullptr, nullptr);
     }
 
     mIsRunning = false;
     mIsFinished = true;
 }
 
-string createDockerCommand(const string& outFile, const string& projDir, int ribbon, int session, int section)
+void CreateATIFDataStateTablesThread::onDockerProgress(void* arg1, void* arg2)
 {
+    if(arg2)
+    {
+        string& message = *((string*) arg2);
+
+        //Check if message contain the word error. if so, finish the thread and
+        //give some feedback
+        if(contains("error", message, csCaseInsensitive))
+        {
+        	Log(lError) << "Docker Error message: " << message;
+            mIsTimeToDie = true;
+        }
+    }
+}
+
 // Example
 //            docker exec renderapps python /pipeline/make_state_table_ext_multi_pseudoz.py
 //            --projectDirectory /mnt/data/M33
@@ -151,9 +150,11 @@ string createDockerCommand(const string& outFile, const string& projDir, int rib
 //            --ribbon 4
 //            --session 1
 //            --section 0
-
+string CreateATIFDataStateTablesThread::createDockerCommand(const string& outFile, const string& projDir, int ribbon, int session, int section)
+{
 	stringstream cmdLine;
-    cmdLine << "exec renderapps_multchan python /pipeline/make_state_table_ext_multi_pseudoz.py";
+    cmdLine << "exec " << mDockerContainer;
+    cmdLine << " python /pipeline/make_state_table_ext_multi_pseudoz.py";
 	cmdLine << " --projectDirectory " 	<< toPosixPath(projDir, "/mnt");
     cmdLine << " --outputFile "         << toPosixPath(outFile, "/mnt");
     cmdLine << " --oneribbononly "      << "True";

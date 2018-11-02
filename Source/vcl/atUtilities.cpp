@@ -25,3 +25,48 @@ TTabSheet* getTabWithCaption(const string& c, TPageControl* pc)
 
     return NULL;
 }
+
+//---------------------------------------------------------------------------
+double getCurrentImageWidth(TImage* img)
+{
+    //This function assumes stretch is proportional
+    double origW = img->Picture->Width;
+    double origH = img->Picture->Height;
+    double imageR = origW / origH;
+
+    double containerW = img->Width;
+    double containerH = img->Height;
+    double containerR = containerW / containerH;
+
+    if(containerR > imageR)
+    {
+    	return containerH * imageR;
+    }
+    else
+    {
+    	return containerW;
+    }
+}
+
+//---------------------------------------------------------------------------
+double getCurrentImageHeight(TImage* img)
+{
+    //This function assumes stretch is proportional
+    double origW = img->Picture->Width;
+    double origH = img->Picture->Height;
+    double imageR = origW / origH;
+
+    double containerW = img->Width;
+    double containerH = img->Height;
+    double containerR = containerW / containerH;
+
+    if(containerR > imageR)
+    {
+        return containerH;
+    }
+    else
+    {
+    	return containerW /imageR;
+    }
+}
+

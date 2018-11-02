@@ -1,19 +1,19 @@
-#ifndef TCreateACQRenderStacksFormH
-#define TCreateACQRenderStacksFormH
+#ifndef TCreateMediansFormH
+#define TCreateMediansFormH
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include "atATIFData.h"
 #include <Vcl.ExtCtrls.hpp>
-#include "atCreateRawDataRenderStacksThread.h"
+#include "atCreateMediansThread.h"
 #include <Vcl.ComCtrls.hpp>
 //---------------------------------------------------------------------------
 
 using at::ATIFData;
-using at::CreateRawDataRenderStacksThread;
+using at::CreateMediansThread;
 //---------------------------------------------------------------------------
-class PACKAGE TCreateACQRenderStacksForm : public TForm
+class PACKAGE TCreateMediansForm : public TForm
 {
     __published:	// IDE-managed Components
 	TPanel *Panel1;
@@ -28,14 +28,14 @@ class PACKAGE TCreateACQRenderStacksForm : public TForm
 
     private:
         ATIFData&       					mTheData;
-		CreateRawDataRenderStacksThread    	mTheThread;
+		CreateMediansThread    				mTheThread;
         void								onThreadEnter(void*, 	void*, void*);
         void								onThreadProgress(void*, void*, void*);
         void								onThreadExit(void*, 	void*, void*);
 
     public:
-        __fastcall TCreateACQRenderStacksForm(ATIFData& data, const string& dockerContainer, const string& renderHost, TComponent* Owner);
+        __fastcall TCreateMediansForm(ATIFData& data, TComponent* Owner);
 };
 
-extern PACKAGE TCreateACQRenderStacksForm *CreateACQRenderStacksForm;
+extern PACKAGE TCreateMediansForm *CreateMediansForm;
 #endif

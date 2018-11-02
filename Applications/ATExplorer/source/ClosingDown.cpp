@@ -69,7 +69,6 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
     gAU.ProjectPanelWidth = ProjectManagerPanel->Width;
 
 	gAU.GeneralProperties->write();
-	gAU.ServerProperties->write();
 
 	//Write to file
 	gAU.getIniFile().save();

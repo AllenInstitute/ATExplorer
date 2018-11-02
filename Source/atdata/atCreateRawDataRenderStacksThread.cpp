@@ -13,32 +13,14 @@
 
 namespace at
 {
-using namespace dsl;
 
-CreateRawDataRenderStacksThread::CreateRawDataRenderStacksThread(ATIFData& d)
+using namespace dsl;
+CreateRawDataRenderStacksThread::CreateRawDataRenderStacksThread(ATIFData& d, const string& dc, const string& renderHost)
 :
-mTheData(d),
-onEnter(nullptr),
-onProgress(nullptr),
-onExit(nullptr)
+ATIFDataProcessThread(d, dc, renderHost)
 {}
 
-void CreateRawDataRenderStacksThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
-{
-    onEnter 	= one;
-    onProgress 	= two;
-    onExit 		= three;
-//    mTheData.assignOnPopulateCallbacks(one, two, three);
-}
-
 void CreateRawDataRenderStacksThread::run()
-{
-    worker();
-}
-
-string createDockerCommand(const string& outFile, const string& projDir);
-
-void CreateRawDataRenderStacksThread::worker()
 {
 	mIsRunning 		= true;
     mIsTimeToDie 	= false;
@@ -75,9 +57,10 @@ void CreateRawDataRenderStacksThread::worker()
                 Process dp;
                 dp.setWorkingDirectory(".");
                 dp.setExecutable("docker.exe");
+                dp.assignCallbacks(nullptr, onDockerProgress, nullptr);
                 string cmd = createDockerCommand(stateTblFileWithpath,  projDir);
 
-                if(!dp.setup(cmd, mhIgnoreMessages))
+                if(!dp.setup(cmd, mhCatchMessages))
                 {
                     Log(lError) << "Failed setting up docker process. CMD: "<<cmd;
                 }
@@ -117,12 +100,29 @@ void CreateRawDataRenderStacksThread::worker()
     mIsFinished = true;
 }
 
-string createDockerCommand(const string& stateTablePathP, const string& projDir)
+void CreateRawDataRenderStacksThread::onDockerProgress(void* arg1, void* arg2)
+{
+    if(arg2)
+    {
+        string& message = *((string*) arg2);
+
+        //Check if message contain the word error. if so, finish the thread and
+        //give some feedback
+        if(contains("error", message, csCaseInsensitive))
+        {
+        	Log(lError) << "Docker Error message: " << message;
+            mIsTimeToDie = true;
+        }
+    }
+}
+
+string CreateRawDataRenderStacksThread::createDockerCommand(const string& stateTablePathP, const string& projDir)
 {
 	stringstream cmdLine;
-    cmdLine << "exec renderapps_multchan python -m renderapps.dataimport.create_fast_stacks_multi";
+    cmdLine << "exec "<<mDockerContainer;
+    cmdLine << " python -m renderapps.dataimport.create_fast_stacks_multi";
     cmdLine << " --render.client_scripts /shared/render/render-ws-java-client/src/main/scripts";
-	cmdLine << " --render.host W10DTMJ03EG6Z.corp.alleninstitute.org";
+	cmdLine << " --render.host " <<mRenderHost; // W10DTMJ03EG6Z.corp.alleninstitute.org";
     cmdLine << " --render.port 8080";
 	cmdLine << " --render.owner " 		<< "ATExplorer";
     cmdLine << " --render.project "		<< getLastFolderInPath(projDir);

@@ -1,20 +1,23 @@
 object GeneralPropertiesFrame: TGeneralPropertiesFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 305
+  Width = 513
+  Height = 326
   Align = alClient
   AutoSize = True
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 451
+    Width = 513
     Height = 57
     Align = alTop
     Caption = 'General'
     TabOrder = 0
     Visible = False
+    ExplicitWidth = 451
     object ConnectSSHServersOnStartupCB: TPropertyCheckBox
       Left = 16
       Top = 25
@@ -28,18 +31,20 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
   object GroupBox4: TGroupBox
     Left = 0
     Top = 129
-    Width = 451
-    Height = 176
+    Width = 513
+    Height = 197
     Align = alClient
     Caption = 'Render Service Settings'
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 176
     DesignSize = (
-      451
-      176)
+      513
+      197)
     object BaseURLE: TSTDStringLabeledEdit
       Left = 13
       Top = 42
-      Width = 371
+      Width = 433
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 45
@@ -48,9 +53,10 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
       TabOrder = 0
       Text = 'http://ibs-forrestc-ux1'
       Value = 'http://ibs-forrestc-ux1'
+      ExplicitWidth = 371
     end
     object TestRenderServiceBtn: TButton
-      Left = 390
+      Left = 452
       Top = 40
       Width = 52
       Height = 25
@@ -58,6 +64,7 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
       Caption = 'Test'
       TabOrder = 1
       OnClick = TestRenderServiceBtnClick
+      ExplicitLeft = 390
     end
     object maxTileSpecsToRenderE: TIntegerLabeledEdit
       Left = 152
@@ -87,27 +94,29 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
   object GroupBox2: TGroupBox
     Left = 0
     Top = 57
-    Width = 451
+    Width = 513
     Height = 72
     Align = alTop
     Caption = 'Image Magick'
     TabOrder = 2
+    ExplicitWidth = 451
     DesignSize = (
-      451
+      513
       72)
     object ImageMagickPathE: TSTDStringLabeledEdit
       Left = 16
       Top = 41
-      Width = 392
+      Width = 454
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 90
       EditLabel.Height = 13
       EditLabel.Caption = 'Image Magick Path'
       TabOrder = 0
+      ExplicitWidth = 392
     end
     object BrowseForImageMagickPathBtn: TButton
-      Left = 414
+      Left = 476
       Top = 41
       Width = 28
       Height = 21
@@ -115,6 +124,7 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
       Caption = '...'
       TabOrder = 1
       OnClick = BrowseForFolderClick
+      ExplicitLeft = 414
     end
   end
 end

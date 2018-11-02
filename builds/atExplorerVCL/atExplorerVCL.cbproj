@@ -60,8 +60,8 @@
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <_TCHARMapping>char</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\Applications\ATExplorer\source\Forms\;..\..\Source\vcl\forms\;..\..\Source\vcl\frames\;..\..\Source\vcl\;..\..\..\..\builds\atExplorerVCL\;..\ATExplorerVCL\;..\..\..\..\Source\atdata\;..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\Applications\ATExplorer\source\Forms\;..\..\Source\vcl\forms\;..\..\Source\vcl\frames\;..\..\Source\vcl\;..\..\..\..\builds\atExplorerVCL\;..\ATExplorerVCL\;..\..\..\..\Source\atdata\;..\..\..\..\Source\vcl\frames\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\;P:\libs\atapi\source\vcl\frames\;..\..\source\Frames\;..\..\source\Forms\;..\..\source\;..\ATExplorer\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\Applications\ATExplorer\source\Forms\;..\..\Source\vcl\forms\;..\..\Source\vcl\frames\;..\..\Source\vcl\;..\ATExplorerVCL\;..\..\source\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\Applications\ATExplorer\source\Forms\;..\..\Source\vcl\forms\;..\..\Source\vcl\frames\;..\..\Source\vcl\;..\ATExplorerVCL\;..\..\source\;..\..\source\Core\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorerPackage\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>atExplorerVCL</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <BCC_wcsu>false</BCC_wcsu>
@@ -115,6 +115,7 @@
 $(PostBuildEvent)]]></PostBuildEvent>
         <Debugger_HostApplication>P:\build\bin\ATExplorer.exe</Debugger_HostApplication>
         <Debugger_CWD>P:\build\bin\</Debugger_CWD>
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -189,7 +190,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>CreateACQRenderStacksForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>..\..\Source\vcl\forms\TCreateACQRenderStacksForm.h</DependentOn>
-            <BuildOrder>28</BuildOrder>
+            <BuildOrder>30</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.cpp">
             <Form>CreateATIFDataProjectForm</Form>
@@ -208,6 +209,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DependentOn>..\..\Source\vcl\forms\TCreateLocalVolumesForm.h</DependentOn>
             <BuildOrder>20</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\forms\TCreateMediansForm.cpp">
+            <Form>CreateMediansForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\Source\vcl\forms\TCreateMediansForm.h</DependentOn>
+            <BuildOrder>28</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TImageForm.cpp">
             <Form>ImageForm</Form>
@@ -256,17 +263,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TTextFileFrame.h</DependentOn>
             <BuildOrder>25</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateMediansForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -295,7 +303,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </ProjectProperties>
                 <Excluded_Packages>
                     <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">

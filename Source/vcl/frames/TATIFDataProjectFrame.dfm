@@ -1,25 +1,28 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 451
-  Height = 305
+  Width = 891
+  Height = 709
   Align = alClient
   TabOrder = 0
+  ExplicitWidth = 451
+  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 451
+    Width = 891
     Height = 241
     Align = alTop
     Caption = 'Raw AT IF Data Properties'
     TabOrder = 0
+    ExplicitWidth = 451
     DesignSize = (
-      451
+      891
       241)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 938
+      Width = 2398
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -27,7 +30,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       EditLabel.Caption = 'DataRootFolderE'
       Enabled = False
       TabOrder = 0
-      ExplicitWidth = 417
+      ExplicitWidth = 1958
     end
     object ScanDataBtn: TButton
       Left = 16
@@ -133,72 +136,41 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     object PopulatePB: TProgressBar
       Left = 103
       Top = 88
-      Width = 851
+      Width = 2311
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
-      ExplicitWidth = 330
+      ExplicitWidth = 1871
     end
   end
   object Panel1: TPanel
     Left = 0
     Top = 241
-    Width = 451
-    Height = 64
+    Width = 891
+    Height = 468
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 64
     object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 449
-      Height = 62
+      Width = 889
+      Height = 466
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 970
-      ExplicitHeight = 435
+      ExplicitWidth = 449
+      ExplicitHeight = 62
       object TabSheet1: TTabSheet
         Caption = 'State Tables'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 285
-        ExplicitHeight = 169
-        object FileListBox1: TFileListBox
-          Left = 0
-          Top = 41
-          Width = 361
-          Height = 364
-          Align = alLeft
-          ItemHeight = 13
-          Mask = '*'
-          TabOrder = 0
-          OnChange = FileListBox1Change
-          ExplicitTop = 0
-          ExplicitHeight = 407
-        end
-        object FileMemo: TMemo
-          Left = 361
-          Top = 41
-          Width = 601
-          Height = 364
-          Align = alClient
-          ReadOnly = True
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-          ExplicitTop = 0
-          ExplicitHeight = 407
-        end
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 962
+          Width = 881
           Height = 41
           Align = alTop
-          TabOrder = 2
-          ExplicitLeft = 184
-          ExplicitTop = 32
-          ExplicitWidth = 185
+          TabOrder = 0
           object CreateStateTablesBtn: TButton
             Left = 11
             Top = 10
@@ -220,23 +192,36 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
         end
       end
       object TabSheet2: TTabSheet
-        Caption = 'Medians'
+        Caption = 'FlatField Corrected'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 407
-        object FileListBox2: TFileListBox
+        ExplicitWidth = 441
+        ExplicitHeight = 34
+        object Panel3: TPanel
           Left = 0
           Top = 0
-          Width = 281
-          Height = 405
-          Align = alLeft
-          ItemHeight = 13
-          Mask = '*'
+          Width = 881
+          Height = 41
+          Align = alTop
           TabOrder = 0
-          OnChange = FileListBox1Change
-          ExplicitHeight = 407
+          ExplicitWidth = 441
+          object CreateMediansBtn: TButton
+            Left = 11
+            Top = 10
+            Width = 121
+            Height = 25
+            Caption = 'Create Medians'
+            TabOrder = 0
+            OnClick = CreateStateTablesBtnClick
+          end
+          object ApplyMediansBtn: TButton
+            Left = 138
+            Top = 10
+            Width = 128
+            Height = 25
+            Caption = 'Apply Medians'
+            TabOrder = 1
+            OnClick = CreateStateTablesBtnClick
+          end
         end
       end
     end

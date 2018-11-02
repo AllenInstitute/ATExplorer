@@ -64,8 +64,8 @@
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <IncludePath>..\..\..\..\Source\core\;..\..\..\..\Source\vcl\forms\;p:\libs\dsl\VCL\Components\;..\..\source\Frames\;P:\libs\dsl\Common\;..\..\..\..\CPP\Source\Core\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;P:\libs\atapi\source\vcl\frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\..\..\Source\core\;..\..\..\..\Source\vcl\forms\;p:\libs\dsl\VCL\Components\;..\..\source\Frames\;P:\libs\dsl\Common\;..\..\..\..\CPP\Source\Core\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;P:\libs\atapi\source\vcl\frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>p:\libs\dsl\VCL\Common\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\forms\;p:\libs\dsl\VCL\Components\;..\..\source\Frames\;P:\libs\dsl\Common\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>p:\libs\dsl\VCL\Common\;..\..\..\..\Source\core\;..\..\..\..\Source\vcl\forms\;p:\libs\dsl\VCL\Components\;..\..\source\Frames\;P:\libs\dsl\Common\;..\..\source\Forms\;P:\libs\dsl\VCL\Frames\;..\..\source\Core\;..\..\source\;P:\atExplorer\Applications\ATExplorer\builds\ATExplorer\;P:\atExplorer\Applications\ATExplorer\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>ATExplorer</SanitizedProjectName>
         <Custom_Styles>Carbon|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Carbon.vsf;&quot;Charcoal Dark Slate|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\CharcoalDarkSlate.vsf&quot;;&quot;Cobalt XEMedia|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\CobaltXEMedia.vsf&quot;;Glossy|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Glossy.vsf;Glow|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Glow.vsf;Luna|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\19.0\Styles\Luna.vsf</Custom_Styles>
     </PropertyGroup>
@@ -124,6 +124,10 @@
 $(PostBuildEvent)]]></PostBuildEvent>
         <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
         <Icon_MainIcon>..\..\source\ATExplorer.ico</Icon_MainIcon>
+        <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -192,12 +196,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </ProjectProperties>
                 <Excluded_Packages>
                     <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>ATExplorer.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -247,14 +252,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
-                        <RemoteName>ATExplorer.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

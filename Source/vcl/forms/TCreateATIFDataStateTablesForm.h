@@ -29,23 +29,21 @@ class PACKAGE TCreateATIFDataStateTablesForm : public TForm
         TLabel *NrOfChannelsLbl;
         TLabel *Label6;
         TLabel *StateTablesLbl;
-	TPanel *Panel1;
-	TButton *RunBtn;
-	TButton *CloseBtn;
-	TProgressBar *PopulatePB;
-	void __fastcall RunBtnClick(TObject *Sender);
+        TPanel *Panel1;
+        TButton *RunBtn;
+        TButton *CloseBtn;
+        TProgressBar *PopulatePB;
+        void __fastcall RunBtnClick(TObject *Sender);
 
     private:
         ATIFData&       					mTheData;
 		CreateATIFDataStateTablesThread     mTheThread;
-        void								onThreadEnter(void*, 	void*);
-        void								onThreadProgress(void*, void*);
-        void								onThreadExit(void*, 	void*);
-
-
+        void								onThreadEnter(void*, 	void*, 	void*);
+        void								onThreadProgress(void*, void*, 	void*);
+        void								onThreadExit(void*, 	void*, 	void*);
 
     public:
-        __fastcall TCreateATIFDataStateTablesForm(ATIFData& data, TComponent* Owner);
+        __fastcall 							TCreateATIFDataStateTablesForm(ATIFData& data, const string& dockerContainer, TComponent* Owner);
 };
 
 extern PACKAGE TCreateATIFDataStateTablesForm *CreateATIFDataStateTablesForm;

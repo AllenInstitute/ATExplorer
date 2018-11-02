@@ -13,35 +13,19 @@ namespace at
 {
 using namespace dsl;
 
-PopulateATDataThread::PopulateATDataThread(ATData& d)
+PopulateATDataThread::PopulateATDataThread(ATIFData& d)
 :
-mTheData(d),
-onEnter(nullptr),
-onProgress(nullptr),
-onExit(nullptr)
+ATIFDataProcessThread(d)
 {}
 
-void PopulateATDataThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three)
-{
-    onEnter 	= one;
-    onProgress 	= two;
-    onExit 		= three;
-    mTheData.assignOnPopulateCallbacks(one, two, three);
-}
-
 void PopulateATDataThread::run()
-{
-    worker();
-}
-
-void PopulateATDataThread::worker()
 {
 	mIsRunning 		= true;
     mIsTimeToDie 	= false;
 
     if(onEnter)
     {
-        onEnter(&mTheData, NULL);
+        onEnter(&mTheData, NULL, nullptr);
     }
 
     Log(lDebug4) << "Started populating ATData from root folder: " << mTheData.getBasePath().toString();
@@ -68,7 +52,7 @@ void PopulateATDataThread::worker()
 
     if(onExit)
     {
-    	onExit(&mTheData, nullptr);
+    	onExit(&mTheData, nullptr, nullptr);
     }
 
     mIsRunning = false;

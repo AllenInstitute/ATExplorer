@@ -9,6 +9,14 @@ using namespace std;
 namespace at
 {
 
+RenderServiceParameters::RenderServiceParameters()
+:
+mName(""),
+mBaseURL(""),
+mPortNr(-1),
+mVersion("")
+{}
+
 RenderServiceParameters::RenderServiceParameters(const string& name, const string& b, int portNr, const string& version)
 :
 mName(name),

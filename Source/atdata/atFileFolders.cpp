@@ -31,7 +31,7 @@ FileFolders::FileFolders(const FileFolders& ffs)
 
 FileFolders& FileFolders::operator=(const FileFolders& rhs)
 {
-
+    //Not implemented..
     return *this;
 }
 

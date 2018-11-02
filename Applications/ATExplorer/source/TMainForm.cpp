@@ -33,7 +33,6 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
      mIsStyleMenuPopulated(false),
      mTreeItemObservers(*MainPC),
      mPTreeView(*ProjectTView, mTreeItemObservers)
-
 {
     setupAndReadIniParameters();
     Application->ShowHint = true;
@@ -49,11 +48,10 @@ __fastcall TMainForm::~TMainForm()
 void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
 {
     //open Settings form
-    shared_ptr<TATESettingsForm> s = shared_ptr<TATESettingsForm> (new TATESettingsForm(this));
+    shared_ptr<TATESettingsForm> s(new TATESettingsForm(this));
 
     //The settings form will bring all properties into Edit mode
-    s->append(gAU.GeneralProperties);
-    s->append(gAU.ServerProperties);
+//    s->append(gAU.GeneralProperties);
 
     int r = s->ShowModal();
     if(r == mrOk)

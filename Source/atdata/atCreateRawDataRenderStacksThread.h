@@ -5,6 +5,7 @@
 #include "atATIFData.h"
 #include <boost/function.hpp>
 #include "atExplorerObject.h"
+#include "atATIFDataProcessThread.h"
 //---------------------------------------------------------------------------
 
 
@@ -14,20 +15,15 @@ using dsl::StringList;
 using dsl::Thread;
 
 
-class ATE_DATA CreateRawDataRenderStacksThread : public dsl::Thread, public ExplorerObject
+class ATE_DATA CreateRawDataRenderStacksThread : public ATIFDataProcessThread
 {
-	typedef boost::function<void(void*, void*, void*)> FITCallBack;
 	public:
-							                CreateRawDataRenderStacksThread(ATIFData& d);
-        void                                assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three);
-		virtual void                        run();
-        void				                worker();
+							                CreateRawDataRenderStacksThread(ATIFData& d, const string& dc, const string& renderHost);
+ 		virtual void                        run();
 
 	private:
-        ATIFData&		   	                mTheData;
-        FITCallBack                         onEnter;
-        FITCallBack                         onProgress;
-        FITCallBack                         onExit;
+        void                                onDockerProgress(void* arg1, void* arg2);
+		string 								createDockerCommand(const string& stateTablePathP, const string& projDir);
 };
 
 }

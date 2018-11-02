@@ -1,6 +1,5 @@
 #ifndef atRenderLayerH
 #define atRenderLayerH
-#include "atATObject.h"
 #include "Poco/URI.h"
 #include "atRegionOfInterest.h"
 #include "atRenderProject.h"

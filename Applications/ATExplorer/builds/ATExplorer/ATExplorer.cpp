@@ -15,8 +15,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
 	{
-        std::unique_ptr<ATExplorer> gATExplorer(new ATExplorer());
-
 		gAU.init();
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
@@ -57,9 +55,10 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 #pragma comment(lib, "dslVCLComponents.bpi")
 //#pragma comment(lib, "dslVCLVisualComponents.bpi")
 
-#pragma comment(lib, "atFoundation.lib")
+//#pragma comment(lib, "atFoundation.lib")
+//#pragma comment(lib, "atVCLCommon.lib")
 #pragma comment(lib, "atExplorerFoundation.lib")
-#pragma comment(lib, "atVCLCommon.lib")
+
 
 
 #pragma comment(lib, "atExplorerVCL.bpi")

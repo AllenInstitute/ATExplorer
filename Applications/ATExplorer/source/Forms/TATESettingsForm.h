@@ -23,9 +23,10 @@ class PACKAGE TATESettingsForm : public TForm
         TButton *Button1;
         TButton *Button2;
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-	void __fastcall TreeView1Change(TObject *Sender, TTreeNode *Node);
-	void __fastcall FormShow(TObject *Sender);
-	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+		void __fastcall TreeView1Change(TObject *Sender, TTreeNode *Node);
+		void __fastcall FormShow(TObject *Sender);
+		void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+		void __fastcall TreeView1Click(TObject *Sender);
 
 	private:
                                                       	        //Each item holds a container of related properties
@@ -33,10 +34,11 @@ class PACKAGE TATESettingsForm : public TForm
  		TTreeNode*												BaseNode;
         void     												populateGeneralPanel(Properties& props);
 		shared_ptr<TGeneralPropertiesFrame>                     mGeneralPropertiesFrame;
+//		shared_ptr<TRenderServicesFrame>      	                mGeneralPropertiesFrame;
 
 	public:
 													__fastcall 	TATESettingsForm(TComponent* Owner);
-        void                                                    append(shared_ptr<Properties> props);
+        TTreeNode*                                              append(shared_ptr<Properties> props);
         bool                                                    enablePropertyEdits();
         bool                                                    disablePropertyEdits();
         bool                                                    discardPropertyEdits();

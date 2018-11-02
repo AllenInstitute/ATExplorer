@@ -32,6 +32,7 @@ object ATESettingsForm: TATESettingsForm
     RowSelect = True
     TabOrder = 0
     OnChange = TreeView1Change
+    OnClick = TreeView1Click
   end
   object Panel1: TPanel
     Left = 0

@@ -1,7 +1,6 @@
 #ifndef ateAppUtilitiesH
 #define ateAppUtilitiesH
 #include "dslApplicationProperties.h"
-#include "atATObject.h"
 #include "dslProperty.h"
 #include "dslIniFileProperties.h"
 #include "dslSharedPointer.h"
@@ -23,7 +22,6 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
 
                                             //General Properties
         shared_ptr<IniFileProperties> 		GeneralProperties;
-        shared_ptr<IniFileProperties>       ServerProperties;
 
                                             //Automatically managed properties ============================
         Property<string>                	LocalCacheFolder;
@@ -37,13 +35,12 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
                                             //These properties may be exposed for change in the UI ========
         Property<bool>	                	ConnectSSHServersOnStartup;
         Property<LogLevel>	 	           	LogLevel;
-//            Property<string>	 		        CurrentProject;
-//            Property<string>	 		        CurrentOwner;
-//            Property<string>	 		        CurrentStack;
         Property<string>	 		        BaseURL;
         Property<string>	 		        LastOpenedProject;
 };
 
+//This creates a global AppUtilities object
 extern PACKAGE AppUtilities gAU;
+
 }
 #endif

@@ -2,6 +2,7 @@
 #define atRenderServiceParametersH
 #include "atExplorerCoreExporter.h"
 #include "atExplorerObject.h"
+
 //---------------------------------------------------------------------------
 
 namespace at
@@ -10,6 +11,7 @@ namespace at
 class ATE_CORE RenderServiceParameters : public ExplorerObject
 {
     public:
+                                    RenderServiceParameters();
                                     RenderServiceParameters(const string& name, const string& bURL, int portNr = 80, const string& version = "/render-ws/v1");
                                     ~RenderServiceParameters();
 
@@ -27,7 +29,6 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
         void                        setVersion(const string& v);
         string                      getVersion() const;
         bool                        compare(const RenderServiceParameters& rsp);
-
 
     protected:
                                     //!Label for the 'connection'

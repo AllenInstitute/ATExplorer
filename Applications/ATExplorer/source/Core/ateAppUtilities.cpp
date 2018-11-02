@@ -15,22 +15,20 @@ AppUtilities::AppUtilities()
 :
 ApplicationProperties("ATExplorer", "\\Software\\Allen Institute\\ATExplorer", "0.5.0"),
 GeneralProperties(shared_ptr<IniFileProperties>(new IniFileProperties)),
-ServerProperties(shared_ptr<IniFileProperties>(new IniFileProperties)),
 LocalCacheFolder("",""),
 ConnectSSHServersOnStartup(false,""),
 LastSelectedSettingsSection("",""),
 LogLevel(lAny),
 BottomPanelHeight(205),
 ImageMagickPath(""),
-//CurrentProject(""),
-//CurrentOwner(""),
-//CurrentStack(""),
 BaseURL(""),
 ProjectPanelWidth(100),
 LastOpenedProject("")
 {
     append(GeneralProperties);
-    append(ServerProperties);
+
+    //Append ini sections
+
 }
 
 AppUtilities::~AppUtilities()
@@ -41,9 +39,7 @@ AppUtilities::~AppUtilities()
 bool AppUtilities::setupIniParameters()
 {
 	GeneralProperties->setIniFile(&getIniFile());
-	ServerProperties->setIniFile(&getIniFile());
-	GeneralProperties->setSection("General");
-    ServerProperties->setSection("Remote SSH Server");
+	GeneralProperties->setSection("GENERAL");
 
 	GeneralProperties->add((BaseProperty*)  &BottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
     GeneralProperties->add((BaseProperty*)  &ProjectPanelWidth.setup( 	            "PROJECT_PANEL_WIDTH",    	   		205));

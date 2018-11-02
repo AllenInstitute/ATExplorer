@@ -119,7 +119,16 @@ bool ATIFData::populateStateTables()
 
     if(!mScriptsDataFolder)
     {
-        return false;
+	    string fldr = joinPath(mBasePath.toString(), 	"scripts");
+        if(!createFolder(fldr))
+        {
+            Log(lError) << "Failed to create the folder: " <<fldr;
+	        return false;
+        }
+        else
+        {
+        	mScriptsDataFolder = FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+        }
     }
 
 	set<string> files  = mScriptsDataFolder->getFiles("statetable_ribbon*");
@@ -149,7 +158,7 @@ bool ATIFData::populateRibbons()
 
     if(onStartingPopulating)
     {
-        onStartingPopulating(this, nullptr);
+        onStartingPopulating(this, nullptr, nullptr);
     }
 
     FileFolders ribbonFolders = getRibbonFolders();
@@ -162,7 +171,7 @@ bool ATIFData::populateRibbons()
 
         if(onProgressPopulating)
         {
-            onProgressPopulating(this, nullptr);
+            onProgressPopulating(this, nullptr, nullptr);
         }
     }
 
@@ -195,7 +204,7 @@ bool ATIFData::populateRibbons()
 
                     if(onProgressPopulating)
                     {
-                        onProgressPopulating(this, nullptr);
+                        onProgressPopulating(this, nullptr, nullptr);
                     }
 
                     if(*mStopPopulation == true)
@@ -287,7 +296,7 @@ bool ATIFData::populateSessions()
                         {
                             if(tileCount % 1000 == 0)
                             {
-                            	onProgressPopulating(this, nullptr);
+                            	onProgressPopulating(this, nullptr, nullptr);
                             }
                         }
 

@@ -11,6 +11,7 @@
 #include "atExceptions.h"
 #include "TCreateATIFDataStateTablesForm.h"
 #include "TCreateACQRenderStacksForm.h"
+#include "TCreateMediansForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTSTDStringLabeledEdit"
@@ -38,9 +39,6 @@ __fastcall TATIFDataProjectFrame::TATIFDataProjectFrame(ATIFDataProject& dp, TCo
 void TATIFDataProjectFrame::populate()
 {
     DataRootFolderE->setValue(mProject.getDataRootFolder());
-    FileListBox1->Drive = 'F';
-    FileListBox1->Directory = L"F:\\data\\M33\\scripts";
-
 }
 
 //---------------------------------------------------------------------------
@@ -64,7 +62,7 @@ void __fastcall TATIFDataProjectFrame::ScanDataBtnClick(TObject *Sender)
     }
 }
 
-void TATIFDataProjectFrame::onThreadEnter(void* arg1, void* arg2)
+void TATIFDataProjectFrame::onThreadEnter(void* arg1, void* arg2, void* arg3)
 {
     //Setup progress bar
     if(arg1)
@@ -97,7 +95,7 @@ struct TLocalArgs1
     }
 };
 
-void TATIFDataProjectFrame::onThreadProgress(void* arg1, void* arg2)
+void TATIFDataProjectFrame::onThreadProgress(void* arg1, void* arg2, void* arg3)
 {
     if(arg1)
     {
@@ -110,7 +108,7 @@ void TATIFDataProjectFrame::onThreadProgress(void* arg1, void* arg2)
     }
 }
 
-void TATIFDataProjectFrame::onThreadExit(void* arg1, void* arg2)
+void TATIFDataProjectFrame::onThreadExit(void* arg1, void* arg2, void* arg3)
 {
     if(arg1)
     {
@@ -128,37 +126,31 @@ void TATIFDataProjectFrame::onThreadExit(void* arg1, void* arg2)
 //---------------------------------------------------------------------------
 void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender)
 {
-    TButton* b = dynamic_cast<TButton*>(Sender);
+    const TButton* b = dynamic_cast<TButton*>(Sender);
 
     if(b == CreateStateTablesBtn)
     {
         //Open Generate state tables form..
-        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, this->Owner));
+        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, "", this->Owner));
         f->ShowModal();
     }
     else if(b == CreateRenderStacksBtn)
     {
-        unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, this->Owner));
+        unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, "", "", this->Owner));
         f->ShowModal();
     }
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TATIFDataProjectFrame::FileListBox1Change(TObject *Sender)
-{
-    if(FileListBox1->ItemIndex == -1)
+    else if(b == CreateMediansBtn)
     {
-        return;
+    	unique_ptr<TCreateMediansForm> f (new TCreateMediansForm(mProject.mATIFData, this->Owner));
+        f->ShowModal();
     }
-	//Load file into memo
-	string fName = stdstr(FileListBox1->Items->Strings[FileListBox1->ItemIndex]);
-    fName = joinPath(stdstr(FileListBox1->Directory), fName);
-
-    if(fileExists(fName))
+    else if(b == ApplyMediansBtn)
     {
-        FileMemo->Lines->LoadFromFile(fName.c_str());
+    	//unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, this->Owner));
+        //f->ShowModal();
     }
 
 }
+
 
 

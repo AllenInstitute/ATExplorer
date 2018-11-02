@@ -14,7 +14,7 @@
 namespace at
 {
 
-typedef boost::function<void(void*, void*)> ATDataPopulateCallback;
+typedef boost::function<void(void*, void*, void*)> ATDataPopulateCallback;
 
 //!The ATData class abstracts ArrayTomography data
 class ATE_DATA ATData : virtual public ExplorerObject

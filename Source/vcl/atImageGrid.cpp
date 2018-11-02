@@ -2,7 +2,7 @@
 #pragma hdrstop
 #include "atImageGrid.h"
 #include <Vcl.ExtCtrls.hpp>
-#include "atVCLUtils.h"
+#include "atUtilities.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 

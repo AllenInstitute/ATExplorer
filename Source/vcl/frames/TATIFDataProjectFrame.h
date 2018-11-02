@@ -44,14 +44,13 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
 	TButton *CreateRenderStacksBtn;
 	TPageControl *PageControl1;
 	TTabSheet *TabSheet1;
-	TFileListBox *FileListBox1;
-	TMemo *FileMemo;
-	TTabSheet *TabSheet2;
 	TPanel *Panel2;
-	TFileListBox *FileListBox2;
+	TTabSheet *TabSheet2;
+	TPanel *Panel3;
+	TButton *CreateMediansBtn;
+	TButton *ApplyMediansBtn;
         void __fastcall ScanDataBtnClick(TObject *Sender);
 	void __fastcall CreateStateTablesBtnClick(TObject *Sender);
-	void __fastcall FileListBox1Change(TObject *Sender);
 
     private:
                                             //A Reference to a atifdata project
@@ -59,9 +58,9 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
         void                                populate();
         at::PopulateATDataThread            mPopulateDataThread;
 
-        void								onThreadEnter(void*, 	void*);
-        void								onThreadProgress(void*, void*);
-        void								onThreadExit(void*, 	void*);
+        void								onThreadEnter(void*, 	void*, void*);
+        void								onThreadProgress(void*, void*, void*);
+        void								onThreadExit(void*, 	void*, void*);
 
     public:
     						__fastcall 		TATIFDataProjectFrame(ATIFDataProject& rp, TComponent* Owner);

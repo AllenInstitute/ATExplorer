@@ -31,10 +31,11 @@ void __fastcall TATESettingsForm::FormKeyDown(TObject *Sender, WORD &Key, TShift
     }
 }
 
-void TATESettingsForm::append(shared_ptr<Properties> props)
+TTreeNode* TATESettingsForm::append(shared_ptr<Properties> props)
 {
     mSections.append(props);
-    TTreeNode* n = TreeView1->Items->AddChild(BaseNode, props->getSection().c_str());
+    TTreeNode* n = TreeView1->Items->AddChild(BaseNode, props->getSectionName().c_str());
+    return n;
 }
 
 bool TATESettingsForm::enablePropertyEdits()
@@ -64,26 +65,34 @@ void __fastcall TATESettingsForm::TreeView1Change(TObject *Sender, TTreeNode *No
     if(Node->Selected)
     {
         Log(lInfo) << "User selected: " << stdstr(Node->Text);
-        gAU.LastSelectedSettingsSection = stdstr(Node->Text);
+        gAU.LastSelectedSettingsSection.setValue("ERE");//stdstr(Node->Text));
         //Extract the properties
         shared_ptr<Properties> props = mSections.getSection(stdstr(Node->Text));
-        if(props && props->getSection() == "General")
+        if(props && props->getSectionName() == "General")
         {
             populateGeneralPanel(*props);
+        }
+        else
+        {
+			if(mGeneralPropertiesFrame)
+		    {
+                mGeneralPropertiesFrame->Hide();
+        	}
         }
     }
 }
 
 void TATESettingsForm::populateGeneralPanel(Properties& props)
 {
-	if(!mGeneralPropertiesFrame)
-    {
-    	mGeneralPropertiesFrame = shared_ptr<TGeneralPropertiesFrame>(new TGeneralPropertiesFrame(this));
-    }
-
-    mGeneralPropertiesFrame->Parent = this;
-    mGeneralPropertiesFrame->Align = alClient;
-    mGeneralPropertiesFrame->populate(props);
+//	if(!mGeneralPropertiesFrame)
+//    {
+//    	mGeneralPropertiesFrame = shared_ptr<TGeneralPropertiesFrame>(new TGeneralPropertiesFrame(this));
+//    }
+//
+//    mGeneralPropertiesFrame->Parent = this;
+//    mGeneralPropertiesFrame->Align = alClient;
+//    mGeneralPropertiesFrame->populate(props);
+//    mGeneralPropertiesFrame->Show();
 }
 
 //---------------------------------------------------------------------------
@@ -92,15 +101,16 @@ void __fastcall TATESettingsForm::FormShow(TObject *Sender)
     //Enabling property edits causes any values changed in the UI to be stored
     //in a properties "Edit" value. The Edit value is propagated to
     //the properties real value if user selects OK
-    enablePropertyEdits();
+//    enablePropertyEdits();
 
-	//Find the last expanded item
-    TTreeNode* n = getItemWithCaption(gAU.LastSelectedSettingsSection, TreeView1);
-    if(n)
-    {
-        n->Selected = true;
-        n->Expanded = true;
-    }
+//    string c = gAU.LastSelectedSettingsSection;
+//	//Find the last expanded item
+//    TTreeNode* n = getItemWithCaption(c, TreeView1);
+//    if(n)
+//    {
+//        n->Selected = true;
+//        n->Expanded = true;
+//    }
 }
 
 //---------------------------------------------------------------------------
@@ -113,18 +123,26 @@ void __fastcall TATESettingsForm::FormClose(TObject *Sender, TCloseAction &Actio
 
     disablePropertyEdits();
 }
-
-TTreeNode* getItemWithCaption(const string& c, TTreeView* tv)
+//
+//TTreeNode* getItemWithCaption(const string& c, TTreeView* tv)
+//{
+//    TTreeNode* baseNode = tv->Items->GetFirstNode();
+//    TTreeNode* node = baseNode->getFirstChild();
+//    while(node != NULL)
+//    {
+//        if(node->Text == vclstr(c))
+//        {
+//            return node;
+//        }
+//        node = baseNode->GetNextChild(node);
+//    };
+//    return NULL;
+//}
+//
+//---------------------------------------------------------------------------
+void __fastcall TATESettingsForm::TreeView1Click(TObject *Sender)
 {
-    TTreeNode* baseNode = tv->Items->GetFirstNode();
-    TTreeNode* node = baseNode->getFirstChild();
-    while(node != NULL)
-    {
-        if(node->Text == vclstr(c))
-        {
-            return node;
-        }
-        node = baseNode->GetNextChild(node);
-    };
-    return NULL;
+;
 }
+
+

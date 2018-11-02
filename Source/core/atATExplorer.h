@@ -1,6 +1,8 @@
 #ifndef atATExplorerH
 #define atATExplorerH
 #include "atExplorerObject.h"
+#include "atGenericList.h"
+#include "atRenderServiceParameters.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -8,17 +10,19 @@ namespace at
 
 class ATE_CORE ATExplorer : public ExplorerObject
 {
-
     public:
-                        ATExplorer();
-                        ~ATExplorer();
+                                                ATExplorer();
+                                                ~ATExplorer();
+
+        void                                    appendRenderService(RenderServiceParameters  rs);
+        RenderServiceParameters                 getFirstRenderService();
+        RenderServiceParameters                 getNextRenderService();
 
     protected:
-
-    private:
-
+    	List< RenderServiceParameters > 		mRenderServices;
 };
 
+ATE_CORE ATExplorer gATExplorer;
 }
 
 

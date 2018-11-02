@@ -8,10 +8,10 @@
 
 TCreateATIFDataStateTablesForm *CreateATIFDataStateTablesForm;
 //---------------------------------------------------------------------------
-__fastcall TCreateATIFDataStateTablesForm::TCreateATIFDataStateTablesForm(ATIFData& data, TComponent* Owner)
+__fastcall TCreateATIFDataStateTablesForm::TCreateATIFDataStateTablesForm(ATIFData& data, const string& dockerContainer, TComponent* Owner)
 : TForm(Owner),
 mTheData(data),
-mTheThread(data)
+mTheThread(data, dockerContainer)
 {
     NrOfRibbonsLbl->Caption 	= IntToStr(mTheData.getNumberOfRibbons());
     NrOfSectionsLbl->Caption 	= IntToStr(mTheData.getNumberOfSections());
@@ -37,7 +37,7 @@ void __fastcall TCreateATIFDataStateTablesForm::RunBtnClick(TObject *Sender)
     }
 }
 
-void TCreateATIFDataStateTablesForm::onThreadEnter(void* arg1, void* arg2)
+void TCreateATIFDataStateTablesForm::onThreadEnter(void* arg1, void* arg2, 	void*)
 {
     //Setup progress bar
     if(arg1)
@@ -81,7 +81,7 @@ struct TLocalArgs
 };
 }
 
-void TCreateATIFDataStateTablesForm::onThreadProgress(void* arg1, void* arg2)
+void TCreateATIFDataStateTablesForm::onThreadProgress(void* arg1, void* arg2, void*)
 {
     if(arg1)
     {
@@ -93,7 +93,7 @@ void TCreateATIFDataStateTablesForm::onThreadProgress(void* arg1, void* arg2)
     }
 }
 
-void TCreateATIFDataStateTablesForm::onThreadExit(void* arg1, void* arg2)
+void TCreateATIFDataStateTablesForm::onThreadExit(void* arg1, void* arg2, void*)
 {
     if(arg1)
     {

@@ -1,6 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "TCreateACQRenderStacksForm.h"
+#include "TCreateMediansForm.h"
 #include <sstream>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -8,19 +8,19 @@
 //---------------------------------------------------------------------------
 
 using namespace std;
-TCreateACQRenderStacksForm *CreateACQRenderStacksForm;
+TCreateMediansForm *CreateMediansForm;
 //---------------------------------------------------------------------------
-__fastcall TCreateACQRenderStacksForm::TCreateACQRenderStacksForm(ATIFData& data, const string& dockerContainer, const string& renderHost,  TComponent* Owner)
+__fastcall TCreateMediansForm::TCreateMediansForm(ATIFData& data, TComponent* Owner)
 : TForm(Owner),
 mTheData(data),
-mTheThread(data, dockerContainer, renderHost)
+mTheThread(data)
 {
     ProgressLabel->Caption = "";
     CurrentStateTbl->Caption = "";
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TCreateACQRenderStacksForm::RunBtnClick(TObject *Sender)
+void __fastcall TCreateMediansForm::RunBtnClick(TObject *Sender)
 {
     if(RunBtn->Caption == "Run")
     {
@@ -39,7 +39,7 @@ struct TLocalArgs
     int* 		stateTable;
     string* 	msg;
     ATIFData* 	data;
-    TCreateACQRenderStacksForm* frame;
+    TCreateMediansForm* frame;
 
     void __fastcall sync()
     {
@@ -63,7 +63,7 @@ struct TLocalArgs
     }
 };
 
-void TCreateACQRenderStacksForm::onThreadEnter(void* arg1, void* arg2, void* arg3)
+void TCreateMediansForm::onThreadEnter(void* arg1, void* arg2, void* arg3)
 {
     //Setup progress bar
     if(arg1)
@@ -77,7 +77,7 @@ void TCreateACQRenderStacksForm::onThreadEnter(void* arg1, void* arg2, void* arg
 	CloseBtn->Enabled = false;
 }
 
-void TCreateACQRenderStacksForm::onThreadProgress(void* arg1, void* arg2, void* arg3)
+void TCreateMediansForm::onThreadProgress(void* arg1, void* arg2, void* arg3)
 {
     if(arg1)
     {
@@ -90,7 +90,7 @@ void TCreateACQRenderStacksForm::onThreadProgress(void* arg1, void* arg2, void* 
     }
 }
 
-void TCreateACQRenderStacksForm::onThreadExit(void* arg1, void* arg2, void* arg3)
+void TCreateMediansForm::onThreadExit(void* arg1, void* arg2, void* arg3)
 {
     if(arg1)
     {
@@ -105,7 +105,7 @@ void TCreateACQRenderStacksForm::onThreadExit(void* arg1, void* arg2, void* arg3
 	CloseBtn->Enabled = true;
 }
 
-void __fastcall TCreateACQRenderStacksForm::FormCloseQuery(TObject *Sender, bool &CanClose)
+void __fastcall TCreateMediansForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 
 {
 //    if(mTheThread.isRunning())
