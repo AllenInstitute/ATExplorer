@@ -15,7 +15,7 @@ One of the main challenges in \at is the precise digital reconstruction of an or
 However, before volume reconstruction can begin, various pre data processing algorithms need to be applied, such as median filtering, flat-field correction and de-convolution. These processing algorithms are all, to some extent, complex. \ate provides the non-programmer user with intuitive and easy to use UI components to guide through this process, in order to quickly get to data that is useful for scientific discovery and exploration.
 
 \section{A manual \at workflow}
-In order to get from raw, acquired data to  fine aligned 3D volumes, a number of processing steps, i.e. a \emph{pipeline}, is required. (See pipeline figure)
+In order to get from raw acquired data to fine aligned 3D volumes, a number of processing steps, i.e. a \emph{pipeline}, is required. (Create a pipeline figure)
 
 \begin{description}[font=$\bullet$~\normalfont\scshape\color{red!50!black}]
 \item [FlatField correction]
@@ -27,47 +27,49 @@ In order to get from raw, acquired data to  fine aligned 3D volumes, a number of
 \item [Other]
 \end{description}
 
-The pipeline is integrated into the \ate UI. However, in certain situations it may be necessary to push data through the pipeline manually. \ate in ... provide a set of Python scripts that can be used for exactly this purpose. The scripts are to be found in the folder \path{/atPipeline/source} and \path{/atPipeline}. These scripts can be executed on their own, or from within the UI. 
-each pipeline script is discussed in terms of their purpose, input and output data, in the sections below.
+The pipeline is integrated into the \ate UI. However, in certain situations it may be necessary to push data through the pipeline manually. \ate provides a set of 
+Python scripts that can be used for this purpose. The scripts are to be found in the folder \path{/atPipeline/source} and \path{/atPipeline}. These pipeline scripts can be executed on their own, or from within the UI.
 
-\subsection{Creation of \emph{state tables}}
-\subsubsection{\emph{Fast stacks}}
+Each pipeline script is discussed in terms of their purpose, input and output data, in the sections below.
+
+\subsection{Creation of Renderstacks from raw image data}
+The first step in order to get easy and useful access to raw data is to create \emph{stacks} in Render. A stack, in this context, can be thought of as an object in the Render backend that that keep positional and orientational information about a set of imaged section tiles. 
+
+However, before this data can be populated, a set of files, \emph{statetables}, need to be created using the python script \emph{createStateTables.py}. 
+A statetable file contain meta data for individual section, by session.
+
+\subsubsection{The script: \emph{create\_state\_tables.py}}
+\singlespacing
+
+\lstset{basicstyle=\tiny,style=mypython}
+
+\inputpython{\pipeline/source/create_state_tables.py}{7}{45} 
+
+Input: Dataroot folder and ribbons, sessions
+
+Output: state table files in folder: \emph{scripts} 
+
+\subsubsection{The script: \emph{create\_rawdata\_render\_multi\_stacks.py}}
 Creates down-sampled images and tile specs...
 
 \singlespacing
-\begin{python}    
-#------------------------------------------------
-# Name:        atMain
-# Purpose:     Run multiple AT processing scripts
-#------------------------------------------------
+\inputpython{\pipeline/source/create_rawdata_render_multi_stacks.py}{9}{50} 
 
-import os
-import atutils
-import create_state_tables
-import create_rawdata_render_multi_stacks
-import create_median_files
-import create_flatfield_corrected_data
-import timeit
+Input: Dataroot folder and ribbons, sessions
 
-if __name__ == '__main__':
-    timeStart = timeit.default_timer()
-
-    #What data to process??
-    dataRootFolder = "F:\\data\\M33"
-    ribbons = ["Ribbon0004"]
-    sessions = ["Session01",
-                "Session02",
-                "Session03"
-                ]
-
-\end{python}
-
-\doublespacing
+Output: Renderstacks in render: ACQ\_ 
 
 \subsection{Creation of median files}
-\subsection{FlatField correction}
+\subsubsection{The script: \emph{create\_median\_files.py}}
+\inputpython{\pipeline/source/create_median_files.py}{9}{38} 
+Input: 
+
+Output: 
+\subsubsection{The script: \emph{create\_flatfield\_corrected\_data.py}}
+\inputpython{\pipeline/source/create_flatfield_corrected_data.py}{9}{41} 
 
 \clearpage
+\doublespacing
 
 \begin{figure}[h]
 \centering\includegraphics[scale=0.65]{LMDataProcessing_1}

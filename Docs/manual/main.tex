@@ -25,7 +25,16 @@
             \node[shape=circle,draw,inner sep=1pt] (char) {#1};}}
 
 \newcommand*\cn[1]{\small \circled{\small {#1}}}
+\newcommand*{\pipeline}{./../../ThirdParty/atPipeline}
 
+\lstdefinestyle{customPython}{
+  language=Python,
+  basicstyle=\tiny,
+  tabsize=4,
+  showspaces=false,
+  showstringspaces=false
+}
+%
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -79,8 +88,8 @@
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
 %----------------------------------------------------------------------------------------
-\include{chapter_1}
-\include{chapter_2}
+\include{chapter1}
+\include{chapter2}
 
 \begin{appendices}
 
@@ -140,7 +149,6 @@ if(dynamic_cast<...>(eo))
 \subsection{SQLite 3}
 \subsection{TinyXML2}
 \subsection{Dune Scientific libraries: dslFoundation}
-
 
 \chapter{How to Build \ate  and its API's}
 
