@@ -5,7 +5,8 @@
 #include "dslLogger.h"
 #include "TImageForm.h"
 #include "atATExplorerProject.h"
-#include "ateAppUtilities.h"
+#include "ATExplorerProperties.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;
@@ -69,6 +70,8 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
     gAU.ProjectPanelWidth = ProjectManagerPanel->Width;
 
 	gAU.GeneralProperties->write();
+
+    gATExplorer.writeProperties();
 
 	//Write to file
 	gAU.getIniFile().save();

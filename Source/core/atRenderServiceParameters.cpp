@@ -5,24 +5,26 @@
 //---------------------------------------------------------------------------
 
 using namespace std;
-
+using namespace dsl;
 namespace at
 {
 
 RenderServiceParameters::RenderServiceParameters()
 :
 mName(""),
-mBaseURL(""),
+mHost(""),
 mPortNr(-1),
-mVersion("")
+mVersion(""),
+mProtocol("http")
 {}
 
 RenderServiceParameters::RenderServiceParameters(const string& name, const string& b, int portNr, const string& version)
 :
 mName(name),
-mBaseURL(b),
+mHost(b),
 mPortNr(portNr),
-mVersion(version)
+mVersion(version),
+mProtocol("http")
 {}
 
 RenderServiceParameters::~RenderServiceParameters()
@@ -31,6 +33,36 @@ RenderServiceParameters::~RenderServiceParameters()
 string RenderServiceParameters::getName() const
 {
     return mName;
+}
+
+bool RenderServiceParameters::bindToPropertyContainer(PropertiesSP props)
+{
+    mProperties = props;
+    //For reading/writing in ui elements
+    Property<string>* name = dynamic_cast< Property<string>* > (props->getProperty("NAME"));
+	if(name)
+    {
+       	name->setValueReference(mName, true);
+    }
+    else
+    {
+//        props.add()
+    }
+
+    Property<string>* host = dynamic_cast< Property<string>* > (props->getProperty("HOST"));
+    if(host)
+    {
+       host->setValueReference(mHost, true);
+    }
+    else
+    {
+//        props.add()
+    }
+}
+
+PropertiesSP RenderServiceParameters::getProperties()
+{
+    return mProperties;
 }
 
 bool RenderServiceParameters::compare(const RenderServiceParameters& rsp)
@@ -46,18 +78,18 @@ void RenderServiceParameters::setName(const string& n)
 string RenderServiceParameters::asString() const
 {
     stringstream s;
-    s << mBaseURL << ":" << mPortNr << mVersion;
+    s << mHost << ":" << mPortNr << mVersion;
     return s.str();
 }
 
-void RenderServiceParameters::setBaseURL(const string& u)
+void RenderServiceParameters::setHost(const string& u)
 {
-    mBaseURL = u;
+    mHost = u;
 }
 
-string RenderServiceParameters::getBaseURL() const
+string RenderServiceParameters::getHost() const
 {
-    return mBaseURL;
+    return mHost;
 }
 
 void RenderServiceParameters::setPortNr(int p)
@@ -83,6 +115,16 @@ void RenderServiceParameters::setVersion(const string& v)
 string RenderServiceParameters::getVersion() const
 {
     return mVersion;
+}
+
+void RenderServiceParameters::setProtocol(const string& v)
+{
+    mProtocol = v;
+}
+
+string RenderServiceParameters::getProtocol() const
+{
+    return mProtocol;
 }
 
 }

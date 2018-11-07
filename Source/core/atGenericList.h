@@ -55,7 +55,7 @@ T List<T>::getNext()
         }
         else
         {
-	    	return *(mIter);
+	    	return (*mIter);
         }
     }
 

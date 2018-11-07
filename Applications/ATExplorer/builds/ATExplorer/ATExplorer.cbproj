@@ -124,10 +124,10 @@
 $(PostBuildEvent)]]></PostBuildEvent>
         <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
         <Icon_MainIcon>..\..\source\ATExplorer.ico</Icon_MainIcon>
-        <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
+        <Debugger_DebugSourcePath>P:\atExplorer\Source\core\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

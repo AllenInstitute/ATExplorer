@@ -1,7 +1,6 @@
-#ifndef ateAppUtilitiesH
-#define ateAppUtilitiesH
+#ifndef ATExplorerPropertiesH
+#define ATExplorerPropertiesH
 #include "dslApplicationProperties.h"
-#include "atATObject.h"
 #include "dslProperty.h"
 #include "dslIniFileProperties.h"
 #include "dslSharedPointer.h"
@@ -14,16 +13,15 @@ using dsl::Property;
 using dsl::IniFileProperties;
 using dsl::LogLevel;
 
-class PACKAGE AppUtilities : public dsl::ApplicationProperties
+class PACKAGE ATExplorerProperties : public dsl::ApplicationProperties
 {
     public:
-                                            AppUtilities();
-                                            ~AppUtilities();
-        bool                                setupIniParameters();
+                                            ATExplorerProperties();
+                                            ~ATExplorerProperties();
+        bool                                setupGeneralProperties();
 
                                             //General Properties
         shared_ptr<IniFileProperties> 		GeneralProperties;
-        shared_ptr<IniFileProperties>       ServerProperties;
 
                                             //Automatically managed properties ============================
         Property<string>                	LocalCacheFolder;
@@ -35,15 +33,13 @@ class PACKAGE AppUtilities : public dsl::ApplicationProperties
         Property<string>                	ImageMagickPath;
 
                                             //These properties may be exposed for change in the UI ========
-        Property<bool>	                	ConnectSSHServersOnStartup;
         Property<LogLevel>	 	           	LogLevel;
-//            Property<string>	 		        CurrentProject;
-//            Property<string>	 		        CurrentOwner;
-//            Property<string>	 		        CurrentStack;
-        Property<string>	 		        BaseURL;
+//        Property<string>	 		        BaseURL;
         Property<string>	 		        LastOpenedProject;
 };
 
+//This creates a global ATExplorerProperties object
+extern PACKAGE ATExplorerProperties gAU;
 
 }
 #endif

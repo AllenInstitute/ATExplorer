@@ -2,7 +2,7 @@
 #pragma hdrstop
 #include "TMainForm.h"
 #include "TAboutATExplorerForm.h"
-#include "ateAppUtilities.h"
+#include "ATExplorerProperties.h"
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
 

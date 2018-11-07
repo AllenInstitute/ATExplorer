@@ -1,8 +1,8 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 891
-  Height = 709
+  Width = 637
+  Height = 391
   Align = alClient
   TabOrder = 0
   ExplicitWidth = 451
@@ -10,19 +10,19 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 891
+    Width = 637
     Height = 241
     Align = alTop
     Caption = 'Raw AT IF Data Properties'
     TabOrder = 0
     ExplicitWidth = 451
     DesignSize = (
-      891
+      637
       241)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 2398
+      Width = 2584
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -30,7 +30,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       EditLabel.Caption = 'DataRootFolderE'
       Enabled = False
       TabOrder = 0
-      ExplicitWidth = 1958
+      ExplicitWidth = 2398
     end
     object ScanDataBtn: TButton
       Left = 16
@@ -136,18 +136,18 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     object PopulatePB: TProgressBar
       Left = 103
       Top = 88
-      Width = 2311
+      Width = 2497
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
-      ExplicitWidth = 1871
+      ExplicitWidth = 2311
     end
   end
   object Panel1: TPanel
     Left = 0
     Top = 241
-    Width = 891
-    Height = 468
+    Width = 637
+    Height = 150
     Align = alClient
     TabOrder = 1
     ExplicitWidth = 451
@@ -155,8 +155,8 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 889
-      Height = 466
+      Width = 635
+      Height = 148
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
@@ -164,13 +164,16 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       ExplicitHeight = 62
       object TabSheet1: TTabSheet
         Caption = 'State Tables'
+        ExplicitWidth = 441
+        ExplicitHeight = 34
         object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 881
+          Width = 627
           Height = 41
           Align = alTop
           TabOrder = 0
+          ExplicitWidth = 441
           object CreateStateTablesBtn: TButton
             Left = 11
             Top = 10
@@ -194,6 +197,8 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       object TabSheet2: TTabSheet
         Caption = 'FlatField Corrected'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 441
         ExplicitHeight = 34
         object Panel3: TPanel

@@ -5,7 +5,7 @@
 #include "atATExplorerProject.h"
 #include "dslLogger.h"
 #include "TATESettingsForm.h"
-#include "ateAppUtilities.h"
+#include "ATExplorerProperties.h"
 #include "atRenderProject.h"
 #include "atRenderProjectItemView.h"
 #include "atATIFDataProjectItemView.h"
@@ -14,6 +14,7 @@
 #include "TCreateATIFDataProjectForm.h"
 #include "dslFileUtils.h"
 #include "TSelectRenderProjectParametersForm.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -34,9 +35,25 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
      mTreeItemObservers(*MainPC),
      mPTreeView(*ProjectTView, mTreeItemObservers)
 {
-    setupAndReadIniParameters();
     Application->ShowHint = true;
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+
+
+    //Setup some UI properties
+	BottomPanel->Height 		= gAU.BottomPanelHeight;
+    ProjectManagerPanel->Width 	= gAU.ProjectPanelWidth == 0 ? 100 : gAU.ProjectPanelWidth; //Gotta be at least 100px on startup
+
+    //Populate "recent" files, projects
+	if(gAU.LastOpenedProject.getValue().size())
+    {
+        Log(lInfo) << "Last opened project: " << gAU.LastOpenedProject;
+		TMenuItem *Item = new TMenuItem(ReopenMenu);
+        Item->Caption = gAU.LastOpenedProject.getValue().c_str();
+        FileOpen1->Dialog->FileName = gAU.LastOpenedProject.getValue().c_str();
+        Item->OnClick = FileOpen1Accept;
+        ReopenMenu->Add(Item);
+        ReopenMenu->Enabled = true;
+    }
 }
 
 __fastcall TMainForm::~TMainForm()
@@ -48,12 +65,16 @@ __fastcall TMainForm::~TMainForm()
 void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
 {
     //open Settings form
-    shared_ptr<TATESettingsForm> s(new TATESettingsForm(this));
+    shared_ptr<TATESettingsForm> settingsForm(new TATESettingsForm(gATExplorer, this));
 
-    //The settings form will bring all properties into Edit mode
-//    s->append(gAU.GeneralProperties);
+    PropertiesSP sec = gAU.getFirstSection();
+    while(sec)
+    {
+        settingsForm->append(sec);
+        sec = gAU.getNextSection();
+    }
 
-    int r = s->ShowModal();
+    int r = settingsForm->ShowModal();
     if(r == mrOk)
     {
         //Update values

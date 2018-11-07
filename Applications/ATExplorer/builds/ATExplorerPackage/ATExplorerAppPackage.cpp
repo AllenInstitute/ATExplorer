@@ -1,11 +1,16 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "ateAppUtilities.h"
+#include "ATExplorerProperties.h"
 
 //USEFORM("..\..\..\..\Source\vcl\frames\TRenderServicesFrame.cpp", RenderServicesFrame); /* TFrame: File Type */
 //USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
 //USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
 //USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
+//---------------------------------------------------------------------------
+USEFORM("..\..\..\..\Source\vcl\frames\TRenderServicesFrame.cpp", RenderServicesFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Frames\TGeneralPropertiesFrame.cpp", GeneralPropertiesFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
+USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------

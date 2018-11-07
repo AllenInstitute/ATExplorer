@@ -198,7 +198,7 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
     XMLElement* val(nullptr);
 
     val = doc.NewElement("renderhost");
-    val->SetText(mRenderService.getBaseURL().c_str());
+    val->SetText(mRenderService.getHost().c_str());
     parentNode->InsertEndChild(val);
 
     val = doc.NewElement("renderhostport");
@@ -255,7 +255,7 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
     e = node->FirstChildElement("renderhost");
     if(e)
     {
-    	mRenderService.setBaseURL(e->GetText() ? string(e->GetText()) : string(""));
+    	mRenderService.setHost(e->GetText() ? string(e->GetText()) : string(""));
     }
 
     e = node->FirstChildElement("renderhostport");

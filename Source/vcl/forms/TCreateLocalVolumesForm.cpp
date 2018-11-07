@@ -36,7 +36,7 @@ void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const String
     mROI = roi;
 
     RenderServiceParameters rsp(mRP.getRenderServiceParameters());
-	mRC.setBaseURL(rsp.getBaseURL());
+	mRC.setBaseURL(rsp.getHost());
 
     //Setup ROI
     XCoordE->setValue(mROI.getX1());

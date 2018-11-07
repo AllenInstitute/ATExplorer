@@ -1,6 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "ateAppUtilities.h"
+#include "ATExplorerProperties.h"
 #include "dslLogger.h"
 #include "atATExplorer.h"
 #include <memory>
@@ -15,7 +15,18 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
 	{
+        //Keep track of Application related properties in an INIFile and Registry
 		gAU.init();
+		gLogger.setLogLevel(gAU.LogLevel);
+
+        //Setup parameters
+        gAU.setupGeneralProperties();
+        gAU.GeneralProperties->read();
+
+        //The ATExplorer object don't read data from a inifile
+	    gATExplorer.init(gAU.getIniFile());
+
+//        gATExplorer.
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
@@ -53,14 +64,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 #pragma comment(lib, "dslFoundation")
 #pragma comment(lib, "dslVCLCommon.lib")
 #pragma comment(lib, "dslVCLComponents.bpi")
-//#pragma comment(lib, "dslVCLVisualComponents.bpi")
 
-//#pragma comment(lib, "atFoundation.lib")
-//#pragma comment(lib, "atVCLCommon.lib")
 #pragma comment(lib, "atExplorerFoundation.lib")
-
-
-
 #pragma comment(lib, "atExplorerVCL.bpi")
 #pragma comment(lib, "ATExplorerAppPackage.bpi")
 

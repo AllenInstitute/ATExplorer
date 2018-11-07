@@ -1,44 +1,36 @@
 object RenderServicesFrame: TRenderServicesFrame
   Left = 0
   Top = 0
-  Width = 477
-  Height = 235
+  Width = 451
+  Height = 305
   Align = alClient
   AutoSize = True
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
     Width = 161
-    Height = 235
+    Height = 305
     Align = alLeft
     Caption = 'Services'
     TabOrder = 0
-    Visible = False
-    ExplicitHeight = 213
     object ServicesLB: TListBox
       Left = 2
       Top = 15
       Width = 157
-      Height = 183
+      Height = 253
       Align = alClient
       ItemHeight = 13
       TabOrder = 0
-      ExplicitLeft = -64
-      ExplicitWidth = 121
-      ExplicitHeight = 196
+      OnClick = ServicesLBClick
     end
     object Panel1: TPanel
       Left = 2
-      Top = 198
+      Top = 268
       Width = 157
       Height = 35
       Align = alBottom
       TabOrder = 1
-      ExplicitTop = 176
-      ExplicitWidth = 101
       object AddRenderServiceBtn: TButton
         Left = 8
         Top = 6
@@ -61,22 +53,18 @@ object RenderServicesFrame: TRenderServicesFrame
   object GroupBox4: TGroupBox
     Left = 161
     Top = 0
-    Width = 316
-    Height = 235
+    Width = 290
+    Height = 305
     Align = alClient
     Caption = 'Render Service'
     TabOrder = 1
-    ExplicitLeft = 0
-    ExplicitTop = 129
-    ExplicitWidth = 451
-    ExplicitHeight = 176
     DesignSize = (
-      316
-      235)
-    object BaseURLE: TSTDStringLabeledEdit
+      290
+      305)
+    object HostE: TSTDStringLabeledEdit
       Left = 13
       Top = 42
-      Width = 236
+      Width = 210
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 22
@@ -85,10 +73,9 @@ object RenderServicesFrame: TRenderServicesFrame
       TabOrder = 0
       Text = 'http://ibs-forrestc-ux1'
       Value = 'http://ibs-forrestc-ux1'
-      ExplicitWidth = 371
     end
     object TestRenderServiceBtn: TButton
-      Left = 255
+      Left = 229
       Top = 40
       Width = 52
       Height = 25
@@ -96,7 +83,6 @@ object RenderServicesFrame: TRenderServicesFrame
       Caption = 'Test'
       TabOrder = 1
       OnClick = TestRenderServiceBtnClick
-      ExplicitLeft = 390
     end
     object maxTileSpecsToRenderE: TIntegerLabeledEdit
       Left = 152

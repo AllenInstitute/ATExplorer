@@ -4,6 +4,7 @@
 #include "dslVCLUtils.h"
 #include "dslFileUtils.h"
 #include "dslLogger.h"
+#include "atRenderServiceParameters.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -14,25 +15,34 @@
 TRenderServicesFrame *RenderServicesFrame;
 
 using namespace dsl;
+using namespace at;
 //---------------------------------------------------------------------------
-__fastcall TRenderServicesFrame::TRenderServicesFrame(TComponent* Owner)
+__fastcall TRenderServicesFrame::TRenderServicesFrame(ATExplorer& e, TComponent* Owner)
 	:
-    TFrame(Owner)
+    TFrame(Owner),
+    mExplorer(e)
     {}
 
 //---------------------------------------------------------------------------
-bool TRenderServicesFrame::populate(Properties& props)
+bool TRenderServicesFrame::populate()
 {
     //Assign external properties with UI properties
-    props.disableEdits();
+    ServicesLB->Clear();
 
-
-    if(props.getProperty("LOCAL_CACHE_FOLDER"))
+    RenderServiceParameters* rsp = mExplorer.getFirstRenderService();
+    while(rsp)
     {
-
+		ServicesLB->AddItem(rsp->getName().c_str(), NULL);
+        rsp = mExplorer.getNextRenderService();
     }
 
-    props.enableEdits();
+    if(ServicesLB->Items->Count)
+    {
+        ServicesLB->ItemIndex = 0;
+		ServicesLB->OnClick(NULL);
+    }
+
+
     return true;
 }
 
@@ -43,10 +53,31 @@ void __fastcall TRenderServicesFrame::TestRenderServiceBtnClick(TObject *Sender)
     MessageDlg("Not Implemented yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
 }
 
-
+//---------------------------------------------------------------------------
 void __fastcall TRenderServicesFrame::AddRenderServiceBtnClick(TObject *Sender)
 {
     ;
 }
+
 //---------------------------------------------------------------------------
+void __fastcall TRenderServicesFrame::ServicesLBClick(TObject *Sender)
+{
+    if(ServicesLB->ItemIndex == -1)
+    {
+        return;
+    }
+
+    string serviceName = stdstr(ServicesLB->Items->Strings[ServicesLB->ItemIndex]);
+
+    //Get the service that was clicked on
+    RenderServiceParameters* s = mExplorer.getRenderService(serviceName);
+    PropertiesSP p = s->getProperties();
+    if(p && p->getProperty("HOST"))
+    {
+        HostE->assignExternalProperty(dynamic_cast<Property<string>* >(p->getProperty("HOST")));
+        HostE->Enabled =  p->getProperty("HOST")->isInEditMode();
+
+    }
+}
+
 

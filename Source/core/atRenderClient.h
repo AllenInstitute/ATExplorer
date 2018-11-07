@@ -111,7 +111,7 @@ class ATE_CORE RenderClient : public ExplorerObject
     	int				                            mZ;
         double				                        mScale;
 
-        RenderServiceParameters                     mRenderServiceURL;
+        RenderServiceParameters                     mRenderService;
 
         RenderProject&					            mRenderProject;
         RenderLocalCache                            mCache;

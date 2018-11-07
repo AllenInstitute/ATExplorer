@@ -154,7 +154,6 @@ __published:	// IDE-managed Components
 
 	private:
 		bool          									mIsStyleMenuPopulated;
-        bool                                            setupAndReadIniParameters();
 
                                                         //!Practical Container for 'ItemViews'
         TreeItemObservers                               mTreeItemObservers;

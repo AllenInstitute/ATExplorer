@@ -34,7 +34,7 @@ RenderClient::RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderSe
 :
 mC(c),
 mRenderProject(rp),
-mRenderServiceURL(p),
+mRenderService(p),
 mCache(cacheFolder, mRenderProject),
 mFetchImageThread(*this),
 mImageType("jpeg-image")
@@ -61,7 +61,7 @@ RenderClient::~RenderClient()
 
 RenderServiceParameters RenderClient::getRenderServiceParameters()
 {
-    return mRenderServiceURL;
+    return mRenderService;
 }
 
 void RenderClient::setSelectedStackName(const string& sName)
@@ -80,7 +80,7 @@ double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
 
 void RenderClient::setBaseURL(const string& baseURL)
 {
-	mRenderServiceURL.setBaseURL(baseURL);
+	mRenderService.setHost(baseURL);
 }
 
 const char* RenderClient::getURLC()
@@ -100,7 +100,7 @@ RenderProject& RenderClient::getProject()
 
 string RenderClient::getBaseURL()
 {
-	return mRenderServiceURL.getBaseURL();
+	return mRenderService.getHost();
 }
 
 RenderProject RenderClient::getRenderProject()
@@ -164,7 +164,7 @@ void RenderClient::setLocalCacheFolder(const string& f)
 StringList RenderClient::getOwners()
 {
     stringstream sUrl;
-    sUrl << mRenderServiceURL.getBaseURL() <<":"<< mRenderServiceURL.getPortNr() << mRenderServiceURL.getVersion();
+    sUrl << mRenderService.getHost() <<":"<< mRenderService.getPortNr() << mRenderService.getVersion();
     sUrl << "/owners";
     Log(lDebug5) << "Fetching owners: "<<sUrl.str();
     StringList owners;
@@ -194,7 +194,7 @@ StringList RenderClient::getOwners()
 StringList RenderClient::getProjectsForOwner(const string& o)
 {
     stringstream sUrl;
-    sUrl << mRenderServiceURL.asString();
+    sUrl << mRenderService.asString();
     sUrl << "/owner/" << o;
     sUrl << "/stackIds";
     Log(lDebug5) << "Fetching projects for owner: "<<sUrl.str();
@@ -288,7 +288,7 @@ TMemoryStream* RenderClient::reloadImage(int z)
 RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
 {
     stringstream sUrl;
-    sUrl << mRenderServiceURL.asString();
+    sUrl << mRenderService.asString();
     sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
     sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
     sUrl << "/stack/"		<<mRenderProject.getSelectedStackName();
@@ -320,7 +320,7 @@ RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
     for(int z = 0; z < zs.size(); z++)
     {
         stringstream sUrl;
-        sUrl << mRenderServiceURL.asString();
+        sUrl << mRenderService.asString();
         sUrl << "/owner/"  	<< mRenderProject.getProjectOwner();
         sUrl << "/project/" << mRenderProject.getRenderProjectName();
         sUrl << "/stack/"	<<mRenderProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
@@ -414,7 +414,7 @@ string RenderClient::getURLForZ(int z)
 {
 	stringstream sUrl;
     RegionOfInterest& roi = mRenderProject.getCurrentRegionOfInterestReference();
-    sUrl << mRenderServiceURL.asString();
+    sUrl << mRenderService.asString();
     sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
     sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
     sUrl << "/stack/"		<< mRenderProject.getSelectedStackName();
@@ -458,7 +458,7 @@ vector<int> RenderClient::getValidZs()
 {
 	StringList zs;
 	stringstream sUrl;
-    sUrl << mRenderServiceURL.asString();
+    sUrl << mRenderService.asString();
     sUrl << "/owner/"    << mRenderProject.getProjectOwner();
     sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
     sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
@@ -501,7 +501,7 @@ vector<int> RenderClient::getValidZs()
 bool RenderClient::renameStack(const string& currentStackName, const string& newName)
 {
 	stringstream sUrl;
-    sUrl << mRenderServiceURL.asString();
+    sUrl << mRenderService.asString();
     sUrl << "/owner/"    << mRenderProject.getProjectOwner();
     sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
     sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
@@ -538,7 +538,7 @@ RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
 StringList RenderClient::getStacksForProject(const string& owner, const string& project)
 {
     stringstream sUrl;
-    sUrl << mRenderServiceURL.asString();
+    sUrl << mRenderService.asString();
     sUrl << "/owner/"<<owner;
     sUrl << "/stackIds";
     Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();

@@ -4,10 +4,10 @@
 //#include "dslVCLUtils.h"
 //#include "dslLogger.h"
 //#include "atSSHUtils.h"
-//#include "ateAppUtilities.h"
+//#include "ATExplorerProperties.h"
 ////---------------------------------------------------------------------------
 //using namespace dsl;
-//extern at::AppUtilities gAU;
+//extern at::ATExplorerProperties gAU;
 //
 ////---------------------------------------------------------------------------
 //void __fastcall TMainForm::TSSHFrame1ScSSHShell1AsyncReceive(TObject *Sender)
