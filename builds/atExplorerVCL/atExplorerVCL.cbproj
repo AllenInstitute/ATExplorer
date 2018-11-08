@@ -182,8 +182,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\atTreeItemObservers.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\atUtilities.cpp">
-            <DependentOn>..\..\Source\vcl\atUtilities.h</DependentOn>
+        <CppCompile Include="..\..\Source\vcl\atUtils.cpp">
+            <DependentOn>..\..\Source\vcl\atUtils.h</DependentOn>
             <BuildOrder>22</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.cpp">
@@ -228,6 +228,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.h</DependentOn>
             <BuildOrder>27</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.cpp">
+            <Form>NewValueE</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\Source\vcl\forms\TSimpleTextInputDialog.h</DependentOn>
+            <BuildOrder>31</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.cpp">
             <Form>ATIFDataProjectFrame</Form>
             <FormType>dfm</FormType>
@@ -268,13 +274,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateMediansForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

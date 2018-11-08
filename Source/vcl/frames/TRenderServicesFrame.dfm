@@ -21,6 +21,7 @@ object RenderServicesFrame: TRenderServicesFrame
       Height = 253
       Align = alClient
       ItemHeight = 13
+      PopupMenu = PopupMenu1
       TabOrder = 0
       OnClick = ServicesLBClick
     end
@@ -34,19 +35,20 @@ object RenderServicesFrame: TRenderServicesFrame
       object AddRenderServiceBtn: TButton
         Left = 8
         Top = 6
-        Width = 49
+        Width = 41
         Height = 25
-        Caption = 'Add'
+        Caption = 'New'
         TabOrder = 0
         OnClick = AddRenderServiceBtnClick
       end
       object RemoveServiceBtn: TButton
-        Left = 80
+        Left = 93
         Top = 6
         Width = 57
         Height = 25
         Caption = 'Remove'
         TabOrder = 1
+        OnClick = RemoveServiceBtnClick
       end
     end
   end
@@ -58,55 +60,82 @@ object RenderServicesFrame: TRenderServicesFrame
     Align = alClient
     Caption = 'Render Service'
     TabOrder = 1
-    DesignSize = (
-      290
-      305)
     object HostE: TSTDStringLabeledEdit
-      Left = 13
+      Left = 55
       Top = 42
-      Width = 210
+      Width = 133
       Height = 21
-      Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 22
       EditLabel.Height = 13
       EditLabel.Caption = 'Host'
-      TabOrder = 0
-      Text = 'http://ibs-forrestc-ux1'
-      Value = 'http://ibs-forrestc-ux1'
+      TabOrder = 1
+      Text = 'ibs-forrestc-ux1'
+      Value = 'ibs-forrestc-ux1'
     end
     object TestRenderServiceBtn: TButton
-      Left = 229
-      Top = 40
-      Width = 52
-      Height = 25
-      Anchors = [akTop, akRight]
+      Left = 13
+      Top = 203
+      Width = 108
+      Height = 46
       Caption = 'Test'
-      TabOrder = 1
+      TabOrder = 5
       OnClick = TestRenderServiceBtnClick
     end
-    object maxTileSpecsToRenderE: TIntegerLabeledEdit
-      Left = 152
-      Top = 88
-      Width = 97
+    object MaxTileSpecsToRenderE: TIntegerLabeledEdit
+      Left = 13
+      Top = 152
+      Width = 60
       Height = 21
       EditLabel.Width = 114
       EditLabel.Height = 13
       EditLabel.Caption = 'Max # of tiles to render'
-      TabOrder = 2
+      TabOrder = 4
       Text = '150'
       Value = 150
     end
-    object RenderPort: TIntegerLabeledEdit
-      Left = 13
-      Top = 88
-      Width = 121
+    object PortE: TIntegerLabeledEdit
+      Left = 194
+      Top = 42
+      Width = 58
       Height = 21
-      EditLabel.Width = 55
+      EditLabel.Width = 26
       EditLabel.Height = 13
-      EditLabel.Caption = 'RenderPort'
-      TabOrder = 3
+      EditLabel.Caption = 'PortE'
+      TabOrder = 2
       Text = '80'
       Value = 80
+    end
+    object ProtocolE: TSTDStringLabeledEdit
+      Left = 13
+      Top = 42
+      Width = 36
+      Height = 21
+      EditLabel.Width = 39
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Protocol'
+      TabOrder = 0
+      Text = 'http'
+      Value = 'http'
+    end
+    object VersionE: TSTDStringLabeledEdit
+      Left = 13
+      Top = 90
+      Width = 84
+      Height = 21
+      EditLabel.Width = 35
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Version'
+      TabOrder = 3
+      Text = '/version/v1'
+      Value = '/version/v1'
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 64
+    Top = 96
+    object Rename: TMenuItem
+      Caption = 'Rename'
+      OnClick = RenameClick
     end
   end
 end

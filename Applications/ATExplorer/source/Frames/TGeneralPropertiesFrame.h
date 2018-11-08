@@ -16,12 +16,6 @@ class PACKAGE TGeneralPropertiesFrame : public TFrame
 {
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
-        TGroupBox *GroupBox4;
-        TSTDStringLabeledEdit *BaseURLE;
-        TButton *TestRenderServiceBtn;
-        TIntegerLabeledEdit *maxTileSpecsToRenderE;
-        TIntegerLabeledEdit *RenderPort;
-        TPropertyCheckBox *ConnectSSHServersOnStartupCB;
 	TGroupBox *GroupBox2;
 	TSTDStringLabeledEdit *ImageMagickPathE;
 	TButton *BrowseForImageMagickPathBtn;

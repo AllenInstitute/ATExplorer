@@ -13,6 +13,8 @@ using namespace dsl;
 ATExplorer gATExplorer;
 
 ATExplorer::ATExplorer()
+:
+mIniFile(NULL)
 {
     Log(lInfo) << "Starting up ATExplorer..";
 }
@@ -22,9 +24,11 @@ ATExplorer::~ATExplorer()
 
 bool ATExplorer::init(IniFile& iniFile)
 {
+	mIniFile = &iniFile;
+
     Log(lDebug4) << "In ATExplorer INIT";
 
-    //Create Property sections for each ini section
+    //Create Property sections for ini sections
     for(int i = 0; i < iniFile.getNumberOfSections(); i++)
     {
         IniSection* iniSection = iniFile.getSection(i);
@@ -32,7 +36,6 @@ bool ATExplorer::init(IniFile& iniFile)
         {
             //Create a new (empty) inifile section
             PropertiesSP props = PropertiesSP(new IniFileProperties(&iniFile, iniSection->mName));
-            append(props);
 
             createRenderServiceParametersPropertiesInSection(props, iniSection);
             createARenderServiceParametersRecord(props);
@@ -44,27 +47,50 @@ bool ATExplorer::init(IniFile& iniFile)
 
 bool ATExplorer::writeProperties()
 {
-	PropertiesSP p = mINISections.getFirst();
-    while(p)
+	RenderServiceParameters* rs = mRenderServices.getFirst();
+    while(rs)
     {
-        p->write();
-        p = mINISections.getNext();
+        rs->getProperties()->write();
+        rs = mRenderServices.getNext();
     }
     return true;
 }
 
-void ATExplorer::append(PropertiesSP props)
+RenderServiceParameters* ATExplorer::createRenderService(const string& serviceName)
 {
-    mINISections.append(props);
+    //Create a new (empty) inifile section
+    string iniSection("RENDER_SERVICE_" + serviceName);
+    PropertiesSP props = PropertiesSP(new IniFileProperties(mIniFile, iniSection));
+    RenderServiceParameters* rs = createARenderServiceParametersRecord(props, serviceName);
+    mIniFile->save();
+    return rs;
+}
+
+bool ATExplorer::removeRenderService(const string& serviceName)
+{
+    if(mIniFile)
+    {
+	    mIniFile->deleteSection("RENDER_SERVICE_" + serviceName);
+    }
+
+    RenderServiceParameters* rs = getRenderService(serviceName);
+    return mRenderServices.remove(rs);
 }
 
 //Create a new record with data from the PropertySection
-bool ATExplorer::createARenderServiceParametersRecord(PropertiesSP sec)
+RenderServiceParameters* ATExplorer::createARenderServiceParametersRecord(PropertiesSP sec, const string& name)
 {
 	RenderServiceParameters*  rs = new RenderServiceParameters;
     rs->bindToPropertyContainer(sec);
+
+    if(name.size())
+    {
+    	rs->setName(name);
+    }
+
     appendRenderService(rs);
-    return true;
+    rs->getProperties()->enableEdits();
+    return rs;
 }
 
 void ATExplorer::appendRenderService(RenderServiceParameters* rs)
@@ -114,7 +140,6 @@ bool ATExplorer::createRenderServiceParametersPropertiesInSection(dsl::Propertie
             return false;
         }
 
-
         if(iniSection->getKey("NAME"))
         {
             ifp->addStringProperty("NAME", iniSection->getKey("NAME")->mValue);
@@ -158,6 +183,15 @@ bool ATExplorer::createRenderServiceParametersPropertiesInSection(dsl::Propertie
         else
         {
             Log(lError) << "The VERSION record is missing in iniSection: " << iniSection->mName;
+        }
+
+        if(iniSection->getKey("MAX_TILES_TO_RENDER"))
+        {
+            ifp->addIntProperty("MAX_TILES_TO_RENDER", iniSection->getKey("MAX_TILES_TO_RENDER")->asInt());
+        }
+        else
+        {
+            Log(lError) << "The MAX_TILES_TO_RENDER record is missing in iniSection: " << iniSection->mName;
         }
     }
 }

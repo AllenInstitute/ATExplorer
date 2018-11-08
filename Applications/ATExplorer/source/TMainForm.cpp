@@ -66,19 +66,19 @@ void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
 {
     //open Settings form
     shared_ptr<TATESettingsForm> settingsForm(new TATESettingsForm(gATExplorer, this));
-
     PropertiesSP sec = gAU.getFirstSection();
+
     while(sec)
     {
         settingsForm->append(sec);
         sec = gAU.getNextSection();
     }
 
-    int r = settingsForm->ShowModal();
-    if(r == mrOk)
+    if(settingsForm->ShowModal() == mrOk)
     {
-        //Update values
-        Log(lInfo) << "Cache folder is now: " << gAU.LocalCacheFolder.getValue();
+        //save ini file
+        gATExplorer.writeProperties();
+        gAU.saveIniFile();
     }
 }
 

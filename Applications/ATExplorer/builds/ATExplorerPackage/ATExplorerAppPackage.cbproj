@@ -108,7 +108,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_Description>Support package for ATExplorer</ILINK_Description>
         <ILINK_GenerateLibFile>false</ILINK_GenerateLibFile>
-        <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;P:\atExplorer\source\core;$(IncludePath)</IncludePath>
+        <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;P:\atExplorer\source\core;P:\atExplorer\Source\vcl\forms;$(IncludePath)</IncludePath>
         <DCC_HppOutput>$(DEBUG_BCC32)\include</DCC_HppOutput>
         <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib

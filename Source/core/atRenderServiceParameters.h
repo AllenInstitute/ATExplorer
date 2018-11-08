@@ -30,20 +30,22 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
 
         void                        setPortNr(int p);
         int                         getPortNr() const;
-
         string                      getPortNrAsString() const;
+
+        void                        setMaxTilesToRender(int v);
+        int                         getMaxTilesToRender() const;
 
         void                        setVersion(const string& v);
         string                      getVersion() const;
 
         void                        setProtocol(const string& v);
         string                      getProtocol() const;
-
         bool                        compare(const RenderServiceParameters& rsp);
 
-    protected:
-                                    //!Container for reading/writing
+                                    //!Container for reading/writing to file/UI
         PropertiesSP                mProperties;
+
+    protected:
 
                                     //!Label for the 'connection'
         string                      mName;
@@ -51,8 +53,23 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
         int		                    mPortNr;
         string                      mVersion;
         string                      mProtocol;
-
+        int                         mMaxTilesToRender;
+        template<typename T>
+        void                        bindPropertyToValue(const string& propLabel, const T& value, T& reference);
 };
+
+template< typename T >
+void RenderServiceParameters::bindPropertyToValue(const string& propLabel, const T& value, T& reference)
+{
+    Property<T>* p = dynamic_cast< Property<T>* > (mProperties->getProperty(propLabel));
+	if(!p)
+    {
+    	p = new Property<T>(value, propLabel);
+    }
+    mProperties->add(p);
+    p->setValueReference(reference, true);
+}
+
 
 }
 

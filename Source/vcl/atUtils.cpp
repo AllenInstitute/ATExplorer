@@ -1,6 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "atUtilities.h"
+#include "atUtils.h"
 #include "dslStringUtils.h"
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
@@ -69,4 +69,35 @@ double getCurrentImageHeight(TImage* img)
     	return containerW /imageR;
     }
 }
+
+TTreeNode* getTreeItemWithCaption(const string& c, TTreeView* tv)
+{
+    if(!tv->Items->Count)
+    {
+        return NULL;
+    }
+
+    TTreeNode* baseNode = tv->Items->GetFirstNode();
+    while(baseNode)
+    {
+        if(baseNode->Text == vclstr(c))
+        {
+            return baseNode;
+        }
+
+        //Check children..
+        TTreeNode* node = baseNode->getFirstChild();
+        while(node != NULL)
+        {
+            if(node->Text == vclstr(c))
+            {
+                return node;
+            }
+            node = baseNode->GetNextChild(node);
+        }
+        baseNode = baseNode->GetNext();
+    }
+    return NULL;
+}
+
 

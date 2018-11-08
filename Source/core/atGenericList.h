@@ -20,6 +20,7 @@ class ATE_CORE List : public ExplorerObject
         void                    append(T obj);
         T                       getFirst();
         T                       getNext();
+        bool                    remove(T item);
 
     protected:
         list< T > 				mTheList;
@@ -30,6 +31,12 @@ template <typename T>
 void List<T>::append(T obj)
 {
     mTheList.push_back(obj);
+}
+
+template <typename T>
+bool List<T>::remove(T item)
+{
+    mTheList.remove(item);
 }
 
 template <typename T>

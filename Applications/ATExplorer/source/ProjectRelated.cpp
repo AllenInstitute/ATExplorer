@@ -8,7 +8,7 @@
 #include "atRenderProject.h"
 #include "TSelectRenderProjectParametersForm.h"
 #include "ATExplorerProperties.h"
-#include "atUtilities.h"
+#include "atUtils.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;

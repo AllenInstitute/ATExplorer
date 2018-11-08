@@ -35,7 +35,7 @@ ATExplorerProperties::~ATExplorerProperties()
 bool ATExplorerProperties::setupGeneralProperties()
 {
 	GeneralProperties->setIniFile(&getIniFile());
-	GeneralProperties->setSection("General");
+	GeneralProperties->setSectionName("General");
 
 	GeneralProperties->add((BaseProperty*)  &BottomPanelHeight.setup( 	            "HEIGHT_OF_BOTTOM_PANEL",    	    205));
     GeneralProperties->add((BaseProperty*)  &ProjectPanelWidth.setup( 	            "PROJECT_PANEL_WIDTH",    	   		205));

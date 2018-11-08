@@ -5,13 +5,14 @@ USEFORM("..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.cpp", CreateATIFD
 USEFORM("..\..\Source\vcl\forms\TCreateLocalVolumesForm.cpp", CreateLocalVolumesForm);
 USEFORM("..\..\Source\vcl\forms\TCreateMediansForm.cpp", CreateMediansForm);
 USEFORM("..\..\Source\vcl\forms\TCreateACQRenderStacksForm.cpp", CreateACQRenderStacksForm);
+USEFORM("..\..\Source\vcl\frames\TATProjectOptionsFrame.cpp", ATProjectOptionsFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TCreateStackThreadFrame.cpp", CreateStackThreadFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TRenderProjectFrame.cpp", RenderProjectFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TTextFileFrame.cpp", TextFileFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\forms\TImageForm.cpp", ImageForm);
 USEFORM("..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
+USEFORM("..\..\Source\vcl\forms\TSimpleTextInputDialog.cpp", NewValueE);
 USEFORM("..\..\Source\vcl\frames\TATIFDataProjectFrame.cpp", ATIFDataProjectFrame); /* TFrame: File Type */
-USEFORM("..\..\Source\vcl\frames\TATProjectOptionsFrame.cpp", ATProjectOptionsFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------

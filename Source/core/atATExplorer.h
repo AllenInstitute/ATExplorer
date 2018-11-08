@@ -23,17 +23,15 @@ class ATE_CORE ATExplorer : public ExplorerObject
         RenderServiceParameters*                getFirstRenderService();
         RenderServiceParameters*                getNextRenderService();
         RenderServiceParameters*                getRenderService(const string& name);
-
+        RenderServiceParameters*                createRenderService(const string& serviceName);
+        bool                                    removeRenderService(const string& serviceName);
 
     protected:
     	List< RenderServiceParameters* > 		mRenderServices;
-		bool									createARenderServiceParametersRecord(dsl::PropertiesSP sec);
+		RenderServiceParameters*				createARenderServiceParametersRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
 		bool									createRenderServiceParametersPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
-		void                                    append(PropertiesSP props);
 
-        										//Each item holds a container of related properties
-        List< PropertiesSP >   			  		mINISections;
-
+        IniFile*                                mIniFile;
 };
 
 extern ATE_CORE ATExplorer gATExplorer;

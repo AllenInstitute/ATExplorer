@@ -4,6 +4,7 @@
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
 #include "ATExplorerProperties.h"
+#include "atUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -14,7 +15,7 @@ TATESettingsForm *ATESettingsForm;
 using namespace dsl;
 using namespace at;
 
-TTreeNode* getItemWithCaption(const string& c, TTreeView* tv);
+
 //---------------------------------------------------------------------------
 __fastcall TATESettingsForm::TATESettingsForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
@@ -125,7 +126,7 @@ void __fastcall TATESettingsForm::FormShow(TObject *Sender)
 
     string c = gAU.LastSelectedSettingsSection;
 	//Find the last expanded item
-    TTreeNode* n = getItemWithCaption(c, TreeView1);
+    TTreeNode* n = getTreeItemWithCaption(c, TreeView1);
     if(n)
     {
         n->Selected = true;
@@ -139,29 +140,10 @@ void __fastcall TATESettingsForm::FormClose(TObject *Sender, TCloseAction &Actio
     if(ModalResult == mrOk)
     {
         applyPropertyEdits();
+        mRenderServicesPropertiesFrame->applyEditsForNewServices();
     }
 
     disablePropertyEdits();
-}
-
-TTreeNode* getItemWithCaption(const string& c, TTreeView* tv)
-{
-    if(!tv->Items->Count)
-    {
-        return NULL;
-    }
-
-    TTreeNode* baseNode = tv->Items->GetFirstNode();
-    TTreeNode* node = baseNode->getFirstChild();
-    while(node != NULL)
-    {
-        if(node->Text == vclstr(c))
-        {
-            return node;
-        }
-        node = baseNode->GetNextChild(node);
-    };
-    return NULL;
 }
 
 //---------------------------------------------------------------------------

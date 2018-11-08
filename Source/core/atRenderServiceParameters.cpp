@@ -1,11 +1,13 @@
 #pragma hdrstop
 #include "atRenderServiceParameters.h"
 #include "dslStringUtils.h"
+#include "dslIniFileProperties.h"
 #include <sstream>
 //---------------------------------------------------------------------------
 
 using namespace std;
 using namespace dsl;
+
 namespace at
 {
 
@@ -15,7 +17,8 @@ mName(""),
 mHost(""),
 mPortNr(-1),
 mVersion(""),
-mProtocol("http")
+mProtocol("http"),
+mMaxTilesToRender(125)
 {}
 
 RenderServiceParameters::RenderServiceParameters(const string& name, const string& b, int portNr, const string& version)
@@ -24,7 +27,8 @@ mName(name),
 mHost(b),
 mPortNr(portNr),
 mVersion(version),
-mProtocol("http")
+mProtocol("http"),
+mMaxTilesToRender(125)
 {}
 
 RenderServiceParameters::~RenderServiceParameters()
@@ -38,26 +42,15 @@ string RenderServiceParameters::getName() const
 bool RenderServiceParameters::bindToPropertyContainer(PropertiesSP props)
 {
     mProperties = props;
-    //For reading/writing in ui elements
-    Property<string>* name = dynamic_cast< Property<string>* > (props->getProperty("NAME"));
-	if(name)
-    {
-       	name->setValueReference(mName, true);
-    }
-    else
-    {
-//        props.add()
-    }
 
-    Property<string>* host = dynamic_cast< Property<string>* > (props->getProperty("HOST"));
-    if(host)
-    {
-       host->setValueReference(mHost, true);
-    }
-    else
-    {
-//        props.add()
-    }
+    //For reading/writing in ui elements
+	bindPropertyToValue<string>(	"NAME", "<no name>", 		mName);
+	bindPropertyToValue<string>(	"HOST", "localhost", 		mHost);
+	bindPropertyToValue<int>(		"PORT", 80, 				mPortNr);
+	bindPropertyToValue<string>(	"VERSION", "/version/v1", 	mVersion);
+	bindPropertyToValue<string>(	"PROTOCOL", "http", 		mProtocol);
+	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 130, mMaxTilesToRender);
+    return true;
 }
 
 PropertiesSP RenderServiceParameters::getProperties()
@@ -70,8 +63,28 @@ bool RenderServiceParameters::compare(const RenderServiceParameters& rsp)
     return this->mName == rsp.getName();
 }
 
+//This function will change the name of corresponding inisection, if any
 void RenderServiceParameters::setName(const string& n)
 {
+    //Change inifile section
+	IniFileProperties* ini = dynamic_cast<IniFileProperties*> (mProperties.get());
+    if(ini)
+    {
+    	string currentSectionName = ini->getSectionName();
+
+        //Create section if it does not exist
+	    IniSection* sec = ini->getIniFile()->getSection(currentSectionName, true);
+        if(sec)
+        {
+            sec->mName = "RENDER_SERVICE_" + n;
+            IniKey* key = sec->getKey("NAME");
+            if(key)
+            {
+                key->mValue = n;
+            }
+        }
+        ini->setSectionName("RENDER_SERVICE_" + n);
+    }
     mName = n;
 }
 
@@ -105,6 +118,16 @@ int RenderServiceParameters::getPortNr() const
 string RenderServiceParameters::getPortNrAsString() const
 {
     return dsl::toString(mPortNr);
+}
+
+void RenderServiceParameters::setMaxTilesToRender(int p)
+{
+    mMaxTilesToRender = p;
+}
+
+int RenderServiceParameters::getMaxTilesToRender() const
+{
+    return mMaxTilesToRender;
 }
 
 void RenderServiceParameters::setVersion(const string& v)
