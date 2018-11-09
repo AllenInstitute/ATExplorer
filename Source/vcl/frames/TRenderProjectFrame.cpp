@@ -58,7 +58,7 @@ void TRenderProjectFrame::populate()
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
-    RenderServiceParameters rsp(mRP.getRenderServiceParameters());
+    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
 	mRC.setBaseURL(rsp.getHost());
 
 	OutputDataRootFolderE->setValue(mRP.getLocalCacheFolder());

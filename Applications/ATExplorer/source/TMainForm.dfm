@@ -64,8 +64,6 @@ object MainForm: TMainForm
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
-      ExplicitTop = 20
-      ExplicitWidth = 302
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
@@ -75,16 +73,16 @@ object MainForm: TMainForm
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 300
+        ExplicitWidth = 1438
         ExplicitHeight = 134
         inherited Panel1: TPanel
           Width = 1438
           Height = 134
-          ExplicitWidth = 300
+          ExplicitWidth = 1438
           ExplicitHeight = 134
           inherited GroupBox1: TGroupBox
             Width = 1436
-            ExplicitWidth = 298
+            ExplicitWidth = 1436
           end
           inherited infoMemo: TMemo
             Width = 1436
@@ -375,7 +373,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C010109001800600310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101090018006C0310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000008686860086868600868686008686
       8600868686008686860086868600868686008686860086868600FFFFFF00C0C0

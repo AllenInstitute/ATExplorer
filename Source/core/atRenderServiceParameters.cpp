@@ -15,20 +15,22 @@ RenderServiceParameters::RenderServiceParameters()
 :
 mName(""),
 mHost(""),
-mPortNr(-1),
-mVersion(""),
+mPort(-1),
+mVersion("v1"),
 mProtocol("http"),
-mMaxTilesToRender(125)
+mMaxTilesToRender(125),
+mAPI("/render-ws")
 {}
 
-RenderServiceParameters::RenderServiceParameters(const string& name, const string& b, int portNr, const string& version)
+RenderServiceParameters::RenderServiceParameters(const string& name, const string& host, int portNr, const string& version)
 :
 mName(name),
-mHost(b),
-mPortNr(portNr),
+mHost(host),
+mPort(portNr),
 mVersion(version),
 mProtocol("http"),
-mMaxTilesToRender(125)
+mMaxTilesToRender(125),
+mAPI("/render-ws")
 {}
 
 RenderServiceParameters::~RenderServiceParameters()
@@ -39,6 +41,13 @@ string RenderServiceParameters::getName() const
     return mName;
 }
 
+string RenderServiceParameters::getBaseURL() const
+{
+    stringstream s;
+    s << mProtocol << "://" << mHost <<":" << mPort << mAPI << "/" <<mVersion;
+    return s.str();
+}
+
 bool RenderServiceParameters::bindToPropertyContainer(PropertiesSP props)
 {
     mProperties = props;
@@ -46,8 +55,8 @@ bool RenderServiceParameters::bindToPropertyContainer(PropertiesSP props)
     //For reading/writing in ui elements
 	bindPropertyToValue<string>(	"NAME", "<no name>", 		mName);
 	bindPropertyToValue<string>(	"HOST", "localhost", 		mHost);
-	bindPropertyToValue<int>(		"PORT", 80, 				mPortNr);
-	bindPropertyToValue<string>(	"VERSION", "/version/v1", 	mVersion);
+	bindPropertyToValue<int>(		"PORT", 80, 				mPort);
+	bindPropertyToValue<string>(	"VERSION", "v1", 			mVersion);
 	bindPropertyToValue<string>(	"PROTOCOL", "http", 		mProtocol);
 	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 130, mMaxTilesToRender);
     return true;
@@ -88,13 +97,6 @@ void RenderServiceParameters::setName(const string& n)
     mName = n;
 }
 
-string RenderServiceParameters::asString() const
-{
-    stringstream s;
-    s << mHost << ":" << mPortNr << mVersion;
-    return s.str();
-}
-
 void RenderServiceParameters::setHost(const string& u)
 {
     mHost = u;
@@ -107,17 +109,17 @@ string RenderServiceParameters::getHost() const
 
 void RenderServiceParameters::setPortNr(int p)
 {
-    mPortNr = p;
+    mPort = p;
 }
 
 int RenderServiceParameters::getPortNr() const
 {
-    return mPortNr;
+    return mPort;
 }
 
 string RenderServiceParameters::getPortNrAsString() const
 {
-    return dsl::toString(mPortNr);
+    return dsl::toString(mPort);
 }
 
 void RenderServiceParameters::setMaxTilesToRender(int p)

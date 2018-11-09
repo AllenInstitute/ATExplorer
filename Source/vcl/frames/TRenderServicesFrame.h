@@ -12,10 +12,22 @@
 #include "atATExplorer.h"
 #include <Vcl.Menus.hpp>
 #include "dslPropertiesContainer.h"
+#include <IdBaseComponent.hpp>
+#include <IdComponent.hpp>
+#include <IdHTTP.hpp>
+#include <IdTCPClient.hpp>
+#include <IdTCPConnection.hpp>
 //---------------------------------------------------------------------------
+
+namespace at
+{
+	class RenderServiceParameters;
+}
 
 using dsl::Properties;
 using at::ATExplorer;
+using at::RenderServiceParameters;
+
 
 //---------------------------------------------------------------------------
 class PACKAGE TRenderServicesFrame : public TFrame
@@ -35,6 +47,7 @@ class PACKAGE TRenderServicesFrame : public TFrame
 	TSTDStringLabeledEdit *VersionE;
 	TPopupMenu *PopupMenu1;
 	TMenuItem *Rename;
+	TIdHTTP *IdHTTP1;
 
 	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
 	void __fastcall AddRenderServiceBtnClick(TObject *Sender);
@@ -47,6 +60,8 @@ class PACKAGE TRenderServicesFrame : public TFrame
 
                                 //New services are a special case
         dsl::PropertiesContainer  mNewServices;
+	    RenderServiceParameters*  getCurrent();
+        string                    getBaseURL();
 
     public:
         			__fastcall 	TRenderServicesFrame(ATExplorer& e, TComponent* Owner);

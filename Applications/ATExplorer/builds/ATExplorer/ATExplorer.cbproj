@@ -159,6 +159,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\TMainForm.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\..\..\Source\vcl\forms\TRenderAPIChecker.cpp">
+            <Form>RenderAPIChecker</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\..\..\Source\vcl\forms\TRenderAPIChecker.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
         <CppCompile Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp">
             <Form>LogMemoFrame</Form>
             <FormType>dfm</FormType>
@@ -168,6 +174,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </CppCompile>
         <FormResources Include="..\..\source\TMainForm.dfm"/>
         <FormResources Include="P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.dfm"/>
+        <FormResources Include="..\..\..\..\Source\vcl\forms\TRenderAPIChecker.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -200,9 +207,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
-                        <RemoteName>ATExplorer.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -252,13 +258,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile LocalName="p:\build\bin\ATExplorer.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>ATExplorer.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

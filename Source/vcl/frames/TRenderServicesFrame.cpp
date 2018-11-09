@@ -7,6 +7,7 @@
 #include "atRenderServiceParameters.h"
 #include "TSimpleTextInputDialog.h"
 #include <memory>
+#include "atRenderClient.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -48,11 +49,39 @@ bool TRenderServicesFrame::populate()
     return true;
 }
 
+RenderServiceParameters* TRenderServicesFrame::getCurrent()
+{
+    string serviceName = stdstr(ServicesLB->Items->Strings[ServicesLB->ItemIndex]);
+
+    //Get the service that was clicked on
+    return mExplorer.getRenderService(serviceName);
+}
+
+string TRenderServicesFrame::getBaseURL()
+{
+    stringstream s;
+    s << ProtocolE->getValue() << "://" << HostE->getValue() << ":" << PortE->getValue() <<"/render-ws" <<"/" << VersionE->getValue();
+    return s.str();
+}
+
 //---------------------------------------------------------------------------
 void __fastcall TRenderServicesFrame::TestRenderServiceBtnClick(TObject *Sender)
 {
+    //Get the currently selected service
+    RenderServiceParameters rsp("test", HostE->getValue(), PortE->getValue(), VersionE->getValue());
+
     //Get some render owners
-    MessageDlg("Not Implemented yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
+    RenderProject dummyProject("Dummy", &rsp);
+    RenderClient   mRC(dummyProject, IdHTTP1, rsp);
+
+    //Populate owners
+    StringList o = mRC.getOwners();
+    if(o.size())
+    {
+
+    }
+
+
 }
 
 //---------------------------------------------------------------------------

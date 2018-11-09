@@ -1,11 +1,12 @@
 object RenderServicesFrame: TRenderServicesFrame
   Left = 0
   Top = 0
-  Width = 451
+  Width = 566
   Height = 305
   Align = alClient
   AutoSize = True
   TabOrder = 0
+  ExplicitWidth = 451
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
@@ -55,11 +56,12 @@ object RenderServicesFrame: TRenderServicesFrame
   object GroupBox4: TGroupBox
     Left = 161
     Top = 0
-    Width = 290
+    Width = 405
     Height = 305
     Align = alClient
     Caption = 'Render Service'
     TabOrder = 1
+    ExplicitWidth = 290
     object HostE: TSTDStringLabeledEdit
       Left = 55
       Top = 42
@@ -126,8 +128,8 @@ object RenderServicesFrame: TRenderServicesFrame
       EditLabel.Height = 13
       EditLabel.Caption = 'Version'
       TabOrder = 3
-      Text = '/version/v1'
-      Value = '/version/v1'
+      Text = 'v1'
+      Value = 'v1'
     end
   end
   object PopupMenu1: TPopupMenu
@@ -137,5 +139,22 @@ object RenderServicesFrame: TRenderServicesFrame
       Caption = 'Rename'
       OnClick = RenameClick
     end
+  end
+  object IdHTTP1: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 345
+    Top = 104
   end
 end

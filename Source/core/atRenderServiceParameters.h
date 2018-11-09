@@ -15,15 +15,17 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
 {
     public:
                                     RenderServiceParameters();
-                                    RenderServiceParameters(const string& name, const string& host, int portNr = 80, const string& version = "/render-ws/v1");
+                                    RenderServiceParameters(const string& name, const string& host, int portNr = 80, const string& version = "v1");
                                     ~RenderServiceParameters();
+
+        string                      getBaseURL() const;
 
 	    PropertiesSP                getProperties();
         bool                        bindToPropertyContainer(PropertiesSP props);
 
         string                      getName() const;
         void                        setName(const string& n);
-        string                      asString() const;
+//        string                      asString() const;
 
         void                        setHost(const string& u);
         string                      getHost() const;
@@ -42,6 +44,8 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
         string                      getProtocol() const;
         bool                        compare(const RenderServiceParameters& rsp);
 
+
+
                                     //!Container for reading/writing to file/UI
         PropertiesSP                mProperties;
 
@@ -50,9 +54,10 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
                                     //!Label for the 'connection'
         string                      mName;
         string                      mHost;  //This is used for the URI path as well.. may be improved later on..with a path
-        int		                    mPortNr;
+        int		                    mPort;
         string                      mVersion;
         string                      mProtocol;
+        const string                mAPI;
         int                         mMaxTilesToRender;
         template<typename T>
         void                        bindPropertyToValue(const string& propLabel, const T& value, T& reference);

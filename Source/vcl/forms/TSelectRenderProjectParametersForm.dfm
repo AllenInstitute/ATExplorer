@@ -185,7 +185,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 456
+    Left = 424
     Top = 165
   end
 end
