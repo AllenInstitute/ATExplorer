@@ -37,7 +37,8 @@ mRenderProject(rp),
 mRenderService(p),
 mCache(cacheFolder, mRenderProject),
 mFetchImageThread(*this),
-mImageType("jpeg-image")
+mImageType("jpeg-image"),
+mLastRequestURL("")
 {
 	mImageMemory = new TMemoryStream();
 }
@@ -173,8 +174,8 @@ StringList RenderClient::getOwners()
     {
 
         TStringStream* zstrings = new TStringStream;;
-        string request(sUrl.str());
-        mC->Get(request.c_str(), zstrings);
+        mLastRequestURL = sUrl.str();
+        mC->Get(mLastRequestURL.c_str(), zstrings);
 
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {
@@ -190,6 +191,36 @@ StringList RenderClient::getOwners()
 
     owners.sort();
     return owners;
+}
+
+StringList RenderClient::getServerProperties()
+{
+    stringstream sUrl;
+    sUrl << mRenderService.getBaseURL();
+    sUrl << "/serverProperties";
+    Log(lDebug5) << "Fetching Server Properties: "<<sUrl.str();
+    StringList response;
+
+    try
+    {
+
+        TStringStream* zstrings = new TStringStream;;
+        mLastRequestURL = sUrl.str();
+        mC->Get(mLastRequestURL.c_str(), zstrings);
+
+
+        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+        {
+            string s = stdstring(zstrings->DataString);
+            response.appendList(StringList(s, ','));
+        }
+    }
+    catch(...)
+    {
+    	Log(lError) << "Failed fetching response";
+    }
+
+    return response;
 }
 
 StringList RenderClient::getProjectsForOwner(const string& o)
@@ -587,4 +618,8 @@ StringList RenderClient::getStacksForProject(const string& owner, const string& 
     return stacks;
 }
 
+string  RenderClient::getLastRequestURL()
+{
+    return mLastRequestURL;
+}
 }

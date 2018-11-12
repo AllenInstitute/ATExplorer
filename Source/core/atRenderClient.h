@@ -55,6 +55,7 @@ class ATE_CORE RenderClient : public ExplorerObject
 
 		RenderServiceParameters                     getRenderServiceParameters();
 		void							            setBaseURL(const string& baseURL);
+		StringList						            getServerProperties();
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
         StringList						            getStacksForProject(const string& owner, const string& p);
@@ -95,13 +96,14 @@ class ATE_CORE RenderClient : public ExplorerObject
 		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
 
         string                                      getCacheRoot();
+        string                                      getLastRequestURL();
 
     private:
     												//!This is the HTTP connection
                                                     //!Could use CURL instead..
-
 		Idhttp::TIdHTTP* 	                        mC;
 
+        string                                      mLastRequestURL;
         											//!Memory to hold image data retrieved from server
 		TMemoryStream* 		                        mImageMemory;
 

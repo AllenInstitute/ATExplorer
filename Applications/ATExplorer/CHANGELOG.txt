@@ -1,3 +1,15 @@
+Release 0.7.0 (Nov 12)
+=======================
+* Cleaning up renderproject, client classes somewhat
+* Got managing renderservices code finished
+* Added mac startup docker script
+* Removed Testing/ATIFData/ folder
+* Bunch of work on setting up renderhosts and renderbackends and their properties..
+* Made embedded python code look smaller in the manual
+* worked on infra structure (RenderServices and RenderBackends)
+* Added ability to inspect stateTable files in the UI
+* Cleaning up some code structures (doxygen)
+
 Release 0.6.9 (Oct 29)
 =======================
 * Worked on manual

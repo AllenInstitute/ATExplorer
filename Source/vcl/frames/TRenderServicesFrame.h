@@ -35,19 +35,19 @@ class PACKAGE TRenderServicesFrame : public TFrame
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
         TGroupBox *GroupBox4;
-	TSTDStringLabeledEdit *HostE;
+        TSTDStringLabeledEdit *HostE;
         TButton *TestRenderServiceBtn;
-	TIntegerLabeledEdit *MaxTileSpecsToRenderE;
-	TIntegerLabeledEdit *PortE;
-	TListBox *ServicesLB;
-	TPanel *Panel1;
-	TButton *AddRenderServiceBtn;
-	TButton *RemoveServiceBtn;
-	TSTDStringLabeledEdit *ProtocolE;
-	TSTDStringLabeledEdit *VersionE;
-	TPopupMenu *PopupMenu1;
-	TMenuItem *Rename;
-	TIdHTTP *IdHTTP1;
+        TIntegerLabeledEdit *MaxTileSpecsToRenderE;
+        TIntegerLabeledEdit *PortE;
+        TListBox *ServicesLB;
+        TPanel *Panel1;
+        TButton *AddRenderServiceBtn;
+        TButton *RemoveServiceBtn;
+        TSTDStringLabeledEdit *ProtocolE;
+        TSTDStringLabeledEdit *VersionE;
+        TPopupMenu *PopupMenu1;
+        TMenuItem *Rename;
+        TIdHTTP *IdHTTP1;
 
 	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
 	void __fastcall AddRenderServiceBtnClick(TObject *Sender);
@@ -56,17 +56,18 @@ class PACKAGE TRenderServicesFrame : public TFrame
 	void __fastcall RemoveServiceBtnClick(TObject *Sender);
 
     private:
-		ATExplorer& 			mExplorer;
+		ATExplorer& 				mExplorer;
 
-                                //New services are a special case
-        dsl::PropertiesContainer  mNewServices;
-	    RenderServiceParameters*  getCurrent();
-        string                    getBaseURL();
+                                	//New services are a special case
+        dsl::PropertiesContainer  	mNewServices;
+
+	    RenderServiceParameters*  	getCurrent();
+        string                    	getBaseURL();
 
     public:
-        			__fastcall 	TRenderServicesFrame(ATExplorer& e, TComponent* Owner);
-        bool                	populate();
-        bool                    applyEditsForNewServices();
+        			__fastcall 		TRenderServicesFrame(ATExplorer& e, TComponent* Owner);
+        bool                		populate();
+        bool                    	applyEditsForNewServices();
 
 };
 

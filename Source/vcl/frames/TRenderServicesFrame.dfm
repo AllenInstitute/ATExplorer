@@ -1,12 +1,11 @@
 object RenderServicesFrame: TRenderServicesFrame
   Left = 0
   Top = 0
-  Width = 566
+  Width = 451
   Height = 305
   Align = alClient
   AutoSize = True
   TabOrder = 0
-  ExplicitWidth = 451
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
@@ -56,12 +55,11 @@ object RenderServicesFrame: TRenderServicesFrame
   object GroupBox4: TGroupBox
     Left = 161
     Top = 0
-    Width = 405
+    Width = 290
     Height = 305
     Align = alClient
     Caption = 'Render Service'
     TabOrder = 1
-    ExplicitWidth = 290
     object HostE: TSTDStringLabeledEdit
       Left = 55
       Top = 42
@@ -100,9 +98,9 @@ object RenderServicesFrame: TRenderServicesFrame
       Top = 42
       Width = 58
       Height = 21
-      EditLabel.Width = 26
+      EditLabel.Width = 20
       EditLabel.Height = 13
-      EditLabel.Caption = 'PortE'
+      EditLabel.Caption = 'Port'
       TabOrder = 2
       Text = '80'
       Value = 80

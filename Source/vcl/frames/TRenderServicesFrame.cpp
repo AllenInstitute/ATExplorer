@@ -8,6 +8,7 @@
 #include "TSimpleTextInputDialog.h"
 #include <memory>
 #include "atRenderClient.h"
+#include "TRenderAPIChecker.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -69,19 +70,10 @@ void __fastcall TRenderServicesFrame::TestRenderServiceBtnClick(TObject *Sender)
 {
     //Get the currently selected service
     RenderServiceParameters rsp("test", HostE->getValue(), PortE->getValue(), VersionE->getValue());
+    unique_ptr<TRenderAPIChecker> f(new TRenderAPIChecker(rsp, this));
 
-    //Get some render owners
-    RenderProject dummyProject("Dummy", &rsp);
-    RenderClient   mRC(dummyProject, IdHTTP1, rsp);
-
-    //Populate owners
-    StringList o = mRC.getOwners();
-    if(o.size())
-    {
-
-    }
-
-
+    f->Caption = vclstr("Testing HOST: " + HostE->getValue());
+    f->ShowModal();
 }
 
 //---------------------------------------------------------------------------
@@ -214,6 +206,7 @@ void __fastcall TRenderServicesFrame::RemoveServiceBtnClick(TObject *Sender)
 bool TRenderServicesFrame::applyEditsForNewServices()
 {
 	mNewServices.applyEdits();
+    return true;
 }
 
 
