@@ -13,4 +13,5 @@ echo "Starting container: $container"
 docker run -d --name $container \
 -v e:/Documents/data:/mnt/data/  \
 -v c:/pDisk/atExplorer/ThirdParty/atPipeline:/pipeline  \
+-v c:/pDisk/atExplorer/ThirdParty/at_modules/src:/usr/local/at_modules/src  \
 -i -t $image_tag /bin/bash 
