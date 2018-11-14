@@ -98,7 +98,6 @@ __published:	// IDE-managed Components
 	TAction *RemoveFromProjectA;
 	TMenuItem *RemoveFromProject1;
 	TMenuItem *Rename;
-	TAction *Action1;
 	TAction *OpenProjectOptionsA;
 	TAction *AddATIFDataAction;
 	TPopupMenu *RenderProjectPopup;
@@ -114,6 +113,8 @@ __published:	// IDE-managed Components
 	TAction *OpenViewA;
 	TMenuItem *CloseProject1;
 	TMenuItem *Open3;
+	TToolButton *ToolButton5;
+	TAction *OpenAboutA;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -151,6 +152,7 @@ __published:	// IDE-managed Components
 	void __fastcall OpenProjectOptionsAExecute(TObject *Sender);
 	void __fastcall AddATIFDataActionExecute(TObject *Sender);
 	void __fastcall OpenViewAExecute(TObject *Sender);
+	void __fastcall OpenAboutAExecute(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;

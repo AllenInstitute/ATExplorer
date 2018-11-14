@@ -155,6 +155,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PackageImport Include="vclx.bpi">
             <BuildOrder>28</BuildOrder>
         </PackageImport>
+        <CppCompile Include="..\..\Source\core\atDockerContainer.cpp">
+            <DependentOn>..\..\Source\core\atDockerContainer.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atATIFDataProjectItemView.cpp">
             <BuildOrder>28</BuildOrder>
         </CppCompile>
@@ -261,6 +265,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TCreateStackThreadFrame.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\frames\TDockerContainersFrame.cpp">
+            <Form>DockerContainersFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\Source\vcl\frames\TDockerContainersFrame.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\frames\TRenderProjectFrame.cpp">
             <Form>RenderProjectFrame</Form>
             <FormType>dfm</FormType>
@@ -275,20 +286,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TTextFileFrame.h</DependentOn>
             <BuildOrder>25</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateMediansForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TRenderAPIChecker.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TDockerContainersFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TRenderAPIChecker.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

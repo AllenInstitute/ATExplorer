@@ -15,6 +15,7 @@
 #include "dslFileUtils.h"
 #include "TSelectRenderProjectParametersForm.h"
 #include "atATExplorer.h"
+#include "TAboutATExplorerForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -37,7 +38,6 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 {
     Application->ShowHint = true;
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-
 
     //Setup some UI properties
 	BottomPanel->Height 		= gAU.BottomPanelHeight;
@@ -377,6 +377,13 @@ void __fastcall TMainForm::OpenViewAExecute(TObject *Sender)
 {
     //Get selected node
 	mPTreeView.handleNodeClick(mPTreeView.getSelectedNode(), true);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenAboutAExecute(TObject *Sender)
+{
+	unique_ptr<TAboutATExplorer> a (new TAboutATExplorer(this));
+	a->ShowModal();
 }
 
 

@@ -38,6 +38,11 @@ PropertiesSP DockerContainer::getProperties()
     return mProperties;
 }
 
+bool DockerContainer::compare(const DockerContainer& rsp)
+{
+    return this->mName == rsp.getName();
+}
+
 string DockerContainer::getName() const
 {
     return mName;

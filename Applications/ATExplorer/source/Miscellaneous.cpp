@@ -1,7 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "TMainForm.h"
-#include "TAboutATExplorerForm.h"
 #include "ATExplorerProperties.h"
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
@@ -12,9 +11,6 @@ using namespace at;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::About1Click(TObject *Sender)
 {
-	TAboutATExplorer* a = new TAboutATExplorer(this);
-	a->ShowModal();
-    delete a;
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)

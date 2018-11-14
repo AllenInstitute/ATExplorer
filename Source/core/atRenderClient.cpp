@@ -74,6 +74,7 @@ string RenderClient::getCacheRoot()
 {
     return mCache.getBasePath();
 }
+
 double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
 {
     return mCache.getLowestResolutionInCache(mRenderProject, roi);
@@ -203,11 +204,9 @@ StringList RenderClient::getServerProperties()
 
     try
     {
-
         TStringStream* zstrings = new TStringStream;;
         mLastRequestURL = sUrl.str();
         mC->Get(mLastRequestURL.c_str(), zstrings);
-
 
         if( mC->ResponseCode == HTTP_RESPONSE_OK)
         {

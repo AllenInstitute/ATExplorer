@@ -18,8 +18,8 @@ mHost(""),
 mPort(-1),
 mVersion("v1"),
 mProtocol("http"),
-mMaxTilesToRender(125),
-mAPI("/render-ws")
+mAPI("/render-ws"),
+mMaxTilesToRender(125)
 {}
 
 RenderServiceParameters::RenderServiceParameters(const string& name, const string& host, int portNr, const string& version)
@@ -36,10 +36,6 @@ mAPI("/render-ws")
 RenderServiceParameters::~RenderServiceParameters()
 {}
 
-string RenderServiceParameters::getName() const
-{
-    return mName;
-}
 
 string RenderServiceParameters::getBaseURL() const
 {
@@ -70,6 +66,11 @@ PropertiesSP RenderServiceParameters::getProperties()
 bool RenderServiceParameters::compare(const RenderServiceParameters& rsp)
 {
     return this->mName == rsp.getName();
+}
+
+string RenderServiceParameters::getName() const
+{
+    return mName;
 }
 
 //This function will change the name of corresponding inisection, if any

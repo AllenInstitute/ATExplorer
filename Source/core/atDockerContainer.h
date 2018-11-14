@@ -23,6 +23,7 @@ class ATE_CORE DockerContainer : public ExplorerObject
         string                      getName() const;
         void                        setName(const string& n);
 
+        bool                        compare(const DockerContainer& rsp);
                                     //!Container for reading/writing to file/UI
         PropertiesSP                mProperties;
 

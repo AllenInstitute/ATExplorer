@@ -216,6 +216,10 @@
         <CppCompile Include="..\..\Source\core\atATIFDataProject.cpp">
             <BuildOrder>33</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atDockerContainer.cpp">
+            <DependentOn>..\..\Source\core\atDockerContainer.h</DependentOn>
+            <BuildOrder>27</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atExceptions.cpp">
             <DependentOn>..\..\Source\core\atExceptions.h</DependentOn>
             <BuildOrder>3</BuildOrder>
@@ -263,8 +267,7 @@
             <BuildOrder>23</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderServiceParameters.cpp">
-            <DependentOn>..\..\Source\core\atRenderServiceParameters.h</DependentOn>
-            <BuildOrder>27</BuildOrder>
+            <BuildOrder>44</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atROIHistory.cpp">
             <DependentOn>..\..\Source\core\atROIHistory.h</DependentOn>

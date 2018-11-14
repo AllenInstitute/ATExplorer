@@ -44,8 +44,6 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
         string                      getProtocol() const;
         bool                        compare(const RenderServiceParameters& rsp);
 
-
-
                                     //!Container for reading/writing to file/UI
         PropertiesSP                mProperties;
 

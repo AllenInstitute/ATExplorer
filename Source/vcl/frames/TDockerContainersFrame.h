@@ -35,7 +35,6 @@ class PACKAGE TDockerContainersFrame : public TFrame
         TPanel *Panel1;
         TButton *AddBtn;
         TButton *RemoveBtn;
-        TSTDStringLabeledEdit *ContainerNameE;
         TPopupMenu *PopupMenu1;
         TMenuItem *Rename;
 

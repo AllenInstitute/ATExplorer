@@ -73,20 +73,8 @@ object DockerContainersFrame: TDockerContainersFrame
       Width = 108
       Height = 46
       Caption = 'Test'
-      TabOrder = 1
-      OnClick = TestBtnClick
-    end
-    object ContainerNameE: TSTDStringLabeledEdit
-      Left = 13
-      Top = 42
-      Width = 252
-      Height = 21
-      EditLabel.Width = 77
-      EditLabel.Height = 13
-      EditLabel.Caption = 'Container Name'
       TabOrder = 0
-      Text = '<none>'
-      Value = '<none>'
+      OnClick = TestBtnClick
     end
   end
   object PopupMenu1: TPopupMenu

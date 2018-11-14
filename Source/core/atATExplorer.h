@@ -3,6 +3,7 @@
 #include "atExplorerObject.h"
 #include "atGenericList.h"
 #include "atRenderServiceParameters.h"
+#include "atDockerContainer.h"
 #include "dslIniFile.h"
 //---------------------------------------------------------------------------
 
@@ -19,6 +20,7 @@ class ATE_CORE ATExplorer : public ExplorerObject
         bool                                    init(IniFile& iniFile);
         bool                                    writeProperties();
 
+                                                //Renderservices
         void                                    appendRenderService(RenderServiceParameters*  rs);
         RenderServiceParameters*                getFirstRenderService();
         RenderServiceParameters*                getNextRenderService();
@@ -26,10 +28,23 @@ class ATE_CORE ATExplorer : public ExplorerObject
         RenderServiceParameters*                createRenderService(const string& serviceName);
         bool                                    removeRenderService(const string& serviceName);
 
+                                                //Docker containers
+        void                                    appendDockerContainer(DockerContainer*  rs);
+        DockerContainer*                        getFirstDockerContainer();
+        DockerContainer*                        getNextDockerContainer();
+        DockerContainer*                        getDockerContainer(const string& name);
+        DockerContainer*                        createDockerContainer(const string& serviceName);
+        bool                                    removeDockerContainer(const string& serviceName);
+
     protected:
     	List< RenderServiceParameters* > 		mRenderServices;
 		RenderServiceParameters*				createARenderServiceParametersRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
 		bool									createRenderServiceParametersPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
+
+    	List< DockerContainer* > 				mDockerContainers;
+		DockerContainer*						createADockerContainerRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
+		bool									createDockerContainerPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
+
 
         IniFile*                                mIniFile;
 };

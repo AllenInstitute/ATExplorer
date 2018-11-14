@@ -68,6 +68,12 @@ void TATIFDataProjectFrame::onThreadEnter(void* arg1, void* arg2, void* arg3)
     if(arg1)
     {
     	ATIFData* data = (ATIFData*) arg1;
+        if(!data->getRibbonsDataFolder())
+        {
+            Log(lError) << "This data have no RibbonsFolder!";
+            mPopulateDataThread.stop();
+            return;
+        }
         int nrOfFiles = data->getRibbonsDataFolder()->getFolderInfo().NrOfFiles;
         PopulatePB->Max = nrOfFiles;
     }
