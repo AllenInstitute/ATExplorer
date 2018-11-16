@@ -20,8 +20,6 @@ class ATE_CORE ATIFDataProject : public ATExplorerProject
 	public:                                 //!Simplify ctors, too many
         	    	                        ATIFDataProject(const string& pName, const string& dataRootFolder);
 		virtual    	                        ~ATIFDataProject();
-		//                                            ATIFDataProject(const ATIFDataProject& rp);
-        //        ATIFDataProject&                    operator = (const ATIFDataProject& rhs);
 
 		void 								setDataRootFolder(const string& rFolder);
 		string 								getDataRootFolder() const;

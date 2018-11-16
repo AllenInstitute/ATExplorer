@@ -1,7 +1,7 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "TMainForm.h"
-#include "ATExplorerProperties.h"
+#include "ATExplorerUIProperties.h"
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
 

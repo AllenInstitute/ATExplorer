@@ -3,6 +3,8 @@
 #include "dslLogger.h"
 #include "dslProperties.h"
 #include "dslIniFileProperties.h"
+#include "dslStringUtils.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -14,6 +16,10 @@ ATExplorer gATExplorer;
 
 ATExplorer::ATExplorer()
 :
+mRenderPythonApps(NULL),
+mATModules(NULL),
+mRenderService(NULL),
+Properties(),
 mIniFile(NULL)
 {
     Log(lInfo) << "Starting up ATExplorer..";
@@ -24,19 +30,20 @@ ATExplorer::~ATExplorer()
 
 bool ATExplorer::init(IniFile& iniFile)
 {
+    setupLogging(Properties.LogFileName.getValue(), Properties.LogLevel.getValue());
 	mIniFile = &iniFile;
+	Properties.init(mIniFile);
 
     Log(lDebug4) << "In ATExplorer INIT";
 
     //Create Property sections for ini sections
-    for(int i = 0; i < iniFile.getNumberOfSections(); i++)
+    for(int i = 0; i < mIniFile->getNumberOfSections(); i++)
     {
-        IniSection* iniSection = iniFile.getSection(i);
+        IniSection* iniSection = mIniFile->getSection(i);
         if(iniSection && startsWith("RENDER_SERVICE", iniSection->mName))
         {
             //Create a new (empty) inifile section
-            PropertiesSP props = PropertiesSP(new IniFileProperties(&iniFile, iniSection->mName));
-
+            PropertiesSP props = PropertiesSP(new IniFileProperties(mIniFile, iniSection->mName));
             createRenderServiceParametersPropertiesInSection(props, iniSection);
             createARenderServiceParametersRecord(props);
         }
@@ -44,14 +51,13 @@ bool ATExplorer::init(IniFile& iniFile)
         else if(iniSection && startsWith("DOCKER_CONTAINER", iniSection->mName))
         {
             //Create a new (empty) inifile section
-            PropertiesSP props = PropertiesSP(new IniFileProperties(&iniFile, iniSection->mName));
-
+            PropertiesSP props = PropertiesSP(new IniFileProperties(mIniFile, iniSection->mName));
             createDockerContainerPropertiesInSection(props, iniSection);
             createADockerContainerRecord(props);
         }
-
     }
 
+    gLogger.setLogLevel(Properties.LogLevel);
     return true;
 }
 
@@ -71,7 +77,29 @@ bool ATExplorer::writeProperties()
         item = mDockerContainers.getNext();
     }
 
+    Properties.write();
     return true;
+}
+
+//Todo, move this away
+void ATExplorer::setupLogging(const string& logFile, LogLevel lvl)
+{
+	//Get Application folder
+
+    string p(getFilePath(logFile));
+	if(!folderExists(p))
+	{
+		createFolder(p);
+	}
+
+	clearFile(logFile);
+
+	gLogger.logToFile(logFile);
+	LogOutput::mShowLogLevel = true;
+	LogOutput::mShowLogTime = false;
+	LogOutput::mUseLogTabs = false;
+	gLogger.setLogLevel(lvl);
+	Log(lInfo) << "Logger was setup";
 }
 
 RenderServiceParameters* ATExplorer::createRenderService(const string& serviceName)
@@ -184,59 +212,65 @@ bool ATExplorer::createRenderServiceParametersPropertiesInSection(dsl::Propertie
             return false;
         }
 
-        if(iniSection->getKey("NAME"))
+        string key("NAME");
+        if(iniSection->getKey(key))
         {
-            ifp->addStringProperty("NAME", iniSection->getKey("NAME")->mValue);
+            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
         }
         else
         {
-            Log(lError) << "The NAME record is missing in iniSection: " << iniSection->mName;
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
         }
 
-//        if(iniSection->getKey("HOST"))
-//        {
-//            ifp->addStringProperty("HOST", iniSection->getKey("HOST")->mValue);
-//        }
-//        else
-//        {
-//            Log(lError) << "The HOST record is missing in iniSection: " << iniSection->mName;
-//        }
-//
-//        if(iniSection->getKey("PORT"))
-//        {
-//            ifp->addIntProperty("PORT", iniSection->getKey("PORT")->asInt());
-//        }
-//        else
-//        {
-//            Log(lError) << "The PORT record is missing in iniSection: " << iniSection->mName;
-//        }
-//
-//        if(iniSection->getKey("PROTOCOL"))
-//        {
-//            ifp->addStringProperty("PROTOCOL", iniSection->getKey("PROTOCOL")->mValue);
-//        }
-//        else
-//        {
-//            Log(lError) << "The PROTOCOL record is missing in iniSection: " << iniSection->mName;
-//        }
-//
-//        if(iniSection->getKey("VERSION"))
-//        {
-//            ifp->addStringProperty("VERSION", iniSection->getKey("VERSION")->mValue);
-//        }
-//        else
-//        {
-//            Log(lError) << "The VERSION record is missing in iniSection: " << iniSection->mName;
-//        }
-//
-//        if(iniSection->getKey("MAX_TILES_TO_RENDER"))
-//        {
-//            ifp->addIntProperty("MAX_TILES_TO_RENDER", iniSection->getKey("MAX_TILES_TO_RENDER")->asInt());
-//        }
-//        else
-//        {
-//            Log(lError) << "The MAX_TILES_TO_RENDER record is missing in iniSection: " << iniSection->mName;
-//        }
+        key = "HOST";
+        if(iniSection->getKey(key))
+        {
+            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
+        }
+        else
+        {
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
+        }
+
+        key = "PORT";
+        if(iniSection->getKey(key))
+        {
+            ifp->addIntProperty(key, iniSection->getKey(key)->asInt());
+        }
+        else
+        {
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
+        }
+
+        key = "PROTOCOL";
+        if(iniSection->getKey(key))
+        {
+            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
+        }
+        else
+        {
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
+        }
+
+        key = "VERSION";
+        if(iniSection->getKey(key))
+        {
+            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
+        }
+        else
+        {
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
+        }
+
+        key = "MAX_TILES_TO_RENDER";
+        if(iniSection->getKey(key))
+        {
+            ifp->addIntProperty(key, iniSection->getKey(key)->asInt());
+        }
+        else
+        {
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
+        }
     }
 }
 
@@ -301,18 +335,26 @@ bool ATExplorer::createDockerContainerPropertiesInSection(dsl::PropertiesSP prop
             return false;
         }
 
-        if(iniSection->getKey("NAME"))
+        string key = "NAME";
+        if(iniSection->getKey(key))
         {
-            ifp->addStringProperty("NAME", iniSection->getKey("NAME")->mValue);
+            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
         }
         else
         {
-            Log(lError) << "The NAME record is missing in iniSection: " << iniSection->mName;
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
+        }
+
+        key = "CONTAINER_NAME";
+        if(iniSection->getKey(key))
+        {
+            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
+        }
+        else
+        {
+            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
         }
     }
 }
-
-
-
 
 }

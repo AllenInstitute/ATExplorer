@@ -5,7 +5,7 @@
 #include "atATExplorerProject.h"
 #include "dslLogger.h"
 #include "TATESettingsForm.h"
-#include "ATExplorerProperties.h"
+#include "ATExplorerUIProperties.h"
 #include "atRenderProject.h"
 #include "atRenderProjectItemView.h"
 #include "atATIFDataProjectItemView.h"
@@ -385,5 +385,6 @@ void __fastcall TMainForm::OpenAboutAExecute(TObject *Sender)
 	unique_ptr<TAboutATExplorer> a (new TAboutATExplorer(this));
 	a->ShowModal();
 }
+
 
 

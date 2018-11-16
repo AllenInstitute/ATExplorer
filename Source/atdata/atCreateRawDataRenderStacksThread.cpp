@@ -15,7 +15,7 @@ namespace at
 {
 
 using namespace dsl;
-CreateRawDataRenderStacksThread::CreateRawDataRenderStacksThread(ATIFData& d, const string& dc, const string& renderHost)
+CreateRawDataRenderStacksThread::CreateRawDataRenderStacksThread(ATIFData& d, DockerContainer* dc, const string& renderHost)
 :
 ATIFDataProcessThread(d, dc, renderHost)
 {}

@@ -6,25 +6,15 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
   Align = alClient
   AutoSize = True
   TabOrder = 0
-  object GroupBox1: TGroupBox
-    Left = 0
-    Top = 0
-    Width = 451
-    Height = 105
-    Align = alTop
-    Caption = 'General'
-    TabOrder = 0
-    Visible = False
-  end
   object GroupBox2: TGroupBox
     Left = 0
     Top = 105
-    Width = 451
+    Width = 489
     Height = 72
     Align = alTop
     Caption = 'Image Magick'
-    TabOrder = 1
-    ExplicitTop = 57
+    TabOrder = 0
+    ExplicitWidth = 451
     DesignSize = (
       451
       72)
@@ -48,6 +38,49 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
       Caption = '...'
       TabOrder = 1
       OnClick = BrowseForFolderClick
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 451
+    Height = 105
+    Align = alTop
+    Caption = 'Default Docker and Render Backends'
+    TabOrder = 1
+    ExplicitLeft = 45
+    ExplicitTop = 24
+    ExplicitWidth = 462
+    object Label7: TLabel
+      Left = 10
+      Top = 29
+      Width = 158
+      Height = 13
+      Caption = 'Render Python Docker Container'
+    end
+    object Label8: TLabel
+      Left = 244
+      Top = 29
+      Width = 73
+      Height = 13
+      Caption = 'Render Service'
+    end
+    object RenderPythonContainersCB: TComboBox
+      Left = 10
+      Top = 48
+      Width = 207
+      Height = 21
+      TabOrder = 0
+      Text = 'RenderPythonContainersCB'
+      OnChange = RenderPythonContainersCBChange
+    end
+    object RenderServicesCB: TComboBox
+      Left = 244
+      Top = 48
+      Width = 215
+      Height = 21
+      TabOrder = 1
+      Text = 'ComboBox1'
     end
   end
 end

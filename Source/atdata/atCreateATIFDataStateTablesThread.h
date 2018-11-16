@@ -5,14 +5,15 @@
 #include "atATIFDataProcessThread.h"
 //---------------------------------------------------------------------------
 
-
 namespace at
 {
+
+class DockerContainer;
 
 class ATE_DATA CreateATIFDataStateTablesThread : public ATIFDataProcessThread
 {
 	public:
-							                CreateATIFDataStateTablesThread(ATIFData& d, const string& dockerContainer);
+							                CreateATIFDataStateTablesThread(ATIFData& d, DockerContainer* dc);
 		virtual void                        run();
 
 	private:

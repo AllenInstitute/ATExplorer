@@ -41,11 +41,11 @@ bool TDockerContainersFrame::populate()
         rsp = mExplorer.getNextDockerContainer();
     }
 
-//    if(ItemsLB->Items->Count)
-//    {
-//        ItemsLB->ItemIndex = 0;
-//		ItemsLB->OnClick(NULL);
-//    }
+    if(ItemsLB->Items->Count)
+    {
+        ItemsLB->ItemIndex = 0;
+		ItemsLB->OnClick(NULL);
+    }
 
     return true;
 }
@@ -78,6 +78,7 @@ void __fastcall TDockerContainersFrame::AddBtnClick(TObject *Sender)
 	newValue->NewValueE->EditLabel->Caption = "Give the Docker Container a name";
     newValue->setText("New Container");
 
+    //Show modal form
     while(newValue->ShowModal() == mrOk)
     {
         if(mExplorer.getDockerContainer(newValue->getText()))
@@ -130,11 +131,12 @@ void __fastcall TDockerContainersFrame::ItemsLBClick(TObject *Sender)
     }
 
     PropertiesSP props = s->getProperties();
-//    if(props && props->getProperty("NAME"))
-//    {
-//        ContainerNameE->assignExternalProperty(dynamic_cast<Property<string>* >(props->getProperty("NAME")));
-//        ContainerNameE->Enabled =  props->getProperty("NAME")->isInEditMode();
-//    }
+    string propName("CONTAINER_NAME");
+    if(props && props->getProperty(propName))
+    {
+        ContainerNameE->assignExternalProperty(dynamic_cast<Property<string>* >(props->getProperty(propName)));
+        ContainerNameE->Enabled =  props->getProperty(propName)->isInEditMode();
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -171,10 +173,20 @@ void __fastcall TDockerContainersFrame::RemoveBtnClick(TObject *Sender)
     ItemsLB->DeleteSelected();
 }
 
-bool TDockerContainersFrame::applyEditsForNewServices()
+bool TDockerContainersFrame::applyEditsForNewContainers()
 {
 	mNewContainers.applyEdits();
     return true;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TDockerContainersFrame::ContainerNameEKeyDown(TObject *Sender,
+          WORD &Key, TShiftState Shift)
+{
+    if(Key == VK_RETURN)
+    {
+		ContainerNameE->getProperty()->setEditValue("adfa");
+    }
 }
 
 

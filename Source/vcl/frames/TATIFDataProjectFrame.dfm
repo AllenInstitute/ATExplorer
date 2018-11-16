@@ -1,8 +1,8 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 804
-  Height = 501
+  Width = 956
+  Height = 644
   Align = alClient
   TabOrder = 0
   ExplicitWidth = 451
@@ -10,19 +10,19 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 804
-    Height = 241
+    Width = 956
+    Height = 353
     Align = alTop
     Caption = 'Raw AT IF Data Properties'
     TabOrder = 0
-    ExplicitWidth = 451
+    ExplicitWidth = 1010
     DesignSize = (
-      804
-      241)
+      956
+      353)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
       Top = 42
-      Width = 2937
+      Width = 4015
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 82
@@ -30,7 +30,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
       EditLabel.Caption = 'DataRootFolderE'
       Enabled = False
       TabOrder = 0
-      ExplicitWidth = 2584
+      ExplicitWidth = 3510
     end
     object ScanDataBtn: TButton
       Left = 16
@@ -136,27 +136,67 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
     object PopulatePB: TProgressBar
       Left = 103
       Top = 88
-      Width = 2850
+      Width = 3928
       Height = 17
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
-      ExplicitWidth = 2497
+      ExplicitWidth = 3423
+    end
+    object GroupBox3: TGroupBox
+      Left = 451
+      Top = 120
+      Width = 462
+      Height = 105
+      Caption = 'Docker and Render Backends'
+      TabOrder = 4
+      object Label7: TLabel
+        Left = 10
+        Top = 29
+        Width = 158
+        Height = 13
+        Caption = 'Render Python Docker Container'
+      end
+      object Label8: TLabel
+        Left = 244
+        Top = 29
+        Width = 73
+        Height = 13
+        Caption = 'Render Service'
+      end
+      object RenderPythonContainersCB: TComboBox
+        Left = 10
+        Top = 48
+        Width = 207
+        Height = 21
+        TabOrder = 0
+        Text = 'RenderPythonContainersCB'
+        OnChange = RenderPythonContainersCBChange
+      end
+      object RenderServicesCB: TComboBox
+        Left = 244
+        Top = 48
+        Width = 215
+        Height = 21
+        TabOrder = 1
+        Text = 'ComboBox1'
+      end
     end
   end
   object Panel1: TPanel
     Left = 0
-    Top = 241
-    Width = 804
-    Height = 260
+    Top = 353
+    Width = 956
+    Height = 291
     Align = alClient
     TabOrder = 1
+    ExplicitTop = 241
     ExplicitWidth = 451
     ExplicitHeight = 64
     object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 802
-      Height = 258
+      Width = 954
+      Height = 289
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
@@ -166,44 +206,118 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
         Caption = 'State Tables'
         ExplicitWidth = 441
         ExplicitHeight = 34
-        object Panel2: TPanel
+        object GroupBox4: TGroupBox
           Left = 0
           Top = 0
-          Width = 794
-          Height = 41
-          Align = alTop
+          Width = 185
+          Height = 261
+          Align = alLeft
+          Caption = 'Generate State Tables'
           TabOrder = 0
-          ExplicitWidth = 441
+          ExplicitLeft = 3
+          ExplicitTop = 64
+          ExplicitHeight = 161
+          DesignSize = (
+            185
+            261)
           object CreateStateTablesBtn: TButton
-            Left = 11
-            Top = 10
-            Width = 121
+            Left = 14
+            Top = 218
+            Width = 158
             Height = 25
-            Caption = 'Generate State Tables'
+            Anchors = [akLeft, akBottom]
+            Caption = 'Generate'
             TabOrder = 0
             OnClick = CreateStateTablesBtnClick
           end
-          object CreateRenderStacksBtn: TButton
-            Left = 138
-            Top = 10
-            Width = 128
-            Height = 25
-            Caption = 'Generate Render Stacks'
+          object StartSectionE: TIntegerLabeledEdit
+            Left = 11
+            Top = 40
+            Width = 62
+            Height = 21
+            EditLabel.Width = 62
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Start Section'
             TabOrder = 1
+            Text = '1'
+            Value = 1
+          end
+          object EndSectionE: TIntegerLabeledEdit
+            Left = 11
+            Top = 83
+            Width = 62
+            Height = 21
+            EditLabel.Width = 56
+            EditLabel.Height = 13
+            EditLabel.Caption = 'End Section'
+            TabOrder = 2
+            Text = '2'
+            Value = 2
+          end
+        end
+        object GroupBox5: TGroupBox
+          Left = 185
+          Top = 0
+          Width = 200
+          Height = 261
+          Align = alLeft
+          Caption = 'Raw Data Render Stacks'
+          TabOrder = 1
+          ExplicitLeft = 194
+          ExplicitTop = 64
+          ExplicitHeight = 161
+          DesignSize = (
+            200
+            261)
+          object CreateRenderStacksBtn: TButton
+            Left = 16
+            Top = 218
+            Width = 169
+            Height = 25
+            Anchors = [akLeft, akBottom]
+            Caption = 'Generate'
+            TabOrder = 0
             OnClick = CreateStateTablesBtnClick
+          end
+          object IntegerLabeledEdit1: TIntegerLabeledEdit
+            Left = 9
+            Top = 83
+            Width = 56
+            Height = 21
+            EditLabel.Width = 56
+            EditLabel.Height = 13
+            EditLabel.Caption = 'End Section'
+            TabOrder = 1
+            Text = '2'
+            Value = 2
+          end
+          object IntegerLabeledEdit2: TIntegerLabeledEdit
+            Left = 9
+            Top = 40
+            Width = 56
+            Height = 21
+            EditLabel.Width = 62
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Start Section'
+            TabOrder = 2
+            Text = '1'
+            Value = 1
           end
         end
       end
       object TabSheet2: TTabSheet
         Caption = 'FlatField Corrected'
         ImageIndex = 1
+        ExplicitWidth = 1000
+        ExplicitHeight = 394
         object Panel3: TPanel
           Left = 0
           Top = 0
-          Width = 794
+          Width = 946
           Height = 41
           Align = alTop
           TabOrder = 0
+          ExplicitWidth = 1000
           object CreateMediansBtn: TButton
             Left = 11
             Top = 10

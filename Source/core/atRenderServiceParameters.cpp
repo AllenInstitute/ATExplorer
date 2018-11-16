@@ -49,23 +49,18 @@ bool RenderServiceParameters::bindToPropertyContainer(PropertiesSP props)
     mProperties = props;
 
     //For reading/writing in ui elements
-	bindPropertyToValue<string>(	"NAME", "<no name>", 		mName);
-	bindPropertyToValue<string>(	"HOST", "localhost", 		mHost);
-	bindPropertyToValue<int>(		"PORT", 80, 				mPort);
-	bindPropertyToValue<string>(	"VERSION", "v1", 			mVersion);
-	bindPropertyToValue<string>(	"PROTOCOL", "http", 		mProtocol);
-	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 130, mMaxTilesToRender);
+	bindPropertyToValue<string>(	"NAME", 	            "<no name>", 	mName);
+	bindPropertyToValue<string>(	"HOST", 	            "localhost", 	mHost);
+	bindPropertyToValue<int>(		"PORT", 	            80, 			mPort);
+	bindPropertyToValue<string>(	"VERSION", 	            "v1", 			mVersion);
+	bindPropertyToValue<string>(	"PROTOCOL",             "http", 		mProtocol);
+	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 	130, 			mMaxTilesToRender);
     return true;
 }
 
 PropertiesSP RenderServiceParameters::getProperties()
 {
     return mProperties;
-}
-
-bool RenderServiceParameters::compare(const RenderServiceParameters& rsp)
-{
-    return this->mName == rsp.getName();
 }
 
 string RenderServiceParameters::getName() const

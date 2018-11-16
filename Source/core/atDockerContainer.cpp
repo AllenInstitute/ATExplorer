@@ -13,7 +13,8 @@ namespace at
 
 DockerContainer::DockerContainer()
 :
-mName("")
+mName(""),
+mContainerName("")
 {}
 
 DockerContainer::DockerContainer(const string& name)
@@ -29,18 +30,14 @@ bool DockerContainer::bindToPropertyContainer(PropertiesSP props)
     mProperties = props;
 
     //For reading/writing in ui elements
-	bindPropertyToValue<string>(	"NAME", "	<no name>", 			mName);
+	bindPropertyToValue<string>(	"NAME", 			"<no name>", 			mName);
+	bindPropertyToValue<string>(	"CONTAINER_NAME", 	"<no name>", 			mContainerName);
     return true;
 }
 
 PropertiesSP DockerContainer::getProperties()
 {
     return mProperties;
-}
-
-bool DockerContainer::compare(const DockerContainer& rsp)
-{
-    return this->mName == rsp.getName();
 }
 
 string DockerContainer::getName() const
@@ -71,6 +68,16 @@ void DockerContainer::setName(const string& n)
         ini->setSectionName("DOCKER_CONTAINER_" + n);
     }
     mName = n;
+}
+
+string DockerContainer::getContainerName() const
+{
+    return mContainerName;
+}
+
+void DockerContainer::setContainerName(const string& cn)
+{
+    mContainerName = cn;
 }
 
 }

@@ -23,13 +23,18 @@ class ATE_CORE DockerContainer : public ExplorerObject
         string                      getName() const;
         void                        setName(const string& n);
 
-        bool                        compare(const DockerContainer& rsp);
+        string                      getContainerName() const;
+        void                        setContainerName(const string& n);
+
                                     //!Container for reading/writing to file/UI
         PropertiesSP                mProperties;
 
     protected:
-                                    //!Name for the container
+                                    //!Nick Name for the container
         string                      mName;
+
+                                    //!Actual docker container name
+        string                      mContainerName;
 
         template<typename T>
         void                        bindPropertyToValue(const string& propLabel, const T& value, T& reference);

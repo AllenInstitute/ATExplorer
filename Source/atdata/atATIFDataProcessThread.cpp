@@ -12,7 +12,7 @@ namespace at
 {
 using namespace dsl;
 
-ATIFDataProcessThread::ATIFDataProcessThread(ATIFData& d, const string& dc, const string& rh)
+ATIFDataProcessThread::ATIFDataProcessThread(ATIFData& d, DockerContainer* dc,  const string& rh)
 :
 mTheData(d),
 mDockerContainer(dc),

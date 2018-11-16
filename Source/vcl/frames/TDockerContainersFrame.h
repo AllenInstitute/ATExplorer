@@ -37,24 +37,27 @@ class PACKAGE TDockerContainersFrame : public TFrame
         TButton *RemoveBtn;
         TPopupMenu *PopupMenu1;
         TMenuItem *Rename;
+	TSTDStringLabeledEdit *ContainerNameE;
 
 	void __fastcall TestBtnClick(TObject *Sender);
 	void __fastcall AddBtnClick(TObject *Sender);
 	void __fastcall ItemsLBClick(TObject *Sender);
 	void __fastcall RenameClick(TObject *Sender);
 	void __fastcall RemoveBtnClick(TObject *Sender);
+	void __fastcall ContainerNameEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+
 
     private:
 		ATExplorer& 				mExplorer;
 
-                                	//New services are a special case
+                                	//New containers are a special case
         dsl::PropertiesContainer  	mNewContainers;
 	    DockerContainer*  			getCurrent();
 
     public:
         			__fastcall 		TDockerContainersFrame(ATExplorer& e, TComponent* Owner);
         bool                		populate();
-        bool                    	applyEditsForNewServices();
+        bool                    	applyEditsForNewContainers();
 
 };
 

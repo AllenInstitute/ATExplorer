@@ -10,6 +10,25 @@ namespace at
 using namespace std;
 using namespace dsl;
 
+string toDockerMountPath(const string& winpath)
+{
+    //Strip driveletter
+    string pPath(stripToChar(winpath, ':'));
+	std::replace(pPath.begin(), pPath.end(), '\\', '/');
+    pPath = trimBack(pPath, '/');
+
+	vector<string> partd = splitStringAtWord(pPath, "data");
+
+    if(partd.size() == 2)
+    {
+        return joinPath("/mnt", partd[1], '/');
+    }
+    else
+    {
+        return "";
+    }
+}
+
 string toPosixPath(const string& winpath, const string& prefixFolder)
 {
     //Strip driveletter

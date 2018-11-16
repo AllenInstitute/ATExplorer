@@ -16,7 +16,7 @@ object CreateATIFDataStateTablesForm: TCreateATIFDataStateTablesForm
   TextHeight = 13
   object GroupBox2: TGroupBox
     Left = 8
-    Top = 16
+    Top = 64
     Width = 417
     Height = 105
     Caption = 'Quick Data Info'
@@ -143,5 +143,17 @@ object CreateATIFDataStateTablesForm: TCreateATIFDataStateTablesForm
     Height = 17
     Align = alBottom
     TabOrder = 2
+  end
+  object DockerContainerE: TSTDStringLabeledEdit
+    Left = 18
+    Top = 24
+    Width = 407
+    Height = 21
+    EditLabel.Width = 83
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Docker Container'
+    Enabled = False
+    TabOrder = 3
+    OnKeyDown = DockerContainerEKeyDown
   end
 end

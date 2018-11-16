@@ -15,9 +15,11 @@
 #include <Vcl.FileCtrl.hpp>
 #include <Vcl.Grids.hpp>
 #include <Vcl.Outline.hpp>
+#include "atATExplorer.h"
+#include "dslTIntegerLabeledEdit.h"
 //---------------------------------------------------------------------------
 using at::ATIFDataProject;
-
+using at::ATExplorer;
 //---------------------------------------------------------------------------
 class PACKAGE TATIFDataProjectFrame : public TFrame
 {
@@ -44,15 +46,28 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
 	TButton *CreateRenderStacksBtn;
 	TPageControl *PageControl1;
 	TTabSheet *TabSheet1;
-	TPanel *Panel2;
 	TTabSheet *TabSheet2;
 	TPanel *Panel3;
 	TButton *CreateMediansBtn;
 	TButton *ApplyMediansBtn;
+	TGroupBox *GroupBox3;
+	TLabel *Label7;
+	TLabel *Label8;
+	TComboBox *RenderPythonContainersCB;
+	TComboBox *RenderServicesCB;
+	TGroupBox *GroupBox4;
+	TGroupBox *GroupBox5;
+	TIntegerLabeledEdit *StartSectionE;
+	TIntegerLabeledEdit *EndSectionE;
+	TIntegerLabeledEdit *IntegerLabeledEdit1;
+	TIntegerLabeledEdit *IntegerLabeledEdit2;
         void __fastcall ScanDataBtnClick(TObject *Sender);
 	void __fastcall CreateStateTablesBtnClick(TObject *Sender);
+	void __fastcall RenderPythonContainersCBChange(TObject *Sender);
 
     private:
+        ATExplorer&		  		    	    mExplorer;
+
                                             //A Reference to a atifdata project
         ATIFDataProject&		      	    mProject;
         void                                populate();
@@ -63,7 +78,7 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
         void								onThreadExit(void*, 	void*, void*);
 
     public:
-    						__fastcall 		TATIFDataProjectFrame(ATIFDataProject& rp, TComponent* Owner);
+    						__fastcall 		TATIFDataProjectFrame(ATExplorer& e, ATIFDataProject& rp, TComponent* Owner);
 };
 
 extern PACKAGE TATIFDataProjectFrame *ATIFDataProjectFrame;

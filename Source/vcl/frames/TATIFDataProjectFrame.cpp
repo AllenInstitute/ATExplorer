@@ -12,9 +12,11 @@
 #include "TCreateATIFDataStateTablesForm.h"
 #include "TCreateACQRenderStacksForm.h"
 #include "TCreateMediansForm.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTSTDStringLabeledEdit"
+#pragma link "dslTIntegerLabeledEdit"
 #pragma resource "*.dfm"
 //---------------------------------------------------------------------------
 
@@ -26,8 +28,9 @@ using namespace Poco;
 static int frameNr(0);
 
 //---------------------------------------------------------------------------
-__fastcall TATIFDataProjectFrame::TATIFDataProjectFrame(ATIFDataProject& dp, TComponent* Owner)
+__fastcall TATIFDataProjectFrame::TATIFDataProjectFrame(ATExplorer& e, ATIFDataProject& dp, TComponent* Owner)
 	: TFrame(Owner),
+    mExplorer(e),
     mProject(dp),
 	mPopulateDataThread(dp.mATIFData)
 {
@@ -39,6 +42,26 @@ __fastcall TATIFDataProjectFrame::TATIFDataProjectFrame(ATIFDataProject& dp, TCo
 void TATIFDataProjectFrame::populate()
 {
     DataRootFolderE->setValue(mProject.getDataRootFolder());
+
+    //Fill out render and docker backends
+    RenderPythonContainersCB->Clear();
+    DockerContainer* c =  mExplorer.getFirstDockerContainer();
+    while(c)
+    {
+		RenderPythonContainersCB->AddItem(c->getName().c_str(), (TObject*) c);
+        c = mExplorer.getNextDockerContainer();
+    }
+
+    //Check if the current project has a selected RenderPythonContainer..
+	//    if(mProject.g
+
+    RenderServicesCB->Clear();
+    RenderServiceParameters* rs =  mExplorer.getFirstRenderService();
+    while(rs)
+    {
+		RenderServicesCB->AddItem(rs->getName().c_str(), (TObject*) rs);
+        rs = mExplorer.getNextRenderService();
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -137,12 +160,12 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
     if(b == CreateStateTablesBtn)
     {
         //Open Generate state tables form..
-        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, "", this->Owner));
+        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, gATExplorer.mRenderPythonApps, this->Owner));
         f->ShowModal();
     }
     else if(b == CreateRenderStacksBtn)
     {
-        unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, "", "", this->Owner));
+        unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, gATExplorer.getFirstDockerContainer(), "", this->Owner));
         f->ShowModal();
     }
     else if(b == CreateMediansBtn)
@@ -155,8 +178,14 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
     	//unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, this->Owner));
         //f->ShowModal();
     }
-
 }
 
+void __fastcall TATIFDataProjectFrame::RenderPythonContainersCBChange(TObject *Sender)
 
+{
+	DockerContainer* dc = (DockerContainer*) RenderPythonContainersCB->Items->Objects[RenderPythonContainersCB->ItemIndex];
+
+    gATExplorer.mRenderPythonApps = dc;
+}
+//---------------------------------------------------------------------------
 

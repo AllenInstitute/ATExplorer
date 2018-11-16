@@ -3,7 +3,7 @@
 #include "TATESettingsForm.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
-#include "ATExplorerProperties.h"
+#include "ATExplorerUIProperties.h"
 #include "atUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -117,7 +117,7 @@ void TATESettingsForm::populateGeneralPanel(Properties& props)
 {
 	if(!mGeneralPropertiesFrame)
     {
-    	mGeneralPropertiesFrame = shared_ptr<TGeneralPropertiesFrame>(new TGeneralPropertiesFrame(this));
+    	mGeneralPropertiesFrame = shared_ptr<TGeneralPropertiesFrame>(new TGeneralPropertiesFrame(gATExplorer, this));
     }
 
     mGeneralPropertiesFrame->Parent = this;
@@ -187,7 +187,7 @@ void __fastcall TATESettingsForm::FormClose(TObject *Sender, TCloseAction &Actio
 
         if(mDockerContainersPropertiesFrame)
         {
-			mDockerContainersPropertiesFrame->applyEditsForNewServices();
+			mDockerContainersPropertiesFrame->applyEditsForNewContainers();
         }
 	}
 

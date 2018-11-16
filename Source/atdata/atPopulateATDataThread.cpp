@@ -15,7 +15,7 @@ using namespace dsl;
 
 PopulateATDataThread::PopulateATDataThread(ATIFData& d)
 :
-ATIFDataProcessThread(d)
+ATIFDataProcessThread(d, NULL)
 {}
 
 void PopulateATDataThread::run()

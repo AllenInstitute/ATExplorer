@@ -5,7 +5,7 @@
 #include "dslLogger.h"
 #include "TImageForm.h"
 #include "atATExplorerProject.h"
-#include "ATExplorerProperties.h"
+#include "ATExplorerUIProperties.h"
 #include "atATExplorer.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
@@ -63,14 +63,13 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
 	Log(lInfo) << "In FormClose";
 
-	gAU.LogLevel.setValue(gLogger.getLogLevel());
+	gATExplorer.Properties.LogLevel.setValue(gLogger.getLogLevel());
 
 	//Save project history
 	gAU.BottomPanelHeight = BottomPanel->Height;
     gAU.ProjectPanelWidth = ProjectManagerPanel->Width;
 
 	gAU.GeneralProperties->write();
-
     gATExplorer.writeProperties();
 
 	//Write to file

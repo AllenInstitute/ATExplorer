@@ -10,13 +10,13 @@
 using namespace std;
 TCreateACQRenderStacksForm *CreateACQRenderStacksForm;
 //---------------------------------------------------------------------------
-__fastcall TCreateACQRenderStacksForm::TCreateACQRenderStacksForm(ATIFData& data, const string& dockerContainer, const string& renderHost,  TComponent* Owner)
+__fastcall TCreateACQRenderStacksForm::TCreateACQRenderStacksForm(ATIFData& data, DockerContainer* dc, const string& renderHost,  TComponent* Owner)
 : TForm(Owner),
 mTheData(data),
-mTheThread(data, dockerContainer, renderHost)
+mTheThread(data, dc, renderHost)
 {
-    ProgressLabel->Caption = "";
-    CurrentStateTbl->Caption = "";
+    ProgressLabel->Caption 		= "";
+    CurrentStateTbl->Caption 	= "";
 }
 
 //---------------------------------------------------------------------------

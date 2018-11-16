@@ -213,6 +213,9 @@
             <DependentOn>..\..\Source\core\atATExplorerProject.h</DependentOn>
             <BuildOrder>26</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atATExplorerProperties.cpp">
+            <BuildOrder>45</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atATIFDataProject.cpp">
             <BuildOrder>33</BuildOrder>
         </CppCompile>

@@ -33,14 +33,8 @@ class PACKAGE ATExplorerUIProperties : public dsl::ApplicationProperties
         Property<string>                	ImageMagickPath;
 
                                             //These properties may be exposed for change in the UI ========
-        Property<LogLevel>	 	           	LogLevel;
         Property<string>	 		        LastOpenedProject;
 
-                                            //Save default to use containers
-        Property<string>                    DefaultRenderPythonContainer;
-        Property<string>                    DefaultRenderServiceContainer;
-        Property<string>                    DefaultATModulesContainer;
-        Property<string>                    DefaultRenderServiceHost;
 };
 
 //This creates a global ATExplorerUIProperties object
