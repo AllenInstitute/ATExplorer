@@ -29,8 +29,8 @@ mHost(host),
 mPort(portNr),
 mVersion(version),
 mProtocol("http"),
-mMaxTilesToRender(125),
-mAPI("/render-ws")
+mAPI("/render-ws"),
+mMaxTilesToRender(125)
 {}
 
 RenderServiceParameters::~RenderServiceParameters()

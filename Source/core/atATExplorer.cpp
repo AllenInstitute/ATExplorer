@@ -16,9 +16,9 @@ ATExplorer gATExplorer;
 
 ATExplorer::ATExplorer()
 :
-mRenderPythonApps(NULL),
-mATModules(NULL),
-mRenderService(NULL),
+DefaultRenderPythonApps(NULL),
+DefaultATModules(NULL),
+DefaultRenderServiceContainer(NULL),
 Properties(),
 mIniFile(NULL)
 {
@@ -57,6 +57,8 @@ bool ATExplorer::init(IniFile& iniFile)
         }
     }
 
+    //Setup defaults..
+    DefaultRenderService = getFirstRenderService();
     gLogger.setLogLevel(Properties.LogLevel);
     return true;
 }

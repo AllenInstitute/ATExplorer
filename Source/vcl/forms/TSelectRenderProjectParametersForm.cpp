@@ -16,24 +16,25 @@ TSelectRenderProjectParametersForm *SelectRenderProjectParametersForm;
 using namespace dsl;
 
 //---------------------------------------------------------------------------
-__fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersForm(TComponent* Owner)
+__fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
     mRP("", "", "" , ""),
-    mRC(mRP,IdHTTP1)
+    mRC(mRP,IdHTTP1, e.DefaultRenderService),
+    mExplorer(e)
 {
     try
     {
-        mRC.setBaseURL(BaseURLE->getValue());
+       // mRC.setBaseURL(BaseURLE->getValue());
 
-        //Populate owners
-        StringList o = mRC.getOwners();
-        if(o.size())
-        {
-            populateDropDown(o, OwnerCB);
-            OwnerCB->ItemIndex = 0;
-            OwnerCB->Text = OwnerCB->Items->Strings[0];
-            OwnerCBChange(NULL);
-        }
+//        //Populate owners
+//        StringList o = mRC.getOwners();
+//        if(o.size())
+//        {
+//            populateDropDown(o, OwnerCB);
+//            OwnerCB->ItemIndex = 0;
+//            OwnerCB->Text = OwnerCB->Items->Strings[0];
+//            OwnerCBChange(NULL);
+//        }
     }
     catch(...)
     {
@@ -92,7 +93,7 @@ void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sende
 //---------------------------------------------------------------------------
 void __fastcall TSelectRenderProjectParametersForm::PopulateOwnersBtnClick(TObject *Sender)
 {
-    mRC.setBaseURL(BaseURLE->getValue());
+//    mRC.setBaseURL(BaseURLE->getValue());
 
     //Populate owners
     StringList o = mRC.getOwners();

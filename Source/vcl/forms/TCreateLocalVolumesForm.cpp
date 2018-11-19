@@ -35,8 +35,8 @@ void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const String
 {
     mROI = roi;
 
-    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
-	mRC.setBaseURL(rsp.getHost());
+//    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
+//	mRC.setBaseURL(rsp.getHost());
 
     //Setup ROI
     XCoordE->setValue(mROI.getX1());
@@ -166,7 +166,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
         	if(RenderStacksCB->Checked[i])
 	        {
                 mRP.setSelectedStackName(stdstr(RenderStacksCB->Items->Strings[i]));
-                RenderServiceParameters rs = mRC.getRenderServiceParameters();
+                const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
 
                 mRC.setRenderProject(mRP);

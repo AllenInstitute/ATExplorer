@@ -24,9 +24,6 @@ object RenderAPIChecker: TRenderAPIChecker
     Height = 346
     Align = alLeft
     TabOrder = 0
-    ExplicitLeft = 144
-    ExplicitTop = 200
-    ExplicitHeight = 41
     DesignSize = (
       185
       346)
@@ -39,7 +36,6 @@ object RenderAPIChecker: TRenderAPIChecker
       Caption = 'Request'
       TabOrder = 0
       OnClick = RequestBtnClick
-      ExplicitTop = 280
     end
     object APIs: TRadioGroup
       Left = 1
@@ -53,9 +49,6 @@ object RenderAPIChecker: TRenderAPIChecker
         'ServerProperties'
         'Owners')
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 678
     end
   end
   object Panel2: TPanel
@@ -65,9 +58,6 @@ object RenderAPIChecker: TRenderAPIChecker
     Height = 41
     Align = alBottom
     TabOrder = 1
-    ExplicitLeft = 2
-    ExplicitTop = 309
-    ExplicitWidth = 582
     DesignSize = (
       678
       41)
@@ -80,7 +70,6 @@ object RenderAPIChecker: TRenderAPIChecker
       Caption = 'Close'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 784
     end
   end
   object Panel3: TPanel
@@ -91,10 +80,6 @@ object RenderAPIChecker: TRenderAPIChecker
     Align = alClient
     Caption = 'Panel3'
     TabOrder = 2
-    ExplicitLeft = 328
-    ExplicitTop = 184
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object GroupBox1: TGroupBox
       Left = 1
       Top = 65
@@ -103,10 +88,6 @@ object RenderAPIChecker: TRenderAPIChecker
       Align = alClient
       Caption = 'Server Response'
       TabOrder = 0
-      ExplicitLeft = 185
-      ExplicitTop = 105
-      ExplicitWidth = 493
-      ExplicitHeight = 241
       object ResponseMemo: TMemo
         Left = 2
         Top = 15
@@ -117,8 +98,6 @@ object RenderAPIChecker: TRenderAPIChecker
         ScrollBars = ssBoth
         TabOrder = 0
         WordWrap = False
-        ExplicitWidth = 489
-        ExplicitHeight = 224
       end
     end
     object GroupBox2: TGroupBox

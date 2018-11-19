@@ -14,12 +14,14 @@
 #include <Vcl.ExtCtrls.hpp>
 #include "atRenderClient.h"
 #include "atRenderServiceParameters.h"
+#include "atATExplorer.h"
 
 //---------------------------------------------------------------------------
 
 using at::RenderClient;
 using at::RenderServiceParameters;
 using at::RenderProject;
+using at::ATExplorer;
 //---------------------------------------------------------------------------
 class PACKAGE TSelectRenderProjectParametersForm : public TForm
 {
@@ -48,9 +50,10 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
     private:
         RenderProject                   mRP;
         RenderClient                    mRC;
+        ATExplorer&                     mExplorer;
 
     public:
-        					__fastcall 	TSelectRenderProjectParametersForm(TComponent* Owner);
+        					__fastcall 	TSelectRenderProjectParametersForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
         string                          getRenderProject();
         RenderServiceParameters         getRenderService();

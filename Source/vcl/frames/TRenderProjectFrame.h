@@ -29,6 +29,7 @@
 #include <Vcl.ActnList.hpp>
 #include "dslProcess.h"
 #include "atImageGrid.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 
 
@@ -41,6 +42,7 @@ using at::FetchImagesThread;
 using at::FetchImageThread;
 using dsl::Process;
 using at::ImageGrid;
+using at::ATExplorer;
 //---------------------------------------------------------------------------
 class PACKAGE TRenderProjectFrame : public TFrame
 {
@@ -199,7 +201,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 
 		TCreateLocalVolumesForm*                        mCreateVolumesForm;
     public:
-    						__fastcall 					TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner);
+    						__fastcall 					TRenderProjectFrame(ATExplorer& e, RenderProject& rp, const string& imPath, TComponent* Owner);
 		void 				__fastcall 					getValidZsForStack();
 
 };

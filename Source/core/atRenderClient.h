@@ -41,7 +41,7 @@ typedef void __fastcall (__closure *RCCallBack)(void);
 class ATE_CORE RenderClient : public ExplorerObject
 {
 	public:
-							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters& p = RenderServiceParameters("", "",80,"/render-ws/v1"), const string& cacheFolder 	= gEmptyString);
+							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -53,8 +53,10 @@ class ATE_CORE RenderClient : public ExplorerObject
                                                          int maxInt						= 65535
                                                          );
 
-		RenderServiceParameters                     getRenderServiceParameters();
-		void							            setBaseURL(const string& baseURL);
+		void                     					setRenderServiceParameters(RenderServiceParameters& rp);
+		const RenderServiceParameters*              getRenderServiceParameters();
+
+        string                                      getBaseURL();
 		StringList						            getServerProperties();
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
@@ -90,7 +92,9 @@ class ATE_CORE RenderClient : public ExplorerObject
         void										copyImageData(MemoryStruct chunk);
 		Idhttp::TIdHTTP*                            getConnection();
         void                                        assignConnection(Idhttp::TIdHTTP* c);
-        string                                      getBaseURL();
+
+
+
         RenderProject                               getRenderProject();
         void                                        setRenderProject(const RenderProject& rp);
 		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
@@ -102,8 +106,8 @@ class ATE_CORE RenderClient : public ExplorerObject
     												//!This is the HTTP connection
                                                     //!Could use CURL instead..
 		Idhttp::TIdHTTP* 	                        mC;
-
         string                                      mLastRequestURL;
+
         											//!Memory to hold image data retrieved from server
 		TMemoryStream* 		                        mImageMemory;
 
@@ -113,7 +117,7 @@ class ATE_CORE RenderClient : public ExplorerObject
     	int				                            mZ;
         double				                        mScale;
 
-        RenderServiceParameters                     mRenderService;
+        const RenderServiceParameters*              mRenderService;
 
         RenderProject&					            mRenderProject;
         RenderLocalCache                            mCache;

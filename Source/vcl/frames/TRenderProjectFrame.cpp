@@ -34,10 +34,10 @@ int rpFrameNr(0);
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
 
 //---------------------------------------------------------------------------
-__fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner)
+__fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, const string& imPath, TComponent* Owner)
 	: TFrame(Owner),
     mRP(rp),
-    mRC(rp, IdHTTP1),
+    mRC(rp, IdHTTP1, e.DefaultRenderService),
     mRenderEnabled(false),
    	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
     Drawing(false),
@@ -45,7 +45,7 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(RenderProject& rp, const str
     mImageGrid(Image1, PaintBox1->Canvas),
     mCreateVolumesForm(NULL)
 {
-	mRC.setBaseURL(mHostURL);
+//	mRC.setBaseURL(mHostURL);
     mRC.assignOnImageCallback(onImage);
     mRC.setLocalCacheFolder(rp.getLocalCacheFolder());
     this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();
@@ -58,8 +58,8 @@ void TRenderProjectFrame::populate()
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
-    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
-	mRC.setBaseURL(rsp.getHost());
+//    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
+//	mRC.setBaseURL(rsp.getHost());
 
 	OutputDataRootFolderE->setValue(mRP.getLocalCacheFolder());
 
@@ -499,9 +499,9 @@ void __fastcall TRenderProjectFrame::openInChromeClick(TObject *Sender)
 
 string TRenderProjectFrame::createNDVIZURL()
 {
-    RenderServiceParameters rs = mRC.getRenderServiceParameters();
+    const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
 
-    string baseURL = rs.getHost();
+    string baseURL = rs->getHost();
 	string URL(baseURL + ":8001/#!{'layers':{'STACK':{'type':'image'_'source':'render://" + baseURL + "/OWNER/PROJECT/STACK'_'max':MAX_INTENSITY}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[X_CENTER_Y_CENTER_Z_VALUE]}}_'zoomFactor':ZOOM_FACTOR}}");
 
 	//http://localhost:8001/#!{'layers':{'TESTAcquisition_GFP':{'type':'image'_'source':'render://http://localhost/Testing/Test/TESTAcquisition_GFP'_'max':0.15259}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[3576_5709_403]}}_'zoomFactor':1.834862}}
@@ -531,7 +531,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
         }
         else
         {
-		    RenderServiceParameters rs = mRC.getRenderServiceParameters();
+		    const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
             int z = toInt(stdstr(mZs->Items->Strings[0]));
             RenderClient rc(mRP, IdHTTP1, rs, mRP.getLocalCacheFolder());
             rc.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());

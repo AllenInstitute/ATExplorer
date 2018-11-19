@@ -33,7 +33,7 @@ ULONG_PTR  			         	                gdiplusToken;
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
      mIsStyleMenuPopulated(false),
-     mTreeItemObservers(*MainPC),
+     mTreeItemObservers(*MainPC, gATExplorer),
      mPTreeView(*ProjectTView, mTreeItemObservers)
 {
     Application->ShowHint = true;
@@ -347,7 +347,7 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
             parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
         }
         //Open dialog to capture render parameters
-		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
+		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(gATExplorer, this));
 
         if(f->ShowModal() == mrCancel)
         {

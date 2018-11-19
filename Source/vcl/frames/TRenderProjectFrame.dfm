@@ -1,8 +1,8 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 960
-  Height = 623
+  Width = 1104
+  Height = 668
   Align = alClient
   TabOrder = 0
   OnMouseDown = FrameMouseDown
@@ -12,7 +12,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 0
     Top = 0
     Width = 405
-    Height = 623
+    Height = 668
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -20,7 +20,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 1
       Top = 1
       Width = 307
-      Height = 621
+      Height = 666
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -341,7 +341,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 96
-      Height = 621
+      Height = 666
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -349,7 +349,7 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 1
         Top = 1
         Width = 94
-        Height = 481
+        Height = 526
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
@@ -358,7 +358,7 @@ object RenderProjectFrame: TRenderProjectFrame
           Left = 2
           Top = 15
           Width = 90
-          Height = 464
+          Height = 509
           Align = alClient
           ItemHeight = 13
           PopupMenu = ZsPopUpMenu
@@ -369,7 +369,7 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object CacheGB: TGroupBox
         Left = 1
-        Top = 482
+        Top = 527
         Width = 94
         Height = 138
         Align = alBottom
@@ -400,8 +400,8 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 405
     Top = 0
-    Width = 555
-    Height = 623
+    Width = 699
+    Height = 668
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
@@ -414,8 +414,8 @@ object RenderProjectFrame: TRenderProjectFrame
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 547
-        Height = 595
+        Width = 691
+        Height = 640
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -428,8 +428,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 545
-          Height = 576
+          Width = 689
+          Height = 621
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -445,8 +445,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 545
-          Height = 576
+          Width = 689
+          Height = 621
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16477,8 +16477,8 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 577
-          Width = 545
+          Top = 622
+          Width = 689
           Height = 17
           Align = alBottom
           Sections = <

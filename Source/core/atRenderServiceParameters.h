@@ -25,7 +25,6 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
 
         string                      getName() const;
         void                        setName(const string& n);
-//        string                      asString() const;
 
         void                        setHost(const string& u);
         string                      getHost() const;
