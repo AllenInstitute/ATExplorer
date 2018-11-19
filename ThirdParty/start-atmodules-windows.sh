@@ -4,8 +4,7 @@ container="atmodules"
 
 echo " ======== Building and starting Docker container: $container =============="
 echo "Building image with tag: $image_tag"
-docker build -t  $image_tag ./at_modules/
-
+docker build -t  $image_tag ./init/Dockerfile-atmodules
 docker kill $container
 docker rm $container
 
