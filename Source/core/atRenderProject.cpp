@@ -201,6 +201,10 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
     //Create XML for saving to file
     XMLElement* val(nullptr);
 
+    val = doc.NewElement("renderhostname");
+    val->SetText(mRenderService->getName().c_str());
+    parentNode->InsertEndChild(val);
+
     val = doc.NewElement("renderhost");
     val->SetText(mRenderService->getHost().c_str());
     parentNode->InsertEndChild(val);
@@ -255,6 +259,12 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
 bool RenderProject::loadFromXML(dsl::XMLNode* node)
 {
     XMLElement* e(nullptr);
+
+    e = node->FirstChildElement("renderhostname");
+    if(e)
+    {
+    	mRenderService->setName(e->GetText() ? string(e->GetText()) : string(""));
+    }
 
     e = node->FirstChildElement("renderhost");
     if(e)

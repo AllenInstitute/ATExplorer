@@ -53,7 +53,7 @@ class ATE_CORE RenderClient : public ExplorerObject
                                                          int maxInt						= 65535
                                                          );
 
-		void                     					setRenderServiceParameters(RenderServiceParameters& rp);
+		void                     					setRenderServiceParameters(RenderServiceParameters* rp);
 		const RenderServiceParameters*              getRenderServiceParameters();
 
         string                                      getBaseURL();
@@ -92,8 +92,6 @@ class ATE_CORE RenderClient : public ExplorerObject
         void										copyImageData(MemoryStruct chunk);
 		Idhttp::TIdHTTP*                            getConnection();
         void                                        assignConnection(Idhttp::TIdHTTP* c);
-
-
 
         RenderProject                               getRenderProject();
         void                                        setRenderProject(const RenderProject& rp);

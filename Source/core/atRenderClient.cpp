@@ -60,9 +60,9 @@ bool RenderClient::init(const string& imageType,
     return true;
 }
 
-void RenderClient::setRenderServiceParameters(RenderServiceParameters& rp)
+void RenderClient::setRenderServiceParameters(RenderServiceParameters* rp)
 {
-    mRenderService = &rp;
+    mRenderService = rp;
 }
 
 const RenderServiceParameters* RenderClient::getRenderServiceParameters()
@@ -569,13 +569,19 @@ RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
 
 StringList RenderClient::getStacksForProject(const string& owner, const string& project)
 {
+    StringList stacks;
     stringstream sUrl;
+    if(!mRenderService)
+    {
+        Log(lError) << "No available renderservice!";
+        return stacks;
+    }
+
     sUrl << mRenderService->getBaseURL();
     sUrl << "/owner/"<<owner;
     sUrl << "/stackIds";
     Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();
 
-    StringList stacks;
     TStringStream* zstrings = new TStringStream;;
     try
     {

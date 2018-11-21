@@ -34,18 +34,17 @@ int rpFrameNr(0);
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
 
 //---------------------------------------------------------------------------
-__fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, const string& imPath, TComponent* Owner)
+__fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner)
 	: TFrame(Owner),
     mRP(rp),
     mRC(rp, IdHTTP1, e.DefaultRenderService),
     mRenderEnabled(false),
    	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
     Drawing(false),
-    mIMPath(imPath),
+    mIMPath(e.getImageMagickPath()),
     mImageGrid(Image1, PaintBox1->Canvas),
     mCreateVolumesForm(NULL)
 {
-//	mRC.setBaseURL(mHostURL);
     mRC.assignOnImageCallback(onImage);
     mRC.setLocalCacheFolder(rp.getLocalCacheFolder());
     this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();

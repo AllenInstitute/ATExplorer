@@ -34,9 +34,7 @@ __fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, c
 void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const StringList& checked_stacks)
 {
     mROI = roi;
-
-//    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
-//	mRC.setBaseURL(rsp.getHost());
+    mRC.setRenderServiceParameters(mRP.getRenderServiceParameters());
 
     //Setup ROI
     XCoordE->setValue(mROI.getX1());

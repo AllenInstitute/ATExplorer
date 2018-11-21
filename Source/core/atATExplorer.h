@@ -45,6 +45,8 @@ class ATE_CORE ATExplorer : public ExplorerObject
         DockerContainer*                        DefaultATModules;
         DockerContainer*                        DefaultRenderServiceContainer;
 
+        string                                  getImageMagickPath();
+
 
 
         ATExplorerProperties                    Properties;

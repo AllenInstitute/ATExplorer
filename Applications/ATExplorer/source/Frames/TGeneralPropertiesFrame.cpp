@@ -28,7 +28,10 @@ __fastcall TGeneralPropertiesFrame::TGeneralPropertiesFrame(ATExplorer& e, TComp
 bool TGeneralPropertiesFrame::populate(Properties& props)
 {
     props.disableEdits();
-	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(props.getProperty("IMAGE_MAGICK_PATH")), 			false);
+    props.add(&(mExplorer.Properties.ImageMagickPath));
+
+	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(&mExplorer.Properties.ImageMagickPath), 			false);
+    ImageMagickPathE->update();
     props.enableEdits();
 
 

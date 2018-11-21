@@ -201,7 +201,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 
 		TCreateLocalVolumesForm*                        mCreateVolumesForm;
     public:
-    						__fastcall 					TRenderProjectFrame(ATExplorer& e, RenderProject& rp, const string& imPath, TComponent* Owner);
+    						__fastcall 					TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner);
 		void 				__fastcall 					getValidZsForStack();
 
 };

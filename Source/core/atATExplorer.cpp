@@ -104,6 +104,11 @@ void ATExplorer::setupLogging(const string& logFile, LogLevel lvl)
 	Log(lInfo) << "Logger was setup";
 }
 
+string ATExplorer::getImageMagickPath()
+{
+    return Properties.ImageMagickPath;
+}
+
 RenderServiceParameters* ATExplorer::createRenderService(const string& serviceName)
 {
     //Create a new (empty) inifile section

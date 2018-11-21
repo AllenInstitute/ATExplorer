@@ -20,7 +20,7 @@ class RenderProject;
 class PACKAGE RenderProjectItemView : public ProjectItemTabbedView
 {
     public:
-                                            RenderProjectItemView(TPageControl& pc, ATExplorer& e, RenderProject& rp, const string& imPath = gEmptyString);
+                                            RenderProjectItemView(TPageControl& pc, ATExplorer& e, RenderProject& rp);
         virtual                             ~RenderProjectItemView();
 
     protected:

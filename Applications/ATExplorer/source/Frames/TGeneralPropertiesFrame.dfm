@@ -9,19 +9,18 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
   object GroupBox2: TGroupBox
     Left = 0
     Top = 105
-    Width = 489
+    Width = 451
     Height = 72
     Align = alTop
     Caption = 'Image Magick'
     TabOrder = 0
-    ExplicitWidth = 451
     DesignSize = (
       451
       72)
     object ImageMagickPathE: TSTDStringLabeledEdit
       Left = 16
       Top = 41
-      Width = 392
+      Width = 354
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 90
@@ -30,7 +29,7 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
       TabOrder = 0
     end
     object BrowseForImageMagickPathBtn: TButton
-      Left = 414
+      Left = 376
       Top = 41
       Width = 28
       Height = 21
@@ -48,9 +47,6 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
     Align = alTop
     Caption = 'Default Docker and Render Backends'
     TabOrder = 1
-    ExplicitLeft = 45
-    ExplicitTop = 24
-    ExplicitWidth = 462
     object Label7: TLabel
       Left = 10
       Top = 29

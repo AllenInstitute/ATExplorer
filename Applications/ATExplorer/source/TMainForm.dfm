@@ -174,7 +174,6 @@ object MainForm: TMainForm
           Left = 24
           Top = 0
           Action = CloseProjectA
-          ImageIndex = 66
         end
         object ToolButton1: TToolButton
           Left = 48
@@ -186,7 +185,6 @@ object MainForm: TMainForm
           Left = 72
           Top = 0
           Action = SaveProjectA
-          ImageIndex = 227
         end
         object ToolButton4: TToolButton
           Left = 96
@@ -292,13 +290,14 @@ object MainForm: TMainForm
       Category = 'File'
       Caption = 'Save'
       Hint = 'Save Current Project'
-      ImageIndex = 2
+      ImageIndex = 227
       OnExecute = SaveProjectAExecute
       OnUpdate = SaveProjectAUpdate
     end
     object SaveProjectAsA: TAction
       Category = 'File'
       Caption = 'Save As'
+      ImageIndex = 61
       OnExecute = SaveProjectAsAExecute
       OnUpdate = SaveProjectAsAUpdate
     end
@@ -306,6 +305,7 @@ object MainForm: TMainForm
       Category = 'File'
       Caption = 'Close Project'
       Hint = 'Close Project'
+      ImageIndex = 66
       OnExecute = CloseProjectAExecute
       OnUpdate = CloseProjectAUpdate
     end
@@ -344,7 +344,7 @@ object MainForm: TMainForm
       Category = 'File'
       Caption = 'E&xit'
       Hint = 'Exit|Quits the application'
-      ImageIndex = 8
+      ImageIndex = 207
     end
     object RemoveFromProjectA: TAction
       Category = 'TreeView'
@@ -383,7 +383,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C0101EA00E806880310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101EA00E806900310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000B0030000010020000000000000B0
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
