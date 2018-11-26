@@ -12,9 +12,9 @@ docker rm $atm_container
 
 echo "Starting container: $atm_container"
 docker run -d --name $atm_container \
--v e:/Documents/data:/mnt/data/  \
--v c:/pDisk/atExplorer/ThirdParty/atPipeline:/pipeline  \
--v c:/pDisk/atExplorer/ThirdParty/at_modules/src:/usr/local/at_modules/src  \
+-v /Users/synbio/Documents/data:/mnt/data/  \
+-v /Users/synbio/ATExplorer/ThirdParty/atPipeline:/pipeline  \
+-v /Users/synbio/ATExplorer/ThirdParty/at_modules/src:/usr/local/at_modules/src  \
 -i -t $atm_image_tag /bin/bash 
 
 #RENDER PYTHON APPS
@@ -29,11 +29,11 @@ docker rm $rpa_container
 
 echo "Starting container: $rpa_container"
 docker run -d --name $rpa_container  \
--v e:/Documents/data:/mnt/data/  \
--v c:/pDisk/atExplorer/ThirdParty/atPipeline:/pipeline  \
--v c:/pDisk/atExplorer/ThirdParty/Render-Python-Apps:/usr/local/render-python-apps  \
+-v /Users/synbio/Documents/data:/mnt/data/  \
+-v /Users/synbio/ATExplorer/ThirdParty/atPipeline:/pipeline  \
+-v /Users/synbio/ATExplorer/ThirdParty/Render-Python-Apps:/usr/local/render-python-apps  \
 -i -t $rpa_image_tag /bin/bash
 
 
 #Render Service, mongo & ndviz stuff
-docker-compose -f ./init/docker-compose-windows.yml up -d
+docker-compose -f ./init/docker-compose-mac.yml up -d
