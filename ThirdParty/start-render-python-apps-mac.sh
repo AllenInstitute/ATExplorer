@@ -12,6 +12,6 @@ docker rm $container
 echo "Starting container: $container"
 docker run -d --name $container  \
 -v /Users/synbio/Documents/data:/mnt/data/  \
--v c:/pDisk/atExplorer/ThirdParty/atPipeline:/pipeline  \
--v c:/pDisk/atExplorer/ThirdParty/Render-Python-Apps:/usr/local/render-python-apps  \
+-v /Users/synbio/ATExplorer/ThirdParty/atPipeline:/pipeline  \
+-v /Users/synbio/ATExplorer/ThirdParty/Render-Python-Apps:/usr/local/render-python-apps  \
 -i -t $image_tag /bin/bash
