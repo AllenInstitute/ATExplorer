@@ -243,6 +243,9 @@
             <DependentOn>..\..\Source\core\atFetchImageThread.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atJSMN.c">
+            <BuildOrder>46</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRegionOfInterest.cpp">
             <DependentOn>..\..\Source\core\atRegionOfInterest.h</DependentOn>
             <BuildOrder>25</BuildOrder>

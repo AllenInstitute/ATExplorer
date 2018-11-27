@@ -115,7 +115,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TPopupMenu *ROIPopupMenu;
 	TMenuItem *OpenROIInExplorer;
 	TAction *ToggleImageGridA;
-	TCheckListBox *RenderStacksCB;
+	TCheckListBox *ChannelsCB;
 	TGroupBox *GroupBox3;
 	TPopupMenu *PopupMenu1;
 	TPopupMenu *RenderStacksPopup;

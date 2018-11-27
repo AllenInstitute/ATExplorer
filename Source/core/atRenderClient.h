@@ -61,6 +61,7 @@ class ATE_CORE RenderClient : public ExplorerObject
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
         StringList						            getStacksForProject(const string& owner, const string& p);
+        StringList                                  getChannelsInStack(const string& stackName);
         RenderProject                               getCurrentProject();
         StringList                                  getROIFoldersForCurrentStack();
 		TMemoryStream*								getImageMemory();

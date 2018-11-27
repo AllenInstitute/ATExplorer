@@ -57,16 +57,14 @@ void TRenderProjectFrame::populate()
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
-//    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
-//	mRC.setBaseURL(rsp.getHost());
-
 	OutputDataRootFolderE->setValue(mRP.getLocalCacheFolder());
 
     //Get stacks for project
     StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
     {
-		StackCB->ItemIndex = populateDropDown(stacks, 		StackCB);
+		StackCB->ItemIndex = populateDropDown(stacks, StackCB, mRP.getSelectedStackName());
+   		StackCBChange(NULL);
 
         //Setup ROI
 		roiChanged();
@@ -75,39 +73,9 @@ void TRenderProjectFrame::populate()
         MinIntensityE->setReference(mRP.getMinIntensity());
         MaxIntensityE->setReference(mRP.getMaxIntensity());
 
-        //Select stack
-        if(mRP.getSelectedStackName().size())
-        {
-	        int indx = StackCB->Items->IndexOf(mRP.getSelectedStackName().c_str());
-			StackCB->ItemIndex = indx;
-           	StackCBChange(NULL);
-        }
-        else
-        {
-            if(StackCB->Items->Count)
-            {
-	            //Select the first stack
-		        StackCB->ItemIndex = 0;
-           		StackCBChange(NULL);
-            }
-        }
-
-       	int indx = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
-        if(indx == -1 && mZs->Items->Count > 0)
-        {
-            mZs->ItemIndex = 0;
-        }
-        else
-        {
-            mZs->ItemIndex = indx;
-        }
-
-        ClickZ(NULL);
-        //Then select layer bounds
-        ResetButton->Click();
+        mZs->ItemIndex = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
         ClickZ(NULL);
     }
-    populateCheckListBox(stacks, RenderStacksCB);
 }
 
 void TRenderProjectFrame::onROIChanged(void* arg1, void* arg2)
@@ -152,12 +120,15 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
     {
 		return;
     }
-    mRP.setSelectedStackName(stdstr(StackCB->Text));
+
+    string stackName(stdstr(StackCB->Text));
+    mRC.setSelectedStackName(stackName);
    	getValidZsForStack();
-	ClickZ(NULL);
     updateROIs();
 
-    //Disable uninitialized sections of the UI
+    //Populate channels
+    StringList chs = mRC.getChannelsInStack(stackName);
+    populateCheckListBox(chs, ChannelsCB);
 	enableDisableGroupBox(imageParasGB, true);
 	enableDisableGroupBox(Zs_GB, true);
 	mRenderEnabled = true;
