@@ -77,7 +77,7 @@ class ATE_CORE RenderClient : public ExplorerObject
         bool				                        checkCacheForCurrentURL();
         string				                        getImageLocalCachePath();
         string				                        getImageLocalCachePathAndFileName();
-		string 										getImageLocalCachePathAndFileNameForZ(int z);
+		string 										getImageLocalCachePathAndFileNameForZ(int z, const string& chs);
         string							            getProjectName();
 
         void							            setLocalCacheFolder(const string& f);

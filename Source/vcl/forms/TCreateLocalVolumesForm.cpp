@@ -346,7 +346,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     {
         string url = urls[i];
         //Make sure file exists
-        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
+        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName))
         {
@@ -372,7 +372,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         {
             string url = urls[i];
             //Make sure file exists
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
+            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
             Poco::File f(outFilePathANDFileName);
             if(f.exists())
             {

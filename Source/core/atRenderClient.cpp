@@ -382,36 +382,34 @@ StringList RenderClient::getProjectsForOwner(const string& o)
     TStringStream* zstrings = new TStringStream;;
     mC->Get(sUrl.str().c_str(), zstrings);
 
-    if( mC->ResponseCode == HTTP_RESPONSE_OK)
+    if(mC->ResponseCode != HTTP_RESPONSE_OK)
     {
-        string s = stdstring(zstrings->DataString);
-        s = stripCharacters("\"[]{}", s);
-        Log(lDebug5) << "Render Response: "<<s;
-        //Parse result
-        StringList t1(s,',');
+        Log(lError) << "Failed fetching projects";
+        return projects;
+    }
 
-        //Go trough list and get unique projects
-        for(int i = 0; i < t1.count(); i++)
+    string s = stdstring(zstrings->DataString);
+    s = stripCharacters("\"[]{}", s);
+    Log(lDebug5) << "Render Response: "<<s;
+    //Parse result
+    StringList t1(s,',');
+
+    //Go trough list and get unique projects
+    for(int i = 0; i < t1.count(); i++)
+    {
+        string line = t1[i];
+        if(startsWith("project", t1[i]))
         {
-        	string line = t1[i];
-            if(startsWith("project", t1[i]))
+            StringList l(t1[i], ':');
+            if(l.count() == 2)
             {
-            	StringList l(t1[i], ':');
-                if(l.count() == 2)
+                if(!projects.contains(l[1]))
                 {
-                	if(!projects.contains(l[1]))
-                    {
-                		projects.append(l[1]);
-                    }
+                    projects.append(l[1]);
                 }
             }
         }
     }
-    else
-    {
-        Log(lError) << "Failed fetching projects";
-    }
-
     projects.sort();
     return projects;
 }
@@ -427,6 +425,7 @@ bool RenderClient::getImageInThread(int z, StringList& paras)
 
 	mFetchImageThread.setup(getURLForZ(z), mCache.getBasePath());
     mFetchImageThread.addParameters(paras);
+    mFetchImageThread.setChannel(mRenderProject.getSelectedChannelName());
 	mFetchImageThread.start(true);
     return true;
 }
@@ -567,15 +566,15 @@ string RenderClient::getImageLocalCachePath()
 	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
 }
 
-string RenderClient::getImageLocalCachePathAndFileNameForZ(int z)
+string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
 {
 	string url(getURLForZ(z));
-    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath());
+    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
 }
 
 string RenderClient::getImageLocalCachePathAndFileName()
 {
-	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath());
+	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
 }
 
 bool RenderClient::checkCacheForCurrentURL()

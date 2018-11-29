@@ -153,6 +153,8 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
 	void __fastcall OutputDataRootFolderEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall ChannelsCBClick(TObject *Sender);
+	void __fastcall ChannelsCBClickCheck(TObject *Sender);
 
 
     private:
@@ -186,7 +188,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
         TBrushStyle 									BrushStyle;
         TPenStyle 										PenStyle;
         int 											PenWide;
-        bool 											Drawing;
+        bool 											mIsDrawing;
         TPoint 											Origin;
         TPoint 											MovePt;
         TPoint											mTopLeftSelCorner;

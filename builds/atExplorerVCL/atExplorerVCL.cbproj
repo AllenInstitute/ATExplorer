@@ -186,8 +186,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\atTreeItemObservers.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\atUtils.cpp">
-            <DependentOn>..\..\Source\vcl\atUtils.h</DependentOn>
+        <CppCompile Include="..\..\Source\vcl\atVCLUtils2.cpp">
+            <DependentOn>..\..\Source\vcl\atVCLUtils2.h</DependentOn>
             <BuildOrder>22</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.cpp">

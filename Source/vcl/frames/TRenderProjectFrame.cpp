@@ -11,6 +11,7 @@
 #include "TImageForm.h"
 #include "atRenderLayer.h"
 #include "TCreateLocalVolumesForm.h"
+#include "atVCLUtils2.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTPropertyCheckBox"
@@ -40,7 +41,7 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject
     mRC(rp, IdHTTP1, e.DefaultRenderService),
     mRenderEnabled(false),
    	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
-    Drawing(false),
+    mIsDrawing(false),
     mIMPath(e.getImageMagickPath()),
     mImageGrid(Image1, PaintBox1->Canvas),
     mCreateVolumesForm(NULL)
@@ -58,6 +59,9 @@ void TRenderProjectFrame::populate()
     ProjectE->setValue(mRP.getRenderProjectName());
 
 	OutputDataRootFolderE->setValue(mRP.getLocalCacheFolder());
+    //Min and max intensity
+    MinIntensityE->setReference(mRP.getMinIntensity());
+    MaxIntensityE->setReference(mRP.getMaxIntensity());
 
     //Get stacks for project
     StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
@@ -66,15 +70,15 @@ void TRenderProjectFrame::populate()
 		StackCB->ItemIndex = populateDropDown(stacks, StackCB, mRP.getSelectedStackName());
    		StackCBChange(NULL);
 
-        //Setup ROI
-		roiChanged();
-
-        //Min and max intensity
-        MinIntensityE->setReference(mRP.getMinIntensity());
-        MaxIntensityE->setReference(mRP.getMaxIntensity());
-
-        mZs->ItemIndex = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
-        ClickZ(NULL);
+        //Check selected channel
+       	string ch = mRP.getSelectedChannelName();
+        if(checkItem(ChannelsCB, ch, true))
+        {
+        	mZs->ItemIndex = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
+	        //Setup ROI
+			roiChanged();
+        	ClickZ(NULL);
+        }
     }
 }
 
@@ -124,7 +128,6 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
     string stackName(stdstr(StackCB->Text));
     mRC.setSelectedStackName(stackName);
    	getValidZsForStack();
-    updateROIs();
 
     //Populate channels
     StringList chs = mRC.getChannelsInStack(stackName);
@@ -160,14 +163,12 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
     mRP.setSelectedSection(z);
 
     //Fetch data using URL
-    mRP.setSelectedStackName(stdstr(StackCB->Text));
 	mRC.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
     {
 		this->Image1->Cursor = crHourGlass;
         StringList paras;
-//        paras.append(string("&maxTileSpecsToRender=") + stdstr(maxTileSpecsToRenderE->Text));
         paras.append(string("&maxTileSpecsToRender=150"));
 
     	//Image pops up in onImage callback
@@ -223,13 +224,7 @@ void __fastcall TRenderProjectFrame::onImage()
         }
     }
 
-//    if(gImageForm && gImageForm->Visible)
-//    {
-//    	gImageForm->load(mCurrentImageFile);
-//    }
-
     Image1->Refresh();
-
     Log(lDebug3) << "WxH = " <<Image1->Picture->Width << "x" << Image1->Picture->Height;
     this->Image1->Cursor = crDefault;
 }
@@ -353,7 +348,7 @@ void __fastcall TRenderProjectFrame::FrameMouseDown(TObject *Sender, TMouseButto
         return;
     }
 
-    Drawing = true;
+    mIsDrawing = true;
     getCanvas()->MoveTo(X , Y);
     Origin = Point(X, Y);
     MovePt = Origin;
@@ -370,7 +365,7 @@ void __fastcall TRenderProjectFrame::FrameMouseDown(TObject *Sender, TMouseButto
 void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftState Shift,
           int X, int Y)
 {
-	if(Drawing)
+	if(mIsDrawing)
   	{
 		DrawShape(Origin, MovePt, pmNotXor);
 		MovePt = Point(X, Y);
@@ -518,6 +513,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
 	        paras.append(string("&maxTileSpecsToRender=150"));// + 150)stdstr(maxTileSpecsToRenderE->Text));
             mCreateCacheThread.setup(urls, mRP.getLocalCacheFolder());
             mCreateCacheThread.addParameters(paras);
+            mCreateCacheThread.setChannel(mRP.getSelectedChannelName());
             mCreateCacheThread.start();
             CreateCacheTimer->Enabled = true;
         }
@@ -567,7 +563,8 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
     stringstream cmdLine;
     for(int i = 0; i < sections.count(); i++)
     {
-        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(toInt(sections[i]))));
+        int z(toInt(sections[i]));
+        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(z, mRP.getSelectedChannelName()) ));
         cmdLine << fName <<" ";
     }
 
@@ -769,7 +766,7 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
 //    }
     else if(a->ActionComponent == OpenROIInExplorer)
     {
-        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0)), getFilePathFromSelectedCB(ROI_CB));
+        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0, mRP.getSelectedChannelName())), getFilePathFromSelectedCB(ROI_CB));
     }
 
     if(fName.size())
@@ -782,7 +779,6 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
         }
     }
 }
-
 
 void __fastcall TRenderProjectFrame::mZoomOutBtnClick(TObject *Sender)
 {
@@ -848,7 +844,7 @@ void __fastcall TRenderProjectFrame::ToggleImageGridAExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::ToggleImageGridAUpdate(TObject *Sender)
 {
-    if(!Drawing)
+    if(!mIsDrawing)
     {
         PaintBox1->BringToFront();
 		PaintBox1->Invalidate();
@@ -909,12 +905,12 @@ void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseBut
        	ClickZ(Sender);
     }
 
-	if(!Drawing || (Button == TMouseButton::mbRight))
+	if(!mIsDrawing || (Button == TMouseButton::mbRight))
     {
     	return;
     }
 
-	Drawing = false;
+	mIsDrawing = false;
 
     //For selection
 	mBottomRightSelCorner = this->Image1->ScreenToClient(Mouse->CursorPos);
@@ -968,7 +964,6 @@ void __fastcall TRenderProjectFrame::Button1Click(TObject *Sender)
 	updateROIs();
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
 {
@@ -983,7 +978,6 @@ void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
     mCreateVolumesForm->populate(mCurrentROI, stacks);
     mCreateVolumesForm->Show();
 }
-
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::BrowseForDataOutputPathBtnClick(TObject *Sender)
@@ -1016,7 +1010,6 @@ void __fastcall TRenderProjectFrame::OutputDataRootFolderEKeyDown(TObject *Sende
     }
 }
 
-
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
 {
 	TPoint pt;
@@ -1027,4 +1020,33 @@ TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
     }
 	return pt;
 }
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::ChannelsCBClick(TObject *Sender)
+{
+;
+}
+
+void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
+{
+	int indx(-1);
+    for(int i = 0; i < ChannelsCB->Count; i++)
+    {
+    	if(ChannelsCB->Selected[i])
+        {
+            indx = i;
+            break;
+        }
+    }
+
+    ChannelsCB->CheckAll(cbUnchecked);
+    ChannelsCB->Checked[indx] = cbChecked;
+
+    string channel = stdstr(ChannelsCB->Items->Strings[indx]);
+
+    //Render this channel
+    mRP.setSelectedChannelName(channel);
+    ClickZ(NULL);
+}
+
 

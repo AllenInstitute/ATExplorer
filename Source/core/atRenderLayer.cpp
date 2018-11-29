@@ -62,7 +62,7 @@ mCache(localCacheRootFolder, rp)
 
 bool RenderLayer::existInCache(const string& f)
 {
-    return fileExists(getImageLocalCachePathAndFileName(f));
+    return fileExists(getImageLocalCachePathAndFileName(f, mChannels));
 }
 
 double RenderLayer::getLowestScaleInCache()
@@ -93,7 +93,7 @@ string RenderLayer::getRenderProjectLocalDataRoot(const string& rootFolder)
     return s.str();
 }
 
-string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder)
+string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder, const StringList& channels)
 {
     stringstream s;
     //Construct filePath
@@ -102,7 +102,14 @@ string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder)
     	<<"\\"<<mRenderProject.getRenderProjectName()
         <<"\\"<<mRenderProject.getSelectedStackName()
         <<"\\"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1()<<","<<mRegionOfInterest.getWidth()<<","<<mRegionOfInterest.getHeight()<<"\\"
-        <<mZ<<"_"<<mMinIntensity<<"_"<<mMaxIntensity<<"_"<<mScale;//<<".jpg";
+        <<mZ<<"_"<<mMinIntensity<<"_"<<mMaxIntensity<<"_"<<mScale;
+
+        //Channels
+        for(int i = 0; i < channels.count(); i++)
+        {
+            s << "_" << channels[i];
+        }
+
         if(mImageType == "jpeg-image")
         {
             s << ".jpg";
