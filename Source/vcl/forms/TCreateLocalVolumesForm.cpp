@@ -341,7 +341,6 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     string dataRoot(rawThread->getCacheRootFolder());
     string imagesFolder(getImageLocalCachePathFromURL(urls[0], dataRoot));
 
-
     for(uint i = 0; i < urls.count(); i++)
     {
         string url = urls[i];
@@ -356,7 +355,6 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 
     string stackOutputFileNameAndPath(getRenderProjectLocalDataRootFolderFromURL(urls[0], dataRoot));
-
     stackOutputFileNameAndPath = joinPath(stackOutputFileNameAndPath, "stack_" + rawThread->getRenderStackName());
 
     //  CreateStack (blocking)
@@ -390,7 +388,6 @@ TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, co
     IMConvert.setExecutable(mConvertExe);
     IMConvert.setWorkingDirectory(wd);
 
-
     TiffStack* tiffStack = new TiffStack(getFileNameNoPath(outFName), getFilePath(outFName));
 
     //Create commandline for imagemagicks convert program
@@ -410,6 +407,7 @@ TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, co
     IMConvert.start(false);
     return tiffStack;
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TCreateLocalVolumesForm::FormShow(TObject *Sender)
 {

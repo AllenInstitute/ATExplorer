@@ -55,6 +55,18 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject
 
 void TRenderProjectFrame::populate()
 {
+    int secsWidth(0);
+    for(int i = 0; i < HeaderControl1->Sections->Count; i++)
+    {
+		secsWidth += HeaderControl1->Sections->Items[i]->Width;
+    }
+
+    TPoint p1(HeaderControl1->Left, HeaderControl1->Top);
+	TPoint p2 = HeaderControl1->ClientToScreen(p1);
+	mZoomFactor->Left = p1.X + secsWidth;
+	mZoomFactor->Top = p1.Y;
+    mZoomFactor->Parent = HeaderControl1;
+
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
@@ -102,19 +114,20 @@ void TRenderProjectFrame::checkCache()
 {
     //OtherCB
     //Todo reimplement this, to preserve any selected items, as clear remove any selected ones
-//    OtherCB->Clear();
-//    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
-//    for(int i = 0; i < stackFiles.count(); i++)
-//    {
-//        if(startsWith("stack_", stackFiles[i]))
-//        {
-//            //Setup something robust here later on
-//            string* item = new string(joinPath(mRC.getImageLocalCachePath(), stackFiles[i]));
-//            stringstream itemCaption;
-//            itemCaption << "Stack_"<<i + 1;
-//            StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
-//        }
-//    }
+    OtherCB->Clear();
+    StacksCB->Clear();
+    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+    for(int i = 0; i < stackFiles.count(); i++)
+    {
+        if(startsWith("stack_", stackFiles[i]))
+        {
+            //Setup something robust here later on
+            string* item = new string(joinPath(mRC.getImageLocalCachePath(), stackFiles[i]));
+            stringstream itemCaption;
+            itemCaption << "Stack_"<<i + 1;
+            StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+        }
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -376,16 +389,12 @@ void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftStat
     double stretchF = getImageStretchFactor();
 	XE->Caption = IntToStr((int) (p.X * stretchF) + XCoordE->getValue()) ;
 	YE->Caption = IntToStr((int) (p.Y * stretchF) + YCoordE->getValue());
-	//    ImageWidthL->Caption = IntToStr((int) Image1->Width);
-	//    ImageHeightL->Caption = IntToStr((int) Image1->Height);
 
 	//Convert to world image coords (minus offset)
     double stretchFactor = getImageStretchFactor();
     if(stretchFactor)
     {
 	    p = controlToImage(p, mScaleE->getValue(), stretchFactor);
-	//	  	mX->setValue(p.X);
-	//		mY->setValue(p.Y);
     }
 
 	if(GetAsyncKeyState(VK_MBUTTON) < 0)
@@ -459,14 +468,15 @@ void __fastcall TRenderProjectFrame::ROIKeyDown(TObject *Sender, WORD &Key,
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::openInChromeClick(TObject *Sender)
 {
-	ShellExecuteA(0,0, "chrome.exe", URLE->getValue().c_str(), 0, SW_SHOWMAXIMIZED);
+    string url = URLE->getValue();
+	ShellExecuteA(0,0, "chrome.exe", url.c_str(), 0, SW_SHOWMAXIMIZED);
 }
 
 string TRenderProjectFrame::createNDVIZURL()
 {
     const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
 
-    string baseURL = rs->getHost();
+    string baseURL = "http://" + rs->getHost();
 	string URL(baseURL + ":8001/#!{'layers':{'STACK':{'type':'image'_'source':'render://" + baseURL + "/OWNER/PROJECT/STACK'_'max':MAX_INTENSITY}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[X_CENTER_Y_CENTER_Z_VALUE]}}_'zoomFactor':ZOOM_FACTOR}}");
 
 	//http://localhost:8001/#!{'layers':{'TESTAcquisition_GFP':{'type':'image'_'source':'render://http://localhost/Testing/Test/TESTAcquisition_GFP'_'max':0.15259}}_'navigation':{'pose':{'position':{'voxelSize':[1_1_1]_'voxelCoordinates':[3576_5709_403]}}_'zoomFactor':1.834862}}
@@ -535,8 +545,6 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 {
-//    Process IMConvert("C:\\Program Files (x86)\\ImageMagick-7.0.8-Q16\\convert.exe", mRC.getImageLocalCachePath());
-//    Process IMConvert("dir.exe", mRC.getImageLocalCachePath());
     Process& IMConvert = mAProcess;
     string convertExe(joinPath(mIMPath, "convert.exe"));
 
@@ -549,9 +557,9 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
         MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
         return;
     }
+
     IMConvert.setExecutable(convertExe);
     IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
-
 
     //Extract selected filenames from checked z's
     StringList sections = getCheckedItems(mZs);
@@ -575,47 +583,45 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 	IMConvert.setup(cmdLine.str(), mhCatchMessages);
     IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
     IMConvert.assignOpaqueData(mZs, nullptr);
-
     IMConvert.start(true);
-
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
 {
-//    string cvt(joinPath(mIMPath, "convert.exe"));
-//    Process& IMConvert = mAProcess;
-//    IMConvert.reset();
-//    IMConvert.setExecutable(cvt);
-//    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
-//
-//    //Find all stacks for current ROI
-//    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
-//
-//    //Create MIP's for current stack file
-//
-//    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
-//    if(!temp)
-//    {
-//        Log(lError) << "Failed to extract string item";
-//        return;
-//    }
-//
-//    string currentStack(*temp);
-//    string* mipFName = new string(getFileNameNoExtension(currentStack));
-//
-//    *mipFName = "mip_" + *mipFName + ".tif";
-//    *mipFName = replaceSubstring("stack_", "", *mipFName);
-//    stringstream cmdLine;
-//    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
-//    Log(lInfo) << "Running convert on " << cmdLine.str();
-//
-//    IMConvert.setup(cmdLine.str(), mhCatchMessages);
-//    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-//
-//    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
-//    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
-//    IMConvert.start(true);
+    string cvt(joinPath(mIMPath, "convert.exe"));
+    Process& IMConvert = mAProcess;
+    IMConvert.reset();
+    IMConvert.setExecutable(cvt);
+    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+
+    //Find all stacks for current ROI
+    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
+
+    //Create MIP's for current stack file
+
+    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+    if(!temp)
+    {
+        Log(lError) << "Failed to extract string item";
+        return;
+    }
+
+    string currentStack(*temp);
+    string* mipFName = new string(getFileNameNoExtension(currentStack));
+
+    *mipFName = "mip_" + *mipFName + ".tif";
+    *mipFName = replaceSubstring("stack_", "", *mipFName);
+    stringstream cmdLine;
+    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+    IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+
+    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
+    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
+    IMConvert.start(true);
 }
 
 //---------------------------------------------------------------------------
@@ -623,38 +629,40 @@ void __fastcall TRenderProjectFrame::CheckBoxClick(TObject *Sender)
 {
     //Open mip
     TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
-//    if(lb == StacksCB && StacksCB->ItemIndex != -1)
-//    {
-//        string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
-//        if(!temp)
-//        {
-//            Log(lError) << "Failed to extract string item";
-//            return;
-//        }
-//
-//        string currentStack(replaceSubstring(".tif", "", replaceSubstring("stack_", "", *temp)));
-//
-//        //Populate mips for current stack
-//        OtherCB->Clear();
-//        StringList mipFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
-//        for(int i = 0; i < mipFiles.count(); i++)
-//        {
-//            if(endsWith("_MIP.tif", mipFiles[i]))
-//            {
-//                //Setup something robust here later on
-//                string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
-//                if(item && contains(currentStack, *item))
-//                {
-//                    stringstream itemCaption;
-//    	            itemCaption << "MIP_" << i + 1;
-//	                OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
-//                }
-//            }
-//        }
-//    }
-//    else if(lb == OtherCB)
-//    {
-//    }
+    if(lb == StacksCB && StacksCB->ItemIndex != -1)
+    {
+        string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+        if(!temp)
+        {
+            Log(lError) << "Failed to extract string item";
+            return;
+        }
+
+
+        string currentStack(getFileNameNoPathNoExtension(*temp));
+		currentStack = replaceSubstring("stack_", "", currentStack);
+
+        //Populate mips for current stack
+        OtherCB->Clear();
+        StringList mipFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+        for(int i = 0; i < mipFiles.count(); i++)
+        {
+            if(startsWith("mip_", mipFiles[i]))
+            {
+                //Setup something robust here later on
+                string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
+                if(item && contains(currentStack, *item))
+                {
+                    stringstream itemCaption;
+    	            itemCaption << "MIP_" << i + 1;
+	                OtherCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
+                }
+            }
+        }
+    }
+    else if(lb == OtherCB)
+    {
+    }
 }
 
 void TRenderProjectFrame::OpenImageForm(string fName)
@@ -679,30 +687,30 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
 {
     Log(lInfo) << "Process Finished";
 
-//    if(arg1 == (void*) StacksCB)
-//    {
-//        int itemIndx = StacksCB->ItemIndex;
-//	    checkCache();
-//        StacksCB->ItemIndex = itemIndx;
-//        StacksCB->OnClick(StacksCB);
-//
-//        //Open MIP window
-//        if(arg2)
-//        {
-//        	string& fName = *((string*) arg2);
-//            if(fileExists(fName))
-//            {
-//                OpenImageForm(fName);
-//                delete &fName;
-//            }
-//        }
-//    }
-//    else if(arg1 == (void*) mZs)
-//    {
-//        int itemIndx = StacksCB->ItemIndex;
-//	    checkCache();
-//        StacksCB->ItemIndex = itemIndx;
-//    }
+    if(arg1 == (void*) StacksCB)
+    {
+        int itemIndx = StacksCB->ItemIndex;
+	    checkCache();
+        StacksCB->ItemIndex = itemIndx;
+        StacksCB->OnClick(StacksCB);
+
+        //Open MIP window
+        if(arg2)
+        {
+        	string& fName = *((string*) arg2);
+            if(fileExists(fName))
+            {
+                OpenImageForm(fName);
+                delete &fName;
+            }
+        }
+    }
+    else if(arg1 == (void*) mZs)
+    {
+        int itemIndx = StacksCB->ItemIndex;
+	    checkCache();
+        StacksCB->ItemIndex = itemIndx;
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -756,14 +764,14 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
             fName = mRC.getImageLocalCachePathAndFileName();
         }
     }
-//    else if(a->ActionComponent == OpenStackInExplorer)
-//    {
-//        fName = getFilePathFromSelectedCB(StacksCB);
-//	}
-//    else if(a->ActionComponent == OpenMIPInExplorer)
-//    {
-//        fName = getFilePathFromSelectedCB(OtherCB);
-//    }
+    else if(a->ActionComponent == OpenStackInExplorer)
+    {
+        fName = getFilePathFromSelectedCB(StacksCB);
+	}
+    else if(a->ActionComponent == OpenMIPInExplorer)
+    {
+        fName = getFilePathFromSelectedCB(OtherCB);
+    }
     else if(a->ActionComponent == OpenROIInExplorer)
     {
         fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0, mRP.getSelectedChannelName())), getFilePathFromSelectedCB(ROI_CB));
@@ -780,16 +788,12 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
     }
 }
 
-void __fastcall TRenderProjectFrame::mZoomOutBtnClick(TObject *Sender)
+void TRenderProjectFrame::zoom(int zoomFactor, bool out)
 {
-	TButton* b = dynamic_cast<TButton*>(Sender);
-
-	double zoomFactor = mZoomFactor->getValue();
-    if(b == mZoomOutBtn)
+    if(out)
     {
 		zoomFactor *= (-1.0);
     }
-
 	//Modify bounding box with x%
     mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
     mCurrentROI.zoom(zoomFactor);
@@ -800,7 +804,7 @@ void __fastcall TRenderProjectFrame::mZoomOutBtnClick(TObject *Sender)
     Height->setValue(mCurrentROI.getHeight());
 
     updateScale();
-	ClickZ(Sender);
+	ClickZ(NULL);
     checkCache();
 }
 
@@ -868,21 +872,21 @@ void __fastcall TRenderProjectFrame::PaintBox1Paint(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::OtherCBDblClick(TObject *Sender)
 {
-//    TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
-//    if(lb != OtherCB)
-//    {
-//        return;
-//    }
-//
-//    //Get item
-//    TObject* item = lb->Items->Objects[lb->ItemIndex];
-//    if(item)
-//    {
-//        string* fName((string*) item);
-//        TImageForm* iForm (new TImageForm("", "", this));
-//        iForm->load(*fName);
-//        iForm->Show();
-//    }
+    TCheckListBox* lb = dynamic_cast<TCheckListBox*>(Sender);
+    if(lb != OtherCB)
+    {
+        return;
+    }
+
+    //Get item
+    TObject* item = lb->Items->Objects[lb->ItemIndex];
+    if(item)
+    {
+        string* fName((string*) item);
+        TImageForm* iForm (new TImageForm("", "", this));
+        iForm->load(*fName);
+        iForm->Show();
+    }
 }
 
 void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseButton Button,
@@ -930,15 +934,9 @@ void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseBut
                                     mBottomRightSelCorner.X - mTopLeftSelCorner.X,
                                     mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
                                     mScaleE->getValue());
-//	XCoordE->setValue(XCoordE->getValue() + mTopLeftSelCorner.X);
-//	YCoordE->setValue(YCoordE->getValue() + mTopLeftSelCorner.Y);
-//    Width->setValue(mBottomRightSelCorner.X - mTopLeftSelCorner.X);
-//    Height->setValue(mBottomRightSelCorner.Y - mTopLeftSelCorner.Y);
 
-//	mCurrentROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue());
     updateScale();
 	roiChanged();
-
     updateROIs();
 	ClickZ(NULL);
     checkCache();
@@ -1047,6 +1045,61 @@ void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
     //Render this channel
     mRP.setSelectedChannelName(channel);
     ClickZ(NULL);
+}
+
+void __fastcall TRenderProjectFrame::HeaderControl1SectionClick(THeaderControl *HeaderControl,
+          THeaderSection *Section)
+{
+    //
+    if(Section->Text == '+')
+    {
+	    zoom(mZoomFactor->getValue(), false);
+    }
+    else if(Section->Text == '-')
+    {
+	    zoom(mZoomFactor->getValue(), true);
+    }
+}
+
+void __fastcall TRenderProjectFrame::Panel1ContextPopup(TObject *Sender, TPoint &MousePos,
+          bool &Handled)
+{
+    TPoint popupCoord = Panel1->ClientToScreen(MousePos);
+    ImagePopup->Popup(popupCoord.X, popupCoord.Y);
+    Handled = true;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::TabSheet2ContextPopup(TObject *Sender, TPoint &MousePos,
+          bool &Handled)
+{
+//    ImagePopup->Popup(MousePos.X, MousePos.Y);
+//    Handled = true;
+}
+
+void __fastcall TRenderProjectFrame::StacksCBClick(TObject *Sender)
+{
+    //
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::Checkrange1Click(TObject *Sender)
+{
+//
+}
+
+
+void __fastcall TRenderProjectFrame::CheckZs(TObject *Sender)
+{
+	TMenuItem* item = dynamic_cast<TMenuItem*>(Sender);
+    if(item == CheckAll)
+    {
+		mZs->CheckAll(cbChecked);
+    }
+    else if(item == UnCheckAll)
+    {
+		mZs->CheckAll(cbUnchecked);
+    }
 }
 
 
