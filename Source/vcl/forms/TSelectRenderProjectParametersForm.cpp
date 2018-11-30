@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TSelectRenderProjectParametersForm.h"
 #include "dslStringList.h"

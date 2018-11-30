@@ -1,23 +1,20 @@
 object ATIFDataProjectFrame: TATIFDataProjectFrame
   Left = 0
   Top = 0
-  Width = 1008
-  Height = 624
+  Width = 451
+  Height = 305
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 1008
+    Width = 451
     Height = 353
     Align = alTop
     Caption = 'Raw AT IF Data Properties'
     TabOrder = 0
-    ExplicitWidth = 451
     DesignSize = (
-      1008
+      451
       353)
     object DataRootFolderE: TSTDStringLabeledEdit
       Left = 16
@@ -185,25 +182,24 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
   object Panel1: TPanel
     Left = 0
     Top = 353
-    Width = 1008
+    Width = 451
     Height = 271
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 451
     ExplicitHeight = 266
     object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 1006
+      Width = 449
       Height = 269
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 449
       ExplicitHeight = 264
       object TabSheet1: TTabSheet
         Caption = 'State Tables'
-        ExplicitWidth = 441
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitHeight = 236
         object GroupBox4: TGroupBox
           Left = 0

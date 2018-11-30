@@ -1,7 +1,8 @@
 #include <windows.h>
-#include <vcl.h>
+//#include <vcl.h>
 #include <VCL.ExtCtrls.hpp>
-#include <Vcl.ExtCtrls.hpp>
+#include <VCL.ComCtrls.hpp>
+
 
 #include <string>
 #include <vector>

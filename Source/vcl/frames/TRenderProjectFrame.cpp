@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TRenderProjectFrame.h"
 #include "dslVCLUtils.h"

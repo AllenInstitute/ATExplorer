@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atVCLUtils2.h"
 #include "dslStringUtils.h"

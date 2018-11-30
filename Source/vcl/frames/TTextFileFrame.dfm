@@ -1,12 +1,10 @@
 object TextFileFrame: TTextFileFrame
   Left = 0
   Top = 0
-  Width = 897
-  Height = 622
+  Width = 451
+  Height = 305
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0

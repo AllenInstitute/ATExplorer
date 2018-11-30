@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "atProjectsTreeView.h"
 #include "dslLogger.h"
@@ -396,7 +395,7 @@ TTreeNode* ProjectsTreeView::getTreeNodeForProject(Project* p)
 
 ProjectItemTabbedView* ProjectsTreeView::createTabbedView(Project* p)
 {
-
+    return nullptr;
 }
 
 void ProjectsTreeView::createTreeViewNodes(Project* _p)
