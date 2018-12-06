@@ -1,6 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "ATExplorerProperties.h"
+#include "ATExplorerUIProperties.h"
 #include "dslLogger.h"
 #include "atATExplorer.h"
 #include <memory>
@@ -9,8 +9,8 @@ using namespace at;
 using namespace dsl;
 
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
-USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 USEFORM("..\..\..\..\Source\vcl\forms\TRenderAPIChecker.cpp", RenderAPIChecker);
+USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -18,21 +18,17 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
         //Keep track of Application related properties in an INIFile and Registry
 		gAU.init();
-		gLogger.setLogLevel(gAU.LogLevel);
 
         //Setup parameters
         gAU.setupGeneralProperties();
         gAU.GeneralProperties->read();
-
-        //The ATExplorer object don't read data from a inifile
+        gATExplorer.Properties.LogFileName.setValue(gAU.getLogFileNameAndPath());
 	    gATExplorer.init(gAU.getIniFile());
 
-//        gATExplorer.
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-		Application->CreateForm(__classid(TRenderAPIChecker), &RenderAPIChecker);
 		Application->Run();
 	}
 	catch (Exception &exception)

@@ -18,8 +18,8 @@ mHost(""),
 mPort(-1),
 mVersion("v1"),
 mProtocol("http"),
-mMaxTilesToRender(125),
-mAPI("/render-ws")
+mAPI("/render-ws"),
+mMaxTilesToRender(125)
 {}
 
 RenderServiceParameters::RenderServiceParameters(const string& name, const string& host, int portNr, const string& version)
@@ -29,17 +29,13 @@ mHost(host),
 mPort(portNr),
 mVersion(version),
 mProtocol("http"),
-mMaxTilesToRender(125),
-mAPI("/render-ws")
+mAPI("/render-ws"),
+mMaxTilesToRender(125)
 {}
 
 RenderServiceParameters::~RenderServiceParameters()
 {}
 
-string RenderServiceParameters::getName() const
-{
-    return mName;
-}
 
 string RenderServiceParameters::getBaseURL() const
 {
@@ -53,12 +49,12 @@ bool RenderServiceParameters::bindToPropertyContainer(PropertiesSP props)
     mProperties = props;
 
     //For reading/writing in ui elements
-	bindPropertyToValue<string>(	"NAME", "<no name>", 		mName);
-	bindPropertyToValue<string>(	"HOST", "localhost", 		mHost);
-	bindPropertyToValue<int>(		"PORT", 80, 				mPort);
-	bindPropertyToValue<string>(	"VERSION", "v1", 			mVersion);
-	bindPropertyToValue<string>(	"PROTOCOL", "http", 		mProtocol);
-	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 130, mMaxTilesToRender);
+	bindPropertyToValue<string>(	"NAME", 	            "<no name>", 	mName);
+	bindPropertyToValue<string>(	"HOST", 	            "localhost", 	mHost);
+	bindPropertyToValue<int>(		"PORT", 	            80, 			mPort);
+	bindPropertyToValue<string>(	"VERSION", 	            "v1", 			mVersion);
+	bindPropertyToValue<string>(	"PROTOCOL",             "http", 		mProtocol);
+	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 	130, 			mMaxTilesToRender);
     return true;
 }
 
@@ -67,9 +63,9 @@ PropertiesSP RenderServiceParameters::getProperties()
     return mProperties;
 }
 
-bool RenderServiceParameters::compare(const RenderServiceParameters& rsp)
+string RenderServiceParameters::getName() const
 {
-    return this->mName == rsp.getName();
+    return mName;
 }
 
 //This function will change the name of corresponding inisection, if any

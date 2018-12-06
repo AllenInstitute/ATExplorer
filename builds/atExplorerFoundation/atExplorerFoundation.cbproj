@@ -106,6 +106,7 @@
         <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
         <DynamicRTL>true</DynamicRTL>
         <Debugger_HostApplication>P:\build\bin\ATExplorer.exe</Debugger_HostApplication>
+        <BCC_PCHInject>pch.h</BCC_PCHInject>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -115,9 +116,6 @@
         <CppCompile Include="atExplorerFoundation.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <None Include="pch.h">
-            <BuildOrder>31</BuildOrder>
-        </None>
         <CppCompile Include="..\..\Source\atdata\atATData.cpp">
             <DependentOn>..\..\Source\atdata\atATData.h</DependentOn>
             <BuildOrder>18</BuildOrder>
@@ -213,8 +211,15 @@
             <DependentOn>..\..\Source\core\atATExplorerProject.h</DependentOn>
             <BuildOrder>26</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atATExplorerProperties.cpp">
+            <BuildOrder>45</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atATIFDataProject.cpp">
             <BuildOrder>33</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atDockerContainer.cpp">
+            <DependentOn>..\..\Source\core\atDockerContainer.h</DependentOn>
+            <BuildOrder>27</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atExceptions.cpp">
             <DependentOn>..\..\Source\core\atExceptions.h</DependentOn>
@@ -235,6 +240,9 @@
         <CppCompile Include="..\..\Source\core\atFetchImageThread.cpp">
             <DependentOn>..\..\Source\core\atFetchImageThread.h</DependentOn>
             <BuildOrder>29</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atJSMN.cpp">
+            <BuildOrder>45</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atRegionOfInterest.cpp">
             <DependentOn>..\..\Source\core\atRegionOfInterest.h</DependentOn>
@@ -263,8 +271,7 @@
             <BuildOrder>23</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderServiceParameters.cpp">
-            <DependentOn>..\..\Source\core\atRenderServiceParameters.h</DependentOn>
-            <BuildOrder>27</BuildOrder>
+            <BuildOrder>44</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atROIHistory.cpp">
             <DependentOn>..\..\Source\core\atROIHistory.h</DependentOn>
@@ -305,7 +312,8 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">

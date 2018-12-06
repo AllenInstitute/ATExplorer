@@ -14,19 +14,19 @@
 #include <Vcl.ExtCtrls.hpp>
 #include "atRenderClient.h"
 #include "atRenderServiceParameters.h"
+#include "atATExplorer.h"
 
 //---------------------------------------------------------------------------
 
 using at::RenderClient;
 using at::RenderServiceParameters;
 using at::RenderProject;
+using at::ATExplorer;
 //---------------------------------------------------------------------------
 class PACKAGE TSelectRenderProjectParametersForm : public TForm
 {
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
-		TSTDStringLabeledEdit *BaseURLE;
-		TIntegerLabeledEdit *HostPort;
         TGroupBox *GroupBox2;
         TComboBox *ProjectCB;
         TComboBox *OwnerCB;
@@ -40,20 +40,25 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
 		TGroupBox *GroupBox3;
 		TSTDStringLabeledEdit *OutputDataRootFolderE;
 	TButton *BrowseForDataOutputPathBtn;
+	TComboBox *RenderServicesCB;
 		void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 		void __fastcall OwnerCBChange(TObject *Sender);
 		void __fastcall PopulateOwnersBtnClick(TObject *Sender);
 	void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
+	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall RenderServicesCBCloseUp(TObject *Sender);
+	void __fastcall RenderServicesCBChange(TObject *Sender);
 
     private:
         RenderProject                   mRP;
         RenderClient                    mRC;
+        ATExplorer&                     mExplorer;
 
     public:
-        					__fastcall 	TSelectRenderProjectParametersForm(TComponent* Owner);
+        					__fastcall 	TSelectRenderProjectParametersForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
         string                          getRenderProject();
-        RenderServiceParameters         getRenderService();
+        RenderServiceParameters*        getRenderService();
         string                          getOutputFolderLocation();
 };
 

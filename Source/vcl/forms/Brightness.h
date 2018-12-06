@@ -1,8 +1,5 @@
-//---------------------------------------------------------------------------
-
 #ifndef BrightnessH
 #define BrightnessH
-//---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
 #include <StdCtrls.hpp>

@@ -37,6 +37,7 @@ template <typename T>
 bool List<T>::remove(T item)
 {
     mTheList.remove(item);
+    return true;
 }
 
 template <typename T>

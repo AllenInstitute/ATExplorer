@@ -46,11 +46,15 @@ void FetchImagesThread::setup(const StringList& urls, const string& cacheFolder)
     mOutputDataFolder = cacheFolder;
 }
 
+void FetchImagesThread::setChannel(const string& ch)
+{
+	mChannel = ch;
+}
+
 string FetchImagesThread::getRenderStackName()
 {
     return mRenderStackName;
 }
-
 
 StringList FetchImagesThread::getImageURLs()
 {
@@ -123,7 +127,7 @@ void FetchImagesThread::worker()
 	    	string url = mImageURLs[i];
 
             //Check cache first. if already in cache, don't fetch
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mOutputDataFolder);
+            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mOutputDataFolder, mChannel);
            	Poco::File f(outFilePathANDFileName);
             if(f.exists() && f.getSize() > 200)
             {
@@ -152,6 +156,9 @@ void FetchImagesThread::worker()
                     theURL += mExtraParameters[i];
                 }
 
+                theURL += "&channels=" + mChannel;
+
+	            Log(lDebug3) << "Fetching using URL: "<<theURL;
 	            /* specify URL to get */
             	curl_easy_setopt(curl_handle, CURLOPT_URL, theURL.c_str());
 

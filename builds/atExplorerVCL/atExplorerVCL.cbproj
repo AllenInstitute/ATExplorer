@@ -110,7 +110,7 @@
         <ILINK_GenerateLibFile>false</ILINK_GenerateLibFile>
         <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;P:\atExplorer\source\core;P:\atExplorer\source;P:\atExplorer\source\atdata;$(IncludePath)</IncludePath>
         <DCC_HppOutput>$(DEBUG_BCC32)\include</DCC_HppOutput>
-        <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
+        <BCC_PCHInject>atExplorerVCLPCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
 $(PostBuildEvent)]]></PostBuildEvent>
         <Debugger_HostApplication>P:\build\bin\ATExplorer.exe</Debugger_HostApplication>
@@ -182,8 +182,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\atTreeItemObservers.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\atUtils.cpp">
-            <DependentOn>..\..\Source\vcl\atUtils.h</DependentOn>
+        <CppCompile Include="..\..\Source\vcl\atVCLUtils2.cpp">
+            <DependentOn>..\..\Source\vcl\atVCLUtils2.h</DependentOn>
             <BuildOrder>22</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.cpp">
@@ -261,6 +261,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TCreateStackThreadFrame.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\frames\TDockerContainersFrame.cpp">
+            <Form>DockerContainersFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\Source\vcl\frames\TDockerContainersFrame.h</DependentOn>
+            <BuildOrder>34</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\frames\TRenderProjectFrame.cpp">
             <Form>RenderProjectFrame</Form>
             <FormType>dfm</FormType>
@@ -275,20 +282,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TTextFileFrame.h</DependentOn>
             <BuildOrder>25</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateMediansForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TRenderAPIChecker.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TDockerContainersFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TRenderAPIChecker.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -317,7 +325,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </ProjectProperties>
                 <Excluded_Packages>
                     <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">

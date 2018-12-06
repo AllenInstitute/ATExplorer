@@ -18,7 +18,7 @@ using dsl::Thread;
 class ATE_DATA CreateRawDataRenderStacksThread : public ATIFDataProcessThread
 {
 	public:
-							                CreateRawDataRenderStacksThread(ATIFData& d, const string& dc, const string& renderHost);
+							                CreateRawDataRenderStacksThread(ATIFData& d, DockerContainer* dc, const string& renderHost);
  		virtual void                        run();
 
 	private:

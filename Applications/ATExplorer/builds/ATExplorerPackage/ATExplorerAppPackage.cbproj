@@ -158,8 +158,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
             <BuildOrder>40</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\Core\ATExplorerProperties.cpp">
-            <DependentOn>..\..\source\Core\ATExplorerProperties.h</DependentOn>
+        <CppCompile Include="..\..\source\Core\ATExplorerUIProperties.cpp">
+            <DependentOn>..\..\source\Core\ATExplorerUIProperties.h</DependentOn>
             <BuildOrder>36</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\Forms\TAboutATExplorerForm.cpp">

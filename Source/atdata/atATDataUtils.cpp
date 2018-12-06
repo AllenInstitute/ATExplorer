@@ -31,11 +31,9 @@ int getSectionID(const string& filePath)
             }
         }
     }
-    else
-    {
-        //This is something else.. Discard
-        return -1;
-    }
+
+    //This is something else.. Discard
+    return -1;
 }
 
 int getTileID(const string& filePath)
@@ -56,11 +54,10 @@ int getTileID(const string& filePath)
             }
         }
     }
-    else
-    {
-        //This is something else.. Discard
-        return -1;
-    }
+
+    //This is something else.. Discard
+    return -1;
+
 }
 
 int getNrOfSections(FileFolderSP channelFolder)

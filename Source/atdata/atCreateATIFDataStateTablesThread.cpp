@@ -9,13 +9,14 @@
 #include "atSession.h"
 #include "atExceptions.h"
 #include "atStringUtils.h"
+#include "atDockerContainer.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 using namespace dsl;
 
-CreateATIFDataStateTablesThread::CreateATIFDataStateTablesThread(ATIFData& d, const string& dc)
+CreateATIFDataStateTablesThread::CreateATIFDataStateTablesThread(ATIFData& d, DockerContainer* dc)
 :
 ATIFDataProcessThread(d, dc)
 {}
@@ -82,9 +83,7 @@ void CreateATIFDataStateTablesThread::run()
                         dp.setExecutable("docker.exe");
                         string cmd = createDockerCommand(stateTblFileWithpath,  projDir, aRibbon->getAliasAsInt(), session + 1, section);
 
-
                         if(!dp.setup(cmd, mhCatchMessages))
-//                        if(!dp.setup(cmd, mhIgnoreMessages))
                         {
                             Log(lError) << "Failed setting up docker process. CMD: "<<cmd;
                         }
@@ -152,11 +151,16 @@ void CreateATIFDataStateTablesThread::onDockerProgress(void* arg1, void* arg2)
 //            --section 0
 string CreateATIFDataStateTablesThread::createDockerCommand(const string& outFile, const string& projDir, int ribbon, int session, int section)
 {
+    if(!mDockerContainer)
+    {
+        return "";
+    }
+
 	stringstream cmdLine;
-    cmdLine << "exec " << mDockerContainer;
+    cmdLine << "exec " << mDockerContainer->getContainerName();
     cmdLine << " python /pipeline/make_state_table_ext_multi_pseudoz.py";
-	cmdLine << " --projectDirectory " 	<< toPosixPath(projDir, "/mnt");
-    cmdLine << " --outputFile "         << toPosixPath(outFile, "/mnt");
+	cmdLine << " --projectDirectory " 	<< toDockerMountPath(projDir);
+    cmdLine << " --outputFile "         << toDockerMountPath(outFile);
     cmdLine << " --oneribbononly "      << "True";
     cmdLine << " --ribbon "        		<< ribbon;
     cmdLine << " --session "        	<< session;

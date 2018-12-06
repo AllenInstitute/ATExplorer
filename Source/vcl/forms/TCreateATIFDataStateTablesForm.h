@@ -8,10 +8,13 @@
 #include <Vcl.ExtCtrls.hpp>
 #include "atCreateATIFDataStateTablesThread.h"
 #include <Vcl.ComCtrls.hpp>
+#include "atDockerContainer.h"
+#include "dslTSTDStringLabeledEdit.h"
 //---------------------------------------------------------------------------
 
 using at::ATIFData;
 using at::CreateATIFDataStateTablesThread;
+using at::DockerContainer;
 //---------------------------------------------------------------------------
 class PACKAGE TCreateATIFDataStateTablesForm : public TForm
 {
@@ -33,7 +36,10 @@ class PACKAGE TCreateATIFDataStateTablesForm : public TForm
         TButton *RunBtn;
         TButton *CloseBtn;
         TProgressBar *PopulatePB;
+	TSTDStringLabeledEdit *DockerContainerE;
         void __fastcall RunBtnClick(TObject *Sender);
+	void __fastcall DockerContainerEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+
 
     private:
         ATIFData&       					mTheData;
@@ -43,7 +49,7 @@ class PACKAGE TCreateATIFDataStateTablesForm : public TForm
         void								onThreadExit(void*, 	void*, 	void*);
 
     public:
-        __fastcall 							TCreateATIFDataStateTablesForm(ATIFData& data, const string& dockerContainer, TComponent* Owner);
+        __fastcall 							TCreateATIFDataStateTablesForm(ATIFData& data, DockerContainer* dc, TComponent* Owner);
 };
 
 extern PACKAGE TCreateATIFDataStateTablesForm *CreateATIFDataStateTablesForm;

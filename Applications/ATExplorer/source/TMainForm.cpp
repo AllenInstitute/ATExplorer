@@ -5,7 +5,7 @@
 #include "atATExplorerProject.h"
 #include "dslLogger.h"
 #include "TATESettingsForm.h"
-#include "ATExplorerProperties.h"
+#include "ATExplorerUIProperties.h"
 #include "atRenderProject.h"
 #include "atRenderProjectItemView.h"
 #include "atATIFDataProjectItemView.h"
@@ -15,6 +15,7 @@
 #include "dslFileUtils.h"
 #include "TSelectRenderProjectParametersForm.h"
 #include "atATExplorer.h"
+#include "TAboutATExplorerForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -32,12 +33,11 @@ ULONG_PTR  			         	                gdiplusToken;
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
      mIsStyleMenuPopulated(false),
-     mTreeItemObservers(*MainPC),
+     mTreeItemObservers(*MainPC, gATExplorer),
      mPTreeView(*ProjectTView, mTreeItemObservers)
 {
     Application->ShowHint = true;
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-
 
     //Setup some UI properties
 	BottomPanel->Height 		= gAU.BottomPanelHeight;
@@ -232,7 +232,6 @@ void TMainForm::selectTabForTreeItem(Project* p)
     }
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled)
@@ -347,19 +346,19 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
             parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
         }
         //Open dialog to capture render parameters
-		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
+		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(gATExplorer, this));
 
         if(f->ShowModal() == mrCancel)
         {
             return;
         }
 
-        RenderServiceParameters rs(f->getRenderService());
+        RenderServiceParameters* rs(f->getRenderService());
 
 		//Create a render project and associate with current ATE project
         //Use shared pointer later on
 		RenderProject* rp (new RenderProject("", f->getRenderOwner(), f->getRenderProject(), ""));
-        rp->setRenderServiceParameters(&rs);
+        rp->setRenderServiceParameters(rs);
         rp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
 
 	    //Check how many renderproject childs
@@ -378,5 +377,13 @@ void __fastcall TMainForm::OpenViewAExecute(TObject *Sender)
     //Get selected node
 	mPTreeView.handleNodeClick(mPTreeView.getSelectedNode(), true);
 }
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenAboutAExecute(TObject *Sender)
+{
+	unique_ptr<TAboutATExplorer> a (new TAboutATExplorer(this));
+	a->ShowModal();
+}
+
 
 

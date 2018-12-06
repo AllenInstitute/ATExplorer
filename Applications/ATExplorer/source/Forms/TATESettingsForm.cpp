@@ -3,8 +3,8 @@
 #include "TATESettingsForm.h"
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
-#include "ATExplorerProperties.h"
-#include "atUtils.h"
+#include "ATExplorerUIProperties.h"
+#include "atVCLUtils2.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -20,7 +20,9 @@ using namespace at;
 __fastcall TATESettingsForm::TATESettingsForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
     BaseNode(NULL),
-    gATExplorer(e)
+    gATExplorer(e),
+    DockerContainersBaseNode(NULL),
+    RenderServiceBaseNode(NULL)
 {}
 
 //---------------------------------------------------------------------------
@@ -67,14 +69,46 @@ void __fastcall TATESettingsForm::TreeView1Change(TObject *Sender, TTreeNode *No
             {
             	mRenderServicesPropertiesFrame->Hide();
             }
+			if(mDockerContainersPropertiesFrame)
+            {
+            	mDockerContainersPropertiesFrame->Hide();
+            }
         }
-        else if(compareNoCase(stdstr(Node->Text), "Render Services") == true)
+        else if(Node == RenderServiceBaseNode)
         {
           	populateRenderServicesFrame();
 			if(mGeneralPropertiesFrame)
 		    {
                 mGeneralPropertiesFrame->Hide();
         	}
+			if(mDockerContainersPropertiesFrame)
+            {
+            	mDockerContainersPropertiesFrame->Hide();
+            }
+        }
+
+        else if(Node == DockerContainersBaseNode)
+        {
+          	populateDockerContainersFrame();
+			if(mGeneralPropertiesFrame)
+		    {
+                mGeneralPropertiesFrame->Hide();
+        	}
+			if(mRenderServicesPropertiesFrame)
+            {
+            	mRenderServicesPropertiesFrame->Hide();
+            }
+        }
+        else
+        {
+			if(mGeneralPropertiesFrame)
+		    {
+                mGeneralPropertiesFrame->Hide();
+        	}
+			if(mRenderServicesPropertiesFrame)
+            {
+            	mRenderServicesPropertiesFrame->Hide();
+            }
         }
     }
 }
@@ -83,7 +117,7 @@ void TATESettingsForm::populateGeneralPanel(Properties& props)
 {
 	if(!mGeneralPropertiesFrame)
     {
-    	mGeneralPropertiesFrame = shared_ptr<TGeneralPropertiesFrame>(new TGeneralPropertiesFrame(this));
+    	mGeneralPropertiesFrame = shared_ptr<TGeneralPropertiesFrame>(new TGeneralPropertiesFrame(gATExplorer, this));
     }
 
     mGeneralPropertiesFrame->Parent = this;
@@ -105,19 +139,24 @@ void TATESettingsForm::populateRenderServicesFrame()
     mRenderServicesPropertiesFrame->Show();
 }
 
+void TATESettingsForm::populateDockerContainersFrame()
+{
+	if(!mDockerContainersPropertiesFrame)
+    {
+    	mDockerContainersPropertiesFrame = shared_ptr<TDockerContainersFrame>(new TDockerContainersFrame(gATExplorer, this));
+    }
+
+    mDockerContainersPropertiesFrame->Parent = this;
+    mDockerContainersPropertiesFrame->Align = alClient;
+    mDockerContainersPropertiesFrame->populate();
+    mDockerContainersPropertiesFrame->Show();
+}
+
 //---------------------------------------------------------------------------
 void __fastcall TATESettingsForm::FormShow(TObject *Sender)
 {
-    //Add a renderservices root node
-	RenderServiceBaseNode = TreeView1->Items->Add(NULL, "Render Services");
-
-    //Add any services
-    RenderServiceParameters* rs = gATExplorer.getFirstRenderService();
-    while(rs)
-    {
-        mSections.append(rs->getProperties());
-        rs = gATExplorer.getNextRenderService();
-    }
+	addRenderServices();
+	addDockerContainers();
 
     //Enabling property edits causes any values changed in the UI to be stored
     //in a properties "Edit" value. The Edit value is propagated to
@@ -125,6 +164,7 @@ void __fastcall TATESettingsForm::FormShow(TObject *Sender)
     enablePropertyEdits();
 
     string c = gAU.LastSelectedSettingsSection;
+
 	//Find the last expanded item
     TTreeNode* n = getTreeItemWithCaption(c, TreeView1);
     if(n)
@@ -140,8 +180,16 @@ void __fastcall TATESettingsForm::FormClose(TObject *Sender, TCloseAction &Actio
     if(ModalResult == mrOk)
     {
         applyPropertyEdits();
-        mRenderServicesPropertiesFrame->applyEditsForNewServices();
-    }
+        if(mRenderServicesPropertiesFrame)
+        {
+        	mRenderServicesPropertiesFrame->applyEditsForNewServices();
+        }
+
+        if(mDockerContainersPropertiesFrame)
+        {
+			mDockerContainersPropertiesFrame->applyEditsForNewContainers();
+        }
+	}
 
     disablePropertyEdits();
 }
@@ -150,6 +198,37 @@ void __fastcall TATESettingsForm::FormClose(TObject *Sender, TCloseAction &Actio
 void __fastcall TATESettingsForm::TreeView1Click(TObject *Sender)
 {
 ;
+}
+
+bool TATESettingsForm::addRenderServices()
+{
+    //Add a renderservices root node
+	RenderServiceBaseNode = TreeView1->Items->Add(NULL, "Render Services");
+
+    //Add any services
+    RenderServiceParameters* rs = gATExplorer.getFirstRenderService();
+    while(rs)
+    {
+        mSections.append(rs->getProperties());
+        rs = gATExplorer.getNextRenderService();
+    }
+    return true;
+}
+
+bool TATESettingsForm::addDockerContainers()
+{
+    //Add a renderservices root node
+	DockerContainersBaseNode = TreeView1->Items->Add(NULL, "Docker Containers");
+
+    //Add any services
+    DockerContainer* item = gATExplorer.getFirstDockerContainer();
+    while(item)
+    {
+        mSections.append(item->getProperties());
+        item = gATExplorer.getNextDockerContainer();
+    }
+
+    return true;
 }
 
 bool TATESettingsForm::enablePropertyEdits()

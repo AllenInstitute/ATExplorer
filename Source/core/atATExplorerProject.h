@@ -24,6 +24,7 @@ using dsl::gEmptyString;
 class RenderProject;
 class ATIFDataProject;
 class TiffStack;
+class DockerContainer;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
 enum ATEObjectType
@@ -58,7 +59,6 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
         string                                  getPresentXMLModelVersion();
         virtual dsl::XMLElement*           		addToXMLDocument(dsl::XMLDocument& doc, dsl::XMLNode* docRoot);
 		virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* node);
-
         virtual bool   							loadFromXML(dsl::XMLNode* node);
 
         ATEObjectType                           getProjectType();
@@ -67,8 +67,6 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
         										//!Info text is used if the user want to document the purpose of
                                                 //a particular process
         string									mInfoText;
-
-
 
     protected:
         bool                                    resetXML();
@@ -82,6 +80,11 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 		ATIFDataProject*	 					createATIFDataProject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 		TiffStack*								createTiffStackProject(tinyxml2::XMLElement* element);
+
+                                                //When data are processed, save who did it..
+                                                //But don't create new ones
+        DockerContainer*                        mRenderPythonApps;
+        DockerContainer*                        mATModules;
 };
 
 }

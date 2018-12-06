@@ -10,13 +10,14 @@ namespace at
 
 using namespace dsl;
 
-ATIFDataProjectItemView::ATIFDataProjectItemView(TPageControl& pc, ATIFDataProject& p)
+ATIFDataProjectItemView::ATIFDataProjectItemView(ATExplorer& e, TPageControl& pc, ATIFDataProject& p)
 :
-ProjectItemTabbedView(pc, p)
+ProjectItemTabbedView(pc, p),
+mATExplorer(e)
 {
     this->mObserverTag = "ATIFDataProjectItemView";
 
-    mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(p, &mPC));
+    mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(mATExplorer, p, &mPC));
     mATIFDataProjectFrame->Parent =  mTabSheet.get();
     mATIFDataProjectFrame->Align = alClient;
     mTabSheet->Caption = p.getProjectName().c_str();

@@ -18,7 +18,7 @@ using namespace dsl;
 
 CreateMediansThread::CreateMediansThread(ATIFData& d)
 :
-ATIFDataProcessThread(d)
+ATIFDataProcessThread(d, NULL)
 {}
 
 void CreateMediansThread::run()

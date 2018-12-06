@@ -1,23 +1,29 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TCreateATIFDataStateTablesForm.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "dslTSTDStringLabeledEdit"
 #pragma resource "*.dfm"
 //---------------------------------------------------------------------------
 
 TCreateATIFDataStateTablesForm *CreateATIFDataStateTablesForm;
 //---------------------------------------------------------------------------
-__fastcall TCreateATIFDataStateTablesForm::TCreateATIFDataStateTablesForm(ATIFData& data, const string& dockerContainer, TComponent* Owner)
+__fastcall TCreateATIFDataStateTablesForm::TCreateATIFDataStateTablesForm(ATIFData& data, DockerContainer* dc, TComponent* Owner)
 : TForm(Owner),
 mTheData(data),
-mTheThread(data, dockerContainer)
+mTheThread(data, dc)
 {
     NrOfRibbonsLbl->Caption 	= IntToStr(mTheData.getNumberOfRibbons());
     NrOfSectionsLbl->Caption 	= IntToStr(mTheData.getNumberOfSections());
     NrOfTilesLbl->Caption 		= IntToStr(mTheData.getNumberOfTiles());
     NrOfSessionsLbl->Caption    = IntToStr(mTheData.getNumberOfSessions());
     NrOfChannelsLbl->Caption    = IntToStr(mTheData.getNumberOfChannels());
+
+
+    if(dc)
+    {
+    	DockerContainerE->setValue(dc->getContainerName());
+    }
 
     int nrOfStateTables = mTheData.getNumberOfRibbons() * mTheData.getNumberOfSessions() * mTheData.getNumberOfSections();
     StateTablesLbl->Caption = IntToStr(mTheData.getNumberOfStateTables()) + " (" + IntToStr(nrOfStateTables) + ")";
@@ -108,6 +114,14 @@ void TCreateATIFDataStateTablesForm::onThreadExit(void* arg1, void* arg2, void*)
 	CloseBtn->Enabled = true;
 }
 
-
+//---------------------------------------------------------------------------
+void __fastcall TCreateATIFDataStateTablesForm::DockerContainerEKeyDown(TObject *Sender,
+          WORD &Key, TShiftState Shift)
+{
+    if(Key == VK_RETURN)
+    {
+     Close();
+    }
+}
 
 

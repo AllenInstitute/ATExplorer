@@ -13,6 +13,7 @@ namespace at
 using dsl::StringList;
 using dsl::Thread;
 using dsl::gEmptyString;
+class DockerContainer;
 
 //!baseclass for ATIFdata processing threads
 class ATE_DATA ATIFDataProcessThread : public dsl::Thread, public ExplorerObject
@@ -20,7 +21,7 @@ class ATE_DATA ATIFDataProcessThread : public dsl::Thread, public ExplorerObject
 	public:
 		typedef boost::function<void(void*, void*, void*)> CallBack;
 
-							                ATIFDataProcessThread(ATIFData& data, const string& dc = gEmptyString, const string& rh = gEmptyString);
+							                ATIFDataProcessThread(ATIFData& data, DockerContainer* dc, const string& rh = gEmptyString);
 		virtual				                ~ATIFDataProcessThread();
         void                                assignCallBacks(CallBack one, CallBack two, CallBack three);
 		virtual void                        run() = 0;
@@ -30,7 +31,7 @@ class ATE_DATA ATIFDataProcessThread : public dsl::Thread, public ExplorerObject
         CallBack                         	onEnter;
         CallBack                         	onProgress;
         CallBack                         	onExit;
-        string                              mDockerContainer;
+        DockerContainer*                    mDockerContainer;
         string                              mRenderHost;
 };
 

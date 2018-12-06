@@ -1,7 +1,6 @@
 object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   Left = 0
   Top = 0
-  ActiveControl = HostPort
   Caption = 'Setup Render Project'
   ClientHeight = 278
   ClientWidth = 574
@@ -11,67 +10,50 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poOwnerFormCenter
   OnCloseQuery = FormCloseQuery
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
     Width = 574
-    Height = 81
+    Height = 57
     Align = alTop
     Caption = 'Connection'
     TabOrder = 0
-    DesignSize = (
-      574
-      81)
-    object BaseURLE: TSTDStringLabeledEdit
-      Left = 10
-      Top = 40
-      Width = 464
-      Height = 21
-      Anchors = [akLeft, akTop, akRight]
-      EditLabel.Width = 22
-      EditLabel.Height = 13
-      EditLabel.Caption = 'Host'
-      TabOrder = 0
-      Text = 'http://ibs-forrestc-ux1'
-      Value = 'http://ibs-forrestc-ux1'
-    end
-    object HostPort: TIntegerLabeledEdit
-      Left = 480
-      Top = 40
-      Width = 49
-      Height = 21
-      Anchors = [akTop, akRight]
-      EditLabel.Width = 20
-      EditLabel.Height = 13
-      EditLabel.Caption = 'Port'
-      NumbersOnly = True
-      TabOrder = 1
-      Text = '80'
-      Value = 80
-    end
     object PopulateOwnersBtn: TButton
-      Left = 530
-      Top = 38
+      Left = 527
+      Top = 20
       Width = 35
       Height = 25
       Caption = 'Go'
-      TabOrder = 2
+      TabOrder = 0
       OnClick = PopulateOwnersBtnClick
+    end
+    object RenderServicesCB: TComboBox
+      Left = 16
+      Top = 22
+      Width = 505
+      Height = 21
+      TabOrder = 1
+      Text = 'RenderServicesCB'
+      OnChange = RenderServicesCBChange
+      OnCloseUp = RenderServicesCBCloseUp
     end
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Top = 81
+    Top = 57
     Width = 574
     Height = 78
     Align = alTop
     Caption = 'Project'
     TabOrder = 1
+    ExplicitTop = 81
     DesignSize = (
       574
       78)
@@ -138,15 +120,17 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   end
   object GroupBox3: TGroupBox
     Left = 0
-    Top = 159
+    Top = 135
     Width = 574
-    Height = 78
+    Height = 102
     Align = alClient
     Caption = 'Data Output'
     TabOrder = 3
+    ExplicitTop = 159
+    ExplicitHeight = 78
     DesignSize = (
       574
-      78)
+      102)
     object OutputDataRootFolderE: TSTDStringLabeledEdit
       Left = 10
       Top = 41

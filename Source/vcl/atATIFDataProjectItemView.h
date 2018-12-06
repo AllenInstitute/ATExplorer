@@ -20,12 +20,13 @@ class ATIFDataProject;
 class PACKAGE ATIFDataProjectItemView : public ProjectItemTabbedView
 {
     public:
-                                            ATIFDataProjectItemView(TPageControl& pc, ATIFDataProject& rp);
+                                            ATIFDataProjectItemView(ATExplorer& e, TPageControl& pc, ATIFDataProject& rp);
         virtual            		            ~ATIFDataProjectItemView();
         virtual void                        update(Subject* theChangedSubject, SubjectEvent se = dsl::Ping);
 
     protected:
         unique_ptr<TATIFDataProjectFrame>  	mATIFDataProjectFrame;
+        ATExplorer&                         mATExplorer;
 };
 
 }

@@ -1,6 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "ATExplorerProperties.h"
+#include "ATExplorerUIProperties.h"
 
 //USEFORM("..\..\..\..\Source\vcl\frames\TRenderServicesFrame.cpp", RenderServicesFrame); /* TFrame: File Type */
 //USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);

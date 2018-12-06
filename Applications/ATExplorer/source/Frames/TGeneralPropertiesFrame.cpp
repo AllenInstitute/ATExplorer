@@ -4,28 +4,62 @@
 #include "dslVCLUtils.h"
 #include "dslFileUtils.h"
 #include "dslLogger.h"
+#include "atDockerContainer.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
 #pragma link "dslTPropertyCheckBox"
 #pragma link "dslTSTDStringLabeledEdit"
 #pragma resource "*.dfm"
-//---------------------------------------------------------------------------
 TGeneralPropertiesFrame *GeneralPropertiesFrame;
+//---------------------------------------------------------------------------
+
 
 using namespace dsl;
+using namespace at;
 //---------------------------------------------------------------------------
-__fastcall TGeneralPropertiesFrame::TGeneralPropertiesFrame(TComponent* Owner)
+__fastcall TGeneralPropertiesFrame::TGeneralPropertiesFrame(ATExplorer& e, TComponent* Owner)
 	:
-    TFrame(Owner)
+    TFrame(Owner),
+    mExplorer(e)
     {}
 
 //---------------------------------------------------------------------------
 bool TGeneralPropertiesFrame::populate(Properties& props)
 {
     props.disableEdits();
-	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(props.getProperty("IMAGE_MAGICK_PATH")), 			false);
+    props.add(&(mExplorer.Properties.ImageMagickPath));
+
+	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(&mExplorer.Properties.ImageMagickPath), 			false);
+    ImageMagickPathE->update();
     props.enableEdits();
+
+
+    //Fill out render and docker backends
+    RenderPythonContainersCB->Clear();
+    DockerContainer* c =  mExplorer.getFirstDockerContainer();
+    while(c)
+    {
+		RenderPythonContainersCB->AddItem(c->getName().c_str(), (TObject*) c);
+        c = mExplorer.getNextDockerContainer();
+    }
+
+    RenderServicesCB->Clear();
+    RenderServiceParameters* rs =  mExplorer.getFirstRenderService();
+    while(rs)
+    {
+		RenderServicesCB->AddItem(rs->getName().c_str(), (TObject*) rs);
+        rs = mExplorer.getNextRenderService();
+    }
+
+	BaseProperty* p = props.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER");
+    if(p)
+    {
+        if(p->getValueAsString().size())
+        {
+            //Select
+        }
+    }
     return true;
 }
 
@@ -54,6 +88,26 @@ void __fastcall TGeneralPropertiesFrame::TestRenderServiceBtnClick(TObject *Send
 {
     //Get some render owners
     MessageDlg("Not Implemented yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TGeneralPropertiesFrame::RenderPythonContainersCBChange(TObject *Sender)
+{
+	//Select default RenderPythonContainer
+
+    int ii = RenderPythonContainersCB->ItemIndex;
+	if(ii == -1)
+    {
+        return;
+    }
+
+    //Get item
+    string item = stdstr(RenderPythonContainersCB->Items->Strings[ii]);
+	Property<string>* p = dynamic_cast<Property<string>*>(mExplorer.Properties.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER"));
+    if(p)
+    {
+        p->setValue(item);
+    }
 }
 
 

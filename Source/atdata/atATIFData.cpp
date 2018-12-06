@@ -288,7 +288,7 @@ bool ATIFData::populateSessions()
                     if(section)
                     {
                         TileSP t = TileSP(new Tile(*channel, *(section.get()), tileID, p));
-                        Log(lDebug3) << "Adding tile: " << t->getPath().toString();
+                        //Log(lDebug3) << "Adding tile: " << t->getPath().toString();
                         //Associate the tile with the section
                         section->addTile(t);
                         tileCount++;

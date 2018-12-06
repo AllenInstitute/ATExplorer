@@ -12,6 +12,7 @@
 #include "TGeneralPropertiesFrame.h"
 #include "dslSharedPointer.h"
 #include "TRenderServicesFrame.h"
+#include "TDockerContainersFrame.h"
 #include "atATExplorer.h"
 
 using std::list;
@@ -36,11 +37,18 @@ class PACKAGE TATESettingsForm : public TForm
         PropertiesContainer                                     mSections;
  		TTreeNode*												BaseNode;
  		TTreeNode*												RenderServiceBaseNode;
+ 		TTreeNode*												DockerContainersBaseNode;
+
         void     												populateGeneralPanel(Properties& props);
         void     												populateRenderServicesFrame();
+        void     												populateDockerContainersFrame();
+
 		shared_ptr<TGeneralPropertiesFrame>                     mGeneralPropertiesFrame;
 		shared_ptr<TRenderServicesFrame>      	                mRenderServicesPropertiesFrame;
+		shared_ptr<TDockerContainersFrame>      	            mDockerContainersPropertiesFrame;
 		ATExplorer& 											gATExplorer;
+        bool                                                    addRenderServices();
+        bool                                                    addDockerContainers();
 
 	public:
 													__fastcall 	TATESettingsForm(ATExplorer& ex, TComponent* Owner);

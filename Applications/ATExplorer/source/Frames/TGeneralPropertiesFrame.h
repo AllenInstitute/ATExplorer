@@ -9,23 +9,32 @@
 #include "dslTSTDStringLabeledEdit.h"
 #include <Vcl.ExtCtrls.hpp>
 #include "dslProperties.h"
+#include "atATExplorer.h"
+//---------------------------------------------------------------------------
 
 using dsl::Properties;
+using at::ATExplorer;
 //---------------------------------------------------------------------------
 class PACKAGE TGeneralPropertiesFrame : public TFrame
 {
     __published:	// IDE-managed Components
-        TGroupBox *GroupBox1;
 	TGroupBox *GroupBox2;
 	TSTDStringLabeledEdit *ImageMagickPathE;
 	TButton *BrowseForImageMagickPathBtn;
+	TGroupBox *GroupBox3;
+	TLabel *Label7;
+	TLabel *Label8;
+	TComboBox *RenderPythonContainersCB;
+	TComboBox *RenderServicesCB;
 		void __fastcall BrowseForFolderClick(TObject *Sender);
 	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
+	void __fastcall RenderPythonContainersCBChange(TObject *Sender);
 
     private:
+        ATExplorer              mExplorer;
 
     public:
-        			__fastcall 	TGeneralPropertiesFrame(TComponent* Owner);
+        			__fastcall 	TGeneralPropertiesFrame(ATExplorer& e, TComponent* Owner);
         bool                	populate(Properties& props);
 };
 
