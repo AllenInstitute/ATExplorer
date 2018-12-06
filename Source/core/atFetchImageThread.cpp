@@ -28,6 +28,11 @@ void FetchImageThread::setup(const string& url, const string& cacheFolder)
     mCacheRootFolder = cacheFolder;
 }
 
+void FetchImageThread::setChannel(const string& ch)
+{
+	mChannel = ch;
+}
+
 void FetchImageThread::addParameter(const string& api)
 {
 	mExtraParameters.append(api);
@@ -50,11 +55,6 @@ bool FetchImageThread::setCacheRoot(const string& cr)
     {
     	return createFolder(mCacheRootFolder);
     }
-}
-
-void FetchImageThread::assignUrl(const string& url)
-{
-	mImageURL = url;
 }
 
 void FetchImageThread::run()
@@ -80,7 +80,7 @@ void FetchImageThread::worker()
         string url = mImageURL;
 
         //Check cache first. if already in cache, don't fetch
-        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder);
+        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder, mChannel);
 
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName) && f.getSize() > 200)
@@ -96,7 +96,6 @@ void FetchImageThread::worker()
             CURLcode res;
 
             struct MemoryStruct chunk;
-
             chunk.memory = (char*) malloc(1);  /* will be grown as needed by the realloc above */
             chunk.size = 0;    /* no data at this point */
 
@@ -111,8 +110,9 @@ void FetchImageThread::worker()
                 theURL += mExtraParameters[i];
             }
 
+            theURL += "&channels=" + mChannel;
             Log(lDebug3) << "Fetching using URL: "<<theURL;
-//            string theUrl(url + string("&maxTileSpecsToRender=50"));
+
             /* specify URL to get */
             curl_easy_setopt(curl_handle, CURLOPT_URL, theURL.c_str());
 

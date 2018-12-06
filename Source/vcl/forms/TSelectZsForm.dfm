@@ -39,8 +39,6 @@ object SelectZsForm: TSelectZsForm
       Height = 263
       Align = alLeft
       TabOrder = 0
-      ExplicitLeft = 255
-      ExplicitTop = -4
       DesignSize = (
         88
         263)

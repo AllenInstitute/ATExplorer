@@ -33,9 +33,10 @@ bool RenderHosts::removeHost(const string& name)
 {
     if(mHosts.size() == 0)
     {
-        return true;
+        return false;
     }
 
+    return false;
 }
 
 RenderServiceParametersSP RenderHosts::getFirst()

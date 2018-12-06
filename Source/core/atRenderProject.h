@@ -26,13 +26,15 @@ class ATE_CORE RenderProject : public ATExplorerProject
         virtual string                          getTypeName() const;
         RenderProject&                          operator = (const RenderProject& rhs);
 
-		void							        init(const string& owner, const string& project, const string& stack);
-
         void                                    assignLocalCacheRootFolder(const string& rFolder);
         string                                  getLocalCacheFolder() const;
-        string                                  getSelectedSectionFileName();
+
 		string							        getSelectedStackName() const ;
-        bool                                    setSelectedStackName(const string& stackName);
+        bool                                    setSelectedStackName(const string& s);
+
+		string							        getSelectedChannelName() const ;
+        bool                                    setSelectedChannelName(const string& s);
+
         bool                                    setSelectedSection(int secNr);
         int	                                    getSelectedSection();
 
@@ -51,6 +53,8 @@ class ATE_CORE RenderProject : public ATExplorerProject
         int&                                    getMinIntensity();
         int&                                    getMaxIntensity();
 
+//        StringList                              getChannels();
+
 	protected:
     	string 		                            mInfo;
     	string 		                            mOwner;
@@ -62,6 +66,8 @@ class ATE_CORE RenderProject : public ATExplorerProject
 										        //!This is the "render" project name. Not the same as the projects name
         string 		                            mRenderProjectName;
         string                                  mSelectedStack;
+        string                                  mSelectedChannel;
+//        StringList                              mChannels;
         StringList					   	        mRenderStacks;
 
         int                                     mMinIntensity;

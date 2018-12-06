@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TRenderAPIChecker.h"
 #include "atRenderProject.h"

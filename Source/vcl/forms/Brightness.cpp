@@ -1,17 +1,5 @@
-//---------------------------------------------------------------------------
-// This file contains the form and the functions responsible for brightness
-// and contrast adjustment
-// Copyright (c) 1995-2010 Embarcadero Technologies, Inc.
-
-// You may only use this software if you are an authorized licensee
-// of Delphi, C++Builder or RAD Studio (Embarcadero Products).
-// This software is considered a Redistributable as defined under
-// the software license agreement that comes with the Embarcadero Products
-// and is subject to that software license agreement.
-
 #include <vcl.h>
 #pragma hdrstop
-
 #include "Brightness.h"
 #include "atImageProcessingFunctions.h"
 
@@ -102,22 +90,26 @@ __fastcall TForm3::TForm3(TComponent* Owner)
 	: TForm(Owner)
 {
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TForm3::ScrollBar1Change(TObject *Sender)
 {
 	linearTransformation(Image, auximage, float(ScrollBar2->Position)/400,ScrollBar1->Position);
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TForm3::ScrollBar2Change(TObject *Sender)
 {
 	linearTransformation(Image, auximage, float(ScrollBar2->Position)/400,ScrollBar1->Position);
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TForm3::FormClose(TObject *Sender, TCloseAction &Action)
 {
 	int x,y;
 	for(y = 0; y < Image->Picture->Bitmap->Height; y++)
-			free(auximage[y]);
+    	free(auximage[y]);
+
 	free(auximage);
 	auximage=NULL;
 }
@@ -133,5 +125,4 @@ void __fastcall TForm3::Button1Click(TObject *Sender)
 {
 	Form3->Close();
 }
-//---------------------------------------------------------------------------
 

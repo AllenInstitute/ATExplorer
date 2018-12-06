@@ -232,7 +232,6 @@ void TMainForm::selectTabForTreeItem(Project* p)
     }
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled)

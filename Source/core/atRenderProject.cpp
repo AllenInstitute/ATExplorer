@@ -44,6 +44,7 @@ mOwner(""),
 mLocalCacheRootFolder(""),
 mRenderProjectName(""),
 mSelectedStack(""),
+mSelectedChannel(""),
 mCurrentROI(0,0,500,500),
 mMinIntensity(0),
 mMaxIntensity(65535),
@@ -59,6 +60,7 @@ mOwner(owner),
 mLocalCacheRootFolder(""),
 mRenderProjectName(project),
 mSelectedStack(stack),
+mSelectedChannel(""),
 mCurrentROI(0,0,500,500),
 mMinIntensity(0),
 mMaxIntensity(65535),
@@ -77,6 +79,7 @@ mCurrentROI(rp.mCurrentROI)
     mOwner		            = rp.mOwner;
     mRenderProjectName      = rp.mRenderProjectName;
     mSelectedStack		    = rp.mSelectedStack;
+	mSelectedChannel		= rp.mSelectedChannel;
     mRenderStacks		    = rp.mRenderStacks;
     mLocalCacheRootFolder 	= rp.mLocalCacheRootFolder;
     mCurrentROI             = rp.mCurrentROI;
@@ -123,11 +126,6 @@ void RenderProject::assignLocalCacheRootFolder(const string& rFolder)
     mLocalCacheRootFolder = rFolder;
 }
 
-string RenderProject::getSelectedSectionFileName()
-{
-	return "";
-}
-
 RegionOfInterest& RenderProject::getCurrentRegionOfInterestReference()
 {
     return mCurrentROI;
@@ -136,13 +134,6 @@ RegionOfInterest& RenderProject::getCurrentRegionOfInterestReference()
 string RenderProject::getLocalCacheFolder() const
 {
     return mLocalCacheRootFolder;
-}
-
-void RenderProject::init(const string& owner, const string& project, const string& stack)
-{
-	mOwner 				= owner;
-    mRenderProjectName 	= project;
-    mSelectedStack 		= stack;
 }
 
 RenderServiceParameters* RenderProject::getRenderServiceParameters() const
@@ -166,6 +157,12 @@ bool RenderProject::setSelectedStackName(const string& stackName)
     return true;
 }
 
+bool RenderProject::setSelectedChannelName(const string& s)
+{
+	mSelectedChannel = s;
+    return true;
+}
+
 bool RenderProject::setSelectedSection(int secNr)
 {
 	mCurrentROI.setZ(secNr);
@@ -181,6 +178,16 @@ string RenderProject::getSelectedStackName() const
 {
 	return mSelectedStack;
 }
+
+string RenderProject::getSelectedChannelName() const
+{
+	return mSelectedChannel;
+}
+
+//StringList RenderProject::getChannels()
+//{
+//    return mChannels;
+//}
 
 int& RenderProject::getMinIntensity()
 {
@@ -227,6 +234,10 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
 
     val = doc.NewElement("selected_stack");
     val->SetText(mSelectedStack.c_str());
+    parentNode->InsertEndChild(val);
+
+    val = doc.NewElement("selected_channel");
+    val->SetText(mSelectedChannel.c_str());
     parentNode->InsertEndChild(val);
 
     val = doc.NewElement("local_cache_folder");
@@ -306,6 +317,12 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
     if(e)
     {
     	mSelectedStack = e->GetText() ? string(e->GetText()) : string("");
+    }
+
+    e = node->FirstChildElement("selected_channel");
+    if(e)
+    {
+    	mSelectedChannel = e->GetText() ? string(e->GetText()) : string("");
     }
 
     e = node->FirstChildElement("local_cache_folder");

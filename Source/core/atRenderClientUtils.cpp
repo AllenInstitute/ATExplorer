@@ -38,10 +38,10 @@ string getRenderProjectLocalDataRootFolderFromURL(const string& url, const strin
 }
 
 //---------------------------------------------------------------------------
-string getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder)
+string getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder, const string& chs)
 {
     RenderLayer rl(url);
-	return rl.getImageLocalCachePathAndFileName(cacheRootFolder);
+	return rl.getImageLocalCachePathAndFileName(cacheRootFolder, chs);
 }
 
 //CURL related callbacks

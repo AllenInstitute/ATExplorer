@@ -279,6 +279,7 @@ bool ATExplorer::createRenderServiceParametersPropertiesInSection(dsl::Propertie
             Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
         }
     }
+    return true;
 }
 
 //============================ DOCKER container stuff ==================================================
@@ -362,6 +363,7 @@ bool ATExplorer::createDockerContainerPropertiesInSection(dsl::PropertiesSP prop
             Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
         }
     }
+    return true;
 }
 
 }

@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TCreateLocalVolumesForm.h"
 #include "atRenderServiceParameters.h"
@@ -341,12 +340,11 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     string dataRoot(rawThread->getCacheRootFolder());
     string imagesFolder(getImageLocalCachePathFromURL(urls[0], dataRoot));
 
-
     for(uint i = 0; i < urls.count(); i++)
     {
         string url = urls[i];
         //Make sure file exists
-        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
+        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName))
         {
@@ -356,7 +354,6 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 
     string stackOutputFileNameAndPath(getRenderProjectLocalDataRootFolderFromURL(urls[0], dataRoot));
-
     stackOutputFileNameAndPath = joinPath(stackOutputFileNameAndPath, "stack_" + rawThread->getRenderStackName());
 
     //  CreateStack (blocking)
@@ -372,7 +369,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         {
             string url = urls[i];
             //Make sure file exists
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
+            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
             Poco::File f(outFilePathANDFileName);
             if(f.exists())
             {
@@ -389,7 +386,6 @@ TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, co
 	Process IMConvert;
     IMConvert.setExecutable(mConvertExe);
     IMConvert.setWorkingDirectory(wd);
-
 
     TiffStack* tiffStack = new TiffStack(getFileNameNoPath(outFName), getFilePath(outFName));
 
@@ -410,6 +406,7 @@ TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, co
     IMConvert.start(false);
     return tiffStack;
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TCreateLocalVolumesForm::FormShow(TObject *Sender)
 {
