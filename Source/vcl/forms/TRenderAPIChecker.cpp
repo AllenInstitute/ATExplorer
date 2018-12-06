@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TRenderAPIChecker.h"
 #include "atRenderProject.h"
@@ -24,7 +23,7 @@ void __fastcall TRenderAPIChecker::RequestBtnClick(TObject *Sender)
 {
     //Get some render owners
     RenderProject dummyProject("Dummy", &mHost);
-    RenderClient   mRC(dummyProject, IdHTTP1, mHost);
+    RenderClient   mRC(dummyProject, IdHTTP1, &mHost);
 	ResponseMemo->Clear();
 	StringList response;
 

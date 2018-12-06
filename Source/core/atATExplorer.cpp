@@ -16,9 +16,9 @@ ATExplorer gATExplorer;
 
 ATExplorer::ATExplorer()
 :
-mRenderPythonApps(NULL),
-mATModules(NULL),
-mRenderService(NULL),
+DefaultRenderPythonApps(NULL),
+DefaultATModules(NULL),
+DefaultRenderServiceContainer(NULL),
 Properties(),
 mIniFile(NULL)
 {
@@ -57,6 +57,8 @@ bool ATExplorer::init(IniFile& iniFile)
         }
     }
 
+    //Setup defaults..
+    DefaultRenderService = getFirstRenderService();
     gLogger.setLogLevel(Properties.LogLevel);
     return true;
 }
@@ -100,6 +102,11 @@ void ATExplorer::setupLogging(const string& logFile, LogLevel lvl)
 	LogOutput::mUseLogTabs = false;
 	gLogger.setLogLevel(lvl);
 	Log(lInfo) << "Logger was setup";
+}
+
+string ATExplorer::getImageMagickPath()
+{
+    return Properties.ImageMagickPath;
 }
 
 RenderServiceParameters* ATExplorer::createRenderService(const string& serviceName)
@@ -272,6 +279,7 @@ bool ATExplorer::createRenderServiceParametersPropertiesInSection(dsl::Propertie
             Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
         }
     }
+    return true;
 }
 
 //============================ DOCKER container stuff ==================================================
@@ -355,6 +363,7 @@ bool ATExplorer::createDockerContainerPropertiesInSection(dsl::PropertiesSP prop
             Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
         }
     }
+    return true;
 }
 
 }

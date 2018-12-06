@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TCreateMediansForm.h"
 #include <sstream>

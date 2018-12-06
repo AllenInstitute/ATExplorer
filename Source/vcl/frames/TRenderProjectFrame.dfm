@@ -1,8 +1,8 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 960
-  Height = 623
+  Width = 1203
+  Height = 757
   Align = alClient
   TabOrder = 0
   OnMouseDown = FrameMouseDown
@@ -12,7 +12,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 0
     Top = 0
     Width = 405
-    Height = 623
+    Height = 757
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -20,7 +20,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 1
       Top = 1
       Width = 307
-      Height = 621
+      Height = 755
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -32,7 +32,7 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 0
         Top = 0
         Width = 286
-        Height = 193
+        Height = 273
         Align = alTop
         Caption = 'Project Selection'
         TabOrder = 0
@@ -81,27 +81,27 @@ object RenderProjectFrame: TRenderProjectFrame
           Left = 2
           Top = 150
           Width = 282
-          Height = 41
+          Height = 121
           Align = alBottom
-          Caption = 'Render Stacks'
+          Caption = 'Channels'
           TabOrder = 3
-          Visible = False
-          object RenderStacksCB: TCheckListBox
+          object ChannelsCB: TCheckListBox
             Left = 2
             Top = 15
             Width = 278
-            Height = 24
+            Height = 104
+            OnClickCheck = ChannelsCBClickCheck
             Align = alClient
             ItemHeight = 13
             PopupMenu = ROIPopupMenu
             TabOrder = 0
-            OnClick = ROI_CBClick
+            OnClick = ChannelsCBClick
           end
         end
       end
       object imageParasGB: TGroupBox
         Left = 0
-        Top = 361
+        Top = 441
         Width = 286
         Height = 176
         Align = alTop
@@ -224,7 +224,7 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object GroupBox9: TGroupBox
         Left = 0
-        Top = 193
+        Top = 273
         Width = 286
         Height = 168
         Align = alTop
@@ -262,15 +262,15 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object GroupBox5: TGroupBox
         Left = 0
-        Top = 537
+        Top = 617
         Width = 286
-        Height = 216
+        Height = 165
         Align = alTop
         Caption = 'Extra'
         TabOrder = 3
         DesignSize = (
           286
-          216)
+          165)
         object RzSpinButtons1: TRzSpinButtons
           Left = 16
           Top = 91
@@ -341,7 +341,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 96
-      Height = 621
+      Height = 755
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -349,7 +349,7 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 1
         Top = 1
         Width = 94
-        Height = 481
+        Height = 615
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
@@ -358,18 +358,50 @@ object RenderProjectFrame: TRenderProjectFrame
           Left = 2
           Top = 15
           Width = 90
-          Height = 464
+          Height = 259
           Align = alClient
           ItemHeight = 13
           PopupMenu = ZsPopUpMenu
           TabOrder = 0
           OnClick = ClickZ
-          ExplicitHeight = 146
+          ExplicitHeight = 321
+        end
+        object GroupBox2: TGroupBox
+          Left = 2
+          Top = 274
+          Width = 90
+          Height = 339
+          Align = alBottom
+          Caption = 'Tiff Stacks && MIP'#39's'
+          TabOrder = 1
+          ExplicitTop = -178
+          object OtherCB: TCheckListBox
+            Left = 2
+            Top = 145
+            Width = 86
+            Height = 192
+            Align = alClient
+            ItemHeight = 13
+            PopupMenu = OtherPopupMenu
+            TabOrder = 0
+            OnDblClick = OtherCBDblClick
+          end
+          object StacksCB: TCheckListBox
+            Left = 2
+            Top = 15
+            Width = 86
+            Height = 130
+            Align = alTop
+            ItemHeight = 13
+            PopupMenu = StacksPopupMenu
+            TabOrder = 1
+            OnClick = CheckBoxClick
+          end
         end
       end
       object CacheGB: TGroupBox
         Left = 1
-        Top = 482
+        Top = 616
         Width = 94
         Height = 138
         Align = alBottom
@@ -400,8 +432,8 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 405
     Top = 0
-    Width = 555
-    Height = 623
+    Width = 798
+    Height = 757
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
@@ -409,13 +441,17 @@ object RenderProjectFrame: TRenderProjectFrame
     ExplicitHeight = 305
     object TabSheet2: TTabSheet
       Caption = 'Local Explorer'
+      OnContextPopup = TabSheet2ContextPopup
       ExplicitWidth = 38
       ExplicitHeight = 277
+      DesignSize = (
+        790
+        729)
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 547
-        Height = 595
+        Width = 790
+        Height = 729
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -423,13 +459,17 @@ object RenderProjectFrame: TRenderProjectFrame
         ParentBackground = False
         ParentDoubleBuffered = False
         TabOrder = 0
+        OnContextPopup = Panel1ContextPopup
         ExplicitWidth = 38
         ExplicitHeight = 277
+        DesignSize = (
+          790
+          729)
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 545
-          Height = 576
+          Width = 788
+          Height = 710
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -445,8 +485,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 545
-          Height = 576
+          Width = 788
+          Height = 710
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16462,23 +16502,23 @@ object RenderProjectFrame: TRenderProjectFrame
           ExplicitHeight = 844
         end
         object XE: TLabel
-          Left = 16
-          Top = 12
+          Left = 17
+          Top = 16
           Width = 12
           Height = 13
           Caption = 'XE'
         end
         object YE: TLabel
-          Left = 48
-          Top = 12
+          Left = 49
+          Top = 16
           Width = 27
           Height = 13
           Caption = 'Y Edit'
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 577
-          Width = 545
+          Top = 711
+          Width = 788
           Height = 17
           Align = alBottom
           Sections = <
@@ -16486,58 +16526,53 @@ object RenderProjectFrame: TRenderProjectFrame
               ImageIndex = -1
               Text = 'Misc'
               Width = 50
+            end
+            item
+              ImageIndex = -1
+              Text = '+'
+              Width = 25
+            end
+            item
+              ImageIndex = -1
+              Text = '-'
+              Width = 25
             end>
-          Visible = False
+          OnSectionClick = HeaderControl1SectionClick
+          NoSizing = True
           ExplicitTop = 259
           ExplicitWidth = 36
         end
         object mZoomFactor: TIntegerEdit
-          Left = 48
-          Top = 45
-          Width = 89
+          Left = 17
+          Top = 684
+          Width = 32
           Height = 21
+          Anchors = [akLeft, akBottom]
           NumbersOnly = True
           TabOrder = 1
           Text = '10'
           Value = 10
-        end
-        object mZoomInBtn: TButton
-          Left = 142
-          Top = 43
-          Width = 26
-          Height = 26
-          Caption = '+'
-          TabOrder = 2
-          OnClick = mZoomOutBtnClick
-        end
-        object mZoomOutBtn: TButton
-          Left = 16
-          Top = 43
-          Width = 26
-          Height = 26
-          Caption = '-'
-          TabOrder = 3
-          OnClick = mZoomOutBtnClick
+          ExplicitTop = 232
         end
       end
       object URLE: TSTDStringEdit
-        Left = 24
-        Top = 772
-        Width = 527
+        Left = 128
+        Top = 684
+        Width = 752
         Height = 21
+        Anchors = [akLeft, akRight, akBottom]
         TabOrder = 1
         Text = 'URLE'
         Visible = False
         Value = 'URLE'
+        ExplicitTop = 232
+        ExplicitWidth = 0
       end
     end
     object NdVizTS: TTabSheet
       Caption = 'NDViz'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 699
       object ClearBrowserCacheBtn: TButton
         Left = 16
         Top = 16
@@ -16551,17 +16586,13 @@ object RenderProjectFrame: TRenderProjectFrame
   object ZsPopUpMenu: TPopupMenu
     Left = 304
     Top = 208
-    object Checkrange1: TMenuItem
-      Caption = 'Select/Unselect Z'#39's'
-    end
-    object CheckAll1: TMenuItem
+    object CheckAll: TMenuItem
       Caption = 'Check All'
+      OnClick = CheckZs
     end
-    object UncheckAll1: TMenuItem
+    object UnCheckAll: TMenuItem
       Caption = 'Uncheck All'
-    end
-    object CopyValidZs1: TMenuItem
-      Caption = 'Copy Numbers'
+      OnClick = CheckZs
     end
     object CreateTiffStack1: TMenuItem
       Action = CreateTiffStackA
@@ -16571,8 +16602,8 @@ object RenderProjectFrame: TRenderProjectFrame
     end
   end
   object StacksPopupMenu: TPopupMenu
-    Left = 311
-    Top = 676
+    Left = 327
+    Top = 596
     object CreateMaxIntensityProjection1: TMenuItem
       Action = CreateMIPA
     end
@@ -16600,8 +16631,8 @@ object RenderProjectFrame: TRenderProjectFrame
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 160
-    Top = 624
+    Left = 224
+    Top = 664
   end
   object ImagePopup: TPopupMenu
     Left = 672
@@ -16609,6 +16640,8 @@ object RenderProjectFrame: TRenderProjectFrame
     object openInChrome: TMenuItem
       Caption = 'Open in Chrome'
       OnClick = openInChromeClick
+    end
+    object TMenuItem
     end
   end
   object Actions: TActionList
@@ -16631,6 +16664,10 @@ object RenderProjectFrame: TRenderProjectFrame
       OnExecute = ToggleImageGridAExecute
       OnUpdate = ToggleImageGridAUpdate
     end
+    object CreateSubVolumeStackA: TAction
+      Caption = 'CreateSubVolumeStackA'
+      OnExecute = CreateSubVolumeStackAExecute
+    end
   end
   object OtherPopupMenu: TPopupMenu
     Left = 335
@@ -16646,12 +16683,8 @@ object RenderProjectFrame: TRenderProjectFrame
       Action = OpenInExplorerA
     end
   end
-  object PopupMenu1: TPopupMenu
-    Left = 528
-    Top = 480
-  end
   object RenderStacksPopup: TPopupMenu
-    Left = 71
-    Top = 236
+    Left = 95
+    Top = 196
   end
 end

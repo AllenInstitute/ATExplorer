@@ -4,7 +4,7 @@
 #include "dslLogger.h"
 #include "dslVCLUtils.h"
 #include "ATExplorerUIProperties.h"
-#include "atUtils.h"
+#include "atVCLUtils2.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"

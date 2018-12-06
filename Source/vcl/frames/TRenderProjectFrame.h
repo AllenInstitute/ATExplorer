@@ -29,6 +29,7 @@
 #include <Vcl.ActnList.hpp>
 #include "dslProcess.h"
 #include "atImageGrid.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 
 
@@ -41,6 +42,7 @@ using at::FetchImagesThread;
 using at::FetchImageThread;
 using dsl::Process;
 using at::ImageGrid;
+using at::ATExplorer;
 //---------------------------------------------------------------------------
 class PACKAGE TRenderProjectFrame : public TFrame
 {
@@ -71,10 +73,8 @@ class PACKAGE TRenderProjectFrame : public TFrame
         TButton *FetchSelectedZsBtn;
         TButton *ClearCacheBtn;
         TPopupMenu *ZsPopUpMenu;
-        TMenuItem *Checkrange1;
-        TMenuItem *CheckAll1;
-        TMenuItem *UncheckAll1;
-        TMenuItem *CopyValidZs1;
+	TMenuItem *CheckAll;
+	TMenuItem *UnCheckAll;
         TMenuItem *CreateTiffStack1;
         TPopupMenu *StacksPopupMenu;
         TMenuItem *CreateMaxIntensityProjection1;
@@ -89,8 +89,6 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TLabel *YE;
 	THeaderControl *HeaderControl1;
 	TIntegerEdit *mZoomFactor;
-	TButton *mZoomInBtn;
-	TButton *mZoomOutBtn;
 	TSTDStringEdit *URLE;
 	TTabSheet *NdVizTS;
 	TButton *ClearBrowserCacheBtn;
@@ -113,13 +111,16 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TPopupMenu *ROIPopupMenu;
 	TMenuItem *OpenROIInExplorer;
 	TAction *ToggleImageGridA;
-	TCheckListBox *RenderStacksCB;
+	TCheckListBox *ChannelsCB;
 	TGroupBox *GroupBox3;
-	TPopupMenu *PopupMenu1;
 	TPopupMenu *RenderStacksPopup;
 	TButton *Button2;
 	TSTDStringLabeledEdit *OutputDataRootFolderE;
 	TButton *BrowseForDataOutputPathBtn;
+	TCheckListBox *OtherCB;
+	TGroupBox *GroupBox2;
+	TCheckListBox *StacksCB;
+	TAction *CreateSubVolumeStackA;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -137,7 +138,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall CheckBoxClick(TObject *Sender);
 	void __fastcall ROI_CBClick(TObject *Sender);
 	void __fastcall OpenInExplorerAExecute(TObject *Sender);
-	void __fastcall mZoomOutBtnClick(TObject *Sender);
+
 	void __fastcall RzSpinButtons1DownLeftClick(TObject *Sender);
 	void __fastcall RzSpinButtons1UpRightClick(TObject *Sender);
 	void __fastcall ToggleImageGridAExecute(TObject *Sender);
@@ -151,7 +152,16 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
 	void __fastcall OutputDataRootFolderEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall ChannelsCBClick(TObject *Sender);
+	void __fastcall ChannelsCBClickCheck(TObject *Sender);
+	void __fastcall HeaderControl1SectionClick(THeaderControl *HeaderControl, THeaderSection *Section);
+	void __fastcall Panel1ContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
+	void __fastcall TabSheet2ContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
+	void __fastcall StacksCBClick(TObject *Sender);
 
+	void __fastcall Checkrange1Click(TObject *Sender);
+	void __fastcall CheckZs(TObject *Sender);
+	void __fastcall CreateSubVolumeStackAExecute(TObject *Sender);
 
     private:
    		FetchImagesThread								mCreateCacheThread;
@@ -184,7 +194,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
         TBrushStyle 									BrushStyle;
         TPenStyle 										PenStyle;
         int 											PenWide;
-        bool 											Drawing;
+        bool 											mIsDrawing;
         TPoint 											Origin;
         TPoint 											MovePt;
         TPoint											mTopLeftSelCorner;
@@ -198,8 +208,10 @@ class PACKAGE TRenderProjectFrame : public TFrame
 		void 											OpenImageForm(string fName);
 
 		TCreateLocalVolumesForm*                        mCreateVolumesForm;
+        void                                            zoom(int factor, bool inOrOut);
+
     public:
-    						__fastcall 					TRenderProjectFrame(RenderProject& rp, const string& imPath, TComponent* Owner);
+    						__fastcall 					TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner);
 		void 				__fastcall 					getValidZsForStack();
 
 };

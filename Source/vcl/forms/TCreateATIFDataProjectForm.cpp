@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TCreateATIFDataProjectForm.h"
 #include "dslStringList.h"

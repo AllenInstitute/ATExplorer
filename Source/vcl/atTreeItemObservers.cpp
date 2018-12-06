@@ -21,9 +21,10 @@ namespace at
 using namespace dsl;
 using namespace std;
 
-TreeItemObservers::TreeItemObservers(TPageControl& pc)
+TreeItemObservers::TreeItemObservers(TPageControl& pc, ATExplorer& e)
 :
-MainPC(pc)
+MainPC(pc),
+mExplorer(e)
 {
     this->mObserverTag = "TreeItemObservers";
 }
@@ -87,7 +88,7 @@ ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
         if(o)
         {
             Log(lInfo) << "Creating a Render ProjectView";
-            shared_ptr<RenderProjectItemView> aItemView(new RenderProjectItemView(MainPC,  *o));//, gAU.ImageMagickPath.getValue()));
+            shared_ptr<RenderProjectItemView> aItemView(new RenderProjectItemView(MainPC,  mExplorer, *o));
            	mViews.push_back(aItemView);
             this->observe(aItemView->getSubject());
             return aItemView.get();

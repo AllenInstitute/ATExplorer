@@ -4,7 +4,7 @@ container="renderapps_multchan"
 
 echo " ======== Building and starting Docker container: $container =============="
 echo "Building image with tag: $image_tag"
-docker build -t $image_tag ./Render-Python-Apps/  
+docker build -t $image_tag ./DockerInit/Dockerfile-RenderPythonApps-mac  
 
 docker kill $container
 docker rm $container 

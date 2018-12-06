@@ -3,6 +3,7 @@
 #include "atExplorerCoreExporter.h"
 #include "atExplorerObject.h"
 #include "dslProperties.h"
+
 //---------------------------------------------------------------------------
 
 
@@ -10,12 +11,13 @@ namespace at
 {
 
 using dsl::PropertiesSP;
+const string v1("v1");
 
 class ATE_CORE RenderServiceParameters : public ExplorerObject
 {
     public:
                                     RenderServiceParameters();
-                                    RenderServiceParameters(const string& name, const string& host, int portNr = 80, const string& version = "v1");
+                                    RenderServiceParameters(const string& name, const string& host, int portNr = 80, const string& version = v1);
                                     ~RenderServiceParameters();
 
         string                      getBaseURL() const;
@@ -25,7 +27,6 @@ class ATE_CORE RenderServiceParameters : public ExplorerObject
 
         string                      getName() const;
         void                        setName(const string& n);
-//        string                      asString() const;
 
         void                        setHost(const string& u);
         string                      getHost() const;

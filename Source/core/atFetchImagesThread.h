@@ -23,6 +23,7 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
         string                              getRenderStackName();
 		virtual void                        run();
         void				                assignUrls(const StringList& urls);
+        void				                setChannel(const string& ch);
         void				                addParameter(const string& api);
         void				                addParameters(const StringList& paras);
         string                              listParameters();
@@ -36,6 +37,7 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
         string								mOutputDataFolder;
         string								mRenderStackName;
         StringList                          mExtraParameters;
+        string		                        mChannel;
         FITCallBack                         onEnter;
         FITCallBack                         onProgress;
         FITCallBack                         onExit;

@@ -42,8 +42,7 @@ class ATE_CORE ATExplorerProperties : public ExplorerObject
         Property<string>                                        DefaultRenderServiceContainer;
         Property<string>                                        DefaultATModulesContainer;
         Property<string>                                        DefaultRenderServiceHost;
-
-
+		Property<string>                                        ImageMagickPath;
 		void													read();
 		void													write();
         PropertiesSP                                  			getSection(const string& sec);
@@ -55,7 +54,6 @@ class ATE_CORE ATExplorerProperties : public ExplorerObject
         PropertiesSP                                            getCurrentSection();
 
         bool                                                    hasChanges();
-		void 					                                setupLogging();
 		string			                                        getLogFileNameAndPath();
 
         IniFile*                                                getIniFile();

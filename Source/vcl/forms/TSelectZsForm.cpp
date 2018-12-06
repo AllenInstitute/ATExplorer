@@ -147,7 +147,6 @@ void __fastcall TSelectZsForm::ZDownSampleEKeyDown(TObject *Sender, WORD &Key,
     }
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TSelectZsForm::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
 {
@@ -156,5 +155,3 @@ void __fastcall TSelectZsForm::FormKeyDown(TObject *Sender, WORD &Key, TShiftSta
         Close();
     }
 }
-
-

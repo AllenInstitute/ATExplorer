@@ -1,12 +1,11 @@
 object DockerContainersFrame: TDockerContainersFrame
   Left = 0
   Top = 0
-  Width = 632
+  Width = 451
   Height = 305
   Align = alClient
   AutoSize = True
   TabOrder = 0
-  ExplicitWidth = 451
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
@@ -56,14 +55,13 @@ object DockerContainersFrame: TDockerContainersFrame
   object GroupBox4: TGroupBox
     Left = 161
     Top = 0
-    Width = 471
+    Width = 290
     Height = 305
     Align = alClient
     Caption = 'Container'
     TabOrder = 1
-    ExplicitWidth = 290
     DesignSize = (
-      471
+      290
       305)
     object TestBtn: TButton
       Left = 13
@@ -77,7 +75,7 @@ object DockerContainersFrame: TDockerContainersFrame
     object ContainerNameE: TSTDStringLabeledEdit
       Left = 13
       Top = 48
-      Width = 444
+      Width = 263
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 77
@@ -85,6 +83,7 @@ object DockerContainersFrame: TDockerContainersFrame
       EditLabel.Caption = 'Container Name'
       TabOrder = 1
       OnKeyDown = ContainerNameEKeyDown
+      ExplicitWidth = 444
     end
   end
   object PopupMenu1: TPopupMenu

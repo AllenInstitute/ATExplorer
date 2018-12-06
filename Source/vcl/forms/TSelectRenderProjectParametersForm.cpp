@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TSelectRenderProjectParametersForm.h"
 #include "dslStringList.h"
@@ -16,28 +15,25 @@ TSelectRenderProjectParametersForm *SelectRenderProjectParametersForm;
 using namespace dsl;
 
 //---------------------------------------------------------------------------
-__fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersForm(TComponent* Owner)
+__fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
     mRP("", "", "" , ""),
-    mRC(mRP,IdHTTP1)
+    mRC(mRP,IdHTTP1, e.DefaultRenderService),
+    mExplorer(e)
 {
     try
     {
-        mRC.setBaseURL(BaseURLE->getValue());
-
-        //Populate owners
-        StringList o = mRC.getOwners();
-        if(o.size())
+        RenderServicesCB->Clear();
+        RenderServiceParameters* rs =  mExplorer.getFirstRenderService();
+        while(rs)
         {
-            populateDropDown(o, OwnerCB);
-            OwnerCB->ItemIndex = 0;
-            OwnerCB->Text = OwnerCB->Items->Strings[0];
-            OwnerCBChange(NULL);
+            RenderServicesCB->AddItem(rs->getName().c_str(), (TObject*) rs);
+            rs = mExplorer.getNextRenderService();
         }
     }
     catch(...)
     {
-        Log(lError) << "We were not able to connect to host: " << BaseURLE->getValue();
+//        Log(lError) << "We were not able to connect to host: " << BaseURLE->getValue();
     }
 }
 
@@ -56,9 +52,14 @@ string TSelectRenderProjectParametersForm::getOutputFolderLocation()
     return OutputDataRootFolderE->getValue();
 }
 
-RenderServiceParameters TSelectRenderProjectParametersForm::getRenderService()
+RenderServiceParameters* TSelectRenderProjectParametersForm::getRenderService()
 {
-	RenderServiceParameters service("<not set>", BaseURLE->getValue(), HostPort->getValue());
+	int index = RenderServicesCB->ItemIndex;
+    if(index == -1)
+    {
+        return nullptr;
+    }
+	RenderServiceParameters* service = (RenderServiceParameters*) RenderServicesCB->Items->Objects[index];
     return service;
 }
 //---------------------------------------------------------------------------
@@ -78,7 +79,6 @@ void __fastcall TSelectRenderProjectParametersForm::FormCloseQuery(TObject *Send
 //---------------------------------------------------------------------------
 void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sender)
 {
-	//Populate projects
     //Populate projects
     StringList p = mRC.getProjectsForOwner(stdstr(OwnerCB->Text));
     if(p.size())
@@ -92,8 +92,6 @@ void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sende
 //---------------------------------------------------------------------------
 void __fastcall TSelectRenderProjectParametersForm::PopulateOwnersBtnClick(TObject *Sender)
 {
-    mRC.setBaseURL(BaseURLE->getValue());
-
     //Populate owners
     StringList o = mRC.getOwners();
     if(o.size())
@@ -125,4 +123,27 @@ void __fastcall TSelectRenderProjectParametersForm::BrowseForDataOutputPathBtnCl
     }
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TSelectRenderProjectParametersForm::FormKeyDown(TObject *Sender,
+          WORD &Key, TShiftState Shift)
+{
+    if(Key == VK_ESCAPE)
+	{
+ 	    Close();
+     }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TSelectRenderProjectParametersForm::RenderServicesCBCloseUp(TObject *Sender)
+{
+    mRC.setRenderServiceParameters(getRenderService());
+}
+
+
+void __fastcall TSelectRenderProjectParametersForm::RenderServicesCBChange(TObject *Sender)
+
+{
+    mRC.setRenderServiceParameters(getRenderService());
+}
+//---------------------------------------------------------------------------
 

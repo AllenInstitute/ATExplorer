@@ -15,6 +15,7 @@ using namespace std;
 ATExplorerProperties::ATExplorerProperties()
 :
 LogLevel(lAny),
+ImageMagickPath(""),
 DefaultRenderPythonContainer(""),
 DefaultRenderServiceContainer(""),
 DefaultATModulesContainer(""),
@@ -22,9 +23,7 @@ DefaultRenderServiceHost(""),
 LogFileName      (""),
 LogFileLocation  (""),
 mIniFile         (NULL)
-{
-
-}
+{}
 
 ATExplorerProperties::~ATExplorerProperties()
 {}
@@ -35,6 +34,7 @@ void ATExplorerProperties::init(IniFile* iniFile)
 
     shared_ptr<IniFileProperties> section =  appendNewINISection("ATExplorer");
 	section->add((BaseProperty*)  &LogLevel.setup( 	                  	"LOG_LEVEL",    	                lAny));
+	section->add((BaseProperty*)  &ImageMagickPath.setup( 	           	"IMAGE_MAGICK_PATH",                "<not set>"));
 
     //Read properties
     read();
@@ -168,25 +168,6 @@ PropertiesSP ATExplorerProperties::getCurrentSection()
 string ATExplorerProperties::getLogFileNameAndPath()
 {
     return "";
-}
-
-//Todo, move this away
-void ATExplorerProperties::setupLogging()
-{
-	//Get Application folder
-//	if(!folderExists(AppDataFolder))
-//	{
-//		createFolder(AppDataFolder);
-//	}
-//
-//	string fullLogFileName(joinPath(AppDataFolder	, AppName + ".log"));
-//	clearFile(fullLogFileName);
-//
-//	dsl::gLogger.logToFile(fullLogFileName);
-//	LogOutput::mShowLogLevel = true;
-//	LogOutput::mShowLogTime = false;
-//	LogOutput::mUseLogTabs = false;
-//	Log(lInfo) << "Logger was setup";
 }
 
 }

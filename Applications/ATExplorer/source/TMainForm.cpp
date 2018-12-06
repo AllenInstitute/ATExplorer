@@ -33,7 +33,7 @@ ULONG_PTR  			         	                gdiplusToken;
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
      mIsStyleMenuPopulated(false),
-     mTreeItemObservers(*MainPC),
+     mTreeItemObservers(*MainPC, gATExplorer),
      mPTreeView(*ProjectTView, mTreeItemObservers)
 {
     Application->ShowHint = true;
@@ -232,7 +232,6 @@ void TMainForm::selectTabForTreeItem(Project* p)
     }
 }
 
-
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::MainPCContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled)
@@ -347,19 +346,19 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
             parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
         }
         //Open dialog to capture render parameters
-		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(this));
+		unique_ptr<TSelectRenderProjectParametersForm> f (new TSelectRenderProjectParametersForm(gATExplorer, this));
 
         if(f->ShowModal() == mrCancel)
         {
             return;
         }
 
-        RenderServiceParameters rs(f->getRenderService());
+        RenderServiceParameters* rs(f->getRenderService());
 
 		//Create a render project and associate with current ATE project
         //Use shared pointer later on
 		RenderProject* rp (new RenderProject("", f->getRenderOwner(), f->getRenderProject(), ""));
-        rp->setRenderServiceParameters(&rs);
+        rp->setRenderServiceParameters(rs);
         rp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
 
 	    //Check how many renderproject childs

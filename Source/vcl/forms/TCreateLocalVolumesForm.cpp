@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TCreateLocalVolumesForm.h"
 #include "atRenderServiceParameters.h"
@@ -34,9 +33,7 @@ __fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, c
 void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const StringList& checked_stacks)
 {
     mROI = roi;
-
-    RenderServiceParameters rsp(*(mRP.getRenderServiceParameters()));
-	mRC.setBaseURL(rsp.getHost());
+    mRC.setRenderServiceParameters(mRP.getRenderServiceParameters());
 
     //Setup ROI
     XCoordE->setValue(mROI.getX1());
@@ -166,7 +163,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
         	if(RenderStacksCB->Checked[i])
 	        {
                 mRP.setSelectedStackName(stdstr(RenderStacksCB->Items->Strings[i]));
-                RenderServiceParameters rs = mRC.getRenderServiceParameters();
+                const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
 
                 mRC.setRenderProject(mRP);
@@ -343,12 +340,11 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     string dataRoot(rawThread->getCacheRootFolder());
     string imagesFolder(getImageLocalCachePathFromURL(urls[0], dataRoot));
 
-
     for(uint i = 0; i < urls.count(); i++)
     {
         string url = urls[i];
         //Make sure file exists
-        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
+        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName))
         {
@@ -358,7 +354,6 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 
     string stackOutputFileNameAndPath(getRenderProjectLocalDataRootFolderFromURL(urls[0], dataRoot));
-
     stackOutputFileNameAndPath = joinPath(stackOutputFileNameAndPath, "stack_" + rawThread->getRenderStackName());
 
     //  CreateStack (blocking)
@@ -374,7 +369,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         {
             string url = urls[i];
             //Make sure file exists
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot);
+            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
             Poco::File f(outFilePathANDFileName);
             if(f.exists())
             {
@@ -391,7 +386,6 @@ TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, co
 	Process IMConvert;
     IMConvert.setExecutable(mConvertExe);
     IMConvert.setWorkingDirectory(wd);
-
 
     TiffStack* tiffStack = new TiffStack(getFileNameNoPath(outFName), getFilePath(outFName));
 
@@ -412,6 +406,7 @@ TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, co
     IMConvert.start(false);
     return tiffStack;
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TCreateLocalVolumesForm::FormShow(TObject *Sender)
 {

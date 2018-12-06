@@ -11,8 +11,8 @@
 #include "dslPoint.h"
 #include "dslMathUtils.h"
 #include "dslFileUtils.h"
+#include "atJSMN.h"
 //---------------------------------------------------------------------------
-
 
 using std::wstring;
 
@@ -30,17 +30,22 @@ using namespace dsl;
 
 const int HTTP_RESPONSE_OK = 200;
 
-RenderClient::RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters& p, const string& cacheFolder)
+RenderClient::RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const  RenderServiceParameters* p, const string& cacheFolder)
 :
 mC(c),
-mRenderProject(rp),
+mLastRequestURL(""),
 mRenderService(p),
+mRenderProject(rp),
 mCache(cacheFolder, mRenderProject),
-mFetchImageThread(*this),
 mImageType("jpeg-image"),
-mLastRequestURL("")
+mFetchImageThread(*this)
 {
 	mImageMemory = new TMemoryStream();
+}
+
+RenderClient::~RenderClient()
+{
+	delete mImageMemory;
 }
 
 bool RenderClient::init(const string& imageType,
@@ -55,12 +60,12 @@ bool RenderClient::init(const string& imageType,
     return true;
 }
 
-RenderClient::~RenderClient()
+void RenderClient::setRenderServiceParameters(RenderServiceParameters* rp)
 {
-	delete mImageMemory;
+    mRenderService = rp;
 }
 
-RenderServiceParameters RenderClient::getRenderServiceParameters()
+const RenderServiceParameters* RenderClient::getRenderServiceParameters()
 {
     return mRenderService;
 }
@@ -80,11 +85,6 @@ double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
     return mCache.getLowestResolutionInCache(mRenderProject, roi);
 }
 
-void RenderClient::setBaseURL(const string& baseURL)
-{
-	mRenderService.setHost(baseURL);
-}
-
 const char* RenderClient::getURLC()
 {
 	return getURL().c_str();
@@ -98,11 +98,6 @@ string RenderClient::getLocalCacheFolder()
 RenderProject& RenderClient::getProject()
 {
 	return mRenderProject;
-}
-
-string RenderClient::getBaseURL()
-{
-	return mRenderService.getHost();
 }
 
 RenderProject RenderClient::getRenderProject()
@@ -165,15 +160,19 @@ void RenderClient::setLocalCacheFolder(const string& f)
 
 StringList RenderClient::getOwners()
 {
+    StringList owners;
+    if(!mRenderService)
+    {
+        return owners;
+    }
+
     stringstream sUrl;
-    sUrl << mRenderService.getBaseURL();
+    sUrl << mRenderService->getBaseURL();
     sUrl << "/owners";
     Log(lDebug5) << "Fetching owners: "<<sUrl.str();
-    StringList owners;
 
     try
     {
-
         TStringStream* zstrings = new TStringStream;;
         mLastRequestURL = sUrl.str();
         mC->Get(mLastRequestURL.c_str(), zstrings);
@@ -194,10 +193,159 @@ StringList RenderClient::getOwners()
     return owners;
 }
 
+string toString(jsmntok_t& key, const string& json)
+{
+    string val;
+//    if(key.type != JSMN_STRING)
+//    {
+//        return val;
+//    }
+
+    unsigned int length = key.end - key.start;
+    for(int i = 0; i < length; i++)
+    {
+        val.push_back(json[i+key.start]);
+    }
+
+//	char keyString[length + 1];
+//	memcpy(keyString, &yourJson[key.start], length);
+//	keyString[length] = '\0';
+//	printf("Key: %s\n", keyString);
+    return val;
+}
+
+StringList RenderClient::getChannelsInStack(const string& stackName)
+{
+	//http://localhost/render-ws/v1/owner/ATExplorer/project/M33/stack/STI_FF_Session1?api_key=stacks
+    if(!mRenderService)
+    {
+        return StringList();
+    }
+
+    stringstream sUrl;
+    sUrl << mRenderService->getBaseURL();
+    sUrl << "/owner/" 	<<	mRenderProject.getProjectOwner();
+    sUrl << "/project/" <<	mRenderProject.getRenderProjectName();
+    sUrl << "/stack/" 	<<	stackName << "?api_key=stacks";
+    Log(lDebug5) << "Fetching channels: "<<sUrl.str();
+
+    try
+    {
+        TStringStream* zstrings = new TStringStream;;
+        mLastRequestURL = sUrl.str();
+        mC->Get(mLastRequestURL.c_str(), zstrings);
+
+        if( mC->ResponseCode != HTTP_RESPONSE_OK)
+        {
+            Log(lError) << "Bad HTTP RESPONSE when getching channel names";
+	        return StringList();
+        }
+
+        string s = stdstring(zstrings->DataString);
+        //Parse JSON
+        jsmn_parser parser;
+        jsmn_init(&parser);
+
+        int r = jsmn_parse(&parser, s.c_str(), s.size(), NULL, 0);
+        if(r)
+        {
+            jsmn_init(&parser);
+            jsmntok_t* tokens = new jsmntok_t[r];
+            r = jsmn_parse(&parser, s.c_str(), s.size(), &tokens[0], r);
+            if(r)
+            {
+                //find string token "channelNames"
+                for(int i = 0; i < r; i++)
+                {
+                    jsmntok_t tok = tokens[i];
+                    if(tok.type == JSMN_STRING)
+                    {
+                        string sToken = toString(tok, s);
+                        if(sToken == "channelNames")
+                        {
+                            //Next one is an ARRAY object holding the channels..
+                            //parse it into a string
+                            jsmntok_t chs_tok = tokens[i + 1];
+
+                            string chs = toString(chs_tok, s);
+                            chs = stripCharacters(" []\"", chs);
+                            //Get them all as a string..
+                            StringList channels(chs, ',');
+                            channels.sort();
+                            return channels;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    catch(...)
+    {
+    	Log(lError) << "Failed fetching channels";
+    }
+}
+
+StringList RenderClient::getStacksForProject(const string& owner, const string& project)
+{
+    StringList stacks;
+    stringstream sUrl;
+    if(!mRenderService)
+    {
+        Log(lError) << "No available renderservice!";
+        return stacks;
+    }
+
+    sUrl << mRenderService->getBaseURL();
+    sUrl << "/owner/"<<owner;
+    sUrl << "/stackIds";
+    Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();
+
+    TStringStream* zstrings = new TStringStream;;
+    try
+    {
+        mC->Get(sUrl.str().c_str(), zstrings);
+
+        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+        {
+            string s = stdstring(zstrings->DataString);
+            s = stripCharacters("\"[]}", s);
+            Log(lDebug3) << "Got Render Data String: " << s;
+
+            //Parse result
+            StringList t1(s,'{');
+
+            //Go trough list and get unique stacks
+            for(int i = 0; i < t1.count(); i++)
+            {
+                string line = t1[i];
+                if(contains(project, t1[i]))
+                {
+                    StringList l(t1[i], ',');
+                    if(l.count() == 3)
+                    {
+                        StringList l2(l[2], ':');
+                        if(l2.count() == 2 && !stacks.contains(l[2]))
+                        {
+                            stacks.append(l2[1]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    catch(...)
+    {
+        Log(lError) << "Failed fetching owners";
+    }
+
+    stacks.sort();
+    return stacks;
+}
+
 StringList RenderClient::getServerProperties()
 {
     stringstream sUrl;
-    sUrl << mRenderService.getBaseURL();
+    sUrl << mRenderService->getBaseURL();
     sUrl << "/serverProperties";
     Log(lDebug5) << "Fetching Server Properties: "<<sUrl.str();
     StringList response;
@@ -225,7 +373,7 @@ StringList RenderClient::getServerProperties()
 StringList RenderClient::getProjectsForOwner(const string& o)
 {
     stringstream sUrl;
-    sUrl << mRenderService.getBaseURL();
+    sUrl << mRenderService->getBaseURL();
     sUrl << "/owner/" << o;
     sUrl << "/stackIds";
     Log(lDebug5) << "Fetching projects for owner: "<<sUrl.str();
@@ -234,36 +382,34 @@ StringList RenderClient::getProjectsForOwner(const string& o)
     TStringStream* zstrings = new TStringStream;;
     mC->Get(sUrl.str().c_str(), zstrings);
 
-    if( mC->ResponseCode == HTTP_RESPONSE_OK)
+    if(mC->ResponseCode != HTTP_RESPONSE_OK)
     {
-        string s = stdstring(zstrings->DataString);
-        s = stripCharacters("\"[]{}", s);
-        Log(lDebug5) << "Render Response: "<<s;
-        //Parse result
-        StringList t1(s,',');
+        Log(lError) << "Failed fetching projects";
+        return projects;
+    }
 
-        //Go trough list and get unique projects
-        for(int i = 0; i < t1.count(); i++)
+    string s = stdstring(zstrings->DataString);
+    s = stripCharacters("\"[]{}", s);
+    Log(lDebug5) << "Render Response: "<<s;
+    //Parse result
+    StringList t1(s,',');
+
+    //Go trough list and get unique projects
+    for(int i = 0; i < t1.count(); i++)
+    {
+        string line = t1[i];
+        if(startsWith("project", t1[i]))
         {
-        	string line = t1[i];
-            if(startsWith("project", t1[i]))
+            StringList l(t1[i], ':');
+            if(l.count() == 2)
             {
-            	StringList l(t1[i], ':');
-                if(l.count() == 2)
+                if(!projects.contains(l[1]))
                 {
-                	if(!projects.contains(l[1]))
-                    {
-                		projects.append(l[1]);
-                    }
+                    projects.append(l[1]);
                 }
             }
         }
     }
-    else
-    {
-        Log(lError) << "Failed fetching projects";
-    }
-
     projects.sort();
     return projects;
 }
@@ -279,6 +425,7 @@ bool RenderClient::getImageInThread(int z, StringList& paras)
 
 	mFetchImageThread.setup(getURLForZ(z), mCache.getBasePath());
     mFetchImageThread.addParameters(paras);
+    mFetchImageThread.setChannel(mRenderProject.getSelectedChannelName());
 	mFetchImageThread.start(true);
     return true;
 }
@@ -319,7 +466,7 @@ TMemoryStream* RenderClient::reloadImage(int z)
 RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
 {
     stringstream sUrl;
-    sUrl << mRenderService.getBaseURL();
+    sUrl << mRenderService->getBaseURL();
     sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
     sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
     sUrl << "/stack/"		<<mRenderProject.getSelectedStackName();
@@ -351,7 +498,7 @@ RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
     for(int z = 0; z < zs.size(); z++)
     {
         stringstream sUrl;
-        sUrl << mRenderService.getBaseURL();
+        sUrl << mRenderService->getBaseURL();
         sUrl << "/owner/"  	<< mRenderProject.getProjectOwner();
         sUrl << "/project/" << mRenderProject.getRenderProjectName();
         sUrl << "/stack/"	<<mRenderProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
@@ -419,15 +566,15 @@ string RenderClient::getImageLocalCachePath()
 	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
 }
 
-string RenderClient::getImageLocalCachePathAndFileNameForZ(int z)
+string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
 {
 	string url(getURLForZ(z));
-    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath());
+    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
 }
 
 string RenderClient::getImageLocalCachePathAndFileName()
 {
-	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath());
+	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
 }
 
 bool RenderClient::checkCacheForCurrentURL()
@@ -445,7 +592,7 @@ string RenderClient::getURLForZ(int z)
 {
 	stringstream sUrl;
     RegionOfInterest& roi = mRenderProject.getCurrentRegionOfInterestReference();
-    sUrl << mRenderService.getBaseURL();
+    sUrl << mRenderService->getBaseURL();
     sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
     sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
     sUrl << "/stack/"		<< mRenderProject.getSelectedStackName();
@@ -489,7 +636,7 @@ vector<int> RenderClient::getValidZs()
 {
 	StringList zs;
 	stringstream sUrl;
-    sUrl << mRenderService.getBaseURL();
+    sUrl << mRenderService->getBaseURL();
     sUrl << "/owner/"    << mRenderProject.getProjectOwner();
     sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
     sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
@@ -532,7 +679,7 @@ vector<int> RenderClient::getValidZs()
 bool RenderClient::renameStack(const string& currentStackName, const string& newName)
 {
 	stringstream sUrl;
-    sUrl << mRenderService.getBaseURL();
+    sUrl << mRenderService->getBaseURL();
     sUrl << "/owner/"    << mRenderProject.getProjectOwner();
     sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
     sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
@@ -566,56 +713,6 @@ RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
     return bounds;
 }
 
-StringList RenderClient::getStacksForProject(const string& owner, const string& project)
-{
-    stringstream sUrl;
-    sUrl << mRenderService.getBaseURL();
-    sUrl << "/owner/"<<owner;
-    sUrl << "/stackIds";
-    Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();
-
-    StringList stacks;
-    TStringStream* zstrings = new TStringStream;;
-    try
-    {
-        mC->Get(sUrl.str().c_str(), zstrings);
-
-        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-        {
-            string s = stdstring(zstrings->DataString);
-            s = stripCharacters("\"[]}", s);
-            Log(lDebug3) << "Got Render Data String: " << s;
-
-            //Parse result
-            StringList t1(s,'{');
-
-            //Go trough list and get unique stacks
-            for(int i = 0; i < t1.count(); i++)
-            {
-                string line = t1[i];
-                if(contains(project, t1[i]))
-                {
-                    StringList l(t1[i], ',');
-                    if(l.count() == 3)
-                    {
-                        StringList l2(l[2], ':');
-                        if(l2.count() == 2 && !stacks.contains(l[2]))
-                        {
-                            stacks.append(l2[1]);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    catch(...)
-    {
-        Log(lError) << "Failed fetching owners";
-    }
-
-    stacks.sort();
-    return stacks;
-}
 
 string  RenderClient::getLastRequestURL()
 {

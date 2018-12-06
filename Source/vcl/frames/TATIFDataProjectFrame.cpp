@@ -1,4 +1,3 @@
-#include <vcl.h>
 #pragma hdrstop
 #include "TATIFDataProjectFrame.h"
 #include "dslVCLUtils.h"
@@ -160,7 +159,7 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
     if(b == CreateStateTablesBtn)
     {
         //Open Generate state tables form..
-        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, gATExplorer.mRenderPythonApps, this->Owner));
+        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, gATExplorer.DefaultRenderPythonApps, this->Owner));
         f->ShowModal();
     }
     else if(b == CreateRenderStacksBtn)
@@ -180,12 +179,11 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
     }
 }
 
+//---------------------------------------------------------------------------
 void __fastcall TATIFDataProjectFrame::RenderPythonContainersCBChange(TObject *Sender)
-
 {
 	DockerContainer* dc = (DockerContainer*) RenderPythonContainersCB->Items->Objects[RenderPythonContainersCB->ItemIndex];
-
-    gATExplorer.mRenderPythonApps = dc;
+    gATExplorer.DefaultRenderPythonApps = dc;
 }
-//---------------------------------------------------------------------------
+
 

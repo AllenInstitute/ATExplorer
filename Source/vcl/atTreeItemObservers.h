@@ -5,6 +5,7 @@
 #include <vector>
 #include "dslSharedPointer.h"
 #include "dslObserver.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 
 namespace dsl
@@ -29,7 +30,7 @@ typedef vector< ProjectItemTabbedViewSP > Views;
 class PACKAGE TreeItemObservers : public dsl::Observer
 {
     public:
-                                            TreeItemObservers(TPageControl& pc);
+                                            TreeItemObservers(TPageControl& pc, ATExplorer& e);
                                             ~TreeItemObservers();
 		ProjectItemTabbedView*   			getFirst();
 		ProjectItemTabbedView*   			getNext();
@@ -47,6 +48,7 @@ class PACKAGE TreeItemObservers : public dsl::Observer
 
     protected:
         TPageControl&                       MainPC;
+        ATExplorer&                         mExplorer;
         Views								mViews;
         Views::iterator                     mViewsIterator;
 };

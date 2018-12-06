@@ -22,11 +22,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
         //Setup parameters
         gAU.setupGeneralProperties();
         gAU.GeneralProperties->read();
-
         gATExplorer.Properties.LogFileName.setValue(gAU.getLogFileNameAndPath());
-
 	    gATExplorer.init(gAU.getIniFile());
-
 
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;

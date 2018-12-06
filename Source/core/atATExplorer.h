@@ -30,6 +30,7 @@ class ATE_CORE ATExplorer : public ExplorerObject
         RenderServiceParameters*                getRenderService(const string& name);
         RenderServiceParameters*                createRenderService(const string& serviceName);
         bool                                    removeRenderService(const string& serviceName);
+		RenderServiceParameters*                DefaultRenderService;
 
                                                 //Docker containers
         void                                    appendDockerContainer(DockerContainer*  rs);
@@ -40,9 +41,13 @@ class ATE_CORE ATExplorer : public ExplorerObject
         bool                                    removeDockerContainer(const string& serviceName);
 
                                                 //Default docker containers
-        DockerContainer*                        mRenderPythonApps;
-        DockerContainer*                        mATModules;
-        DockerContainer*                        mRenderService;
+        DockerContainer*                        DefaultRenderPythonApps;
+        DockerContainer*                        DefaultATModules;
+        DockerContainer*                        DefaultRenderServiceContainer;
+
+        string                                  getImageMagickPath();
+
+
 
         ATExplorerProperties                    Properties;
 
