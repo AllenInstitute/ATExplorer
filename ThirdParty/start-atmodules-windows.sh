@@ -11,6 +11,6 @@ docker rm $atm_container
 echo "Starting container: $atm_container"
 docker run -d --name $atm_container \
 -v e:/Documents/data:/mnt/data/  \
--v c:/pDisk/atExplorer/ThirdParty/atPipeline:/pipeline  \
+-v c:/pDisk/atExplorer/ThirdParty/atPipeline/pipeline:/pipeline  \
 -v c:/pDisk/atExplorer/ThirdParty/at_modules/src:/usr/local/at_modules/src  \
 -i -t $atm_image_tag /bin/bash 

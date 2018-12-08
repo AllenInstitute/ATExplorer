@@ -15,8 +15,6 @@ WORKDIR /shared/render-modules
 RUN pip install .
 WORKDIR /usr/local/render-python-apps
 
-RUN python setup.py install
-CMD ["jupyter", "notebook", "--no-browser", "--allow-root"]
 
 ## SPARK
 ENV SPARK_VERSION 2.0.2
@@ -31,3 +29,5 @@ RUN curl -sL --retry 3 \
 && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
 && chown -R root:root $SPARK_HOME
 
+RUN python setup.py install
+CMD ["jupyter", "notebook", "--no-browser", "--allow-root"]
