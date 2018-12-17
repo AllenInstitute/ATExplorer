@@ -1,14 +1,11 @@
 #ifndef atATDataUtilsH
 #define atATDataUtilsH
 #include "atATDataExporter.h"
-#include "dslStringList.h"
 #include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
-
-using dsl::StringList;
 
 class Section;
 class FileFolder;

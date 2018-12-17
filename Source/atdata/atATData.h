@@ -16,7 +16,8 @@ namespace at
 
 typedef boost::function<void(void*, void*, void*)> ATDataPopulateCallback;
 
-//!The ATData class abstracts ArrayTomography data
+//!The ATData class abstracts ArrayTomography data in terms of Ribbons, Sections, Sessions etc.
+
 class ATE_DATA ATData : virtual public ExplorerObject
 {
     public:
@@ -63,7 +64,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
 //        Sections                                getSections(const ChannelSP channel);
 
     protected:
-                                	            //!Basepath of raw data. All IF data need to be accesible
+                                	            //!Basepath of raw data. All raw AT data need to be accesible
                             	                //below this folder
         Path	     			                mBasePath;
 
@@ -82,7 +83,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
 
 
                                                 //!These callbacks can be used by clients to get feedback on progress when
-                                                //!populating the data
+                                                //!populating the data object
 		ATDataPopulateCallback                  onStartingPopulating;
 		ATDataPopulateCallback                  onProgressPopulating;
 		ATDataPopulateCallback                  onFinishedPopulating;

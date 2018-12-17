@@ -17,7 +17,6 @@ using dsl::StringList;
 typedef shared_ptr<ATData> ATDataSP;
 class ATE_CORE ATIFDataProject : public ATExplorerProject
 {
-	public:                                 //!Simplify ctors, too many
         	    	                        ATIFDataProject(const string& pName, const string& dataRootFolder);
 		virtual    	                        ~ATIFDataProject();
 
