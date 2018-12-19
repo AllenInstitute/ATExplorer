@@ -1,16 +1,25 @@
 #! /usr/bin/bash
-atm_image_tag="sharmi/at_modules"
-atm_container="atmodules"
 
-echo " ======== Building and starting Docker container: $atm_container =============="
-echo "Building image with tag: $atm_image_tag"
-docker build -t  $atm_image_tag -f ./init/Dockerfile-atmodules
-docker kill $atm_container
-docker rm $atm_container
+#AT_Modules
+image_tag="sharmi/at_modules"
+container="atmodules"
+docker_file=./init/Dockerfile-atmodules
+work_dir=./at_modules
 
-echo "Starting container: $atm_container"
-docker run -d --name $atm_container \
+echo " ======== Building and starting Docker container: $container =============="
+echo "Building image with tag: $image_tag"
+docker build -t $image_tag -f $docker_file $work_dir
+
+
+echo "Killing container: $container"
+docker kill $container
+docker rm $container
+
+echo "Starting container: $container"
+docker run -d --name $container \
 -v e:/Documents/data:/mnt/data/  \
 -v c:/pDisk/atExplorer/ThirdParty/atPipeline/pipeline:/pipeline  \
 -v c:/pDisk/atExplorer/ThirdParty/at_modules/src:/usr/local/at_modules/src  \
--i -t $atm_image_tag /bin/bash 
+-i -t $image_tag /bin/bash
+
+echo "Done.."

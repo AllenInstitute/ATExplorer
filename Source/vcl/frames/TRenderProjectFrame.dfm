@@ -1,8 +1,8 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 1203
-  Height = 757
+  Width = 808
+  Height = 574
   Align = alClient
   TabOrder = 0
   OnMouseDown = FrameMouseDown
@@ -12,7 +12,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 0
     Top = 0
     Width = 405
-    Height = 757
+    Height = 574
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -20,7 +20,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 1
       Top = 1
       Width = 307
-      Height = 755
+      Height = 572
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -341,7 +341,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 96
-      Height = 755
+      Height = 572
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -349,7 +349,7 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 1
         Top = 1
         Width = 94
-        Height = 615
+        Height = 432
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
@@ -358,17 +358,17 @@ object RenderProjectFrame: TRenderProjectFrame
           Left = 2
           Top = 15
           Width = 90
-          Height = 259
+          Height = 76
           Align = alClient
           ItemHeight = 13
           PopupMenu = ZsPopUpMenu
           TabOrder = 0
           OnClick = ClickZ
-          ExplicitHeight = 321
+          ExplicitHeight = 259
         end
         object GroupBox2: TGroupBox
           Left = 2
-          Top = 274
+          Top = 91
           Width = 90
           Height = 339
           Align = alBottom
@@ -401,7 +401,7 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object CacheGB: TGroupBox
         Left = 1
-        Top = 616
+        Top = 433
         Width = 94
         Height = 138
         Align = alBottom
@@ -432,8 +432,8 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 405
     Top = 0
-    Width = 798
-    Height = 757
+    Width = 403
+    Height = 574
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
@@ -445,13 +445,13 @@ object RenderProjectFrame: TRenderProjectFrame
       ExplicitWidth = 38
       ExplicitHeight = 277
       DesignSize = (
-        790
-        729)
+        395
+        546)
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 790
-        Height = 729
+        Width = 395
+        Height = 546
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -463,13 +463,13 @@ object RenderProjectFrame: TRenderProjectFrame
         ExplicitWidth = 38
         ExplicitHeight = 277
         DesignSize = (
-          790
-          729)
+          395
+          546)
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 788
-          Height = 710
+          Width = 393
+          Height = 527
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -485,8 +485,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 788
-          Height = 710
+          Width = 393
+          Height = 527
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16517,8 +16517,8 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 711
-          Width = 788
+          Top = 528
+          Width = 393
           Height = 17
           Align = alBottom
           Sections = <
@@ -16544,7 +16544,7 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object mZoomFactor: TIntegerEdit
           Left = 17
-          Top = 684
+          Top = 501
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -16557,8 +16557,8 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object URLE: TSTDStringEdit
         Left = 128
-        Top = 684
-        Width = 752
+        Top = 501
+        Width = 357
         Height = 21
         Anchors = [akLeft, akRight, akBottom]
         TabOrder = 1
@@ -16572,6 +16572,9 @@ object RenderProjectFrame: TRenderProjectFrame
     object NdVizTS: TTabSheet
       Caption = 'NDViz'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
       ExplicitHeight = 699
       object ClearBrowserCacheBtn: TButton
         Left = 16
