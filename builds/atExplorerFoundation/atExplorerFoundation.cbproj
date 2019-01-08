@@ -244,6 +244,9 @@
         <CppCompile Include="..\..\Source\core\atJSMN.cpp">
             <BuildOrder>45</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atPointMatchCollection.cpp">
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atPointMatchContextProject.cpp">
             <DependentOn>..\..\Source\core\atPointMatchContextProject.h</DependentOn>
             <BuildOrder>23</BuildOrder>

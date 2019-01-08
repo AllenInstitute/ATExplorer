@@ -39,5 +39,13 @@ class ATE_CORE DataException : public Exception
                                             DataException(const string& desc) : at::Exception(desc){}
                                             DataException(const stringstream& msg) : at::Exception(msg){}
 };
+
+class ATE_CORE PointMatchCollectionCTORException : public Exception
+{
+    public:
+                                            PointMatchCollectionCTORException(const string& desc) : at::Exception(desc){}
+                                            PointMatchCollectionCTORException(const stringstream& msg) : at::Exception(msg){}
+};
+
 }
 #endif

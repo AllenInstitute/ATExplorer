@@ -42,9 +42,9 @@ string TSelectPointmatchContextProjectForm::getRenderOwner()
     return stdstr(OwnerCB->Text);
 }
 
-string TSelectPointmatchContextProjectForm::getRenderProject()
+string TSelectPointmatchContextProjectForm::getMatchCollection()
 {
-    return stdstr(ProjectCB->Text);
+    return stdstr(CollectionCB->Text);
 }
 
 string TSelectPointmatchContextProjectForm::getOutputFolderLocation()
@@ -68,7 +68,7 @@ void __fastcall TSelectPointmatchContextProjectForm::FormCloseQuery(TObject *Sen
 {
     if(this->ModalResult == mrOk)
     {
-        if(OwnerCB->Text.Length() < 1 || ProjectCB->Text.Length() < 1)
+        if(OwnerCB->Text.Length() < 1 || CollectionCB->Text.Length() < 1)
         {
             MessageDlg("Please select an Owner and a Project", mtInformation, TMsgDlgButtons() << mbOK, 0);
             CanClose = false;
@@ -80,12 +80,12 @@ void __fastcall TSelectPointmatchContextProjectForm::FormCloseQuery(TObject *Sen
 void __fastcall TSelectPointmatchContextProjectForm::OwnerCBChange(TObject *Sender)
 {
     //Populate projects
-    StringList p = mRC.getProjectsForOwner(stdstr(OwnerCB->Text));
+    StringList p = mRC.getPointMatchCollectionNamesForOwner(stdstr(OwnerCB->Text));
     if(p.size())
     {
-		populateDropDown(p, ProjectCB);
-        ProjectCB->ItemIndex = 0;
-        ProjectCB->Text = ProjectCB->Items->Strings[0];
+		populateDropDown(p, CollectionCB);
+        CollectionCB->ItemIndex = 0;
+        CollectionCB->Text = CollectionCB->Items->Strings[0];
     }
 }
 
@@ -139,11 +139,11 @@ void __fastcall TSelectPointmatchContextProjectForm::RenderServicesCBCloseUp(TOb
     mRC.setRenderServiceParameters(getRenderService());
 }
 
-
+//---------------------------------------------------------------------------
 void __fastcall TSelectPointmatchContextProjectForm::RenderServicesCBChange(TObject *Sender)
 
 {
     mRC.setRenderServiceParameters(getRenderService());
 }
-//---------------------------------------------------------------------------
+
 

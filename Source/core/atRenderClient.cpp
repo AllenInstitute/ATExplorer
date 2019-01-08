@@ -6,12 +6,14 @@
 #include "atRenderClient.h"
 #include "dslStringUtils.h"
 #include "dslUtils.h"
-//#include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "dslPoint.h"
 #include "dslMathUtils.h"
 #include "dslFileUtils.h"
 #include "atJSMN.h"
+#include "atPointMatchCollection.h"
+#include "atStringUtils.h"
+#include "atExceptions.h"
 //---------------------------------------------------------------------------
 
 using std::wstring;
@@ -193,27 +195,6 @@ StringList RenderClient::getOwners()
     return owners;
 }
 
-string toString(jsmntok_t& key, const string& json)
-{
-    string val;
-//    if(key.type != JSMN_STRING)
-//    {
-//        return val;
-//    }
-
-    unsigned int length = key.end - key.start;
-    for(int i = 0; i < length; i++)
-    {
-        val.push_back(json[i+key.start]);
-    }
-
-//	char keyString[length + 1];
-//	memcpy(keyString, &yourJson[key.start], length);
-//	keyString[length] = '\0';
-//	printf("Key: %s\n", keyString);
-    return val;
-}
-
 StringList RenderClient::getChannelsInStack(const string& stackName)
 {
 	//http://localhost/render-ws/v1/owner/ATExplorer/project/M33/stack/STI_FF_Session1?api_key=stacks
@@ -242,6 +223,7 @@ StringList RenderClient::getChannelsInStack(const string& stackName)
         }
 
         string s = stdstring(zstrings->DataString);
+
         //Parse JSON
         jsmn_parser parser;
         jsmn_init(&parser);
@@ -415,6 +397,61 @@ StringList RenderClient::getProjectsForOwner(const string& o)
     }
     projects.sort();
     return projects;
+}
+
+StringList RenderClient::getPointMatchCollectionNamesForOwner(const string& o)
+{
+    stringstream sUrl;
+    sUrl << mRenderService->getBaseURL();
+    sUrl << "/owner/" << o;
+    sUrl << "/matchCollections";
+    Log(lDebug5) << "Fetching matchCollections for owner: "<<sUrl.str();
+
+    TStringStream* zstrings = new TStringStream;;
+    mC->Get(sUrl.str().c_str(), zstrings);
+
+    if(mC->ResponseCode != HTTP_RESPONSE_OK)
+    {
+        Log(lError) << "Failed fetching collections";
+        return StringList();
+    }
+
+    string json = stdstring(zstrings->DataString);
+    Log(lDebug1) << "Render Response: "<<json;
+
+    //Put collections in this list
+    StringList collections;
+
+    //Parse JSON
+    jsmn_parser parser;
+    jsmn_init(&parser);
+
+    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
+    if(r)
+    {
+        jsmn_init(&parser);
+        jsmntok_t* tokens = new jsmntok_t[r];
+        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
+        jsmntok_t main_tok = tokens[0];
+        int recordOffset(9);
+        if(main_tok.type == JSMN_ARRAY)
+        {
+            //Parse out records
+            for(int i = 0; i < main_tok.size; i++)
+            {
+                string name 	= toString(      tokens[7 + i*recordOffset], json);
+			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
+                PointMatchCollection* pc = new PointMatchCollection(name, pairCount);
+                if(pc)
+                {
+                    collections.append(pc->getName());
+                }
+            }
+        }
+    }
+
+    collections.sort();
+    return collections;
 }
 
 bool RenderClient::getImageInThread(int z, StringList& paras)

@@ -61,9 +61,9 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
     object Label2: TLabel
       Left = 255
       Top = 19
-      Width = 39
+      Width = 46
       Height = 13
-      Caption = 'Context'
+      Caption = 'Collection'
     end
     object Label1: TLabel
       Left = 16
@@ -72,7 +72,7 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
       Height = 13
       Caption = 'Owner'
     end
-    object ProjectCB: TComboBox
+    object CollectionCB: TComboBox
       Left = 255
       Top = 38
       Width = 235

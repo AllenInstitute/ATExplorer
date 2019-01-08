@@ -60,6 +60,7 @@ class ATE_CORE RenderClient : public ExplorerObject
 		StringList						            getServerProperties();
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
+		StringList									getPointMatchCollectionNamesForOwner(const string& o);
         StringList						            getStacksForProject(const string& owner, const string& p);
         StringList                                  getChannelsInStack(const string& stackName);
         RenderProject                               getCurrentProject();

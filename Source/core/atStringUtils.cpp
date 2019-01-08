@@ -10,6 +10,18 @@ namespace at
 using namespace std;
 using namespace dsl;
 
+string toString(jsmntok_t& key, const string& json)
+{
+    string val;
+    unsigned int length = key.end - key.start;
+    for(int i = 0; i < length; i++)
+    {
+        val.push_back(json[i+key.start]);
+    }
+
+    return val;
+}
+
 string toDockerMountPath(const string& winpath)
 {
     //Strip driveletter

@@ -412,7 +412,7 @@ void __fastcall TMainForm::AddPointMatchContextAExecute(TObject *Sender)
 
 		//Create a render project and associate with current ATE project
         //Use shared pointer later on
-		PointMatchContextProject* pmp (new PointMatchContextProject("", f->getRenderOwner(), f->getRenderProject(), ""));
+		PointMatchContextProject* pmp (new PointMatchContextProject("", f->getRenderOwner(), f->getMatchCollection(), ""));
         pmp->setRenderServiceParameters(rs);
         pmp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
 

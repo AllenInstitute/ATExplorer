@@ -28,7 +28,7 @@ class PACKAGE TSelectPointmatchContextProjectForm : public TForm
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
         TGroupBox *GroupBox2;
-        TComboBox *ProjectCB;
+	TComboBox *CollectionCB;
         TComboBox *OwnerCB;
         TLabel *Label1;
         TLabel *Label2;
@@ -57,7 +57,7 @@ class PACKAGE TSelectPointmatchContextProjectForm : public TForm
     public:
         					__fastcall 	TSelectPointmatchContextProjectForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
-        string                          getRenderProject();
+        string                          getMatchCollection();
         RenderServiceParameters*        getRenderService();
         string                          getOutputFolderLocation();
 };
