@@ -106,7 +106,6 @@ __published:	// IDE-managed Components
 	TMenuItem *MenuItem5;
 	TPopupMenu *ExplorerProjectPopup;
 	TMenuItem *MenuItem2;
-	TMenuItem *MenuItem3;
 	TMenuItem *MenuItem7;
 	TMenuItem *AddRenderProject1;
 	TMenuItem *AddATIFData1;
@@ -115,6 +114,8 @@ __published:	// IDE-managed Components
 	TMenuItem *Open3;
 	TToolButton *ToolButton5;
 	TAction *OpenAboutA;
+	TAction *AddPointMatchContextA;
+	TMenuItem *AddaPointmatchcontext1;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -153,6 +154,7 @@ __published:	// IDE-managed Components
 	void __fastcall AddATIFDataActionExecute(TObject *Sender);
 	void __fastcall OpenViewAExecute(TObject *Sender);
 	void __fastcall OpenAboutAExecute(TObject *Sender);
+	void __fastcall AddPointMatchContextAExecute(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;

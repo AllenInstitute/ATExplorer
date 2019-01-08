@@ -7,6 +7,7 @@
 #include "TATESettingsForm.h"
 #include "ATExplorerUIProperties.h"
 #include "atRenderProject.h"
+#include "atPointMatchContextProject.h"
 #include "atRenderProjectItemView.h"
 #include "atATIFDataProjectItemView.h"
 #include "atATIFDataProject.h"
@@ -14,6 +15,7 @@
 #include "TCreateATIFDataProjectForm.h"
 #include "dslFileUtils.h"
 #include "TSelectRenderProjectParametersForm.h"
+#include "TSelectPointmatchContextProjectForm.h"
 #include "atATExplorer.h"
 #include "TAboutATExplorerForm.h"
 //---------------------------------------------------------------------------
@@ -385,5 +387,44 @@ void __fastcall TMainForm::OpenAboutAExecute(TObject *Sender)
 	a->ShowModal();
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::AddPointMatchContextAExecute(TObject *Sender)
+{
+    TTreeNode* atNode = ProjectTView->Selected;
+	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
+
+    if(parent)
+    {
+        //If we can cast this to a RenderProject, add to parent
+        if(dynamic_cast<RenderProject*>(parent))
+        {
+            parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
+        }
+        //Open dialog to capture render parameters
+		unique_ptr<TSelectPointmatchContextProjectForm> f (new TSelectPointmatchContextProjectForm(gATExplorer, this));
+
+        if(f->ShowModal() == mrCancel)
+        {
+            return;
+        }
+
+        RenderServiceParameters* rs(f->getRenderService());
+
+		//Create a render project and associate with current ATE project
+        //Use shared pointer later on
+		PointMatchContextProject* pmp (new PointMatchContextProject("", f->getRenderOwner(), f->getRenderProject(), ""));
+        pmp->setRenderServiceParameters(rs);
+        pmp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
+
+	    //Check how many renderproject childs
+        int nrOfChilds = parent->getNumberOfChilds();
+
+        pmp->setProjectName("Pointmatch context: " + dsl::toString(nrOfChilds + 1));
+    	parent->addChild(pmp);
+    	parent->setModified();
+		mPTreeView.addProjectToTreeView(parent, pmp);
+    }
+
+}
 
 
