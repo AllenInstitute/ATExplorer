@@ -1,3 +1,4 @@
+#FROM docker.aibs-artifactory.corp.alleninstitute.org/fcollman/render-modules:master
 FROM docker.aibs-artifactory.corp.alleninstitute.org/fcollman/render-modules-candidate:multi-channel-correction
 MAINTAINER Forrest Collman (forrest.collman@gmail.com)
 RUN mkdir -p /usr/local/render-python-apps
@@ -14,7 +15,10 @@ COPY . /usr/local/render-python-apps
 WORKDIR /shared/render-modules
 RUN pip install .
 WORKDIR /usr/local/render-python-apps
+#COPY jupyter_notebook_config.py /root/.jupyter/
 
+RUN python setup.py install
+CMD ["jupyter", "notebook", "--no-browser", "--allow-root"]
 
 ## SPARK
 ENV SPARK_VERSION 2.0.2
@@ -29,5 +33,3 @@ RUN curl -sL --retry 3 \
 && mv /usr/$SPARK_PACKAGE $SPARK_HOME \
 && chown -R root:root $SPARK_HOME
 
-RUN python setup.py install
-CMD ["jupyter", "notebook", "--no-browser", "--allow-root"]
