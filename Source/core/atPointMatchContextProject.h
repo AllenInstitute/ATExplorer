@@ -1,5 +1,5 @@
-#ifndef atRenderProjectH
-#define atRenderProjectH
+#ifndef atPointMatchContextProjectH
+#define atPointMatchContextProjectH
 #include <string>
 #include "atATExplorerProject.h"
 #include "atRenderServiceParameters.h"
@@ -15,18 +15,17 @@ using std::vector;
 using dsl::gEmptyString;
 using dsl::StringList;
 
-class ATE_CORE RenderProject : public ATExplorerProject
+class ATE_CORE PointMatchContextProject : public ATExplorerProject
 {
-	public:                                     //!Simplify ctors, too many
-        	    	                            RenderProject(const string& url);
-			    	                            RenderProject(const string& name, RenderServiceParameters* paras);
-			    	                            RenderProject(const string& name, const string& owner, const string& project, const string& stack);
-                                                RenderProject(const RenderProject& rp);
-		virtual    	                            ~RenderProject();
+	public:
+        	    	                            PointMatchContextProject(const string& url);
+			    	                            PointMatchContextProject(const string& name, RenderServiceParameters* paras);
+			    	                            PointMatchContextProject(const string& name, const string& owner, const string& project, const string& stack);
+                                                PointMatchContextProject(const PointMatchContextProject& rp);
+		virtual    	                            ~PointMatchContextProject();
 
         virtual string                          getTypeName() const;
-        RenderProject&                          operator = (const RenderProject& rhs);
-
+        PointMatchContextProject&               operator = (const PointMatchContextProject& rhs);
         void                                    assignLocalCacheRootFolder(const string& rFolder);
         string                                  getLocalCacheFolder() const;
 
@@ -41,7 +40,7 @@ class ATE_CORE RenderProject : public ATExplorerProject
 
         bool                                    setRenderServiceParameters(RenderServiceParameters* rsp);
         RenderServiceParameters*                getRenderServiceParameters() const;
-		string							        getRenderProjectName() const;
+		string							        getPointMatchContextProjectName() const;
 		string							        getProjectOwner() const;
 
         								        //!ProjectManagement
@@ -54,8 +53,6 @@ class ATE_CORE RenderProject : public ATExplorerProject
         int&                                    getMinIntensity();
         int&                                    getMaxIntensity();
 
-//        StringList                              getChannels();
-
 	protected:
     	string 		                            mInfo;
     	string 		                            mOwner;
@@ -65,18 +62,16 @@ class ATE_CORE RenderProject : public ATExplorerProject
 		RegionOfInterest		 		        mCurrentROI;
 
 										        //!This is the "render" project name. Not the same as the projects name
-        string 		                            mRenderProjectName;
+        string 		                            mPointMatchContextProjectName;
         string                                  mSelectedStack;
         string                                  mSelectedChannel;
-//        StringList                              mChannels;
+
         StringList					   	        mRenderStacks;
 
         int                                     mMinIntensity;
         int                                     mMaxIntensity;
 		RenderServiceParameters*                mRenderService;
 
-        //Tiffstack(projects) container are children
-        //TiffStacks                          mTiffStacks;
 };
 
 }

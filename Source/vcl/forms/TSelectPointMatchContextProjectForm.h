@@ -1,5 +1,5 @@
-#ifndef TSelectRenderProjectParametersFormH
-#define TSelectRenderProjectParametersFormH
+#ifndef TSelectPointMatchContextProjectFormH
+#define TSelectPointMatchContextProjectFormH
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
@@ -23,7 +23,7 @@ using at::RenderServiceParameters;
 using at::RenderProject;
 using at::ATExplorer;
 //---------------------------------------------------------------------------
-class PACKAGE TSelectRenderProjectParametersForm : public TForm
+class PACKAGE TSelectPointmatchContextProjectForm : public TForm
 {
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
@@ -55,13 +55,13 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
         ATExplorer&                     mExplorer;
 
     public:
-        					__fastcall 	TSelectRenderProjectParametersForm(ATExplorer& e, TComponent* Owner);
+        					__fastcall 	TSelectPointmatchContextProjectForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
         string                          getRenderProject();
         RenderServiceParameters*        getRenderService();
         string                          getOutputFolderLocation();
 };
 
-extern PACKAGE TSelectRenderProjectParametersForm *SelectRenderProjectParametersForm;
+extern PACKAGE TSelectPointmatchContextProjectForm *SelectPointmatchContextProjectForm;
 
 #endif

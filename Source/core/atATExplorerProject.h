@@ -31,6 +31,7 @@ enum ATEObjectType
 	ateBaseType = 0,
     ateATIFDataProject,
     ateRenderProject,
+    atePointMatchContextProject,
     ateTiffStack,
     ateUnknown
 };

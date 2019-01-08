@@ -278,6 +278,9 @@ StringList RenderClient::getChannelsInStack(const string& stackName)
                 }
             }
         }
+
+    	Log(lError) << "Failed fetching channels";
+        return StringList();
     }
     catch(...)
     {

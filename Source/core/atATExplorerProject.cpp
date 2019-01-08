@@ -282,21 +282,23 @@ string toString(ATEObjectType tp)
 {
 	switch(tp)
     {
-    	case ateBaseType: 			return "atExplorerProject";
-    	case ateATIFDataProject:  	return "atifDataProject";
-    	case ateRenderProject: 		return "renderProject";
-        case ateTiffStack:			return "tiffstack";
-        default:					return "unKnownObject";
+    	case ateBaseType: 			            return "atExplorerProject";
+    	case ateATIFDataProject:  	            return "atifDataProject";
+    	case ateRenderProject: 		            return "renderProject";
+    	case atePointMatchContextProject: 		return "pointMatchContextProject";
+        case ateTiffStack:			            return "tiffstack";
+        default:					            return "unKnownObject";
     }
 }
 
 ATEObjectType toATEObjectType(const string& ateObject)
 {
-	if(     ateObject == "atExplorerProject") 		return ateBaseType;
-	else if(ateObject == "atifDataProject") 		return ateATIFDataProject;
-	else if(ateObject == "renderProject") 			return ateRenderProject;
-	else if(ateObject == "tiffStack")  				return ateTiffStack;
-	else if(ateObject == "unKnownObject") 			return ateUnknown;
+	if(     ateObject == "atExplorerProject") 			return ateBaseType;
+	else if(ateObject == "atifDataProject") 			return ateATIFDataProject;
+	else if(ateObject == "renderProject") 				return ateRenderProject;
+	else if(ateObject == "pointMatchContextProject") 	return atePointMatchContextProject;
+	else if(ateObject == "tiffStack")  					return ateTiffStack;
+	else if(ateObject == "unKnownObject") 				return ateUnknown;
 
    	return ateUnknown;
 }

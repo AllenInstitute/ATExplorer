@@ -1,9 +1,9 @@
-object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
+object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
   Left = 0
   Top = 0
   Caption = 'Setup Render Project'
   ClientHeight = 278
-  ClientWidth = 574
+  ClientWidth = 584
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,11 +20,12 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 574
+    Width = 584
     Height = 57
     Align = alTop
     Caption = 'Connection'
     TabOrder = 0
+    ExplicitWidth = 574
     object PopulateOwnersBtn: TButton
       Left = 527
       Top = 20
@@ -48,20 +49,21 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   object GroupBox2: TGroupBox
     Left = 0
     Top = 57
-    Width = 574
+    Width = 584
     Height = 78
     Align = alTop
     Caption = 'Project'
     TabOrder = 1
+    ExplicitWidth = 574
     DesignSize = (
-      574
+      584
       78)
     object Label2: TLabel
       Left = 255
       Top = 19
-      Width = 34
+      Width = 39
       Height = 13
-      Caption = 'Project'
+      Caption = 'Context'
     end
     object Label1: TLabel
       Left = 16
@@ -73,31 +75,34 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     object ProjectCB: TComboBox
       Left = 255
       Top = 38
-      Width = 225
+      Width = 235
       Height = 21
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 25
       TabOrder = 0
+      ExplicitWidth = 225
     end
     object OwnerCB: TComboBox
       Left = 10
       Top = 38
-      Width = 224
+      Width = 234
       Height = 21
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 1
       OnChange = OwnerCBChange
+      ExplicitWidth = 224
     end
   end
   object Panel1: TPanel
     Left = 0
     Top = 237
-    Width = 574
+    Width = 584
     Height = 41
     Align = alBottom
     TabOrder = 2
+    ExplicitWidth = 574
     object Button1: TButton
       Left = 396
       Top = 9
@@ -120,18 +125,19 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
   object GroupBox3: TGroupBox
     Left = 0
     Top = 135
-    Width = 574
+    Width = 584
     Height = 102
     Align = alClient
     Caption = 'Data Output'
     TabOrder = 3
+    ExplicitWidth = 574
     DesignSize = (
-      574
+      584
       102)
     object OutputDataRootFolderE: TSTDStringLabeledEdit
       Left = 10
       Top = 41
-      Width = 518
+      Width = 528
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 86
@@ -140,9 +146,10 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       TabOrder = 0
       Text = 'C:\ImageCache'
       Value = 'C:\ImageCache'
+      ExplicitWidth = 518
     end
     object BrowseForDataOutputPathBtn: TButton
-      Left = 534
+      Left = 544
       Top = 41
       Width = 28
       Height = 21
@@ -150,6 +157,7 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Caption = '...'
       TabOrder = 1
       OnClick = BrowseForDataOutputPathBtnClick
+      ExplicitLeft = 534
     end
   end
   object IdHTTP1: TIdHTTP
