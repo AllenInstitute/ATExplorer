@@ -244,6 +244,10 @@
         <CppCompile Include="..\..\Source\core\atJSMN.cpp">
             <BuildOrder>45</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atPointMatchContextProject.cpp">
+            <DependentOn>..\..\Source\core\atPointMatchContextProject.h</DependentOn>
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRegionOfInterest.cpp">
             <DependentOn>..\..\Source\core\atRegionOfInterest.h</DependentOn>
             <BuildOrder>25</BuildOrder>
@@ -267,8 +271,7 @@
             <BuildOrder>32</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderProject.cpp">
-            <DependentOn>..\..\Source\core\atRenderProject.h</DependentOn>
-            <BuildOrder>23</BuildOrder>
+            <BuildOrder>46</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderServiceParameters.cpp">
             <BuildOrder>44</BuildOrder>

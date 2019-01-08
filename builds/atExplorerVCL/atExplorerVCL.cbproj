@@ -228,11 +228,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\forms\TRenderAPIChecker.h</DependentOn>
             <BuildOrder>32</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\forms\TSelectPointMatchContextProjectForm.cpp">
+            <Form>SelectPointmatchContextProjectForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>..\..\Source\vcl\forms\TSelectPointMatchContextProjectForm.h</DependentOn>
+            <BuildOrder>27</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.cpp">
             <Form>SelectRenderProjectParametersForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.h</DependentOn>
-            <BuildOrder>27</BuildOrder>
+            <BuildOrder>34</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.cpp">
             <Form>NewValueE</Form>
@@ -293,10 +299,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\Source\vcl\frames\TDockerContainersFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TSelectPointMatchContextProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
