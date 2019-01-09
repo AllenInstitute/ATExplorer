@@ -9,13 +9,14 @@ namespace at
 
 using namespace dsl;
 
-PointMatchCollection::PointMatchCollection(const string& name, int pc)
+PointMatchContext::PointMatchContext(const string& owner, const string& name, int pc)
 :
+mOwner(owner),
 mName(name),
 mPairCount(pc)
 {}
 
-PointMatchCollection::~PointMatchCollection()
+PointMatchContext::~PointMatchContext()
 {}
 
 }

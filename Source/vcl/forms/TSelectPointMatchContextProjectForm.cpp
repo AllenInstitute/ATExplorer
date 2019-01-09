@@ -4,6 +4,7 @@
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "dslFileUtils.h"
+#include "atGenericList.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -13,7 +14,7 @@ TSelectPointmatchContextProjectForm *SelectPointmatchContextProjectForm;
 //---------------------------------------------------------------------------
 
 using namespace dsl;
-
+using namespace at;
 //---------------------------------------------------------------------------
 __fastcall TSelectPointmatchContextProjectForm::TSelectPointmatchContextProjectForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
@@ -42,14 +43,9 @@ string TSelectPointmatchContextProjectForm::getRenderOwner()
     return stdstr(OwnerCB->Text);
 }
 
-string TSelectPointmatchContextProjectForm::getMatchCollection()
+PointMatchContext* TSelectPointmatchContextProjectForm::getPointMatchContext()
 {
-    return stdstr(CollectionCB->Text);
-}
-
-string TSelectPointmatchContextProjectForm::getOutputFolderLocation()
-{
-    return OutputDataRootFolderE->getValue();
+    return (PointMatchContext*) CollectionCB->Items->Objects[CollectionCB->ItemIndex];
 }
 
 RenderServiceParameters* TSelectPointmatchContextProjectForm::getRenderService()
@@ -80,10 +76,18 @@ void __fastcall TSelectPointmatchContextProjectForm::FormCloseQuery(TObject *Sen
 void __fastcall TSelectPointmatchContextProjectForm::OwnerCBChange(TObject *Sender)
 {
     //Populate projects
-    StringList p = mRC.getPointMatchCollectionNamesForOwner(stdstr(OwnerCB->Text));
-    if(p.size())
+    List<PointMatchContext*> p = mRC.getPointMatchContextsForOwner(stdstr(OwnerCB->Text));
+    if(p.count())
     {
-		populateDropDown(p, CollectionCB);
+	    PointMatchContext* pmc = p.getFirst();
+		CollectionCB->Clear();
+        while(pmc)
+        {
+
+            CollectionCB->AddItem(pmc->getName().c_str(), (TObject*) pmc);
+            pmc = p.getNext();
+        }
+
         CollectionCB->ItemIndex = 0;
         CollectionCB->Text = CollectionCB->Items->Strings[0];
     }
@@ -100,26 +104,6 @@ void __fastcall TSelectPointmatchContextProjectForm::PopulateOwnersBtnClick(TObj
         OwnerCB->ItemIndex = 0;
         OwnerCB->Text = OwnerCB->Items->Strings[0];
 		OwnerCBChange(NULL);
-    }
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TSelectPointmatchContextProjectForm::BrowseForDataOutputPathBtnClick(TObject *Sender)
-{
-    TButton* btn = dynamic_cast<TButton*>(Sender);
-
-    if(btn == BrowseForDataOutputPathBtn)
-    {
-        //Browse for folder
-        string res = browseForFolder(OutputDataRootFolderE->getValue());
-        if(folderExists(res))
-        {
-            OutputDataRootFolderE->setValue(res);
-        }
-        else
-        {
-            Log(lWarning) << "Path was not set..!";
-        }
     }
 }
 

@@ -198,6 +198,11 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
         {
             ATIFDataPopup->Popup(popupCoord.X, popupCoord.Y);
         }
+        else if(dynamic_cast<PointMatchContextProject*>(eo))
+        {
+            PointMatchContextPopup->Popup(popupCoord.X, popupCoord.Y);
+        }
+
         else if(dynamic_cast<ATExplorerProject*>(eo))
         {
             ExplorerProjectPopup->Popup(popupCoord.X, popupCoord.Y);
@@ -412,17 +417,19 @@ void __fastcall TMainForm::AddPointMatchContextAExecute(TObject *Sender)
 
 		//Create a render project and associate with current ATE project
         //Use shared pointer later on
-		PointMatchContextProject* pmp (new PointMatchContextProject("", f->getRenderOwner(), f->getMatchCollection(), ""));
-        pmp->setRenderServiceParameters(rs);
-        pmp->assignLocalCacheRootFolder(f->getOutputFolderLocation());
+        if(f->getPointMatchContext())
+        {
+	        PointMatchContext pmc = *(f->getPointMatchContext());
 
-	    //Check how many renderproject childs
-        int nrOfChilds = parent->getNumberOfChilds();
+			PointMatchContextProject* pmp = new PointMatchContextProject("", pmc);
+            //Check how many renderproject childs
+            int nrOfChilds = parent->getNumberOfChilds();
 
-        pmp->setProjectName("Pointmatch context: " + dsl::toString(nrOfChilds + 1));
-    	parent->addChild(pmp);
-    	parent->setModified();
-		mPTreeView.addProjectToTreeView(parent, pmp);
+            pmp->setProjectName("Pointmatch context: " + dsl::toString(nrOfChilds + 1));
+            parent->addChild(pmp);
+            parent->setModified();
+            mPTreeView.addProjectToTreeView(parent, pmp);
+        }
     }
 
 }

@@ -7,16 +7,23 @@
 namespace at
 {
 
-class ATE_CORE PointMatchCollection  : public ExplorerObject
+class ATE_CORE PointMatchContext  : public ExplorerObject
 {
     public:
-					    	PointMatchCollection(const string& name, int pc);
-        					~PointMatchCollection();
+					    	PointMatchContext(const string& owner, const string& name, int pc);
+        					~PointMatchContext();
+        string              getOwner(){return mOwner;}
+        void                setOwner(const string& o){mOwner = o;}
+
         string              getName(){return mName;}
+		void                setName(const string& n){mName = n;}
+
+        void	            setPairCount(int pc){mPairCount = pc;}
         int		            getPairCount(){return mPairCount;}
 
     protected:
         string              mName;
+        string              mOwner;
         int                 mPairCount;
 };
 

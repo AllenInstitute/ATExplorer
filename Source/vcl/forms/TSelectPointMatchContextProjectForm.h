@@ -15,13 +15,14 @@
 #include "atRenderClient.h"
 #include "atRenderServiceParameters.h"
 #include "atATExplorer.h"
+#include "atPointMatchContext.h"
 
 //---------------------------------------------------------------------------
-
 using at::RenderClient;
 using at::RenderServiceParameters;
 using at::RenderProject;
 using at::ATExplorer;
+using at::PointMatchContext;
 //---------------------------------------------------------------------------
 class PACKAGE TSelectPointmatchContextProjectForm : public TForm
 {
@@ -37,14 +38,10 @@ class PACKAGE TSelectPointmatchContextProjectForm : public TForm
         TButton *Button2;
         TIdHTTP *IdHTTP1;
 		TButton *PopulateOwnersBtn;
-		TGroupBox *GroupBox3;
-		TSTDStringLabeledEdit *OutputDataRootFolderE;
-		TButton *BrowseForDataOutputPathBtn;
 		TComboBox *RenderServicesCB;
 		void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 		void __fastcall OwnerCBChange(TObject *Sender);
 		void __fastcall PopulateOwnersBtnClick(TObject *Sender);
-        void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
         void __fastcall RenderServicesCBCloseUp(TObject *Sender);
         void __fastcall RenderServicesCBChange(TObject *Sender);
@@ -57,9 +54,8 @@ class PACKAGE TSelectPointmatchContextProjectForm : public TForm
     public:
         					__fastcall 	TSelectPointmatchContextProjectForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
-        string                          getMatchCollection();
+        PointMatchContext*              getPointMatchContext();
         RenderServiceParameters*        getRenderService();
-        string                          getOutputFolderLocation();
 };
 
 extern PACKAGE TSelectPointmatchContextProjectForm *SelectPointmatchContextProjectForm;

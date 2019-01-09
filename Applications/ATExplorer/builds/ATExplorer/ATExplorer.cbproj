@@ -158,8 +158,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\source\TMainForm.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\..\Source\core\atPointMatchCollection.cpp">
-            <DependentOn>..\..\..\..\Source\core\atPointMatchCollection.h</DependentOn>
+        <CppCompile Include="..\..\..\..\Source\core\atPointMatchContext.cpp">
+            <DependentOn>..\..\..\..\Source\core\atPointMatchContext.h</DependentOn>
             <BuildOrder>8</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\..\Source\vcl\forms\TRenderAPIChecker.cpp">

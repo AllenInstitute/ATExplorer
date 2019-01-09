@@ -116,6 +116,10 @@ __published:	// IDE-managed Components
 	TAction *OpenAboutA;
 	TAction *AddPointMatchContextA;
 	TMenuItem *AddaPointmatchcontext1;
+	TPopupMenu *PointMatchContextPopup;
+	TMenuItem *MenuItem3;
+	TMenuItem *MenuItem6;
+	TMenuItem *MenuItem8;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);

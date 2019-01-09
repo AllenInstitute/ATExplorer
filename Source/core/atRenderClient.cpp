@@ -11,7 +11,7 @@
 #include "dslMathUtils.h"
 #include "dslFileUtils.h"
 #include "atJSMN.h"
-#include "atPointMatchCollection.h"
+#include "atPointMatchContext.h"
 #include "atStringUtils.h"
 #include "atExceptions.h"
 //---------------------------------------------------------------------------
@@ -399,7 +399,61 @@ StringList RenderClient::getProjectsForOwner(const string& o)
     return projects;
 }
 
-StringList RenderClient::getPointMatchCollectionNamesForOwner(const string& o)
+List<PointMatchContext*> RenderClient::getPointMatchContextsForOwner(const string& o)
+{
+    stringstream sUrl;
+    sUrl << mRenderService->getBaseURL();
+    sUrl << "/owner/" << o;
+    sUrl << "/matchCollections";
+    Log(lDebug5) << "Fetching matchCollections for owner: "<<sUrl.str();
+
+    TStringStream* zstrings = new TStringStream;;
+    mC->Get(sUrl.str().c_str(), zstrings);
+
+    if(mC->ResponseCode != HTTP_RESPONSE_OK)
+    {
+        Log(lError) << "Failed fetching contexts";
+        return List<PointMatchContext*>();
+    }
+
+    string json = stdstring(zstrings->DataString);
+    Log(lDebug1) << "Render Response: "<<json;
+
+    //Put contexts in a list
+    List<PointMatchContext*> contexts;
+
+    //Parse JSON
+    jsmn_parser parser;
+    jsmn_init(&parser);
+
+    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
+    if(r)
+    {
+        jsmn_init(&parser);
+        jsmntok_t* tokens = new jsmntok_t[r];
+        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
+        jsmntok_t main_tok = tokens[0];
+        int recordOffset(9);
+        if(main_tok.type == JSMN_ARRAY)
+        {
+            //Parse out records
+            for(int i = 0; i < main_tok.size; i++)
+            {
+                string name 	= toString(      tokens[7 + i*recordOffset], json);
+			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
+                PointMatchContext* pc = new PointMatchContext(o, name, pairCount);
+                if(pc)
+                {
+                    contexts.append(pc);
+                }
+            }
+        }
+    }
+
+    return contexts;
+}
+
+StringList RenderClient::getPointMatchContextNamesForOwner(const string& o)
 {
     stringstream sUrl;
     sUrl << mRenderService->getBaseURL();
@@ -441,7 +495,7 @@ StringList RenderClient::getPointMatchCollectionNamesForOwner(const string& o)
             {
                 string name 	= toString(      tokens[7 + i*recordOffset], json);
 			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-                PointMatchCollection* pc = new PointMatchCollection(name, pairCount);
+                PointMatchContext* pc = new PointMatchContext(o, name, pairCount);
                 if(pc)
                 {
                     collections.append(pc->getName());

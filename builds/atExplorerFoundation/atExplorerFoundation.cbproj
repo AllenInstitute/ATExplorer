@@ -244,7 +244,7 @@
         <CppCompile Include="..\..\Source\core\atJSMN.cpp">
             <BuildOrder>45</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\core\atPointMatchCollection.cpp">
+        <CppCompile Include="..\..\Source\core\atPointMatchContext.cpp">
             <BuildOrder>47</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atPointMatchContextProject.cpp">

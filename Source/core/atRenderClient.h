@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 #include "atExplorerObject.h"
+#include "atGenericList.h"
+#include "atPointMatchContext.h"
 //---------------------------------------------------------------------------
 
 namespace Idhttp
@@ -34,6 +36,7 @@ using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
 using at::RenderLocalCache;
+using at::List;
 using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
@@ -60,7 +63,8 @@ class ATE_CORE RenderClient : public ExplorerObject
 		StringList						            getServerProperties();
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
-		StringList									getPointMatchCollectionNamesForOwner(const string& o);
+		StringList									getPointMatchContextNamesForOwner(const string& o);
+		List<PointMatchContext*>    				getPointMatchContextsForOwner(const string& o);
         StringList						            getStacksForProject(const string& owner, const string& p);
         StringList                                  getChannelsInStack(const string& stackName);
         RenderProject                               getCurrentProject();
@@ -127,6 +131,7 @@ class ATE_CORE RenderClient : public ExplorerObject
         int								            mMaxIntensity;
         RegionOfInterest						    parseBoundsResponse(const string& s);
         FetchImageThread							mFetchImageThread;
+        List<PointMatchContext>                     Temp;
 };
 
 }

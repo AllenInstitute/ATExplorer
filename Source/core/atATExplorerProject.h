@@ -22,6 +22,7 @@ using dsl::gEmptyString;
 //!A render project is a project as exposed by Render
 class RenderProject;
 class ATIFDataProject;
+class PointMatchContextProject;
 class TiffStack;
 class DockerContainer;
 
@@ -80,6 +81,7 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 		ATIFDataProject*	 					createATIFDataProject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
 		TiffStack*								createTiffStackProject(tinyxml2::XMLElement* element);
+		PointMatchContextProject*				createPointMatchContextProject(tinyxml2::XMLElement* element);
 
                                                 //When data are processed, save who did it..
                                                 //But don't create new ones

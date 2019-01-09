@@ -4,6 +4,7 @@
 #include "dslLogger.h"
 #include "atRenderProject.h"
 #include "atATIFDataProject.h"
+#include "atPointMatchContextProject.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -235,6 +236,9 @@ ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* eleme
         case ATEObjectType::ateATIFDataProject:
         	return createATIFDataProject(element);
 
+        case ATEObjectType::atePointMatchContextProject:
+        	return createPointMatchContextProject(element);
+
         default:
         	return nullptr;
     }
@@ -270,6 +274,25 @@ RenderProject* ATExplorerProject::createRenderProject(tinyxml2::XMLElement* elem
 	const char* name = element->Attribute("name");
 
 	RenderProject* p (new RenderProject(name ? string(name) : string(""), "", "" ,""));
+	if(!p->loadFromXML(element))
+    {
+    	Log(lError) << "There was a problem loading model from XML";
+    }
+
+    return p;
+}
+
+PointMatchContextProject* ATExplorerProject::createPointMatchContextProject(tinyxml2::XMLElement* element)
+{
+    if(!element || !compareStrings(element->Name(), "at_object", csCaseInsensitive))
+    {
+    	Log(lError) <<"Bad 'render_project' xml!";
+    	return nullptr;
+    }
+
+	const char* name = element->Attribute("name");
+
+	PointMatchContextProject* p (new PointMatchContextProject(name ? string(name) : string("")));
 	if(!p->loadFromXML(element))
     {
     	Log(lError) << "There was a problem loading model from XML";

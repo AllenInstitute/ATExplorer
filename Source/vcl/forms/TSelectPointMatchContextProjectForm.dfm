@@ -2,8 +2,8 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
   Left = 0
   Top = 0
   Caption = 'Setup Render Project'
-  ClientHeight = 278
-  ClientWidth = 584
+  ClientHeight = 200
+  ClientWidth = 574
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,12 +20,12 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 584
+    Width = 574
     Height = 57
     Align = alTop
     Caption = 'Connection'
     TabOrder = 0
-    ExplicitWidth = 574
+    ExplicitWidth = 584
     object PopulateOwnersBtn: TButton
       Left = 527
       Top = 20
@@ -49,24 +49,25 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
   object GroupBox2: TGroupBox
     Left = 0
     Top = 57
-    Width = 584
-    Height = 78
-    Align = alTop
+    Width = 574
+    Height = 102
+    Align = alClient
     Caption = 'Project'
     TabOrder = 1
-    ExplicitWidth = 574
+    ExplicitWidth = 584
+    ExplicitHeight = 78
     DesignSize = (
-      584
-      78)
+      574
+      102)
     object Label2: TLabel
       Left = 255
       Top = 19
-      Width = 46
+      Width = 39
       Height = 13
-      Caption = 'Collection'
+      Caption = 'Context'
     end
     object Label1: TLabel
-      Left = 16
+      Left = 10
       Top = 22
       Width = 32
       Height = 13
@@ -75,34 +76,33 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
     object CollectionCB: TComboBox
       Left = 255
       Top = 38
-      Width = 235
+      Width = 225
       Height = 21
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 25
       TabOrder = 0
-      ExplicitWidth = 225
     end
     object OwnerCB: TComboBox
       Left = 10
       Top = 38
-      Width = 234
+      Width = 224
       Height = 21
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 1
       OnChange = OwnerCBChange
-      ExplicitWidth = 224
     end
   end
   object Panel1: TPanel
     Left = 0
-    Top = 237
-    Width = 584
+    Top = 159
+    Width = 574
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitWidth = 574
+    ExplicitTop = 237
+    ExplicitWidth = 584
     object Button1: TButton
       Left = 396
       Top = 9
@@ -122,44 +122,6 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
       TabOrder = 1
     end
   end
-  object GroupBox3: TGroupBox
-    Left = 0
-    Top = 135
-    Width = 584
-    Height = 102
-    Align = alClient
-    Caption = 'Data Output'
-    TabOrder = 3
-    ExplicitWidth = 574
-    DesignSize = (
-      584
-      102)
-    object OutputDataRootFolderE: TSTDStringLabeledEdit
-      Left = 10
-      Top = 41
-      Width = 528
-      Height = 21
-      Anchors = [akLeft, akTop, akRight]
-      EditLabel.Width = 86
-      EditLabel.Height = 13
-      EditLabel.Caption = 'Output Data Root'
-      TabOrder = 0
-      Text = 'C:\ImageCache'
-      Value = 'C:\ImageCache'
-      ExplicitWidth = 518
-    end
-    object BrowseForDataOutputPathBtn: TButton
-      Left = 544
-      Top = 41
-      Width = 28
-      Height = 21
-      Anchors = [akTop, akRight]
-      Caption = '...'
-      TabOrder = 1
-      OnClick = BrowseForDataOutputPathBtnClick
-      ExplicitLeft = 534
-    end
-  end
   object IdHTTP1: TIdHTTP
     AllowCookies = True
     ProxyParams.BasicAuthentication = False
@@ -174,7 +136,7 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 424
-    Top = 165
+    Left = 512
+    Top = 101
   end
 end
