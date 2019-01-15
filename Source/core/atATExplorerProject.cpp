@@ -4,7 +4,7 @@
 #include "dslLogger.h"
 #include "atRenderProject.h"
 #include "atATIFDataProject.h"
-#include "atPointMatchContextProject.h"
+#include "atPointMatchCollectionProject.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -236,8 +236,8 @@ ATExplorerProject* ATExplorerProject::createATObject(tinyxml2::XMLElement* eleme
         case ATEObjectType::ateATIFDataProject:
         	return createATIFDataProject(element);
 
-        case ATEObjectType::atePointMatchContextProject:
-        	return createPointMatchContextProject(element);
+        case ATEObjectType::atePointMatchCollectionProject:
+        	return createPointMatchCollectionProject(element);
 
         default:
         	return nullptr;
@@ -282,7 +282,7 @@ RenderProject* ATExplorerProject::createRenderProject(tinyxml2::XMLElement* elem
     return p;
 }
 
-PointMatchContextProject* ATExplorerProject::createPointMatchContextProject(tinyxml2::XMLElement* element)
+PointMatchCollectionProject* ATExplorerProject::createPointMatchCollectionProject(tinyxml2::XMLElement* element)
 {
     if(!element || !compareStrings(element->Name(), "at_object", csCaseInsensitive))
     {
@@ -292,7 +292,7 @@ PointMatchContextProject* ATExplorerProject::createPointMatchContextProject(tiny
 
 	const char* name = element->Attribute("name");
 
-	PointMatchContextProject* p (new PointMatchContextProject(name ? string(name) : string("")));
+	PointMatchCollectionProject* p (new PointMatchCollectionProject(name ? string(name) : string("")));
 	if(!p->loadFromXML(element))
     {
     	Log(lError) << "There was a problem loading model from XML";
@@ -308,7 +308,7 @@ string toString(ATEObjectType tp)
     	case ateBaseType: 			            return "atExplorerProject";
     	case ateATIFDataProject:  	            return "atifDataProject";
     	case ateRenderProject: 		            return "renderProject";
-    	case atePointMatchContextProject: 		return "pointMatchContextProject";
+    	case atePointMatchCollectionProject: 		return "pointMatchContextProject";
         case ateTiffStack:			            return "tiffstack";
         default:					            return "unKnownObject";
     }
@@ -319,7 +319,7 @@ ATEObjectType toATEObjectType(const string& ateObject)
 	if(     ateObject == "atExplorerProject") 			return ateBaseType;
 	else if(ateObject == "atifDataProject") 			return ateATIFDataProject;
 	else if(ateObject == "renderProject") 				return ateRenderProject;
-	else if(ateObject == "pointMatchContextProject") 	return atePointMatchContextProject;
+	else if(ateObject == "pointMatchContextProject") 	return atePointMatchCollectionProject;
 	else if(ateObject == "tiffStack")  					return ateTiffStack;
 	else if(ateObject == "unKnownObject") 				return ateUnknown;
 

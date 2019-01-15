@@ -15,7 +15,7 @@ namespace at
 using dsl::IniFile;
 using dsl::IniSection;
 
-//!The ATExplorer class is a coposite superclass, encapsulating datastrctures and funtionality 
+//!The ATExplorer class is a composite superclass, encapsulating datastructures and funtionality
 class ATE_CORE ATExplorer : public ExplorerObject
 {
     public:

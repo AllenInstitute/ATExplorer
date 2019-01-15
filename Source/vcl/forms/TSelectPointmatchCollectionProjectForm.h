@@ -1,5 +1,5 @@
-#ifndef TSelectPointMatchContextProjectFormH
-#define TSelectPointMatchContextProjectFormH
+#ifndef TSelectPointMatchCollectionProjectFormH
+#define TSelectPointMatchCollectionProjectFormH
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
@@ -15,16 +15,16 @@
 #include "atRenderClient.h"
 #include "atRenderServiceParameters.h"
 #include "atATExplorer.h"
-#include "atPointMatchContext.h"
+#include "pointMatches/atPointMatchCollection.h"
 
 //---------------------------------------------------------------------------
 using at::RenderClient;
 using at::RenderServiceParameters;
 using at::RenderProject;
 using at::ATExplorer;
-using at::PointMatchContext;
+using at::PointMatchCollection;
 //---------------------------------------------------------------------------
-class PACKAGE TSelectPointmatchContextProjectForm : public TForm
+class PACKAGE TSelectPointmatchCollectionProjectForm : public TForm
 {
     __published:	// IDE-managed Components
         TGroupBox *GroupBox1;
@@ -52,12 +52,12 @@ class PACKAGE TSelectPointmatchContextProjectForm : public TForm
         ATExplorer&                     mExplorer;
 
     public:
-        					__fastcall 	TSelectPointmatchContextProjectForm(ATExplorer& e, TComponent* Owner);
+        					__fastcall 	TSelectPointmatchCollectionProjectForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
-        PointMatchContext*              getPointMatchContext();
+        PointMatchCollection*              getPointMatchCollection();
         RenderServiceParameters*        getRenderService();
 };
 
-extern PACKAGE TSelectPointmatchContextProjectForm *SelectPointmatchContextProjectForm;
+extern PACKAGE TSelectPointmatchCollectionProjectForm *SelectPointmatchCollectionProjectForm;
 
 #endif

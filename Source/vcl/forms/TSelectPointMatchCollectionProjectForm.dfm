@@ -1,4 +1,4 @@
-object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
+object SelectPointmatchCollectionProjectForm: TSelectPointmatchCollectionProjectForm
   Left = 0
   Top = 0
   Caption = 'Setup Render Project'
@@ -64,7 +64,7 @@ object SelectPointmatchContextProjectForm: TSelectPointmatchContextProjectForm
       Top = 19
       Width = 39
       Height = 13
-      Caption = 'Context'
+      Caption = 'Collection'
     end
     object Label1: TLabel
       Left = 10

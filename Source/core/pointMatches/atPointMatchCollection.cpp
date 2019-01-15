@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atPointMatchContext.h"
+#include "atPointMatchCollection.h"
 #include "dslStringList.h"
 #include "atStringUtils.h"
 #include "atExceptions.h"
@@ -9,14 +9,14 @@ namespace at
 
 using namespace dsl;
 
-PointMatchContext::PointMatchContext(const string& owner, const string& name, int pc)
+PointMatchCollection::PointMatchCollection(const string& owner, const string& name, int pc)
 :
 mOwner(owner),
 mName(name),
-mPairCount(pc)
+mDummyCount(pc)
 {}
 
-PointMatchContext::~PointMatchContext()
+PointMatchCollection::~PointMatchCollection()
 {}
 
 }

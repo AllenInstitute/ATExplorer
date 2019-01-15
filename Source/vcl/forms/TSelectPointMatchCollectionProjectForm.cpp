@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "TSelectPointMatchContextProjectForm.h"
+#include "TSelectPointMatchCollectionProjectForm.h"
 #include "dslStringList.h"
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
@@ -10,13 +10,13 @@
 #pragma link "dslTIntegerLabeledEdit"
 #pragma link "dslTSTDStringLabeledEdit"
 #pragma resource "*.dfm"
-TSelectPointmatchContextProjectForm *SelectPointmatchContextProjectForm;
+TSelectPointmatchCollectionProjectForm *SelectPointmatchCollectionProjectForm;
 //---------------------------------------------------------------------------
 
 using namespace dsl;
 using namespace at;
 //---------------------------------------------------------------------------
-__fastcall TSelectPointmatchContextProjectForm::TSelectPointmatchContextProjectForm(ATExplorer& e, TComponent* Owner)
+__fastcall TSelectPointmatchCollectionProjectForm::TSelectPointmatchCollectionProjectForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
     mRP("", "", "" , ""),
     mRC(mRP,IdHTTP1, e.DefaultRenderService),
@@ -38,17 +38,17 @@ __fastcall TSelectPointmatchContextProjectForm::TSelectPointmatchContextProjectF
     }
 }
 
-string TSelectPointmatchContextProjectForm::getRenderOwner()
+string TSelectPointmatchCollectionProjectForm::getRenderOwner()
 {
     return stdstr(OwnerCB->Text);
 }
 
-PointMatchContext* TSelectPointmatchContextProjectForm::getPointMatchContext()
+PointMatchCollection* TSelectPointmatchCollectionProjectForm::getPointMatchCollection()
 {
-    return (PointMatchContext*) CollectionCB->Items->Objects[CollectionCB->ItemIndex];
+    return (PointMatchCollection*) CollectionCB->Items->Objects[CollectionCB->ItemIndex];
 }
 
-RenderServiceParameters* TSelectPointmatchContextProjectForm::getRenderService()
+RenderServiceParameters* TSelectPointmatchCollectionProjectForm::getRenderService()
 {
 	int index = RenderServicesCB->ItemIndex;
     if(index == -1)
@@ -59,7 +59,7 @@ RenderServiceParameters* TSelectPointmatchContextProjectForm::getRenderService()
     return service;
 }
 //---------------------------------------------------------------------------
-void __fastcall TSelectPointmatchContextProjectForm::FormCloseQuery(TObject *Sender,
+void __fastcall TSelectPointmatchCollectionProjectForm::FormCloseQuery(TObject *Sender,
           bool &CanClose)
 {
     if(this->ModalResult == mrOk)
@@ -73,13 +73,13 @@ void __fastcall TSelectPointmatchContextProjectForm::FormCloseQuery(TObject *Sen
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSelectPointmatchContextProjectForm::OwnerCBChange(TObject *Sender)
+void __fastcall TSelectPointmatchCollectionProjectForm::OwnerCBChange(TObject *Sender)
 {
     //Populate projects
-    List<PointMatchContext*> p = mRC.getPointMatchContextsForOwner(stdstr(OwnerCB->Text));
+    List<PointMatchCollection*> p = mRC.getPointMatchCollectionsForOwner(stdstr(OwnerCB->Text));
     if(p.count())
     {
-	    PointMatchContext* pmc = p.getFirst();
+	    PointMatchCollection* pmc = p.getFirst();
 		CollectionCB->Clear();
         while(pmc)
         {
@@ -94,7 +94,7 @@ void __fastcall TSelectPointmatchContextProjectForm::OwnerCBChange(TObject *Send
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSelectPointmatchContextProjectForm::PopulateOwnersBtnClick(TObject *Sender)
+void __fastcall TSelectPointmatchCollectionProjectForm::PopulateOwnersBtnClick(TObject *Sender)
 {
     //Populate owners
     StringList o = mRC.getOwners();
@@ -108,7 +108,7 @@ void __fastcall TSelectPointmatchContextProjectForm::PopulateOwnersBtnClick(TObj
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSelectPointmatchContextProjectForm::FormKeyDown(TObject *Sender,
+void __fastcall TSelectPointmatchCollectionProjectForm::FormKeyDown(TObject *Sender,
           WORD &Key, TShiftState Shift)
 {
     if(Key == VK_ESCAPE)
@@ -118,13 +118,13 @@ void __fastcall TSelectPointmatchContextProjectForm::FormKeyDown(TObject *Sender
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSelectPointmatchContextProjectForm::RenderServicesCBCloseUp(TObject *Sender)
+void __fastcall TSelectPointmatchCollectionProjectForm::RenderServicesCBCloseUp(TObject *Sender)
 {
     mRC.setRenderServiceParameters(getRenderService());
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSelectPointmatchContextProjectForm::RenderServicesCBChange(TObject *Sender)
+void __fastcall TSelectPointmatchCollectionProjectForm::RenderServicesCBChange(TObject *Sender)
 
 {
     mRC.setRenderServiceParameters(getRenderService());

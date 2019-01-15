@@ -371,10 +371,10 @@ object MainForm: TMainForm
       ImageIndex = 3
       OnExecute = OpenAboutAExecute
     end
-    object AddPointMatchContextA: TAction
+    object AddPointMatchCollectionA: TAction
       Category = 'TreeView'
-      Caption = 'Add a Pointmatch context'
-      OnExecute = AddPointMatchContextAExecute
+      Caption = 'Add a Point Match Collection'
+      OnExecute = AddPointMatchCollectionAExecute
     end
   end
   object SaveDialog1: TSaveDialog
@@ -388,7 +388,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C0101EA00E806A00310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101EA00E806A40310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000B0030000010020000000000000B0
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -8248,7 +8248,7 @@ object MainForm: TMainForm
       Action = AddATIFDataAction
     end
     object AddaPointmatchcontext1: TMenuItem
-      Action = AddPointMatchContextA
+      Action = AddPointMatchCollectionA
     end
     object MenuItem7: TMenuItem
       Caption = 'Rename'
@@ -8261,7 +8261,7 @@ object MainForm: TMainForm
       Action = CloseProjectA
     end
   end
-  object PointMatchContextPopup: TPopupMenu
+  object PointMatchCollectionPopup: TPopupMenu
     AutoPopup = False
     OnPopup = ATIFDataPopupPopup
     Left = 136

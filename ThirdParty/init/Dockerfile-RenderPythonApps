@@ -1,4 +1,3 @@
-#FROM docker.aibs-artifactory.corp.alleninstitute.org/fcollman/render-modules:master
 FROM docker.aibs-artifactory.corp.alleninstitute.org/fcollman/render-modules-candidate:multi-channel-correction
 MAINTAINER Forrest Collman (forrest.collman@gmail.com)
 RUN mkdir -p /usr/local/render-python-apps

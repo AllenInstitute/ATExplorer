@@ -7,7 +7,7 @@
 #include "TATESettingsForm.h"
 #include "ATExplorerUIProperties.h"
 #include "atRenderProject.h"
-#include "atPointMatchContextProject.h"
+#include "pointMatches/atPointMatchCollectionProject.h"
 #include "atRenderProjectItemView.h"
 #include "atATIFDataProjectItemView.h"
 #include "atATIFDataProject.h"
@@ -15,7 +15,7 @@
 #include "TCreateATIFDataProjectForm.h"
 #include "dslFileUtils.h"
 #include "TSelectRenderProjectParametersForm.h"
-#include "TSelectPointmatchContextProjectForm.h"
+#include "TSelectPointmatchCollectionProjectForm.h"
 #include "atATExplorer.h"
 #include "TAboutATExplorerForm.h"
 //---------------------------------------------------------------------------
@@ -198,9 +198,9 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
         {
             ATIFDataPopup->Popup(popupCoord.X, popupCoord.Y);
         }
-        else if(dynamic_cast<PointMatchContextProject*>(eo))
+        else if(dynamic_cast<PointMatchCollectionProject*>(eo))
         {
-            PointMatchContextPopup->Popup(popupCoord.X, popupCoord.Y);
+            PointMatchCollectionPopup->Popup(popupCoord.X, popupCoord.Y);
         }
 
         else if(dynamic_cast<ATExplorerProject*>(eo))
@@ -393,7 +393,7 @@ void __fastcall TMainForm::OpenAboutAExecute(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TMainForm::AddPointMatchContextAExecute(TObject *Sender)
+void __fastcall TMainForm::AddPointMatchCollectionAExecute(TObject *Sender)
 {
     TTreeNode* atNode = ProjectTView->Selected;
 	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
@@ -406,7 +406,7 @@ void __fastcall TMainForm::AddPointMatchContextAExecute(TObject *Sender)
             parent = dynamic_cast<ATExplorerProject*>(parent->getParent());
         }
         //Open dialog to capture render parameters
-		unique_ptr<TSelectPointmatchContextProjectForm> f (new TSelectPointmatchContextProjectForm(gATExplorer, this));
+		unique_ptr<TSelectPointmatchCollectionProjectForm> f (new TSelectPointmatchCollectionProjectForm(gATExplorer, this));
 
         if(f->ShowModal() == mrCancel)
         {
@@ -417,15 +417,15 @@ void __fastcall TMainForm::AddPointMatchContextAExecute(TObject *Sender)
 
 		//Create a render project and associate with current ATE project
         //Use shared pointer later on
-        if(f->getPointMatchContext())
+        if(f->getPointMatchCollection())
         {
-	        PointMatchContext pmc = *(f->getPointMatchContext());
+	        PointMatchCollection pmc = *(f->getPointMatchCollection());
 
-			PointMatchContextProject* pmp = new PointMatchContextProject("", pmc);
+			PointMatchCollectionProject* pmp = new PointMatchCollectionProject("", pmc);
             //Check how many renderproject childs
             int nrOfChilds = parent->getNumberOfChilds();
 
-            pmp->setProjectName("Pointmatch context: " + dsl::toString(nrOfChilds + 1));
+            pmp->setProjectName("Pointmatch Collection: " + dsl::toString(nrOfChilds + 1));
             parent->addChild(pmp);
             parent->setModified();
             mPTreeView.addProjectToTreeView(parent, pmp);

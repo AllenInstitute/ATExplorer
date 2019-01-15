@@ -114,9 +114,9 @@ __published:	// IDE-managed Components
 	TMenuItem *Open3;
 	TToolButton *ToolButton5;
 	TAction *OpenAboutA;
-	TAction *AddPointMatchContextA;
+	TAction *AddPointMatchCollectionA;
 	TMenuItem *AddaPointmatchcontext1;
-	TPopupMenu *PointMatchContextPopup;
+	TPopupMenu *PointMatchCollectionPopup;
 	TMenuItem *MenuItem3;
 	TMenuItem *MenuItem6;
 	TMenuItem *MenuItem8;
@@ -158,7 +158,7 @@ __published:	// IDE-managed Components
 	void __fastcall AddATIFDataActionExecute(TObject *Sender);
 	void __fastcall OpenViewAExecute(TObject *Sender);
 	void __fastcall OpenAboutAExecute(TObject *Sender);
-	void __fastcall AddPointMatchContextAExecute(TObject *Sender);
+	void __fastcall AddPointMatchCollectionAExecute(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;

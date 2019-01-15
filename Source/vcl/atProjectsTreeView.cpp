@@ -5,12 +5,14 @@
 #include "atATExplorerProject.h"
 #include "atRenderProject.h"
 #include "atATIFDataProject.h"
+#include "atPointMatchCollectionProject.h"
 #include "atSession.h"
 #include "atSection.h"
 #include "atRibbon.h"
 #include "atRenderProjectItemView.h"
 #include "atATIFDataProjectItemView.h"
 #include "atTextFileItemView.h"
+
 #include "atTextFile.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -70,6 +72,7 @@ bool ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
             return handleClick(o, isDoubleClick);
         }
     }
+
     else if(dynamic_cast<RenderProject*>(eo))
     {
         RenderProject* o = dynamic_cast<RenderProject*>(eo);
@@ -80,15 +83,16 @@ bool ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
         }
     }
 
-    else if(dynamic_cast<ATExplorerProject*>(eo))
+    else if(dynamic_cast<PointMatchCollectionProject*>(eo))
     {
-        ATExplorerProject* o = dynamic_cast<ATExplorerProject*>(eo);
+        PointMatchCollectionProject* o = dynamic_cast<PointMatchCollectionProject*>(eo);
         if(o)
         {
-            Log(lInfo) << "Clicked on ATExplorerProject project item: " << o->getProjectName();
+            Log(lInfo) << "Clicked on PointMatchCollectionProject project item: " << o->getProjectName();
             return handleClick(o, isDoubleClick);
         }
     }
+
     else if(dynamic_cast<Channel*>(eo))
     {
         Channel* o = dynamic_cast<Channel*>(eo);
@@ -123,6 +127,16 @@ bool ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
         if(o)
         {
             Log(lInfo) << "Clicked on TextFile item: " << o->getFileNameWithPath();
+            return handleClick(o, isDoubleClick);
+        }
+    }
+    //All projects are ATExplorerProjects, so put this last...
+    else if(dynamic_cast<ATExplorerProject*>(eo))
+    {
+        ATExplorerProject* o = dynamic_cast<ATExplorerProject*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Clicked on ATExplorerProject project item: " << o->getProjectName();
             return handleClick(o, isDoubleClick);
         }
     }
@@ -170,8 +184,24 @@ bool ProjectsTreeView::handleClick(RenderProject* o, bool isDoubleClick)
     return true;
 }
 
+bool ProjectsTreeView::handleClick(PointMatchCollectionProject* o, bool isDoubleClick)
+{
+    if(!o)
+    {
+        return false;
+    }
 
-bool ProjectsTreeView::handleClick(  Ribbon* o, bool isDoubleClick)
+    if(isDoubleClick)
+    {
+    	ProjectItemTabbedView* view = mViews.createView(o);
+
+		//Select the page with projectView
+	    return mViews.selectTabWithView(view);
+    }
+    return true;
+}
+
+bool ProjectsTreeView::handleClick(Ribbon* o, bool isDoubleClick)
 {
     return true;
 }

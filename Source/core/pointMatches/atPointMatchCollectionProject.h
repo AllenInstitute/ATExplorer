@@ -1,11 +1,11 @@
-#ifndef atPointMatchContextProjectH
-#define atPointMatchContextProjectH
+#ifndef atPointMatchCollectionProjectH
+#define atPointMatchCollectionProjectH
 #include <string>
 #include "atATExplorerProject.h"
 #include "atRenderServiceParameters.h"
 #include "dslStringList.h"
 #include "atRegionOfInterest.h"
-#include "atPointMatchContext.h"
+#include "atPointMatchCollection.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -16,31 +16,32 @@ using std::vector;
 using dsl::gEmptyString;
 using dsl::StringList;
 
-class ATE_CORE PointMatchContextProject : public ATExplorerProject
+class ATE_CORE PointMatchCollectionProject : public ATExplorerProject
 {
 	public:
-        	    	                            PointMatchContextProject(const string& projName, const string& owner = gEmptyString, const string& name = gEmptyString, int pairCount = -1);
-                                                PointMatchContextProject(const string& projName, const PointMatchContext& pmc);
-		virtual    	                            ~PointMatchContextProject();
+        	    	                            PointMatchCollectionProject(const string& projName, const string& owner = gEmptyString, const string& name = gEmptyString, int pairCount = -1);
+                                                PointMatchCollectionProject(const string& projName, const PointMatchCollection& pmc);
+		virtual    	                            ~PointMatchCollectionProject();
         virtual string                          getTypeName() const;
 
-//        PointMatchContextProject&               operator = (const PointMatchContextProject& rhs);
+//        PointMatchCollectionProject&               operator = (const PointMatchCollectionProject& rhs);
 
 
 
         bool                                    setRenderServiceParameters(RenderServiceParameters* rsp);
         RenderServiceParameters*                getRenderServiceParameters() const;
-		string							        getPointMatchContextProjectName() const;
+		string							        getPointMatchCollectionProjectName() const;
 
         								        //!ProjectManagement
 		virtual bool 	   	                    write();
         virtual dsl::XMLElement*                addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl::XMLElement* docRoot);
 		virtual bool 					        loadFromXML(dsl::XMLNode* node);
 
+                                                //!Made public for convenience
+		PointMatchCollection 						mPointMatchCollection;
+
 
 	protected:
-
-		PointMatchContext 						mPointMatchContext;
 		RenderServiceParameters*                mRenderService;
 
 };

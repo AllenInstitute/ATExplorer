@@ -11,7 +11,7 @@
 #include "dslMathUtils.h"
 #include "dslFileUtils.h"
 #include "atJSMN.h"
-#include "atPointMatchContext.h"
+#include "atPointMatchCollection.h"
 #include "atStringUtils.h"
 #include "atExceptions.h"
 //---------------------------------------------------------------------------
@@ -399,7 +399,7 @@ StringList RenderClient::getProjectsForOwner(const string& o)
     return projects;
 }
 
-List<PointMatchContext*> RenderClient::getPointMatchContextsForOwner(const string& o)
+List<PointMatchCollection*> RenderClient::getPointMatchCollectionsForOwner(const string& o)
 {
     stringstream sUrl;
     sUrl << mRenderService->getBaseURL();
@@ -413,14 +413,14 @@ List<PointMatchContext*> RenderClient::getPointMatchContextsForOwner(const strin
     if(mC->ResponseCode != HTTP_RESPONSE_OK)
     {
         Log(lError) << "Failed fetching contexts";
-        return List<PointMatchContext*>();
+        return List<PointMatchCollection*>();
     }
 
     string json = stdstring(zstrings->DataString);
     Log(lDebug1) << "Render Response: "<<json;
 
     //Put contexts in a list
-    List<PointMatchContext*> contexts;
+    List<PointMatchCollection*> contexts;
 
     //Parse JSON
     jsmn_parser parser;
@@ -441,7 +441,7 @@ List<PointMatchContext*> RenderClient::getPointMatchContextsForOwner(const strin
             {
                 string name 	= toString(      tokens[7 + i*recordOffset], json);
 			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-                PointMatchContext* pc = new PointMatchContext(o, name, pairCount);
+                PointMatchCollection* pc = new PointMatchCollection(o, name, pairCount);
                 if(pc)
                 {
                     contexts.append(pc);
@@ -453,7 +453,7 @@ List<PointMatchContext*> RenderClient::getPointMatchContextsForOwner(const strin
     return contexts;
 }
 
-StringList RenderClient::getPointMatchContextNamesForOwner(const string& o)
+StringList RenderClient::getPointMatchCollectionNamesForOwner(const string& o)
 {
     stringstream sUrl;
     sUrl << mRenderService->getBaseURL();
@@ -495,7 +495,7 @@ StringList RenderClient::getPointMatchContextNamesForOwner(const string& o)
             {
                 string name 	= toString(      tokens[7 + i*recordOffset], json);
 			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-                PointMatchContext* pc = new PointMatchContext(o, name, pairCount);
+                PointMatchCollection* pc = new PointMatchCollection(o, name, pairCount);
                 if(pc)
                 {
                     collections.append(pc->getName());
@@ -506,6 +506,96 @@ StringList RenderClient::getPointMatchContextNamesForOwner(const string& o)
 
     collections.sort();
     return collections;
+}
+
+StringList RenderClient::getPointMatchGroupIDs(const string& o, const string& matchCollection)
+{
+    return getMatchCollectionAPIResponse(o, matchCollection, "groupIds");
+}
+
+StringList RenderClient::getPPointMatchGroupIDs(const string& o, const string& matchCollection)
+{
+    return getMatchCollectionAPIResponse(o, matchCollection, "pGroupIds");
+}
+
+StringList RenderClient::getQPointMatchGroupIDs(const string& o, const string& matchCollection)
+{
+    return getMatchCollectionAPIResponse(o, matchCollection, "qGroupIds");
+}
+
+StringList RenderClient::getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request)
+{
+    stringstream sUrl;
+    sUrl << mRenderService->getBaseURL();
+    sUrl << "/owner/" << owner;
+    sUrl << "/matchCollection/" << matchCollection;
+    sUrl << "/" <<request;
+
+    Log(lDebug5) << "Request url: "<<sUrl.str();
+
+    TStringStream* zstrings = new TStringStream;;
+    mC->Get(sUrl.str().c_str(), zstrings);
+
+    if(mC->ResponseCode != HTTP_RESPONSE_OK)
+    {
+        Log(lError) << "The request for \"" << request << "\" failed";
+        return StringList();
+    }
+
+    string json = stdstring(zstrings->DataString);
+    Log(lDebug1) << "Render Response: "<<json;
+
+    //Put collections in this list
+    StringList collections;
+
+    //Parse JSON
+    jsmn_parser parser;
+    jsmn_init(&parser);
+
+    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
+    if(r)
+    {
+        jsmn_init(&parser);
+        jsmntok_t* tokens = new jsmntok_t[r];
+        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
+        jsmntok_t main_tok = tokens[0];
+        if(main_tok.type == JSMN_ARRAY)
+        {
+            //Parse out records
+            for(int i = 0; i < r; i++)
+            {
+                if(tokens[i].type == JSMN_STRING)
+                {
+                    string group 	= toString(tokens[i], json);
+                    collections.append(group);
+                }
+            }
+        }
+    }
+    return collections;
+}
+
+bool RenderClient::deletePointMatchCollection(const string& owner, const string& matchCollection)
+{
+    stringstream sUrl;
+    sUrl << mRenderService->getBaseURL();
+    sUrl << "/owner/" 			<< owner;
+    sUrl << "/matchCollection/"	<<matchCollection;
+
+    Log(lDebug5) << "Deleting matchCollection URL: "<<sUrl.str();
+
+    TStringStream* zstrings = new TStringStream;;
+    mC->Delete(sUrl.str().c_str(), zstrings);
+
+    if(mC->ResponseCode != HTTP_RESPONSE_OK)
+    {
+        Log(lError) << "Failed deleting point match collection";
+        return false;
+    }
+
+    string json = stdstring(zstrings->DataString);
+    Log(lDebug1) << "Render Response: "<<json;
+    return true;
 }
 
 bool RenderClient::getImageInThread(int z, StringList& paras)
@@ -807,9 +897,10 @@ RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
     return bounds;
 }
 
-
-string  RenderClient::getLastRequestURL()
+string RenderClient::getLastRequestURL()
 {
     return mLastRequestURL;
 }
+
+
 }
