@@ -1,15 +1,17 @@
 #pragma hdrstop
 #include "atTreeItemObservers.h"
-#include "atRenderProjectItemView.h"
 #include "dslProject.h"
 #include "dslLogger.h"
 #include "atATExplorerProject.h"
 #include "atRenderProject.h"
+#include "atPointMatchCollectionProject.h"
 #include "atATIFDataProject.h"
 #include "atSession.h"
 #include "atSection.h"
 #include "atRibbon.h"
 #include "atATIFDataProjectItemView.h"
+#include "atRenderProjectItemView.h"
+#include "atPointMatchCollectionProjectItemView.h"
 #include "atTextFile.h"
 #include "atTextFileItemView.h"
 //---------------------------------------------------------------------------
@@ -95,6 +97,18 @@ ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
         }
     }
 
+    else if(dynamic_cast<PointMatchCollectionProject*>(eo))
+    {
+        PointMatchCollectionProject* o = dynamic_cast<PointMatchCollectionProject*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Creating a PointMatchCollection ProjectView";
+            shared_ptr<PointMatchCollectionProjectItemView> aItemView(new PointMatchCollectionProjectItemView(MainPC,  mExplorer, *o));
+           	mViews.push_back(aItemView);
+            this->observe(aItemView->getSubject());
+            return aItemView.get();
+        }
+    }
     else if(dynamic_cast<ATExplorerProject*>(eo))
     {
         ATExplorerProject* o = dynamic_cast<ATExplorerProject*>(eo);

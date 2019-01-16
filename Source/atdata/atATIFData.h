@@ -10,6 +10,7 @@ namespace at
 //!Some assumptions:
 //!Number of tiles for a particular section, for a particular ribbon, are equal across channels(sessions)
 //!A section do always belong to a ribbon
+
 class ATIFData;
 typedef shared_ptr<ATIFData> ATIFDataSP;
 
@@ -27,12 +28,18 @@ class ATE_DATA ATIFData : public ATData
                                         //!Ribbonfolder functions..
 		FileFolders                     getRibbonFolders();
         FileFolderSP					getRibbonFolder(int fldr);
+
+                                        //!Get root folder for Ribbon Folders
         FileFolderSP 	       			getRibbonsDataFolder();
+
         int                 			getNumberOfRibbonFolders();
 
 		FileFolders						getSessionFolders(FileFolderSP ribbonFolder);
+
    		FileFolders                     getChannelFolders(FileFolderSP sessionFolder);
+
         int	                            getNumberOfStateTables(bool refresh = false);
+
         StringList                      getStateTables();
 
     protected:
@@ -41,6 +48,7 @@ class ATE_DATA ATIFData : public ATData
         FileFolderSP   	    			mProcessedDataFolder;
         FileFolderSP        			mScriptsDataFolder;
         StringList                      mStateTables;
+
         bool                            populateRibbons();
         bool                            populateSessions();
         bool                            populateStateTables();

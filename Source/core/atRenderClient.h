@@ -10,8 +10,12 @@
 #include <string>
 #include <vector>
 #include "atExplorerObject.h"
+#include "atGenericList.h"
+#include "pointMatches/atPointMatchCollection.h"
 //---------------------------------------------------------------------------
 
+
+//Use CURL instead of Indy..
 namespace Idhttp
 {
 	class TIdHTTP;
@@ -34,6 +38,7 @@ using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
 using at::RenderLocalCache;
+using at::List;
 using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
@@ -60,6 +65,15 @@ class ATE_CORE RenderClient : public ExplorerObject
 		StringList						            getServerProperties();
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
+
+                                                    //Pointmatch API's
+		StringList									getPointMatchCollectionNamesForOwner(const string& o);
+		List<PointMatchCollection*>    				getPointMatchCollectionsForOwner(const string& o);
+		StringList									getPointMatchGroupIDs(const string& o, const string& matchCollection);
+		StringList									getPPointMatchGroupIDs(const string& o, const string& matchCollection);
+		StringList									getQPointMatchGroupIDs(const string& o, const string& matchCollection);
+        bool                                        deletePointMatchCollection(const string& owner, const string& matchCollection);
+
         StringList						            getStacksForProject(const string& owner, const string& p);
         StringList                                  getChannelsInStack(const string& stackName);
         RenderProject                               getCurrentProject();
@@ -107,6 +121,8 @@ class ATE_CORE RenderClient : public ExplorerObject
 		Idhttp::TIdHTTP* 	                        mC;
         string                                      mLastRequestURL;
 
+		StringList 									getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request);
+
         											//!Memory to hold image data retrieved from server
 		TMemoryStream* 		                        mImageMemory;
 
@@ -126,6 +142,7 @@ class ATE_CORE RenderClient : public ExplorerObject
         int								            mMaxIntensity;
         RegionOfInterest						    parseBoundsResponse(const string& s);
         FetchImageThread							mFetchImageThread;
+        List<PointMatchCollection>                     Temp;
 };
 
 }

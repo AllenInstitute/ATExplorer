@@ -870,12 +870,12 @@ object AboutATExplorer: TAboutATExplorer
       737
       79)
     object Label2: TLabel
-      Left = 255
+      Left = 151
       Top = 30
-      Width = 307
+      Width = 371
       Height = 30
       Anchors = [akTop, akRight]
-      Caption = 'Smith Lab.  - Allen Institute 2016'
+      Caption = 'Smith Lab.  - Allen Institute 2016 - 2019'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack

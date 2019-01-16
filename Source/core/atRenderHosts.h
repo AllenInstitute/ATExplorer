@@ -1,7 +1,6 @@
 #ifndef atRenderHostsH
 #define atRenderHostsH
 #include "atExplorerObject.h"
-//#include "atRenderServiceParameters.h"
 #include <vector>
 #include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
@@ -33,6 +32,5 @@ class ATE_CORE RenderHosts : public ExplorerObject
 };
 
 }
-
 
 #endif

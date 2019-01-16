@@ -13,7 +13,8 @@ services:
            - NDVIZ_URL=${HOSTNAME}:5000
            - JAVA_OPTIONS=-Xms10g -Xmx10g -server -Djava.awt.headless=true
        volumes:
-           - e:\Documents:/mnt
+           - e:\Documents\data:/mnt
+           - e:\Documents\data:/mnt/data  #Remove this one later on
        logging:
            options:
                max-size: "5g"

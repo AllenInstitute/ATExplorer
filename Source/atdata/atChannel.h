@@ -8,9 +8,7 @@
 namespace at
 {
 
-
 class Session;
-
 class Channel;
 typedef std::tr1::shared_ptr<Channel> ChannelSP;
 

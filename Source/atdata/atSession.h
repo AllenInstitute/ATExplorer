@@ -10,12 +10,12 @@ namespace at
 
 class ATE_DATA Session : public ExplorerObject
 {
-	public:
+    public:
                                     Session(const string& lbl);
                                     ~Session();
-        virtual string        		getTypeName() const;
+        virtual string        	    getTypeName() const;
         string                      getLabel() const {return mLabel;}
-        int                      	getID() const;
+        int                         getID() const;
         bool        	            appendChannel(ChannelSP channel);
         ChannelSP                   getChannel(const string& channelLbl);
         ChannelSP                   getChannel(ChannelSP channel);
@@ -26,7 +26,7 @@ class ATE_DATA Session : public ExplorerObject
         bool                        operator==(const Session& s) const;
         int                         getNumberOfChannels();
 
-	protected:
+    protected:
         string                      mLabel;
         Channels                    mChannels;
 };

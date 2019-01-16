@@ -44,6 +44,7 @@ bool ATIFData::setBasePath(const string& bp)
         {
         	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
         }
+
         if(folderExists(joinPath(mBasePath.toString(), "processed")))
         {
         	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
@@ -348,7 +349,6 @@ int ATIFData::getNumberOfRibbonFolders()
 {
     //Check how many Ribbon folders that are present
     //The Ribbon folder is assumed to be under basepath/raw/data/
-
     FileFolders fldrs = mRibbonsDataFolder->getSubFolders();
 
     int count(0);
@@ -439,10 +439,7 @@ bool ATIFData::validate()
 //    }
 //
 //
-
     return true;
 }
-
-
 
 }

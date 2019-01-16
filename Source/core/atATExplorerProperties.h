@@ -43,7 +43,8 @@ class ATE_CORE ATExplorerProperties : public ExplorerObject
         Property<string>                                        DefaultATModulesContainer;
         Property<string>                                        DefaultRenderServiceHost;
 		Property<string>                                        ImageMagickPath;
-		void													read();
+		
+        void													read();
 		void													write();
         PropertiesSP                                  			getSection(const string& sec);
         shared_ptr<IniFileProperties>                           appendNewINISection(const string& secName);

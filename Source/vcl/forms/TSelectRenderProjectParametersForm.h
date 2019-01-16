@@ -39,15 +39,15 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
 		TButton *PopulateOwnersBtn;
 		TGroupBox *GroupBox3;
 		TSTDStringLabeledEdit *OutputDataRootFolderE;
-	TButton *BrowseForDataOutputPathBtn;
-	TComboBox *RenderServicesCB;
+		TButton *BrowseForDataOutputPathBtn;
+		TComboBox *RenderServicesCB;
 		void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 		void __fastcall OwnerCBChange(TObject *Sender);
 		void __fastcall PopulateOwnersBtnClick(TObject *Sender);
-	void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
-	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-	void __fastcall RenderServicesCBCloseUp(TObject *Sender);
-	void __fastcall RenderServicesCBChange(TObject *Sender);
+        void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
+        void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+        void __fastcall RenderServicesCBCloseUp(TObject *Sender);
+        void __fastcall RenderServicesCBChange(TObject *Sender);
 
     private:
         RenderProject                   mRP;
