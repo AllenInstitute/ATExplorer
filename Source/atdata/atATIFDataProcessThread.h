@@ -10,7 +10,6 @@
 namespace at
 {
 
-using dsl::StringList;
 using dsl::Thread;
 using dsl::gEmptyString;
 class DockerContainer;

@@ -2,9 +2,7 @@
 #define atGenericListH
 #include "atExplorerObject.h"
 #include <list>
-#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
-
 
 namespace at
 {
@@ -12,7 +10,7 @@ namespace at
 using std::list;
 
 template <typename T>
-class ATE_CORE List : public ExplorerObject
+class List : public ExplorerObject
 {
     public:
                                 List(){}
@@ -21,11 +19,18 @@ class ATE_CORE List : public ExplorerObject
         T                       getFirst();
         T                       getNext();
         bool                    remove(T item);
+        int                     count();
 
     protected:
         list< T > 				mTheList;
         list< T >::iterator  	mIter;
 };
+
+template <typename T>
+int List<T>::count()
+{
+	return mTheList.size();
+}
 
 template <typename T>
 void List<T>::append(T obj)

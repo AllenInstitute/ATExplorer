@@ -16,6 +16,7 @@ using std::map;
 class Ribbon;
 class Tiles;
 class Section;
+
 typedef shared_ptr<Tiles> TilesSP;
 typedef shared_ptr<Section> SectionSP;
 

@@ -14,6 +14,7 @@ COPY . /usr/local/render-python-apps
 WORKDIR /shared/render-modules
 RUN pip install .
 WORKDIR /usr/local/render-python-apps
+#COPY jupyter_notebook_config.py /root/.jupyter/
 
 RUN python setup.py install
 CMD ["jupyter", "notebook", "--no-browser", "--allow-root"]

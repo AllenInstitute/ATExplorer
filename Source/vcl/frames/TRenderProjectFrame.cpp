@@ -1101,4 +1101,11 @@ void __fastcall TRenderProjectFrame::CheckZs(TObject *Sender)
     }
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::CreateSubVolumeStackAExecute(TObject *Sender)
+{
+    //Create a subvolume stack in render
+
+}
+
 

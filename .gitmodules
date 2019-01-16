@@ -13,3 +13,9 @@
 [submodule "ThirdParty/at_modules"]
 	path = ThirdParty/at_modules
 	url = https://github.com/AllenInstitute/at_modules
+[submodule "Testing/HelloClang/dsl-tp"]
+	path = Testing/HelloClang/dsl-tp
+	url = https://bitbucket.org/TotteKarlsson/dsl-tp/
+[submodule "Testing/HelloClang/dsl"]
+	path = Testing/HelloClang/dsl
+	url = https://bitbucket.org/TotteKarlsson/dslib

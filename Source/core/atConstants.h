@@ -10,6 +10,7 @@
 
 namespace at
 {
+  
 using std::string;
 typedef unsigned int uint;
 AT_CORE extern const string gRenderVersion;

@@ -16,6 +16,7 @@ using dsl::SubjectEvent;
 class ATExplorerProject;
 class RenderProject;
 class ATIFDataProject;
+class PointMatchCollectionProject;
 class Ribbon;
 class Section;
 class Session;
@@ -78,9 +79,11 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
                                         //The model..
                                         //This container (ProjectsTreeView) is responsible to dispose of any projects
         Projects                        mProjects;
-		bool							handleClick(RenderProject* o, bool isDoubleClick);
-		bool							handleClick(ATIFDataProject* o, bool isDoubleClick);
 		bool 							handleClick(ATExplorerProject* o, bool isDoubleClick);
+		bool							handleClick(RenderProject* o, bool isDoubleClick);
+		bool							handleClick(PointMatchCollectionProject* o, bool isDoubleClick);
+		bool							handleClick(ATIFDataProject* o, bool isDoubleClick);
+
 		bool							handleClick(Ribbon*  o, bool isDoubleClick);
 		bool							handleClick(Section* o, bool isDoubleClick);
 		bool							handleClick(Session* o, bool isDoubleClick);

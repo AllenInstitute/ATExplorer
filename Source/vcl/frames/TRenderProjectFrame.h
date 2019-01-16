@@ -120,6 +120,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TCheckListBox *OtherCB;
 	TGroupBox *GroupBox2;
 	TCheckListBox *StacksCB;
+	TAction *CreateSubVolumeStackA;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -160,6 +161,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 
 	void __fastcall Checkrange1Click(TObject *Sender);
 	void __fastcall CheckZs(TObject *Sender);
+	void __fastcall CreateSubVolumeStackAExecute(TObject *Sender);
 
     private:
    		FetchImagesThread								mCreateCacheThread;
