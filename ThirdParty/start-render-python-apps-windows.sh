@@ -13,16 +13,15 @@ if [ $BUILD == "true" ]; then
     docker build -t $image_tag -f ./init/Dockerfile-RenderPythonApps ./Render-Python-Apps
 fi    
 
-echo "Killing container: $container"
+echo "Killing container with name: $container_name"
 docker kill $container_name
 docker rm $container_name 
 
-echo "Starting container: $container"
-docker run -d --name $container_name  \
+echo "Starting container with name: $container_name"
+docker run -d --name $container_name \
 -v e:/Documents/data:/mnt/  \
 -v c:/pDisk/atExplorer/ThirdParty/atPipeline/pipeline:/pipeline  \
 -v c:/pDisk/atExplorer/ThirdParty/Render-Python-Apps:/usr/local/render-python-apps  \
--p 8888:8888 \
 -i -t $image_tag /bin/bash
 
 echo "Done.."

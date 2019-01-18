@@ -1,18 +1,21 @@
 #! /usr/bin/bash
+BUILD=${1:-false}
+echo "Build flag is "$BUILD
 
-#AT_Modules
+#AT MODULES
 image_tag="sharmi/at_modules"
 container_name="atmodules"
-docker_file=./init/Dockerfile-atmodules
-work_dir=./at_modules
 
 echo " ======== Building and starting Docker container with name: $container_name =============="
+
+if [ $BUILD == "true" ]; then
 echo "Building image with tag: $image_tag"
-docker build -t $image_tag -f $docker_file $work_dir
+docker build -t $image_tag -f ./init/Dockerfile-atmodules ./at_modules
+fi    
 
 echo "Killing container with name: $container_name"
 docker kill $container_name
-docker rm $container_name
+docker rm $container_name 
 
 echo "Starting container with name: $container_name"
 docker run -d --name $container_name \
