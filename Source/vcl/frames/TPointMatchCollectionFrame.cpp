@@ -31,6 +31,7 @@ __fastcall TPointMatchCollectionFrame::TPointMatchCollectionFrame(ATExplorer& e,
 	: TFrame(Owner),
     mRP("","","",""),
 	mPMC(pmp),
+    mTheCollection(mPMC.mPointMatchCollection),
     mRC(mRP, IdHTTP1, e.DefaultRenderService)
 {
     //mRC.assignOnImageCallback(onImage);
@@ -41,27 +42,26 @@ __fastcall TPointMatchCollectionFrame::TPointMatchCollectionFrame(ATExplorer& e,
 
 void TPointMatchCollectionFrame::populate()
 {
-    OwnerE->setValue(     mPMC.mPointMatchCollection.getOwner());
-    CollectionE->setValue(mPMC.mPointMatchCollection.getName());
-    PairsE->setValue(mPMC.mPointMatchCollection.getCount());
+    OwnerE->setValue(     mTheCollection.getOwner());
+    CollectionE->setValue(mTheCollection.getName());
 
     //Fetch group IDs
 	StringList IDs;
 
-    IDs = mRC.getPPointMatchGroupIDs(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
+    IDs = mRC.getPPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
     populateCheckListBox(IDs, pGroupIDs);
 
-    IDs = mRC.getQPointMatchGroupIDs(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
+    IDs = mRC.getQPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
     populateCheckListBox(IDs, qGroupIDs);
+
+    PairsE->setValue(mTheCollection.refreshCount());
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TPointMatchCollectionFrame::DeletePMCAExecute(TObject *Sender)
 {
-//    StringList gIDS = mRC.getPointMatchGroupIDs(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
-
-    mRC.deletePointMatchCollection(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
+    mRC.deletePointMatchCollection(mTheCollection.getOwner(), mTheCollection.getName());
 }
 
 
-//---------------------------------------------------------------------------
+

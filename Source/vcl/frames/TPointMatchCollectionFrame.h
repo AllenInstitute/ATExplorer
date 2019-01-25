@@ -26,6 +26,7 @@
 //---------------------------------------------------------------------------
 
 using at::PointMatchCollectionProject;
+using at::PointMatchCollection;
 using at::RenderProject;
 using at::RenderClient;
 using at::RegionOfInterest;
@@ -57,7 +58,8 @@ class PACKAGE TPointMatchCollectionFrame : public TFrame
 
     private:
                                                         //A Reference to a PointMatchCollection project
-        PointMatchCollectionProject&		                mPMC;
+        PointMatchCollectionProject&		            mPMC;
+		PointMatchCollection& 							mTheCollection;
 
                                                         //Currently, the RenderClient need a RenderProject for initialization
         RenderProject                                   mRP;

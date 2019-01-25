@@ -1,6 +1,6 @@
 #ifndef atPointMatchCollectionH
 #define atPointMatchCollectionH
-#include "atExplorerObject.h"
+#include "atRenderObject.h"
 #include "atJSMN.h"
 #include "atPointMatch.h"
 #include "atGenericList.h"
@@ -9,7 +9,7 @@
 namespace at
 {
 
-class ATE_CORE PointMatchCollection : public ExplorerObject
+class ATE_CORE PointMatchCollection : public RenderObject
 {
     public:
 					    	            PointMatchCollection(const string& owner, const string& name, int pc);
@@ -19,7 +19,6 @@ class ATE_CORE PointMatchCollection : public ExplorerObject
 
         string                          getName(){return mName;}
 		void                            setName(const string& n){mName = n;}
-
 
         List<PointMatch>	            mPMCollection;
         int                             getCount(){return mPMCollection.count();}

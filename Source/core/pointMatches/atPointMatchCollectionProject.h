@@ -38,7 +38,7 @@ class ATE_CORE PointMatchCollectionProject : public ATExplorerProject
 		virtual bool 					        loadFromXML(dsl::XMLNode* node);
 
                                                 //!Made public for convenience
-		PointMatchCollection 						mPointMatchCollection;
+		PointMatchCollection 					mPointMatchCollection;
 
 
 	protected:

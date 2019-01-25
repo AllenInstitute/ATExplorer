@@ -43,6 +43,9 @@ using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
+//Rename this one to RenderService.
+//Create "RenderObjects" and give them a pointer to a RenderService
+
 class ATE_CORE RenderClient : public ExplorerObject
 {
 	public:
@@ -142,7 +145,6 @@ class ATE_CORE RenderClient : public ExplorerObject
         int								            mMaxIntensity;
         RegionOfInterest						    parseBoundsResponse(const string& s);
         FetchImageThread							mFetchImageThread;
-        List<PointMatchCollection>                     Temp;
 };
 
 }

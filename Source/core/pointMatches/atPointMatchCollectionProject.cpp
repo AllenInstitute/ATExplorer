@@ -51,7 +51,7 @@ PointMatchCollectionProject::~PointMatchCollectionProject()
 
 string PointMatchCollectionProject::getTypeName() const
 {
-    return "PointMatchCollectionProject";
+    return "pointMatchCollectionProject";
 }
 
 bool PointMatchCollectionProject::setRenderServiceParameters(RenderServiceParameters* rsp)

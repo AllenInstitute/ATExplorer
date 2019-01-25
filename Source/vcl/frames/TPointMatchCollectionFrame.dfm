@@ -1,8 +1,8 @@
 object PointMatchCollectionFrame: TPointMatchCollectionFrame
   Left = 0
   Top = 0
-  Width = 898
-  Height = 652
+  Width = 864
+  Height = 399
   Align = alClient
   TabOrder = 0
   ExplicitWidth = 451
@@ -11,7 +11,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
     Left = 0
     Top = 0
     Width = 388
-    Height = 652
+    Height = 399
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -19,7 +19,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
       Left = 1
       Top = 1
       Width = 290
-      Height = 650
+      Height = 397
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -84,7 +84,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
       Left = 291
       Top = 1
       Width = 96
-      Height = 650
+      Height = 397
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -110,7 +110,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
         Left = 1
         Top = 231
         Width = 94
-        Height = 418
+        Height = 165
         Align = alClient
         Caption = 'q group IDs'
         TabOrder = 1
@@ -119,15 +119,15 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
           Left = 2
           Top = 15
           Width = 90
-          Height = 341
+          Height = 88
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
-          ExplicitHeight = 308
+          ExplicitHeight = 341
         end
         object Panel1: TPanel
           Left = 2
-          Top = 356
+          Top = 103
           Width = 90
           Height = 60
           Align = alBottom
@@ -148,8 +148,8 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
   object VisualsPC: TPageControl
     Left = 388
     Top = 0
-    Width = 510
-    Height = 652
+    Width = 476
+    Height = 399
     Align = alClient
     TabOrder = 1
     ExplicitWidth = 63
