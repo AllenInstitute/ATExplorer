@@ -10,7 +10,7 @@ namespace at
 using namespace std;
 using namespace dsl;
 
-string toString(jsmntok_t& key, const string& json)
+string toString(const jsmntok_t& key, const string& json)
 {
     string val;
     unsigned int length = key.end - key.start;

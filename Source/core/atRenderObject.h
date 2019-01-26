@@ -1,34 +1,29 @@
 #ifndef atRenderObjectH
 #define atRenderObjectH
 #include "atExplorerObject.h"
-#include "atRenderClient.h"
+//#include "atRenderClient.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
+
+class RenderClient;
+
 class ATE_CORE RenderObject : public ExplorerObject
 {
     public:
-                        				RenderObject(shared_ptr<RenderClient> rc = shared_ptr<RenderClient>() );
-                        				~RenderObject();
+                        				RenderObject(RenderClient* rc = NULL);
+        virtual           				~RenderObject();
+
+                                        //!Every RenderObject can be fetched from the server
+                                        //!This function is synchronous..
+        virtual bool                    fetch() = 0;
 
     protected:
-		shared_ptr<RenderClient> 		mRenderService;
+    	RenderClient* 					mRenderService;
 };
 
 }
 
-namespace at
-{
-
-RenderObject::RenderObject(shared_ptr<RenderClient> rs)
-:
-mRenderService(rs)
-{}
-
-RenderObject::~RenderObject()
-{}
-
-}
 
 #endif

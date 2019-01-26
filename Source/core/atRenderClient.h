@@ -7,11 +7,10 @@
 #include "atFetchImageThread.h"
 #include "atRenderLocalCache.h"
 #include "atRenderServiceParameters.h"
-#include <string>
-#include <vector>
 #include "atExplorerObject.h"
 #include "atGenericList.h"
-#include "pointMatches/atPointMatchCollection.h"
+#include <string>
+#include <vector>
 //---------------------------------------------------------------------------
 
 
@@ -32,19 +31,18 @@ namespace System
 namespace at
 {
 
+class PointMatchCollection;
 using std::vector;
-
 using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
-using at::RenderLocalCache;
-using at::List;
+
 using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
 //Rename this one to RenderService.
-//Create "RenderObjects" and give them a pointer to a RenderService
+//Create "RenderObjects" and give them a pointer
 
 class ATE_CORE RenderClient : public ExplorerObject
 {
@@ -71,11 +69,11 @@ class ATE_CORE RenderClient : public ExplorerObject
 
                                                     //Pointmatch API's
 		StringList									getPointMatchCollectionNamesForOwner(const string& o);
-		List<PointMatchCollection*>    				getPointMatchCollectionsForOwner(const string& o);
-		StringList									getPointMatchGroupIDs(const string& o, const string& matchCollection);
-		StringList									getPPointMatchGroupIDs(const string& o, const string& matchCollection);
-		StringList									getQPointMatchGroupIDs(const string& o, const string& matchCollection);
-        bool                                        deletePointMatchCollection(const string& owner, const string& matchCollection);
+		List<PointMatchCollection*>    	 	  		getPointMatchCollectionsForOwner(const string& o);
+//		StringList									getPointMatchGroupIDs(const string& o, const string& matchCollection);
+//		StringList									getPPointMatchGroupIDs(const string& o, const string& matchCollection);
+//		StringList									getQPointMatchGroupIDs(const string& o, const string& matchCollection);
+//        bool                                        deletePointMatchCollection(const string& owner, const string& matchCollection);
 
         StringList						            getStacksForProject(const string& owner, const string& p);
         StringList                                  getChannelsInStack(const string& stackName);
@@ -117,6 +115,7 @@ class ATE_CORE RenderClient : public ExplorerObject
 
         string                                      getCacheRoot();
         string                                      getLastRequestURL();
+        string                                      request(const string& r);
 
     private:
     												//!This is the HTTP connection
@@ -135,7 +134,7 @@ class ATE_CORE RenderClient : public ExplorerObject
     	int				                            mZ;
         double				                        mScale;
 
-        const RenderServiceParameters*              mRenderService;
+        const RenderServiceParameters*              mRenderServiceParameters;
 
         RenderProject&					            mRenderProject;
         RenderLocalCache                            mCache;

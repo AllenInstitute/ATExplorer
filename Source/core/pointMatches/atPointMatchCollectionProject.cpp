@@ -9,10 +9,10 @@ namespace at
 
 using namespace dsl;
 
-PointMatchCollectionProject::PointMatchCollectionProject(const string& projName, const string& o, const string& name, int pairCount)
+PointMatchCollectionProject::PointMatchCollectionProject(const string& projName, const string& o, const string& name)
 :
 ATExplorerProject(projName),
-mPointMatchCollection(o, name, pairCount),
+mPointMatchCollection(o, name),
 mRenderService(new RenderServiceParameters("", ""))
 {
     mATEObjectType = (atePointMatchCollectionProject);
@@ -99,11 +99,11 @@ bool PointMatchCollectionProject::loadFromXML(dsl::XMLNode* node)
     	mPointMatchCollection.setName(e->GetText() ? string(e->GetText()) : string(""));
     }
 
-    e = node->FirstChildElement("pairCount");
-    if(e)
-    {
-    	mPointMatchCollection.setCount(e->GetText() ? toInt(string(e->GetText())) : -1);
-    }
+//    e = node->FirstChildElement("pairCount");
+//    if(e)
+//    {
+//    	mPointMatchCollection.setCount(e->GetText() ? toInt(string(e->GetText())) : -1);
+//    }
 	return true;
 }
 

@@ -1,7 +1,17 @@
-//---------------------------------------------------------------------------
-
 #pragma hdrstop
-
 #include "atRenderObject.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+
+
+namespace at
+{
+
+RenderObject::RenderObject(RenderClient* rs)
+:
+mRenderService(rs)
+{}
+
+RenderObject::~RenderObject()
+{}
+
+}

@@ -19,7 +19,7 @@ using dsl::StringList;
 class ATE_CORE PointMatchCollectionProject : public ATExplorerProject
 {
 	public:
-        	    	                            PointMatchCollectionProject(const string& projName, const string& owner = gEmptyString, const string& name = gEmptyString, int pairCount = -1);
+        	    	                            PointMatchCollectionProject(const string& projName, const string& owner = gEmptyString, const string& name = gEmptyString);
                                                 PointMatchCollectionProject(const string& projName, const PointMatchCollection& pmc);
 		virtual    	                            ~PointMatchCollectionProject();
         virtual string                          getTypeName() const;
