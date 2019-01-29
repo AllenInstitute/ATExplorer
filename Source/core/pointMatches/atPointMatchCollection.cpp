@@ -16,7 +16,8 @@ PointMatchCollection::PointMatchCollection(const string& owner, const string& na
 :
 RenderObject(renderService),
 mOwner(owner),
-mName(name)
+mName(name),
+mMatchesJSONTokenIndex(11) //This is Known
 {}
 
 PointMatchCollection::~PointMatchCollection()
@@ -69,12 +70,33 @@ List<PointMatch> PointMatchCollection::getPQMatches(const string& pGroup, const 
     sUrl << "/matchCollection/"	<<mName;
     sUrl << "/group/"			<<pGroup;
     sUrl << "/matchesWith/"		<<qGroup;
+
+
     Log(lDebug5) << "Request url: "<<sUrl.str();
     string json = mRenderService->request(sUrl.str());
     Log(lDebug1) << "Render Response: "<<json;
 
     //Parse the response
 	JSONParser p(json);
+
+    //Use our knowledge of the JSON..
+    JSONToken matchesObject = p.getToken(mMatchesJSONTokenIndex);
+
+    //Look for 6 arrays, PXY, PX, PY, QXY, QX, QY and W
+	JSONToken pqArrayToken   = p.getToken(mMatchesJSONTokenIndex);
+    JSONToken pxToken = p.getArrayToken(mMatchesJSONTokenIndex, 2);
+    JSONToken pyToken = p.getArrayToken(mMatchesJSONTokenIndex, 3);
+                                                                //#4 is qXY
+    JSONToken qxToken = p.getArrayToken(mMatchesJSONTokenIndex, 5);
+    JSONToken qyToken = p.getArrayToken(mMatchesJSONTokenIndex, 6);
+    JSONToken wToken  = p.getArrayToken(mMatchesJSONTokenIndex, 7);
+
+ 	vector<double> px  	   = p.get1DDoubleArray(pxToken.parent + 2, pxToken.size);
+ 	vector<double> py  	   = p.get1DDoubleArray(pyToken.parent + 2, pxToken.size);
+ 	vector<double> qx  	   = p.get1DDoubleArray(qxToken.parent + 2, pxToken.size);
+ 	vector<double> qy  	   = p.get1DDoubleArray(qyToken.parent + 2, pxToken.size);
+ 	vector<double> weights = p.get1DDoubleArray(wToken.parent  + 2, pxToken.size);
+
     p.get2DDoubleArray("matches", "p");
     p.get2DDoubleArray("matches", "q");
 

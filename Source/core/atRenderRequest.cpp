@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atRenderObject.h"
+#include "atRenderRequest.h"
 #include "atRenderClient.h"
 //---------------------------------------------------------------------------
 
@@ -7,12 +7,15 @@
 namespace at
 {
 
-RenderObject::RenderObject(RenderClient* rs)
+RenderRequest::RenderRequest(const string& baseURL)
 :
-mRenderService(rs)
+RESTRequest(baseURL)
 {}
 
-RenderObject::~RenderObject()
+RenderRequest::~RenderRequest()
 {}
 
 }
+
+
+

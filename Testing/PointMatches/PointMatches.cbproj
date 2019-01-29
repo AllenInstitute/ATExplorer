@@ -55,8 +55,8 @@
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\Source\core\;P:\atExplorer\Testing\PointMatches\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\Source\core\;P:\atExplorer\Testing\PointMatches\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\Source\core\renderRequests\;..\..\Source\core\;P:\atExplorer\Testing\PointMatches\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\Source\core\renderRequests\;..\..\Source\core\;P:\atExplorer\Testing\PointMatches\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <_TCHARMapping>char</_TCHARMapping>
         <SanitizedProjectName>PointMatches</SanitizedProjectName>
     </PropertyGroup>
@@ -105,15 +105,20 @@
         <DynamicRTL>true</DynamicRTL>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
+        <Defines>WIN32_LEAN_AND_MEAN;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\Source\core\atJSONParser.cpp">
-            <DependentOn>..\..\Source\core\atJSONParser.h</DependentOn>
+        <CppCompile Include="..\..\Source\core\atRESTResponse.cpp">
+            <DependentOn>..\..\Source\core\atRESTResponse.h</DependentOn>
             <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\renderRequests\atGetOwnersResponse.cpp">
+            <DependentOn>..\..\Source\core\renderRequests\atGetOwnersResponse.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="main.cpp">
             <BuildOrder>1</BuildOrder>

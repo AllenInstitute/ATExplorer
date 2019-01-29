@@ -13,7 +13,7 @@ PointMatchCollectionProject::PointMatchCollectionProject(const string& projName,
 :
 ATExplorerProject(projName),
 mPointMatchCollection(o, name),
-mRenderService(new RenderServiceParameters("", ""))
+mRenderService(new RenderServiceParameters(""))
 {
     mATEObjectType = (atePointMatchCollectionProject);
 }
@@ -22,7 +22,7 @@ PointMatchCollectionProject::PointMatchCollectionProject(const string& projName,
 :
 ATExplorerProject(projName ),
 mPointMatchCollection(pmc),
-mRenderService(new RenderServiceParameters("", ""))
+mRenderService(new RenderServiceParameters(""))
 {
     mATEObjectType = (atePointMatchCollectionProject);
 }

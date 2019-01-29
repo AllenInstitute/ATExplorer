@@ -18,19 +18,38 @@ mTheJSON(json),
 mTokens(unique_ptr<jsmntok_t[]>())
 {
 	jsmn_init(&mParser);
-    int r = jsmn_parse(&mParser, mTheJSON.c_str(), mTheJSON.size(), NULL, 0);
-    if(r)
+    mNumberOfTokens = jsmn_parse(&mParser, mTheJSON.c_str(), mTheJSON.size(), NULL, 0);
+    if(mNumberOfTokens)
     {
         jsmn_init(&mParser);
-        mTokens = unique_ptr<jsmntok_t[]>(new jsmntok_t[r]);
+        mTokens = unique_ptr<jsmntok_t[]>(new jsmntok_t[mNumberOfTokens]);
 
-        r = jsmn_parse(&mParser, mTheJSON.c_str(), mTheJSON.size(), &mTokens[0], r);
+        int r = jsmn_parse(&mParser, mTheJSON.c_str(), mTheJSON.size(), &mTokens[0], mNumberOfTokens);
         mFirstToken = mTokens[0];
     }
 }
 
 JSONParser::~JSONParser()
 {}
+
+JSONToken JSONParser::getArrayToken(int afterToken, int nth)
+{
+    int count(0);
+    for(int tokenIndex(afterToken+1); tokenIndex < mNumberOfTokens; tokenIndex++)
+    {
+        if(mTokens[tokenIndex].type == JSMN_ARRAY)
+        {
+            count++;
+            if(count == nth)
+            {
+                return mTokens[tokenIndex];
+            }
+        }
+    }
+
+    return JSONToken();
+}
+
 
 StringList JSONParser::getStringList()
 {
@@ -83,47 +102,109 @@ StringList JSONParser::getStringList(const jsmntok_t& token)
     return list;
 }
 
-StringList JSONParser::get2DDoubleArray(const string& header, const string& index)
+string JSONParser::getString(const string& _name)
 {
-	StringList list;
-    int r = jsmn_parse(&mParser, mTheJSON.c_str(), mTheJSON.size(), NULL, 0);
-    if(r)
+    if(!mNumberOfTokens)
     {
-        jsmn_init(&mParser);
-        unique_ptr<jsmntok_t[]> tokens (new jsmntok_t[r]);
+        Log(lError) << "Empty JSON. Could not find value for: "<<_name;
+        return "";
+    }
+    if(mFirstToken.type != JSMN_ARRAY)
+    {
+        Log(lError) << "Illegal JSON. Could not find value for: "<<_name;
+        return "";
+    }
 
-        r = jsmn_parse(&mParser, mTheJSON.c_str(), mTheJSON.size(), &tokens[0], r);
-
-        jsmntok_t main_tok = tokens[0];
-        if(main_tok.type == JSMN_ARRAY)
+    //Find the name
+    for(int i = 1; i < mNumberOfTokens; i++)
+    {
+        jsmntok_t token = mTokens[i];
+        if(token.type == JSMN_STRING)
         {
-            //Get the "header" object
-            for(int i = 0; i < r; i++)
+            string name = toString(token, mTheJSON);
+            if(name == _name)
             {
-                jsmntok_t token = tokens[i];
-
-                if(token.type == JSMN_STRING)
-                {
-                    string hdr = toString(token, mTheJSON);
-                    if(hdr == header)
-	                {
-                        //Next item is the matches object
-                        jsmntok_t token = tokens[i+4];
-
-                        StringList ps(getStringList(token));
-
-//                        StringList pX(stripCharacters("[]", ps[0]), ',');
-//						StringList pY(stripCharacters("[]", ps[0]), ',');
-
-
-                        Log(lDebug) << ps;
-                    }
-
-                }
+                //Next json object is the value
+                jsmntok_t value_token = mTokens[i + 1];
+                string val = toString(value_token, mTheJSON);
+                return val;
             }
         }
     }
-    return list;
+
+    Log(lError) << "JSON Error. Could not find value for: "<<_name;
+    return "";
+}
+
+vector<double> JSONParser::get1DDoubleArray(int startToken, int size)
+{
+	vector<double> value;
+    int count(0);
+    for(int i = startToken; i < startToken + size; i++)
+    {
+        string v = toString(mTokens[i], mTheJSON);
+        double d = toDouble(v);
+        value.push_back(d);
+    }
+
+    if(value.size() != size)
+    {
+        Log(lError) << "Parse error in function: " << __FUNC__;
+    }
+    return value;
+}
+
+vector<Point2D> JSONParser::get2DDoubleArray(const string& section, const string& _name)
+{
+	vector<Point2D> value;
+    if(!mNumberOfTokens)
+    {
+        Log(lError) << "Empty JSON. Could not find value for: "<<_name;
+        return value;
+    }
+    if(mFirstToken.type != JSMN_ARRAY)
+    {
+        Log(lError) << "Illegal JSON. Could not find value for: "<<_name;
+        return value;
+    }
+
+    //Find the name
+    for(int i = 1; i < mNumberOfTokens; i++)
+    {
+        jsmntok_t token = mTokens[i];
+        if(token.type == JSMN_STRING)
+        {
+            string name = toString(token, mTheJSON);
+
+            if(name == section) //We found the matches object
+            {
+                //Find the value for _name
+                for(int subIndex = i + 1; subIndex < mNumberOfTokens; subIndex++)
+                {
+	                jsmntok_t value_token = mTokens[subIndex];
+                    if(value_token.type == JSMN_STRING)
+                    {
+                        string val = toString(value_token, mTheJSON);
+                        if(val == _name)
+                        {
+                            //This token holds the 2D array
+                            value_token = mTokens[subIndex + 2];
+                        }
+                    }
+                }
+
+                return value;
+            }
+        }
+    }
+
+    Log(lError) << "JSON Error. Could not find value for: "<<_name;
+    return value;
+}
+
+JSONToken JSONParser::getToken(int i)
+{
+    return mTokens[i];
 }
 
 }

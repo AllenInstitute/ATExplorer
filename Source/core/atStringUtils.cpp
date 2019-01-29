@@ -12,14 +12,15 @@ using namespace dsl;
 
 string toString(const jsmntok_t& key, const string& json)
 {
-    string val;
+//    string val;
     unsigned int length = key.end - key.start;
-    for(int i = 0; i < length; i++)
-    {
-        val.push_back(json[i+key.start]);
-    }
+//    for(int i = 0; i < length; i++)
+//    {
+//        val.push_back(json[i+key.start]);
+//    }
 
-    return val;
+    return json.substr(key.start, length);
+//    return val;
 }
 
 string toDockerMountPath(const string& winpath)

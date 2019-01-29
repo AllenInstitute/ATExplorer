@@ -14,15 +14,16 @@ int main()
 {
     try
     {
-        unique_ptr<Idhttp::TIdHTTP> httpC (new Idhttp::TIdHTTP());
-        RenderServiceParameters rsp("Dummy", "localhost");
-        RenderProject rp("TheProject", "ATExplorer", "TestData", "");
-        RenderClient rc(rp, httpC.get(), &rsp);
-        PointMatchCollection collection("ATExplorer", "T4_lowres_round", &rc);
+        //Create protocol object
+        shared_ptr<Idhttp::TIdHTTP> httpC (new Idhttp::TIdHTTP());
+
+        //RenderProject rp("TheProject", "ATExplorer", "TestData", "");
+        RenderClient rc(httpC, "localhost");
 
         StringList owners = rc.getOwners();
         Log(lInfo) << owners;
 
+        PointMatchCollection collection("ATExplorer", "T4_lowres_round", &rc);
         if(collection.fetch())
         {
             StringList groups = collection.getGroupIDs();

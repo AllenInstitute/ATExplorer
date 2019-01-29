@@ -57,9 +57,9 @@
         <Multithreaded>true</Multithreaded>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <SanitizedProjectName>atExplorerFoundation</SanitizedProjectName>
-        <IncludePath>..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(IncludePath)</IncludePath>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
         <PackageImports>bindcomp;bindcompdbx;bindcompfmx;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapxml;FireDACCommonODBC;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;rtl;tethering;xmlrtl;$(PackageImports)</PackageImports>
@@ -98,7 +98,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Defines>EXPORT_ATE_DATA;EXPORT_ATE_CORE;STRICT;$(Defines)</Defines>
+        <Defines>EXPORT_ATE_DATA;EXPORT_ATE_CORE;STRICT;JSMN_PARENT_LINKS;$(Defines)</Defines>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
@@ -247,6 +247,10 @@
         <CppCompile Include="..\..\Source\core\atJSONParser.cpp">
             <BuildOrder>51</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atPGroupIDMatchesWithQGroupIDRequest.cpp">
+            <DependentOn>..\..\Source\core\atPGroupIDMatchesWithQGroupIDRequest.h</DependentOn>
+            <BuildOrder>53</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRegionOfInterest.cpp">
             <DependentOn>..\..\Source\core\atRegionOfInterest.h</DependentOn>
             <BuildOrder>25</BuildOrder>
@@ -275,7 +279,23 @@
         <CppCompile Include="..\..\Source\core\atRenderProject.cpp">
             <BuildOrder>46</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRenderRequest.cpp">
+            <BuildOrder>56</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderServiceParameters.cpp">
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRESTClient.cpp">
+            <DependentOn>..\..\Source\core\atRESTClient.h</DependentOn>
+            <BuildOrder>54</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRESTRequest.cpp">
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRESTResponse.cpp">
+            <BuildOrder>58</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRESTServiceParameters.cpp">
             <BuildOrder>44</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atROIHistory.cpp">
@@ -307,6 +327,12 @@
             <DependentOn>..\..\Source\core\pointMatches\atPointMatchPoint.h</DependentOn>
             <BuildOrder>48</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\renderRequests\atGetOwnersRequest.cpp">
+            <BuildOrder>57</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\renderRequests\atGetOwnersResponse.cpp">
+            <BuildOrder>59</BuildOrder>
+        </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -331,8 +357,9 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\dslVCLVisualComponents.bpl">File p:\build\BPL\dslVCLVisualComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\bpl\dslVCLComponents.bpl">File p:\build\bpl\dslVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">

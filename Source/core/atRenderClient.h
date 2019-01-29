@@ -7,7 +7,7 @@
 #include "atFetchImageThread.h"
 #include "atRenderLocalCache.h"
 #include "atRenderServiceParameters.h"
-#include "atExplorerObject.h"
+#include "atRESTClient.h"
 #include "atGenericList.h"
 #include <string>
 #include <vector>
@@ -41,13 +41,15 @@ using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
-//Rename this one to RenderService.
-//Create "RenderObjects" and give them a pointer
 
-class ATE_CORE RenderClient : public ExplorerObject
+//Create "RenderObjects" and give them a pointer
+//Derive from a RestClient class
+
+class ATE_CORE RenderClient : public RESTClient
 {
 	public:
-							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
+							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, const string& name = "");
+//							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -59,6 +61,7 @@ class ATE_CORE RenderClient : public ExplorerObject
                                                          int maxInt						= 65535
                                                          );
 
+		RESTResponse* 								execute(RESTRequest& request);
 		void                     					setRenderServiceParameters(RenderServiceParameters* rp);
 		const RenderServiceParameters*              getRenderServiceParameters();
 
@@ -120,7 +123,8 @@ class ATE_CORE RenderClient : public ExplorerObject
     private:
     												//!This is the HTTP connection
                                                     //!Could use CURL instead..
-		Idhttp::TIdHTTP* 	                        mC;
+//		Idhttp::TIdHTTP* 	                        mC;
+        void                                        createRESTServiceParameters(const string& host);
         string                                      mLastRequestURL;
 
 		StringList 									getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request);
@@ -134,10 +138,10 @@ class ATE_CORE RenderClient : public ExplorerObject
     	int				                            mZ;
         double				                        mScale;
 
-        const RenderServiceParameters*              mRenderServiceParameters;
+//        const RenderServiceParameters*              mRenderServiceParameters;
 
-        RenderProject&					            mRenderProject;
-        RenderLocalCache                            mCache;
+//        RenderProject&					            mRenderProject;
+//        RenderLocalCache                            mCache;
         string 			                            mImageType;
 
         int								            mMinIntensity;
