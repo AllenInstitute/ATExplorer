@@ -4,12 +4,11 @@
 namespace at
 {
 
-PointMatchPoint::PointMatchPoint(const string& gID, PointMatchGroup g, double x, double y, double w, const PointMatchPoint* p2)
+PointMatchPoint::PointMatchPoint(const string& gID, PointMatchGroup g, const Point2D& p, double w, const PointMatchPoint* p2)
 :
 mGroupID(gID),
 mPointMatchGroup(g),
-mX(x),
-mY(y),
+mPoint(p),
 mWeight(w),
 mCorrespondingPoint(p2)
 {}

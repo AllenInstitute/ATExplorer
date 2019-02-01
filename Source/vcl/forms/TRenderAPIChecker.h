@@ -25,7 +25,6 @@ class PACKAGE TRenderAPIChecker : public TForm
 	TPanel *Panel1;
 	TButton *RequestBtn;
 	TGroupBox *GroupBox1;
-	TIdHTTP *IdHTTP1;
 	TPanel *Panel2;
 	TButton *CloseBtn;
 	TGroupBox *GroupBox2;

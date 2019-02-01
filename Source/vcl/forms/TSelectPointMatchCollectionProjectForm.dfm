@@ -25,8 +25,6 @@ object SelectPointmatchCollectionProjectForm: TSelectPointmatchCollectionProject
     Height = 41
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 159
-    ExplicitWidth = 574
     object Button1: TButton
       Left = 532
       Top = 6
@@ -53,10 +51,6 @@ object SelectPointmatchCollectionProjectForm: TSelectPointmatchCollectionProject
     Height = 135
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 128
-    ExplicitTop = 8
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
@@ -65,9 +59,6 @@ object SelectPointmatchCollectionProjectForm: TSelectPointmatchCollectionProject
       Align = alTop
       Caption = 'Connection'
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 574
       object PopulateOwnersBtn: TButton
         Left = 647
         Top = 20
@@ -96,10 +87,6 @@ object SelectPointmatchCollectionProjectForm: TSelectPointmatchCollectionProject
       Align = alClient
       Caption = 'Project'
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 574
-      ExplicitHeight = 159
       DesignSize = (
         708
         76)
@@ -138,22 +125,5 @@ object SelectPointmatchCollectionProjectForm: TSelectPointmatchCollectionProject
         OnChange = OwnerCBChange
       end
     end
-  end
-  object IdHTTP1: TIdHTTP
-    AllowCookies = True
-    ProxyParams.BasicAuthentication = False
-    ProxyParams.ProxyPort = 0
-    Request.ContentLength = -1
-    Request.ContentRangeEnd = -1
-    Request.ContentRangeStart = -1
-    Request.ContentRangeInstanceLength = -1
-    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-    Request.BasicAuthentication = False
-    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
-    Request.Ranges.Units = 'bytes'
-    Request.Ranges = <>
-    HTTPOptions = [hoForceEncodeParams]
-    Left = 512
-    Top = 101
   end
 end

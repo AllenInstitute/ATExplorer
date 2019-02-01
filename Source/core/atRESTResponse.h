@@ -11,16 +11,18 @@ class ATE_CORE RESTResponse : public ExplorerObject
 {
 
     public:
-                                                RESTResponse(const string& response);
+                                                RESTResponse(const string& response, int responseCode);
         virtual                                 ~RESTResponse();
 
-		string			                        getContent();
-        StringList		                        getStringList();
+		const string&	                        getContent();
+        StringList		                        getAsStringList();
         virtual bool                            parse();
+        int                                     getResponseCode(){return mResponseCode;}
 
     protected:
                                                 //!Typically JSON format..
 		string			                        mResponse;
+        int                                     mResponseCode;
 
                                                 //Some data packing
         StringList		                        mStringList;

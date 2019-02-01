@@ -8,15 +8,14 @@
 #include "dslStringUtils.h"
 #include "dslUtils.h"
 #include "dslLogger.h"
-#include "dslPoint.h"
 #include "dslMathUtils.h"
 #include "dslFileUtils.h"
 #include "atJSMN.h"
-#include "atPointMatchCollection.h"
+
 #include "atStringUtils.h"
 #include "atExceptions.h"
-#include "renderRequests/atGetOwnersRequest.h"
-#include "renderRequests/atGetOwnersResponse.h"
+#include "atRESTRequest.h"
+#include "renderAPI/atGetOwnersResponse.h"
 #include "atRESTResponse.h"
 //---------------------------------------------------------------------------
 
@@ -33,6 +32,8 @@ const int HTTP_RESPONSE_OK = 200;
 RenderClient::RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, const string& name)
 :
 RESTClient(c, host),
+StackDataAPI(*this),
+PointMatchAPI(*this),
 mFetchImageThread(*this)
 {
 	mServiceParameters = new RenderServiceParameters(host);
@@ -53,7 +54,7 @@ mFetchImageThread(*this)
 
 RenderClient::~RenderClient()
 {
-	delete mImageMemory;
+//	delete mImageMemory;
     delete mServiceParameters;
 }
 
@@ -62,25 +63,20 @@ void RenderClient::createRESTServiceParameters(const string& host)
 	mServiceParameters = new RenderServiceParameters(host);
 }
 
-RESTResponse* RenderClient::execute(RESTRequest& request)
-{
-    string r = executeRequest(request);
-
-    if(dynamic_cast<GetOwnersRequest*>(&request))
-    {
-        return new GetOwnersRESTResponse(r);
-    }
-    //Create response object
-    return new RESTResponse(r);
-}
-
-StringList RenderClient::getOwners()
-{
-    GetOwnersRequest request(this->getBaseURL());
-    GetOwnersRESTResponse* response = dynamic_cast<GetOwnersRESTResponse*>(this->execute(request));
-
-    return (response) ?	response->getOwners() : StringList();
-}
+//RESTResponse* RenderClient::execute(RESTRequest& request)
+//{
+//    if(dynamic_cast<RenderStackDataAPI*>(request.getRequestorObject()))
+//    {
+//    	return StackDataAPI.execute(request);
+//    }
+////
+////        return new GetOwnersRESTResponse(r);
+////    }
+//
+//    //Create response object
+//    string r = executeRequest(request);
+//    return new RESTResponse(r);
+//}
 
 bool RenderClient::init(const string& imageType,
 						int z, double scale, int minInt, int maxInt)
@@ -302,62 +298,6 @@ StringList RenderClient::getChannelsInStack(const string& stackName)
 //    }
 }
 
-StringList RenderClient::getStacksForProject(const string& owner, const string& project)
-{
-//    StringList stacks;
-//    stringstream sUrl;
-//    if(!mServiceParameters)
-//    {
-//        Log(lError) << "No available renderservice!";
-//        return stacks;
-//    }
-//
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/"<<owner;
-//    sUrl << "/stackIds";
-//    Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();
-//
-//    TStringStream* zstrings = new TStringStream;;
-//    try
-//    {
-//        mC->Get(sUrl.str().c_str(), zstrings);
-//
-//        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-//        {
-//            string s = stdstring(zstrings->DataString);
-//            s = stripCharacters("\"[]}", s);
-//            Log(lDebug3) << "Got Render Data String: " << s;
-//
-//            //Parse result
-//            StringList t1(s,'{');
-//
-//            //Go trough list and get unique stacks
-//            for(int i = 0; i < t1.count(); i++)
-//            {
-//                string line = t1[i];
-//                if(contains(project, t1[i]))
-//                {
-//                    StringList l(t1[i], ',');
-//                    if(l.count() == 3)
-//                    {
-//                        StringList l2(l[2], ':');
-//                        if(l2.count() == 2 && !stacks.contains(l[2]))
-//                        {
-//                            stacks.append(l2[1]);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    catch(...)
-//    {
-//        Log(lError) << "Failed fetching owners";
-//    }
-//
-//    stacks.sort();
-//    return stacks;
-}
 
 StringList RenderClient::getServerProperties()
 {
@@ -386,160 +326,6 @@ StringList RenderClient::getServerProperties()
 //
 //    return response;
 }
-
-StringList RenderClient::getProjectsForOwner(const string& o)
-{
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" << o;
-//    sUrl << "/stackIds";
-//    Log(lDebug5) << "Fetching projects for owner: "<<sUrl.str();
-//
-//    StringList projects;
-//    TStringStream* zstrings = new TStringStream;;
-//    mC->Get(sUrl.str().c_str(), zstrings);
-//
-//    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-//    {
-//        Log(lError) << "Failed fetching projects";
-//        return projects;
-//    }
-//
-//    string s = stdstring(zstrings->DataString);
-//    s = stripCharacters("\"[]{}", s);
-//    Log(lDebug5) << "Render Response: "<<s;
-//    //Parse result
-//    StringList t1(s,',');
-//
-//    //Go trough list and get unique projects
-//    for(int i = 0; i < t1.count(); i++)
-//    {
-//        string line = t1[i];
-//        if(startsWith("project", t1[i]))
-//        {
-//            StringList l(t1[i], ':');
-//            if(l.count() == 2)
-//            {
-//                if(!projects.contains(l[1]))
-//                {
-//                    projects.append(l[1]);
-//                }
-//            }
-//        }
-//    }
-//    projects.sort();
-//    return projects;
-}
-
-List<PointMatchCollection*> RenderClient::getPointMatchCollectionsForOwner(const string& o)
-{
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" << o;
-//    sUrl << "/matchCollections";
-//    Log(lDebug5) << "Fetching matchCollections for owner: "<<sUrl.str();
-//
-//    TStringStream* zstrings = new TStringStream;;
-//    mC->Get(sUrl.str().c_str(), zstrings);
-//
-//    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-//    {
-//        Log(lError) << "Failed fetching contexts";
-//        return List<PointMatchCollection*>();
-//    }
-//
-//    string json = stdstring(zstrings->DataString);
-//    Log(lDebug1) << "Render Response: "<<json;
-//
-//    //Put contexts in a list
-//    List<PointMatchCollection*> contexts;
-//
-//    //Parse JSON
-//    jsmn_parser parser;
-//    jsmn_init(&parser);
-//
-//    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
-//    if(r)
-//    {
-//        jsmn_init(&parser);
-//        jsmntok_t* tokens = new jsmntok_t[r];
-//        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
-//        jsmntok_t main_tok = tokens[0];
-//        int recordOffset(9);
-//        if(main_tok.type == JSMN_ARRAY)
-//        {
-//            //Parse out records
-//            for(int i = 0; i < main_tok.size; i++)
-//            {
-//                string name 	= toString(      tokens[7 + i*recordOffset], json);
-//			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-//                PointMatchCollection* pc = new PointMatchCollection(o, name);
-//                if(pc)
-//                {
-//                    contexts.append(pc);
-//                }
-//            }
-//        }
-//    }
-//
-//    return contexts;
-}
-
-StringList RenderClient::getPointMatchCollectionNamesForOwner(const string& o)
-{
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" << o;
-//    sUrl << "/matchCollections";
-//    Log(lDebug5) << "Fetching matchCollections for owner: "<<sUrl.str();
-//
-//    TStringStream* zstrings = new TStringStream;;
-//    mC->Get(sUrl.str().c_str(), zstrings);
-//
-//    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-//    {
-//        Log(lError) << "Failed fetching collections";
-//        return StringList();
-//    }
-//
-//    string json = stdstring(zstrings->DataString);
-//    Log(lDebug1) << "Render Response: "<<json;
-//
-//    //Put collections in this list
-//    StringList collections;
-//
-//    //Parse JSON
-//    jsmn_parser parser;
-//    jsmn_init(&parser);
-//
-//    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
-//    if(r)
-//    {
-//        jsmn_init(&parser);
-//        jsmntok_t* tokens = new jsmntok_t[r];
-//        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
-//        jsmntok_t main_tok = tokens[0];
-//        int recordOffset(9);
-//        if(main_tok.type == JSMN_ARRAY)
-//        {
-//            //Parse out records
-//            for(int i = 0; i < main_tok.size; i++)
-//            {
-//                string name 	= toString(      tokens[7 + i*recordOffset], json);
-//			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-//                PointMatchCollection* pc = new PointMatchCollection(o, name);
-//                if(pc)
-//                {
-//                    collections.append(pc->getName());
-//                }
-//            }
-//        }
-//    }
-//
-//    collections.sort();
-//    return collections;
-}
-
 
 bool RenderClient::getImageInThread(int z, StringList& paras)
 {

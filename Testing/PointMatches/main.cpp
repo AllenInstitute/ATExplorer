@@ -20,28 +20,33 @@ int main()
         //RenderProject rp("TheProject", "ATExplorer", "TestData", "");
         RenderClient rc(httpC, "localhost");
 
-        StringList owners = rc.getOwners();
+        StringList owners = rc.StackDataAPI.getOwners();
         Log(lInfo) << owners;
 
-        PointMatchCollection collection("ATExplorer", "T4_lowres_round", &rc);
-        if(collection.fetch())
-        {
-            StringList groups = collection.getGroupIDs();
-            StringList pGroupIDS = collection.getPGroupIDs();
-            StringList qGroupIDS = collection.getQGroupIDs();
-            Log(lInfo) << "The collection has: " << collection.getCount() << " pairs";
-            Log(lInfo) << "The collection has: " << groups.count() << " groups: " << groups;
-            Log(lInfo) << "P group IDSs: " << pGroupIDS.count() << " groups: " << pGroupIDS;
-            Log(lInfo) << "Q group IDSs: " << qGroupIDS.count() << " groups: " << qGroupIDS;
+        string owner("ATExplorer");
+        string project("T4");
+        StringList stacks = rc.StackDataAPI.getStacksForProject(owner, project);
 
-            List<PointMatch> list = collection.getPQMatches("4000", "4001");
-        }
+        Log(lInfo) << "Stacks in project: " <<project << stacks;
+//
+//        PointMatchCollection collection(owner, "T4_lowres_round", &rc);
+//        if(collection.fetch())
+//        {
+//            StringList groups = collection.getGroupIDs();
+//            StringList pGroupIDS = collection.getPGroupIDs();
+//            StringList qGroupIDS = collection.getQGroupIDs();
+//            Log(lInfo) << "The collection has: " << collection.getCount() << " pairs";
+//            Log(lInfo) << "The collection has: " << groups.count() << " groups: " << groups;
+//            Log(lInfo) << "P group IDSs: " << pGroupIDS.count() << " groups: " << pGroupIDS;
+//            Log(lInfo) << "Q group IDSs: " << qGroupIDS.count() << " groups: " << qGroupIDS;
+//            List<PointMatch> list = collection.getPQMatches("4000", "4001");
+//        }
+        rc.PointMatchAPI.deletePointMatchCollection(owner, "TEST");
     }
     catch(...)
     {
         Log(lError) << "Bad..";
     }
-
 
 	return 0;
 }
@@ -51,3 +56,5 @@ int main()
 #pragma comment(lib, "tinyxml2.lib")
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "indyprotocols.bpi")
+#pragma comment(lib, "vcl.bpi")
+#pragma comment(lib, "rtl.bpi")

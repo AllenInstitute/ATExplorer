@@ -19,7 +19,7 @@ class ATE_CORE RenderObject : public ExplorerObject
         virtual bool                    fetch() = 0;
 
     protected:
-    	RenderClient* 					mRenderService;
+    	RenderClient* 					mRenderClient;
 };
 
 }

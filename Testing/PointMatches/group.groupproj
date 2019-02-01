@@ -3,13 +3,10 @@
         <ProjectGuid>{A12B5402-8D1D-4FB8-BE52-441AE636A6BC}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="PointMatches.cbproj">
@@ -23,24 +20,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="dslFoundation">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj"/>
-    </Target>
-    <Target Name="dslFoundation:Clean">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="dslFoundation:Make">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="dslVCLCommon">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj"/>
-    </Target>
-    <Target Name="dslVCLCommon:Clean">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="dslVCLCommon:Make">
-        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="atExplorerFoundation">
         <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj"/>
     </Target>
@@ -49,6 +28,15 @@
     </Target>
     <Target Name="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atExplorerVCL">
+        <MSBuild Projects="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj"/>
+    </Target>
+    <Target Name="atExplorerVCL:Clean">
+        <MSBuild Projects="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorerVCL:Make">
+        <MSBuild Projects="..\..\builds\atExplorerVCL\atExplorerVCL.cbproj" Targets="Make"/>
     </Target>
     <Target Name="PointMatches" DependsOnTargets="atExplorerFoundation">
         <MSBuild Projects="PointMatches.cbproj"/>
@@ -60,13 +48,13 @@
         <MSBuild Projects="PointMatches.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslFoundation;dslVCLCommon;atExplorerFoundation;PointMatches"/>
+        <CallTarget Targets="atExplorerFoundation;atExplorerVCL;PointMatches"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;atExplorerFoundation:Clean;PointMatches:Clean"/>
+        <CallTarget Targets="atExplorerFoundation:Clean;atExplorerVCL:Clean;PointMatches:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;atExplorerFoundation:Make;PointMatches:Make"/>
+        <CallTarget Targets="atExplorerFoundation:Make;atExplorerVCL:Make;PointMatches:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

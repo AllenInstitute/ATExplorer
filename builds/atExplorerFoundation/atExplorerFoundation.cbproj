@@ -57,9 +57,9 @@
         <Multithreaded>true</Multithreaded>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <SanitizedProjectName>atExplorerFoundation</SanitizedProjectName>
-        <IncludePath>..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Source\core\renderAPI\;..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(IncludePath)</IncludePath>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\Source\core\renderAPI\;..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
         <PackageImports>bindcomp;bindcompdbx;bindcompfmx;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapxml;FireDACCommonODBC;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;rtl;tethering;xmlrtl;$(PackageImports)</PackageImports>
@@ -107,6 +107,9 @@
         <DynamicRTL>true</DynamicRTL>
         <Debugger_HostApplication>P:\build\bin\ATExplorer.exe</Debugger_HostApplication>
         <BCC_PCHInject>pch.h</BCC_PCHInject>
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -251,9 +254,16 @@
             <DependentOn>..\..\Source\core\atPGroupIDMatchesWithQGroupIDRequest.h</DependentOn>
             <BuildOrder>53</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atPoint2D.cpp">
+            <BuildOrder>62</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRegionOfInterest.cpp">
             <DependentOn>..\..\Source\core\atRegionOfInterest.h</DependentOn>
             <BuildOrder>25</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRenderAPI.cpp">
+            <DependentOn>..\..\Source\core\atRenderAPI.h</DependentOn>
+            <BuildOrder>61</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderClient.cpp">
             <BuildOrder>32</BuildOrder>
@@ -276,14 +286,17 @@
         <CppCompile Include="..\..\Source\core\atRenderObject.cpp">
             <BuildOrder>50</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRenderPointMatchAPI.cpp">
+            <BuildOrder>63</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderProject.cpp">
             <BuildOrder>46</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderRequest.cpp">
-            <BuildOrder>56</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Source\core\atRenderServiceParameters.cpp">
             <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\atRenderStackDataAPI.cpp">
+            <BuildOrder>62</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\atRESTClient.cpp">
             <DependentOn>..\..\Source\core\atRESTClient.h</DependentOn>
@@ -327,12 +340,13 @@
             <DependentOn>..\..\Source\core\pointMatches\atPointMatchPoint.h</DependentOn>
             <BuildOrder>48</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\core\renderRequests\atGetOwnersRequest.cpp">
-            <BuildOrder>57</BuildOrder>
+        <CppCompile Include="..\..\Source\core\renderAPI\atGetOwnersResponse.cpp">
+            <DependentOn>..\..\Source\core\renderAPI\atGetOwnersResponse.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\core\renderRequests\atGetOwnersResponse.cpp">
-            <BuildOrder>59</BuildOrder>
-        </CppCompile>
+        <None Include="..\..\Source\core\renderAPI\atGetOwnersResponse.h">
+            <BuildOrder>61</BuildOrder>
+        </None>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -357,9 +371,8 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\dslVCLVisualComponents.bpl">File p:\build\BPL\dslVCLVisualComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\bpl\dslVCLComponents.bpl">File p:\build\bpl\dslVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\dslVCLVisualComponents.bpl">Dune Visual Components</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">

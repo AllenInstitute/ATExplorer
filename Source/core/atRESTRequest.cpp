@@ -5,14 +5,27 @@
 namespace at
 {
 
-RESTRequest::RESTRequest(const string& baseURL)
+RESTRequest::RESTRequest(const string& baseURL, RequestMethod rm, ExplorerObject* o)
 :
 mBaseURL(baseURL),
-mRequestMethod(rmUndefined)
-{}
+mRequestMethod(rm),
+mRequestorObject(o)
+{
+    mRequestURL << mBaseURL;
+}
 
 RESTRequest::~RESTRequest()
 {}
+
+void RESTRequest::addParameter(const string& name, const string& value)
+{
+    mRequestURL << "/" << name << "/" << value;
+}
+
+void RESTRequest::addSegment(const string& seg)
+{
+    mRequestURL << "/" << seg;
+}
 
 string RESTRequest::getRequestURL()
 {

@@ -11,6 +11,8 @@
 #include "atGenericList.h"
 #include <string>
 #include <vector>
+#include "atRenderPointMatchAPI.h"
+#include "atRenderStackDataAPI.h"
 //---------------------------------------------------------------------------
 
 
@@ -48,7 +50,7 @@ typedef void __fastcall (__closure *RCCallBack)(void);
 class ATE_CORE RenderClient : public RESTClient
 {
 	public:
-							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, const string& name = "");
+							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c = shared_ptr<Idhttp::TIdHTTP>(), const string& host="localhost", const string& name = "");
 //							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
@@ -61,24 +63,20 @@ class ATE_CORE RenderClient : public RESTClient
                                                          int maxInt						= 65535
                                                          );
 
-		RESTResponse* 								execute(RESTRequest& request);
+//		RESTResponse* 								execute(RESTRequest& request);
 		void                     					setRenderServiceParameters(RenderServiceParameters* rp);
 		const RenderServiceParameters*              getRenderServiceParameters();
 
         string                                      getBaseURL();
 		StringList						            getServerProperties();
-		StringList						            getOwners();
-        StringList						            getProjectsForOwner(const string& o);
 
-                                                    //Pointmatch API's
-		StringList									getPointMatchCollectionNamesForOwner(const string& o);
-		List<PointMatchCollection*>    	 	  		getPointMatchCollectionsForOwner(const string& o);
-//		StringList									getPointMatchGroupIDs(const string& o, const string& matchCollection);
-//		StringList									getPPointMatchGroupIDs(const string& o, const string& matchCollection);
-//		StringList									getQPointMatchGroupIDs(const string& o, const string& matchCollection);
-//        bool                                        deletePointMatchCollection(const string& owner, const string& matchCollection);
+                                                    //StackData API
+        RenderStackDataAPI                          StackDataAPI;
 
-        StringList						            getStacksForProject(const string& owner, const string& p);
+                                                    //Access renders pointmatch API
+        RenderPointMatchAPI                         PointMatchAPI;
+
+//        StringList						            getStacksForProject(const string& owner, const string& p);
         StringList                                  getChannelsInStack(const string& stackName);
         RenderProject                               getCurrentProject();
         StringList                                  getROIFoldersForCurrentStack();
@@ -126,6 +124,7 @@ class ATE_CORE RenderClient : public RESTClient
 //		Idhttp::TIdHTTP* 	                        mC;
         void                                        createRESTServiceParameters(const string& host);
         string                                      mLastRequestURL;
+
 
 		StringList 									getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request);
 

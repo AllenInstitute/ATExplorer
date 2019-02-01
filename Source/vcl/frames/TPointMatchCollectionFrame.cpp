@@ -32,7 +32,7 @@ __fastcall TPointMatchCollectionFrame::TPointMatchCollectionFrame(ATExplorer& e,
     mRP("","","",""),
 	mPMC(pmp),
     mTheCollection(mPMC.mPointMatchCollection),
-    mRC(mRP, IdHTTP1, e.DefaultRenderService)
+    mRC()
 {
     //mRC.assignOnImageCallback(onImage);
     mRC.setLocalCacheFolder("");
@@ -48,19 +48,20 @@ void TPointMatchCollectionFrame::populate()
     //Fetch group IDs
 	StringList IDs;
 
-    IDs = mRC.getPPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
+    IDs = mRC.PointMatchAPI.getPPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
+
     populateCheckListBox(IDs, pGroupIDs);
 
-    IDs = mRC.getQPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
-    populateCheckListBox(IDs, qGroupIDs);
-
-    PairsE->setValue(mTheCollection.refreshCount());
+//    IDs = mRC.getQPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
+//    populateCheckListBox(IDs, qGroupIDs);
+//
+//    PairsE->setValue(mTheCollection.refreshCount());
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TPointMatchCollectionFrame::DeletePMCAExecute(TObject *Sender)
 {
-    mRC.deletePointMatchCollection(mTheCollection.getOwner(), mTheCollection.getName());
+    mRC.PointMatchAPI.deletePointMatchCollection(mTheCollection.getOwner(), mTheCollection.getName());
 }
 
 

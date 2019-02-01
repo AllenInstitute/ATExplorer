@@ -8,7 +8,7 @@ namespace at
 
 GetOwnersRESTResponse::GetOwnersRESTResponse(const string& response)
 :
-RESTResponse(response)
+RESTResponse(response, -1)
 {
     parse();
 }
@@ -17,10 +17,6 @@ bool GetOwnersRESTResponse::parse()
 {
     JSONParser p(mResponse);
     mStringList = p.getStringList();
-//    return ;
-
-//     s = stripCharacters("\"[]", s);
-//     owners.appendList(StringList(s, ','));
     return true;
 }
 

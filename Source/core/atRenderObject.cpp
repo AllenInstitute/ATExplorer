@@ -9,7 +9,7 @@ namespace at
 
 RenderObject::RenderObject(RenderClient* rs)
 :
-mRenderService(rs)
+mRenderClient(rs)
 {}
 
 RenderObject::~RenderObject()

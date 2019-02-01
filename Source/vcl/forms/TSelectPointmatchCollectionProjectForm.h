@@ -36,7 +36,6 @@ class PACKAGE TSelectPointmatchCollectionProjectForm : public TForm
         TPanel *Panel1;
         TButton *Button1;
         TButton *Button2;
-        TIdHTTP *IdHTTP1;
 		TButton *PopulateOwnersBtn;
 		TComboBox *RenderServicesCB;
 	TPanel *Panel2;

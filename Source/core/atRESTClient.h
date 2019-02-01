@@ -16,21 +16,19 @@ class RESTRequest;
 //!Abstract class..
 class ATE_CORE RESTClient : public ExplorerObject
 {
-
     public:
                         						RESTClient(shared_ptr<Idhttp::TIdHTTP> client = shared_ptr<Idhttp::TIdHTTP>(), const string& host = "localhost");
     	virtual            						~RESTClient();
         string                                  getBaseURL();
-        virtual RESTResponse*                   execute(RESTRequest& request) = 0;
+        int 					                executeRequest(RESTRequest& request, string& response);
+        int                                     getLastHTTPResponseCode(){return mLastHTTPResponseCode;}
 
     protected:
 		shared_ptr<Idhttp::TIdHTTP>     		mHTTPClient;
     	RESTServiceParameters*                  mServiceParameters;
+        int                                     mLastHTTPResponseCode;
 
         virtual void                            createRESTServiceParameters(const string& host) = 0;
-
-                                                //!Derived classes calls this in their execute method
-        string					                executeRequest(RESTRequest& request);
 
 };
 

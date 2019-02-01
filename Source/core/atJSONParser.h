@@ -18,8 +18,9 @@ using std::vector;
 
 //!A JSON token contain start and stop indexes for an object in a json string
 typedef jsmntok_t JSONToken;
-
+typedef std::pair<const JSONToken*, const JSONToken*> PairOfTokens;
 //!General simple json parser, creating simple, primitive dataobjects from simple queries.
+
 class ATE_CORE JSONParser : public ExplorerObject
 {
     public:
@@ -27,13 +28,20 @@ class ATE_CORE JSONParser : public ExplorerObject
                                         ~JSONParser();
         StringList                      getStringList();
         string                          getString(const string& name);
+        string                          getStringValueInObject(const JSONToken* t, const string& name);
 
 		vector<Point2D>                 get2DDoubleArray(const string& name);
 		vector<Point2D>                 get2DDoubleArray(const string& section, const string& name);
-		vector<double>                  get1DDoubleArray(int startToken, int size);
+
+		vector<double>                  get1DDoubleArray(const string& objName, const string& arrayName);
+
         const JSONToken                 getFirstToken(){return mFirstToken;}
-        JSONToken                       getToken(int i);
-        JSONToken                       getArrayToken(int afterToken, int nth);
+
+        const JSONToken*                getToken(int i);
+        const JSONToken*                getObjectToken(const string& name);
+        const JSONToken*                getArrayToken(const JSONToken* object_token, const string& name);
+        int                             getNumberOfTokens(){return mNumberOfTokens;}
+        int                             getTokenIndex(const JSONToken* t);
 
     protected:
     	jsmn_parser 	                mParser;
@@ -42,8 +50,13 @@ class ATE_CORE JSONParser : public ExplorerObject
         unique_ptr<JSONToken[]>         mTokens;
         const string&                   mTheJSON;
         StringList                      getStringList(const JSONToken& token);
-
+		string 							toString(const JSONToken& t);
+		string 							toString(const JSONToken* t);
+        PairOfTokens           			get2DArrayTokens(const JSONToken* object_token, const string& name);
+        const JSONToken*                getNextArrayToken(const JSONToken* token);
 };
+
+string ATE_CORE toString(const jsmntok_t& key, const string& json);
 
 }
 

@@ -24,7 +24,7 @@ using namespace dsl;
 __fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, const string& imageMagickPath, TComponent* Owner)
 	: TForm(Owner),
    	mRP(rp),
-    mRC(rp, IdHTTP1),
+    mRC(),
     mImageMagickPath(imageMagickPath)
 {
     mConvertExe = (joinPath(mImageMagickPath, "convert.exe"));
@@ -47,7 +47,7 @@ void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const String
     MaxIntensityE->setReference(mRP.getMaxIntensity());
 
     //Get stacks for project
-    StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
+    StringList stacks = mRC.StackDataAPI.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
     {
 	    populateCheckListBox(stacks, RenderStacksCB);

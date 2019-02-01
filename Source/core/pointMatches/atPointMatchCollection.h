@@ -38,14 +38,6 @@ class ATE_CORE PointMatchCollection : public RenderObject
         string                          mName;
         string                          mOwner;
         StringList                      mGroupIDs;
-
-                                        //This tokenindexes tells where the data is
-        int                             mMatchesJSONTokenIndex;
-
-                                        //!result is expected to be a StringList
-		StringList 			  			requestStringList(const string& request);
-
-
 };
 
 }

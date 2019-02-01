@@ -47,7 +47,6 @@ class PACKAGE TRenderServicesFrame : public TFrame
         TSTDStringLabeledEdit *VersionE;
         TPopupMenu *PopupMenu1;
         TMenuItem *Rename;
-        TIdHTTP *IdHTTP1;
 
 	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
 	void __fastcall AddRenderServiceBtnClick(TObject *Sender);

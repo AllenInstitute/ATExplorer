@@ -44,7 +44,6 @@ class PACKAGE TPointMatchCollectionFrame : public TFrame
         TSTDStringLabeledEdit *OwnerE;
 	TSTDStringLabeledEdit *CollectionE;
         TActionList *Actions;
-        TIdHTTP *IdHTTP1;
 	TIntegerLabeledEdit *PairsE;
 	TButton *Button1;
 	TAction *DeletePMCA;
