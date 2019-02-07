@@ -8,7 +8,7 @@
 #include "atRenderLocalCache.h"
 #include "atRenderServiceParameters.h"
 #include "atRESTClient.h"
-#include "atGenericList.h"
+#include "atGenericListOfObjects.h"
 #include <string>
 #include <vector>
 #include "atRenderPointMatchAPI.h"

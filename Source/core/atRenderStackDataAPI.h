@@ -2,22 +2,18 @@
 #define atRenderStackDataAPIH
 #include "atExplorerObject.h"
 #include "dslStringList.h"
-#include "atGenericList.h"
 #include "atRenderAPI.h"
 //---------------------------------------------------------------------------
-
 
 namespace at
 {
 
 using dsl::StringList;
 
-
 class RESTResponse;
 class RESTRequest;
 class ATE_CORE RenderStackDataAPI : public RenderAPI
 {
-
     public:
                         			                RenderStackDataAPI(RenderClient& rc);
                         			                ~RenderStackDataAPI();
@@ -28,13 +24,10 @@ class ATE_CORE RenderStackDataAPI : public RenderAPI
         StringList						            getStacksForProject(const string& o, const string& p);
         RESTResponse* 								execute(RESTRequest& request);
 
-
     protected:
 
-        
 };
 
 }
-
 
 #endif

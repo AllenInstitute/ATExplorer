@@ -1,5 +1,5 @@
-#ifndef atGenericListH
-#define atGenericListH
+#ifndef atGenericListOfPointersH
+#define atGenericListOfPointersH
 #include "atExplorerObject.h"
 #include <list>
 //---------------------------------------------------------------------------
@@ -9,12 +9,14 @@ namespace at
 
 using std::list;
 
+//T is a pointer type
 template <typename T>
-class List : public ExplorerObject
+class ListOfPointers : public ExplorerObject
 {
     public:
-                                List(){}
-                                ~List(){}
+                                ListOfPointers(){}
+                                ~ListOfPointers(){}
+        void                    append(const ListOfPointers<T>& obj);
         void                    append(T obj);
         T                       getFirst();
         T                       getNext();
@@ -27,44 +29,55 @@ class List : public ExplorerObject
 };
 
 template <typename T>
-int List<T>::count()
+int ListOfPointers<T>::count()
 {
 	return mTheList.size();
 }
 
 template <typename T>
-void List<T>::append(T obj)
+void ListOfPointers<T>::append(const ListOfPointers<T>& list)
+{
+    T obj = list.getFirst();
+	while(obj)
+    {
+        append(list
+    }
+}
+
+template <typename T>
+void ListOfPointers<T>::append(T obj)
 {
     mTheList.push_back(obj);
 }
 
 template <typename T>
-bool List<T>::remove(T item)
+bool ListOfPointers<T>::remove(T item)
 {
     mTheList.remove(item);
     return true;
 }
 
 template <typename T>
-T List<T>::getFirst()
+T ListOfPointers<T>::getFirst()
 {
     if(!mTheList.size())
     {
-        return T();
+        return NULL;
     }
+
 	mIter = mTheList.begin();
     return (*mIter);
 }
 
 template <typename T>
-T List<T>::getNext()
+T ListOfPointers<T>::getNext()
 {
     if(mIter != mTheList.end())
     {
 		mIter++;
         if(mIter == mTheList.end())
         {
-            return T();
+            return NULL;
         }
         else
         {
@@ -72,7 +85,7 @@ T List<T>::getNext()
         }
     }
 
-    return T();
+    return NULL;
 }
 
 }

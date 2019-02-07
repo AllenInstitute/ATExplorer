@@ -59,7 +59,7 @@ StringList RenderPointMatchAPI::getQPointMatchGroupIDs(const string& o, const st
     return (response) ?	response->getAsStringList() : StringList();
 }
 
-List<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, const string& mc, const string& pGroup, const string& qGroup)
+ListOfObjects<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, const string& mc, const string& pGroup, const string& qGroup)
 {
 	RESTRequest request(mRC.getBaseURL(), rmGet);
     request.addParameter("owner", o);
@@ -82,11 +82,11 @@ List<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, const string
     if((w.size() != p.size() || w.size() != q.size()))
     {
         Log(lError) << "Bad pointmatch data..";
-		return List<PointMatch>();
+		return ListOfObjects<PointMatch>();
     }
 
     //Create the list
-	List<PointMatch> list;
+	ListOfObjects<PointMatch> list;
     for(int point = 0; point < w.size(); point++)
     {
 	    PointMatchPoint pmpP(pGroup, PointMatchPoint::pGroup, p[point], w[point]);
@@ -120,7 +120,7 @@ bool RenderPointMatchAPI::deletePointMatchCollection(const string& o, const stri
 }
 
 
-List<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwner(const string& o)
+ListOfPointers<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwner(const string& o)
 {
 	RESTRequest request(mRC.getBaseURL(), rmGet);
     request.addParameter("owner", o);
@@ -134,7 +134,7 @@ List<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwne
     }
 
     //Put contexts in a list
-    List<PointMatchCollection*> contexts;
+    ListOfPointers<PointMatchCollection*> contexts;
     for(int i = 0; i < list.count(); i++)
     {
         PointMatchCollection* pc = new PointMatchCollection(o, list[i]);

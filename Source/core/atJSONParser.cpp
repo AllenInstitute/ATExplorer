@@ -168,6 +168,15 @@ vector<double> JSONParser::get1DDoubleArray(const string& objectName, const stri
     {
 	    object_token = const_cast<JSONToken*>(getObjectToken(objectName));
     }
+    else
+    {
+        //Find a way to parse unnamed array..
+    }
+
+    if(!object_token)
+    {
+        return vector<double>();
+    }
 
     const JSONToken* arrayToken  = getArrayToken(object_token, name);
     if(!arrayToken)
@@ -197,8 +206,12 @@ vector<Point2D> JSONParser::get2DDoubleArray(const string& objectName, const str
 	    object_token = const_cast<JSONToken*>(getObjectToken(objectName));
     }
 
-    PairOfTokens arrTokens = get2DArrayTokens(object_token, name);
+    if(!object_token)
+    {
+        return vector<Point2D>();
+    }
 
+    PairOfTokens arrTokens = get2DArrayTokens(object_token, name);
 
     const JSONToken* xt = arrTokens.first;
     const JSONToken* yt = arrTokens.second;

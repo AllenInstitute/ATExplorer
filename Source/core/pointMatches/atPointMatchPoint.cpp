@@ -13,6 +13,15 @@ mWeight(w),
 mCorrespondingPoint(p2)
 {}
 
+PointMatchPoint::PointMatchPoint(const PointMatchPoint& p)
+{
+    mGroupID = p.mGroupID;
+    mPointMatchGroup = p.mPointMatchGroup;
+    mPoint = p.mPoint;
+    mWeight = p.mWeight;
+    mCorrespondingPoint = p.mCorrespondingPoint;
+}
+
 PointMatchPoint::~PointMatchPoint()
 {}
 
