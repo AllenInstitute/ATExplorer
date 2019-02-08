@@ -20,7 +20,7 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
         mIsStyleMenuPopulated = true;
 	}
 
-    if(gAU.LastOpenedProject.getValue().size() > 0 && firstShow == true)
+    if(gUIProperties.LastOpenedProject.getValue().size() > 0 && firstShow == true)
     {
         FileOpen1Accept(NULL);
     }

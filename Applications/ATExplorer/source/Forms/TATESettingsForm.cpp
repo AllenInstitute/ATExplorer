@@ -58,7 +58,7 @@ void __fastcall TATESettingsForm::TreeView1Change(TObject *Sender, TTreeNode *No
     if(Node->Selected)
     {
         Log(lInfo) << "User selected: " << stdstr(Node->Text);
-        gAU.LastSelectedSettingsSection.setValue(stdstr(Node->Text));
+        gUIProperties.LastSelectedSettingsSection.setValue(stdstr(Node->Text));
 
         //Extract the properties
         if(compareNoCase(stdstr(Node->Text), "General") == true)
@@ -163,7 +163,7 @@ void __fastcall TATESettingsForm::FormShow(TObject *Sender)
     //the properties real value if the user selects OK
     enablePropertyEdits();
 
-    string c = gAU.LastSelectedSettingsSection;
+    string c = gUIProperties.LastSelectedSettingsSection;
 
 	//Find the last expanded item
     TTreeNode* n = getTreeItemWithCaption(c, TreeView1);

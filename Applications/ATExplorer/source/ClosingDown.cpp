@@ -66,14 +66,14 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 	gATExplorer.Properties.LogLevel.setValue(gLogger.getLogLevel());
 
 	//Save project history
-	gAU.BottomPanelHeight = BottomPanel->Height;
-    gAU.ProjectPanelWidth = ProjectManagerPanel->Width;
+	gUIProperties.BottomPanelHeight = BottomPanel->Height;
+    gUIProperties.ProjectPanelWidth = ProjectManagerPanel->Width;
 
-	gAU.GeneralProperties->write();
+	gUIProperties.GeneralProperties->write();
     gATExplorer.writeProperties();
 
 	//Write to file
-	gAU.getIniFile().save();
+	gUIProperties.getIniFile().save();
 }
 
 //---------------------------------------------------------------------------

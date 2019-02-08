@@ -4,7 +4,7 @@
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "dslFileUtils.h"
-#include "atGenericList.h"
+#include "atGenericListOfPointers.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -76,7 +76,7 @@ void __fastcall TSelectPointmatchCollectionProjectForm::FormCloseQuery(TObject *
 void __fastcall TSelectPointmatchCollectionProjectForm::OwnerCBChange(TObject *Sender)
 {
     //Populate projects
-    List<PointMatchCollection*> p = mRC.PointMatchAPI.getPointMatchCollectionsForOwner(stdstr(OwnerCB->Text));
+    ListOfPointers<PointMatchCollection*> p = mRC.PointMatchAPI.getPointMatchCollectionsForOwner(stdstr(OwnerCB->Text));
     if(p.count())
     {
 	    PointMatchCollection* pmc = p.getFirst();

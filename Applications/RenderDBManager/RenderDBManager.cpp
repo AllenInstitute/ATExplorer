@@ -4,7 +4,10 @@
 #include "UIProperties.h"
 #include "atATExplorer.h"
 //---------------------------------------------------------------------------
+#include <Vcl.Styles.hpp>
+#include <Vcl.Themes.hpp>
 USEFORM("TMainForm.cpp", MainForm);
+USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 using namespace at;
 using namespace dsl;
@@ -15,13 +18,17 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	try
 	{
         //Keep track of Application related properties in an INIFile and Registry
-		gRDBMProperties.init();
+		gUIProperties.init();
+        gUIProperties.setupGeneralProperties();
+        gUIProperties.GeneralProperties->read();
 
-        gATExplorer.Properties.LogFileName.setValue(gRDBMProperties.getLogFileNameAndPath());
+        gATExplorer.Properties.LogFileName.setValue(gUIProperties.getLogFileNameAndPath());
 
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
+		TStyleManager::TrySetStyle("Golden Graphite");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
+		Application->CreateForm(__classid(TLogMemoFrame), &LogMemoFrame);
 		Application->Run();
 	}
 	catch (Exception &exception)

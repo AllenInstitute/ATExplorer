@@ -8,7 +8,7 @@
 namespace at
 {
 
-UIProperties gRDBMProperties;
+UIProperties gUIProperties;
 
 using namespace dsl;
 UIProperties::UIProperties(const string& appName)

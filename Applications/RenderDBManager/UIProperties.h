@@ -38,7 +38,7 @@ class PACKAGE UIProperties : public dsl::ApplicationProperties
 };
 
 //This creates a global UIProperties object
-extern PACKAGE UIProperties gRDBMProperties;
+extern PACKAGE UIProperties gUIProperties;
 
 }
 #endif

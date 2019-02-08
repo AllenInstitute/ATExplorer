@@ -28,6 +28,16 @@ int main()
         StringList stacks = rc.StackDataAPI.getStacksForProject(owner, project);
         Log(lInfo) << "Stacks in project: " <<project << stacks;
 
+        StringList pmcs;
+        pmcs.append("QT23_HR_3D");
+        pmcs.append("QT23_HR_2D");
+		pmcs.append("QT23_HR");
+
+        for(int i = 0; i < pmcs.count(); i++)
+        {
+	        rc.PointMatchAPI.deletePointMatchCollection(owner, pmcs[i]);
+        }
+
         PointMatchCollection collection(owner, "TestReduced_3_HR_3D", &rc);
 
         if(collection.fetch())
@@ -40,9 +50,11 @@ int main()
             Log(lInfo) << "P group IDSs: " << pGroupIDS.count() << " groups: " << pGroupIDS;
             Log(lInfo) << "Q group IDSs: " << qGroupIDS.count() << " groups: " << qGroupIDS;
             ListOfObjects<PointMatch> list = collection.getPQMatches("4000", "4001");
+
+
         }
 
-//        rc.PointMatchAPI.deletePointMatchCollection(owner, "TEST");
+
     }
     catch(...)
     {

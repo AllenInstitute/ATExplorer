@@ -17,13 +17,13 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	try
 	{
         //Keep track of Application related properties in an INIFile and Registry
-		gAU.init();
+		gUIProperties.init();
 
         //Setup parameters
-        gAU.setupGeneralProperties();
-        gAU.GeneralProperties->read();
-        gATExplorer.Properties.LogFileName.setValue(gAU.getLogFileNameAndPath());
-	    gATExplorer.init(gAU.getIniFile());
+        gUIProperties.setupGeneralProperties();
+        gUIProperties.GeneralProperties->read();
+        gATExplorer.Properties.LogFileName.setValue(gUIProperties.getLogFileNameAndPath());
+	    gATExplorer.init(gUIProperties.getIniFile());
 
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
