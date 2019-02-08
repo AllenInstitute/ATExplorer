@@ -2,6 +2,7 @@
 #pragma hdrstop
 #include "TMainForm.h"
 #include "UIProperties.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
@@ -17,6 +18,8 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 {
     //Setup some UI properties
 	BottomPanel->Height 		= gUIProperties.BottomPanelHeight;
+
+    TLogMemoFrame1->init();
 }
 
 //---------------------------------------------------------------------------
@@ -33,10 +36,12 @@ void __fastcall TMainForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
 	gUIProperties.BottomPanelHeight = BottomPanel->Height;
 	gUIProperties.GeneralProperties->write();
-//    gATExplorer.writeProperties();
+
+    gATExplorer.writeProperties();
 
 	//Write to file
 	gUIProperties.getIniFile().save();
 }
+
 
 

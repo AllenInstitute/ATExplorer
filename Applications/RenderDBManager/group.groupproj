@@ -18,8 +18,11 @@
         <Projects Include="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="RenderDBManager.cbproj">
+        <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
             <Dependencies/>
+        </Projects>
+        <Projects Include="RenderDBManager.cbproj">
+            <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -74,23 +77,32 @@
     <Target Name="dslVCLVisualComponents:Make">
         <MSBuild Projects="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="RenderDBManager">
+    <Target Name="atExplorerFoundation">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Clean">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Make">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="RenderDBManager" DependsOnTargets="atExplorerFoundation">
         <MSBuild Projects="RenderDBManager.cbproj"/>
     </Target>
-    <Target Name="RenderDBManager:Clean">
+    <Target Name="RenderDBManager:Clean" DependsOnTargets="atExplorerFoundation:Clean">
         <MSBuild Projects="RenderDBManager.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="RenderDBManager:Make">
+    <Target Name="RenderDBManager:Make" DependsOnTargets="atExplorerFoundation:Make">
         <MSBuild Projects="RenderDBManager.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="ATExplorer;dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents;RenderDBManager"/>
+        <CallTarget Targets="ATExplorer;dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents;atExplorerFoundation;RenderDBManager"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ATExplorer:Clean;dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean;RenderDBManager:Clean"/>
+        <CallTarget Targets="ATExplorer:Clean;dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean;atExplorerFoundation:Clean;RenderDBManager:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ATExplorer:Make;dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make;RenderDBManager:Make"/>
+        <CallTarget Targets="ATExplorer:Make;dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make;atExplorerFoundation:Make;RenderDBManager:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

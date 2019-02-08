@@ -35,14 +35,8 @@ object MainForm: TMainForm
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 24
-    ExplicitTop = 198
     object TabSheet1: TTabSheet
       Caption = 'PointMatches'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 983
-      ExplicitHeight = 519
       object ListBox1: TListBox
         Left = 0
         Top = 0
@@ -69,8 +63,6 @@ object MainForm: TMainForm
     Height = 203
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = -2
-    ExplicitWidth = 304
     inline TLogMemoFrame1: TLogMemoFrame
       Left = 1
       Top = 1
@@ -80,21 +72,21 @@ object MainForm: TMainForm
       TabOrder = 0
       ExplicitLeft = 1
       ExplicitTop = 1
-      ExplicitWidth = 302
+      ExplicitWidth = 1214
       ExplicitHeight = 201
       inherited Panel1: TPanel
         Width = 1214
         Height = 201
-        ExplicitWidth = 302
+        ExplicitWidth = 1214
         ExplicitHeight = 201
         inherited GroupBox1: TGroupBox
           Width = 1212
-          ExplicitWidth = 300
+          ExplicitWidth = 1212
         end
         inherited infoMemo: TMemo
           Width = 1212
           Height = 149
-          ExplicitWidth = 1204
+          ExplicitWidth = 1212
           ExplicitHeight = 149
         end
       end
