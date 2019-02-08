@@ -25,6 +25,7 @@ class ATE_CORE RenderPointMatchAPI : public RenderAPI
 		RESTResponse* 								execute(RESTRequest& request);
                                                     
                                                     //Pointmatch API's
+		StringList									getPointMatchCollectionOwners();
 		StringList									getPointMatchCollectionNamesForOwner(const string& o);
 		ListOfPointers<PointMatchCollection*>  		getPointMatchCollectionsForOwner(const string& o);
 		StringList									getPointMatchGroupIDs(const string& o, const string& matchCollection);

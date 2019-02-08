@@ -7,6 +7,7 @@
 #include "dslIniFile.h"
 #include "dslProperties.h"
 #include "atATExplorerProperties.h"
+#include "atRenderClient.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -24,6 +25,7 @@ class ATE_CORE ATExplorer : public ExplorerObject
         bool                                    init(IniFile& iniFile);
         bool                                    writeProperties();
 	    void									setupLogging(const string& logFileName, LogLevel lvl);
+        void                                    setLogLevel(LogLevel lvl);
 
                                                 //Renderservices
         void                                    appendRenderService(RenderServiceParameters*  rs);
@@ -51,7 +53,10 @@ class ATE_CORE ATExplorer : public ExplorerObject
 
         ATExplorerProperties                    Properties;
 
+		RenderClient                            RenderClient;
     protected:
+
+
     	ListOfPointers< RenderServiceParameters* > 		mRenderServices;
 
 		RenderServiceParameters*				createARenderServiceParametersRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
@@ -62,10 +67,9 @@ class ATE_CORE ATExplorer : public ExplorerObject
 		bool									createDockerContainerPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
 
         IniFile*                                mIniFile;
-
 };
 
-extern ATE_CORE ATExplorer gATExplorer;
+//extern ATE_CORE ATExplorer gATExplorer;
 }
 
 #endif

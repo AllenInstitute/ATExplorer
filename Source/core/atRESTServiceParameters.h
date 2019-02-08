@@ -4,7 +4,6 @@
 #include "dslProperties.h"
 //---------------------------------------------------------------------------
 
-
 namespace at
 {
 
@@ -46,7 +45,6 @@ class ATE_CORE RESTServiceParameters : public ExplorerObject
         PropertiesSP                mProperties;
 
     protected:
-
                                     //!Label for the 'connection'
         string                      mName;
         string                      mHost;  //This is used for the URI path as well.. may be improved later on..with a path
@@ -70,7 +68,6 @@ void RESTServiceParameters::bindPropertyToValue(const string& propLabel, const T
     mProperties->add(p);
     p->setValueReference(reference, true);
 }
-
 
 }
 

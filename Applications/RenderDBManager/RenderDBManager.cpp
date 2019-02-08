@@ -12,6 +12,8 @@ USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame:
 using namespace at;
 using namespace dsl;
 
+ATExplorer gATExplorer; //The destructor for gATExplorer executes before destruction of the main form.. weird..
+
 
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

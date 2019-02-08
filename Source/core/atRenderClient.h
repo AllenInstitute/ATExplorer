@@ -44,9 +44,7 @@ using System::Classes::TMemoryStream;
 typedef void __fastcall (__closure *RCCallBack)(void);
 
 
-//Create "RenderObjects" and give them a pointer
 //Derive from a RestClient class
-
 class ATE_CORE RenderClient : public RESTClient
 {
 	public:
@@ -63,7 +61,6 @@ class ATE_CORE RenderClient : public RESTClient
                                                          int maxInt						= 65535
                                                          );
 
-//		RESTResponse* 								execute(RESTRequest& request);
 		void                     					setRenderServiceParameters(RenderServiceParameters* rp);
 		const RenderServiceParameters*              getRenderServiceParameters();
 
@@ -119,9 +116,7 @@ class ATE_CORE RenderClient : public RESTClient
         string                                      request(const string& r);
 
     private:
-    												//!This is the HTTP connection
-                                                    //!Could use CURL instead..
-//		Idhttp::TIdHTTP* 	                        mC;
+
         void                                        createRESTServiceParameters(const string& host);
         string                                      mLastRequestURL;
 

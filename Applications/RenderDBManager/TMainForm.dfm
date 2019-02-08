@@ -37,22 +37,72 @@ object MainForm: TMainForm
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'PointMatches'
-      object ListBox1: TListBox
+      object PointMatchesPanel: TPanel
         Left = 0
         Top = 0
-        Width = 145
+        Width = 529
         Height = 517
         Align = alLeft
-        ItemHeight = 13
         TabOrder = 0
-      end
-      object Button1: TButton
-        Left = 216
-        Top = 431
-        Width = 75
-        Height = 25
-        Caption = 'Refresh'
-        TabOrder = 1
+        object LeftPanel: TPanel
+          Left = 1
+          Top = 1
+          Width = 185
+          Height = 515
+          Align = alLeft
+          TabOrder = 0
+          object PMCollections: TListBox
+            Left = 1
+            Top = 53
+            Width = 183
+            Height = 420
+            Align = alClient
+            ItemHeight = 13
+            TabOrder = 0
+          end
+          object Panel1: TPanel
+            Left = 1
+            Top = 473
+            Width = 183
+            Height = 41
+            Align = alBottom
+            TabOrder = 1
+            object Button1: TButton
+              Left = 1
+              Top = 6
+              Width = 114
+              Height = 25
+              Action = PopulateOwnersA
+              TabOrder = 0
+            end
+          end
+          object Panel2: TPanel
+            Left = 1
+            Top = 1
+            Width = 183
+            Height = 52
+            Align = alTop
+            TabOrder = 2
+            object Label1: TLabel
+              Left = 8
+              Top = 8
+              Width = 32
+              Height = 13
+              Caption = 'Owner'
+            end
+            object OwnersCB: TComboBox
+              Left = 1
+              Top = 30
+              Width = 181
+              Height = 21
+              Align = alBottom
+              Sorted = True
+              TabOrder = 0
+              Text = 'OwnersCB'
+              OnCloseUp = OwnersCBCloseUp
+            end
+          end
+        end
       end
     end
   end
@@ -90,6 +140,18 @@ object MainForm: TMainForm
           ExplicitHeight = 149
         end
       end
+    end
+  end
+  object PointMatchActions: TActionList
+    Left = 61
+    Top = 353
+    object PopulateOwnersA: TAction
+      Caption = 'PopulateOwnersA'
+      OnExecute = PopulateOwnersAExecute
+    end
+    object PopulateCollectionsForOwnerA: TAction
+      Caption = 'PopulateCollectionsForOwnerA'
+      OnExecute = PopulateCollectionsForOwnerAExecute
     end
   end
 end

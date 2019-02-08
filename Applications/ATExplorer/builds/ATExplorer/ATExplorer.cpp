@@ -22,6 +22,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
         //Setup parameters
         gUIProperties.setupGeneralProperties();
         gUIProperties.GeneralProperties->read();
+
         gATExplorer.Properties.LogFileName.setValue(gUIProperties.getLogFileNameAndPath());
 	    gATExplorer.init(gUIProperties.getIniFile());
 

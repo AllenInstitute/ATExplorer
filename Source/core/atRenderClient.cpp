@@ -38,19 +38,6 @@ mFetchImageThread(*this)
 {
 	mServiceParameters = new RenderServiceParameters(host);
 }
-//RenderClient::RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const  RenderServiceParameters* p, const string& cacheFolder)
-//:
-//mC(c),
-//mLastRequestURL(""),
-//mRenderServiceParameters(p),
-////mRenderProject(rp),
-////mCache(cacheFolder, mRenderProject),
-//mImageType("jpeg-image"),
-//mFetchImageThread(*this),
-//mImageMemory(NULL)
-//{
-//	mImageMemory = new TMemoryStream();
-//}
 
 RenderClient::~RenderClient()
 {
