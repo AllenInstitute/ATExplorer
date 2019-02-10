@@ -10,7 +10,6 @@ using namespace dsl;
 
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
 USEFORM("..\..\..\..\Source\vcl\forms\TRenderAPIChecker.cpp", RenderAPIChecker);
-USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -29,7 +28,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-		Application->Run();
+         Application->Run();
 	}
 	catch (Exception &exception)
 	{

@@ -27,8 +27,8 @@ SRC_DIR="./../../source"
 
 #Borland Packages and dll's
 #CG_REDIST="/cygdrive/c/CodeGear/Tokyo/bin"
-CG_REDIST="/c/CodeGear/Tokyo/bin"
-suffix="250.bpl"
+CG_REDIST="/c/Builder/20.0/bin"
+suffix="260.bpl"
 
 #Other 3rd Party binaries
 #miscRedist="/cygdrive/p/redist"
