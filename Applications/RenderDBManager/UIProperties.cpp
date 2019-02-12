@@ -1,6 +1,6 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "ATExplorerUIProperties.h"
+#include "UIProperties.h"
 #include "dslLogger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -8,12 +8,12 @@
 namespace at
 {
 
-ATExplorerUIProperties gUIProperties;
+UIProperties gUIProperties;
 
 using namespace dsl;
-ATExplorerUIProperties::ATExplorerUIProperties()
+UIProperties::UIProperties(const string& appName)
 :
-ApplicationProperties("ATExplorer", "\\Software\\Allen Institute\\ATExplorer", "0.5.0"),
+ApplicationProperties(appName, "\\Software\\Allen Institute\\" + appName, "0.5.0"),
 GeneralProperties(shared_ptr<IniFileProperties>(new IniFileProperties)),
 LocalCacheFolder("",""),
 LastSelectedSettingsSection("",""),
@@ -25,12 +25,12 @@ LastOpenedProject("")
     append(GeneralProperties);
 }
 
-ATExplorerUIProperties::~ATExplorerUIProperties()
+UIProperties::~UIProperties()
 {
-    Log(lInfo) << "In ATExplorers ATExplorerUIProperties destructor..";
+    Log(lInfo) << "In ATExplorers UIProperties destructor..";
 }
 
-bool ATExplorerUIProperties::setupGeneralProperties()
+bool UIProperties::setupGeneralProperties()
 {
 	GeneralProperties->setIniFile(&mIniFile);
 	GeneralProperties->setSectionName("General");

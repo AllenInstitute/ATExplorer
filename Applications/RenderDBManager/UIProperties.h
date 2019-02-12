@@ -1,5 +1,5 @@
-#ifndef ATExplorerUIPropertiesH
-#define ATExplorerUIPropertiesH
+#ifndef UIPropertiesH
+#define UIPropertiesH
 #include "dslApplicationProperties.h"
 #include "dslProperty.h"
 #include "dslIniFileProperties.h"
@@ -13,11 +13,11 @@ using dsl::Property;
 using dsl::IniFileProperties;
 using dsl::LogLevel;
 
-class PACKAGE ATExplorerUIProperties : public dsl::ApplicationProperties
+class PACKAGE UIProperties : public dsl::ApplicationProperties
 {
     public:
-                                            ATExplorerUIProperties();
-                                            ~ATExplorerUIProperties();
+                                            UIProperties(const string& appName = "RenderDBManager");
+                                            ~UIProperties();
         bool                                setupGeneralProperties();
 
                                             //General Properties
@@ -37,8 +37,8 @@ class PACKAGE ATExplorerUIProperties : public dsl::ApplicationProperties
 
 };
 
-//This creates a global ATExplorerUIProperties object
-extern PACKAGE ATExplorerUIProperties gUIProperties;
+//This creates a global UIProperties object
+extern PACKAGE UIProperties gUIProperties;
 
 }
 #endif

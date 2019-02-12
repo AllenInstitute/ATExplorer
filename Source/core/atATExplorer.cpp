@@ -12,7 +12,7 @@ namespace at
 
 using namespace dsl;
 
-ATExplorer gATExplorer;
+//ATExplorer gATExplorer;
 
 ATExplorer::ATExplorer()
 :
@@ -23,6 +23,10 @@ Properties(),
 mIniFile(NULL)
 {
     Log(lInfo) << "Starting up ATExplorer..";
+
+
+    //Setup a renderservice
+
 }
 
 ATExplorer::~ATExplorer()
@@ -30,10 +34,10 @@ ATExplorer::~ATExplorer()
 
 bool ATExplorer::init(IniFile& iniFile)
 {
-    setupLogging(Properties.LogFileName.getValue(), Properties.LogLevel.getValue());
 	mIniFile = &iniFile;
 	Properties.init(mIniFile);
 
+    setupLogging(Properties.LogFileName.getValue(), Properties.LogLevel.getValue());
     Log(lDebug4) << "In ATExplorer INIT";
 
     //Create Property sections for ini sections
@@ -57,6 +61,7 @@ bool ATExplorer::init(IniFile& iniFile)
         }
     }
 
+
     //Setup defaults..
     DefaultRenderService = getFirstRenderService();
     gLogger.setLogLevel(Properties.LogLevel);
@@ -66,7 +71,7 @@ bool ATExplorer::init(IniFile& iniFile)
 bool ATExplorer::writeProperties()
 {
 	RenderServiceParameters* rs = mRenderServices.getFirst();
-    while(rs)
+    while(rs && rs->getProperties())
     {
         rs->getProperties()->write();
         rs = mRenderServices.getNext();
@@ -79,6 +84,7 @@ bool ATExplorer::writeProperties()
         item = mDockerContainers.getNext();
     }
 
+    Properties.LogLevel = gLogger.getLogLevel();
     Properties.write();
     return true;
 }
@@ -87,7 +93,6 @@ bool ATExplorer::writeProperties()
 void ATExplorer::setupLogging(const string& logFile, LogLevel lvl)
 {
 	//Get Application folder
-
     string p(getFilePath(logFile));
 	if(!folderExists(p))
 	{
@@ -102,6 +107,11 @@ void ATExplorer::setupLogging(const string& logFile, LogLevel lvl)
 	LogOutput::mUseLogTabs = false;
 	gLogger.setLogLevel(lvl);
 	Log(lInfo) << "Logger was setup";
+}
+
+void ATExplorer::setLogLevel(LogLevel lvl)
+{
+	gLogger.setLogLevel(lvl);
 }
 
 string ATExplorer::getImageMagickPath()

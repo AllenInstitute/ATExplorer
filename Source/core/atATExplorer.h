@@ -1,12 +1,13 @@
 #ifndef atATExplorerH
 #define atATExplorerH
 #include "atExplorerObject.h"
-#include "atGenericList.h"
+#include "atGenericListOfPointers.h"
 #include "atRenderServiceParameters.h"
 #include "atDockerContainer.h"
 #include "dslIniFile.h"
 #include "dslProperties.h"
 #include "atATExplorerProperties.h"
+#include "atRenderClient.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -15,7 +16,7 @@ namespace at
 using dsl::IniFile;
 using dsl::IniSection;
 
-//!The ATExplorer class is a composite superclass, encapsulating datastructures and funtionality
+//!The ATExplorer class is a composite superclass, encapsulating datastructures and functionality
 class ATE_CORE ATExplorer : public ExplorerObject
 {
     public:
@@ -24,6 +25,7 @@ class ATE_CORE ATExplorer : public ExplorerObject
         bool                                    init(IniFile& iniFile);
         bool                                    writeProperties();
 	    void									setupLogging(const string& logFileName, LogLevel lvl);
+        void                                    setLogLevel(LogLevel lvl);
 
                                                 //Renderservices
         void                                    appendRenderService(RenderServiceParameters*  rs);
@@ -51,21 +53,23 @@ class ATE_CORE ATExplorer : public ExplorerObject
 
         ATExplorerProperties                    Properties;
 
+		RenderClient                            RenderClient;
     protected:
-    	List< RenderServiceParameters* > 		mRenderServices;
+
+
+    	ListOfPointers< RenderServiceParameters* > 		mRenderServices;
 
 		RenderServiceParameters*				createARenderServiceParametersRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
 		bool									createRenderServiceParametersPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
 
-    	List< DockerContainer* > 				mDockerContainers;
+    	ListOfPointers< DockerContainer* > 	 	mDockerContainers;
 		DockerContainer*						createADockerContainerRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
 		bool									createDockerContainerPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
 
         IniFile*                                mIniFile;
-
 };
 
-extern ATE_CORE ATExplorer gATExplorer;
+//extern ATE_CORE ATExplorer gATExplorer;
 }
 
 #endif

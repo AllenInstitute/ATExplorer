@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atGenericList.h"
+#include "atGenericListOfPointers.h"
 //---------------------------------------------------------------------------
 
 

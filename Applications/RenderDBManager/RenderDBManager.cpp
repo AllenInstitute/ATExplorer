@@ -1,54 +1,49 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "ATExplorerUIProperties.h"
 #include "dslLogger.h"
+#include "UIProperties.h"
 #include "atATExplorer.h"
-#include <memory>
+//---------------------------------------------------------------------------
+#include <Vcl.Styles.hpp>
+#include <Vcl.Themes.hpp>
+USEFORM("TMainForm.cpp", MainForm);
+USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 using namespace at;
 using namespace dsl;
 
-USEFORM("..\..\source\TMainForm.cpp", MainForm);
-USEFORM("..\..\..\..\Source\vcl\forms\TRenderAPIChecker.cpp", RenderAPIChecker);
-//---------------------------------------------------------------------------
+ATExplorer gATExplorer; //The destructor for gATExplorer executes before destruction of the main form.. weird..
+
+
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
 	{
         //Keep track of Application related properties in an INIFile and Registry
 		gUIProperties.init();
-
-        //Setup parameters
         gUIProperties.setupGeneralProperties();
         gUIProperties.GeneralProperties->read();
 
         gATExplorer.Properties.LogFileName.setValue(gUIProperties.getLogFileNameAndPath());
 	    gATExplorer.init(gUIProperties.getIniFile());
 
-  		Application->Initialize();
-		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
+		Application->Initialize();
+		Application->MainFormOnTaskBar = true;
+		TStyleManager::TrySetStyle("Golden Graphite");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-         Application->Run();
+		Application->CreateForm(__classid(TLogMemoFrame), &LogMemoFrame);
+		Application->Run();
 	}
 	catch (Exception &exception)
 	{
 		Application->ShowException(&exception);
 	}
-    catch(DSLException& e)
-	{
-        stringstream s;
-        s << "There was a DSL exception: \n";
-        s << e.what();
-        s <<"\n\nProgram will now exit";
-        MessageDlg(s.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
-        Log(lError) << s.str() << e.what();
-    }
 	catch (...)
 	{
 		try
 		{
-			throw Exception("Uncaught exception..");
+			throw Exception("");
 		}
 		catch (Exception &exception)
 		{
@@ -65,12 +60,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 
 #pragma comment(lib, "atExplorerFoundation.lib")
 #pragma comment(lib, "atExplorerVCL.bpi")
-#pragma comment(lib, "ATExplorerAppPackage.bpi")
+//#pragma comment(lib, "ATExplorerAppPackage.bpi")
 
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "tinyxml2.lib")
-
-
-
-
 

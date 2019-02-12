@@ -12,6 +12,7 @@ class ATE_CORE PointMatchPoint : public ExplorerObject
     public:
 	     enum PointMatchGroup {pGroup, qGroup};
                                     PointMatchPoint(const string& groupID, PointMatchGroup group, const Point2D& p, double w, const PointMatchPoint* p2 = NULL);
+                                    PointMatchPoint(const PointMatchPoint& pToCopy);
         void                        assignCorrespondingPoint(const PointMatchPoint& p2);
     	const PointMatchPoint*      getCorrespondingPoint();
 

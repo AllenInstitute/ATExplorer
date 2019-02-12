@@ -2,7 +2,7 @@
 #define atPointMatchCollectionH
 #include "atRenderObject.h"
 #include "atPointMatch.h"
-#include "atGenericList.h"
+#include "atGenericListOfObjects.h"
 #include "dslStringList.h"
 //---------------------------------------------------------------------------
 
@@ -27,11 +27,11 @@ class ATE_CORE PointMatchCollection : public RenderObject
 		StringList						getGroupIDs();
 		StringList						getPGroupIDs();
 		StringList						getQGroupIDs();
-        List<PointMatch>                getPQMatches(const string& pGroup, const string& qGroup);
+        ListOfObjects<PointMatch>       getPQMatches(const string& pGroup, const string& qGroup);
         bool                            deleteCollection();
 
 
-        List<PointMatch>	            mPMCollection;
+        ListOfObjects<PointMatch>	    mPMCollection;
         int                             getCount(){return mPMCollection.count();}
 
     protected:

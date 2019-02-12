@@ -51,8 +51,8 @@ void __fastcall TMainForm::ThemesMenuClick(TObject *Sender)
 	menuItem->Checked = (TStyleManager::ActiveStyle->Name == styleName) ? true : false;
 
 	//Write to registry
-	gAU.AppTheme = stdstr(styleName);
-	writeStringToRegistry(gAU.AppRegistryRoot, "", "Theme", gAU.AppTheme);
+	gUIProperties.AppTheme = stdstr(styleName);
+	writeStringToRegistry(gUIProperties.AppRegistryRoot, "", "Theme", gUIProperties.AppTheme);
 }
 
 ////---------------------------------------------------------------------------

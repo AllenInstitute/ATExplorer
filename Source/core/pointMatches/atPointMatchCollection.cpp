@@ -24,6 +24,34 @@ PointMatchCollection::~PointMatchCollection()
 bool PointMatchCollection::fetch()
 {
     mGroupIDs = getGroupIDs();
+    StringList ps = getPGroupIDs();
+    StringList qs = getQGroupIDs();
+    Log(lDebug) <<"Ps: "<<ps;
+    Log(lDebug) <<"Qs: "<<qs;
+
+    //Fetch
+    int matchCount(0);
+    for(int p = 0; p < ps.count(); p++)
+    {
+        for(int q = 0; q < qs.count(); q++)
+        {
+            //Get pointmatches between p and q
+            ListOfObjects<PointMatch> matches = getPQMatches(ps[p], qs[q]);
+            if(matches.count())
+            {
+            	Log(lDebug) << "There are: " <<matches.count()<<" matches between " <<ps[p]<< " and " << qs[q];
+				PointMatch* pm = matches.getFirst();
+                while(pm)
+                {
+                	mPMCollection.append(*pm);
+                    pm = matches.getNext();
+                    matchCount++;
+                }
+            }
+        }
+    }
+
+   	Log(lInfo) << "Fetched: "<<matchCount<<" pairs";
     return true;
 }
 
@@ -42,9 +70,9 @@ StringList PointMatchCollection::getQGroupIDs()
     return (mRenderClient) ? mRenderClient->PointMatchAPI.getQPointMatchGroupIDs(mOwner, mName) : StringList();
 }
 
-List<PointMatch> PointMatchCollection::getPQMatches(const string& pGroup, const string& qGroup)
+ListOfObjects<PointMatch> PointMatchCollection::getPQMatches(const string& pGroup, const string& qGroup)
 {
-    return (mRenderClient) ? mRenderClient->PointMatchAPI.getPQMatches(mOwner, mName, pGroup, qGroup) : List<PointMatch>();
+    return (mRenderClient) ? mRenderClient->PointMatchAPI.getPQMatches(mOwner, mName, pGroup, qGroup) : ListOfObjects<PointMatch>();
 }
 
 bool PointMatchCollection::deleteCollection()

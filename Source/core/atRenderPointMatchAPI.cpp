@@ -29,6 +29,28 @@ RESTResponse* RenderPointMatchAPI::execute(RESTRequest& request)
     return new RESTResponse(result, responseCode);
 }
 
+StringList RenderPointMatchAPI::getPointMatchCollectionOwners()
+{
+    RESTRequest request(mRC.getBaseURL(), rmGet);
+    request.addSegment("matchCollectionOwners");
+    RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
+    return (response) ?	response->getAsStringList() : StringList();
+}
+
+StringList RenderPointMatchAPI::getPointMatchCollectionNamesForOwner(const string& o)
+{
+	ListOfPointers<PointMatchCollection*> cs = getPointMatchCollectionsForOwner(o);
+
+    StringList owners;
+    PointMatchCollection* c = cs.getFirst();
+    while(c)
+    {
+        owners.append(c->getName());
+        c = cs.getNext();
+    }
+    return owners;
+}
+
 StringList RenderPointMatchAPI::getPointMatchGroupIDs(const string& o, const string& matchCollection)
 {
     RESTRequest request(mRC.getBaseURL(), rmGet);
@@ -59,7 +81,7 @@ StringList RenderPointMatchAPI::getQPointMatchGroupIDs(const string& o, const st
     return (response) ?	response->getAsStringList() : StringList();
 }
 
-List<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, const string& mc, const string& pGroup, const string& qGroup)
+ListOfObjects<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, const string& mc, const string& pGroup, const string& qGroup)
 {
 	RESTRequest request(mRC.getBaseURL(), rmGet);
     request.addParameter("owner", o);
@@ -70,6 +92,7 @@ List<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, const string
     RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
 
     string json = response->getContent();
+
     //Parse the response
 	JSONParser parser(json);
 
@@ -82,11 +105,11 @@ List<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, const string
     if((w.size() != p.size() || w.size() != q.size()))
     {
         Log(lError) << "Bad pointmatch data..";
-		return List<PointMatch>();
+		return ListOfObjects<PointMatch>();
     }
 
     //Create the list
-	List<PointMatch> list;
+	ListOfObjects<PointMatch> list;
     for(int point = 0; point < w.size(); point++)
     {
 	    PointMatchPoint pmpP(pGroup, PointMatchPoint::pGroup, p[point], w[point]);
@@ -120,12 +143,30 @@ bool RenderPointMatchAPI::deletePointMatchCollection(const string& o, const stri
 }
 
 
-List<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwner(const string& o)
+ListOfPointers<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwner(const string& o)
 {
 	RESTRequest request(mRC.getBaseURL(), rmGet);
     request.addParameter("owner", o);
     request.addSegment("matchCollections");
     RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
+
+    string json = response->getContent();
+
+    //Parse the response
+	JSONParser parser(json);
+
+    //Parse each json object: schema
+//[
+//  {
+//    "collectionId": {
+//      "owner": "string",
+//      "name": "string"
+//    },
+//    "pairCount": 0,
+//    "owner": "string"
+//  }
+//]
+
 
     StringList list;
 	if(response)
@@ -134,100 +175,15 @@ List<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwne
     }
 
     //Put contexts in a list
-    List<PointMatchCollection*> contexts;
+    ListOfPointers<PointMatchCollection*> contexts;
     for(int i = 0; i < list.count(); i++)
     {
         PointMatchCollection* pc = new PointMatchCollection(o, list[i]);
         contexts.append(pc);
     }
 
-//
-//    //Parse JSON
-//    jsmn_parser parser;
-//    jsmn_init(&parser);
-//
-//    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
-//    if(r)
-//    {
-//        jsmn_init(&parser);
-//        jsmntok_t* tokens = new jsmntok_t[r];
-//        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
-//        jsmntok_t main_tok = tokens[0];
-//        int recordOffset(9);
-//        if(main_tok.type == JSMN_ARRAY)
-//        {
-//            //Parse out records
-//            for(int i = 0; i < main_tok.size; i++)
-//            {
-//                string name 	= toString(      tokens[7 + i*recordOffset], json);
-//			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-//                PointMatchCollection* pc = new PointMatchCollection(o, name);
-//                if(pc)
-//                {
-//                    contexts.append(pc);
-//                }
-//            }
-//        }
-//    }
-//
     return contexts;
 }
-
-StringList RenderPointMatchAPI::getPointMatchCollectionNamesForOwner(const string& o)
-{
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" << o;
-//    sUrl << "/matchCollections";
-//    Log(lDebug5) << "Fetching matchCollections for owner: "<<sUrl.str();
-//
-//    TStringStream* zstrings = new TStringStream;;
-//    mC->Get(sUrl.str().c_str(), zstrings);
-//
-//    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-//    {
-//        Log(lError) << "Failed fetching collections";
-//        return StringList();
-//    }
-//
-//    string json = stdstring(zstrings->DataString);
-//    Log(lDebug1) << "Render Response: "<<json;
-//
-//    //Put collections in this list
-//    StringList collections;
-//
-//    //Parse JSON
-//    jsmn_parser parser;
-//    jsmn_init(&parser);
-//
-//    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
-//    if(r)
-//    {
-//        jsmn_init(&parser);
-//        jsmntok_t* tokens = new jsmntok_t[r];
-//        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
-//        jsmntok_t main_tok = tokens[0];
-//        int recordOffset(9);
-//        if(main_tok.type == JSMN_ARRAY)
-//        {
-//            //Parse out records
-//            for(int i = 0; i < main_tok.size; i++)
-//            {
-//                string name 	= toString(      tokens[7 + i*recordOffset], json);
-//			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-//                PointMatchCollection* pc = new PointMatchCollection(o, name);
-//                if(pc)
-//                {
-//                    collections.append(pc->getName());
-//                }
-//            }
-//        }
-//    }
-//
-//    collections.sort();
-//    return collections;
-}
-
 
 }
 
