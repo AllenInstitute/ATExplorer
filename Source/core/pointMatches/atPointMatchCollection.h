@@ -1,18 +1,20 @@
 #ifndef atPointMatchCollectionH
 #define atPointMatchCollectionH
-#include "atExplorerObject.h"
-#include "atJSMN.h"
+#include "atRenderObject.h"
 #include "atPointMatch.h"
 #include "atGenericList.h"
+#include "dslStringList.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
-class ATE_CORE PointMatchCollection : public ExplorerObject
+using dsl::StringList;
+
+class ATE_CORE PointMatchCollection : public RenderObject
 {
     public:
-					    	            PointMatchCollection(const string& owner, const string& name, int pc);
+					    	            PointMatchCollection(const string& owner, const string& name, RenderClient* renderService = NULL);
         					            ~PointMatchCollection();
         string                          getOwner(){return mOwner;}
         void                            setOwner(const string& o){mOwner = o;}
@@ -20,16 +22,22 @@ class ATE_CORE PointMatchCollection : public ExplorerObject
         string                          getName(){return mName;}
 		void                            setName(const string& n){mName = n;}
 
+        bool                            fetch();
+
+		StringList						getGroupIDs();
+		StringList						getPGroupIDs();
+		StringList						getQGroupIDs();
+        List<PointMatch>                getPQMatches(const string& pGroup, const string& qGroup);
+        bool                            deleteCollection();
+
 
         List<PointMatch>	            mPMCollection;
         int                             getCount(){return mPMCollection.count();}
-        void                            setCount(int c){mDummyCount = c;}
 
     protected:
         string                          mName;
         string                          mOwner;
-        int                             mDummyCount;
-
+        StringList                      mGroupIDs;
 };
 
 }

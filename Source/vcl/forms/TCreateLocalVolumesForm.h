@@ -60,7 +60,6 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
         TLabel *Label4;
         TComboBox *ImageTypeCB;
 	TRadioGroup *ImageTypeRG;
-	TIdHTTP *IdHTTP1;
 	TGroupBox *Zs_GB;
 	TCheckListBox *mZs;
 	TTimer *CreateStacksTimer;

@@ -37,7 +37,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="ATExplorer\ATExplorer.cbproj">
-            <Dependencies/>
+            <Dependencies>P:\libs\atapi\builds\atFoundation\atFoundation.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -146,13 +146,13 @@
     <Target Name="ATExplorerAppPackage:Make">
         <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ATExplorer">
+    <Target Name="ATExplorer" DependsOnTargets="atFoundation">
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj"/>
     </Target>
-    <Target Name="ATExplorer:Clean">
+    <Target Name="ATExplorer:Clean" DependsOnTargets="atFoundation:Clean">
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ATExplorer:Make">
+    <Target Name="ATExplorer:Make" DependsOnTargets="atFoundation:Make">
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">

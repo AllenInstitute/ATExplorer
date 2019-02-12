@@ -37,7 +37,7 @@ TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
 __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner)
 	: TFrame(Owner),
     mRP(rp),
-    mRC(rp, IdHTTP1, e.DefaultRenderService),
+    mRC(),
     mRenderEnabled(false),
    	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
     mIsDrawing(false),
@@ -75,7 +75,7 @@ void TRenderProjectFrame::populate()
     MaxIntensityE->setReference(mRP.getMaxIntensity());
 
     //Get stacks for project
-    StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
+    StringList stacks = mRC.StackDataAPI.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
     {
 		StackCB->ItemIndex = populateDropDown(stacks, StackCB, mRP.getSelectedStackName());
@@ -507,7 +507,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
         {
 		    const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
             int z = toInt(stdstr(mZs->Items->Strings[0]));
-            RenderClient rc(mRP, IdHTTP1, rs, mRP.getLocalCacheFolder());
+            RenderClient rc;
             rc.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs

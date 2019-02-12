@@ -1,8 +1,8 @@
 object PointMatchCollectionFrame: TPointMatchCollectionFrame
   Left = 0
   Top = 0
-  Width = 898
-  Height = 652
+  Width = 782
+  Height = 400
   Align = alClient
   TabOrder = 0
   ExplicitWidth = 451
@@ -11,7 +11,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
     Left = 0
     Top = 0
     Width = 388
-    Height = 652
+    Height = 400
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -19,7 +19,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
       Left = 1
       Top = 1
       Width = 290
-      Height = 650
+      Height = 398
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -84,7 +84,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
       Left = 291
       Top = 1
       Width = 96
-      Height = 650
+      Height = 398
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -110,7 +110,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
         Left = 1
         Top = 231
         Width = 94
-        Height = 418
+        Height = 166
         Align = alClient
         Caption = 'q group IDs'
         TabOrder = 1
@@ -119,15 +119,15 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
           Left = 2
           Top = 15
           Width = 90
-          Height = 341
+          Height = 89
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
-          ExplicitHeight = 308
+          ExplicitHeight = 88
         end
         object Panel1: TPanel
           Left = 2
-          Top = 356
+          Top = 104
           Width = 90
           Height = 60
           Align = alBottom
@@ -148,8 +148,8 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
   object VisualsPC: TPageControl
     Left = 388
     Top = 0
-    Width = 510
-    Height = 652
+    Width = 394
+    Height = 400
     Align = alClient
     TabOrder = 1
     ExplicitWidth = 63
@@ -162,22 +162,5 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
       Caption = 'Delete'
       OnExecute = DeletePMCAExecute
     end
-  end
-  object IdHTTP1: TIdHTTP
-    AllowCookies = True
-    ProxyParams.BasicAuthentication = False
-    ProxyParams.ProxyPort = 0
-    Request.ContentLength = -1
-    Request.ContentRangeEnd = -1
-    Request.ContentRangeStart = -1
-    Request.ContentRangeInstanceLength = -1
-    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-    Request.BasicAuthentication = False
-    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
-    Request.Ranges.Units = 'bytes'
-    Request.Ranges = <>
-    HTTPOptions = [hoForceEncodeParams]
-    Left = 233
-    Top = 185
   end
 end

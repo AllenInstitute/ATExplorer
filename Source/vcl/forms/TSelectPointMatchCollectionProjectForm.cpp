@@ -19,7 +19,7 @@ using namespace at;
 __fastcall TSelectPointmatchCollectionProjectForm::TSelectPointmatchCollectionProjectForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
     mRP("", "", "" , ""),
-    mRC(mRP,IdHTTP1, e.DefaultRenderService),
+    mRC(),
     mExplorer(e)
 {
     try
@@ -76,7 +76,7 @@ void __fastcall TSelectPointmatchCollectionProjectForm::FormCloseQuery(TObject *
 void __fastcall TSelectPointmatchCollectionProjectForm::OwnerCBChange(TObject *Sender)
 {
     //Populate projects
-    List<PointMatchCollection*> p = mRC.getPointMatchCollectionsForOwner(stdstr(OwnerCB->Text));
+    List<PointMatchCollection*> p = mRC.PointMatchAPI.getPointMatchCollectionsForOwner(stdstr(OwnerCB->Text));
     if(p.count())
     {
 	    PointMatchCollection* pmc = p.getFirst();
@@ -97,7 +97,7 @@ void __fastcall TSelectPointmatchCollectionProjectForm::OwnerCBChange(TObject *S
 void __fastcall TSelectPointmatchCollectionProjectForm::PopulateOwnersBtnClick(TObject *Sender)
 {
     //Populate owners
-    StringList o = mRC.getOwners();
+    StringList o = mRC.StackDataAPI.getOwners();
     if(o.size())
     {
 		populateDropDown(o, OwnerCB);
@@ -121,6 +121,7 @@ void __fastcall TSelectPointmatchCollectionProjectForm::FormKeyDown(TObject *Sen
 void __fastcall TSelectPointmatchCollectionProjectForm::RenderServicesCBCloseUp(TObject *Sender)
 {
     mRC.setRenderServiceParameters(getRenderService());
+	PopulateOwnersBtnClick(NULL);
 }
 
 //---------------------------------------------------------------------------
@@ -128,6 +129,21 @@ void __fastcall TSelectPointmatchCollectionProjectForm::RenderServicesCBChange(T
 
 {
     mRC.setRenderServiceParameters(getRenderService());
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TSelectPointmatchCollectionProjectForm::FormShow(TObject *Sender)
+{
+    //Select default render server
+    if(!RenderServicesCB->Items->Count)
+    {
+        MessageDlg("There are no renderservers available. Setup one on the options page.", mtInformation, TMsgDlgButtons() << mbOK, 0);
+	    enableDisablePanel(this->Panel2, false);
+		Button2->Enabled = false;
+    }
+
+	RenderServicesCB->ItemIndex = 0;
+	PopulateOwnersBtnClick(NULL);
 }
 
 

@@ -18,7 +18,7 @@ using namespace dsl;
 __fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
     mRP("", "", "" , ""),
-    mRC(mRP,IdHTTP1, e.DefaultRenderService),
+    mRC(),
     mExplorer(e)
 {
     try
@@ -29,6 +29,10 @@ __fastcall TSelectRenderProjectParametersForm::TSelectRenderProjectParametersFor
         {
             RenderServicesCB->AddItem(rs->getName().c_str(), (TObject*) rs);
             rs = mExplorer.getNextRenderService();
+        }
+        if(RenderServicesCB->Items->Count)
+        {
+        	RenderServicesCB->ItemIndex = 0;
         }
     }
     catch(...)
@@ -80,7 +84,7 @@ void __fastcall TSelectRenderProjectParametersForm::FormCloseQuery(TObject *Send
 void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sender)
 {
     //Populate projects
-    StringList p = mRC.getProjectsForOwner(stdstr(OwnerCB->Text));
+    StringList p = mRC.StackDataAPI.getProjectsForOwner(stdstr(OwnerCB->Text));
     if(p.size())
     {
 		populateDropDown(p, ProjectCB);
@@ -93,7 +97,7 @@ void __fastcall TSelectRenderProjectParametersForm::OwnerCBChange(TObject *Sende
 void __fastcall TSelectRenderProjectParametersForm::PopulateOwnersBtnClick(TObject *Sender)
 {
     //Populate owners
-    StringList o = mRC.getOwners();
+    StringList o = mRC.StackDataAPI.getOwners();
     if(o.size())
     {
 		populateDropDown(o, OwnerCB);

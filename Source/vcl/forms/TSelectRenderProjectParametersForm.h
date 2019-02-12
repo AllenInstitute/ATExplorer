@@ -35,7 +35,6 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
         TPanel *Panel1;
         TButton *Button1;
         TButton *Button2;
-        TIdHTTP *IdHTTP1;
 		TButton *PopulateOwnersBtn;
 		TGroupBox *GroupBox3;
 		TSTDStringLabeledEdit *OutputDataRootFolderE;

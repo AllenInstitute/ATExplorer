@@ -7,11 +7,12 @@
 #include "atFetchImageThread.h"
 #include "atRenderLocalCache.h"
 #include "atRenderServiceParameters.h"
+#include "atRESTClient.h"
+#include "atGenericList.h"
 #include <string>
 #include <vector>
-#include "atExplorerObject.h"
-#include "atGenericList.h"
-#include "pointMatches/atPointMatchCollection.h"
+#include "atRenderPointMatchAPI.h"
+#include "atRenderStackDataAPI.h"
 //---------------------------------------------------------------------------
 
 
@@ -32,21 +33,25 @@ namespace System
 namespace at
 {
 
+class PointMatchCollection;
 using std::vector;
-
 using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
-using at::RenderLocalCache;
-using at::List;
+
 using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
-class ATE_CORE RenderClient : public ExplorerObject
+
+//Create "RenderObjects" and give them a pointer
+//Derive from a RestClient class
+
+class ATE_CORE RenderClient : public RESTClient
 {
 	public:
-							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
+							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c = shared_ptr<Idhttp::TIdHTTP>(), const string& host="localhost", const string& name = "");
+//							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -58,23 +63,20 @@ class ATE_CORE RenderClient : public ExplorerObject
                                                          int maxInt						= 65535
                                                          );
 
+//		RESTResponse* 								execute(RESTRequest& request);
 		void                     					setRenderServiceParameters(RenderServiceParameters* rp);
 		const RenderServiceParameters*              getRenderServiceParameters();
 
         string                                      getBaseURL();
 		StringList						            getServerProperties();
-		StringList						            getOwners();
-        StringList						            getProjectsForOwner(const string& o);
 
-                                                    //Pointmatch API's
-		StringList									getPointMatchCollectionNamesForOwner(const string& o);
-		List<PointMatchCollection*>    				getPointMatchCollectionsForOwner(const string& o);
-		StringList									getPointMatchGroupIDs(const string& o, const string& matchCollection);
-		StringList									getPPointMatchGroupIDs(const string& o, const string& matchCollection);
-		StringList									getQPointMatchGroupIDs(const string& o, const string& matchCollection);
-        bool                                        deletePointMatchCollection(const string& owner, const string& matchCollection);
+                                                    //StackData API
+        RenderStackDataAPI                          StackDataAPI;
 
-        StringList						            getStacksForProject(const string& owner, const string& p);
+                                                    //Access renders pointmatch API
+        RenderPointMatchAPI                         PointMatchAPI;
+
+//        StringList						            getStacksForProject(const string& owner, const string& p);
         StringList                                  getChannelsInStack(const string& stackName);
         RenderProject                               getCurrentProject();
         StringList                                  getROIFoldersForCurrentStack();
@@ -114,12 +116,15 @@ class ATE_CORE RenderClient : public ExplorerObject
 
         string                                      getCacheRoot();
         string                                      getLastRequestURL();
+        string                                      request(const string& r);
 
     private:
     												//!This is the HTTP connection
                                                     //!Could use CURL instead..
-		Idhttp::TIdHTTP* 	                        mC;
+//		Idhttp::TIdHTTP* 	                        mC;
+        void                                        createRESTServiceParameters(const string& host);
         string                                      mLastRequestURL;
+
 
 		StringList 									getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request);
 
@@ -132,17 +137,16 @@ class ATE_CORE RenderClient : public ExplorerObject
     	int				                            mZ;
         double				                        mScale;
 
-        const RenderServiceParameters*              mRenderService;
+//        const RenderServiceParameters*              mRenderServiceParameters;
 
-        RenderProject&					            mRenderProject;
-        RenderLocalCache                            mCache;
+//        RenderProject&					            mRenderProject;
+//        RenderLocalCache                            mCache;
         string 			                            mImageType;
 
         int								            mMinIntensity;
         int								            mMaxIntensity;
         RegionOfInterest						    parseBoundsResponse(const string& s);
         FetchImageThread							mFetchImageThread;
-        List<PointMatchCollection>                     Temp;
 };
 
 }

@@ -147,6 +147,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PackageImport Include="vclx.bpi">
             <BuildOrder>28</BuildOrder>
         </PackageImport>
+        <CppCompile Include="..\..\Source\core\atRenderStackDataAPI.cpp">
+            <DependentOn>..\..\Source\core\atRenderStackDataAPI.h</DependentOn>
+            <BuildOrder>37</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atATIFDataProjectItemView.cpp">
             <BuildOrder>28</BuildOrder>
         </CppCompile>
@@ -291,14 +295,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TTextFileFrame.h</DependentOn>
             <BuildOrder>25</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateMediansForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TImageForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TRenderAPIChecker.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TSelectPointMatchCollectionProjectForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TSelectPointMatchCollectionProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TDockerContainersFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TPointMatchCollectionFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
