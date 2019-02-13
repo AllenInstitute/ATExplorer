@@ -49,7 +49,7 @@ StringList JSONParser::getStringList()
             //Parse out records
             for(int i = 0; i < r; i++)
             {
-                if(tokens[i].type == JSMN_STRING)
+                if(tokens[i].type == JSMN_STRING || tokens[i].type == JSMN_PRIMITIVE)
                 {
                     string item  = toString(&(tokens[i]));
                     list.append(item);
@@ -65,12 +65,13 @@ StringList JSONParser::getStringList(const jsmntok_t& token)
 	StringList list;
     if(token.type == JSMN_ARRAY)
     {
-        for(int i = token.start; i < token.end; i++)
+        int tokenIndex = getTokenIndex(&token);
+        for(int i = tokenIndex; i < (tokenIndex + token.size + 1); i++)
         {
             jsmntok_t aToken = mTokens[i];
             if(aToken.type == JSMN_STRING)
             {
-                string item = toString(&token);
+                string item = toString(&aToken);
                 list.append(item);
             }
         }
@@ -110,6 +111,29 @@ string JSONParser::getString(const string& _name)
 
     Log(lError) << "JSON Error. Could not find value for: "<<_name;
     return "";
+}
+
+StringList JSONParser::getStringList(const string& _name)
+{
+    //Find the name
+    for(int i = 1; i < mNumberOfTokens; i++)
+    {
+        jsmntok_t& token = mTokens[i];
+        if(token.type == JSMN_STRING)
+        {
+            string name = toString(&token);
+            if(name == _name)
+            {
+                //Next json object is the stringarray
+
+                jsmntok_t& value_token = mTokens[i + 1];
+                return getStringList(value_token);
+            }
+        }
+    }
+
+    Log(lError) << "JSON Error. Could not find value for: "<<_name;
+    return StringList();
 }
 
 int JSONParser::getTokenIndex(const JSONToken* t)
@@ -161,6 +185,30 @@ string JSONParser::getStringValueInObject(const JSONToken* t, const string& _nam
     return "";
 }
 
+StringList JSONParser::getStringList(const JSONToken* t)
+{
+    //Find startToken index
+    int startTokenIndex = getTokenIndex(t) + 1;
+
+    //Find the name
+    for(int i = startTokenIndex; i < mNumberOfTokens; i++)
+    {
+        jsmntok_t& token = mTokens[i];
+        if(token.type == JSMN_STRING)
+        {
+//            string name = toString(&token);
+//            if(name == _name)
+            {
+                //Next json object is the value
+                jsmntok_t& value_token = mTokens[i + 1];
+                string val = toString(&value_token);
+                return val;
+            }
+        }
+    }
+
+    return StringList();
+}
 vector<double> JSONParser::get1DDoubleArray(const string& objectName, const string& name)
 {
 	const JSONToken* object_token(NULL);
@@ -320,7 +368,6 @@ const JSONToken* JSONParser::getObjectToken(const string& name)
     }
     return NULL;
 }
-
 
 string toString(const jsmntok_t& key, const string& json)
 {

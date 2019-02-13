@@ -74,19 +74,19 @@ class ATE_CORE RenderClient : public RESTClient
         RenderPointMatchAPI                         PointMatchAPI;
 
 //        StringList						            getStacksForProject(const string& owner, const string& p);
-        StringList                                  getChannelsInStack(const string& stackName);
+//        StringList                                  getChannelsInStack(const string& stackName);
         RenderProject                               getCurrentProject();
         StringList                                  getROIFoldersForCurrentStack();
 		TMemoryStream*								getImageMemory();
-        bool                                        renameStack(const string& currentStackName, const string& newName);
-        void                                        setSelectedStackName(const string& sName);
+//        bool                                        renameStack(const string& currentStackName, const string& newName);
+
 		void				                        clearImageMemory();
 		string				                        getURL();
 		const char* 		                        getURLC();
         TMemoryStream*		                        getImage(int z = 0);
-        bool				                        getImageInThread(int z , StringList& paras);
+        bool				                        getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
         TMemoryStream*		                        reloadImage(int z = 0);
-        string							            getURLForZ(int z);
+        string							            getURLForZ(int z, const RenderProject& rp);
         bool				                        checkCacheForCurrentURL();
         string				                        getImageLocalCachePath();
         string				                        getImageLocalCachePathAndFileName();

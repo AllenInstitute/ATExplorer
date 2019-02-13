@@ -7,7 +7,7 @@
 
 using namespace dsl;
 using namespace at;
-
+extern ATExplorerUIProperties gUIProperties;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::About1Click(TObject *Sender)
 {

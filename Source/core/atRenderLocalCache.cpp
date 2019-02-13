@@ -11,7 +11,7 @@ namespace at
 using namespace Poco;
 using namespace dsl;
 
-RenderLocalCache::RenderLocalCache(const string& cr, RenderProject& rp)
+RenderLocalCache::RenderLocalCache(const string& cr, RenderProject* rp)
 :
 mCacheRoot(cr),
 mRP(rp)
@@ -22,7 +22,7 @@ RenderLocalCache::~RenderLocalCache()
 
 void RenderLocalCache::setRenderProject(const RenderProject& rp)
 {
-    mRP = rp;
+    mRP = &rp;
 }
 
 void RenderLocalCache::setBasePath(const string& bp)
@@ -32,9 +32,9 @@ void RenderLocalCache::setBasePath(const string& bp)
 
 double RenderLocalCache::getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi)
 {
-    mRP = rp;
+    mRP = &rp;
     string path;
-    path = joinPath(mCacheRoot, mRP.getProjectOwner() ,mRP.getRenderProjectName(), mRP.getSelectedStackName(), roi.getFolderName());
+    path = joinPath(mCacheRoot, mRP->getProjectOwner() ,mRP->getRenderProjectName(), mRP->getSelectedStackName(), roi.getFolderName());
 
     Log(lInfo) << "Finding files in folder: " << path;
     StringList cf(getFilesInFolder(path, "jpg"));
@@ -58,7 +58,7 @@ double RenderLocalCache::getLowestResolutionInCache(const RenderProject& rp, con
     return minS;
 }
 
-string RenderLocalCache::getBasePath()
+string RenderLocalCache::getBasePath() const
 {
     return mCacheRoot;
 }

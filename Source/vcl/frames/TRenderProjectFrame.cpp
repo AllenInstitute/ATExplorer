@@ -36,6 +36,7 @@ TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
 //---------------------------------------------------------------------------
 __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner)
 	: TFrame(Owner),
+	mExplorer(e),
     mRP(rp),
     mRC(),
     mRenderEnabled(false),
@@ -46,10 +47,11 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject
     mCreateVolumesForm(NULL)
 {
     mRC.assignOnImageCallback(onImage);
-    mRC.setLocalCacheFolder(rp.getLocalCacheFolder());
+    //mRC.setLocalCacheFolder(rp.getLocalCacheFolder());
     this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();
     populate();
     mCurrentROI.assignOnChangeCallback(onROIChanged);
+    mExplorer.Cache.setRenderProject(mRP);
 }
 
 void TRenderProjectFrame::populate()
@@ -138,11 +140,11 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
     }
 
     string stackName(stdstr(StackCB->Text));
-    mRC.setSelectedStackName(stackName);
+	mRP.setSelectedStackName(stackName);
    	getValidZsForStack();
 
     //Populate channels
-    StringList chs = mRC.getChannelsInStack(stackName);
+    StringList chs = mRC.StackDataAPI.getChannelsInSelectedStack(mRP);
     populateCheckListBox(chs, ChannelsCB);
 	enableDisableGroupBox(imageParasGB, true);
 	enableDisableGroupBox(Zs_GB, true);
@@ -184,7 +186,8 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
         paras.append(string("&maxTileSpecsToRender=150"));
 
     	//Image pops up in onImage callback
-	    mRC.getImageInThread(z, paras);
+		//getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache);
+	    mRC.getImageInThread(z, paras, mRP.getSelectedChannelName(), mExplorer.Cache, mRP);
     }
     else
     {
@@ -515,7 +518,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
             for(int i = 0; i < mZs->Count; i++)
             {
                 int	z = toInt(stdstr(mZs->Items->Strings[i]));
-                urls.append(rc.getURLForZ(z));
+                urls.append(rc.getURLForZ(z, mRP));
             }
 
     	    StringList paras;

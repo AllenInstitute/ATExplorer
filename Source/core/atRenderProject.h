@@ -50,7 +50,7 @@ class ATE_CORE RenderProject : public ATExplorerProject
 		virtual bool 					        loadFromXML(dsl::XMLNode* node);
 
                                                 //For convenience to 'views'
-        RegionOfInterest&                       getCurrentRegionOfInterestReference();
+        const RegionOfInterest&                 getCurrentRegionOfInterestReference() const;
         int&                                    getMinIntensity();
         int&                                    getMaxIntensity();
 

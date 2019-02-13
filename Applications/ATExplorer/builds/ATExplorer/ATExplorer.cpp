@@ -9,7 +9,8 @@ using namespace at;
 using namespace dsl;
 
 //The destructor for gATExplorer executes before destruction of the main form.. weird..
-ATExplorer gATExplorer;
+ATExplorer 				gATExplorer;
+ATExplorerUIProperties 	gUIProperties;
 
 USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
 USEFORM("..\..\source\TMainForm.cpp", MainForm);

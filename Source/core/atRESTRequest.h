@@ -22,6 +22,7 @@ class ATE_CORE RESTRequest : public ExplorerObject
         virtual                     ~RESTRequest();
 
         void                        addParameter(const string& name, const string& value);
+        void                        addQuery(const string& query);
         void                        addSegment(const string& seg);
         virtual RequestMethod       getMethod(){return mRequestMethod;}
         string                      getRequestURL();

@@ -12,6 +12,7 @@ using namespace dsl;
 using namespace at;
 
 extern ATExplorer gATExplorer;
+extern ATExplorerUIProperties gUIProperties;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Exit1Click(TObject *Sender)
 {

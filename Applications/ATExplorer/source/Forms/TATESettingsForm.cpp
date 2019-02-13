@@ -15,7 +15,7 @@ TATESettingsForm *ATESettingsForm;
 using namespace dsl;
 using namespace at;
 
-
+extern ATExplorerUIProperties gUIProperties;
 //---------------------------------------------------------------------------
 __fastcall TATESettingsForm::TATESettingsForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),

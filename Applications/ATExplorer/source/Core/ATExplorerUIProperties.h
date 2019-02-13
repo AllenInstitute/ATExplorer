@@ -38,7 +38,7 @@ class PACKAGE ATExplorerUIProperties : public dsl::ApplicationProperties
 };
 
 //This creates a global ATExplorerUIProperties object
-extern PACKAGE ATExplorerUIProperties gUIProperties;
+//extern PACKAGE ATExplorerUIProperties gUIProperties;
 
 }
 #endif

@@ -15,7 +15,7 @@ RenderLayer::RenderLayer(const string& url, const string& localCacheRootFolder)
 :
 mURL(url),
 mRenderProject(url),
-mCache(localCacheRootFolder, mRenderProject),
+mCache(localCacheRootFolder, &mRenderProject),
 mScheme(mURL.getScheme()),
 mAuthority(mURL.getAuthority()),
 mHost(mURL.getHost()),
@@ -57,7 +57,7 @@ RenderLayer::RenderLayer(RenderProject& rp, const RegionOfInterest& roi, const s
 :
 mRenderProject(rp),
 mRegionOfInterest(roi),
-mCache(localCacheRootFolder, rp)
+mCache(localCacheRootFolder, &rp)
 {}
 
 bool RenderLayer::existInCache(const string& f)

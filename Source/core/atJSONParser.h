@@ -27,7 +27,9 @@ class ATE_CORE JSONParser : public ExplorerObject
                                         JSONParser(const string& json);
                                         ~JSONParser();
         StringList                      getStringList();
+        StringList                      getStringList(const JSONToken* t);
         string                          getString(const string& name);
+        StringList                      getStringList(const string& name);
         string                          getStringValueInObject(const JSONToken* t, const string& name);
 
 		vector<Point2D>                 get2DDoubleArray(const string& name);

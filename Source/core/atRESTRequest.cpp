@@ -27,6 +27,11 @@ void RESTRequest::addSegment(const string& seg)
     mRequestURL << "/" << seg;
 }
 
+void RESTRequest::addQuery(const string& q)
+{
+    mRequestURL << "/?" << "api-key="<<q;
+}
+
 string RESTRequest::getRequestURL()
 {
     return mRequestURL.str();

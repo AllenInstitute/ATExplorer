@@ -26,8 +26,11 @@ class ATE_CORE RenderStackDataAPI : public RenderAPI
 		StringList						            getOwners();
         StringList						            getProjectsForOwner(const string& o);
         StringList						            getStacksForProject(const string& o, const string& p);
-        vector<int>						            getZsForStack(const RenderProject& p);
-        vector<int>						            getZsForStack(const string& o, const string& p, const string& stack);
+        StringList						            getZsForStack(const RenderProject& p);
+        StringList						            getZsForStack(const string& o, const string& p, const string& stack);
+	    StringList									getChannelsInStack(const string& o, const string& p, const string& stack);
+		StringList 									getChannelsInSelectedStack(const RenderProject& p);
+
         RESTResponse* 								execute(RESTRequest& request);
 
     protected:

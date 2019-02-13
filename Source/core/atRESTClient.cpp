@@ -37,10 +37,11 @@ string RESTClient::getBaseURL()
 int RESTClient::executeRequest(RESTRequest& request, string& response)
 {
     //Synchronous
-    try
+    __try
     {
     	unique_ptr<TStringStream> zstrings (new TStringStream);
-        __try
+        string req;
+        try
         {
             Log(lDebug) << "Request: " << request.getRequestURL();
             switch(request.getMethod())
@@ -53,36 +54,42 @@ int RESTClient::executeRequest(RESTRequest& request, string& response)
                 break;
 
                 case rmGet:
-                    mHTTPClient->Get(request.getRequestURL().c_str(), zstrings.get());
+                    req = (request.getRequestURL());
+                    mHTTPClient->Get(req.c_str(), zstrings.get());
                 break;
 
                 default:
                 break;
             }
-        }
-        __except(EXCEPTION_EXECUTE_HANDLER)
-        {
-        	Log(lError) << "This is HW error..!? Bad stuff.";
-        }
 
-        response = stdstr(zstrings->DataString);
-        return mHTTPClient->ResponseCode;
+            response = stdstr(zstrings->DataString);
+            return mHTTPClient->ResponseCode;
+        }
+        catch (const EIdHTTPProtocolException& e)
+        {
+            // an HTTP error occured, do something...
+            // details about the HTTP error are in the exception object
+            Log(lError) << "Bad stuff..";
+            return -1;
+        }
+        catch (const EIdException& e)
+        {
+            // a non-HTTP Indy error occured, do something else...
+            Log(lError) << "Bad stuff..";
+            return -1;
+        }
+        catch (const Exception& e)
+        {
+            // some other error occured, do something else...
+            return -1;
+        }
     }
-    catch (const EIdHTTPProtocolException& e)
+    __except(EXCEPTION_EXECUTE_HANDLER)
     {
-        // an HTTP error occured, do something...
-        // details about the HTTP error are in the exception object
-        Log(lError) << "Bad stuff..";
+        Log(lError) << "This is HW error..!? Bad stuff.";
     }
-    catch (const EIdException& e)
-    {
-        // a non-HTTP Indy error occured, do something else...
-        Log(lError) << "Bad stuff..";
-    }
-    catch (const Exception& e)
-    {
-        // some other error occured, do something else...
-    }
+
+    return -1;
 
 }
 

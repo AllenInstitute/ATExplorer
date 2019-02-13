@@ -12,16 +12,16 @@ class ATE_CORE RenderLocalCache : public ExplorerObject
 {
 
         public:
-                                        RenderLocalCache(const string& cr, RenderProject& rp);
+                                        RenderLocalCache(const string& cr, RenderProject* rp = NULL);
                                         ~RenderLocalCache();
 
 		double        		            getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi);
         void                            setRenderProject(const RenderProject& rp);
-        string                          getBasePath();
+        string                          getBasePath() const;
         void                            setBasePath(const string& bp);
 
         protected:
-            RenderProject&              mRP;
+            const RenderProject*              mRP;
             string                      mCacheRoot;
 };
 

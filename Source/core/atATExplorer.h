@@ -8,6 +8,7 @@
 #include "dslProperties.h"
 #include "atATExplorerProperties.h"
 #include "atRenderClient.h"
+#include "atRenderLocalCache.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -54,6 +55,7 @@ class ATE_CORE ATExplorer : public ExplorerObject
         ATExplorerProperties                    Properties;
 
 		RenderClient                            RenderClient;
+        RenderLocalCache                        Cache;
     protected:
 
 

@@ -120,11 +120,6 @@ const RenderServiceParameters* RenderClient::getRenderServiceParameters()
     return dynamic_cast<RenderServiceParameters*>(mServiceParameters);
 }
 
-void RenderClient::setSelectedStackName(const string& sName)
-{
-//    mRenderProject.setSelectedStackName(sName);
-}
-
 string RenderClient::getCacheRoot()
 {
 //    return mCache.getBasePath();
@@ -208,84 +203,6 @@ void RenderClient::setLocalCacheFolder(const string& f)
 //	mCache.setBasePath(f);
 }
 
-
-StringList RenderClient::getChannelsInStack(const string& stackName)
-{
-//	//http://localhost/render-ws/v1/owner/ATExplorer/project/M33/stack/STI_FF_Session1?api_key=stacks
-//    if(!mServiceParameters)
-//    {
-//        return StringList();
-//    }
-//
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" 	<<	mRenderProject.getProjectOwner();
-//    sUrl << "/project/" <<	mRenderProject.getRenderProjectName();
-//    sUrl << "/stack/" 	<<	stackName << "?api_key=stacks";
-//    Log(lDebug5) << "Fetching channels: "<<sUrl.str();
-//
-//    try
-//    {
-//        TStringStream* zstrings = new TStringStream;;
-//        mLastRequestURL = sUrl.str();
-//        mC->Get(mLastRequestURL.c_str(), zstrings);
-//
-//        if( mC->ResponseCode != HTTP_RESPONSE_OK)
-//        {
-//            Log(lError) << "Bad HTTP RESPONSE when getching channel names";
-//	        return StringList();
-//        }
-//
-//        string s = stdstring(zstrings->DataString);
-//
-//        //Parse JSON
-//        jsmn_parser parser;
-//        jsmn_init(&parser);
-//
-//        int r = jsmn_parse(&parser, s.c_str(), s.size(), NULL, 0);
-//        if(r)
-//        {
-//            jsmn_init(&parser);
-//            jsmntok_t* tokens = new jsmntok_t[r];
-//            r = jsmn_parse(&parser, s.c_str(), s.size(), &tokens[0], r);
-//            if(r)
-//            {
-//                //find string token "channelNames"
-//                for(int i = 0; i < r; i++)
-//                {
-//                    jsmntok_t tok = tokens[i];
-//                    if(tok.type == JSMN_STRING)
-//                    {
-//                        string sToken = toString(tok, s);
-//                        if(sToken == "channelNames")
-//                        {
-//                            //Next one is an ARRAY object holding the channels..
-//                            //parse it into a string
-//                            jsmntok_t chs_tok = tokens[i + 1];
-//
-//                            string chs = toString(chs_tok, s);
-//                            chs = stripCharacters(" []\"", chs);
-//                            //Get them all as a string..
-//                            StringList channels(chs, ',');
-//                            channels.sort();
-//                            return channels;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//    	Log(lError) << "Failed fetching channels";
-//        return StringList();
-//    }
-//    catch(...)
-//    {
-//    	Log(lError) << "Failed fetching channels";
-//        return StringList();
-//    }
-}
-
-
 StringList RenderClient::getServerProperties()
 {
 //    stringstream sUrl;
@@ -314,19 +231,19 @@ StringList RenderClient::getServerProperties()
 //    return response;
 }
 
-bool RenderClient::getImageInThread(int z, StringList& paras)
+bool RenderClient::getImageInThread(int z, StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp)
 {
-//	mZ = z;
-//
-//	if(!mImageMemory)
-//    {
-//		mImageMemory = new TMemoryStream();
-//    }
-//
-//	mFetchImageThread.setup(getURLForZ(z), mCache.getBasePath());
-//    mFetchImageThread.addParameters(paras);
-//    mFetchImageThread.setChannel(mRenderProject.getSelectedChannelName());
-//	mFetchImageThread.start(true);
+	mZ = z;
+
+	if(!mImageMemory)
+    {
+		mImageMemory = new TMemoryStream();
+    }
+
+	mFetchImageThread.setup(getURLForZ(z, rp), cache.getBasePath());
+    mFetchImageThread.addParameters(paras);
+    mFetchImageThread.setChannel(channel);
+	mFetchImageThread.start(true);
     return true;
 }
 
@@ -488,26 +405,26 @@ void RenderClient::clearImageMemory()
     mImageMemory = NULL;
 }
 
-string RenderClient::getURLForZ(int z)
+string RenderClient::getURLForZ(int z, const RenderProject& rp)
 {
-//	stringstream sUrl;
-//    RegionOfInterest& roi = mRenderProject.getCurrentRegionOfInterestReference();
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
-//    sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
-//    sUrl << "/stack/"		<< mRenderProject.getSelectedStackName();
-//    sUrl << "/z/"			<<z;
-//    sUrl << "/box/"			<<roi.getX1()<<","<<roi.getY1() << "," << (int) roi.getWidth() << ","<< (int) roi.getHeight() << ","<<mScale;
-//    sUrl << "/"<<mImageType;
-//	sUrl << "?minIntensity="<<mMinIntensity;
-//	sUrl << "&maxIntensity="<<mMaxIntensity;
-//
-//	return sUrl.str();
+	stringstream sUrl;
+    const RegionOfInterest& roi = rp.getCurrentRegionOfInterestReference();
+    sUrl << mServiceParameters->getBaseURL();
+    sUrl << "/owner/" 		<< rp.getProjectOwner();
+    sUrl << "/project/" 	<< rp.getRenderProjectName();
+    sUrl << "/stack/"		<< rp.getSelectedStackName();
+    sUrl << "/z/"			<<z;
+    sUrl << "/box/"			<<roi.getX1()<<","<<roi.getY1() << "," << (int) roi.getWidth() << ","<< (int) roi.getHeight() << ","<<mScale;
+    sUrl << "/"<<mImageType;
+	sUrl << "?minIntensity="<<mMinIntensity;
+	sUrl << "&maxIntensity="<<mMaxIntensity;
+
+	return sUrl.str();
 }
 
 string RenderClient::getURL()
 {
-    return getURLForZ(mZ);
+    return "";//getURLForZ(mZ);
 }
 
 //StringList RenderClient::getZs()
@@ -578,18 +495,18 @@ string RenderClient::getURL()
 ////    return vector<int>();
 //}
 
-bool RenderClient::renameStack(const string& currentStackName, const string& newName)
-{
-//	stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
-//    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
-//    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
-//
-////    TStringStream* strings = new TStringStream;;
-////    mC->Put()
-//    return true;
-}
+//bool RenderClient::renameStack(const string& currentStackName, const string& newName)
+//{
+////	stringstream sUrl;
+////    sUrl << mServiceParameters->getBaseURL();
+////    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
+////    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
+////    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
+////
+//////    TStringStream* strings = new TStringStream;;
+//////    mC->Put()
+////    return true;
+//}
 
 RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
 {

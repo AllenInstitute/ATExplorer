@@ -33,6 +33,7 @@ Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
 ULONG_PTR  			         	                gdiplusToken;
 
 extern ATExplorer gATExplorer;
+extern ATExplorerUIProperties gUIProperties;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gUIProperties.AppRegistryRoot, "MainForm", Owner),
@@ -46,7 +47,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     //Setup some UI properties
 	BottomPanel->Height 		= gUIProperties.BottomPanelHeight;
     ProjectManagerPanel->Width 	= gUIProperties.ProjectPanelWidth == 0 ? 100 : gUIProperties.ProjectPanelWidth; //Gotta be at least 100px on startup
-
+    gATExplorer.Cache.setBasePath(gUIProperties.LocalCacheFolder);
     //Populate "recent" files, projects
 	if(gUIProperties.LastOpenedProject.getValue().size())
     {
@@ -110,7 +111,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 
         Project* parent = p->getProjectRoot();
 
-	    //user may cancel the request
+	    //user m	ay cancel the request
         if(parent->isModified())
         {
             if(saveProject(parent) == mrCancel)

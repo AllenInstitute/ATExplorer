@@ -176,7 +176,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                     if(mZs->Checked[i])
                     {
                     	int	z = toInt(stdstr(mZs->Items->Strings[i]));
-	                    urls.append(mRC.getURLForZ(z));
+	                    urls.append(mRC.getURLForZ(z, mRP));
                     }
                 }
 

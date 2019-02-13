@@ -126,7 +126,7 @@ void RenderProject::assignLocalCacheRootFolder(const string& rFolder)
     mLocalCacheRootFolder = rFolder;
 }
 
-RegionOfInterest& RenderProject::getCurrentRegionOfInterestReference()
+const RegionOfInterest& RenderProject::getCurrentRegionOfInterestReference() const
 {
     return mCurrentROI;
 }

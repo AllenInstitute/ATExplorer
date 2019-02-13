@@ -64,6 +64,8 @@ object MainForm: TMainForm
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
+      ExplicitTop = 20
+      ExplicitWidth = 302
       object LogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
