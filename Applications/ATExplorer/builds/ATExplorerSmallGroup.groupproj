@@ -3,6 +3,15 @@
         <ProjectGuid>{68365255-D5F3-423A-9F32-9C838F3FDEAF}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\dsl\Builds\dslVCLComponents\dslVCLComponents.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj">
             <Dependencies/>
         </Projects>
@@ -26,6 +35,33 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="dslFoundation">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj"/>
+    </Target>
+    <Target Name="dslFoundation:Clean">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslFoundation:Make">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="dslVCLCommon">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj"/>
+    </Target>
+    <Target Name="dslVCLCommon:Clean">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslVCLCommon:Make">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLCommon\dslVCLCommon.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="dslVCLComponents">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLComponents\dslVCLComponents.cbproj"/>
+    </Target>
+    <Target Name="dslVCLComponents:Clean">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLComponents\dslVCLComponents.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslVCLComponents:Make">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslVCLComponents\dslVCLComponents.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="dslVCLVisualComponents">
         <MSBuild Projects="P:\libs\dsl\Builds\dslVCLVisualComponents\dslVCLVisualComponents.cbproj"/>
     </Target>
@@ -72,13 +108,13 @@
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslVCLVisualComponents;atExplorerFoundation;atExplorerVCL;ATExplorerAppPackage;ATExplorer"/>
+        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents;atExplorerFoundation;atExplorerVCL;ATExplorerAppPackage;ATExplorer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslVCLVisualComponents:Clean;atExplorerFoundation:Clean;atExplorerVCL:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean;atExplorerFoundation:Clean;atExplorerVCL:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslVCLVisualComponents:Make;atExplorerFoundation:Make;atExplorerVCL:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
+        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make;atExplorerFoundation:Make;atExplorerVCL:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

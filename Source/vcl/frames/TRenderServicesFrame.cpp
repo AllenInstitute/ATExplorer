@@ -25,7 +25,8 @@ using namespace std;
 __fastcall TRenderServicesFrame::TRenderServicesFrame(ATExplorer& e, TComponent* Owner)
 	:
     TFrame(Owner),
-    mExplorer(e)
+    mExplorer(e),
+    mNewServices()
     {}
 
 //---------------------------------------------------------------------------

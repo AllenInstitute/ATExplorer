@@ -32,6 +32,6 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
 	this->Caption = vclstr(createWindowTitle("ATExplorer", Application));
     this->DoubleBuffered = true;
-    TLogMemoFrame1->init();
+    LogMemoFrame1->init();
 }
 

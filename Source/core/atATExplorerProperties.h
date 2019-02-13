@@ -47,7 +47,7 @@ class ATE_CORE ATExplorerProperties : public ExplorerObject
         void													read();
 		void													write();
         PropertiesSP                                  			getSection(const string& sec);
-        shared_ptr<IniFileProperties>                           appendNewINISection(const string& secName);
+        shared_ptr<IniFileProperties>                           createNewINISection(const string& secName);
         void                                                    append(PropertiesSP props);
 
         PropertiesSP                                            getFirstSection() const;

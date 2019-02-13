@@ -83,7 +83,6 @@ __published:	// IDE-managed Components
 	TAction *ToggleImageGridA;
 	TAction *CreateTiffStackA;
 	TAction *CreateMIPA;
-	TLogMemoFrame *TLogMemoFrame1;
 	TAction *OpenSettingsA;
 	TMenuItem *Settings1;
 	TToolButton *ToolButton6;
@@ -120,6 +119,7 @@ __published:	// IDE-managed Components
 	TMenuItem *MenuItem3;
 	TMenuItem *MenuItem6;
 	TMenuItem *MenuItem8;
+	TLogMemoFrame *LogMemoFrame1;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);

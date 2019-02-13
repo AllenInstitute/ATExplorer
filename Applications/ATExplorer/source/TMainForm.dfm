@@ -64,106 +64,17 @@ object MainForm: TMainForm
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
-      inline TLogMemoFrame1: TLogMemoFrame
+      object LogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
         Width = 1368
         Height = 134
         Align = alClient
         TabOrder = 0
-        object Panel1: TPanel
-          Left = 0
-          Top = 0
-          Width = 1368
-          Height = 134
-          Align = alClient
-          Caption = 'Panel1'
-          TabOrder = 0
-          object GroupBox1: TGroupBox
-            Left = 1
-            Top = 1
-            Width = 1366
-            Height = 50
-            Align = alTop
-            Caption = 'Logs'
-            TabOrder = 0
-            object ToolBar1: TToolBar
-              Left = 1
-              Top = 14
-              Width = 258
-              Height = 35
-              Align = alLeft
-              AutoSize = True
-              ButtonHeight = 21
-              Caption = 'ToolBar1'
-              TabOrder = 0
-              ExplicitLeft = 2
-              ExplicitTop = 15
-              ExplicitHeight = 33
-              object mClearLogMemoBtn: TBitBtn
-                Left = 0
-                Top = 0
-                Width = 113
-                Height = 21
-                Align = alLeft
-                Caption = 'Clear'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                TabOrder = 0
-              end
-              object LogLevelCB: TComboBox
-                Left = 113
-                Top = 0
-                Width = 145
-                Height = 21
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                TabOrder = 1
-                Text = 'INFO'
-                Items.Strings = (
-                  'ERROR'
-                  'WARNING'
-                  'INFO'
-                  'DEBUG'
-                  'DEBUG1'
-                  'DEBUG2'
-                  'DEBUG3'
-                  'DEBUG4'
-                  'DEBUG5')
-              end
-            end
-          end
-          object infoMemo: TMemo
-            Left = 1
-            Top = 51
-            Width = 1366
-            Height = 82
-            Align = alClient
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssBoth
-            TabOrder = 1
-            WordWrap = False
-          end
-        end
-        object LogFileReader1: TLogFileReader
-          LogFileMemo = TLogMemoFrame1.infoMemo
-          Left = 40
-          Top = 64
-        end
+        ExplicitLeft = 0
+        ExplicitTop = 25
+        ExplicitWidth = 1372
+        ExplicitHeight = 731
       end
     end
     object ProjectManagerPanel: TPanel
