@@ -4,7 +4,7 @@ object MainForm: TMainForm
   AlphaBlendValue = 100
   Caption = 'Volume Creator'
   ClientHeight = 775
-  ClientWidth = 1442
+  ClientWidth = 1372
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -26,21 +26,21 @@ object MainForm: TMainForm
   object StatusBar1: TStatusBar
     Left = 0
     Top = 756
-    Width = 1442
+    Width = 1372
     Height = 19
     Panels = <>
   end
   object MainPanel: TPanel
     Left = 0
     Top = 25
-    Width = 1442
+    Width = 1372
     Height = 731
     Align = alClient
     TabOrder = 1
     object Splitter2: TSplitter
       Left = 1
       Top = 591
-      Width = 1440
+      Width = 1370
       Height = 3
       Cursor = crVSplit
       Align = alBottom
@@ -59,37 +59,35 @@ object MainForm: TMainForm
     object BottomPanel: TPanel
       Left = 1
       Top = 594
-      Width = 1440
+      Width = 1370
       Height = 136
       Align = alBottom
       PopupMenu = PopupMenu1
       TabOrder = 0
-      ExplicitTop = 20
-      ExplicitWidth = 302
       inline TLogMemoFrame1: TLogMemoFrame
         Left = 1
         Top = 1
-        Width = 1438
+        Width = 1368
         Height = 134
         Align = alClient
         TabOrder = 0
         ExplicitLeft = 1
         ExplicitTop = 1
-        ExplicitWidth = 300
+        ExplicitWidth = 1368
         ExplicitHeight = 134
         inherited Panel1: TPanel
-          Width = 1438
+          Width = 1368
           Height = 134
-          ExplicitWidth = 300
+          ExplicitWidth = 1368
           ExplicitHeight = 134
           inherited GroupBox1: TGroupBox
-            Width = 1436
-            ExplicitWidth = 298
+            Width = 1366
+            ExplicitWidth = 1366
           end
           inherited infoMemo: TMemo
-            Width = 1436
+            Width = 1366
             Height = 82
-            ExplicitWidth = 1436
+            ExplicitWidth = 1366
             ExplicitHeight = 82
           end
         end
@@ -123,7 +121,7 @@ object MainForm: TMainForm
     object ShowBottomPanelBtn: TButton
       Left = 1
       Top = 572
-      Width = 1440
+      Width = 1370
       Height = 19
       Action = ToggleBottomPanelA
       Align = alBottom
@@ -133,7 +131,7 @@ object MainForm: TMainForm
     object MainPC: TPageControl
       Left = 204
       Top = 1
-      Width = 1237
+      Width = 1167
       Height = 571
       Align = alClient
       PopupMenu = MainPCPopup
@@ -144,7 +142,7 @@ object MainForm: TMainForm
   object TopPanel2: TPanel
     Left = 0
     Top = 0
-    Width = 1442
+    Width = 1372
     Height = 25
     Align = alTop
     TabOrder = 2
@@ -390,7 +388,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C0101EA00E806B00310001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101EA00E806040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000B0030000010020000000000000B0
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

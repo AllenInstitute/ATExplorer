@@ -11,6 +11,7 @@
 using namespace dsl;
 using namespace at;
 
+extern ATExplorer gATExplorer;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::Exit1Click(TObject *Sender)
 {

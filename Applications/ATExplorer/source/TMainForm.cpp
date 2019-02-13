@@ -31,6 +31,8 @@ using namespace Poco;
 
 Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
 ULONG_PTR  			         	                gdiplusToken;
+
+extern ATExplorer gATExplorer;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
 	: TRegistryForm(gUIProperties.AppRegistryRoot, "MainForm", Owner),

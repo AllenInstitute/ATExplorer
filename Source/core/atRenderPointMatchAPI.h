@@ -5,7 +5,7 @@
 #include "atGenericListOfPointers.h"
 #include "atRenderAPI.h"
 #include "atGenericListOfObjects.h"
-#include "atPointMatch.h"
+#include "pointMatches/atPointMatch.h"
 //---------------------------------------------------------------------------
 
 

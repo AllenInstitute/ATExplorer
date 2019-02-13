@@ -8,7 +8,7 @@
 #include "dslStringUtils.h"
 #include "dslUtils.h"
 #include "dslLogger.h"
-#include "dslMathUtils.h"
+#include "math/dslMathUtils.h"
 #include "dslFileUtils.h"
 #include "atJSMN.h"
 

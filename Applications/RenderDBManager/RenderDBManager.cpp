@@ -7,7 +7,6 @@
 #include <Vcl.Styles.hpp>
 #include <Vcl.Themes.hpp>
 USEFORM("TMainForm.cpp", MainForm);
-USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 using namespace at;
 using namespace dsl;
@@ -32,8 +31,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
 		TStyleManager::TrySetStyle("Golden Graphite");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-		Application->CreateForm(__classid(TLogMemoFrame), &LogMemoFrame);
-		Application->Run();
+         Application->Run();
 	}
 	catch (Exception &exception)
 	{

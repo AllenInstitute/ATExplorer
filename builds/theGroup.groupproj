@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9B4BD566-2AFD-4EF1-842D-872DE459C00A}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="atExplorerFoundation\atExplorerFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="atExplorerVCL\atExplorerVCL.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="atExplorerFoundation">
+        <MSBuild Projects="atExplorerFoundation\atExplorerFoundation.cbproj"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Clean">
+        <MSBuild Projects="atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Make">
+        <MSBuild Projects="atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atExplorerVCL">
+        <MSBuild Projects="atExplorerVCL\atExplorerVCL.cbproj"/>
+    </Target>
+    <Target Name="atExplorerVCL:Clean">
+        <MSBuild Projects="atExplorerVCL\atExplorerVCL.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorerVCL:Make">
+        <MSBuild Projects="atExplorerVCL\atExplorerVCL.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="atExplorerFoundation;atExplorerVCL"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="atExplorerFoundation:Clean;atExplorerVCL:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="atExplorerFoundation:Make;atExplorerVCL:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

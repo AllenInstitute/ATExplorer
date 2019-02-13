@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{A2AAD0A9-B192-486A-BDF1-F8280C7B878B}</ProjectGuid>
         <ProjectVersion>18.5</ProjectVersion>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>VCL</FrameworkType>
         <MainSource>ATExplorerAppPackage.cpp</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
@@ -50,7 +50,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppPackage</ProjectType>
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <_TCHARMapping>char</_TCHARMapping>
@@ -70,9 +70,11 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>adortl;appanalytics;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDACADSDriver;FireDACCommonODBC;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;rtl;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -100,7 +102,6 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_Description>Support package for ATExplorer</ILINK_Description>
         <ILINK_GenerateLibFile>false</ILINK_GenerateLibFile>
-        <IncludePath>P:\atExplorer\Applications\ATExplorer\source\Frames;P:\atExplorer\Applications\ATExplorer\source\Forms;P:\atExplorer\source\core;P:\atExplorer\Source\vcl\forms;$(IncludePath)</IncludePath>
         <DCC_HppOutput>$(DEBUG_BCC32)\include</DCC_HppOutput>
         <BCC_PCHInject>ATPackagePCH.h</BCC_PCHInject>
         <PostBuildEvent><![CDATA[copy $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).bpi $(BDSCOMMONDIR)\DCP\$(OUTPUTNAME).lib
@@ -146,44 +147,22 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PackageImport Include="vclx.bpi">
             <BuildOrder>28</BuildOrder>
         </PackageImport>
-        <CppCompile Include="..\..\source\Core\atApplicationSupportFunctions.cpp">
-            <DependentOn>..\..\source\Core\atApplicationSupportFunctions.h</DependentOn>
-            <BuildOrder>40</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Core\ATExplorerUIProperties.cpp">
-            <DependentOn>..\..\source\Core\ATExplorerUIProperties.h</DependentOn>
-            <BuildOrder>36</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TAboutATExplorerForm.cpp">
-            <Form>AboutATExplorer</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TAboutATExplorerForm.h</DependentOn>
-            <BuildOrder>27</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\Forms\TATESettingsForm.cpp">
-            <Form>ATESettingsForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>..\..\source\Forms\TATESettingsForm.h</DependentOn>
-            <BuildOrder>14</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\Frames\TGeneralPropertiesFrame.cpp">
             <Form>GeneralPropertiesFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\source\Frames\TGeneralPropertiesFrame.h</DependentOn>
-            <BuildOrder>16</BuildOrder>
+            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\..\Source\vcl\frames\TRenderServicesFrame.cpp">
             <Form>RenderServicesFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\..\..\Source\vcl\frames\TRenderServicesFrame.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
+            <BuildOrder>12</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\..\..\Source\vcl\frames\TRenderServicesFrame.dfm"/>
         <FormResources Include="..\..\source\Frames\TGeneralPropertiesFrame.dfm"/>
-        <FormResources Include="..\..\source\Forms\TATESettingsForm.dfm"/>
-        <FormResources Include="..\..\source\Forms\TAboutATExplorerForm.dfm"/>
+        <FormResources Include="..\..\..\..\Source\vcl\frames\TRenderServicesFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -211,8 +190,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">File p:\build\BPL\atVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\build\BPL\dslVCLVisualComponents.bpl">Dune Visual Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
@@ -231,12 +211,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="C:\build\BPL\ATExplorerAppPackage.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>ATExplorerAppPackage.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\BPL\ATExplorerAppPackage.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\build\BPL\ATExplorerAppPackage.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ATExplorerAppPackage.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -309,12 +295,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="p:\build\BPL\ATExplorerAppPackage.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>ATExplorerAppPackage.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -78,7 +78,7 @@ ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
         if(o)
         {
             Log(lInfo) << "Creating a ATIFData project view";
-	       	shared_ptr<ATIFDataProjectItemView> aView(new ATIFDataProjectItemView(gATExplorer, MainPC, *o));
+	       	shared_ptr<ATIFDataProjectItemView> aView(new ATIFDataProjectItemView(mExplorer, MainPC, *o));
         	mViews.push_back(aView);
 		    this->observe(aView->getSubject());
             return aView.get();
