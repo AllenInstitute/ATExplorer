@@ -96,8 +96,8 @@ class ATE_CORE RenderClient : public RESTClient
         void							            setLocalCacheFolder(const string& f);
         string							            getLocalCacheFolder();
 
-        StringList						            getZs();
-        vector<int>						            getValidZs();
+//        StringList						            getZs();
+//        vector<int>						            getValidZs();
 		RegionOfInterest 						    getLayerBoundsForZ(int z);
         RegionOfInterest						    getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RegionOfInterest>				    getLayerBounds();

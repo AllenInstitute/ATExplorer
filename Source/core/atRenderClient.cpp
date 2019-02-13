@@ -510,71 +510,73 @@ string RenderClient::getURL()
     return getURLForZ(mZ);
 }
 
-StringList RenderClient::getZs()
-{
-	StringList validZs = getValidZs();
-
-    StringList missingZs;
-    int nrOfMissingZs = 0;
-
-    for(int i = 0; i < validZs.count(); i++)
-    {
-    	if(toInt(validZs[i]) != (i + nrOfMissingZs))
-        {
-        	missingZs.append(dsl::toString(i + nrOfMissingZs));
-			nrOfMissingZs++;
-        }
-    }
-
-    StringList all;
-    all.append(validZs.asString(','));
-	all.append(missingZs.asString(','));
-	return all;
-}
-
-vector<int> RenderClient::getValidZs()
-{
-//	StringList zs;
-//	stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
-//    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
-//    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
-//    sUrl <<"/zValues";
+//StringList RenderClient::getZs()
+//{
+//	StringList validZs = getValidZs();
 //
-//    Log(lDebug3) << "Get Valid Z: "<<sUrl.str();
+//    StringList missingZs;
+//    int nrOfMissingZs = 0;
 //
-//    try
+//    for(int i = 0; i < validZs.count(); i++)
 //    {
-//        TStringStream* zstrings = new TStringStream;;
-//        mC->Get(sUrl.str().c_str(), zstrings);
-//
-//
-//        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+//    	if(toInt(validZs[i]) != (i + nrOfMissingZs))
 //        {
-//            string s = stdstring(zstrings->DataString);
-//            s = stripCharacters("[]", s);
-//            zs.appendList(StringList(s,','));
+//        	missingZs.append(dsl::toString(i + nrOfMissingZs));
+//			nrOfMissingZs++;
 //        }
-//        else
-//        {
-//            Log(lError) << "Failed fetching zs";
-//        }
-//
-//        vector<int> zInts;
-//        for(int i = 0; i < zs.count(); i++)
-//        {
-//            zInts.push_back(toInt(zs[i]));
-//        }
-//
-//        return zInts;
 //    }
-//    catch(...)
-//    {
-//    	Log(lError) << "There was an uncaught error";
-//    }
-//    return vector<int>();
-}
+//
+//    StringList all;
+//    all.append(validZs.asString(','));
+//	all.append(missingZs.asString(','));
+//	return all;
+//}
+//
+//vector<int> RenderClient::getValidZs(const stri)
+//{
+//    vector<int> zs;
+//    zs = StackDataAPI.getZsForStack()
+////	StringList zs;
+////	stringstream sUrl;
+////    sUrl << mServiceParameters->getBaseURL();
+////    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
+////    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
+////    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
+////    sUrl <<"/zValues";
+////
+////    Log(lDebug3) << "Get Valid Z: "<<sUrl.str();
+////
+////    try
+////    {
+////        TStringStream* zstrings = new TStringStream;;
+////        mC->Get(sUrl.str().c_str(), zstrings);
+////
+////
+////        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+////        {
+////            string s = stdstring(zstrings->DataString);
+////            s = stripCharacters("[]", s);
+////            zs.appendList(StringList(s,','));
+////        }
+////        else
+////        {
+////            Log(lError) << "Failed fetching zs";
+////        }
+////
+////        vector<int> zInts;
+////        for(int i = 0; i < zs.count(); i++)
+////        {
+////            zInts.push_back(toInt(zs[i]));
+////        }
+////
+////        return zInts;
+////    }
+////    catch(...)
+////    {
+////    	Log(lError) << "There was an uncaught error";
+////    }
+////    return vector<int>();
+//}
 
 bool RenderClient::renameStack(const string& currentStackName, const string& newName)
 {

@@ -86,7 +86,7 @@ StringList TCreateLocalVolumesForm::getValidZsForStack(const string& stackName)
 {
 	//Fetch valid zs for current project
 	mRP.setSelectedStackName(stackName);
-    return mRC.getValidZs();
+    return mRC.StackDataAPI.getZsForStack(mRP);
 }
 
 //---------------------------------------------------------------------------

@@ -76,6 +76,15 @@ StringList RenderStackDataAPI::getStacksForProject(const string& o, const string
     return list;
 }
 
+vector<int>	RenderStackDataAPI::getZsForStack(const RenderProject& p)
+{
+    return getZsForStack(p.getProjectOwner(), p.getProjectName(), p.getSelectedStackName());
+}
+
+vector<int> RenderStackDataAPI::getZsForStack(const string& o, const string& p, const string& stack)
+{
+
+}
 
 }
 

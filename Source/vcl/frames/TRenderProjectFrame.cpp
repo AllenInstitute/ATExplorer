@@ -154,7 +154,7 @@ void __fastcall TRenderProjectFrame::getValidZsForStack()
 	//Fetch valid zs for current project
 	mRP.setSelectedStackName(stdstr(StackCB->Text));
 
-    StringList zs = mRC.getValidZs();
+    StringList zs = mRC.StackDataAPI.getZsForStack(mRP);
 	Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
 	Zs_GB->Caption = " Z Values (" + IntToStr((int) zs.count()) + ") ";
 

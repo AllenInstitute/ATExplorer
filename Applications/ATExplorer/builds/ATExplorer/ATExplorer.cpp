@@ -8,13 +8,12 @@
 using namespace at;
 using namespace dsl;
 
-ATExplorer gATExplorer;
 //The destructor for gATExplorer executes before destruction of the main form.. weird..
-
+ATExplorer gATExplorer;
 
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
-USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
 USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
+USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -34,9 +33,9 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-         Application->CreateForm(__classid(TAboutATExplorer), &AboutATExplorer);
-         Application->CreateForm(__classid(TATESettingsForm), &ATESettingsForm);
-         Application->Run();
+		Application->CreateForm(__classid(TAboutATExplorer), &AboutATExplorer);
+		Application->CreateForm(__classid(TATESettingsForm), &ATESettingsForm);
+		Application->Run();
 	}
 	catch (Exception &exception)
 	{
