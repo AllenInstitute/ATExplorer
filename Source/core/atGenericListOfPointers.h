@@ -16,7 +16,8 @@ class ListOfPointers : public ExplorerObject
     public:
                                 ListOfPointers(){}
                                 ~ListOfPointers(){}
-        void                    append(const ListOfPointers<T>& obj);
+        void                    deleteItems();
+//        void                    append(const ListOfPointers<T>& obj);
         void                    append(T obj);
         T                       getFirst();
         T                       getNext();
@@ -34,14 +35,24 @@ int ListOfPointers<T>::count()
 	return mTheList.size();
 }
 
+//template <typename T>
+//void ListOfPointers<T>::append(const ListOfPointers<T>& list)
+//{
+//    T obj = list.getFirst();
+//	while(obj)
+//    {
+//        append(list
+//    }
+//}
+
 template <typename T>
-void ListOfPointers<T>::append(const ListOfPointers<T>& list)
+void ListOfPointers<T>::deleteItems()
 {
-    T obj = list.getFirst();
-	while(obj)
+    for(mIter = mTheList.begin(); mIter != mTheList.end(); ++mIter)
     {
-        append(list
-    }
+        T item = *mIter;
+        delete item;
+	}
 }
 
 template <typename T>

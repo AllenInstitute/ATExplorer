@@ -90,14 +90,11 @@ void __fastcall TMainForm::PopulateCollectionsForOwnerAExecute(TObject *Sender)
         StringList c = gATExplorer.RenderClient.PointMatchAPI.getPointMatchCollectionNamesForOwner(owner);
         populateListBox(c, PMCollections);
     }
-
-}
-
-
-void __fastcall TMainForm::ApplicationEvents1Exception(TObject *Sender, Exception *E)
-
-{
-    Log(lError) << "There was an exception..";
 }
 //---------------------------------------------------------------------------
+void __fastcall TMainForm::ApplicationEvents1Exception(TObject *Sender, Exception *E)
+{
+    Log(lError) << "There was an exception: " << stdstr(E->Message);
+}
+
 

@@ -130,7 +130,7 @@ object MainForm: TMainForm
     Left = 61
     Top = 353
     object PopulateOwnersA: TAction
-      Caption = 'PopulateOwnersA'
+      Caption = 'Populate'
       OnExecute = PopulateOwnersAExecute
     end
     object PopulateCollectionsForOwnerA: TAction

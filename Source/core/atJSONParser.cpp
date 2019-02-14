@@ -336,6 +336,10 @@ pair<const JSONToken*, const JSONToken*> JSONParser::get2DArrayTokens(const JSON
 
 const JSONToken* JSONParser::getToken(int i)
 {
+    if(i > (mNumberOfTokens - 1) || i < 0)
+    {
+        return NULL;
+    }
     return &(mTokens[i]);
 }
 
@@ -367,6 +371,74 @@ const JSONToken* JSONParser::getObjectToken(const string& name)
         }
     }
     return NULL;
+}
+
+const JSONToken* JSONParser::getNamedObjectInObject(const string& name, const JSONToken* t)
+{
+    //Find startToken index
+    int startTokenIndex = getTokenIndex(t);
+
+    //Find the name
+    for(int i = startTokenIndex; i < mNumberOfTokens; i++)
+    {
+        const JSONToken& token = mTokens[i];
+        if(token.type == JSMN_OBJECT)
+        {
+            //Check next token for name
+            string aName = toString(mTokens[i + 1]);
+            if(aName == name)
+            {
+                return &token;
+            }
+        }
+    }
+    return NULL;
+}
+
+const list<const JSONToken*> JSONParser::getListOfObjects()
+{
+    list<const JSONToken*> tokens;
+	int endObject(0);
+
+    for(int i = 1; i < mNumberOfTokens; i++)
+    {
+        const JSONToken* t = getToken(i);
+
+        if(t && (t->type == JSMN_OBJECT))
+        {
+            if(t->end > endObject)
+            {
+            	tokens.push_back(t);
+                endObject =t->end;
+            }
+        }
+    }
+
+    return tokens;
+}
+
+const list<const JSONToken*> JSONParser::getListOfNamedObjects(const string& name)
+{
+    list<const JSONToken*> tokens;
+    for(int i = 1; i < mNumberOfTokens; i++)
+    {
+        const JSONToken* t = getToken(i);
+
+        if(t && (t->type == JSMN_OBJECT))
+        {
+			//Check previous token. Must be string and be equal to name
+            const JSONToken* test = getToken(i-1);
+            if(test != NULL &&
+               test->type == JSMN_STRING &&
+               toString(test) == name)
+            {
+	            tokens.push_back(t);
+            }
+        }
+    }
+
+    return tokens;
+
 }
 
 string toString(const jsmntok_t& key, const string& json)

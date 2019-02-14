@@ -41,14 +41,18 @@ StringList RenderPointMatchAPI::getPointMatchCollectionNamesForOwner(const strin
 {
 	ListOfPointers<PointMatchCollection*> cs = getPointMatchCollectionsForOwner(o);
 
-    StringList owners;
+    StringList names;
     PointMatchCollection* c = cs.getFirst();
     while(c)
     {
-        owners.append(c->getName());
+        names.append(c->getName());
+
         c = cs.getNext();
     }
-    return owners;
+
+    //Clear list here
+    cs.deleteItems();
+    return names;
 }
 
 StringList RenderPointMatchAPI::getPointMatchGroupIDs(const string& o, const string& matchCollection)
@@ -142,7 +146,6 @@ bool RenderPointMatchAPI::deletePointMatchCollection(const string& o, const stri
     return false;
 }
 
-
 ListOfPointers<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwner(const string& o)
 {
 	RESTRequest request(mRC.getBaseURL(), rmGet);
@@ -150,12 +153,7 @@ ListOfPointers<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollecti
     request.addSegment("matchCollections");
     RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
 
-    string json = response->getContent();
-
-    //Parse the response
-	JSONParser parser(json);
-
-    //Parse each json object: schema
+//Parse each json object: schema
 //[
 //  {
 //    "collectionId": {
@@ -163,23 +161,28 @@ ListOfPointers<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollecti
 //      "name": "string"
 //    },
 //    "pairCount": 0,
-//    "owner": "string"
 //  }
 //]
+//The above shows an array of anonymous objects, holding two key/value pairs
 
-
-    StringList list;
-	if(response)
-    {
-    	list = response->getAsStringList();
-    }
+    string json = response->getContent();
+    //Parse the response
+	JSONParser parser(json);
 
     //Put contexts in a list
     ListOfPointers<PointMatchCollection*> contexts;
-    for(int i = 0; i < list.count(); i++)
+
+    list<const JSONToken*> objects = parser.getListOfNamedObjects("collectionId");
+	list<const JSONToken*>::const_iterator it = objects.begin();
+
+    while(*it)
     {
-        PointMatchCollection* pc = new PointMatchCollection(o, list[i]);
+        //Parse t
+        string owner 			= parser.getStringValueInObject(*it, "owner");
+        string collection_name  = parser.getStringValueInObject(*it, "name");
+        PointMatchCollection* pc = new PointMatchCollection(owner, collection_name);
         contexts.append(pc);
+        it++;
     }
 
     return contexts;

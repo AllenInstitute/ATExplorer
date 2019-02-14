@@ -6,6 +6,7 @@
 #include "atPoint2D.h"
 #include <vector>
 
+#include <list>
 //---------------------------------------------------------------------------
 
 namespace at
@@ -15,6 +16,7 @@ using dsl::StringList;
 using dsl::gEmptyString;
 using std::unique_ptr;
 using std::vector;
+using std::list;
 
 //!A JSON token contain start and stop indexes for an object in a json string
 typedef jsmntok_t JSONToken;
@@ -42,8 +44,14 @@ class ATE_CORE JSONParser : public ExplorerObject
         const JSONToken*                getToken(int i);
         const JSONToken*                getObjectToken(const string& name);
         const JSONToken*                getArrayToken(const JSONToken* object_token, const string& name);
+
+		const JSONToken*				getNamedObjectInObject(const string& name, const JSONToken* t);
+
         int                             getNumberOfTokens(){return mNumberOfTokens;}
         int                             getTokenIndex(const JSONToken* t);
+
+        const list<const JSONToken*>    getListOfObjects();
+		const list<const JSONToken*>    getListOfNamedObjects(const string& name);
 
     protected:
     	jsmn_parser 	                mParser;
