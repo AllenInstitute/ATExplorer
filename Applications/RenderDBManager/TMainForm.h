@@ -11,6 +11,8 @@
 #include <System.Actions.hpp>
 #include <Vcl.ActnList.hpp>
 #include "atRenderServiceParameters.h"
+#include <Vcl.AppEvnts.hpp>
+#include "dslTLogFileReader.h"
 //---------------------------------------------------------------------------
 
 using at::RenderServiceParameters;
@@ -22,7 +24,6 @@ class TMainForm  : public TRegistryForm
 	TTabSheet *TabSheet1;
 	TListBox *PMCollections;
 	TButton *Button1;
-	TLogMemoFrame *TLogMemoFrame1;
 	TPanel *BottomPanel;
 	TSplitter *Splitter1;
 	TPanel *PointMatchesPanel;
@@ -34,11 +35,15 @@ class TMainForm  : public TRegistryForm
 	TLabel *Label1;
 	TAction *PopulateOwnersA;
 	TAction *PopulateCollectionsForOwnerA;
+	TApplicationEvents *ApplicationEvents1;
+	TLogMemoFrame *LogMemoFrame1;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall PopulateOwnersAExecute(TObject *Sender);
 	void __fastcall OwnersCBCloseUp(TObject *Sender);
 	void __fastcall PopulateCollectionsForOwnerAExecute(TObject *Sender);
+	void __fastcall ApplicationEvents1Exception(TObject *Sender, Exception *E);
+
 
     private:
     	RenderServiceParameters  				mRenderServiceParameters;

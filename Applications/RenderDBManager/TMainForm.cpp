@@ -4,9 +4,11 @@
 #include "UIProperties.h"
 #include "atATExplorer.h"
 #include "dslVCLUtils.h"
+#include "dslLogger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTLogMemoFrame"
+#pragma link "dslTLogFileReader"
 #pragma resource "*.dfm"
 TMainForm *MainForm;
 
@@ -20,7 +22,7 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 {
     //Setup some UI properties
 	BottomPanel->Height 		= gUIProperties.BottomPanelHeight;
-    TLogMemoFrame1->init();
+    LogMemoFrame1->init();
 
     //Create a renderservice
     mRenderServiceParameters.setName("Test");
@@ -91,4 +93,11 @@ void __fastcall TMainForm::PopulateCollectionsForOwnerAExecute(TObject *Sender)
 
 }
 
+
+void __fastcall TMainForm::ApplicationEvents1Exception(TObject *Sender, Exception *E)
+
+{
+    Log(lError) << "There was an exception..";
+}
+//---------------------------------------------------------------------------
 

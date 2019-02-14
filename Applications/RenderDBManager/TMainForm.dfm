@@ -113,33 +113,17 @@ object MainForm: TMainForm
     Height = 203
     Align = alBottom
     TabOrder = 1
-    inline TLogMemoFrame1: TLogMemoFrame
+    object LogMemoFrame1: TLogMemoFrame
       Left = 1
       Top = 1
       Width = 1214
       Height = 201
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitWidth = 1214
-      ExplicitHeight = 201
-      inherited Panel1: TPanel
-        Width = 1214
-        Height = 201
-        ExplicitWidth = 1214
-        ExplicitHeight = 201
-        inherited GroupBox1: TGroupBox
-          Width = 1212
-          ExplicitWidth = 1212
-        end
-        inherited infoMemo: TMemo
-          Width = 1212
-          Height = 149
-          ExplicitWidth = 1212
-          ExplicitHeight = 149
-        end
-      end
+      ExplicitLeft = 200
+      ExplicitTop = 64
+      ExplicitWidth = 866
+      ExplicitHeight = 404
     end
   end
   object PointMatchActions: TActionList
@@ -153,5 +137,10 @@ object MainForm: TMainForm
       Caption = 'PopulateCollectionsForOwnerA'
       OnExecute = PopulateCollectionsForOwnerAExecute
     end
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
+    Left = 396
+    Top = 240
   end
 end
