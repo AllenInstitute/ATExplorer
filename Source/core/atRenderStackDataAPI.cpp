@@ -100,103 +100,66 @@ StringList RenderStackDataAPI::getChannelsInSelectedStack(const RenderProject& p
     return RenderStackDataAPI::getChannelsInStack(p.getProjectOwner(), p.getRenderProjectName(), p.getSelectedStackName());
 }
 
+bool RenderStackDataAPI::deleteProject(const string& o, const string& p)
+{
+    //This involves deleting all stacks first
+    StringList stacks =  getStacksForProject(o, p);
+    for(int i = 0; i < stacks.count(); i++)
+    {
+        if(deleteStack(o, p, stacks[i]))
+        {
+	        Log(lInfo) << "Deleted stack: " << stacks[i];
+        }
+        else
+        {
+	        Log(lWarning) << "Failed to delete stack: " << stacks[i];
+        }
+    }
+    return true;
+}
+
+
+bool RenderStackDataAPI::deleteStack(const string& o, const string& p, const string& s)
+{
+	RESTRequest request(mRC.getBaseURL(), rmDelete);
+    request.addParameter("owner", o);
+    request.addParameter("project", p);
+    request.addParameter("stack", s);
+
+    RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
+    string json = response->getContent();
+    if(response)
+    {
+        switch(response->getResponseCode())
+        {
+            case 400:
+                Log(lWarning) << "The stack: " << s <<" is read only";
+            return false;
+
+            case 200:
+                Log(lInfo) 	 << "The stack: " << s <<" was deleted on the server.";
+            return true;
+        }
+    }
+    return false;
+}
+
 StringList RenderStackDataAPI::getChannelsInStack(const string& o, const string& p, const string& stack)
 {
     RESTRequest request(mRC.getBaseURL(), rmGet);
     request.addParameter("owner", o);
     request.addParameter("project", p);
     request.addParameter("stack", stack);
-//    request.addQuery("stacks");
 
     RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
 
     JSONParser parser(response->getContent());
     Log(lInfo) << "Got " << parser.getNumberOfTokens();
-//   	const JSONToken* t = parser.getObjectToken("stats");
-	StringList chs = parser.getStringList("channelNames");
-//    if(t)
-//    {
-//        chs = parser.getStringList(t);
-//    }
 
+	StringList chs = parser.getStringList("channelNames");
 
     return chs;
-
-//	//http://localhost/render-ws/v1/owner/ATExplorer/project/M33/stack/STI_FF_Session1?api_key=stacks
-//    if(!mServiceParameters)
-//    {
-//        return StringList();
-//    }
-//
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" 	<<	mRenderProject.getProjectOwner();
-//    sUrl << "/project/" <<	mRenderProject.getRenderProjectName();
-//    sUrl << "/stack/" 	<<	stackName << "?api_key=stacks";
-//    Log(lDebug5) << "Fetching channels: "<<sUrl.str();
-//
-//    try
-//    {
-//        TStringStream* zstrings = new TStringStream;;
-//        mLastRequestURL = sUrl.str();
-//        mC->Get(mLastRequestURL.c_str(), zstrings);
-//
-//        if( mC->ResponseCode != HTTP_RESPONSE_OK)
-//        {
-//            Log(lError) << "Bad HTTP RESPONSE when getching channel names";
-//	        return StringList();
-//        }
-//
-//        string s = stdstring(zstrings->DataString);
-//
-//        //Parse JSON
-//        jsmn_parser parser;
-//        jsmn_init(&parser);
-//
-//        int r = jsmn_parse(&parser, s.c_str(), s.size(), NULL, 0);
-//        if(r)
-//        {
-//            jsmn_init(&parser);
-//            jsmntok_t* tokens = new jsmntok_t[r];
-//            r = jsmn_parse(&parser, s.c_str(), s.size(), &tokens[0], r);
-//            if(r)
-//            {
-//                //find string token "channelNames"
-//                for(int i = 0; i < r; i++)
-//                {
-//                    jsmntok_t tok = tokens[i];
-//                    if(tok.type == JSMN_STRING)
-//                    {
-//                        string sToken = toString(tok, s);
-//                        if(sToken == "channelNames")
-//                        {
-//                            //Next one is an ARRAY object holding the channels..
-//                            //parse it into a string
-//                            jsmntok_t chs_tok = tokens[i + 1];
-//
-//                            string chs = toString(chs_tok, s);
-//                            chs = stripCharacters(" []\"", chs);
-//                            //Get them all as a string..
-//                            StringList channels(chs, ',');
-//                            channels.sort();
-//                            return channels;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//    	Log(lError) << "Failed fetching channels";
-//        return StringList();
-//    }
-//    catch(...)
-//    {
-//    	Log(lError) << "Failed fetching channels";
-//        return StringList();
-//    }
 }
-
-
 
 }
 

@@ -206,7 +206,7 @@ bool RenderPointMatchAPI::deletePointMatchCollection(const string& o, const stri
             return false;
 
             case 200:
-                Log(lInfo) << "The collection: " << mc <<" was deleted on the server.";
+                Log(lInfo) 	 << "The collection: " << mc <<" was deleted on the server.";
             return true;
         }
     }

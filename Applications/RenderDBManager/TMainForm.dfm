@@ -32,9 +32,97 @@ object MainForm: TMainForm
     Top = 0
     Width = 1216
     Height = 545
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
+    object TabSheet2: TTabSheet
+      Caption = 'Render Projects'
+      ImageIndex = 1
+      object Panel3: TPanel
+        Left = 0
+        Top = 0
+        Width = 529
+        Height = 517
+        Align = alLeft
+        TabOrder = 0
+        ExplicitLeft = 8
+        object Panel4: TPanel
+          Left = 1
+          Top = 1
+          Width = 185
+          Height = 515
+          Align = alLeft
+          TabOrder = 0
+          object RenderProjectsLB: TListBox
+            Left = 1
+            Top = 53
+            Width = 183
+            Height = 420
+            Align = alClient
+            ItemHeight = 13
+            PopupMenu = RenderProjectsPopup
+            TabOrder = 0
+            OnClick = RenderProjectsLBClick
+            OnKeyDown = DeleteItem
+          end
+          object Panel5: TPanel
+            Left = 1
+            Top = 473
+            Width = 183
+            Height = 41
+            Align = alBottom
+            TabOrder = 1
+            object Button2: TButton
+              Left = 8
+              Top = 6
+              Width = 114
+              Height = 25
+              Action = PopulateRPOwners
+              TabOrder = 0
+            end
+          end
+          object Panel6: TPanel
+            Left = 1
+            Top = 1
+            Width = 183
+            Height = 52
+            Align = alTop
+            TabOrder = 2
+            object Label2: TLabel
+              Left = 8
+              Top = 8
+              Width = 32
+              Height = 13
+              Caption = 'Owner'
+            end
+            object RPOwnersCB: TComboBox
+              Left = 1
+              Top = 30
+              Width = 181
+              Height = 21
+              Align = alBottom
+              Sorted = True
+              TabOrder = 0
+              Text = 'OwnersCB'
+              OnCloseUp = PMOwnersCBCloseUp
+            end
+          end
+        end
+        object RenderStacksLB: TCheckListBox
+          Left = 186
+          Top = 1
+          Width = 342
+          Height = 515
+          Align = alClient
+          ItemHeight = 13
+          PopupMenu = StacksPopup
+          TabOrder = 1
+          OnKeyDown = DeleteItem
+          ExplicitLeft = 190
+          ExplicitTop = 0
+        end
+      end
+    end
     object TabSheet1: TTabSheet
       Caption = 'PointMatches'
       object PointMatchesPanel: TPanel
@@ -60,7 +148,7 @@ object MainForm: TMainForm
             ItemHeight = 13
             PopupMenu = PMCListPopup
             TabOrder = 0
-            OnKeyDown = PMCollectionsKeyDown
+            OnKeyDown = DeleteItem
           end
           object Panel1: TPanel
             Left = 1
@@ -74,7 +162,7 @@ object MainForm: TMainForm
               Top = 6
               Width = 114
               Height = 25
-              Action = PopulateOwnersA
+              Action = PopulatePointMatchOwnersA
               TabOrder = 0
             end
           end
@@ -92,7 +180,7 @@ object MainForm: TMainForm
               Height = 13
               Caption = 'Owner'
             end
-            object OwnersCB: TComboBox
+            object PMOwnersCB: TComboBox
               Left = 1
               Top = 30
               Width = 181
@@ -100,8 +188,8 @@ object MainForm: TMainForm
               Align = alBottom
               Sorted = True
               TabOrder = 0
-              Text = 'OwnersCB'
-              OnCloseUp = OwnersCBCloseUp
+              Text = 'PMOwnersCB'
+              OnCloseUp = PMOwnersCBCloseUp
             end
           end
         end
@@ -124,16 +212,36 @@ object MainForm: TMainForm
       TabOrder = 0
     end
   end
-  object PointMatchActions: TActionList
+  object RenderAPIActions: TActionList
     Left = 61
     Top = 353
-    object PopulateOwnersA: TAction
+    object PopulatePointMatchOwnersA: TAction
       Caption = 'Populate'
-      OnExecute = PopulateOwnersAExecute
+      OnExecute = PopulatePointMatchOwnersAExecute
     end
     object PopulateCollectionsForOwnerA: TAction
       Caption = 'PopulateCollectionsForOwnerA'
       OnExecute = PopulateCollectionsForOwnerAExecute
+    end
+    object PopulateRPOwners: TAction
+      Caption = 'PopulateRPOwners'
+      OnExecute = PopulateRPOwnersExecute
+    end
+    object PopulateRPProjectsForOwnerA: TAction
+      Caption = 'PopulateRPProjectsForOwnerA'
+      OnExecute = PopulateRPProjectsForOwnerAExecute
+    end
+    object DeleteRenderProjectA: TAction
+      Caption = 'Delete'
+      OnExecute = DeleteRenderProjectAExecute
+    end
+    object PopulateRenderStacksForProjectA: TAction
+      Caption = 'PopulateRenderStacksForProjectA'
+      OnExecute = PopulateRenderStacksForProjectAExecute
+    end
+    object DeleteStackA: TAction
+      Caption = 'Delete'
+      OnExecute = DeleteStackAExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents
@@ -142,11 +250,25 @@ object MainForm: TMainForm
     Top = 240
   end
   object PMCListPopup: TPopupMenu
-    Left = 45
-    Top = 217
+    Left = 77
+    Top = 193
     object DeletePMCA: TMenuItem
       Caption = 'Delete'
       OnClick = DeletePMCAClick
+    end
+  end
+  object RenderProjectsPopup: TPopupMenu
+    Left = 45
+    Top = 257
+    object MenuItem1: TMenuItem
+      Action = DeleteRenderProjectA
+    end
+  end
+  object StacksPopup: TPopupMenu
+    Left = 277
+    Top = 153
+    object MenuItem2: TMenuItem
+      Action = DeleteStackA
     end
   end
 end

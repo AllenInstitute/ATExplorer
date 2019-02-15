@@ -30,6 +30,8 @@ class ATE_CORE RenderStackDataAPI : public RenderAPI
         StringList						            getZsForStack(const string& o, const string& p, const string& stack);
 	    StringList									getChannelsInStack(const string& o, const string& p, const string& stack);
 		StringList 									getChannelsInSelectedStack(const RenderProject& p);
+        bool                                        deleteProject(const string& o, const string& p);
+        bool                                        deleteStack(const string& o, const string& p, const string& s);
 
         RESTResponse* 								execute(RESTRequest& request);
 

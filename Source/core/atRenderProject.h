@@ -54,8 +54,6 @@ class ATE_CORE RenderProject : public ATExplorerProject
         int&                                    getMinIntensity();
         int&                                    getMaxIntensity();
 
-//        StringList                              getChannels();
-
 	protected:
     	string 		                            mInfo;
     	string 		                            mOwner;
@@ -68,7 +66,6 @@ class ATE_CORE RenderProject : public ATExplorerProject
         string 		                            mRenderProjectName;
         string                                  mSelectedStack;
         string                                  mSelectedChannel;
-//        StringList                              mChannels;
         StringList					   	        mRenderStacks;
 
         int                                     mMinIntensity;
