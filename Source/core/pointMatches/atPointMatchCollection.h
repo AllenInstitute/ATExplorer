@@ -14,30 +14,30 @@ using dsl::StringList;
 class ATE_CORE PointMatchCollection : public RenderObject
 {
     public:
-					    	            PointMatchCollection(const string& owner, const string& name, RenderClient* renderService = NULL);
-        					            ~PointMatchCollection();
-        string                          getOwner(){return mOwner;}
-        void                            setOwner(const string& o){mOwner = o;}
+					    	                        PointMatchCollection(const string& owner, const string& name, RenderClient* renderService = NULL);
+        					                        ~PointMatchCollection();
+        string                                      getOwner()const {return mOwner;}
+        void                                        setOwner(const string& o){mOwner = o;}
 
-        string                          getName(){return mName;}
-		void                            setName(const string& n){mName = n;}
+        string                                      getName() const {return mName;}
+		void                                        setName(const string& n){mName = n;}
 
-        bool                            fetch();
+        bool                                        fetch();
 
-		StringList						getGroupIDs();
-		StringList						getPGroupIDs();
-		StringList						getQGroupIDs();
-        ListOfObjects<PointMatch>       getPQMatches(const string& pGroup, const string& qGroup);
-        bool                            deleteCollection();
+		StringList						            getGroupIDs() const;
+		StringList						            getPGroupIDs() const;
+		StringList						            getQGroupIDs() const ;
+        ListOfObjects<PointMatch >      	 		getPQMatches(const string& pGroup, const string& qGroup) const;
+        bool                                        deleteCollection();
 
 
-        ListOfObjects<PointMatch>	    mPMCollection;
-        int                             getCount(){return mPMCollection.count();}
+        ListOfObjects<PointMatch>	                mPMCollection;
+        int                                         getCount(){return mPMCollection.count();}
 
     protected:
-        string                          mName;
-        string                          mOwner;
-        StringList                      mGroupIDs;
+        string                                      mName;
+        string                                      mOwner;
+        StringList                                  mGroupIDs;
 };
 
 }

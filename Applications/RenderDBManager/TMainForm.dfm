@@ -58,7 +58,9 @@ object MainForm: TMainForm
             Height = 420
             Align = alClient
             ItemHeight = 13
+            PopupMenu = PMCListPopup
             TabOrder = 0
+            OnKeyDown = PMCollectionsKeyDown
           end
           object Panel1: TPanel
             Left = 1
@@ -120,10 +122,6 @@ object MainForm: TMainForm
       Height = 201
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 200
-      ExplicitTop = 64
-      ExplicitWidth = 866
-      ExplicitHeight = 404
     end
   end
   object PointMatchActions: TActionList
@@ -142,5 +140,13 @@ object MainForm: TMainForm
     OnException = ApplicationEvents1Exception
     Left = 396
     Top = 240
+  end
+  object PMCListPopup: TPopupMenu
+    Left = 45
+    Top = 217
+    object DeletePMCA: TMenuItem
+      Caption = 'Delete'
+      OnClick = DeletePMCAClick
+    end
   end
 end

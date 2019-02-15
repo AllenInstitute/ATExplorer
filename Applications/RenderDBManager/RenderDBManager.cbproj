@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{E65B78E3-CB36-436F-99EC-B664C3DA5CC9}</ProjectGuid>
-        <ProjectVersion>18.5</ProjectVersion>
+        <ProjectVersion>18.6</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <AppType>Application</AppType>
         <MainSource>RenderDBManager.cpp</MainSource>
@@ -64,8 +64,8 @@
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <IncludePath>P:\libs\dsl\VCL\Frames\;P:\atExplorer\Applications\RenderDBManager\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>P:\libs\dsl\VCL\Frames\;P:\atExplorer\Applications\RenderDBManager\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\Source\core\pointMatches\;P:\libs\dsl\VCL\Frames\;P:\atExplorer\Applications\RenderDBManager\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\Source\core\pointMatches\;P:\libs\dsl\VCL\Frames\;P:\atExplorer\Applications\RenderDBManager\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>RenderDBManager</SanitizedProjectName>
         <Custom_Styles>&quot;Golden Graphite|VCLSTYLE|C:\Users\Public\Documents\Embarcadero\Studio\20.0\Styles\GoldenGraphite.vsf&quot;</Custom_Styles>
     </PropertyGroup>
@@ -140,6 +140,10 @@
         </CppCompile>
         <CppCompile Include="UIProperties.cpp">
             <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchCollections.cpp">
+            <DependentOn>..\..\Source\core\pointMatches\atPointMatchCollections.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
         </CppCompile>
         <FormResources Include="TMainForm.dfm"/>
         <BuildConfiguration Include="Release">
@@ -229,6 +233,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="p:\build\bin\RenderDBManager.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>RenderDBManager.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -239,9 +249,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="c:\build\bin\RenderDBManager.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="p:\build\bin\RenderDBManager.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
-                        <RemoteName>RenderDBManager.exe</RemoteName>
+                        <RemoteName>RenderDBManager.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -252,17 +267,6 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32250.dll" Class="DependencyModule">
                     <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="c:\build\bin\RenderDBManager.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>RenderDBManager.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

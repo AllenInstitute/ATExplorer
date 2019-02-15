@@ -6,6 +6,7 @@
 #include "atRenderAPI.h"
 #include "atGenericListOfObjects.h"
 #include "pointMatches/atPointMatch.h"
+#include "pointMatches/atPointMatchCollections.h"
 //---------------------------------------------------------------------------
 
 
@@ -27,16 +28,19 @@ class ATE_CORE RenderPointMatchAPI : public RenderAPI
                                                             //Pointmatch API's
 		StringList									        getPointMatchCollectionOwners();
 		StringList									        getPointMatchCollectionNamesForOwner(const string& o);
-		ListOfPointers<PointMatchCollection*>  		        getPointMatchCollectionsForOwner(const string& o);
+
+		const PointMatchCollections&		  		        getPointMatchCollectionsForOwner(const string& o, bool fetch = false);
+
 		StringList									        getPointMatchGroupIDs(const string& o, const string& matchCollection);
 		StringList									        getPPointMatchGroupIDs(const string& o, const string& matchCollection);
 		StringList									        getQPointMatchGroupIDs(const string& o, const string& matchCollection);
 		ListOfObjects<PointMatch> 		   			        getPQMatches(const string& o, const string& matchCollection, const string& pGroup, const string& qGroup);
         bool                                                deletePointMatchCollection(const string& owner, const string& matchCollection);
-
+        bool                                                deletePointMatchCollection(PointMatchCollection* c);
 
     protected:
 
+		PointMatchCollections                               mCollections;
 
 };
 

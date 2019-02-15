@@ -16,21 +16,20 @@ class ListOfPointers : public ExplorerObject
     public:
                                 ListOfPointers(){}
                                 ~ListOfPointers(){}
-        void                    deleteItems();
-//        void                    append(const ListOfPointers<T>& obj);
+        void                    clear();
         void                    append(T obj);
-        T                       getFirst();
-        T                       getNext();
+        T                       getFirst() const;
+        T                       getNext() const;
         bool                    remove(T item);
-        int                     count();
+        int                     count() const;
 
     protected:
         list< T > 				mTheList;
-        list< T >::iterator  	mIter;
+        mutable list< T >::const_iterator  	mIter;
 };
 
 template <typename T>
-int ListOfPointers<T>::count()
+int ListOfPointers<T>::count() const
 {
 	return mTheList.size();
 }
@@ -46,13 +45,14 @@ int ListOfPointers<T>::count()
 //}
 
 template <typename T>
-void ListOfPointers<T>::deleteItems()
+void ListOfPointers<T>::clear()
 {
     for(mIter = mTheList.begin(); mIter != mTheList.end(); ++mIter)
     {
         T item = *mIter;
         delete item;
 	}
+    mTheList.clear();
 }
 
 template <typename T>
@@ -69,7 +69,7 @@ bool ListOfPointers<T>::remove(T item)
 }
 
 template <typename T>
-T ListOfPointers<T>::getFirst()
+T ListOfPointers<T>::getFirst() const
 {
     if(!mTheList.size())
     {
@@ -81,7 +81,7 @@ T ListOfPointers<T>::getFirst()
 }
 
 template <typename T>
-T ListOfPointers<T>::getNext()
+T ListOfPointers<T>::getNext() const
 {
     if(mIter != mTheList.end())
     {

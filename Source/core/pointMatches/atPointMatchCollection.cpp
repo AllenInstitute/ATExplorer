@@ -55,22 +55,22 @@ bool PointMatchCollection::fetch()
     return true;
 }
 
-StringList PointMatchCollection::getGroupIDs()
+StringList PointMatchCollection::getGroupIDs() const
 {
 	return (mRenderClient) ? mRenderClient->PointMatchAPI.getPointMatchGroupIDs(mOwner, mName) : StringList();
 }
 
-StringList PointMatchCollection::getPGroupIDs()
+StringList PointMatchCollection::getPGroupIDs() const
 {
     return (mRenderClient) ? mRenderClient->PointMatchAPI.getPPointMatchGroupIDs(mOwner, mName) : StringList();
 }
 
-StringList PointMatchCollection::getQGroupIDs()
+StringList PointMatchCollection::getQGroupIDs() const
 {
     return (mRenderClient) ? mRenderClient->PointMatchAPI.getQPointMatchGroupIDs(mOwner, mName) : StringList();
 }
 
-ListOfObjects<PointMatch> PointMatchCollection::getPQMatches(const string& pGroup, const string& qGroup)
+ListOfObjects<PointMatch> PointMatchCollection::getPQMatches(const string& pGroup, const string& qGroup) const
 {
     return (mRenderClient) ? mRenderClient->PointMatchAPI.getPQMatches(mOwner, mName, pGroup, qGroup) : ListOfObjects<PointMatch>();
 }

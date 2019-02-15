@@ -13,9 +13,14 @@
 #include "atRenderServiceParameters.h"
 #include <Vcl.AppEvnts.hpp>
 #include "dslTLogFileReader.h"
+#include <Vcl.Menus.hpp>
+#include "atGenericListOfPointers.h"
+#include "pointMatches/atPointMatchCollection.h"
 //---------------------------------------------------------------------------
 
 using at::RenderServiceParameters;
+using at::ListOfPointers;
+using at::PointMatchCollection;
 
 class TMainForm  : public TRegistryForm
 {
@@ -37,16 +42,21 @@ class TMainForm  : public TRegistryForm
 	TAction *PopulateCollectionsForOwnerA;
 	TApplicationEvents *ApplicationEvents1;
 	TLogMemoFrame *LogMemoFrame1;
+	TPopupMenu *PMCListPopup;
+	TMenuItem *DeletePMCA;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall PopulateOwnersAExecute(TObject *Sender);
 	void __fastcall OwnersCBCloseUp(TObject *Sender);
 	void __fastcall PopulateCollectionsForOwnerAExecute(TObject *Sender);
 	void __fastcall ApplicationEvents1Exception(TObject *Sender, Exception *E);
+	void __fastcall DeletePMCAClick(TObject *Sender);
+	void __fastcall PMCollectionsKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 
 
     private:
     	RenderServiceParameters  				mRenderServiceParameters;
+
 
     public:
         __fastcall 								TMainForm(TComponent* Owner);

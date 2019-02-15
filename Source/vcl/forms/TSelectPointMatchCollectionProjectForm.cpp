@@ -76,16 +76,16 @@ void __fastcall TSelectPointmatchCollectionProjectForm::FormCloseQuery(TObject *
 void __fastcall TSelectPointmatchCollectionProjectForm::OwnerCBChange(TObject *Sender)
 {
     //Populate projects
-    ListOfPointers<PointMatchCollection*> p = mRC.PointMatchAPI.getPointMatchCollectionsForOwner(stdstr(OwnerCB->Text));
-    if(p.count())
+    const PointMatchCollections& pmcs = mRC.PointMatchAPI.getPointMatchCollectionsForOwner(stdstr(OwnerCB->Text));
+    if(pmcs.count())
     {
-	    PointMatchCollection* pmc = p.getFirst();
+	    PointMatchCollectionSP pmc = pmcs.getFirst();
 		CollectionCB->Clear();
         while(pmc)
         {
 
-            CollectionCB->AddItem(pmc->getName().c_str(), (TObject*) pmc);
-            pmc = p.getNext();
+            CollectionCB->AddItem(pmc->getName().c_str(), (TObject*) pmc.get());
+            pmc = pmcs.getNext();
         }
 
         CollectionCB->ItemIndex = 0;

@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{A0FA4555-0BEF-4AF0-971A-E71BEDED50AF}</ProjectGuid>
-        <ProjectVersion>18.5</ProjectVersion>
+        <ProjectVersion>18.6</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
@@ -327,6 +327,9 @@
         </CppCompile>
         <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchCollectionProject.cpp">
             <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchCollections.cpp">
+            <BuildOrder>63</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchPoint.cpp">
             <DependentOn>..\..\Source\core\pointMatches\atPointMatchPoint.h</DependentOn>

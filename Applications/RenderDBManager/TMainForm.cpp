@@ -86,15 +86,64 @@ void __fastcall TMainForm::PopulateCollectionsForOwnerAExecute(TObject *Sender)
 	if(OwnersCB->ItemIndex != -1)
     {
     	string owner = stdstr(OwnersCB->Items->Strings[OwnersCB->ItemIndex]);
-	    //Get collections for current users
-        StringList c = gATExplorer.RenderClient.PointMatchAPI.getPointMatchCollectionNamesForOwner(owner);
-        populateListBox(c, PMCollections);
+
+        PMCollections->Clear();
+        const PointMatchCollections& PMCs = gATExplorer.RenderClient.PointMatchAPI.getPointMatchCollectionsForOwner(owner, true);
+
+        //Stor the collections in the list box items object property
+        PointMatchCollectionSP pmc = PMCs.getFirst();
+        while(pmc)
+        {
+			PMCollections->Items->InsertObject(0, pmc->getName().c_str(), (TObject*)(pmc.get()));
+            pmc = PMCs.getNext();
+        }
     }
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::ApplicationEvents1Exception(TObject *Sender, Exception *E)
 {
     Log(lError) << "There was an exception: " << stdstr(E->Message);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::DeletePMCAClick(TObject *Sender)
+{
+    //get PMC from Object
+    int idx = PMCollections->ItemIndex;
+	if(idx != -1)
+    {
+	    PointMatchCollection* pmc = (PointMatchCollection*) PMCollections->Items->Objects[idx];
+        if(pmc)
+        {
+			gATExplorer.RenderClient.PointMatchAPI.deletePointMatchCollection(pmc);
+			PMCollections->Items->Delete(idx);
+            if(idx > 0)
+            {
+				PMCollections->ItemIndex = idx - 1;
+            }
+            else
+            {
+                if(PMCollections->Count)
+                {
+					PMCollections->ItemIndex = 0;
+                }
+            }
+        }
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::PMCollectionsKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+    if(Key == VK_DELETE)
+    {
+        int res = MessageDlg("Delete Collection: ", mtWarning, TMsgDlgButtons() << mbYes<<mbNo, 0);
+        if(res = mrOk)
+        {
+	        DeletePMCAClick(NULL);
+        }
+    }
 }
 
 

@@ -18,9 +18,12 @@ class ListOfObjects : public ExplorerObject
 
         void                                append(T obj);
         T*                                  getFirst();
+        const T*                            getFirst() const;
         T*                                  getNext();
+        const T*                            getNext() const;
         bool                                remove(T item);
-        int                                 count();
+        int                                 count() const;
+        void                                clear();
 
     protected:
         mutable list< T > 			   		mTheList;
@@ -28,9 +31,15 @@ class ListOfObjects : public ExplorerObject
 };
 
 template <typename T>
-int ListOfObjects<T>::count()
+int ListOfObjects<T>::count() const
 {
 	return mTheList.size();
+}
+
+template <typename T>
+void ListOfObjects<T>::clear()
+{
+    mTheList.clear();
 }
 
 template <typename T>
@@ -59,7 +68,38 @@ T* ListOfObjects<T>::getFirst()
 }
 
 template <typename T>
+const T* ListOfObjects<T>::getFirst() const
+{
+    if(!mTheList.size())
+    {
+        return NULL;
+    }
+
+	mIter = mTheList.begin();
+    return &(*mIter);
+}
+
+template <typename T>
 T* ListOfObjects<T>::getNext()
+{
+    if(mIter != mTheList.end())
+    {
+		mIter++;
+        if(mIter == mTheList.end())
+        {
+            return NULL;
+        }
+        else
+        {
+	    	return &(*mIter);
+        }
+    }
+
+    return NULL;
+}
+
+template <typename T>
+const T* ListOfObjects<T>::getNext() const
 {
     if(mIter != mTheList.end())
     {

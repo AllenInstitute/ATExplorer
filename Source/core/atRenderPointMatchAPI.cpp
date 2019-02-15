@@ -14,7 +14,8 @@ using namespace dsl;
 
 RenderPointMatchAPI::RenderPointMatchAPI(RenderClient& rc)
 :
-RenderAPI("PointMatchAPI", rc)
+RenderAPI("PointMatchAPI", rc),
+mCollections()
 {}
 
 RenderPointMatchAPI::~RenderPointMatchAPI()
@@ -39,10 +40,10 @@ StringList RenderPointMatchAPI::getPointMatchCollectionOwners()
 
 StringList RenderPointMatchAPI::getPointMatchCollectionNamesForOwner(const string& o)
 {
-	ListOfPointers<PointMatchCollection*> cs = getPointMatchCollectionsForOwner(o);
+	PointMatchCollections cs = getPointMatchCollectionsForOwner(o);
 
     StringList names;
-    PointMatchCollection* c = cs.getFirst();
+    PointMatchCollectionSP c = cs.getFirst();
     while(c)
     {
         names.append(c->getName());
@@ -50,8 +51,7 @@ StringList RenderPointMatchAPI::getPointMatchCollectionNamesForOwner(const strin
         c = cs.getNext();
     }
 
-    //Clear list here
-    cs.deleteItems();
+
     return names;
 }
 
@@ -126,28 +126,14 @@ ListOfObjects<PointMatch> RenderPointMatchAPI::getPQMatches(const string& o, con
     return list;
 }
 
-bool RenderPointMatchAPI::deletePointMatchCollection(const string& o, const string& mc)
+const PointMatchCollections& RenderPointMatchAPI::getPointMatchCollectionsForOwner(const string& o, bool fetch)
 {
-	RESTRequest request(mRC.getBaseURL(), rmDelete);
-    request.addParameter("owner", o);
-    request.addParameter("matchCollection", mc);
-
-    RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
-    string json = response->getContent();
-    if(response)
+    if(!fetch)
     {
-        switch(response->getResponseCode())
-        {
-            case 404:
-                Log(lWarning) << "The collection: " << mc <<" was not found";
-            return false;
-        }
+        return mCollections;
     }
-    return false;
-}
 
-ListOfPointers<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollectionsForOwner(const string& o)
-{
+    mCollections.clear();
 	RESTRequest request(mRC.getBaseURL(), rmGet);
     request.addParameter("owner", o);
     request.addSegment("matchCollections");
@@ -170,22 +156,61 @@ ListOfPointers<PointMatchCollection*> RenderPointMatchAPI::getPointMatchCollecti
 	JSONParser parser(json);
 
     //Put contexts in a list
-    ListOfPointers<PointMatchCollection*> contexts;
+
 
     list<const JSONToken*> objects = parser.getListOfNamedObjects("collectionId");
 	list<const JSONToken*>::const_iterator it = objects.begin();
 
-    while(*it)
+    int size = objects.size();
+    Log(lInfo) << "Found " << size <<" collections";
+    while(it != objects.end())
     {
         //Parse t
         string owner 			= parser.getStringValueInObject(*it, "owner");
         string collection_name  = parser.getStringValueInObject(*it, "name");
-        PointMatchCollection* pc = new PointMatchCollection(owner, collection_name);
-        contexts.append(pc);
+        PointMatchCollectionSP pc (new PointMatchCollection(owner, collection_name));
+        mCollections.append(pc);
         it++;
     }
 
-    return contexts;
+    return mCollections;
+}
+
+bool RenderPointMatchAPI::deletePointMatchCollection(PointMatchCollection* c)
+{
+    if(!c)
+    {
+        return false;
+    }
+
+    return deletePointMatchCollection(c->getOwner(), c->getName());
+}
+
+bool RenderPointMatchAPI::deletePointMatchCollection(const string& o, const string& mc)
+{
+    //Delete local first
+    mCollections.deleteCollection(o, mc);
+
+	RESTRequest request(mRC.getBaseURL(), rmDelete);
+    request.addParameter("owner", o);
+    request.addParameter("matchCollection", mc);
+
+    RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
+    string json = response->getContent();
+    if(response)
+    {
+        switch(response->getResponseCode())
+        {
+            case 404:
+                Log(lWarning) << "The collection: " << mc <<" was not found";
+            return false;
+
+            case 200:
+                Log(lInfo) << "The collection: " << mc <<" was deleted on the server.";
+            return true;
+        }
+    }
+    return false;
 }
 
 }
