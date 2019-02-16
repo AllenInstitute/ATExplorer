@@ -1024,7 +1024,23 @@ TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::ChannelsCBClick(TObject *Sender)
 {
-;
+	int indx(-1);
+    for(int i = 0; i < ChannelsCB->Count; i++)
+    {
+    	if(ChannelsCB->Selected[i])
+        {
+            indx = i;
+            break;
+        }
+    }
+
+    ChannelsCB->CheckAll(cbUnchecked);
+    ChannelsCB->Checked[indx] = cbChecked;
+
+    string channel = stdstr(ChannelsCB->Items->Strings[indx]);
+
+    //Render this channel
+    mRP.setSelectedChannelName(channel);
 }
 
 void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
