@@ -28,6 +28,7 @@ class ATE_CORE RenderStackDataAPI : public RenderAPI
         StringList						            getStacksForProject(const string& o, const string& p);
         StringList						            getZsForStack(const RenderProject& p);
         StringList						            getZsForStack(const string& o, const string& p, const string& stack);
+		RegionOfInterest 							getLayerBoundsForZ(const RenderProject& rp, int z);
 	    StringList									getChannelsInStack(const string& o, const string& p, const string& stack);
 		StringList 									getChannelsInSelectedStack(const RenderProject& p);
         bool                                        deleteProject(const string& o, const string& p);

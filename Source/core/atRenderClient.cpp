@@ -280,32 +280,10 @@ TMemoryStream* RenderClient::reloadImage(int z)
 //    return mImageMemory;
 }
 
-RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
+//Move to stack API
+RegionOfInterest RenderClient::getLayerBoundsForZ(int z, RenderProject& rp)
 {
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
-//    sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
-//    sUrl << "/stack/"		<<mRenderProject.getSelectedStackName();
-//    sUrl <<"/z/"<<z   	 	<<"/bounds";
-//
-//    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
-//    TStringStream* zstrings = new TStringStream;;
-//    mC->Get(sUrl.str().c_str(), zstrings);
-//	RegionOfInterest b;
-//
-//    if( mC->ResponseCode == HTTP_RESPONSE_OK)
-//    {
-//        string s = stdstring(zstrings->DataString);
-//        b = parseBoundsResponse(s);
-//    }
-//    else
-//    {
-//        Log(lError) << "Failed fetching renderbox";
-//    }
-//
-//    b.setZ(z);
-//    return b;
+    return StackDataAPI.getLayerBoundsForZ(rp, z);
 }
 
 RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
@@ -378,26 +356,26 @@ vector<RegionOfInterest> RenderClient::getLayerBounds()
 	return mLayerBounds;
 }
 
-string RenderClient::getImageLocalCachePath()
-{
-//	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
-}
-
-string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
-{
-//	string url(getURLForZ(z));
-//    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
-}
-
-string RenderClient::getImageLocalCachePathAndFileName()
-{
-//	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
-}
-
-bool RenderClient::checkCacheForCurrentURL()
-{
-//	return fileExists(getImageLocalCachePathAndFileName());
-}
+//string RenderClient::getImageLocalCachePath()
+//{
+////	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
+//}
+//
+//string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
+//{
+////	string url(getURLForZ(z));
+////    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
+//}
+//
+//string RenderClient::getImageLocalCachePathAndFileName()
+//{
+////	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
+//}
+//
+//bool RenderClient::checkCacheForCurrentURL()
+//{
+////	return fileExists(getImageLocalCachePathAndFileName());
+//}
 
 void RenderClient::clearImageMemory()
 {
@@ -508,29 +486,6 @@ string RenderClient::getURL()
 ////    return true;
 //}
 
-RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
-{
-//	RegionOfInterest bounds;
-//    string s = stripCharacters("{}", _s);
-//    StringList l(s, ',');
-//    if(l.size() == 6)
-//    {
-//    	StringList xMin(l[0], ':');
-//    	StringList yMin(l[1], ':');
-//    	StringList xMax(l[3], ':');
-//    	StringList yMax(l[4], ':');
-//
-//        bounds.setX1(toDouble(xMin[1]));
-//        bounds.setY1(toDouble(yMin[1]));
-//        bounds.setX2(toDouble(xMax[1]));
-//        bounds.setY2(toDouble(yMax[1]));
-//    }
-//    else
-//    {
-//    	Log(lError) << "Bad bounds format..";
-//    }
-//    return bounds;
-}
 
 string RenderClient::getLastRequestURL()
 {

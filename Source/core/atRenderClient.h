@@ -88,9 +88,6 @@ class ATE_CORE RenderClient : public RESTClient
         TMemoryStream*		                        reloadImage(int z = 0);
         string							            getURLForZ(int z, const RenderProject& rp);
         bool				                        checkCacheForCurrentURL();
-        string				                        getImageLocalCachePath();
-        string				                        getImageLocalCachePathAndFileName();
-		string 										getImageLocalCachePathAndFileNameForZ(int z, const string& chs);
         string							            getProjectName();
 
         void							            setLocalCacheFolder(const string& f);
@@ -98,7 +95,7 @@ class ATE_CORE RenderClient : public RESTClient
 
 //        StringList						            getZs();
 //        vector<int>						            getValidZs();
-		RegionOfInterest 						    getLayerBoundsForZ(int z);
+		RegionOfInterest 						    getLayerBoundsForZ(int z, RenderProject& rp);
         RegionOfInterest						    getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RegionOfInterest>				    getLayerBounds();
         RenderProject&					            getProject();
@@ -114,7 +111,7 @@ class ATE_CORE RenderClient : public RESTClient
         string                                      getCacheRoot();
         string                                      getLastRequestURL();
         string                                      request(const string& r);
-
+        FetchImageThread							mFetchImageThread;
     private:
 
         void                                        createRESTServiceParameters(const string& host);
@@ -140,8 +137,6 @@ class ATE_CORE RenderClient : public RESTClient
 
         int								            mMinIntensity;
         int								            mMaxIntensity;
-        RegionOfInterest						    parseBoundsResponse(const string& s);
-        FetchImageThread							mFetchImageThread;
 };
 
 }

@@ -117,13 +117,14 @@ void TRenderProjectFrame::checkCache()
     //Todo reimplement this, to preserve any selected items, as clear remove any selected ones
     OtherCB->Clear();
     StacksCB->Clear();
-    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+
+    StringList stackFiles(getFilesInFolder(mExplorer.Cache.getBasePath(), "tif", false));
     for(int i = 0; i < stackFiles.count(); i++)
     {
         if(startsWith("stack_", stackFiles[i]))
         {
             //Setup something robust here later on
-            string* item = new string(joinPath(mRC.getImageLocalCachePath(), stackFiles[i]));
+            string* item = new string(joinPath(mExplorer.Cache.getBasePath(), stackFiles[i]));
             stringstream itemCaption;
             itemCaption << "Stack_"<<i + 1;
             StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
@@ -194,7 +195,7 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
 //		OpenInNDVIZBtnClick(NULL);
     }
 
-    URLE->setValue(createNDVIZURL());
+    //URLE->setValue(createNDVIZURL());
     checkCache();
 }
 
@@ -207,13 +208,13 @@ void __fastcall TRenderProjectFrame::onImage()
     	return;
     }
 
-    if(!fileExists(mRC.getImageLocalCachePathAndFileName()))
+	string fileToRead = mRC.mFetchImageThread.getFullPathAndFileName();
+    if(!fileExists(fileToRead))
     {
-        Log(lError) << "File does not exist: " <<mRC.getImageLocalCachePathAndFileName();
+        Log(lError) << "File does not exist: " <<fileToRead;
         return;
     }
 
-    mCurrentImageFile = mRC.getImageLocalCachePathAndFileName().c_str();
 	double val = CustomImageRotationE->getValue();
     if(val != 0)
     {
@@ -225,7 +226,7 @@ void __fastcall TRenderProjectFrame::onImage()
         {
             //Create a temporary stream
             unique_ptr<TMemoryStream> stream = unique_ptr<TMemoryStream>(new TMemoryStream());
-            stream->LoadFromFile(mCurrentImageFile.c_str());
+            stream->LoadFromFile(fileToRead.c_str());
             if(stream->Size)
             {
             	stream->Position = 0;
@@ -234,7 +235,7 @@ void __fastcall TRenderProjectFrame::onImage()
         }
         catch(...)
         {
-            Log(lError) << "Failed to load image: "<<mCurrentImageFile;
+            Log(lError) << "Failed to load image: "<<fileToRead;
             return;
         }
     }
@@ -281,7 +282,7 @@ void __fastcall TRenderProjectFrame::ResetButtonClick(TObject *Sender)
 	try
     {
 	    //mScaleE->setValue(0.05 * ScaleConstantE->getValue());
-        mCurrentROI = mRC.getLayerBoundsForZ(getCurrentZ());
+        mCurrentROI = mRC.getLayerBoundsForZ(getCurrentZ(), mRP);
 
         XCoordE->setValue(mCurrentROI.getX1());
         YCoordE->setValue(mCurrentROI.getY1());
@@ -333,7 +334,14 @@ void TRenderProjectFrame::updateScale()
 
 void TRenderProjectFrame::updateROIs()
 {
-    StringList rois(mRC.getROIFoldersForCurrentStack());
+
+    //Create basepath
+    stringstream path;
+    path << joinPath(mExplorer.Cache.getBasePath(), mRP.getProjectOwner(), mRP.getRenderProjectName(), mRP.getSelectedStackName());
+
+//    return getSubFoldersInFolder(path.str(), false);
+
+    StringList rois(getSubFoldersInFolder(path.str(), false));
     populateCheckListBox(rois, ROI_CB);
 }
 
@@ -547,83 +555,83 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 {
-    Process& IMConvert = mAProcess;
-    string convertExe(joinPath(mIMPath, "convert.exe"));
-
-    if(!fileExists(convertExe))
-    {
-        stringstream msg;
-        msg << "Image magicks 'convert.exe' was not found in the path:\n";
-        msg << getFilePath(convertExe) << endl << endl;
-        msg << "Make sure you have a proper installation of Image Magick";
-        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
-        return;
-    }
-
-    IMConvert.setExecutable(convertExe);
-    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
-
-    //Extract selected filenames from checked z's
-    StringList sections = getCheckedItems(mZs);
-
-    //Creat output filename
-    string stackFName("stack_" + getUUID());
-
-    //Create commandline for imagemagicks convert program
-    stringstream cmdLine;
-    for(int i = 0; i < sections.count(); i++)
-    {
-        int z(toInt(sections[i]));
-        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(z, mRP.getSelectedChannelName()) ));
-        cmdLine << fName <<" ";
-    }
-
-	cmdLine << stackFName << ".tif";
-
-    Log(lInfo) << "Running convert on " << cmdLine.str();
-
-	IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-    IMConvert.assignOpaqueData(mZs, nullptr);
-    IMConvert.start(true);
+//    Process& IMConvert = mAProcess;
+//    string convertExe(joinPath(mIMPath, "convert.exe"));
+//
+//    if(!fileExists(convertExe))
+//    {
+//        stringstream msg;
+//        msg << "Image magicks 'convert.exe' was not found in the path:\n";
+//        msg << getFilePath(convertExe) << endl << endl;
+//        msg << "Make sure you have a proper installation of Image Magick";
+//        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
+//        return;
+//    }
+//
+//    IMConvert.setExecutable(convertExe);
+//    IMConvert.setWorkingDirectory(mExplorer.Cache.getBasePath());
+//
+//    //Extract selected filenames from checked z's
+//    StringList sections = getCheckedItems(mZs);
+//
+//    //Creat output filename
+//    string stackFName("stack_" + getUUID());
+//
+//    //Create commandline for imagemagicks convert program
+//    stringstream cmdLine;
+//    for(int i = 0; i < sections.count(); i++)
+//    {
+//        int z(toInt(sections[i]));
+//        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(z, mRP.getSelectedChannelName()) ));
+//        cmdLine << fName <<" ";
+//    }
+//
+//	cmdLine << stackFName << ".tif";
+//
+//    Log(lInfo) << "Running convert on " << cmdLine.str();
+//
+//	IMConvert.setup(cmdLine.str(), mhCatchMessages);
+//    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+//    IMConvert.assignOpaqueData(mZs, nullptr);
+//    IMConvert.start(true);
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
 {
-    string cvt(joinPath(mIMPath, "convert.exe"));
-    Process& IMConvert = mAProcess;
-    IMConvert.reset();
-    IMConvert.setExecutable(cvt);
-    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
-
-    //Find all stacks for current ROI
-    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
-
-    //Create MIP's for current stack file
-
-    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
-    if(!temp)
-    {
-        Log(lError) << "Failed to extract string item";
-        return;
-    }
-
-    string currentStack(*temp);
-    string* mipFName = new string(getFileNameNoExtension(currentStack));
-
-    *mipFName = "mip_" + *mipFName + ".tif";
-    *mipFName = replaceSubstring("stack_", "", *mipFName);
-    stringstream cmdLine;
-    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
-    Log(lInfo) << "Running convert on " << cmdLine.str();
-
-    IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-
-    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
-    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
-    IMConvert.start(true);
+//    string cvt(joinPath(mIMPath, "convert.exe"));
+//    Process& IMConvert = mAProcess;
+//    IMConvert.reset();
+//    IMConvert.setExecutable(cvt);
+//    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
+//
+//    //Find all stacks for current ROI
+//    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
+//
+//    //Create MIP's for current stack file
+//
+//    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+//    if(!temp)
+//    {
+//        Log(lError) << "Failed to extract string item";
+//        return;
+//    }
+//
+//    string currentStack(*temp);
+//    string* mipFName = new string(getFileNameNoExtension(currentStack));
+//
+//    *mipFName = "mip_" + *mipFName + ".tif";
+//    *mipFName = replaceSubstring("stack_", "", *mipFName);
+//    stringstream cmdLine;
+//    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
+//    Log(lInfo) << "Running convert on " << cmdLine.str();
+//
+//    IMConvert.setup(cmdLine.str(), mhCatchMessages);
+//    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+//
+//    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
+//    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
+//    IMConvert.start(true);
 }
 
 //---------------------------------------------------------------------------
@@ -646,13 +654,13 @@ void __fastcall TRenderProjectFrame::CheckBoxClick(TObject *Sender)
 
         //Populate mips for current stack
         OtherCB->Clear();
-        StringList mipFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "tif", false));
+        StringList mipFiles(getFilesInFolder(mExplorer.Cache.getBasePath(), "tif", false));
         for(int i = 0; i < mipFiles.count(); i++)
         {
             if(startsWith("mip_", mipFiles[i]))
             {
                 //Setup something robust here later on
-                string* item = new string(joinPath(mRC.getImageLocalCachePath(), mipFiles[i]));
+                string* item = new string(joinPath(mExplorer.Cache.getBasePath(), mipFiles[i]));
                 if(item && contains(currentStack, *item))
                 {
                     stringstream itemCaption;
@@ -748,46 +756,45 @@ string getFilePathFromSelectedCB(TCheckListBox* b)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
 {
-    //Check who sender is
-
-    TAction* a = dynamic_cast<TAction*>(Sender);
-    if(!a)
-    {
-        return;
-    }
-
-    string fName("");
-
-    if(a->ActionComponent == OpenSectionInExplorer)
-    {
-        //Get section file from z's
-        if(mZs->ItemIndex != -1)
-        {
-            fName = mRC.getImageLocalCachePathAndFileName();
-        }
-    }
-    else if(a->ActionComponent == OpenStackInExplorer)
-    {
-        fName = getFilePathFromSelectedCB(StacksCB);
-	}
-    else if(a->ActionComponent == OpenMIPInExplorer)
-    {
-        fName = getFilePathFromSelectedCB(OtherCB);
-    }
-    else if(a->ActionComponent == OpenROIInExplorer)
-    {
-        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0, mRP.getSelectedChannelName())), getFilePathFromSelectedCB(ROI_CB));
-    }
-
-    if(fName.size())
-    {
-        ITEMIDLIST *pidl = ILCreateFromPath(fName.c_str());
-        if(pidl)
-        {
-            SHOpenFolderAndSelectItems(pidl,0,0,0);
-            ILFree(pidl);
-        }
-    }
+//    //Check who sender is
+//    TAction* a = dynamic_cast<TAction*>(Sender);
+//    if(!a)
+//    {
+//        return;
+//    }
+//
+//    string fName("");
+//
+//    if(a->ActionComponent == OpenSectionInExplorer)
+//    {
+//        //Get section file from z's
+//        if(mZs->ItemIndex != -1)
+//        {
+//            fName = RC.getImageLocalCachePathAndFileName();
+//        }
+//    }
+//    else if(a->ActionComponent == OpenStackInExplorer)
+//    {
+//        fName = getFilePathFromSelectedCB(StacksCB);
+//	}
+//    else if(a->ActionComponent == OpenMIPInExplorer)
+//    {
+//        fName = getFilePathFromSelectedCB(OtherCB);
+//    }
+//    else if(a->ActionComponent == OpenROIInExplorer)
+//    {
+//        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0, mRP.getSelectedChannelName())), getFilePathFromSelectedCB(ROI_CB));
+//    }
+//
+//    if(fName.size())
+//    {
+//        ITEMIDLIST *pidl = ILCreateFromPath(fName.c_str());
+//        if(pidl)
+//        {
+//            SHOpenFolderAndSelectItems(pidl,0,0,0);
+//            ILFree(pidl);
+//        }
+//    }
 }
 
 void TRenderProjectFrame::zoom(int zoomFactor, bool out)

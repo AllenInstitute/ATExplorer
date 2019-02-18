@@ -76,6 +76,68 @@ StringList RenderStackDataAPI::getStacksForProject(const string& o, const string
     return list;
 }
 
+RegionOfInterest parseBoundsResponse(const string& s);
+RegionOfInterest RenderStackDataAPI::getLayerBoundsForZ(const RenderProject& rp, int z)
+{
+    RESTRequest request(mRC.getBaseURL(), rmGet);
+    request.addParameter("owner", rp.getProjectOwner());
+    request.addParameter("project", rp.getRenderProjectName());
+    request.addParameter("stack", rp.getSelectedStackName());
+    request.addParameter("z", toString(z));
+    request.addSegment("bounds");
+
+    RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));
+
+//    stringstream sUrl;
+//    sUrl << mServiceParameters->getBaseURL();
+//    sUrl << "/owner/" 		<< rp.getProjectOwner();
+//    sUrl << "/project/" 	<< rp.getRenderProjectName();
+//    sUrl << "/stack/"		<< rp.getSelectedStackName();
+//    sUrl <<"/z/"<<z   	 	<<"/bounds";
+//
+//    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
+//    TStringStream* zstrings = new TStringStream;;
+//    mC->Get(sUrl.str().c_str(), zstrings);
+
+
+    if(response && ( response->getResponseCode() == 200))
+    {
+    	RegionOfInterest b;
+        b = parseBoundsResponse(response->getContent());
+        return b;
+    }
+    else
+    {
+        Log(lError) << "Failed fetching renderbox";
+    }
+
+    return RegionOfInterest();
+}
+
+RegionOfInterest parseBoundsResponse(const string& _s)
+{
+	RegionOfInterest bounds;
+    string s = stripCharacters("{}", _s);
+    StringList l(s, ',');
+    if(l.size() == 6)
+    {
+    	StringList xMin(l[0], ':');
+    	StringList yMin(l[1], ':');
+    	StringList xMax(l[3], ':');
+    	StringList yMax(l[4], ':');
+
+        bounds.setX1(toDouble(xMin[1]));
+        bounds.setY1(toDouble(yMin[1]));
+        bounds.setX2(toDouble(xMax[1]));
+        bounds.setY2(toDouble(yMax[1]));
+    }
+    else
+    {
+    	Log(lError) << "Bad bounds format..";
+    }
+    return bounds;
+}
+
 StringList	RenderStackDataAPI::getZsForStack(const RenderProject& p)
 {
     return getZsForStack(p.getProjectOwner(), p.getRenderProjectName(), p.getSelectedStackName());

@@ -27,6 +27,7 @@ class ATE_CORE FetchImageThread : public dsl::Thread
         string                              listParameters();
 		bool				                setCacheRoot(const string& cr);
 		void				                worker();
+        string                              getFullPathAndFileName();
 
           							        //!The on Image callback is called when image data is retrieved from the server
                                             //Make this a non-vcl dependent callback!

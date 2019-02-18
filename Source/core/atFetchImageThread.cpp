@@ -176,6 +176,11 @@ void FetchImageThread::worker()
     mIsFinished = true;
 }
 
+string FetchImageThread::getFullPathAndFileName()
+{
+    return getImageLocalCacheFileNameAndPathFromURL(mImageURL, mCacheRootFolder, mChannel);
+}
+
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
   size_t realsize = size * nmemb;
