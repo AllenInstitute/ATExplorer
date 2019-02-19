@@ -33,6 +33,7 @@ int rpFrameNr(0);
 
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
 
+//FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName = dsl::gEmptyString, const StringList& urls = StringList(dsl::gEmptyString));
 //---------------------------------------------------------------------------
 __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner)
 	: TFrame(Owner),
@@ -40,18 +41,16 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject
     mRP(rp),
     mRC(),
     mRenderEnabled(false),
-   	mCurrentROI(mRP.getCurrentRegionOfInterestReference()),
+    mCreateCacheThread(rp, e.Cache),
+   	mCurrentROI(mRP.getRegionOfInterest()),
     mIsDrawing(false),
     mIMPath(e.getImageMagickPath()),
     mImageGrid(Image1, PaintBox1->Canvas),
     mCreateVolumesForm(NULL)
 {
-    mRC.assignOnImageCallback(onImage);
-    //mRC.setLocalCacheFolder(rp.getLocalCacheFolder());
     this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();
     populate();
     mCurrentROI.assignOnChangeCallback(onROIChanged);
-    mExplorer.Cache.setRenderProject(mRP);
 }
 
 void TRenderProjectFrame::populate()
@@ -189,6 +188,7 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
     	//Image pops up in onImage callback
 		//getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache);
 	    mRC.getImageInThread(z, paras, mRP.getSelectedChannelName(), mExplorer.Cache, mRP);
+        mRC.assignOnImageCallback(onImage);
     }
     else
     {
@@ -208,7 +208,7 @@ void __fastcall TRenderProjectFrame::onImage()
     	return;
     }
 
-	string fileToRead = mRC.mFetchImageThread.getFullPathAndFileName();
+	string fileToRead = mRC.mFetchImageThread->getFullPathAndFileName();
     if(!fileExists(fileToRead))
     {
         Log(lError) << "File does not exist: " <<fileToRead;
@@ -283,12 +283,12 @@ void __fastcall TRenderProjectFrame::ResetButtonClick(TObject *Sender)
     {
 	    //mScaleE->setValue(0.05 * ScaleConstantE->getValue());
         mCurrentROI = mRC.getLayerBoundsForZ(getCurrentZ(), mRP);
-
         XCoordE->setValue(mCurrentROI.getX1());
         YCoordE->setValue(mCurrentROI.getY1());
         Width->setValue(mCurrentROI.getWidth());
         Height->setValue(mCurrentROI.getHeight());
 	    updateScale();
+        mRP.setRegionOfInterest(mCurrentROI);
 
         ClickZ(NULL);
         Log(lDebug1) << "Origin: (X0,Y0) = (" << XCoordE->getValue() + Width->getValue()/2.<<"," <<YCoordE->getValue() + Height->getValue()/2.<<")";
@@ -334,7 +334,6 @@ void TRenderProjectFrame::updateScale()
 
 void TRenderProjectFrame::updateROIs()
 {
-
     //Create basepath
     stringstream path;
     path << joinPath(mExplorer.Cache.getBasePath(), mRP.getProjectOwner(), mRP.getRenderProjectName(), mRP.getSelectedStackName());
@@ -531,7 +530,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
 
     	    StringList paras;
 	        paras.append(string("&maxTileSpecsToRender=150"));// + 150)stdstr(maxTileSpecsToRenderE->Text));
-            mCreateCacheThread.setup(urls, mRP.getLocalCacheFolder());
+            mCreateCacheThread.setup(urls);
             mCreateCacheThread.addParameters(paras);
             mCreateCacheThread.setChannel(mRP.getSelectedChannelName());
             mCreateCacheThread.start();
@@ -549,51 +548,53 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
         Log(lInfo) << "Deleting local cache for stack: " << p.toString();
         boost::filesystem::remove_all(p.toString());
         checkCache();
+		updateROIs();
     }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 {
-//    Process& IMConvert = mAProcess;
-//    string convertExe(joinPath(mIMPath, "convert.exe"));
-//
-//    if(!fileExists(convertExe))
-//    {
-//        stringstream msg;
-//        msg << "Image magicks 'convert.exe' was not found in the path:\n";
-//        msg << getFilePath(convertExe) << endl << endl;
-//        msg << "Make sure you have a proper installation of Image Magick";
-//        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
-//        return;
-//    }
-//
-//    IMConvert.setExecutable(convertExe);
-//    IMConvert.setWorkingDirectory(mExplorer.Cache.getBasePath());
-//
-//    //Extract selected filenames from checked z's
-//    StringList sections = getCheckedItems(mZs);
-//
-//    //Creat output filename
-//    string stackFName("stack_" + getUUID());
-//
-//    //Create commandline for imagemagicks convert program
-//    stringstream cmdLine;
-//    for(int i = 0; i < sections.count(); i++)
-//    {
-//        int z(toInt(sections[i]));
+    Process& IMConvert = mAProcess;
+    string convertExe(joinPath(mIMPath, "convert.exe"));
+
+    if(!fileExists(convertExe))
+    {
+        stringstream msg;
+        msg << "Image magicks 'convert.exe' was not found in the path:\n";
+        msg << getFilePath(convertExe) << endl << endl;
+        msg << "Make sure you have a proper installation of Image Magick";
+        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
+        return;
+    }
+
+    IMConvert.setExecutable(convertExe);
+    IMConvert.setWorkingDirectory(mExplorer.Cache.getBasePath());
+
+    //Extract selected filenames from checked z's
+    StringList sections = getCheckedItems(mZs);
+
+    //Creat output filename
+    string stackFName("stack_" + getUUID());
+
+    //Create commandline for imagemagicks convert program
+    stringstream cmdLine;
+    for(int i = 0; i < sections.count(); i++)
+    {
+        int z(toInt(sections[i]));
+        string fName = mExplorer.Cache.getFileNameForZ(z, mRP);
 //        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(z, mRP.getSelectedChannelName()) ));
-//        cmdLine << fName <<" ";
-//    }
-//
-//	cmdLine << stackFName << ".tif";
-//
-//    Log(lInfo) << "Running convert on " << cmdLine.str();
-//
-//	IMConvert.setup(cmdLine.str(), mhCatchMessages);
-//    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-//    IMConvert.assignOpaqueData(mZs, nullptr);
-//    IMConvert.start(true);
+        cmdLine << fName <<" ";
+    }
+
+	cmdLine << stackFName << ".tif";
+
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+	IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+    IMConvert.assignOpaqueData(mZs, nullptr);
+    IMConvert.start(true);
 }
 
 //---------------------------------------------------------------------------
@@ -726,17 +727,19 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::ROI_CBClick(TObject *Sender)
 {
-    //Switch ROI
-    if(ROI_CB->ItemIndex != -1)
-    {
-	    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
-        RenderLayer rl(mRC.getProject(), roi, mRC.getCacheRoot());
+//    //Switch ROI
+//    if(ROI_CB->ItemIndex == -1)
+//    {
+//        return;
+//    }
+//    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
+//    RenderLayer rl(mRC.getProject(), roi, mRC.getCacheRoot());
+//
+//    mCurrentROI = roi;
+//    mCurrentROI.setScale(rl.getLowestScaleInCache());
+//    mScaleE->setValue(mCurrentROI.getScale());
+//    ClickZ(Sender);
 
-        mCurrentROI = roi;
-        mCurrentROI.setScale(rl.getLowestScaleInCache());
-        mScaleE->setValue(mCurrentROI.getScale());
-		ClickZ(Sender);
-    }
 }
 
 string getFilePathFromSelectedCB(TCheckListBox* b)
@@ -756,45 +759,45 @@ string getFilePathFromSelectedCB(TCheckListBox* b)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
 {
-//    //Check who sender is
-//    TAction* a = dynamic_cast<TAction*>(Sender);
-//    if(!a)
-//    {
-//        return;
-//    }
-//
-//    string fName("");
-//
-//    if(a->ActionComponent == OpenSectionInExplorer)
-//    {
-//        //Get section file from z's
-//        if(mZs->ItemIndex != -1)
-//        {
-//            fName = RC.getImageLocalCachePathAndFileName();
-//        }
-//    }
-//    else if(a->ActionComponent == OpenStackInExplorer)
-//    {
-//        fName = getFilePathFromSelectedCB(StacksCB);
-//	}
-//    else if(a->ActionComponent == OpenMIPInExplorer)
-//    {
-//        fName = getFilePathFromSelectedCB(OtherCB);
-//    }
+    //Check who sender is
+    TAction* a = dynamic_cast<TAction*>(Sender);
+    if(!a)
+    {
+        return;
+    }
+
+    string fName("");
+
+    if(a->ActionComponent == OpenSectionInExplorer)
+    {
+        //Get section file from z's
+        if(mZs->ItemIndex != -1)
+        {
+            fName = mExplorer.Cache.getImageLocalCachePathAndFileName(mRP);
+        }
+    }
+    else if(a->ActionComponent == OpenStackInExplorer)
+    {
+        fName = getFilePathFromSelectedCB(StacksCB);
+	}
+    else if(a->ActionComponent == OpenMIPInExplorer)
+    {
+        fName = getFilePathFromSelectedCB(OtherCB);
+    }
 //    else if(a->ActionComponent == OpenROIInExplorer)
 //    {
 //        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0, mRP.getSelectedChannelName())), getFilePathFromSelectedCB(ROI_CB));
 //    }
-//
-//    if(fName.size())
-//    {
-//        ITEMIDLIST *pidl = ILCreateFromPath(fName.c_str());
-//        if(pidl)
-//        {
-//            SHOpenFolderAndSelectItems(pidl,0,0,0);
-//            ILFree(pidl);
-//        }
-//    }
+
+    if(fName.size())
+    {
+        ITEMIDLIST *pidl = ILCreateFromPath(fName.c_str());
+        if(pidl)
+        {
+            SHOpenFolderAndSelectItems(pidl,0,0,0);
+            ILFree(pidl);
+        }
+    }
 }
 
 void TRenderProjectFrame::zoom(int zoomFactor, bool out)
@@ -944,6 +947,7 @@ void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseBut
                                     mBottomRightSelCorner.Y - mTopLeftSelCorner.Y,
                                     mScaleE->getValue());
 
+    mRP.setRegionOfInterest(mCurrentROI);
     updateScale();
 	roiChanged();
     updateROIs();
@@ -977,7 +981,8 @@ void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
     //Open creat volumes form
 	if(!mCreateVolumesForm)
     {
-    	mCreateVolumesForm = new TCreateLocalVolumesForm(mRP, mIMPath, this);
+		//	TCreateLocalVolumesForm(RenderProject& rp, RenderLocalCache& cache, const string& imageMagickPath, TComponent* Owner);
+    	mCreateVolumesForm = new TCreateLocalVolumesForm(mRP, mExplorer.Cache, mIMPath, this);
     }
 
     StringList stacks;

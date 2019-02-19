@@ -25,25 +25,25 @@ int getImageZFromURL(const string& url)
     return -1;
 }
 
-string getImageLocalCachePathFromURL(const string& url, const string& cacheRootFolder)
-{
-    RenderLayer rl(url);
-	return rl.getImageLocalCachePath(cacheRootFolder);
-}
-
-string getRenderProjectLocalDataRootFolderFromURL(const string& url, const string& cacheFolder)
-{
-    RenderLayer rl(url);
-	return rl.getRenderProjectLocalDataRoot(cacheFolder);
-}
-
-//---------------------------------------------------------------------------
-string getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder, const string& chs)
-{
-    RenderLayer rl(url);
-	return rl.getImageLocalCachePathAndFileName(cacheRootFolder, chs);
-}
-
+//string getImageLocalCachePathFromURL(const string& url, const string& cacheRootFolder)
+//{
+////    RenderLayer rl(url);
+////	return rl.getImageLocalCachePath(cacheRootFolder);
+//}
+//
+//string getRenderProjectLocalDataRootFolderFromURL(const string& url, const string& cacheFolder)
+//{
+////    RenderLayer rl(url);
+////	return rl.getRenderProjectLocalDataRoot(cacheFolder);
+//}
+//
+////---------------------------------------------------------------------------
+//string getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cacheRootFolder, const string& chs)
+//{
+//    RenderLayer rl(url);
+//	return rl.getImageLocalCachePathAndFileName(cacheRootFolder, chs);
+//}
+//
 //CURL related callbacks
 //---------------------------------------------------------------------------
 size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream)

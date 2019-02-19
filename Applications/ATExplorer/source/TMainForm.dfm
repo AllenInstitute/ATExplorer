@@ -73,10 +73,6 @@ object MainForm: TMainForm
         Height = 134
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 0
-        ExplicitTop = 25
-        ExplicitWidth = 1372
-        ExplicitHeight = 731
       end
     end
     object ProjectManagerPanel: TPanel

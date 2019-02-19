@@ -126,9 +126,18 @@ void RenderProject::assignLocalCacheRootFolder(const string& rFolder)
     mLocalCacheRootFolder = rFolder;
 }
 
-const RegionOfInterest& RenderProject::getCurrentRegionOfInterestReference() const
+const RegionOfInterest& RenderProject::getRegionOfInterest() const
 {
     return mCurrentROI;
+}
+
+bool RenderProject::setRegionOfInterest(const RegionOfInterest& roi)
+{
+	mCurrentROI = roi;
+
+    //TODO:
+    //do some validation?
+    return true;
 }
 
 string RenderProject::getLocalCacheFolder() const
@@ -169,7 +178,7 @@ bool RenderProject::setSelectedSection(int secNr)
     return true;
 }
 
-int RenderProject::getSelectedSection()
+int RenderProject::getSelectedSection() const
 {
 	return mCurrentROI.getZ();
 }
@@ -188,6 +197,16 @@ string RenderProject::getSelectedChannelName() const
 //{
 //    return mChannels;
 //}
+
+int RenderProject::getMinIntensity() const
+{
+    return mMinIntensity;
+}
+
+int RenderProject::getMaxIntensity() const
+{
+    return mMaxIntensity;
+}
 
 int& RenderProject::getMinIntensity()
 {

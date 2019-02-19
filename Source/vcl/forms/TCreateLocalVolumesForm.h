@@ -21,12 +21,14 @@
 #include "atFetchImagesThread.h"
 #include "dslTPropertyCheckBox.h"
 #include <map>
+#include "atRenderLocalCache.h"
 //---------------------------------------------------------------------------
 
 using at::RenderProject;
 using at::RegionOfInterest;
 using at::RenderClient;
 using at::FetchImagesThread;
+using at::RenderLocalCache;
 using dsl::StringList;
 using std::map;
 class TCreateStackThreadFrame;
@@ -81,6 +83,7 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
                                             //A New TiffStack becomes part of this project
         RenderProject&         		        mRP;
         RegionOfInterest       	            mROI;
+		RenderLocalCache& 					mCache;
         RenderClient                        mRC;
 		StringList 				            getValidZsForStack(const string& stackName);
         string                              mImageMagickPath;
@@ -98,7 +101,7 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
         void                                populateZs(const string& stack);
 
     public:
-				     __fastcall             TCreateLocalVolumesForm(RenderProject& rp, const string& imageMagickPath, TComponent* Owner);
+				     __fastcall             TCreateLocalVolumesForm(RenderProject& rp, RenderLocalCache& cache, const string& imageMagickPath, TComponent* Owner);
         void					            populate(const RegionOfInterest& roi, const StringList& stacks);
 };
 

@@ -4,6 +4,7 @@
 #include "dslStringList.h"
 #include "atExplorerCoreExporter.h"
 #include <boost/function.hpp>
+#include "atRenderLocalCache.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -16,9 +17,9 @@ typedef boost::function<void(void*, void*)> FITCallBack;
 class ATE_CORE FetchImagesThread : public dsl::Thread
 {
 	public:
-							                FetchImagesThread(const string& renderStackName = dsl::gEmptyString, const StringList& urls = StringList(dsl::gEmptyString), const string& cacheRoot = dsl::gEmptyString);
+							                FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName = dsl::gEmptyString, const StringList& urls = StringList(dsl::gEmptyString));
 							                ~FetchImagesThread();
-		void				                setup(const StringList& urls, const string& cacheFolder);
+		void				                setup(const StringList& urls);
         void                                assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three);
         string                              getRenderStackName();
 		virtual void                        run();
@@ -27,13 +28,14 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
         void				                addParameter(const string& api);
         void				                addParameters(const StringList& paras);
         string                              listParameters();
-		bool				                setCacheRoot(const string& cr);
 		void								worker();
         StringList                          getImageURLs();
         string                              getCacheRootFolder();
 
 	private:
     	StringList							mImageURLs;
+		const RenderLocalCache&             mCache;
+        const RenderProject&                mRP;
         string								mOutputDataFolder;
         string								mRenderStackName;
         StringList                          mExtraParameters;

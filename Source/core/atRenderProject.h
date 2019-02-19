@@ -37,7 +37,7 @@ class ATE_CORE RenderProject : public ATExplorerProject
         bool                                    setSelectedChannelName(const string& s);
 
         bool                                    setSelectedSection(int secNr);
-        int	                                    getSelectedSection();
+        int	                                    getSelectedSection() const;
 
         bool                                    setRenderServiceParameters(RenderServiceParameters* rsp);
         RenderServiceParameters*                getRenderServiceParameters() const;
@@ -50,9 +50,14 @@ class ATE_CORE RenderProject : public ATExplorerProject
 		virtual bool 					        loadFromXML(dsl::XMLNode* node);
 
                                                 //For convenience to 'views'
-        const RegionOfInterest&                 getCurrentRegionOfInterestReference() const;
-        int&                                    getMinIntensity();
-        int&                                    getMaxIntensity();
+        const RegionOfInterest&                 getRegionOfInterest() const;
+        bool 					                setRegionOfInterest(const RegionOfInterest& roi);
+        int           		                    getMinIntensity() const;
+        int	                			        getMaxIntensity() const;
+
+                                                //Utility..
+        int&                	        	    getMinIntensity();
+        int&                    		        getMaxIntensity();
 
 	protected:
     	string 		                            mInfo;

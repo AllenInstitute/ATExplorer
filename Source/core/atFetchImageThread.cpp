@@ -14,11 +14,12 @@ using namespace dsl;
 
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
-FetchImageThread::FetchImageThread(RenderClient& rc)
+FetchImageThread::FetchImageThread(const RenderProject& rp, RenderClient& rc, const RenderLocalCache& cache)
 :
 mRenderClient(rc),
-mImageURL(""),
-mCacheRootFolder("")
+mRP(rp),
+mCache(cache),
+mImageURL("")
 {}
 
 void FetchImageThread::setup(const string& url, const string& cacheFolder)
@@ -80,7 +81,7 @@ void FetchImageThread::worker()
         string url = mImageURL;
 
         //Check cache first. if already in cache, don't fetch
-        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mCacheRootFolder, mChannel);
+        string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP);
 
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName) && f.getSize() > 200)
@@ -178,7 +179,7 @@ void FetchImageThread::worker()
 
 string FetchImageThread::getFullPathAndFileName()
 {
-    return getImageLocalCacheFileNameAndPathFromURL(mImageURL, mCacheRootFolder, mChannel);
+    return mCache.getImageLocalCachePathAndFileName(mRP); //getImageLocalCacheFileNameAndPathFromURL(mImageURL, mCacheRootFolder, mChannel);
 }
 
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
