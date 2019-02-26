@@ -17,9 +17,6 @@ class ATE_CORE RenderLayer : public ExplorerObject
                                                         RenderLayer(RenderProject& url, const RegionOfInterest& roi, const string& localCacheRootFolder = gEmptyString);
 
         string                                          getURL();
-        string                                          getImageLocalCachePath(const string& rootFolder);
-        string                                          getImageLocalCachePathAndFileName(const string& rootFolder, const StringList& channels);
-        string                                          getRenderProjectLocalDataRoot(const string& rootFolder);
         bool                                            existInCache(const string& f);
 
         int                                             getZ();
@@ -28,7 +25,6 @@ class ATE_CORE RenderLayer : public ExplorerObject
         int                                             getMinIntensity();
         int                                             getMaxIntensity();
         RenderProject                                   getRenderProject();
-        double                                          getLowestScaleInCache();
 
     protected:
         Poco::URI                                       mURL;

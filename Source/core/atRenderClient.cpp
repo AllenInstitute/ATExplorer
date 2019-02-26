@@ -34,7 +34,7 @@ RenderClient::RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, co
 RESTClient(c, host),
 StackDataAPI(*this),
 PointMatchAPI(*this),
-mFetchImageThread(*this)
+mFetchImageThread(shared_ptr<FetchImageThread>())
 {
 	mServiceParameters = new RenderServiceParameters(host);
 }
@@ -65,15 +65,13 @@ void RenderClient::createRESTServiceParameters(const string& host)
 //    return new RESTResponse(r);
 //}
 
-bool RenderClient::init(const string& imageType,
-						int z, double scale, int minInt, int maxInt)
+bool RenderClient::init(const string& imageType, int z, double scale, int minInt, int maxInt)
 {
     mImageType = (imageType);
     mZ = (z);
 	mScale = (scale);
 	mMinIntensity = (minInt);
 	mMaxIntensity = (maxInt);
-//    setLocalCacheFolder(mRenderProject.getLocalCacheFolder());
     return true;
 }
 
@@ -87,29 +85,6 @@ string RenderClient::getBaseURL()
     return "";
 }
 
-string RenderClient::request(const string& r)
-{
-//    try
-//    {
-//        TStringStream* zstrings = new TStringStream;;
-//        mC->Get(r.c_str(), zstrings);
-//
-//        if(mC->ResponseCode != HTTP_RESPONSE_OK)
-//        {
-//            Log(lError) << "The request \"" << r << "\" failed";
-//            return string("");
-//        }
-//
-//        string json = stdstring(zstrings->DataString);
-//	    return json;
-//    }
-//    catch(...)
-//    {
-//        Log(lError) << "Handle error..";
-//        return "";
-//    }
-}
-
 void RenderClient::setRenderServiceParameters(RenderServiceParameters* rp)
 {
     mServiceParameters = rp;
@@ -120,54 +95,59 @@ const RenderServiceParameters* RenderClient::getRenderServiceParameters()
     return dynamic_cast<RenderServiceParameters*>(mServiceParameters);
 }
 
-string RenderClient::getCacheRoot()
-{
-//    return mCache.getBasePath();
-}
+//string RenderClient::getCacheRoot()
+//{
+////    return mCache.getBasePath();
+//}
 
-double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
-{
-//    return mCache.getLowestResolutionInCache(mRenderProject, roi);
-}
+//double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
+//{
+////    return mCache.getLowestResolutionInCache(mRenderProject, roi);
+//}
 
 const char* RenderClient::getURLC()
 {
 	return getURL().c_str();
 }
 
-string RenderClient::getLocalCacheFolder()
-{
-//	return mCache.getBasePath();
-}
+//string RenderClient::getLocalCacheFolder()
+//{
+////	return mCache.getBasePath();
+//}
 
-RenderProject& RenderClient::getProject()
-{
-//	return mRenderProject;
-}
+//RenderProject& RenderClient::getProject()
+//{
+////	return mRenderProject;
+//}
+//
+//RenderProject RenderClient::getRenderProject()
+//{
+////	return mRenderProject;
+//}
 
-RenderProject RenderClient::getRenderProject()
-{
-//	return mRenderProject;
-}
-
-void RenderClient::setRenderProject(const RenderProject& rp)
-{
-//	mRenderProject = rp;
-}
+//void RenderClient::setRenderProject(const RenderProject& rp)
+//{
+////	mRenderProject = rp;
+//}
 
 void RenderClient::assignOnImageCallback(RCCallBack cb)
 {
-	mFetchImageThread.onImage = cb;
+    if(!mFetchImageThread)
+    {
+        Log(lWarning) << "Image thread is NULL";
+        return;
+    }
+	mFetchImageThread->onImage = cb;
 }
 
-StringList RenderClient::getROIFoldersForCurrentStack()
-{
-//    //Create basepath
-//    stringstream path;
-//    path << joinPath(mCache.getBasePath(), mRenderProject.getProjectOwner(), mRenderProject.getRenderProjectName(), mRenderProject.getSelectedStackName());
-//
-//    return getSubFoldersInFolder(path.str(), false);
-}
+//StringList RenderClient::getROIFoldersForCurrentStack()
+//{
+////    //Create basepath
+////    stringstream path;
+////    path << joinPath(mCache.getBasePath(), mRenderProject.getProjectOwner(), mRenderProject.getRenderProjectName(), mRenderProject.getSelectedStackName());
+////
+////    return getSubFoldersInFolder(path.str(), false);
+//}
 
 Idhttp::TIdHTTP* RenderClient::getConnection()
 {
@@ -193,15 +173,15 @@ void RenderClient::copyImageData(MemoryStruct chunk)
     }
 }
 
-RenderProject RenderClient::getCurrentProject()
-{
-//    return mRenderProject;
-}
+//RenderProject RenderClient::getCurrentProject()
+//{
+////    return mRenderProject;
+//}
 
-void RenderClient::setLocalCacheFolder(const string& f)
-{
-//	mCache.setBasePath(f);
-}
+//void RenderClient::setLocalCacheFolder(const string& f)
+//{
+////	mCache.setBasePath(f);
+//}
 
 StringList RenderClient::getServerProperties()
 {
@@ -233,6 +213,17 @@ StringList RenderClient::getServerProperties()
 
 bool RenderClient::getImageInThread(int z, StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp)
 {
+
+    if(!mFetchImageThread)
+    {
+        mFetchImageThread = shared_ptr<FetchImageThread> (new FetchImageThread(rp, *this, cache));
+    }
+
+    if(mFetchImageThread && mFetchImageThread->isRunning())
+    {
+        Log(lWarning) << "Image thread is not finished";
+    }
+
 	mZ = z;
 
 	if(!mImageMemory)
@@ -240,10 +231,10 @@ bool RenderClient::getImageInThread(int z, StringList& paras, const string& chan
 		mImageMemory = new TMemoryStream();
     }
 
-	mFetchImageThread.setup(getURLForZ(z, rp), cache.getBasePath());
-    mFetchImageThread.addParameters(paras);
-    mFetchImageThread.setChannel(channel);
-	mFetchImageThread.start(true);
+	mFetchImageThread->setup(getURLForZ(z, rp), cache.getBasePath());
+    mFetchImageThread->addParameters(paras);
+    mFetchImageThread->setChannel(channel);
+	mFetchImageThread->start(true);
     return true;
 }
 
@@ -280,32 +271,10 @@ TMemoryStream* RenderClient::reloadImage(int z)
 //    return mImageMemory;
 }
 
-RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
+//Move to stack API
+RegionOfInterest RenderClient::getLayerBoundsForZ(int z, RenderProject& rp)
 {
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
-//    sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
-//    sUrl << "/stack/"		<<mRenderProject.getSelectedStackName();
-//    sUrl <<"/z/"<<z   	 	<<"/bounds";
-//
-//    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
-//    TStringStream* zstrings = new TStringStream;;
-//    mC->Get(sUrl.str().c_str(), zstrings);
-//	RegionOfInterest b;
-//
-//    if( mC->ResponseCode == HTTP_RESPONSE_OK)
-//    {
-//        string s = stdstring(zstrings->DataString);
-//        b = parseBoundsResponse(s);
-//    }
-//    else
-//    {
-//        Log(lError) << "Failed fetching renderbox";
-//    }
-//
-//    b.setZ(z);
-//    return b;
+    return StackDataAPI.getLayerBoundsForZ(rp, z);
 }
 
 RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
@@ -378,26 +347,26 @@ vector<RegionOfInterest> RenderClient::getLayerBounds()
 	return mLayerBounds;
 }
 
-string RenderClient::getImageLocalCachePath()
-{
-//	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
-}
-
-string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
-{
-//	string url(getURLForZ(z));
-//    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
-}
-
-string RenderClient::getImageLocalCachePathAndFileName()
-{
-//	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
-}
-
-bool RenderClient::checkCacheForCurrentURL()
-{
-//	return fileExists(getImageLocalCachePathAndFileName());
-}
+//string RenderClient::getImageLocalCachePath()
+//{
+////	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
+//}
+//
+//string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
+//{
+////	string url(getURLForZ(z));
+////    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
+//}
+//
+//string RenderClient::getImageLocalCachePathAndFileName()
+//{
+////	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
+//}
+//
+//bool RenderClient::checkCacheForCurrentURL()
+//{
+////	return fileExists(getImageLocalCachePathAndFileName());
+//}
 
 void RenderClient::clearImageMemory()
 {
@@ -408,7 +377,7 @@ void RenderClient::clearImageMemory()
 string RenderClient::getURLForZ(int z, const RenderProject& rp)
 {
 	stringstream sUrl;
-    const RegionOfInterest& roi = rp.getCurrentRegionOfInterestReference();
+    const RegionOfInterest& roi = rp.getRegionOfInterest();
     sUrl << mServiceParameters->getBaseURL();
     sUrl << "/owner/" 		<< rp.getProjectOwner();
     sUrl << "/project/" 	<< rp.getRenderProjectName();
@@ -508,29 +477,6 @@ string RenderClient::getURL()
 ////    return true;
 //}
 
-RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
-{
-//	RegionOfInterest bounds;
-//    string s = stripCharacters("{}", _s);
-//    StringList l(s, ',');
-//    if(l.size() == 6)
-//    {
-//    	StringList xMin(l[0], ':');
-//    	StringList yMin(l[1], ':');
-//    	StringList xMax(l[3], ':');
-//    	StringList yMax(l[4], ':');
-//
-//        bounds.setX1(toDouble(xMin[1]));
-//        bounds.setY1(toDouble(yMin[1]));
-//        bounds.setX2(toDouble(xMax[1]));
-//        bounds.setY2(toDouble(yMax[1]));
-//    }
-//    else
-//    {
-//    	Log(lError) << "Bad bounds format..";
-//    }
-//    return bounds;
-}
 
 string RenderClient::getLastRequestURL()
 {

@@ -7,9 +7,6 @@
 using std::string;
 using dsl::StringList;
 
-ATE_CORE string 		getImageLocalCachePathFromURL(const string& url, const string& cachefolder);
-ATE_CORE string 		getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cachefolder, const string& chs);
-ATE_CORE string 		getRenderProjectLocalDataRootFolderFromURL(const string& url, const string& cachefolder);
 ATE_CORE int 			  getImageZFromURL(const string& url);
 
 

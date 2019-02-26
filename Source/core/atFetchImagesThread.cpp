@@ -17,10 +17,11 @@ using namespace dsl;
 
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
-FetchImagesThread::FetchImagesThread(const string& renderStackName, const StringList& urls, const string& cacheRoot)
+FetchImagesThread::FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName, const StringList& urls)
 :
+mRP(rp),
 mImageURLs(urls),
-mOutputDataFolder(cacheRoot),
+mCache(cache),
 mRenderStackName(renderStackName),
 onEnter(nullptr),
 onProgress(nullptr),
@@ -39,11 +40,10 @@ void FetchImagesThread::assignCallBacks(FITCallBack one, FITCallBack two, FITCal
     onExit = three;
 }
 
-void FetchImagesThread::setup(const StringList& urls, const string& cacheFolder)
+void FetchImagesThread::setup(const StringList& urls)
 {
 	mExtraParameters.clear();
 	mImageURLs = urls;
-    mOutputDataFolder = cacheFolder;
 }
 
 void FetchImagesThread::setChannel(const string& ch)
@@ -63,7 +63,7 @@ StringList FetchImagesThread::getImageURLs()
 
 string FetchImagesThread::getCacheRootFolder()
 {
-    return mOutputDataFolder;
+    return mCache.getBasePath();
 }
 
 void FetchImagesThread::addParameter(const string& api)
@@ -76,19 +76,19 @@ void FetchImagesThread::addParameters(const StringList& paras)
     mExtraParameters.appendList(paras);
 }
 
-bool FetchImagesThread::setCacheRoot(const string& cr)
-{
-	//Check if path exists, if not try to create it
-	mOutputDataFolder = cr;
-    if(folderExists(mOutputDataFolder))
-    {
-    	return true;
-    }
-    else
-    {
-    	return createFolder(mOutputDataFolder);
-    }
-}
+//bool FetchImagesThread::setCacheRoot(const string& cr)
+//{
+//	//Check if path exists, if not try to create it
+//	mOutputDataFolder = cr;
+//    if(folderExists(mOutputDataFolder))
+//    {
+//    	return true;
+//    }
+//    else
+//    {
+//    	return createFolder(mOutputDataFolder);
+//    }
+//}
 
 void FetchImagesThread::assignUrls(const StringList& urls)
 {
@@ -115,7 +115,6 @@ void FetchImagesThread::worker()
 		Log(lDebug4) << "Started Image fetching thread..";
         curl_global_init(CURL_GLOBAL_ALL);
 
-
         //Rewrite this later to use threadpools and say # of threads
 	    for(uint i = 0; i < mImageURLs.count(); i++)
 	    {
@@ -127,7 +126,8 @@ void FetchImagesThread::worker()
 	    	string url = mImageURLs[i];
 
             //Check cache first. if already in cache, don't fetch
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, mOutputDataFolder, mChannel);
+            string z = toString(getImageZFromURL(mImageURLs[i]));
+            string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP, z);
            	Poco::File f(outFilePathANDFileName);
             if(f.exists() && f.getSize() > 200)
             {
@@ -135,7 +135,7 @@ void FetchImagesThread::worker()
             }
             else
 			{
-            	Log(lInfo) << "Fetching section # "<<getImageZFromURL(url);
+            	Log(lInfo) << "Fetching section # " << mImageURLs[i];//getImageZFromURL(url);
 
                 CURL *curl_handle;
                 CURLcode res;

@@ -15,7 +15,7 @@ RenderLayer::RenderLayer(const string& url, const string& localCacheRootFolder)
 :
 mURL(url),
 mRenderProject(url),
-mCache(localCacheRootFolder, &mRenderProject),
+mCache(localCacheRootFolder),
 mScheme(mURL.getScheme()),
 mAuthority(mURL.getAuthority()),
 mHost(mURL.getHost()),
@@ -57,74 +57,12 @@ RenderLayer::RenderLayer(RenderProject& rp, const RegionOfInterest& roi, const s
 :
 mRenderProject(rp),
 mRegionOfInterest(roi),
-mCache(localCacheRootFolder, &rp)
+mCache(localCacheRootFolder)
 {}
 
 bool RenderLayer::existInCache(const string& f)
 {
-    return fileExists(getImageLocalCachePathAndFileName(f, mChannels));
-}
-
-double RenderLayer::getLowestScaleInCache()
-{
-    return mCache.getLowestResolutionInCache(mRenderProject, mRegionOfInterest);
-}
-
-string RenderLayer::getImageLocalCachePath(const string& rootFolder)
-{
-    stringstream s;
-    //Construct filePath
-	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
-    s 	<< rootFolder << "\\"<<mRenderProject.getProjectOwner()
-    	<<"\\"<<mRenderProject.getRenderProjectName()
-        <<"\\"<<mRenderProject.getSelectedStackName()
-        <<"\\"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1()<<","<<mRegionOfInterest.getWidth()<<","<<mRegionOfInterest.getHeight();
-
-    return s.str();
-}
-
-string RenderLayer::getRenderProjectLocalDataRoot(const string& rootFolder)
-{
-    stringstream s;
-    //Construct filePath
-	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
-    s 	<< rootFolder << "\\"<<mRenderProject.getProjectOwner()
-    	<<"\\"<<mRenderProject.getRenderProjectName();
-    return s.str();
-}
-
-string RenderLayer::getImageLocalCachePathAndFileName(const string& rootFolder, const StringList& channels)
-{
-    stringstream s;
-    //Construct filePath
-	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
-    s 	<< rootFolder << "\\"<<mRenderProject.getProjectOwner()
-    	<<"\\"<<mRenderProject.getRenderProjectName()
-        <<"\\"<<mRenderProject.getSelectedStackName()
-        <<"\\"<<mRegionOfInterest.getX1()<<","<<mRegionOfInterest.getY1()<<","<<mRegionOfInterest.getWidth()<<","<<mRegionOfInterest.getHeight()<<"\\"
-        <<mZ<<"_"<<mMinIntensity<<"_"<<mMaxIntensity<<"_"<<mScale;
-
-        //Channels
-        for(int i = 0; i < channels.count(); i++)
-        {
-            s << "_" << channels[i];
-        }
-
-        if(mImageType == "jpeg-image")
-        {
-            s << ".jpg";
-        }
-        else if(mImageType == "png-image")
-        {
-			s << ".png";
-        }
-        else if(mImageType == "tiff16-image")
-        {
-			s << ".tiff";
-        }
-
-
-    return s.str();
+//    return fileExists(getImageLocalCachePathAndFileName(f, mChannels));
 }
 
 string RenderLayer::getURL()

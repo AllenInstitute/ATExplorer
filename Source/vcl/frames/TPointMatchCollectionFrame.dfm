@@ -1,20 +1,17 @@
 object PointMatchCollectionFrame: TPointMatchCollectionFrame
   Left = 0
   Top = 0
-  Width = 782
-  Height = 400
+  Width = 451
+  Height = 305
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object mLeftPanel: TPanel
     Left = 0
     Top = 0
     Width = 388
-    Height = 400
+    Height = 305
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 305
     object ScrollBox1: TScrollBox
       Left = 1
       Top = 1
@@ -110,11 +107,10 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
         Left = 1
         Top = 231
         Width = 94
-        Height = 166
+        Height = 71
         Align = alClient
         Caption = 'q group IDs'
         TabOrder = 1
-        ExplicitHeight = 71
         object qGroupIDs: TCheckListBox
           Left = 2
           Top = 15
@@ -123,16 +119,14 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
-          ExplicitHeight = 88
         end
         object Panel1: TPanel
           Left = 2
-          Top = 104
+          Top = 9
           Width = 90
           Height = 60
           Align = alBottom
           TabOrder = 1
-          ExplicitTop = 9
           object Button2: TButton
             Left = 3
             Top = 16
@@ -148,12 +142,10 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
   object VisualsPC: TPageControl
     Left = 388
     Top = 0
-    Width = 394
-    Height = 400
+    Width = 63
+    Height = 305
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 63
-    ExplicitHeight = 305
   end
   object Actions: TActionList
     Left = 385

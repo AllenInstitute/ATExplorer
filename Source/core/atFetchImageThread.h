@@ -4,6 +4,7 @@
 #include "dslStringList.h"
 #include "atRenderClientUtils.h"
 #include <boost/function.hpp>
+#include "atRenderLocalCache.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -18,7 +19,7 @@ class RenderClient;
 class ATE_CORE FetchImageThread : public dsl::Thread
 {
 	public:
-							                FetchImageThread(RenderClient& rc);
+							                FetchImageThread(const RenderProject& rp, RenderClient& rc, const RenderLocalCache& cache);
 		void				                setup(const string& url, const string& cacheFolder);
 		virtual void                        run();
         void				                addParameters(const StringList& paras);
@@ -27,6 +28,7 @@ class ATE_CORE FetchImageThread : public dsl::Thread
         string                              listParameters();
 		bool				                setCacheRoot(const string& cr);
 		void				                worker();
+        string                              getFullPathAndFileName();
 
           							        //!The on Image callback is called when image data is retrieved from the server
                                             //Make this a non-vcl dependent callback!
@@ -34,6 +36,8 @@ class ATE_CORE FetchImageThread : public dsl::Thread
 
 	private:
     	string								mImageURL;
+		const RenderLocalCache&             mCache;
+        const RenderProject&                mRP;
         string								mCacheRootFolder;
         StringList                          mExtraParameters;
         string                              mChannel;

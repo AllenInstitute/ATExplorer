@@ -75,8 +75,8 @@ class ATE_CORE RenderClient : public RESTClient
 
 //        StringList						            getStacksForProject(const string& owner, const string& p);
 //        StringList                                  getChannelsInStack(const string& stackName);
-        RenderProject                               getCurrentProject();
-        StringList                                  getROIFoldersForCurrentStack();
+//        RenderProject                               getCurrentProject();
+//        StringList                                  getROIFoldersForCurrentStack();
 		TMemoryStream*								getImageMemory();
 //        bool                                        renameStack(const string& currentStackName, const string& newName);
 
@@ -87,18 +87,15 @@ class ATE_CORE RenderClient : public RESTClient
         bool				                        getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
         TMemoryStream*		                        reloadImage(int z = 0);
         string							            getURLForZ(int z, const RenderProject& rp);
-        bool				                        checkCacheForCurrentURL();
-        string				                        getImageLocalCachePath();
-        string				                        getImageLocalCachePathAndFileName();
-		string 										getImageLocalCachePathAndFileNameForZ(int z, const string& chs);
-        string							            getProjectName();
+//        bool				                        checkCacheForCurrentURL();
+//        string							            getProjectName();
 
-        void							            setLocalCacheFolder(const string& f);
-        string							            getLocalCacheFolder();
+//        void							            setLocalCacheFolder(const string& f);
+//        string							            getLocalCacheFolder();
 
 //        StringList						            getZs();
 //        vector<int>						            getValidZs();
-		RegionOfInterest 						    getLayerBoundsForZ(int z);
+		RegionOfInterest 						    getLayerBoundsForZ(int z, RenderProject& rp);
         RegionOfInterest						    getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RegionOfInterest>				    getLayerBounds();
         RenderProject&					            getProject();
@@ -107,14 +104,14 @@ class ATE_CORE RenderClient : public RESTClient
 		Idhttp::TIdHTTP*                            getConnection();
         void                                        assignConnection(Idhttp::TIdHTTP* c);
 
-        RenderProject                               getRenderProject();
-        void                                        setRenderProject(const RenderProject& rp);
-		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
+//        RenderProject                               getRenderProject();
+//        void                                        setRenderProject(const RenderProject& rp);
+//		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
 
-        string                                      getCacheRoot();
+//        string                                      getCacheRoot();
         string                                      getLastRequestURL();
-        string                                      request(const string& r);
-
+//        string                                      request(const string& r);
+        shared_ptr<FetchImageThread>				mFetchImageThread;
     private:
 
         void                                        createRESTServiceParameters(const string& host);
@@ -140,8 +137,6 @@ class ATE_CORE RenderClient : public RESTClient
 
         int								            mMinIntensity;
         int								            mMaxIntensity;
-        RegionOfInterest						    parseBoundsResponse(const string& s);
-        FetchImageThread							mFetchImageThread;
 };
 
 }

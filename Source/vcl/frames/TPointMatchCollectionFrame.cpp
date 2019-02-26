@@ -35,7 +35,7 @@ __fastcall TPointMatchCollectionFrame::TPointMatchCollectionFrame(ATExplorer& e,
     mRC()
 {
     //mRC.assignOnImageCallback(onImage);
-    mRC.setLocalCacheFolder("");
+//    mRC.setLocalCacheFolder("");
     this->Name = string("PMCFrame_" +  dsl::toString(pmcFrameNr++)).c_str();
     populate();
 }
