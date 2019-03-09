@@ -28,9 +28,13 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 
     //Create a renderservice
     mRenderServiceParameters.setName("Test");
+//	mRenderServiceParameters.setHost("atbigdawg");
 	mRenderServiceParameters.setHost("localhost");
     mRenderServiceParameters.setMaxTilesToRender(250);
+    mRenderServiceParameters.setPortNr(80);
     gATExplorer.appendRenderService(&mRenderServiceParameters);
+    gATExplorer.RenderClient.setRenderServiceParameters(&mRenderServiceParameters);
+
 }
 
 __fastcall TMainForm::~TMainForm()
