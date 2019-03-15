@@ -2,7 +2,7 @@
 #include "atFileFolder.h"
 #include "atExceptions.h"
 #include "Poco/DirectoryIterator.h"
-#include "Poco/GLob.h"
+#include "Poco/Glob.h"
 #include "dslLogger.h"
 #include "dslFileUtils.h"
 //---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ FileFolderSP FileFolder::getNextSubFolder()
 FileFolderSP FileFolder::getSubFolder(const Path& p)
 {
     Path subPath(p);
-    FileFolderSP subfolder();
+//    FileFolderSP subfolder();
 
     for(int i = 0; i < mSubFolders.count(); i++)
     {

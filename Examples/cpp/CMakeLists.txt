@@ -1,0 +1,24 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
+PROJECT(DSLExamples)
+
+link_directories(					
+    ${CMAKE_INSTALL_PREFIX}/lib
+    ${THIRDPARTY_INSTALL}/lib
+)
+
+include_directories(
+    /usr/local/include/dsl
+    ${ATEXPLORER_ROOT}
+    ${ATEXPLORER_ROOT}/Source
+    ${ATEXPLORER_ROOT}/Source/core
+    ${ATEXPLORER_ROOT}/Source/atdata
+    ${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
+    ${CMAKE_INSTALL_PREFIX}/include
+)
+
+if(INSTALL_CXX_EXAMPLES)
+    add_subdirectory("folder_iterator")
+endif()
+
+
+

@@ -11,7 +11,7 @@ namespace at
 class FileFolder;
 using std::vector;
 
-typedef std::tr1::shared_ptr<FileFolder>  FileFolderSP;
+typedef std::shared_ptr<FileFolder>  FileFolderSP;
 
 class ATE_DATA FileFolders : public ExplorerObject
 {

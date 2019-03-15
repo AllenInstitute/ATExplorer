@@ -14,7 +14,7 @@ class Session;
 
 //!Sessions is a container for individual AT "Sessions".
 //!A session label need to be unique..
-typedef std::tr1::shared_ptr<Session> SessionSP;
+typedef std::shared_ptr<Session> SessionSP;
 //---------------------------------------------------------------------------
 class ATE_DATA Sessions : public ExplorerObject
 {

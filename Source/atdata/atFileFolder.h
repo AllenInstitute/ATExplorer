@@ -3,7 +3,8 @@
 #include <set>
 #include <string>
 #include <utility>
-#include <boost/enable_shared_from_this.hpp>
+//#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 #include "Poco/Path.h"
 #include "atFileSystemObject.h"
 #include "dslStringList.h"
@@ -30,7 +31,7 @@ struct FolderInfo
 
 
 //!A File folder is FileSystem object.
-class ATE_DATA FileFolder : public FileSystemObject, public boost::enable_shared_from_this<FileFolder>
+class ATE_DATA FileFolder : public FileSystemObject, public std::enable_shared_from_this<FileFolder>
 {
     public:
                             		FileFolder(const Path& name, FileFolderSP parent = FileFolderSP());
