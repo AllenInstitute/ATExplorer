@@ -18,7 +18,7 @@ endif()
 OPTION(BUILD_SHARED_LIBS 		    "Build Shared Libs"                         ON)
 OPTION(INSTALL_CXX_LIBS 		    "Install CXX libraries and headers"         ON)
 OPTION(INSTALL_PYTHON 			    "Build Python Modules"                      OFF)
-OPTION(INSTALL_CXX_EXAMPLES         "Install CXX Examples"	                    OFF)
+OPTION(INSTALL_CXX_EXAMPLES         "Install CXX Examples"	                    ON)
  
 #Boost root
 set(BOOST_ROOT  CACHE PATH "Directory containing Boost.")
