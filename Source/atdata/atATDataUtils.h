@@ -2,11 +2,13 @@
 #define atATDataUtilsH
 #include "atATDataExporter.h"
 #include "dslSharedPointer.h"
+#include <string>
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
+using std::string;
 class Section;
 class FileFolder;
 enum  ATDataFileFormat {atAllen, atKM, atBase};

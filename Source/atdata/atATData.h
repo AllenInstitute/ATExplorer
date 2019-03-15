@@ -38,6 +38,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
                                                 //!populating a ATData object typically include
                                                 //!parsing through a folder structure in descendant data
                                                 //!type objects
+                                                //-- suspicious boolean??
         virtual bool                            populate(const bool& exitPopulation) = 0;
         virtual bool                            validate() = 0;
         int                                     getNumberOfRibbons();
