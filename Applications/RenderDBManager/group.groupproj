@@ -12,6 +12,9 @@
         <Projects Include="RenderDBManager.cbproj">
             <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
         </Projects>
+        <Projects Include="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="RenderDBManager:Make" DependsOnTargets="atExplorerFoundation:Make">
         <MSBuild Projects="RenderDBManager.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="at_data_info">
+        <MSBuild Projects="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj"/>
+    </Target>
+    <Target Name="at_data_info:Clean">
+        <MSBuild Projects="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="at_data_info:Make">
+        <MSBuild Projects="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ATExplorer;atExplorerFoundation;RenderDBManager"/>
+        <CallTarget Targets="ATExplorer;atExplorerFoundation;RenderDBManager;at_data_info"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ATExplorer:Clean;atExplorerFoundation:Clean;RenderDBManager:Clean"/>
+        <CallTarget Targets="ATExplorer:Clean;atExplorerFoundation:Clean;RenderDBManager:Clean;at_data_info:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ATExplorer:Make;atExplorerFoundation:Make;RenderDBManager:Make"/>
+        <CallTarget Targets="ATExplorer:Make;atExplorerFoundation:Make;RenderDBManager:Make;at_data_info:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

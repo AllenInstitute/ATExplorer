@@ -76,6 +76,7 @@ ${BOOST_ROOT}/boost/tr1/tr1
 )
 #Source Code Folders
 add_subdirectory(source)
+add_subdirectory(Examples)
 
 #======================= INSTALL ========================================================
 set(RootDest .)
