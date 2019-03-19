@@ -103,12 +103,23 @@ int ATIFData::getNumberOfStateTables(bool refresh)
 
 bool ATIFData::populate(const bool& timeToDie)
 {
+	//Allow an external thread stop this thread by setting mStopPopulating to false..
     mStopPopulation = &timeToDie;
+    if(onStartingPopulating)
+    {
+        onStartingPopulating(this, nullptr, nullptr);
+    }
+
     if(!timeToDie)
     {
         populateRibbons();
         populateSessions();
         populateStateTables();
+    }
+
+    if(onFinishedPopulating)
+    {
+        onFinishedPopulating(this, nullptr, nullptr);
     }
     return true;
 }
@@ -156,11 +167,6 @@ bool ATIFData::populateRibbons()
     //All raw data is in the ribbons datafolder, populate it first
 	FolderInfo fInfo = mRibbonsDataFolder->scan();
     Log(lInfo) << "Found " <<fInfo.NrOfFolders << " folders and " << fInfo.NrOfFiles << " files";
-
-    if(onStartingPopulating)
-    {
-        onStartingPopulating(this, nullptr, nullptr);
-    }
 
     FileFolders ribbonFolders = getRibbonFolders();
 
