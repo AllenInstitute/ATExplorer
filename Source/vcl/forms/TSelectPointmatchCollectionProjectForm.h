@@ -36,15 +36,16 @@ class PACKAGE TSelectPointmatchCollectionProjectForm : public TForm
         TPanel *Panel1;
         TButton *Button1;
         TButton *Button2;
-        TIdHTTP *IdHTTP1;
 		TButton *PopulateOwnersBtn;
 		TComboBox *RenderServicesCB;
+	TPanel *Panel2;
 		void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 		void __fastcall OwnerCBChange(TObject *Sender);
 		void __fastcall PopulateOwnersBtnClick(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
         void __fastcall RenderServicesCBCloseUp(TObject *Sender);
         void __fastcall RenderServicesCBChange(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 
     private:
         RenderProject                   mRP;

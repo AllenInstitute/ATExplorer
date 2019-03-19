@@ -9,6 +9,7 @@
 using namespace dsl;
 using namespace at;
 
+extern ATExplorerUIProperties gUIProperties;
 //---------------------------------------------------------------------------
 void __fastcall TMainForm::FormShow(TObject *Sender)
 {
@@ -20,7 +21,7 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
         mIsStyleMenuPopulated = true;
 	}
 
-    if(gAU.LastOpenedProject.getValue().size() > 0 && firstShow == true)
+    if(gUIProperties.LastOpenedProject.getValue().size() > 0 && firstShow == true)
     {
         FileOpen1Accept(NULL);
     }
@@ -32,6 +33,6 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 {
 	this->Caption = vclstr(createWindowTitle("ATExplorer", Application));
     this->DoubleBuffered = true;
-    TLogMemoFrame1->init();
+    LogMemoFrame1->init();
 }
 

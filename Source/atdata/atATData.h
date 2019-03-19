@@ -31,6 +31,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
 
                                         		//!Return some information about the current data
         string                                  getInfo();
+        string                                  getInfoJSON();
 
                                                 //!Resets the data object, excepts the basepath
         virtual void                            reset();
@@ -38,6 +39,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
                                                 //!populating a ATData object typically include
                                                 //!parsing through a folder structure in descendant data
                                                 //!type objects
+                                                //-- suspicious boolean??
         virtual bool                            populate(const bool& exitPopulation) = 0;
         virtual bool                            validate() = 0;
         int                                     getNumberOfRibbons();

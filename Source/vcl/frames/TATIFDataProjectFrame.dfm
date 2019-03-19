@@ -200,6 +200,7 @@ object ATIFDataProjectFrame: TATIFDataProjectFrame
         Caption = 'State Tables'
         ExplicitLeft = 0
         ExplicitTop = 0
+        ExplicitWidth = 0
         ExplicitHeight = 236
         object GroupBox4: TGroupBox
           Left = 0

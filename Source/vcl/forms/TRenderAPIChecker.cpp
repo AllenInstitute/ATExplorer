@@ -23,7 +23,7 @@ void __fastcall TRenderAPIChecker::RequestBtnClick(TObject *Sender)
 {
     //Get some render owners
     RenderProject dummyProject("Dummy", &mHost);
-    RenderClient   mRC(dummyProject, IdHTTP1, &mHost);
+    RenderClient   mRC;
 	ResponseMemo->Clear();
 	StringList response;
 
@@ -34,7 +34,7 @@ void __fastcall TRenderAPIChecker::RequestBtnClick(TObject *Sender)
     }
     else if(APIs->ItemIndex == 1)
     {
-	    response = mRC.getOwners();
+	    response = mRC.StackDataAPI.getOwners();
     }
 
     RequestURL->setValue(mRC.getLastRequestURL());

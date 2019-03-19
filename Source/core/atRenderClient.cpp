@@ -1,28 +1,25 @@
 #pragma hdrstop
+#include "atRenderClient.h"
 #include <System.Classes.hpp>
 #include <IdHTTP.hpp>
 #include <sstream>
 #include <vector>
-#include "atRenderClient.h"
+
 #include "dslStringUtils.h"
 #include "dslUtils.h"
 #include "dslLogger.h"
-#include "dslPoint.h"
-#include "dslMathUtils.h"
+#include "math/dslMathUtils.h"
 #include "dslFileUtils.h"
 #include "atJSMN.h"
-#include "atPointMatchCollection.h"
+
 #include "atStringUtils.h"
 #include "atExceptions.h"
+#include "atRESTRequest.h"
+#include "renderAPI/atGetOwnersResponse.h"
+#include "atRESTResponse.h"
 //---------------------------------------------------------------------------
 
 using std::wstring;
-
-string stdstring(const String& str)
-{
-    wstring test(str.c_str());
-    return dsl::stdstr(test);
-}
 
 namespace at
 {
@@ -32,108 +29,134 @@ using namespace dsl;
 
 const int HTTP_RESPONSE_OK = 200;
 
-RenderClient::RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const  RenderServiceParameters* p, const string& cacheFolder)
+RenderClient::RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, const string& name)
 :
-mC(c),
-mLastRequestURL(""),
-mRenderService(p),
-mRenderProject(rp),
-mCache(cacheFolder, mRenderProject),
-mImageType("jpeg-image"),
-mFetchImageThread(*this)
+RESTClient(c, host),
+StackDataAPI(*this),
+PointMatchAPI(*this),
+mFetchImageThread(shared_ptr<FetchImageThread>())
 {
-	mImageMemory = new TMemoryStream();
+	mServiceParameters = new RenderServiceParameters(host);
 }
 
 RenderClient::~RenderClient()
 {
-	delete mImageMemory;
+//	delete mImageMemory;
+    delete mServiceParameters;
 }
 
-bool RenderClient::init(const string& imageType,
-						int z, double scale, int minInt, int maxInt)
+void RenderClient::createRESTServiceParameters(const string& host)
+{
+	mServiceParameters = new RenderServiceParameters(host);
+}
+
+//RESTResponse* RenderClient::execute(RESTRequest& request)
+//{
+//    if(dynamic_cast<RenderStackDataAPI*>(request.getRequestorObject()))
+//    {
+//    	return StackDataAPI.execute(request);
+//    }
+////
+////        return new GetOwnersRESTResponse(r);
+////    }
+//
+//    //Create response object
+//    string r = executeRequest(request);
+//    return new RESTResponse(r);
+//}
+
+bool RenderClient::init(const string& imageType, int z, double scale, int minInt, int maxInt)
 {
     mImageType = (imageType);
     mZ = (z);
 	mScale = (scale);
 	mMinIntensity = (minInt);
 	mMaxIntensity = (maxInt);
-    setLocalCacheFolder(mRenderProject.getLocalCacheFolder());
     return true;
+}
+
+string RenderClient::getBaseURL()
+{
+    if(mServiceParameters)
+    {
+        return mServiceParameters->getBaseURL();
+    }
+
+    return "";
 }
 
 void RenderClient::setRenderServiceParameters(RenderServiceParameters* rp)
 {
-    mRenderService = rp;
+    mServiceParameters = rp;
 }
 
 const RenderServiceParameters* RenderClient::getRenderServiceParameters()
 {
-    return mRenderService;
+    return dynamic_cast<RenderServiceParameters*>(mServiceParameters);
 }
 
-void RenderClient::setSelectedStackName(const string& sName)
-{
-    mRenderProject.setSelectedStackName(sName);
-}
+//string RenderClient::getCacheRoot()
+//{
+////    return mCache.getBasePath();
+//}
 
-string RenderClient::getCacheRoot()
-{
-    return mCache.getBasePath();
-}
-
-double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
-{
-    return mCache.getLowestResolutionInCache(mRenderProject, roi);
-}
+//double RenderClient::getLowestResolutionInCache(const RegionOfInterest& roi)
+//{
+////    return mCache.getLowestResolutionInCache(mRenderProject, roi);
+//}
 
 const char* RenderClient::getURLC()
 {
 	return getURL().c_str();
 }
 
-string RenderClient::getLocalCacheFolder()
-{
-	return mCache.getBasePath();
-}
+//string RenderClient::getLocalCacheFolder()
+//{
+////	return mCache.getBasePath();
+//}
 
-RenderProject& RenderClient::getProject()
-{
-	return mRenderProject;
-}
+//RenderProject& RenderClient::getProject()
+//{
+////	return mRenderProject;
+//}
+//
+//RenderProject RenderClient::getRenderProject()
+//{
+////	return mRenderProject;
+//}
 
-RenderProject RenderClient::getRenderProject()
-{
-	return mRenderProject;
-}
-
-void RenderClient::setRenderProject(const RenderProject& rp)
-{
-	mRenderProject = rp;
-}
+//void RenderClient::setRenderProject(const RenderProject& rp)
+//{
+////	mRenderProject = rp;
+//}
 
 void RenderClient::assignOnImageCallback(RCCallBack cb)
 {
-	mFetchImageThread.onImage = cb;
+    if(!mFetchImageThread)
+    {
+        Log(lWarning) << "Image thread is NULL";
+        return;
+    }
+	mFetchImageThread->onImage = cb;
 }
 
-StringList RenderClient::getROIFoldersForCurrentStack()
-{
-    //Create basepath
-    stringstream path;
-    path << joinPath(mCache.getBasePath(), mRenderProject.getProjectOwner(), mRenderProject.getRenderProjectName(), mRenderProject.getSelectedStackName());
-
-    return getSubFoldersInFolder(path.str(), false);
-}
+//StringList RenderClient::getROIFoldersForCurrentStack()
+//{
+////    //Create basepath
+////    stringstream path;
+////    path << joinPath(mCache.getBasePath(), mRenderProject.getProjectOwner(), mRenderProject.getRenderProjectName(), mRenderProject.getSelectedStackName());
+////
+////    return getSubFoldersInFolder(path.str(), false);
+//}
 
 Idhttp::TIdHTTP* RenderClient::getConnection()
 {
-    return mC;
+//    return mC;
 }
 
 void RenderClient::assignConnection(Idhttp::TIdHTTP* c)
 {
-    mC = c;
+//    mC = c;
 }
 
 void RenderClient::copyImageData(MemoryStruct chunk)
@@ -150,456 +173,57 @@ void RenderClient::copyImageData(MemoryStruct chunk)
     }
 }
 
-RenderProject RenderClient::getCurrentProject()
-{
-    return mRenderProject;
-}
+//RenderProject RenderClient::getCurrentProject()
+//{
+////    return mRenderProject;
+//}
 
-void RenderClient::setLocalCacheFolder(const string& f)
-{
-	mCache.setBasePath(f);
-}
-
-StringList RenderClient::getOwners()
-{
-    StringList owners;
-    if(!mRenderService)
-    {
-        return owners;
-    }
-
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owners";
-    Log(lDebug5) << "Fetching owners: "<<sUrl.str();
-
-    try
-    {
-        TStringStream* zstrings = new TStringStream;;
-        mLastRequestURL = sUrl.str();
-        mC->Get(mLastRequestURL.c_str(), zstrings);
-
-        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-        {
-            string s = stdstring(zstrings->DataString);
-            s = stripCharacters("\"[]", s);
-            owners.appendList(StringList(s, ','));
-        }
-    }
-    catch(...)
-    {
-    	Log(lError) << "Failed fetching owners";
-    }
-
-    owners.sort();
-    return owners;
-}
-
-StringList RenderClient::getChannelsInStack(const string& stackName)
-{
-	//http://localhost/render-ws/v1/owner/ATExplorer/project/M33/stack/STI_FF_Session1?api_key=stacks
-    if(!mRenderService)
-    {
-        return StringList();
-    }
-
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" 	<<	mRenderProject.getProjectOwner();
-    sUrl << "/project/" <<	mRenderProject.getRenderProjectName();
-    sUrl << "/stack/" 	<<	stackName << "?api_key=stacks";
-    Log(lDebug5) << "Fetching channels: "<<sUrl.str();
-
-    try
-    {
-        TStringStream* zstrings = new TStringStream;;
-        mLastRequestURL = sUrl.str();
-        mC->Get(mLastRequestURL.c_str(), zstrings);
-
-        if( mC->ResponseCode != HTTP_RESPONSE_OK)
-        {
-            Log(lError) << "Bad HTTP RESPONSE when getching channel names";
-	        return StringList();
-        }
-
-        string s = stdstring(zstrings->DataString);
-
-        //Parse JSON
-        jsmn_parser parser;
-        jsmn_init(&parser);
-
-        int r = jsmn_parse(&parser, s.c_str(), s.size(), NULL, 0);
-        if(r)
-        {
-            jsmn_init(&parser);
-            jsmntok_t* tokens = new jsmntok_t[r];
-            r = jsmn_parse(&parser, s.c_str(), s.size(), &tokens[0], r);
-            if(r)
-            {
-                //find string token "channelNames"
-                for(int i = 0; i < r; i++)
-                {
-                    jsmntok_t tok = tokens[i];
-                    if(tok.type == JSMN_STRING)
-                    {
-                        string sToken = toString(tok, s);
-                        if(sToken == "channelNames")
-                        {
-                            //Next one is an ARRAY object holding the channels..
-                            //parse it into a string
-                            jsmntok_t chs_tok = tokens[i + 1];
-
-                            string chs = toString(chs_tok, s);
-                            chs = stripCharacters(" []\"", chs);
-                            //Get them all as a string..
-                            StringList channels(chs, ',');
-                            channels.sort();
-                            return channels;
-                        }
-                    }
-                }
-            }
-        }
-
-    	Log(lError) << "Failed fetching channels";
-        return StringList();
-    }
-    catch(...)
-    {
-    	Log(lError) << "Failed fetching channels";
-    }
-}
-
-StringList RenderClient::getStacksForProject(const string& owner, const string& project)
-{
-    StringList stacks;
-    stringstream sUrl;
-    if(!mRenderService)
-    {
-        Log(lError) << "No available renderservice!";
-        return stacks;
-    }
-
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/"<<owner;
-    sUrl << "/stackIds";
-    Log(lDebug5) << "Fetching stackId data using URL: "<<sUrl.str();
-
-    TStringStream* zstrings = new TStringStream;;
-    try
-    {
-        mC->Get(sUrl.str().c_str(), zstrings);
-
-        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-        {
-            string s = stdstring(zstrings->DataString);
-            s = stripCharacters("\"[]}", s);
-            Log(lDebug3) << "Got Render Data String: " << s;
-
-            //Parse result
-            StringList t1(s,'{');
-
-            //Go trough list and get unique stacks
-            for(int i = 0; i < t1.count(); i++)
-            {
-                string line = t1[i];
-                if(contains(project, t1[i]))
-                {
-                    StringList l(t1[i], ',');
-                    if(l.count() == 3)
-                    {
-                        StringList l2(l[2], ':');
-                        if(l2.count() == 2 && !stacks.contains(l[2]))
-                        {
-                            stacks.append(l2[1]);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    catch(...)
-    {
-        Log(lError) << "Failed fetching owners";
-    }
-
-    stacks.sort();
-    return stacks;
-}
+//void RenderClient::setLocalCacheFolder(const string& f)
+//{
+////	mCache.setBasePath(f);
+//}
 
 StringList RenderClient::getServerProperties()
 {
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/serverProperties";
-    Log(lDebug5) << "Fetching Server Properties: "<<sUrl.str();
-    StringList response;
-
-    try
-    {
-        TStringStream* zstrings = new TStringStream;;
-        mLastRequestURL = sUrl.str();
-        mC->Get(mLastRequestURL.c_str(), zstrings);
-
-        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-        {
-            string s = stdstring(zstrings->DataString);
-            response.appendList(StringList(s, ','));
-        }
-    }
-    catch(...)
-    {
-    	Log(lError) << "Failed fetching response";
-    }
-
-    return response;
+//    stringstream sUrl;
+//    sUrl << mServiceParameters->getBaseURL();
+//    sUrl << "/serverProperties";
+//    Log(lDebug5) << "Fetching Server Properties: "<<sUrl.str();
+//    StringList response;
+//
+//    try
+//    {
+//        TStringStream* zstrings = new TStringStream;;
+//        mLastRequestURL = sUrl.str();
+//        mC->Get(mLastRequestURL.c_str(), zstrings);
+//
+//        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+//        {
+//            string s = stdstring(zstrings->DataString);
+//            response.appendList(StringList(s, ','));
+//        }
+//    }
+//    catch(...)
+//    {
+//    	Log(lError) << "Failed fetching response";
+//    }
+//
+//    return response;
 }
 
-StringList RenderClient::getProjectsForOwner(const string& o)
+bool RenderClient::getImageInThread(int z, StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp)
 {
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" << o;
-    sUrl << "/stackIds";
-    Log(lDebug5) << "Fetching projects for owner: "<<sUrl.str();
 
-    StringList projects;
-    TStringStream* zstrings = new TStringStream;;
-    mC->Get(sUrl.str().c_str(), zstrings);
-
-    if(mC->ResponseCode != HTTP_RESPONSE_OK)
+    if(!mFetchImageThread)
     {
-        Log(lError) << "Failed fetching projects";
-        return projects;
+        mFetchImageThread = shared_ptr<FetchImageThread> (new FetchImageThread(rp, *this, cache));
     }
 
-    string s = stdstring(zstrings->DataString);
-    s = stripCharacters("\"[]{}", s);
-    Log(lDebug5) << "Render Response: "<<s;
-    //Parse result
-    StringList t1(s,',');
-
-    //Go trough list and get unique projects
-    for(int i = 0; i < t1.count(); i++)
+    if(mFetchImageThread && mFetchImageThread->isRunning())
     {
-        string line = t1[i];
-        if(startsWith("project", t1[i]))
-        {
-            StringList l(t1[i], ':');
-            if(l.count() == 2)
-            {
-                if(!projects.contains(l[1]))
-                {
-                    projects.append(l[1]);
-                }
-            }
-        }
-    }
-    projects.sort();
-    return projects;
-}
-
-List<PointMatchCollection*> RenderClient::getPointMatchCollectionsForOwner(const string& o)
-{
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" << o;
-    sUrl << "/matchCollections";
-    Log(lDebug5) << "Fetching matchCollections for owner: "<<sUrl.str();
-
-    TStringStream* zstrings = new TStringStream;;
-    mC->Get(sUrl.str().c_str(), zstrings);
-
-    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-    {
-        Log(lError) << "Failed fetching contexts";
-        return List<PointMatchCollection*>();
+        Log(lWarning) << "Image thread is not finished";
     }
 
-    string json = stdstring(zstrings->DataString);
-    Log(lDebug1) << "Render Response: "<<json;
-
-    //Put contexts in a list
-    List<PointMatchCollection*> contexts;
-
-    //Parse JSON
-    jsmn_parser parser;
-    jsmn_init(&parser);
-
-    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
-    if(r)
-    {
-        jsmn_init(&parser);
-        jsmntok_t* tokens = new jsmntok_t[r];
-        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
-        jsmntok_t main_tok = tokens[0];
-        int recordOffset(9);
-        if(main_tok.type == JSMN_ARRAY)
-        {
-            //Parse out records
-            for(int i = 0; i < main_tok.size; i++)
-            {
-                string name 	= toString(      tokens[7 + i*recordOffset], json);
-			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-                PointMatchCollection* pc = new PointMatchCollection(o, name, pairCount);
-                if(pc)
-                {
-                    contexts.append(pc);
-                }
-            }
-        }
-    }
-
-    return contexts;
-}
-
-StringList RenderClient::getPointMatchCollectionNamesForOwner(const string& o)
-{
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" << o;
-    sUrl << "/matchCollections";
-    Log(lDebug5) << "Fetching matchCollections for owner: "<<sUrl.str();
-
-    TStringStream* zstrings = new TStringStream;;
-    mC->Get(sUrl.str().c_str(), zstrings);
-
-    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-    {
-        Log(lError) << "Failed fetching collections";
-        return StringList();
-    }
-
-    string json = stdstring(zstrings->DataString);
-    Log(lDebug1) << "Render Response: "<<json;
-
-    //Put collections in this list
-    StringList collections;
-
-    //Parse JSON
-    jsmn_parser parser;
-    jsmn_init(&parser);
-
-    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
-    if(r)
-    {
-        jsmn_init(&parser);
-        jsmntok_t* tokens = new jsmntok_t[r];
-        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
-        jsmntok_t main_tok = tokens[0];
-        int recordOffset(9);
-        if(main_tok.type == JSMN_ARRAY)
-        {
-            //Parse out records
-            for(int i = 0; i < main_tok.size; i++)
-            {
-                string name 	= toString(      tokens[7 + i*recordOffset], json);
-			    int pairCount 	= toInt(toString(tokens[9 + i*recordOffset], json));
-                PointMatchCollection* pc = new PointMatchCollection(o, name, pairCount);
-                if(pc)
-                {
-                    collections.append(pc->getName());
-                }
-            }
-        }
-    }
-
-    collections.sort();
-    return collections;
-}
-
-StringList RenderClient::getPointMatchGroupIDs(const string& o, const string& matchCollection)
-{
-    return getMatchCollectionAPIResponse(o, matchCollection, "groupIds");
-}
-
-StringList RenderClient::getPPointMatchGroupIDs(const string& o, const string& matchCollection)
-{
-    return getMatchCollectionAPIResponse(o, matchCollection, "pGroupIds");
-}
-
-StringList RenderClient::getQPointMatchGroupIDs(const string& o, const string& matchCollection)
-{
-    return getMatchCollectionAPIResponse(o, matchCollection, "qGroupIds");
-}
-
-StringList RenderClient::getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request)
-{
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" << owner;
-    sUrl << "/matchCollection/" << matchCollection;
-    sUrl << "/" <<request;
-
-    Log(lDebug5) << "Request url: "<<sUrl.str();
-
-    TStringStream* zstrings = new TStringStream;;
-    mC->Get(sUrl.str().c_str(), zstrings);
-
-    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-    {
-        Log(lError) << "The request for \"" << request << "\" failed";
-        return StringList();
-    }
-
-    string json = stdstring(zstrings->DataString);
-    Log(lDebug1) << "Render Response: "<<json;
-
-    //Put collections in this list
-    StringList collections;
-
-    //Parse JSON
-    jsmn_parser parser;
-    jsmn_init(&parser);
-
-    int r = jsmn_parse(&parser, json.c_str(), json.size(), NULL, 0);
-    if(r)
-    {
-        jsmn_init(&parser);
-        jsmntok_t* tokens = new jsmntok_t[r];
-        r = jsmn_parse(&parser, json.c_str(), json.size(), &tokens[0], r);
-        jsmntok_t main_tok = tokens[0];
-        if(main_tok.type == JSMN_ARRAY)
-        {
-            //Parse out records
-            for(int i = 0; i < r; i++)
-            {
-                if(tokens[i].type == JSMN_STRING)
-                {
-                    string group 	= toString(tokens[i], json);
-                    collections.append(group);
-                }
-            }
-        }
-    }
-    return collections;
-}
-
-bool RenderClient::deletePointMatchCollection(const string& owner, const string& matchCollection)
-{
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" 			<< owner;
-    sUrl << "/matchCollection/"	<<matchCollection;
-
-    Log(lDebug5) << "Deleting matchCollection URL: "<<sUrl.str();
-
-    TStringStream* zstrings = new TStringStream;;
-    mC->Delete(sUrl.str().c_str(), zstrings);
-
-    if(mC->ResponseCode != HTTP_RESPONSE_OK)
-    {
-        Log(lError) << "Failed deleting point match collection";
-        return false;
-    }
-
-    string json = stdstring(zstrings->DataString);
-    Log(lDebug1) << "Render Response: "<<json;
-    return true;
-}
-
-bool RenderClient::getImageInThread(int z, StringList& paras)
-{
 	mZ = z;
 
 	if(!mImageMemory)
@@ -607,10 +231,10 @@ bool RenderClient::getImageInThread(int z, StringList& paras)
 		mImageMemory = new TMemoryStream();
     }
 
-	mFetchImageThread.setup(getURLForZ(z), mCache.getBasePath());
-    mFetchImageThread.addParameters(paras);
-    mFetchImageThread.setChannel(mRenderProject.getSelectedChannelName());
-	mFetchImageThread.start(true);
+	mFetchImageThread->setup(getURLForZ(z, rp), cache.getBasePath());
+    mFetchImageThread->addParameters(paras);
+    mFetchImageThread->setChannel(channel);
+	mFetchImageThread->start(true);
     return true;
 }
 
@@ -621,123 +245,101 @@ TMemoryStream* RenderClient::getImageMemory()
 
 TMemoryStream* RenderClient::reloadImage(int z)
 {
-	mZ = z;
-	if(!mImageMemory)
-    {
-		mImageMemory = new TMemoryStream();
-    }
-	//First check if we already is having this data
-    Log(lDebug3) << "Reloading Image";
-
-    try
-    {
-        mC->Get(getURLC(), mImageMemory);
-    }
-    catch(...)
-    {
-        Log(lError) << "There was an uncaught ERROR!";
-    }
-
-    //Save to cache (in a thread)
-    if(createFolder(getFilePath(getImageLocalCachePathAndFileName())))
-    {
-        mImageMemory->SaveToFile(getImageLocalCachePathAndFileName().c_str());
-    }
-
-    return mImageMemory;
+//	mZ = z;
+//	if(!mImageMemory)
+//    {
+//		mImageMemory = new TMemoryStream();
+//    }
+//	//First check if we already is having this data
+//    Log(lDebug3) << "Reloading Image";
+//
+//    try
+//    {
+//        mC->Get(getURLC(), mImageMemory);
+//    }
+//    catch(...)
+//    {
+//        Log(lError) << "There was an uncaught ERROR!";
+//    }
+//
+//    //Save to cache (in a thread)
+//    if(createFolder(getFilePath(getImageLocalCachePathAndFileName())))
+//    {
+//        mImageMemory->SaveToFile(getImageLocalCachePathAndFileName().c_str());
+//    }
+//
+//    return mImageMemory;
 }
 
-RegionOfInterest RenderClient::getLayerBoundsForZ(int z)
+//Move to stack API
+RegionOfInterest RenderClient::getLayerBoundsForZ(int z, RenderProject& rp)
 {
-    stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
-    sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
-    sUrl << "/stack/"		<<mRenderProject.getSelectedStackName();
-    sUrl <<"/z/"<<z   	 	<<"/bounds";
-
-    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
-    TStringStream* zstrings = new TStringStream;;
-    mC->Get(sUrl.str().c_str(), zstrings);
-	RegionOfInterest b;
-
-    if( mC->ResponseCode == HTTP_RESPONSE_OK)
-    {
-        string s = stdstring(zstrings->DataString);
-        b = parseBoundsResponse(s);
-    }
-    else
-    {
-        Log(lError) << "Failed fetching renderbox";
-    }
-
-    b.setZ(z);
-    return b;
+    return StackDataAPI.getLayerBoundsForZ(rp, z);
 }
 
 RegionOfInterest RenderClient::getOptimalXYBoxForZs(const vector<int>& zs)
 {
-	mLayerBounds.clear();
-    double xMin(0), xMax(0), yMin(0), yMax(0);
-    for(int z = 0; z < zs.size(); z++)
-    {
-        stringstream sUrl;
-        sUrl << mRenderService->getBaseURL();
-        sUrl << "/owner/"  	<< mRenderProject.getProjectOwner();
-        sUrl << "/project/" << mRenderProject.getRenderProjectName();
-        sUrl << "/stack/"	<<mRenderProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
-
-        //	    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
-        TStringStream* zstrings = new TStringStream;;
-        mC->Get(sUrl.str().c_str(), zstrings);
-
-        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-        {
-            string s = stdstring(zstrings->DataString);
-            RegionOfInterest sec_bounds = parseBoundsResponse(s);
-            sec_bounds.setZ(zs[z]);
-			mLayerBounds.push_back(sec_bounds);
-
-            if(z == 0)
-            {
-                xMin = sec_bounds.getX1();
-                yMin = sec_bounds.getY1();
-                xMax = sec_bounds.getX2();
-                yMax = sec_bounds.getY2();
-            }
-            else
-            {
-                if(sec_bounds.getX1() < xMin)
-                {
-                    xMin = sec_bounds.getX1();
-                    Log(lDebug) << "XMin ("<<xMin<<") from section: " <<zs[z];
-                }
-
-                if(sec_bounds.getY1() < yMin)
-                {
-                    yMin = sec_bounds.getY1();
-                    Log(lDebug) << "YMin ("<<yMin<<") from section: " <<zs[z];
-                }
-
-                if(sec_bounds.getX2() > xMax)
-                {
-                    xMax = sec_bounds.getX2();
-                    Log(lDebug) << "XMax ("<<xMax<<") from section: " <<zs[z];
-                }
-
-                if(sec_bounds.getY2() > yMax)
-                {
-                    yMax = sec_bounds.getY2();
-                    Log(lDebug) << "yMax ("<<yMax<<") from section: " <<zs[z];
-                }
-            }
-        }
-        else
-        {
-            Log(lError) << "Failed fetching zs";
-        }
-    }
-    return RegionOfInterest(xMin, yMin, xMax-xMin, yMax -yMin);
+//	mLayerBounds.clear();
+//    double xMin(0), xMax(0), yMin(0), yMax(0);
+//    for(int z = 0; z < zs.size(); z++)
+//    {
+//        stringstream sUrl;
+//        sUrl << mServiceParameters->getBaseURL();
+//        sUrl << "/owner/"  	<< mRenderProject.getProjectOwner();
+//        sUrl << "/project/" << mRenderProject.getRenderProjectName();
+//        sUrl << "/stack/"	<<mRenderProject.getSelectedStackName()<<"/z/"<<zs[z]<<"/bounds";
+//
+//        //	    Log(lDebug5) << "Fetching from server using URL: "<<sUrl.str();
+//        TStringStream* zstrings = new TStringStream;;
+//        mC->Get(sUrl.str().c_str(), zstrings);
+//
+//        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+//        {
+//            string s = stdstring(zstrings->DataString);
+//            RegionOfInterest sec_bounds = parseBoundsResponse(s);
+//            sec_bounds.setZ(zs[z]);
+//			mLayerBounds.push_back(sec_bounds);
+//
+//            if(z == 0)
+//            {
+//                xMin = sec_bounds.getX1();
+//                yMin = sec_bounds.getY1();
+//                xMax = sec_bounds.getX2();
+//                yMax = sec_bounds.getY2();
+//            }
+//            else
+//            {
+//                if(sec_bounds.getX1() < xMin)
+//                {
+//                    xMin = sec_bounds.getX1();
+//                    Log(lDebug) << "XMin ("<<xMin<<") from section: " <<zs[z];
+//                }
+//
+//                if(sec_bounds.getY1() < yMin)
+//                {
+//                    yMin = sec_bounds.getY1();
+//                    Log(lDebug) << "YMin ("<<yMin<<") from section: " <<zs[z];
+//                }
+//
+//                if(sec_bounds.getX2() > xMax)
+//                {
+//                    xMax = sec_bounds.getX2();
+//                    Log(lDebug) << "XMax ("<<xMax<<") from section: " <<zs[z];
+//                }
+//
+//                if(sec_bounds.getY2() > yMax)
+//                {
+//                    yMax = sec_bounds.getY2();
+//                    Log(lDebug) << "yMax ("<<yMax<<") from section: " <<zs[z];
+//                }
+//            }
+//        }
+//        else
+//        {
+//            Log(lError) << "Failed fetching zs";
+//        }
+//    }
+//    return RegionOfInterest(xMin, yMin, xMax-xMin, yMax -yMin);
 }
 
 vector<RegionOfInterest> RenderClient::getLayerBounds()
@@ -745,26 +347,26 @@ vector<RegionOfInterest> RenderClient::getLayerBounds()
 	return mLayerBounds;
 }
 
-string RenderClient::getImageLocalCachePath()
-{
-	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
-}
-
-string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
-{
-	string url(getURLForZ(z));
-    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
-}
-
-string RenderClient::getImageLocalCachePathAndFileName()
-{
-	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
-}
-
-bool RenderClient::checkCacheForCurrentURL()
-{
-	return fileExists(getImageLocalCachePathAndFileName());
-}
+//string RenderClient::getImageLocalCachePath()
+//{
+////	return getImageLocalCachePathFromURL(getURL(), mCache.getBasePath());
+//}
+//
+//string RenderClient::getImageLocalCachePathAndFileNameForZ(int z, const string& chs)
+//{
+////	string url(getURLForZ(z));
+////    return getImageLocalCacheFileNameAndPathFromURL(url, mCache.getBasePath(), chs);
+//}
+//
+//string RenderClient::getImageLocalCachePathAndFileName()
+//{
+////	return getImageLocalCacheFileNameAndPathFromURL(getURL(), mCache.getBasePath(), mRenderProject.getSelectedChannelName());
+//}
+//
+//bool RenderClient::checkCacheForCurrentURL()
+//{
+////	return fileExists(getImageLocalCachePathAndFileName());
+//}
 
 void RenderClient::clearImageMemory()
 {
@@ -772,14 +374,14 @@ void RenderClient::clearImageMemory()
     mImageMemory = NULL;
 }
 
-string RenderClient::getURLForZ(int z)
+string RenderClient::getURLForZ(int z, const RenderProject& rp)
 {
 	stringstream sUrl;
-    RegionOfInterest& roi = mRenderProject.getCurrentRegionOfInterestReference();
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/" 		<< mRenderProject.getProjectOwner();
-    sUrl << "/project/" 	<< mRenderProject.getRenderProjectName();
-    sUrl << "/stack/"		<< mRenderProject.getSelectedStackName();
+    const RegionOfInterest& roi = rp.getRegionOfInterest();
+    sUrl << mServiceParameters->getBaseURL();
+    sUrl << "/owner/" 		<< rp.getProjectOwner();
+    sUrl << "/project/" 	<< rp.getRenderProjectName();
+    sUrl << "/stack/"		<< rp.getSelectedStackName();
     sUrl << "/z/"			<<z;
     sUrl << "/box/"			<<roi.getX1()<<","<<roi.getY1() << "," << (int) roi.getWidth() << ","<< (int) roi.getHeight() << ","<<mScale;
     sUrl << "/"<<mImageType;
@@ -791,111 +393,90 @@ string RenderClient::getURLForZ(int z)
 
 string RenderClient::getURL()
 {
-    return getURLForZ(mZ);
+    return "";//getURLForZ(mZ);
 }
 
-StringList RenderClient::getZs()
-{
-	StringList validZs = getValidZs();
+//StringList RenderClient::getZs()
+//{
+//	StringList validZs = getValidZs();
+//
+//    StringList missingZs;
+//    int nrOfMissingZs = 0;
+//
+//    for(int i = 0; i < validZs.count(); i++)
+//    {
+//    	if(toInt(validZs[i]) != (i + nrOfMissingZs))
+//        {
+//        	missingZs.append(dsl::toString(i + nrOfMissingZs));
+//			nrOfMissingZs++;
+//        }
+//    }
+//
+//    StringList all;
+//    all.append(validZs.asString(','));
+//	all.append(missingZs.asString(','));
+//	return all;
+//}
+//
+//vector<int> RenderClient::getValidZs(const stri)
+//{
+//    vector<int> zs;
+//    zs = StackDataAPI.getZsForStack()
+////	StringList zs;
+////	stringstream sUrl;
+////    sUrl << mServiceParameters->getBaseURL();
+////    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
+////    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
+////    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
+////    sUrl <<"/zValues";
+////
+////    Log(lDebug3) << "Get Valid Z: "<<sUrl.str();
+////
+////    try
+////    {
+////        TStringStream* zstrings = new TStringStream;;
+////        mC->Get(sUrl.str().c_str(), zstrings);
+////
+////
+////        if( mC->ResponseCode == HTTP_RESPONSE_OK)
+////        {
+////            string s = stdstring(zstrings->DataString);
+////            s = stripCharacters("[]", s);
+////            zs.appendList(StringList(s,','));
+////        }
+////        else
+////        {
+////            Log(lError) << "Failed fetching zs";
+////        }
+////
+////        vector<int> zInts;
+////        for(int i = 0; i < zs.count(); i++)
+////        {
+////            zInts.push_back(toInt(zs[i]));
+////        }
+////
+////        return zInts;
+////    }
+////    catch(...)
+////    {
+////    	Log(lError) << "There was an uncaught error";
+////    }
+////    return vector<int>();
+//}
 
-    StringList missingZs;
-    int nrOfMissingZs = 0;
+//bool RenderClient::renameStack(const string& currentStackName, const string& newName)
+//{
+////	stringstream sUrl;
+////    sUrl << mServiceParameters->getBaseURL();
+////    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
+////    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
+////    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
+////
+//////    TStringStream* strings = new TStringStream;;
+//////    mC->Put()
+////    return true;
+//}
 
-    for(int i = 0; i < validZs.count(); i++)
-    {
-    	if(toInt(validZs[i]) != (i + nrOfMissingZs))
-        {
-        	missingZs.append(dsl::toString(i + nrOfMissingZs));
-			nrOfMissingZs++;
-        }
-    }
-
-    StringList all;
-    all.append(validZs.asString(','));
-	all.append(missingZs.asString(','));
-	return all;
-}
-
-vector<int> RenderClient::getValidZs()
-{
-	StringList zs;
-	stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
-    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
-    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
-    sUrl <<"/zValues";
-
-    Log(lDebug3) << "Get Valid Z: "<<sUrl.str();
-
-    try
-    {
-        TStringStream* zstrings = new TStringStream;;
-        mC->Get(sUrl.str().c_str(), zstrings);
-
-
-        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-        {
-            string s = stdstring(zstrings->DataString);
-            s = stripCharacters("[]", s);
-            zs.appendList(StringList(s,','));
-        }
-        else
-        {
-            Log(lError) << "Failed fetching zs";
-        }
-
-        vector<int> zInts;
-        for(int i = 0; i < zs.count(); i++)
-        {
-            zInts.push_back(toInt(zs[i]));
-        }
-
-        return zInts;
-    }
-    catch(...)
-    {
-    	Log(lError) << "There was an uncaught error";
-    }
-    return vector<int>();
-}
-
-bool RenderClient::renameStack(const string& currentStackName, const string& newName)
-{
-	stringstream sUrl;
-    sUrl << mRenderService->getBaseURL();
-    sUrl << "/owner/"    << mRenderProject.getProjectOwner();
-    sUrl << "/project/" << 	mRenderProject.getRenderProjectName();
-    sUrl << "/stack/"	<<	mRenderProject.getSelectedStackName();
-
-//    TStringStream* strings = new TStringStream;;
-//    mC->Put()
-    return true;
-}
-
-RegionOfInterest RenderClient::parseBoundsResponse(const string& _s)
-{
-	RegionOfInterest bounds;
-    string s = stripCharacters("{}", _s);
-    StringList l(s, ',');
-    if(l.size() == 6)
-    {
-    	StringList xMin(l[0], ':');
-    	StringList yMin(l[1], ':');
-    	StringList xMax(l[3], ':');
-    	StringList yMax(l[4], ':');
-
-        bounds.setX1(toDouble(xMin[1]));
-        bounds.setY1(toDouble(yMin[1]));
-        bounds.setX2(toDouble(xMax[1]));
-        bounds.setY2(toDouble(yMax[1]));
-    }
-    else
-    {
-    	Log(lError) << "Bad bounds format..";
-    }
-    return bounds;
-}
 
 string RenderClient::getLastRequestURL()
 {

@@ -7,11 +7,12 @@
 #include "atFetchImageThread.h"
 #include "atRenderLocalCache.h"
 #include "atRenderServiceParameters.h"
+#include "atRESTClient.h"
+#include "atGenericListOfObjects.h"
 #include <string>
 #include <vector>
-#include "atExplorerObject.h"
-#include "atGenericList.h"
-#include "pointMatches/atPointMatchCollection.h"
+#include "atRenderPointMatchAPI.h"
+#include "atRenderStackDataAPI.h"
 //---------------------------------------------------------------------------
 
 
@@ -32,21 +33,23 @@ namespace System
 namespace at
 {
 
+class PointMatchCollection;
 using std::vector;
-
 using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
-using at::RenderLocalCache;
-using at::List;
+
 using System::Classes::TMemoryStream;
 
 typedef void __fastcall (__closure *RCCallBack)(void);
 
-class ATE_CORE RenderClient : public ExplorerObject
+
+//Derive from a RestClient class
+class ATE_CORE RenderClient : public RESTClient
 {
 	public:
-							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
+							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c = shared_ptr<Idhttp::TIdHTTP>(), const string& host="localhost", const string& name = "");
+//							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -63,43 +66,36 @@ class ATE_CORE RenderClient : public ExplorerObject
 
         string                                      getBaseURL();
 		StringList						            getServerProperties();
-		StringList						            getOwners();
-        StringList						            getProjectsForOwner(const string& o);
 
-                                                    //Pointmatch API's
-		StringList									getPointMatchCollectionNamesForOwner(const string& o);
-		List<PointMatchCollection*>    				getPointMatchCollectionsForOwner(const string& o);
-		StringList									getPointMatchGroupIDs(const string& o, const string& matchCollection);
-		StringList									getPPointMatchGroupIDs(const string& o, const string& matchCollection);
-		StringList									getQPointMatchGroupIDs(const string& o, const string& matchCollection);
-        bool                                        deletePointMatchCollection(const string& owner, const string& matchCollection);
+                                                    //StackData API
+        RenderStackDataAPI                          StackDataAPI;
 
-        StringList						            getStacksForProject(const string& owner, const string& p);
-        StringList                                  getChannelsInStack(const string& stackName);
-        RenderProject                               getCurrentProject();
-        StringList                                  getROIFoldersForCurrentStack();
+                                                    //Access renders pointmatch API
+        RenderPointMatchAPI                         PointMatchAPI;
+
+//        StringList						            getStacksForProject(const string& owner, const string& p);
+//        StringList                                  getChannelsInStack(const string& stackName);
+//        RenderProject                               getCurrentProject();
+//        StringList                                  getROIFoldersForCurrentStack();
 		TMemoryStream*								getImageMemory();
-        bool                                        renameStack(const string& currentStackName, const string& newName);
-        void                                        setSelectedStackName(const string& sName);
+//        bool                                        renameStack(const string& currentStackName, const string& newName);
+
 		void				                        clearImageMemory();
 		string				                        getURL();
 		const char* 		                        getURLC();
         TMemoryStream*		                        getImage(int z = 0);
-        bool				                        getImageInThread(int z , StringList& paras);
+        bool				                        getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
         TMemoryStream*		                        reloadImage(int z = 0);
-        string							            getURLForZ(int z);
-        bool				                        checkCacheForCurrentURL();
-        string				                        getImageLocalCachePath();
-        string				                        getImageLocalCachePathAndFileName();
-		string 										getImageLocalCachePathAndFileNameForZ(int z, const string& chs);
-        string							            getProjectName();
+        string							            getURLForZ(int z, const RenderProject& rp);
+//        bool				                        checkCacheForCurrentURL();
+//        string							            getProjectName();
 
-        void							            setLocalCacheFolder(const string& f);
-        string							            getLocalCacheFolder();
+//        void							            setLocalCacheFolder(const string& f);
+//        string							            getLocalCacheFolder();
 
-        StringList						            getZs();
-        vector<int>						            getValidZs();
-		RegionOfInterest 						    getLayerBoundsForZ(int z);
+//        StringList						            getZs();
+//        vector<int>						            getValidZs();
+		RegionOfInterest 						    getLayerBoundsForZ(int z, RenderProject& rp);
         RegionOfInterest						    getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RegionOfInterest>				    getLayerBounds();
         RenderProject&					            getProject();
@@ -108,18 +104,19 @@ class ATE_CORE RenderClient : public ExplorerObject
 		Idhttp::TIdHTTP*                            getConnection();
         void                                        assignConnection(Idhttp::TIdHTTP* c);
 
-        RenderProject                               getRenderProject();
-        void                                        setRenderProject(const RenderProject& rp);
-		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
+//        RenderProject                               getRenderProject();
+//        void                                        setRenderProject(const RenderProject& rp);
+//		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
 
-        string                                      getCacheRoot();
+//        string                                      getCacheRoot();
         string                                      getLastRequestURL();
-
+//        string                                      request(const string& r);
+        shared_ptr<FetchImageThread>				mFetchImageThread;
     private:
-    												//!This is the HTTP connection
-                                                    //!Could use CURL instead..
-		Idhttp::TIdHTTP* 	                        mC;
+
+        void                                        createRESTServiceParameters(const string& host);
         string                                      mLastRequestURL;
+
 
 		StringList 									getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request);
 
@@ -132,17 +129,14 @@ class ATE_CORE RenderClient : public ExplorerObject
     	int				                            mZ;
         double				                        mScale;
 
-        const RenderServiceParameters*              mRenderService;
+//        const RenderServiceParameters*              mRenderServiceParameters;
 
-        RenderProject&					            mRenderProject;
-        RenderLocalCache                            mCache;
+//        RenderProject&					            mRenderProject;
+//        RenderLocalCache                            mCache;
         string 			                            mImageType;
 
         int								            mMinIntensity;
         int								            mMaxIntensity;
-        RegionOfInterest						    parseBoundsResponse(const string& s);
-        FetchImageThread							mFetchImageThread;
-        List<PointMatchCollection>                     Temp;
 };
 
 }

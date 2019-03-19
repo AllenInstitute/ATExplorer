@@ -55,3 +55,4 @@ html
 /Docs/manual/*.mtc
 /Docs/manual/*.mtc0
 *.pyc
+*.json~

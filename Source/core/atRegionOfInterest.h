@@ -34,27 +34,27 @@ class ATE_CORE RegionOfInterest : public ExplorerObject
 
         string                          getFolderName() const;
 		void							setX1(int x);
-        int								getX1();
+        int								getX1() const;
 		void							setX2(int x);
 
-        int								getX2();
+        int								getX2() const;
 		void							setWidth(int w);
-        int								getWidth();
+        int								getWidth() const;
 
 		void							setY1(int y);
-        int								getY1();
+        int								getY1() const;
 
 		void							setY2(int y);
-        int								getY2();
+        int								getY2() const;
 
 		void							setHeight(inth);
-        int  							getHeight();
+        int  							getHeight() const;
 
         void							setZ(int z);
-        int 							getZ();
+        int 							getZ() const;
 
         void							setScale(double s);
-        double							getScale();
+        double							getScale() const;
 
         void 							zoom(double persent);
         void                            assignOnChangeCallback(OnChangeFnc f);

@@ -10,13 +10,13 @@ using namespace dsl;
 using namespace at;
 
 //Arg1 -> AtData
-void onStartingPopulating( void* arg1, void* arg2)
+void onStartingPopulating( void* arg1, void* arg2, void* arg3)
 {
     Log(lInfo) << "Starting populating data..";
 }
 
 //Arg1 -> AtData
-void onProgressPopulating(void* arg1, void* arg2)
+void onProgressPopulating(void* arg1, void* arg2, void* arg3)
 {
     ATData* data = (ATData*)arg1;
     Log(lInfo) << "Progressing populating data: ";
@@ -27,7 +27,7 @@ void onProgressPopulating(void* arg1, void* arg2)
 }
 
 //Arg1 -> AtData
-void onFinishedPopulating(void* arg1, void* arg2)
+void onFinishedPopulating(void* arg1, void* arg2, void* arg3)
 {
     ATData* data = (ATData*)arg1;
 
@@ -43,7 +43,7 @@ int main()
     gLogger.logToConsole(true);
     gLogger.logToFile("p:\\ATProjects\\MyLog.txt");
 
-    Path dataPath("F:\\data\\M33\\");
+    Path dataPath("c:\\data\\M33\\");
 
 	ATData* atData(nullptr);
 
@@ -53,13 +53,13 @@ int main()
         {
             delete atData;
         }
-        atData = new ATIFData(dataPath, false);
-	    atData->assignOnPoplateCallbacks(onStartingPopulating, onProgressPopulating, onFinishedPopulating);
+        atData = new ATIFData(dataPath);
+	    atData->assignOnPopulateCallbacks(onStartingPopulating, onProgressPopulating, onFinishedPopulating);
         try
         {
             //!Populating the data object causes a scan of folders and files
             //!representing the data. No image data is loaded
-            atData->populate();
+            atData->populate(false);
 
             //Print some information about ribbons and sections
             Log(lInfo) << "This is a "<<atData->getNumberOfRibbons()<<" ribbon(s) dataset";

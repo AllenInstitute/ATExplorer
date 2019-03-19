@@ -31,9 +31,12 @@ using namespace Poco;
 
 Gdiplus::GdiplusStartupInput	                gdiplusStartupInput;
 ULONG_PTR  			         	                gdiplusToken;
+
+extern ATExplorer gATExplorer;
+extern ATExplorerUIProperties gUIProperties;
 //---------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner)
-	: TRegistryForm(gAU.AppRegistryRoot, "MainForm", Owner),
+	: TRegistryForm(gUIProperties.AppRegistryRoot, "MainForm", Owner),
      mIsStyleMenuPopulated(false),
      mTreeItemObservers(*MainPC, gATExplorer),
      mPTreeView(*ProjectTView, mTreeItemObservers)
@@ -42,16 +45,16 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
     //Setup some UI properties
-	BottomPanel->Height 		= gAU.BottomPanelHeight;
-    ProjectManagerPanel->Width 	= gAU.ProjectPanelWidth == 0 ? 100 : gAU.ProjectPanelWidth; //Gotta be at least 100px on startup
-
-    //Populate "recent" files, projects
-	if(gAU.LastOpenedProject.getValue().size())
+	BottomPanel->Height 		= gUIProperties.BottomPanelHeight;
+    ProjectManagerPanel->Width 	= gUIProperties.ProjectPanelWidth == 0 ? 100 : gUIProperties.ProjectPanelWidth; //Gotta be at least 100px on startup
+    gATExplorer.Cache.setBasePath(gUIProperties.LocalCacheFolder);
+    //Populate "recent" files, projects                       q
+	if(gUIProperties.LastOpenedProject.getValue().size())
     {
-        Log(lInfo) << "Last opened project: " << gAU.LastOpenedProject;
+        Log(lInfo) << "Last opened project: " << gUIProperties.LastOpenedProject;
 		TMenuItem *Item = new TMenuItem(ReopenMenu);
-        Item->Caption = gAU.LastOpenedProject.getValue().c_str();
-        FileOpen1->Dialog->FileName = gAU.LastOpenedProject.getValue().c_str();
+        Item->Caption = gUIProperties.LastOpenedProject.getValue().c_str();
+        FileOpen1->Dialog->FileName = gUIProperties.LastOpenedProject.getValue().c_str();
         Item->OnClick = FileOpen1Accept;
         ReopenMenu->Add(Item);
         ReopenMenu->Enabled = true;
@@ -68,19 +71,19 @@ void __fastcall TMainForm::OpenSettingsAExecute(TObject *Sender)
 {
     //open Settings form
     shared_ptr<TATESettingsForm> settingsForm(new TATESettingsForm(gATExplorer, this));
-    PropertiesSP sec = gAU.getFirstSection();
+    PropertiesSP sec = gUIProperties.getFirstSection();
 
     while(sec)
     {
         settingsForm->append(sec);
-        sec = gAU.getNextSection();
+        sec = gUIProperties.getNextSection();
     }
 
     if(settingsForm->ShowModal() == mrOk)
     {
         //save ini file
         gATExplorer.writeProperties();
-        gAU.saveIniFile();
+        gUIProperties.saveIniFile();
     }
 }
 
@@ -108,7 +111,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 
         Project* parent = p->getProjectRoot();
 
-	    //user may cancel the request
+	    //user m	ay cancel the request
         if(parent->isModified())
         {
             if(saveProject(parent) == mrCancel)
@@ -123,7 +126,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 //	        mTreeItemObservers.removeViewForSubject(parent->getChild(i));
 //        }
 
-	    gAU.LastOpenedProject = mPTreeView.closeProject(parent);
+	    gUIProperties.LastOpenedProject = mPTreeView.closeProject(parent);
     }
 }
 

@@ -21,10 +21,11 @@ using namespace at;
 using namespace dsl;
 
 //---------------------------------------------------------------------------
-__fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, const string& imageMagickPath, TComponent* Owner)
+__fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, RenderLocalCache& cache, const string& imageMagickPath, TComponent* Owner)
 	: TForm(Owner),
    	mRP(rp),
-    mRC(rp, IdHTTP1),
+    mCache(cache),
+    mRC(),
     mImageMagickPath(imageMagickPath)
 {
     mConvertExe = (joinPath(mImageMagickPath, "convert.exe"));
@@ -47,7 +48,7 @@ void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const String
     MaxIntensityE->setReference(mRP.getMaxIntensity());
 
     //Get stacks for project
-    StringList stacks = mRC.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
+    StringList stacks = mRC.StackDataAPI.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
     {
 	    populateCheckListBox(stacks, RenderStacksCB);
@@ -86,7 +87,7 @@ StringList TCreateLocalVolumesForm::getValidZsForStack(const string& stackName)
 {
 	//Fetch valid zs for current project
 	mRP.setSelectedStackName(stackName);
-    return mRC.getValidZs();
+    return mRC.StackDataAPI.getZsForStack(mRP);
 }
 
 //---------------------------------------------------------------------------
@@ -166,7 +167,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                 const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
 
-                mRC.setRenderProject(mRP);
+                //mRC.setRenderProject(mRP);
                 mRC.init(getImageType(), z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
                 //Create image URLs
@@ -176,12 +177,14 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                     if(mZs->Checked[i])
                     {
                     	int	z = toInt(stdstr(mZs->Items->Strings[i]));
-	                    urls.append(mRC.getURLForZ(z));
+	                    urls.append(mRC.getURLForZ(z, mRP));
                     }
                 }
 
-                shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread(mRP.getSelectedStackName()));
-        		t->setup(urls, mRP.getLocalCacheFolder());
+				//FetchImagesThread::FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName, const StringList& urls)
+//                shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread(mRP.getSelectedStackName()));
+                shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread(mRP, mCache));
+        		t->setup(urls);
 	    	    t->addParameters(paras);
                 t->assignCallBacks(onThreadEnter, onThreadProgress, onThreadExit);
 
@@ -337,14 +340,14 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 
     StringList imageFiles;
-    string dataRoot(rawThread->getCacheRootFolder());
-    string imagesFolder(getImageLocalCachePathFromURL(urls[0], dataRoot));
+    string dataRoot(mCache.getBasePath());
+    string imagesFolder(mCache.getImageLocalCachePath(mRP));
 
     for(uint i = 0; i < urls.count(); i++)
     {
         string url = urls[i];
         //Make sure file exists
-        string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
+        string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP);
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName))
         {
@@ -353,7 +356,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         }
     }
 
-    string stackOutputFileNameAndPath(getRenderProjectLocalDataRootFolderFromURL(urls[0], dataRoot));
+    string stackOutputFileNameAndPath(mCache.getRenderProjectLocalDataRoot(mRP));
     stackOutputFileNameAndPath = joinPath(stackOutputFileNameAndPath, "stack_" + rawThread->getRenderStackName());
 
     //  CreateStack (blocking)
@@ -369,7 +372,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         {
             string url = urls[i];
             //Make sure file exists
-            string outFilePathANDFileName = getImageLocalCacheFileNameAndPathFromURL(url, dataRoot, mRP.getSelectedChannelName());
+            string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP);
             Poco::File f(outFilePathANDFileName);
             if(f.exists())
             {

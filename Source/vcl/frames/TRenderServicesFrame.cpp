@@ -25,7 +25,8 @@ using namespace std;
 __fastcall TRenderServicesFrame::TRenderServicesFrame(ATExplorer& e, TComponent* Owner)
 	:
     TFrame(Owner),
-    mExplorer(e)
+    mExplorer(e),
+    mNewServices()
     {}
 
 //---------------------------------------------------------------------------
@@ -68,12 +69,12 @@ string TRenderServicesFrame::getBaseURL()
 //---------------------------------------------------------------------------
 void __fastcall TRenderServicesFrame::TestRenderServiceBtnClick(TObject *Sender)
 {
-    //Get the currently selected service
-    RenderServiceParameters rsp("test", HostE->getValue(), PortE->getValue(), VersionE->getValue());
-    unique_ptr<TRenderAPIChecker> f(new TRenderAPIChecker(rsp, this));
-
-    f->Caption = vclstr("Testing HOST: " + HostE->getValue());
-    f->ShowModal();
+//    //Get the currently selected service
+//    RenderServiceParameters rsp("test", HostE->getValue(), PortE->getValue(), VersionE->getValue());
+//    unique_ptr<TRenderAPIChecker> f(new TRenderAPIChecker(rsp, this));
+//
+//    f->Caption = vclstr("Testing HOST: " + HostE->getValue());
+//    f->ShowModal();
 }
 
 //---------------------------------------------------------------------------

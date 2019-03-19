@@ -164,18 +164,18 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall CreateSubVolumeStackAExecute(TObject *Sender);
 
     private:
-   		FetchImagesThread								mCreateCacheThread;
         string                                          mIMPath;
         ImageGrid                                       mImageGrid;
-
+        ATExplorer&                                     mExplorer;
                                                         //A Reference to a render project
         RenderProject&			     	                mRP;
         RenderClient                                    mRC;
+   		FetchImagesThread								mCreateCacheThread;
    		bool        									mRenderEnabled;
         string 											mCurrentImageFile;
 
         //Render areas history
-		RegionOfInterest&								mCurrentROI;
+		RegionOfInterest								mCurrentROI;
         string                                          mHostURL;
         void                                            populate();
 		void __fastcall 								onImage();

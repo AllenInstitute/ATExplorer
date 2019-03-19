@@ -9,11 +9,11 @@ namespace at
 
 using namespace dsl;
 
-PointMatchCollectionProject::PointMatchCollectionProject(const string& projName, const string& o, const string& name, int pairCount)
+PointMatchCollectionProject::PointMatchCollectionProject(const string& projName, const string& o, const string& name)
 :
 ATExplorerProject(projName),
-mPointMatchCollection(o, name, pairCount),
-mRenderService(new RenderServiceParameters("", ""))
+mPointMatchCollection(o, name),
+mRenderService(new RenderServiceParameters(""))
 {
     mATEObjectType = (atePointMatchCollectionProject);
 }
@@ -22,7 +22,7 @@ PointMatchCollectionProject::PointMatchCollectionProject(const string& projName,
 :
 ATExplorerProject(projName ),
 mPointMatchCollection(pmc),
-mRenderService(new RenderServiceParameters("", ""))
+mRenderService(new RenderServiceParameters(""))
 {
     mATEObjectType = (atePointMatchCollectionProject);
 }
@@ -51,7 +51,7 @@ PointMatchCollectionProject::~PointMatchCollectionProject()
 
 string PointMatchCollectionProject::getTypeName() const
 {
-    return "PointMatchCollectionProject";
+    return "pointMatchCollectionProject";
 }
 
 bool PointMatchCollectionProject::setRenderServiceParameters(RenderServiceParameters* rsp)
@@ -99,11 +99,11 @@ bool PointMatchCollectionProject::loadFromXML(dsl::XMLNode* node)
     	mPointMatchCollection.setName(e->GetText() ? string(e->GetText()) : string(""));
     }
 
-    e = node->FirstChildElement("pairCount");
-    if(e)
-    {
-    	mPointMatchCollection.setCount(e->GetText() ? toInt(string(e->GetText())) : -1);
-    }
+//    e = node->FirstChildElement("pairCount");
+//    if(e)
+//    {
+//    	mPointMatchCollection.setCount(e->GetText() ? toInt(string(e->GetText())) : -1);
+//    }
 	return true;
 }
 

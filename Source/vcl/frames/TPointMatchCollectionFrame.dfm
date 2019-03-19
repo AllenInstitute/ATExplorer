@@ -1,25 +1,22 @@
 object PointMatchCollectionFrame: TPointMatchCollectionFrame
   Left = 0
   Top = 0
-  Width = 898
-  Height = 652
+  Width = 451
+  Height = 305
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object mLeftPanel: TPanel
     Left = 0
     Top = 0
     Width = 388
-    Height = 652
+    Height = 305
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 305
     object ScrollBox1: TScrollBox
       Left = 1
       Top = 1
       Width = 290
-      Height = 650
+      Height = 398
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -84,7 +81,7 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
       Left = 291
       Top = 1
       Width = 96
-      Height = 650
+      Height = 398
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -110,29 +107,26 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
         Left = 1
         Top = 231
         Width = 94
-        Height = 418
+        Height = 71
         Align = alClient
         Caption = 'q group IDs'
         TabOrder = 1
-        ExplicitHeight = 71
         object qGroupIDs: TCheckListBox
           Left = 2
           Top = 15
           Width = 90
-          Height = 341
+          Height = 89
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
-          ExplicitHeight = 308
         end
         object Panel1: TPanel
           Left = 2
-          Top = 356
+          Top = 9
           Width = 90
           Height = 60
           Align = alBottom
           TabOrder = 1
-          ExplicitTop = 9
           object Button2: TButton
             Left = 3
             Top = 16
@@ -148,12 +142,10 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
   object VisualsPC: TPageControl
     Left = 388
     Top = 0
-    Width = 510
-    Height = 652
+    Width = 63
+    Height = 305
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 63
-    ExplicitHeight = 305
   end
   object Actions: TActionList
     Left = 385
@@ -162,22 +154,5 @@ object PointMatchCollectionFrame: TPointMatchCollectionFrame
       Caption = 'Delete'
       OnExecute = DeletePMCAExecute
     end
-  end
-  object IdHTTP1: TIdHTTP
-    AllowCookies = True
-    ProxyParams.BasicAuthentication = False
-    ProxyParams.ProxyPort = 0
-    Request.ContentLength = -1
-    Request.ContentRangeEnd = -1
-    Request.ContentRangeStart = -1
-    Request.ContentRangeInstanceLength = -1
-    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-    Request.BasicAuthentication = False
-    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
-    Request.Ranges.Units = 'bytes'
-    Request.Ranges = <>
-    HTTPOptions = [hoForceEncodeParams]
-    Left = 233
-    Top = 185
   end
 end

@@ -37,7 +37,7 @@ class ATE_CORE RenderProject : public ATExplorerProject
         bool                                    setSelectedChannelName(const string& s);
 
         bool                                    setSelectedSection(int secNr);
-        int	                                    getSelectedSection();
+        int	                                    getSelectedSection() const;
 
         bool                                    setRenderServiceParameters(RenderServiceParameters* rsp);
         RenderServiceParameters*                getRenderServiceParameters() const;
@@ -50,11 +50,14 @@ class ATE_CORE RenderProject : public ATExplorerProject
 		virtual bool 					        loadFromXML(dsl::XMLNode* node);
 
                                                 //For convenience to 'views'
-        RegionOfInterest&                       getCurrentRegionOfInterestReference();
-        int&                                    getMinIntensity();
-        int&                                    getMaxIntensity();
+        const RegionOfInterest&                 getRegionOfInterest() const;
+        bool 					                setRegionOfInterest(const RegionOfInterest& roi);
+        int           		                    getMinIntensity() const;
+        int	                			        getMaxIntensity() const;
 
-//        StringList                              getChannels();
+                                                //Utility..
+        int&                	        	    getMinIntensity();
+        int&                    		        getMaxIntensity();
 
 	protected:
     	string 		                            mInfo;
@@ -68,7 +71,6 @@ class ATE_CORE RenderProject : public ATExplorerProject
         string 		                            mRenderProjectName;
         string                                  mSelectedStack;
         string                                  mSelectedChannel;
-//        StringList                              mChannels;
         StringList					   	        mRenderStacks;
 
         int                                     mMinIntensity;

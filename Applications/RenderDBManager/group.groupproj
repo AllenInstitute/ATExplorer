@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E4C28488-F33F-4CFD-A43E-1DAAC7128D6C}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\ATExplorer\builds\ATExplorer\ATExplorer.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="RenderDBManager.cbproj">
+            <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ATExplorer">
+        <MSBuild Projects="..\ATExplorer\builds\ATExplorer\ATExplorer.cbproj"/>
+    </Target>
+    <Target Name="ATExplorer:Clean">
+        <MSBuild Projects="..\ATExplorer\builds\ATExplorer\ATExplorer.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ATExplorer:Make">
+        <MSBuild Projects="..\ATExplorer\builds\ATExplorer\ATExplorer.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="atExplorerFoundation">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Clean">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="atExplorerFoundation:Make">
+        <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="RenderDBManager" DependsOnTargets="atExplorerFoundation">
+        <MSBuild Projects="RenderDBManager.cbproj"/>
+    </Target>
+    <Target Name="RenderDBManager:Clean" DependsOnTargets="atExplorerFoundation:Clean">
+        <MSBuild Projects="RenderDBManager.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="RenderDBManager:Make" DependsOnTargets="atExplorerFoundation:Make">
+        <MSBuild Projects="RenderDBManager.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="at_data_info">
+        <MSBuild Projects="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj"/>
+    </Target>
+    <Target Name="at_data_info:Clean">
+        <MSBuild Projects="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="at_data_info:Make">
+        <MSBuild Projects="..\..\Examples\cpp\atdata\atdata_info\at_data_info.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ATExplorer;atExplorerFoundation;RenderDBManager;at_data_info"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ATExplorer:Clean;atExplorerFoundation:Clean;RenderDBManager:Clean;at_data_info:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ATExplorer:Make;atExplorerFoundation:Make;RenderDBManager:Make;at_data_info:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

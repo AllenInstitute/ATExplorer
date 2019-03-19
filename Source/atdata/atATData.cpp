@@ -6,6 +6,7 @@
 #include "atRibbon.h"
 #include <sstream>
 #include "dslFileUtils.h"
+#include "mkjson.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace std;
@@ -88,6 +89,24 @@ string ATData::getInfo()
     return s.str();
 }
 
+string ATData::getInfoJSON()
+{
+    stringstream s;
+
+	char *jsonMeta = mkjson(MKJSON_OBJ, 5,
+				    MKJSON_INT, "NumberOfRibbons", 	getNumberOfRibbons(),
+                    MKJSON_INT, "NumberOfSections", getNumberOfSections(),
+					MKJSON_INT, "NumberOfTiles", 	getNumberOfTiles(),
+					MKJSON_INT, "NumberOfSessions",	getNumberOfSessions(),
+					MKJSON_INT, "NumberOfChannels",	getNumberOfChannels()
+                    );
+
+    s << string(jsonMeta);
+
+    free(jsonMeta);
+    return s.str();
+
+}
 //Sections ATData::getSections(const ChannelSP channel)
 //{
 ////    Sections sections;

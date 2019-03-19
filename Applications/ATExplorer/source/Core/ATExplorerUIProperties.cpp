@@ -8,7 +8,7 @@
 namespace at
 {
 
-ATExplorerUIProperties gAU;
+ATExplorerUIProperties gUIProperties;
 
 using namespace dsl;
 ATExplorerUIProperties::ATExplorerUIProperties()

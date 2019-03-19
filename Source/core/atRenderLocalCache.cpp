@@ -11,30 +11,92 @@ namespace at
 using namespace Poco;
 using namespace dsl;
 
-RenderLocalCache::RenderLocalCache(const string& cr, RenderProject& rp)
+RenderLocalCache::RenderLocalCache(const string& cr)//, RenderProject* rp)
 :
-mCacheRoot(cr),
-mRP(rp)
+mCacheRoot(cr)
 {}
 
 RenderLocalCache::~RenderLocalCache()
 {}
 
-void RenderLocalCache::setRenderProject(const RenderProject& rp)
+string RenderLocalCache::getFileNameForZ(int z, const RenderProject& rp) const
 {
-    mRP = rp;
+    return "hjello";
 }
+
+string RenderLocalCache::getImageLocalCachePath(const RenderProject& rp) const
+{
+    const RegionOfInterest roi = rp.getRegionOfInterest();
+    stringstream s;
+    s 	<< mCacheRoot << "\\"<<rp.getProjectOwner()
+    	<<"\\"<<rp.getRenderProjectName()
+        <<"\\"<<rp.getSelectedStackName()
+        <<"\\"<<roi.getX1()<<","<<roi.getY1()<<","<<roi.getWidth()<<","<<roi.getHeight();
+
+    return s.str();
+}
+
+string RenderLocalCache::getRenderProjectLocalDataRoot(const RenderProject& rp) const
+{
+    stringstream s;
+    //Construct filePath
+    s 	<< mCacheRoot << "\\"<<rp.getProjectOwner()
+    	<<"\\"<<rp.getRenderProjectName();
+    return s.str();
+}
+
+string RenderLocalCache::getImageLocalCachePathAndFileName(const RenderProject& rp, const string& z, const string& imageType) const
+{
+    stringstream s;
+    const RegionOfInterest roi = rp.getRegionOfInterest();
+    string theZ = z.size() > 0 ? z : toString(roi.getZ());
+    //Construct filePath
+	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
+    s 	<< mCacheRoot << "\\"<<rp.getProjectOwner()
+    	<<"\\"<<rp.getRenderProjectName()
+        <<"\\"<<rp.getSelectedStackName()
+        <<"\\"<<roi.getX1()<<","<<roi.getY1()<<","<<roi.getWidth()<<","<<roi.getHeight()<<"\\"
+        <<theZ<<"_"<< rp.getMinIntensity()<<"_"<<rp.getMaxIntensity()<<"_"<<roi.getScale();
+
+        //Channels
+        StringList channels = rp.getSelectedChannelName();
+        for(int i = 0; i < channels.count(); i++)
+        {
+            s << "_" << channels[i];
+        }
+
+        if(imageType == "jpeg-image")
+        {
+            s << ".jpg";
+        }
+        else if(imageType == "png-image")
+        {
+			s << ".png";
+        }
+        else if(imageType == "tiff16-image")
+        {
+			s << ".tiff";
+        }
+
+
+    return s.str();
+}
+
+
+//void RenderLocalCache::setRenderProject(const RenderProject& rp)
+//{
+//    mRP = &rp;
+//}
 
 void RenderLocalCache::setBasePath(const string& bp)
 {
     mCacheRoot = bp;
 }
 
-double RenderLocalCache::getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi)
+double RenderLocalCache::getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi) const
 {
-    mRP = rp;
     string path;
-    path = joinPath(mCacheRoot, mRP.getProjectOwner() ,mRP.getRenderProjectName(), mRP.getSelectedStackName(), roi.getFolderName());
+    path = joinPath(mCacheRoot, rp.getProjectOwner() ,rp.getRenderProjectName(), rp.getSelectedStackName(), roi.getFolderName());
 
     Log(lInfo) << "Finding files in folder: " << path;
     StringList cf(getFilesInFolder(path, "jpg"));
@@ -58,7 +120,7 @@ double RenderLocalCache::getLowestResolutionInCache(const RenderProject& rp, con
     return minS;
 }
 
-string RenderLocalCache::getBasePath()
+string RenderLocalCache::getBasePath() const
 {
     return mCacheRoot;
 }

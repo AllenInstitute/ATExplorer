@@ -26,15 +26,19 @@ mIniFile         (NULL)
 {}
 
 ATExplorerProperties::~ATExplorerProperties()
-{}
+{
+    mSections.clear();
+}
 
 void ATExplorerProperties::init(IniFile* iniFile)
 {
     mIniFile = iniFile;
 
-    shared_ptr<IniFileProperties> section =  appendNewINISection("ATExplorer");
+    shared_ptr<IniFileProperties> section =  createNewINISection("ATExplorer");
 	section->add((BaseProperty*)  &LogLevel.setup( 	                  	"LOG_LEVEL",    	                lAny));
 	section->add((BaseProperty*)  &ImageMagickPath.setup( 	           	"IMAGE_MAGICK_PATH",                "<not set>"));
+
+    mSections.push_back(section);
 
     //Read properties
     read();
@@ -105,10 +109,9 @@ BaseProperty* ATExplorerProperties::getProperty(const string& name, const string
     return nullptr;
 }
 
-shared_ptr<IniFileProperties> ATExplorerProperties::appendNewINISection(const string& secName)
+shared_ptr<IniFileProperties> ATExplorerProperties::createNewINISection(const string& secName)
 {
 	shared_ptr<IniFileProperties> p = shared_ptr<IniFileProperties>(new IniFileProperties(mIniFile, secName));
-    mSections.push_back(p);
     return p;
 }
 

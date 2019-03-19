@@ -12,7 +12,7 @@ using namespace dsl;
 RenderProject::RenderProject(const string& _url)
 :
 mLocalCacheRootFolder(""),
-mRenderService(new RenderServiceParameters("", ""))
+mRenderService(new RenderServiceParameters(""))
 {
 	//"http://ibs-forrestc-ux1.corp.alleninstitute.org:8988/render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image?minIntensity=0&maxIntensity=6000"
     //Extract owner,project and stack from url
@@ -64,7 +64,7 @@ mSelectedChannel(""),
 mCurrentROI(0,0,500,500),
 mMinIntensity(0),
 mMaxIntensity(65535),
-mRenderService(new RenderServiceParameters("", ""))
+mRenderService(new RenderServiceParameters(""))
 {
 	mATEObjectType = (ateRenderProject);
 }
@@ -126,9 +126,18 @@ void RenderProject::assignLocalCacheRootFolder(const string& rFolder)
     mLocalCacheRootFolder = rFolder;
 }
 
-RegionOfInterest& RenderProject::getCurrentRegionOfInterestReference()
+const RegionOfInterest& RenderProject::getRegionOfInterest() const
 {
     return mCurrentROI;
+}
+
+bool RenderProject::setRegionOfInterest(const RegionOfInterest& roi)
+{
+	mCurrentROI = roi;
+
+    //TODO:
+    //do some validation?
+    return true;
 }
 
 string RenderProject::getLocalCacheFolder() const
@@ -169,7 +178,7 @@ bool RenderProject::setSelectedSection(int secNr)
     return true;
 }
 
-int RenderProject::getSelectedSection()
+int RenderProject::getSelectedSection() const
 {
 	return mCurrentROI.getZ();
 }
@@ -188,6 +197,16 @@ string RenderProject::getSelectedChannelName() const
 //{
 //    return mChannels;
 //}
+
+int RenderProject::getMinIntensity() const
+{
+    return mMinIntensity;
+}
+
+int RenderProject::getMaxIntensity() const
+{
+    return mMaxIntensity;
+}
 
 int& RenderProject::getMinIntensity()
 {

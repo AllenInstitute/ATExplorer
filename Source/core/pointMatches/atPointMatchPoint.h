@@ -1,17 +1,18 @@
 #ifndef atPointMatchPointH
 #define atPointMatchPointH
 #include "atExplorerObject.h"
+#include "atPoint2D.h"
 //---------------------------------------------------------------------------
 namespace at
 {
 
-
 //!A PointMatchPoint is part of a PointMatch pair of points
 class ATE_CORE PointMatchPoint : public ExplorerObject
 {
-    enum PointMatchGroup {pGroup, qGroup};
     public:
-                                    PointMatchPoint(const string& groupID, PointMatchGroup group, double x, double y, double w, const PointMatchPoint* p2 = NULL);
+	     enum PointMatchGroup {pGroup, qGroup};
+                                    PointMatchPoint(const string& groupID, PointMatchGroup group, const Point2D& p, double w, const PointMatchPoint* p2 = NULL);
+                                    PointMatchPoint(const PointMatchPoint& pToCopy);
         void                        assignCorrespondingPoint(const PointMatchPoint& p2);
     	const PointMatchPoint*      getCorrespondingPoint();
 
@@ -21,8 +22,7 @@ class ATE_CORE PointMatchPoint : public ExplorerObject
         string                      mGroupID;
         PointMatchGroup             mPointMatchGroup;
         double                      mWeight;
-        double                      mX;
-        double                      mY;
+        Point2D                     mPoint;
         const PointMatchPoint*      mCorrespondingPoint;
 };
 

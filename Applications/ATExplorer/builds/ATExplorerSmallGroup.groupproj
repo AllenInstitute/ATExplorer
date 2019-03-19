@@ -10,7 +10,7 @@
             <Dependencies>..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
         </Projects>
         <Projects Include="ATExplorerPackage\ATExplorerAppPackage.cbproj">
-            <Dependencies>..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
+            <Dependencies/>
         </Projects>
         <Projects Include="ATExplorer\ATExplorer.cbproj">
             <Dependencies>..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj;..\..\..\builds\atExplorerVCL\atExplorerVCL.cbproj;ATExplorerPackage\ATExplorerAppPackage.cbproj</Dependencies>
@@ -41,13 +41,13 @@
     <Target Name="atExplorerVCL:Make" DependsOnTargets="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\..\builds\atExplorerVCL\atExplorerVCL.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="ATExplorerAppPackage" DependsOnTargets="atExplorerFoundation">
+    <Target Name="ATExplorerAppPackage">
         <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj"/>
     </Target>
-    <Target Name="ATExplorerAppPackage:Clean" DependsOnTargets="atExplorerFoundation:Clean">
+    <Target Name="ATExplorerAppPackage:Clean">
         <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="ATExplorerAppPackage:Make" DependsOnTargets="atExplorerFoundation:Make">
+    <Target Name="ATExplorerAppPackage:Make">
         <MSBuild Projects="ATExplorerPackage\ATExplorerAppPackage.cbproj" Targets="Make"/>
     </Target>
     <Target Name="ATExplorer" DependsOnTargets="atExplorerFoundation;atExplorerVCL;ATExplorerAppPackage">

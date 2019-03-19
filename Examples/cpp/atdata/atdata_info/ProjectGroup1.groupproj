@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{22002A42-8C13-42B7-93E6-BF21A333CD1D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="at_data_info.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="P:\libs\dsl\Examples\CXX\Common\properties\Properties.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="dslFoundation">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj"/>
+    </Target>
+    <Target Name="dslFoundation:Clean">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslFoundation:Make">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="at_data_info">
+        <MSBuild Projects="at_data_info.cbproj"/>
+    </Target>
+    <Target Name="at_data_info:Clean">
+        <MSBuild Projects="at_data_info.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="at_data_info:Make">
+        <MSBuild Projects="at_data_info.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Properties">
+        <MSBuild Projects="P:\libs\dsl\Examples\CXX\Common\properties\Properties.cbproj"/>
+    </Target>
+    <Target Name="Properties:Clean">
+        <MSBuild Projects="P:\libs\dsl\Examples\CXX\Common\properties\Properties.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Properties:Make">
+        <MSBuild Projects="P:\libs\dsl\Examples\CXX\Common\properties\Properties.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="dslFoundation;at_data_info;Properties"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="dslFoundation:Clean;at_data_info:Clean;Properties:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="dslFoundation:Make;at_data_info:Make;Properties:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

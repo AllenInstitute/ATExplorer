@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include "atATDataUtils.h"
-#include "atExceptions.h"
+#include "atATEExceptions.h"
 #include "atFileFolder.h"
 #include "dslLogger.h"
 #include "Poco/Glob.h"

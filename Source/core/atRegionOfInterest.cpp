@@ -115,27 +115,27 @@ void RegionOfInterest::assignOnChangeCallback(OnChangeFnc f)
 }
 
 void RegionOfInterest::setX1(int x){mX = x;}
-int RegionOfInterest::getX1(){return mX;}
+int RegionOfInterest::getX1() const {return mX;}
 void RegionOfInterest::setX2(int x){mWidth = abs(mX - x);}
 
-int RegionOfInterest::getX2(){return mX + mWidth;}
+int RegionOfInterest::getX2() const {return mX + mWidth;}
 void  RegionOfInterest::setWidth(int w){mWidth = w;}
-int RegionOfInterest::getWidth(){return mWidth;}
+int RegionOfInterest::getWidth() const {return mWidth;}
 
 void  RegionOfInterest::setY1(int y){mY = y;}
-int RegionOfInterest::getY1(){return mY;}
+int RegionOfInterest::getY1() const {return mY;}
 
 void  RegionOfInterest::setY2(int y){mHeight = abs(mY - y);}
-int RegionOfInterest::getY2(){return mY + mHeight;}
+int RegionOfInterest::getY2() const {return mY + mHeight;}
 
 void  RegionOfInterest::setHeight(int h){mHeight = h;}
-int RegionOfInterest::getHeight(){return mHeight;}
+int RegionOfInterest::getHeight() const {return mHeight;}
 
 void  RegionOfInterest::setZ(int z){mZ = z;}
-int RegionOfInterest::getZ(){return mZ;}
+int RegionOfInterest::getZ() const {return mZ;}
 
 void  RegionOfInterest::setScale(double s){mScale = s;}
-double RegionOfInterest::getScale(){return mScale;}
+double RegionOfInterest::getScale() const {return mScale;}
 
 //f is from -100 to +100
 void RegionOfInterest::zoom(double f)

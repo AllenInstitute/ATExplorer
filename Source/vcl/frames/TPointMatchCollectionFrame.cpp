@@ -31,37 +31,38 @@ __fastcall TPointMatchCollectionFrame::TPointMatchCollectionFrame(ATExplorer& e,
 	: TFrame(Owner),
     mRP("","","",""),
 	mPMC(pmp),
-    mRC(mRP, IdHTTP1, e.DefaultRenderService)
+    mTheCollection(mPMC.mPointMatchCollection),
+    mRC()
 {
     //mRC.assignOnImageCallback(onImage);
-    mRC.setLocalCacheFolder("");
+//    mRC.setLocalCacheFolder("");
     this->Name = string("PMCFrame_" +  dsl::toString(pmcFrameNr++)).c_str();
     populate();
 }
 
 void TPointMatchCollectionFrame::populate()
 {
-    OwnerE->setValue(     mPMC.mPointMatchCollection.getOwner());
-    CollectionE->setValue(mPMC.mPointMatchCollection.getName());
-    PairsE->setValue(mPMC.mPointMatchCollection.getCount());
+    OwnerE->setValue(     mTheCollection.getOwner());
+    CollectionE->setValue(mTheCollection.getName());
 
     //Fetch group IDs
 	StringList IDs;
 
-    IDs = mRC.getPPointMatchGroupIDs(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
+    IDs = mRC.PointMatchAPI.getPPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
+
     populateCheckListBox(IDs, pGroupIDs);
 
-    IDs = mRC.getQPointMatchGroupIDs(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
-    populateCheckListBox(IDs, qGroupIDs);
+//    IDs = mRC.getQPointMatchGroupIDs(mTheCollection.getOwner(), mTheCollection.getName());
+//    populateCheckListBox(IDs, qGroupIDs);
+//
+//    PairsE->setValue(mTheCollection.refreshCount());
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TPointMatchCollectionFrame::DeletePMCAExecute(TObject *Sender)
 {
-//    StringList gIDS = mRC.getPointMatchGroupIDs(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
-
-    mRC.deletePointMatchCollection(mPMC.mPointMatchCollection.getOwner(), mPMC.mPointMatchCollection.getName());
+    mRC.PointMatchAPI.deletePointMatchCollection(mTheCollection.getOwner(), mTheCollection.getName());
 }
 
 
-//---------------------------------------------------------------------------
+

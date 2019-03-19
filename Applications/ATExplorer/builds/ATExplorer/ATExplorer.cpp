@@ -8,27 +8,33 @@
 using namespace at;
 using namespace dsl;
 
+//The destructor for gATExplorer executes before destruction of the main form.. weird..
+ATExplorer 				gATExplorer;
+ATExplorerUIProperties 	gUIProperties;
+
+USEFORM("..\..\source\Forms\TATESettingsForm.cpp", ATESettingsForm);
 USEFORM("..\..\source\TMainForm.cpp", MainForm);
-USEFORM("..\..\..\..\Source\vcl\forms\TRenderAPIChecker.cpp", RenderAPIChecker);
-USEFORM("P:\libs\dsl\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
+USEFORM("..\..\source\Forms\TAboutATExplorerForm.cpp", AboutATExplorer);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
 	{
         //Keep track of Application related properties in an INIFile and Registry
-		gAU.init();
+		gUIProperties.init();
 
         //Setup parameters
-        gAU.setupGeneralProperties();
-        gAU.GeneralProperties->read();
-        gATExplorer.Properties.LogFileName.setValue(gAU.getLogFileNameAndPath());
-	    gATExplorer.init(gAU.getIniFile());
+        gUIProperties.setupGeneralProperties();
+        gUIProperties.GeneralProperties->read();
+
+        gATExplorer.Properties.LogFileName.setValue(gUIProperties.getLogFileNameAndPath());
+	    gATExplorer.init(gUIProperties.getIniFile());
 
   		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
+        Log(lInfo) << gUIProperties.GeneralProperties->getListing();
 		Application->Run();
 	}
 	catch (Exception &exception)

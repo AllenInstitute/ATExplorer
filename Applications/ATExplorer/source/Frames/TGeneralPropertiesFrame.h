@@ -31,7 +31,7 @@ class PACKAGE TGeneralPropertiesFrame : public TFrame
 	void __fastcall RenderPythonContainersCBChange(TObject *Sender);
 
     private:
-        ATExplorer              mExplorer;
+        ATExplorer&             mExplorer;
 
     public:
         			__fastcall 	TGeneralPropertiesFrame(ATExplorer& e, TComponent* Owner);

@@ -1,35 +1,43 @@
 #ifndef atPointMatchCollectionH
 #define atPointMatchCollectionH
-#include "atExplorerObject.h"
-#include "atJSMN.h"
+#include "atRenderObject.h"
 #include "atPointMatch.h"
-#include "atGenericList.h"
+#include "atGenericListOfObjects.h"
+#include "dslStringList.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 
-class ATE_CORE PointMatchCollection : public ExplorerObject
+using dsl::StringList;
+
+class ATE_CORE PointMatchCollection : public RenderObject
 {
     public:
-					    	            PointMatchCollection(const string& owner, const string& name, int pc);
-        					            ~PointMatchCollection();
-        string                          getOwner(){return mOwner;}
-        void                            setOwner(const string& o){mOwner = o;}
+					    	                        PointMatchCollection(const string& owner, const string& name, RenderClient* renderService = NULL);
+        					                        ~PointMatchCollection();
+        string                                      getOwner()const {return mOwner;}
+        void                                        setOwner(const string& o){mOwner = o;}
 
-        string                          getName(){return mName;}
-		void                            setName(const string& n){mName = n;}
+        string                                      getName() const {return mName;}
+		void                                        setName(const string& n){mName = n;}
+
+        bool                                        fetch();
+
+		StringList						            getGroupIDs() const;
+		StringList						            getPGroupIDs() const;
+		StringList						            getQGroupIDs() const ;
+        ListOfObjects<PointMatch >      	 		getPQMatches(const string& pGroup, const string& qGroup) const;
+        bool                                        deleteCollection();
 
 
-        List<PointMatch>	            mPMCollection;
-        int                             getCount(){return mPMCollection.count();}
-        void                            setCount(int c){mDummyCount = c;}
+        ListOfObjects<PointMatch>	                mPMCollection;
+        int                                         getCount(){return mPMCollection.count();}
 
     protected:
-        string                          mName;
-        string                          mOwner;
-        int                             mDummyCount;
-
+        string                                      mName;
+        string                                      mOwner;
+        StringList                                  mGroupIDs;
 };
 
 }
