@@ -6,7 +6,7 @@
  * of the MIT license.	See the LICENSE file for details.
  */
 
-#include <mkjson.h>
+#include "mkjson.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>

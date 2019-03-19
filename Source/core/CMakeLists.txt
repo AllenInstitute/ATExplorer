@@ -13,7 +13,7 @@ ${TP_INCLUDES}/dsl
 SET(src
 atExplorerCore
 atExplorerObject
-atExceptions
+atATEExceptions
 #atATProjectItem
 #atATProjectItems
 #atATDataProjectItem

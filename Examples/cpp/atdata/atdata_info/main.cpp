@@ -2,7 +2,7 @@
 #pragma argsused
 #include "atATIFData.h"
 #include "dslLogger.h"
-#include "atExceptions.h"
+#include "atATEExceptions.h"
 #include "atSession.h"
 #include "atRibbon.h"
 

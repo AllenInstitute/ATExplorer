@@ -4,7 +4,7 @@
 #include "dslConstants.h"
 #include "atATDataUtils.h"
 #include "atSession.h"
-#include "atExceptions.h"
+#include "atATEExceptions.h"
 #include "atTile.h"
 #include "atFileFolder.h"
 #include "atRibbon.h"

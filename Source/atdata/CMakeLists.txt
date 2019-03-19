@@ -2,6 +2,8 @@ SET(target atExplorerData)
 
 INCLUDE_DIRECTORIES(
 .
+./../core
+./../../ThirdParty
 ${ATEXPLORER_ROOT}
 ${ATEXPLORER_ROOT}/source/core
 ${CG_BOOST_ROOT}
@@ -29,6 +31,7 @@ atRibbon
 atSection
 atSession
 atTile
+./../../ThirdParty/mkjson/mkjson.cpp
 )
 
 #===== Shared library

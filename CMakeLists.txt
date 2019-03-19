@@ -7,6 +7,8 @@ SET(ATEXPLORER_BUILD_VERSION 0)
 SET(ATEXPLORER_VERSION "${ATEXPLORER_MAJOR_VERSION}.${ATEXPLORER_MINOR_VERSION}.${ATEXPLORER_BUILD_VERSION}")
 
 set(ATEXPLORER_ROOT 	${CMAKE_CURRENT_SOURCE_DIR})
+
+message ("Current source directory is: ${ATEXPLORER_ROOT}")
 #mark_as_advanced(
 #)
 
@@ -75,7 +77,7 @@ ${BOOST_ROOT}
 ${BOOST_ROOT}/boost/tr1/tr1
 )
 #Source Code Folders
-add_subdirectory(source)
+add_subdirectory(Source)
 add_subdirectory(Examples)
 
 #======================= INSTALL ========================================================
