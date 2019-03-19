@@ -3,12 +3,19 @@
 #include "atExplorerObject.h"
 #include "atRESTServiceParameters.h"
 #include "atRESTResponse.h"
-#include <IdHTTP.hpp>
+//#include <IdHTTP.hpp>
 #include <string>
 //---------------------------------------------------------------------------
 
+
+namespace Idhttp
+{
+class TIdHTTP;
+}
+
 namespace at
 {
+
 
 using std::string;
 class RESTRequest;

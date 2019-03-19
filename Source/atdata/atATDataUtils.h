@@ -13,10 +13,10 @@ class Section;
 class FileFolder;
 enum  ATDataFileFormat {atAllen, atKM, atBase};
 
-#if defined(__BORLANDC_)
-typedef std::tr1::shared_ptr<FileFolder>  FileFolderSP;
-#elseif defined(__clang__)
-typedef std::shared_ptr<FileFolder>  FileFolderSP;
+#if defined(__BORLANDC__)
+	typedef std::tr1::shared_ptr<FileFolder>  FileFolderSP;
+#elif defined(__clang__)
+	typedef std::shared_ptr<FileFolder>  FileFolderSP;
 #endif
 
 
