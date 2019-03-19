@@ -30,6 +30,10 @@ int main(int argc, const char * argv[])
 	        gLogger.setLogLevel(toLogLevel(toUpperCase(value)));
 	        Log(lInfo) << "Current loglevel: " << toString(gLogger.getLogLevel());
         }
+        else
+        {
+	        gLogger.setLogLevel(lInfo);
+        }
 
         Log(lDebug) << "Working Directory: " << getCWD() << endl;
         ATExplorer atExplorer;
@@ -51,7 +55,10 @@ int main(int argc, const char * argv[])
 
         if(cli.printJSON.isSet())
         {
-	        Log(lInfo)<<"Print JSON"<<endl;
+            if(atData)
+            {
+	            cout << atData->getInfoJSON();
+            }
         }
     }
     catch(dsl::DSLException& ex)

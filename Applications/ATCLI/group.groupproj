@@ -7,7 +7,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="atcli.cbproj">
-            <Dependencies/>
+            <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -26,13 +26,13 @@
     <Target Name="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="atcli">
+    <Target Name="atcli" DependsOnTargets="atExplorerFoundation">
         <MSBuild Projects="atcli.cbproj"/>
     </Target>
-    <Target Name="atcli:Clean">
+    <Target Name="atcli:Clean" DependsOnTargets="atExplorerFoundation:Clean">
         <MSBuild Projects="atcli.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="atcli:Make">
+    <Target Name="atcli:Make" DependsOnTargets="atExplorerFoundation:Make">
         <MSBuild Projects="atcli.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
