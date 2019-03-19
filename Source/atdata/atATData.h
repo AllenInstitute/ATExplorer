@@ -31,6 +31,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
 
                                         		//!Return some information about the current data
         string                                  getInfo();
+        string                                  getInfoJSON();
 
                                                 //!Resets the data object, excepts the basepath
         virtual void                            reset();
