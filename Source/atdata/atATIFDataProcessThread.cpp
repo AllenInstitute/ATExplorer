@@ -4,7 +4,7 @@
 #include "Poco/File.h"
 #include "dslStringUtils.h"
 #include "dslFileUtils.h"
-#include "atExceptions.h"
+#include "atATEExceptions.h"
 #include "atStringUtils.h"
 //---------------------------------------------------------------------------
 

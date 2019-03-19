@@ -13,7 +13,7 @@
 #include "atJSMN.h"
 
 #include "atStringUtils.h"
-#include "atExceptions.h"
+#include "atATEExceptions.h"
 #include "atRESTRequest.h"
 #include "renderAPI/atGetOwnersResponse.h"
 #include "atRESTResponse.h"
