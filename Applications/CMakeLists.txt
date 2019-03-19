@@ -1,0 +1,9 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
+PROJECT(ATApps)
+
+if(INSTALL_APPS)
+    add_subdirectory("ATCLI")
+endif()
+
+
+

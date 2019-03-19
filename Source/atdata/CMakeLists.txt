@@ -47,10 +47,9 @@ if(BUILD_SHARED_LIBS)
 
     TARGET_LINK_LIBRARIES(${target} 
         atExplorerCore
-#        ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
-#        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+        ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
+        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
     )
-
 
     INSTALL(    
     TARGETS ${target} 
