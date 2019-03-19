@@ -1,5 +1,5 @@
-#ifndef atExceptionsH
-#define atExceptionsH
+#ifndef atATEExceptionsH
+#define atATEExceptionsH
 #include "atExplorerCoreExporter.h"
 #include "atExplorerObject.h"
 #include <exception>
