@@ -1,8 +1,0 @@
-version: '2.1'
-
-services:
-  helloclang:
-    image: helloclang
-    build: .
-    ports:
-      - 3000:3000

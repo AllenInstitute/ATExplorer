@@ -1,15 +1,20 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{A0FA4555-0BEF-4AF0-971A-E71BEDED50AF}</ProjectGuid>
-        <ProjectVersion>18.6</ProjectVersion>
+        <ProjectGuid>{74BF9CBA-376E-49A6-A9FD-19060BB26B96}</ProjectGuid>
+        <ProjectVersion>18.4</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
-        <AppType>Library</AppType>
+        <AppType>Console</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
+        <Base_OSX32>true</Base_OSX32>
+        <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
@@ -46,26 +51,33 @@
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
-        <ProjectType>CppDynamicLibrary</ProjectType>
+        <ProjectType>CppConsoleApplication</ProjectType>
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <IncludePath>P:\libs\dsl\Examples\CXX\Common\cli\;$(IncludePath)</IncludePath>
         <Multithreaded>true</Multithreaded>
-        <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
-        <SanitizedProjectName>atExplorerFoundation</SanitizedProjectName>
-        <IncludePath>..\..\ThirdParty\mkjson\;P:\libs\json\mkjson\;..\..\Source\core\renderAPI\;..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(IncludePath)</IncludePath>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>..\..\ThirdParty\mkjson\;P:\libs\json\mkjson\;..\..\Source\core\renderAPI\;..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>P:\libs\dsl\Examples\CXX\Common\cli\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <SanitizedProjectName>cli</SanitizedProjectName>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_OSX32)'!=''">
+        <PackageImports>bindcomp;bindcompdbx;bindcompfmx;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapxml;FireDACCommonODBC;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;rtl;tethering;xmlrtl;$(PackageImports)</PackageImports>
+        <DynamicRTL>true</DynamicRTL>
+        <UsePackages>true</UsePackages>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <PackageImports>adortl;appanalytics;atVCLComponents;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DbxDevartPostgreSQLDriver250;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dslVCLComponents;dslVCLVisualComponents;dsnap;dsnapcon;dsnapxml;FireDACADSDriver;FireDACCommonODBC;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;rtl;sbridge250;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
+        <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DbxDevartPostgreSQLDriver250;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;DcefBrowser;dslVCLComponents;dslVCLVisualComponents;dsnap;dsnapcon;dsnapxml;FireDACADSDriver;FireDACCommonODBC;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;rtl;sbridge250;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
+        <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>adortl;appanalytics;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDACADSDriver;FireDACCommonODBC;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;rtl;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
+        <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
+        <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -90,260 +102,20 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Defines>EXPORT_ATE_DATA;EXPORT_ATE_CORE;STRICT;JSMN_PARENT_LINKS;$(Defines)</Defines>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
-        <BPILibOutputDir>$(DEBUG_BCC32)\lib</BPILibOutputDir>
-        <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
-        <DynamicRTL>true</DynamicRTL>
-        <Debugger_HostApplication>P:\build\bin\ATExplorer.exe</Debugger_HostApplication>
-        <BCC_PCHInject>pch.h</BCC_PCHInject>
-        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
-        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
-        <BCC_MonitorThis>true</BCC_MonitorThis>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="atExplorerFoundation.cpp">
+        <PCHCompile Include="cliPCH1.h">
+            <BuildOrder>0</BuildOrder>
+            <PCH>true</PCH>
+        </PCHCompile>
+        <CppCompile Include="main.cpp">
             <BuildOrder>1</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atATData.cpp">
-            <DependentOn>..\..\Source\atdata\atATData.h</DependentOn>
-            <BuildOrder>18</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atATDataUtils.cpp">
-            <DependentOn>..\..\Source\atdata\atATDataUtils.h</DependentOn>
-            <BuildOrder>19</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atATIFData.cpp">
-            <DependentOn>..\..\Source\atdata\atATIFData.h</DependentOn>
-            <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atATIFDataProcessThread.cpp">
-            <DependentOn>..\..\Source\atdata\atATIFDataProcessThread.h</DependentOn>
-            <BuildOrder>35</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atChannel.cpp">
-            <DependentOn>..\..\Source\atdata\atChannel.h</DependentOn>
-            <BuildOrder>21</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atChannels.cpp">
-            <DependentOn>..\..\Source\atdata\atChannels.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atCreateATIFDataStateTablesThread.cpp">
-            <DependentOn>..\..\Source\atdata\atCreateATIFDataStateTablesThread.h</DependentOn>
-            <BuildOrder>42</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atCreateMediansThread.cpp">
-            <BuildOrder>37</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atCreateRawDataRenderStacksThread.cpp">
-            <DependentOn>..\..\Source\atdata\atCreateRawDataRenderStacksThread.h</DependentOn>
-            <BuildOrder>43</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atFile.cpp">
-            <DependentOn>..\..\Source\atdata\atFile.h</DependentOn>
-            <BuildOrder>6</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atFileFolder.cpp">
-            <DependentOn>..\..\Source\atdata\atFileFolder.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atFileFolders.cpp">
-            <DependentOn>..\..\Source\atdata\atFileFolders.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atFileSystemObject.cpp">
-            <DependentOn>..\..\Source\atdata\atFileSystemObject.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atPopulateATDataThread.cpp">
-            <DependentOn>..\..\Source\atdata\atPopulateATDataThread.h</DependentOn>
-            <BuildOrder>36</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atRibbon.cpp">
-            <DependentOn>..\..\Source\atdata\atRibbon.h</DependentOn>
-            <BuildOrder>10</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atRibbons.cpp">
-            <DependentOn>..\..\Source\atdata\atRibbons.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atSection.cpp">
-            <DependentOn>..\..\Source\atdata\atSection.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atSections.cpp">
-            <DependentOn>..\..\Source\atdata\atSections.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atSession.cpp">
-            <DependentOn>..\..\Source\atdata\atSession.h</DependentOn>
-            <BuildOrder>14</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atSessions.cpp">
-            <DependentOn>..\..\Source\atdata\atSessions.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atTile.cpp">
-            <DependentOn>..\..\Source\atdata\atTile.h</DependentOn>
-            <BuildOrder>16</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\atdata\atTiles.cpp">
-            <DependentOn>..\..\Source\atdata\atTiles.h</DependentOn>
-            <BuildOrder>17</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atATEExceptions.cpp">
-            <DependentOn>..\..\Source\core\atATEExceptions.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atATExplorer.cpp">
-            <DependentOn>..\..\Source\core\atATExplorer.h</DependentOn>
-            <BuildOrder>39</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atATExplorerProject.cpp">
-            <DependentOn>..\..\Source\core\atATExplorerProject.h</DependentOn>
-            <BuildOrder>26</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atATExplorerProperties.cpp">
-            <BuildOrder>45</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atATIFDataProject.cpp">
-            <BuildOrder>33</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atDockerContainer.cpp">
-            <DependentOn>..\..\Source\core\atDockerContainer.h</DependentOn>
-            <BuildOrder>27</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atExplorerCore.cpp">
-            <DependentOn>..\..\Source\core\atExplorerCore.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atExplorerObject.cpp">
-            <DependentOn>..\..\Source\core\atExplorerObject.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atFetchImagesThread.cpp">
-            <DependentOn>..\..\Source\core\atFetchImagesThread.h</DependentOn>
-            <BuildOrder>28</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atFetchImageThread.cpp">
-            <DependentOn>..\..\Source\core\atFetchImageThread.h</DependentOn>
-            <BuildOrder>29</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atJSMN.cpp">
-            <BuildOrder>45</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atJSONParser.cpp">
-            <BuildOrder>51</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atPGroupIDMatchesWithQGroupIDRequest.cpp">
-            <DependentOn>..\..\Source\core\atPGroupIDMatchesWithQGroupIDRequest.h</DependentOn>
-            <BuildOrder>53</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atPoint2D.cpp">
-            <BuildOrder>62</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRegionOfInterest.cpp">
-            <DependentOn>..\..\Source\core\atRegionOfInterest.h</DependentOn>
-            <BuildOrder>25</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderAPI.cpp">
-            <DependentOn>..\..\Source\core\atRenderAPI.h</DependentOn>
-            <BuildOrder>61</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderClient.cpp">
-            <BuildOrder>32</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderClientUtils.cpp">
-            <DependentOn>..\..\Source\core\atRenderClientUtils.h</DependentOn>
-            <BuildOrder>31</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderHosts.cpp">
-            <BuildOrder>40</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderLayer.cpp">
-            <DependentOn>..\..\Source\core\atRenderLayer.h</DependentOn>
-            <BuildOrder>24</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderLocalCache.cpp">
-            <DependentOn>..\..\Source\core\atRenderLocalCache.h</DependentOn>
-            <BuildOrder>32</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderObject.cpp">
-            <BuildOrder>50</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderPointMatchAPI.cpp">
-            <BuildOrder>63</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderProject.cpp">
-            <BuildOrder>46</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderServiceParameters.cpp">
-            <BuildOrder>55</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRenderStackDataAPI.cpp">
-            <BuildOrder>62</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRESTClient.cpp">
-            <DependentOn>..\..\Source\core\atRESTClient.h</DependentOn>
-            <BuildOrder>54</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRESTRequest.cpp">
-            <BuildOrder>52</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRESTResponse.cpp">
-            <BuildOrder>58</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atRESTServiceParameters.cpp">
-            <BuildOrder>44</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atROIHistory.cpp">
-            <DependentOn>..\..\Source\core\atROIHistory.h</DependentOn>
-            <BuildOrder>22</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atStringUtils.cpp">
-            <DependentOn>..\..\Source\core\atStringUtils.h</DependentOn>
-            <BuildOrder>38</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atTextFile.cpp">
-            <BuildOrder>41</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\atTiffStack.cpp">
-            <DependentOn>..\..\Source\core\atTiffStack.h</DependentOn>
-            <BuildOrder>34</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\pointMatches\atPointMatch.cpp">
-            <DependentOn>..\..\Source\core\pointMatches\atPointMatch.h</DependentOn>
-            <BuildOrder>49</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchCollection.cpp">
-            <BuildOrder>49</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchCollectionProject.cpp">
-            <BuildOrder>48</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchCollections.cpp">
-            <BuildOrder>63</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\pointMatches\atPointMatchPoint.cpp">
-            <DependentOn>..\..\Source\core\pointMatches\atPointMatchPoint.h</DependentOn>
-            <BuildOrder>48</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Source\core\renderAPI\atGetOwnersResponse.cpp">
-            <DependentOn>..\..\Source\core\renderAPI\atGetOwnersResponse.h</DependentOn>
-            <BuildOrder>60</BuildOrder>
-        </CppCompile>
-        <None Include="..\..\Source\core\renderAPI\atGetOwnersResponse.h">
-            <BuildOrder>61</BuildOrder>
-        </None>
-        <CppCompile Include="..\..\ThirdParty\mkjson\mkjson.cpp">
-            <BuildOrder>64</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -359,7 +131,7 @@
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
-        <Borland.ProjectType>CppDynamicLibrary</Borland.ProjectType>
+        <Borland.ProjectType>CppConsoleApplication</Borland.ProjectType>
         <BorlandProject>
             <CPlusPlusBuilder.Personality>
                 <ProjectProperties>
@@ -368,43 +140,8 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\dslVCLVisualComponents.bpl">Dune Visual Components</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
-                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="p:\build\bin\atExplorerFoundation.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>atExplorerFoundation.tds</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32260.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64260mt.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -430,18 +167,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgstl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32260mt.dll" Class="DependencyModule">
+                <DeployFile LocalName=".\Win32\Debug\cli.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
+                        <RemoteName>cli.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -450,13 +183,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -470,13 +203,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c260mt.dll" Class="DependencyModule">
+                <DeployFile LocalName=".\Win32\Debug\cli.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
+                        <RemoteName>cli.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -485,24 +214,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx64\libcgsqlite3.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="p:\build\bin\atExplorerFoundation.dll" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>atExplorerFoundation.dll</RemoteName>
+                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
+                    <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
                     <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -518,12 +236,6 @@
                 <DeployClass Name="AndroidClassesDexFile">
                     <Platform Name="Android">
                         <RemoteDir>classes</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidFileProvider">
-                    <Platform Name="Android">
-                        <RemoteDir>res\xml</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -560,12 +272,6 @@
                 <DeployClass Name="AndroidSplashStyles">
                     <Platform Name="Android">
                         <RemoteDir>res\values</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidSplashStylesV21">
-                    <Platform Name="Android">
-                        <RemoteDir>res\values-v21</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -807,7 +513,6 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectOSXDebug"/>
                 <DeployClass Name="ProjectOSXEntitlements"/>
                 <DeployClass Name="ProjectOSXInfoPList"/>
                 <DeployClass Name="ProjectOSXResource">
@@ -875,10 +580,10 @@
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
+                <Platform value="OSX32">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
