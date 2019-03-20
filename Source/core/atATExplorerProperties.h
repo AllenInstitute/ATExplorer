@@ -4,11 +4,10 @@
 #include <System.hpp>
 #include "dslObject.h"
 #include "dslProperties.h"
-#include "dslVCLCommonExporter.h"
 #include "dslIniFile.h"
 #include "dslSharedPointer.h"
 #include "dslIniFileProperties.h"
-#include "dslRegistryProperties.h"
+//#include "dslRegistryProperties.h"
 #include "atExplorerObject.h"
 #include "dslLogLevel.h"
 //---------------------------------------------------------------------------
