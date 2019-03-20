@@ -35,7 +35,7 @@ int main(int argc, const char * argv[])
 	        gLogger.setLogLevel(lInfo);
         }
 
-        Log(lDebug) << "Working Directory: " << getCWD() << endl;
+//        Log(lDebug) << "Working Directory: " << getCWD() << endl;
         ATExplorer atExplorer;
 
         //Set data.. if any
