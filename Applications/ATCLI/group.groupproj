@@ -3,6 +3,9 @@
         <ProjectGuid>{13E99F70-7F77-44E4-BA7D-2527651BF090}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
             <Dependencies/>
         </Projects>
@@ -17,6 +20,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="dslFoundation">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj"/>
+    </Target>
+    <Target Name="dslFoundation:Clean">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslFoundation:Make">
+        <MSBuild Projects="P:\libs\dsl\Builds\dslFoundation\dslFoundation.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="atExplorerFoundation">
         <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj"/>
     </Target>
@@ -36,13 +48,13 @@
         <MSBuild Projects="atcli.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="atExplorerFoundation;atcli"/>
+        <CallTarget Targets="dslFoundation;atExplorerFoundation;atcli"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="atExplorerFoundation:Clean;atcli:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;atExplorerFoundation:Clean;atcli:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="atExplorerFoundation:Make;atcli:Make"/>
+        <CallTarget Targets="dslFoundation:Make;atExplorerFoundation:Make;atcli:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

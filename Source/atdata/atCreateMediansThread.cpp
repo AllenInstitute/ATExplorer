@@ -7,7 +7,7 @@
 #include "dslFileUtils.h"
 #include "atRibbon.h"
 #include "atSession.h"
-#include "atExceptions.h"
+#include "atATEExceptions.h"
 //#include "atUtils.h"
 #include "atStringUtils.h"
 //---------------------------------------------------------------------------

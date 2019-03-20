@@ -3,7 +3,7 @@
 #include "dslVCLUtils.h"
 #include "dslLogger.h"
 #include "dslFileUtils.h"
-#include "atExceptions.h"
+#include "atATEExceptions.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
