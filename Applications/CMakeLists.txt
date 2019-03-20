@@ -14,7 +14,6 @@ include_directories(
     ${CMAKE_BINARY_DIR}/include    
 )
 
-
 if(INSTALL_APPS)
     add_subdirectory("ATCLI")
 endif()

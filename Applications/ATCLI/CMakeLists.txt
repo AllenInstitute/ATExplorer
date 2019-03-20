@@ -15,10 +15,10 @@ if(CMAKE_SYSTEM MATCHES "Linux")
     atExplorerCore
     atExplorerData
     dslFoundation
-            tinyxml2
-            poco_foundation
-            pthread
-            -lrt
+    tinyxml2
+    poco_foundation
+    pthread
+    -lrt
     )
 
     set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
