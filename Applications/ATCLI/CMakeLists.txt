@@ -17,24 +17,22 @@ atcli
 atCLIUtils
 )
 
-if(CMAKE_SYSTEM MATCHES "Linux") 
-    add_executable(${target} ${src})
-else()
-    add_executable(${target} ${src})
-endif()
+add_executable(${target} ${src})
   
 target_link_libraries(${target} 
-atExplorerCore
-atExplorerData
-dslFoundation
-        tinyxml2
-        poco_foundation
-        pthread
-        -lrt
+        atExplorerCore
+        atExplorerData
+#        dslFoundation
+#        tinyxml2
+#        poco_foundation
+#        pthread
+#        -lrt
 )
 
-if(CMAKE_SYSTEM MATCHES "Linux") 
+if(CMAKE_SYSTEM_NAME MATCHES "Linux") 
     set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
+elif(CMAKE_SYSTEM_NAME MATCHES "Windows")
+
 endif()
 
 install(    
