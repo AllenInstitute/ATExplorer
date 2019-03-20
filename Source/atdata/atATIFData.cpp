@@ -36,24 +36,39 @@ mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))
 
 bool ATIFData::setBasePath(const string& bp)
 {
+    Log(lDebug) << "Setting up folders (in setBasePath)";
     if(folderExists(bp))
     {
 	    mBasePath = Path(bp);
-        mRibbonsFolderPath 		= Path(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))));
+        mRibbonsFolderPath 		= Path(joinPath(mBasePath.toString(),  (joinPath("raw", "data/"))));
         if(folderExists(mRibbonsFolderPath.toString()))
         {
         	mRibbonsDataFolder 		= FileFolderSP(new FileFolder(mRibbonsFolderPath));
+        }
+        else
+        {
+            Log (lError) << "The path: " << mRibbonsFolderPath.toString() << "don't exist!";
         }
 
         if(folderExists(joinPath(mBasePath.toString(), "processed")))
         {
         	mProcessedDataFolder 	= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), "processed")));
         }
-
-        if(folderExists(joinPath(mBasePath.toString(), 	"scripts")))
+        else
         {
-        	mScriptsDataFolder		= FileFolderSP(new FileFolder(joinPath(mBasePath.toString(), 	"scripts")));
+            Log (lError) << "The path: " << joinPath(mBasePath.toString(), "processed") << "don't exist!";
         }
+
+        string p = joinPath(mBasePath.toString(), 	"scripts");
+        if(folderExists(p))
+        {
+        	mScriptsDataFolder		= FileFolderSP(new FileFolder(p));
+        }
+        else
+        {
+            Log (lError) << "The path: " << p << "don't exist!";
+        }
+
         return true;
     }
     else
@@ -112,6 +127,7 @@ bool ATIFData::populate(const bool& timeToDie)
 
     if(!timeToDie)
     {
+        Log (lInfo) << "Populating Ribbons";
         populateRibbons();
         populateSessions();
         populateStateTables();
@@ -158,13 +174,19 @@ bool ATIFData::populateRibbons()
 	Log(lDebug) << "Populating ATIF Data from folder: " << mBasePath.toString();
 
     //Check that root folder exists
-    if(!mBasePath.isDirectory())
-    {
-        Log(lWarning) << mBasePath.toString() << " is not a valid ATData basepath";
-        return false;
-    }
+//    if(!mBasePath.isDirectory())
+//    {
+//        Log(lWarning) << mBasePath.toString() << " is not a valid ATData basepath";
+//        return false;
+//    }
 
     //All raw data is in the ribbons datafolder, populate it first
+    if(!mRibbonsDataFolder)
+    {
+        Log(lError) << "Ribbons data folder is NULL";
+        throw(FileSystemException("Can't do anyting if ribbons datafolder is null.."));
+    }
+    Log(lInfo) << "Scanning folder:  " <<mRibbonsDataFolder->getPath().toString();
 	FolderInfo fInfo = mRibbonsDataFolder->scan();
     Log(lInfo) << "Found " <<fInfo.NrOfFolders << " folders and " << fInfo.NrOfFiles << " files";
 

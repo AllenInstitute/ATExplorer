@@ -10,7 +10,7 @@ int main()
 {
     FileFolderSP folder;//(new FileFolder("F:\\data\\M33\\raw\\data"));
 
-    for(int i = 0; i < 1000; i++)
+//    for(int i = 0; i < 1000; i++)
     {
         if(folder)
         {
@@ -18,7 +18,7 @@ int main()
         }
         if(!folder)
         {
-            folder = FileFolderSP(new FileFolder("F:\\data\\M33\\raw\\data\\"));
+            folder = FileFolderSP(new FileFolder("/data_mount_1/M33/raw/data/Ribbon0004/session01/"));
         }
 
         gLogger.logToConsole(true);

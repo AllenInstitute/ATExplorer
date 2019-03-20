@@ -1,11 +1,10 @@
 #pragma hdrstop
 #include "dslUtils.h"
+#include "dslFileUtils.h"
 #include "dslLogger.h"
 #include "atcli.h"
 #include "atATExplorer.h"
 #include "atATEExceptions.h"
-//#include "atSession.h"
-//#include "atRibbon.h"
 
 #include "atATIFData.h"
 #include "atCLIUtils.h"
@@ -15,7 +14,6 @@ using namespace std;
 using namespace dsl;
 using namespace at;
 using namespace TCLAP;
-
 
 int main(int argc, const char * argv[])
 {
@@ -32,24 +30,36 @@ int main(int argc, const char * argv[])
         }
         else
         {
-	        gLogger.setLogLevel(lInfo);
+	        gLogger.setLogLevel(lDebug5);
         }
 
-//        Log(lDebug) << "Working Directory: " << getCWD() << endl;
-        ATExplorer atExplorer;
+        Log(lInfo) << "Working Directory: " << getCWD() << endl;
+//        ATExplorer atExplorer;
 
         //Set data.. if any
      	ATData* atData(nullptr);
 
         if(cli.dataRoot.isSet())
         {
-            string value = cli.dataRoot.getValue();
-	        Log(lInfo) << "Looking at data in folder: " << value;
+            string value =cli.dataRoot.getValue();
             value = fixPathEnding(value);
 		    Path dataPath(value);
+	        Log(lInfo) << "Looking at data in folder: " << value;
+            if(!folderExists(value))
+            {
+                throw(FileSystemException("The Folder: " + value + " don't exist!"));
+            }
+
             atData = new ATIFData(dataPath);
 		    atData->assignOnPopulateCallbacks(onStartingPopulating, onProgressPopulating, onFinishedPopulating);
-            populate(atData);
+			Log (lInfo) << "Starting populating";
+
+		    const bool dummy(false);
+		    atData->populate(dummy);
+        }
+        else
+        {
+            Log(lError) << "data root is not set..";
         }
 
 
@@ -68,7 +78,7 @@ int main(int argc, const char * argv[])
     catch(const FileSystemException& e)
     {
         Log(lError) << "Exception: " << e.what();
-        Log(lInfo) << "Application exiting..";
+        Log(lInfo)  <<  "Application exiting..";
     }
 	catch (TCLAP::ArgException &e)  // catch any exceptions
 	{
@@ -79,7 +89,7 @@ int main(int argc, const char * argv[])
         Log(lError)<<"There was an unknown problem.."<<endl;
     }
 
-    Log(lInfo)<<"Application is exiting...";
+    Log(lInfo)<< "atcli is done....";
 	return 0;
 
 }

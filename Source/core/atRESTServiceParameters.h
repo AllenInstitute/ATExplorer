@@ -7,6 +7,7 @@
 namespace at
 {
 
+using dsl::Property;
 using dsl::PropertiesSP;
 const string v1("v1");
 

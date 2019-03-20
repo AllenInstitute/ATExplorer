@@ -12,7 +12,12 @@ namespace at
 using dsl::StringList;
 using dsl::Thread;
 typedef boost::function<void(void*, void*)> FITCallBack;
-typedef void __fastcall (__closure *RCCallBack)(void);
+
+#if defined(__BORLANDC__)
+    typedef void __fastcall (__closure *RCCallBack)(void);
+#else
+    typedef void (*RCCallBack)(void);
+#endif
 
 class RenderClient;
 

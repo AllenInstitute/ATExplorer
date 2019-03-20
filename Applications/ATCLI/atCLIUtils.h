@@ -1,11 +1,10 @@
 #ifndef atCLIUtilsH
 #define atCLIUtilsH
 #include <string>
-#include "atdata/atATIFData.h"
-#include "tclap/CmdLine.h"
+#include "atdata/atATData.h"
 //---------------------------------------------------------------------------
-using std::string;
 
+using std::string;
 using at::ATData;
 
 string 	            fixPathEnding(const string& p);

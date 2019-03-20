@@ -1,7 +1,7 @@
 #ifndef atATExplorerPropertiesH
 #define atATExplorerPropertiesH
 #include <list>
-#include <System.hpp>
+//#include <System.hpp>
 #include "dslObject.h"
 #include "dslProperties.h"
 #include "dslIniFile.h"

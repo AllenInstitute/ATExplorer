@@ -1,7 +1,7 @@
 #ifndef atcliH
 #define atcliH
-#include "tclap/CmdLine.h"
 #include <string>
+#include "tclap/CmdLine.h"
 //---------------------------------------------------------------------------
 
 using std::string;

@@ -9,12 +9,12 @@ string fixPathEnding(const string& p)
     //Poco path requires a path to end with path delimiter
     if(p.size() && (p[p.size() -1] != '\\' || p[p.size() -1] != '/'))
     {
-    #if defined(WIN32)
-        path.push_back('\\');
+        #if defined(WIN32)
+            path.push_back('\\');
+        #else
+            path.push_back('/');
+        #endif
     }
-    #else
-        path.push_back('/');
-    #endif
     return path;
 }
 

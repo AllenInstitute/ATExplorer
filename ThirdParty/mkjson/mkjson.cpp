@@ -85,7 +85,7 @@ char *mkjson( enum mkjson_container_type otype, int count, ... )
 	for ( i = 0; i < count && !failure; i++ )
 	{
 		// Get value type
-		vtype = va_arg( ap, enum mkjson_value_type );
+		vtype = va_arg( ap, enum mkjson_value_type ); 
 
 		// Get key
 		if ( otype == MKJSON_OBJ )
