@@ -93,7 +93,7 @@ void populate(ATData* atData)
 }
 
 #if defined(WIN32)
-#pragma comment(lib, "dslFoundation.lib")
-#pragma comment(lib, "atExplorerFoundation.lib")
-#pragma comment(lib, "poco_foundation.lib")
+    #pragma comment(lib, "dslFoundation.lib")
+    #pragma comment(lib, "atExplorerFoundation.lib")
+    #pragma comment(lib, "poco_foundation.lib")
 #endif
