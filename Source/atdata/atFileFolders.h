@@ -4,6 +4,7 @@
 #include "atExplorerObject.h"
 #include "atATDataExporter.h"
 #include "dslSharedPointer.h"
+#include <memory>
 //---------------------------------------------------------------------------
 
 namespace at
@@ -11,7 +12,7 @@ namespace at
 class FileFolder;
 using std::vector;
 
-typedef std::tr1::shared_ptr<FileFolder>  FileFolderSP;
+typedef shared_ptr<FileFolder>  FileFolderSP;
 
 class ATE_DATA FileFolders : public ExplorerObject
 {

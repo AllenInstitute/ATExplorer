@@ -2,6 +2,8 @@ SET(target atExplorerData)
 
 INCLUDE_DIRECTORIES(
 .
+./../core
+./../../ThirdParty
 ${ATEXPLORER_ROOT}
 ${ATEXPLORER_ROOT}/source/core
 ${CG_BOOST_ROOT}
@@ -29,6 +31,7 @@ atRibbon
 atSection
 atSession
 atTile
+./../../ThirdParty/mkjson/mkjson.cpp
 )
 
 #===== Shared library
@@ -44,10 +47,9 @@ if(BUILD_SHARED_LIBS)
 
     TARGET_LINK_LIBRARIES(${target} 
         atExplorerCore
-#        ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
-#        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+        ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
+        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
     )
-
 
     INSTALL(    
     TARGETS ${target} 

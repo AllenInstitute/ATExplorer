@@ -6,7 +6,7 @@
 #include "atRibbon.h"
 #include <sstream>
 #include "dslFileUtils.h"
-#include "mkjson.h"
+#include "mkjson/mkjson.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace std;

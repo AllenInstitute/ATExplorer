@@ -10,7 +10,7 @@ namespace at
 
 class Session;
 class Channel;
-typedef std::tr1::shared_ptr<Channel> ChannelSP;
+typedef shared_ptr<Channel> ChannelSP;
 
 //!A channel belong to a specific Session
 class ATE_DATA Channel : public ExplorerObject

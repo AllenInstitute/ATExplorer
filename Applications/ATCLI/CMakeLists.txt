@@ -1,53 +1,42 @@
 cmake_minimum_required(VERSION 2.8)
-set(target rr)
 
-add_executable(${target} 
-main.cpp 
-Args.cpp
+set(target atcli)
+PROJECT(${target})
+
+include_directories(
+    ${ATEXPLORER_ROOT}/source
+    ${ATEXPLORER_ROOT}/source/core
+    ${ATEXPLORER_ROOT}/source/atdata
+    ${TP_INCLUDES}
+    ${TP_INCLUDES}/dsl
 )
 
-add_definitions(
--DPOCO_STATIC
--DSTATIC_PUGI
--DLIBSBML_STATIC 
-#-DSTATIC_RR
--DSTATIC_LIBSTRUCT
--DLIBLAX_STATIC  
--DSTATIC_NLEQ
+set(src
+main
+atcli
+atCLIUtils
 )
 
-if(WIN32)
-add_definitions(
--DWIN32
+add_executable(${target} ${src})
+  
+target_link_libraries(${target} 
+        atExplorerCore
+        atExplorerData
+#        dslFoundation
+#        tinyxml2
+#        poco_foundation
+#        pthread
+#        -lrt
 )
 
-target_link_libraries (${target} 
-#roadrunner-static
-roadrunner
-)
+if(CMAKE_SYSTEM_NAME MATCHES "Linux") 
+    set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
+elif(CMAKE_SYSTEM_NAME MATCHES "Windows")
+
 endif()
 
-#Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in roadrunner-static
-if(UNIX)
-target_link_libraries (${target} 
-roadrunner-static
-nleq-static.a
-rr-libstruct-static
-lapack
-blas
-f2c
-sbml-static.a
-xml2
-sundials_nvecserial.a
-sundials_cvode.a
-pthread
-poco_foundation-static.a
-dl
-)
-endif()
-
-
-install (TARGETS ${target} 		
-DESTINATION bin 
-COMPONENT apps
+install(    
+    TARGETS ${target} 	
+    DESTINATION bin 
+    COMPONENT apps
 )

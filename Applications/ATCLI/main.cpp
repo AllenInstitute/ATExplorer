@@ -81,6 +81,8 @@ int main(int argc, const char * argv[])
 
 }
 
+#if defined(WIN32)
 #pragma comment(lib, "dslFoundation.lib")
 #pragma comment(lib, "atExplorerFoundation.lib")
 #pragma comment(lib, "poco_foundation.lib")
+#endif

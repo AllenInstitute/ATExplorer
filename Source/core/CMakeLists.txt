@@ -13,7 +13,7 @@ ${TP_INCLUDES}/dsl
 SET(src
 atExplorerCore
 atExplorerObject
-atExceptions
+atATEExceptions
 #atATProjectItem
 #atATProjectItems
 #atATDataProjectItem
@@ -32,9 +32,9 @@ if(BUILD_SHARED_LIBS)
     )
 
     TARGET_LINK_LIBRARIES(${target} 
-        ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
-        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
-        ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
+#        ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation
+#        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+#        ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
     )
 
     INSTALL(    

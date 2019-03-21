@@ -3,11 +3,19 @@
 #include <set>
 #include <string>
 #include <utility>
-#include <boost/enable_shared_from_this.hpp>
+
+#if defined(__BORLANDC__) && !defined(__clang__)
+	#include <boost/enable_shared_from_this.hpp>
+	using boost::enable_shared_from_this;
+#else
+	#include <memory>
+	using std::enable_shared_from_this;
+#endif
 #include "Poco/Path.h"
 #include "atFileSystemObject.h"
 #include "dslStringList.h"
 #include "atFileFolders.h"
+
 //---------------------------------------------------------------------------
 
 namespace at
@@ -30,7 +38,7 @@ struct FolderInfo
 
 
 //!A File folder is FileSystem object.
-class ATE_DATA FileFolder : public FileSystemObject, public boost::enable_shared_from_this<FileFolder>
+class ATE_DATA FileFolder : public FileSystemObject, public enable_shared_from_this<FileFolder>
 {
     public:
                             		FileFolder(const Path& name, FileFolderSP parent = FileFolderSP());

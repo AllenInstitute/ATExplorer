@@ -17,7 +17,7 @@ class Section;
 
 //!A container for tiles.
 //!Tiles are grouped by channel
-typedef std::tr1::shared_ptr<Tile> TileSP;
+typedef shared_ptr<Tile> TileSP;
 
 class ATE_DATA Tiles : public ExplorerObject
 {

@@ -7,6 +7,8 @@ SET(ATEXPLORER_BUILD_VERSION 0)
 SET(ATEXPLORER_VERSION "${ATEXPLORER_MAJOR_VERSION}.${ATEXPLORER_MINOR_VERSION}.${ATEXPLORER_BUILD_VERSION}")
 
 set(ATEXPLORER_ROOT 	${CMAKE_CURRENT_SOURCE_DIR})
+
+message ("Current source directory is: ${ATEXPLORER_ROOT}")
 #mark_as_advanced(
 #)
 
@@ -18,7 +20,8 @@ endif()
 OPTION(BUILD_SHARED_LIBS 		    "Build Shared Libs"                         ON)
 OPTION(INSTALL_CXX_LIBS 		    "Install CXX libraries and headers"         ON)
 OPTION(INSTALL_PYTHON 			    "Build Python Modules"                      OFF)
-OPTION(INSTALL_CXX_EXAMPLES         "Install CXX Examples"	                    OFF)
+OPTION(INSTALL_CXX_EXAMPLES         "Install CXX Examples"	                    ON)
+OPTION(INSTALL_APPS                 "Install AT Apps"	                        ON)
  
 #Boost root
 set(BOOST_ROOT  CACHE PATH "Directory containing Boost.")
@@ -75,7 +78,8 @@ ${BOOST_ROOT}
 ${BOOST_ROOT}/boost/tr1/tr1
 )
 #Source Code Folders
-add_subdirectory(source)
+add_subdirectory(Applications)
+add_subdirectory(Source)
 add_subdirectory(Examples)
 
 #======================= INSTALL ========================================================
