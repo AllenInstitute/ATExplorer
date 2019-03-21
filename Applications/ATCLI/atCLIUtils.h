@@ -2,7 +2,6 @@
 #define atCLIUtilsH
 #include <string>
 #include "atdata/atATIFData.h"
-#include "tclap/CmdLine.h"
 //---------------------------------------------------------------------------
 using std::string;
 

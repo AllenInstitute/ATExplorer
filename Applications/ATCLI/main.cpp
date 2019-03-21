@@ -4,9 +4,6 @@
 #include "atcli.h"
 #include "atATExplorer.h"
 #include "atATEExceptions.h"
-//#include "atSession.h"
-//#include "atRibbon.h"
-
 #include "atATIFData.h"
 #include "atCLIUtils.h"
 
@@ -36,7 +33,7 @@ int main(int argc, const char * argv[])
         }
 
 //        Log(lDebug) << "Working Directory: " << getCWD() << endl;
-        ATExplorer atExplorer;
+//        ATExplorer atExplorer;
 
         //Set data.. if any
      	ATData* atData(nullptr);
@@ -82,14 +79,6 @@ int main(int argc, const char * argv[])
     Log(lInfo)<<"Application is exiting...";
 	return 0;
 
-}
-
-void populate(ATData* atData)
-{
-    //!Populating the data object causes a scan of folders and files
-    //!representing the data. No image data is loaded
-    const bool dummy(false);
-    atData->populate(dummy);
 }
 
 #pragma comment(lib, "dslFoundation.lib")
