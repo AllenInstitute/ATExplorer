@@ -1,8 +1,10 @@
 
-INCLUDE_DIRECTORIES(
+include_directories(
 ${ATEXPLORER_ROOT}
 ${ATEXPLORER_ROOT}/ThirdParty
-${ATEXPLORER_ROOT}/source/core
+${ATEXPLORER_ROOT}/Source
+${ATEXPLORER_ROOT}/Source/core
+${ATEXPLORER_ROOT}/Source/atdata
 ${CG_BOOST_ROOT}
 ${TR1_ROOT}
 ${CMAKE_INSTALL_PREFIX}/include
