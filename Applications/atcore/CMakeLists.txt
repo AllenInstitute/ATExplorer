@@ -1,20 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(target atcli)
+set(target atcore)
 PROJECT(${target})
-
-include_directories(
-    ${ATEXPLORER_ROOT}/source
-    ${ATEXPLORER_ROOT}/source/core
-    ${ATEXPLORER_ROOT}/source/atdata
-    ${TP_INCLUDES}
-    ${TP_INCLUDES}/dsl
-)
 
 set(src
 main
-atcli
-atCLIUtils
+atcore_class
+atcore_utils
 )
 
 add_executable(${target} ${src})

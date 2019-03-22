@@ -1,11 +1,11 @@
 #pragma hdrstop
 #include "dslUtils.h"
 #include "dslLogger.h"
-#include "atcli.h"
+#include "atcore_class.h"
 #include "atATExplorer.h"
 #include "atATEExceptions.h"
 #include "atATIFData.h"
-#include "atCLIUtils.h"
+#include "atcore_utils.h"
 
 //---------------------------------------------------------------------------
 using namespace std;

@@ -9,8 +9,8 @@
         <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="atcli.cbproj">
-            <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
+        <Projects Include="atcore.cbproj">
+            <Dependencies/>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -38,23 +38,23 @@
     <Target Name="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="atcli" DependsOnTargets="atExplorerFoundation">
-        <MSBuild Projects="atcli.cbproj"/>
+    <Target Name="atcore">
+        <MSBuild Projects="atcore.cbproj"/>
     </Target>
-    <Target Name="atcli:Clean" DependsOnTargets="atExplorerFoundation:Clean">
-        <MSBuild Projects="atcli.cbproj" Targets="Clean"/>
+    <Target Name="atcore:Clean">
+        <MSBuild Projects="atcore.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="atcli:Make" DependsOnTargets="atExplorerFoundation:Make">
-        <MSBuild Projects="atcli.cbproj" Targets="Make"/>
+    <Target Name="atcore:Make">
+        <MSBuild Projects="atcore.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslFoundation;atExplorerFoundation;atcli"/>
+        <CallTarget Targets="dslFoundation;atExplorerFoundation;atcore"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslFoundation:Clean;atExplorerFoundation:Clean;atcli:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;atExplorerFoundation:Clean;atcore:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslFoundation:Make;atExplorerFoundation:Make;atcli:Make"/>
+        <CallTarget Targets="dslFoundation:Make;atExplorerFoundation:Make;atcore:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

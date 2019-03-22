@@ -113,18 +113,18 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="atcli.cpp">
-            <DependentOn>atcli.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="atCLIUtils.cpp">
-            <DependentOn>atCLIUtils.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
-        </CppCompile>
         <PCHCompile Include="atcorePCH1.h">
             <BuildOrder>0</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="atcore_class.cpp">
+            <DependentOn>atcore_class.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="atcore_utils.cpp">
+            <DependentOn>atcore_utils.h</DependentOn>
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
         <CppCompile Include="main.cpp">
             <BuildOrder>4</BuildOrder>
         </CppCompile>

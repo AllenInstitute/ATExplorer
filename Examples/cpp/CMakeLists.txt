@@ -14,6 +14,7 @@ include_directories(
     ${ATEXPLORER_ROOT}/Source/atdata
     ${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
     ${CMAKE_INSTALL_PREFIX}/include
+    ${CMAKE_INSTALL_PREFIX}/include/dsl
 )
 
 if(INSTALL_CXX_EXAMPLES)
