@@ -96,4 +96,10 @@ class ATE_DATA ATData : virtual public ExplorerObject
 
 }
 
+#if defined(WIN32)
+#pragma comment(lib, "dslFoundation.lib")
+#pragma comment(lib, "atExplorerFoundation.lib")
+#pragma comment(lib, "poco_foundation.lib")
+#endif
+
 #endif

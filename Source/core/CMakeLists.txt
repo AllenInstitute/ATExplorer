@@ -1,15 +1,5 @@
 SET(target atExplorerCore)
 
-INCLUDE_DIRECTORIES(
-.
-${ATEXPLORER_ROOT}
-${ATEXPLORER_ROOT}/source/core
-${CG_BOOST_ROOT}
-${TR1_ROOT}
-${TP_INCLUDES}
-${TP_INCLUDES}/dsl
-)
-
 SET(src
 atExplorerCore
 atExplorerObject

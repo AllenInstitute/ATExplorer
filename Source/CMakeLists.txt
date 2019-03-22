@@ -11,5 +11,9 @@ ${CMAKE_INSTALL_PREFIX}/include
 ${CMAKE_INSTALL_PREFIX}/include/dsl
 )
 
+link_directories(
+${CMAKE_INSTALL_PREFIX}/lib
+)
+
 add_subdirectory(core)
 add_subdirectory(atdata)

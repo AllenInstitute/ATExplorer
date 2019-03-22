@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include "dslUtils.h"
+#include "dslFileUtils.h"
 #include "dslLogger.h"
 #include "atcore_class.h"
 #include "atATExplorer.h"

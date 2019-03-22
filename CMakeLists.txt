@@ -78,16 +78,6 @@ ${BOOST_ROOT}
 ${BOOST_ROOT}/boost/tr1/tr1
 )
 
-include_directories(
-    ${ATEXPLORER_ROOT}/Source
-    ${ATEXPLORER_ROOT}/Source/core
-    ${ATEXPLORER_ROOT}/Source/atdata
-    ${ATEXPLORER_ROOT}/ThirdParty
-    ${TP_INCLUDES}
-    ${TP_INCLUDES}/dsl
-    ${CMAKE_BINARY_DIR}/include    
-)
-
 #Source Code Folders
 add_subdirectory(Applications)
 add_subdirectory(Source)
