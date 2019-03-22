@@ -27,7 +27,7 @@ class ListOfObjects : public ExplorerObject
 
     protected:
         mutable list< T > 			   		mTheList;
-		mutable list< T >::iterator  		mIter;
+		mutable typename list< T >::iterator  		mIter;
 };
 
 template <typename T>

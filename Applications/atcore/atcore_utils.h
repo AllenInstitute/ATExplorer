@@ -3,8 +3,8 @@
 #include <string>
 #include "atdata/atATIFData.h"
 //---------------------------------------------------------------------------
-using std::string;
 
+using std::string;
 using at::ATData;
 
 string 	            fixPathEnding(const string& p);

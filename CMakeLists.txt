@@ -58,7 +58,7 @@ endif()
 #Warning string looks different depending on the compiler..
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SUPPRESS_WARNINGS}")
 
-set(TP_INCLUDES                     ${CMAKE_INSTALL_PREFIX}/include)
+set(TP_INCLUDES                    ${CMAKE_INSTALL_PREFIX}/include)
 set(TP_LIBS                        ${CMAKE_INSTALL_PREFIX}/lib)
 
 if(${INSTALL_PYTHON})
@@ -77,6 +77,17 @@ ${PYTHON_INCLUDE_DIRS}
 ${BOOST_ROOT}
 ${BOOST_ROOT}/boost/tr1/tr1
 )
+
+include_directories(
+    ${ATEXPLORER_ROOT}/Source
+    ${ATEXPLORER_ROOT}/Source/core
+    ${ATEXPLORER_ROOT}/Source/atdata
+    ${ATEXPLORER_ROOT}/ThirdParty
+    ${TP_INCLUDES}
+    ${TP_INCLUDES}/dsl
+    ${CMAKE_BINARY_DIR}/include    
+)
+
 #Source Code Folders
 add_subdirectory(Applications)
 add_subdirectory(Source)

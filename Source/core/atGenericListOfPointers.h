@@ -25,7 +25,7 @@ class ListOfPointers : public ExplorerObject
 
     protected:
         list< T > 				mTheList;
-        mutable list< T >::const_iterator  	mIter;
+        mutable typename list< T >::const_iterator  	mIter;
 };
 
 template <typename T>

@@ -1,9 +1,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(DSLExamples)
+PROJECT(ATExplorerExamples)
 
 link_directories(					
     ${CMAKE_INSTALL_PREFIX}/lib
-    ${THIRDPARTY_INSTALL}/lib
 )
 
 include_directories(

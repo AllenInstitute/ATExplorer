@@ -1,8 +1,10 @@
 #ifndef atPoint2DH
 #define atPoint2DH
 #include "atExplorerObject.h"
+#include <ostream>
 //---------------------------------------------------------------------------
 
+using std::ostream;
 namespace at
 {
 

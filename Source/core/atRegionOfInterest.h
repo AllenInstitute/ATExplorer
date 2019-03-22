@@ -47,7 +47,7 @@ class ATE_CORE RegionOfInterest : public ExplorerObject
 		void							setY2(int y);
         int								getY2() const;
 
-		void							setHeight(inth);
+		void							setHeight(int h);
         int  							getHeight() const;
 
         void							setZ(int z);

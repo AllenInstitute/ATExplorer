@@ -41,7 +41,16 @@ using std::string;
 
 using System::Classes::TMemoryStream;
 
-typedef void __fastcall (__closure *RCCallBack)(void);
+#if defined(__BORLANDC__)
+    typedef void __fastcall (__closure *RCCallBack)(void);
+#else
+    typedef void (*RCCallBack)(void);
+#endif
+
+
+
+
+
 
 
 //Derive from a RestClient class
