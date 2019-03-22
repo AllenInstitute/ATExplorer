@@ -1,5 +1,5 @@
-#ifndef atCLIUtilsH
-#define atCLIUtilsH
+#ifndef atcore_utilsH
+#define atcore_utilsH
 #include <string>
 #include "atdata/atATIFData.h"
 //---------------------------------------------------------------------------

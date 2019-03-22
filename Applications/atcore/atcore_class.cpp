@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "atcli.h"
+#include "atcore_class.h"
 //---------------------------------------------------------------------------
 
 ATCli::ATCli(int argc, const char * argv[])

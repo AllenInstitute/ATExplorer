@@ -1,5 +1,5 @@
-#ifndef atcliH
-#define atcliH
+#ifndef atcore_classH
+#define atcore_classH
 #include "tclap/CmdLine.h"
 #include <string>
 //---------------------------------------------------------------------------
