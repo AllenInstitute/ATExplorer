@@ -32,7 +32,7 @@ void onProgressPopulating(void* arg1, void* arg2, void* arg3)
     Log(lInfo) << "Progress...";
     if(data)
     {
-        Log(lInfo) << "Sections: " <<data->getNumberOfSections();
+ //       Log(lInfo) << "Sections: " <<data->getNumberOfSections();
     }
 }
 
@@ -41,7 +41,6 @@ void onFinishedPopulating(void* arg1, void* arg2, void* arg3)
 {
     ATData* data = (ATData*)arg1;
     Log(lInfo) << "Finished populating data";
-   	Log(lInfo) << data->getInfo();
 }
 
 void populate(ATData* atData)

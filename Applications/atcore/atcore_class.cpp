@@ -1,19 +1,61 @@
 #pragma hdrstop
 #include "atcore_class.h"
+#include "dslLogger.h"
+#include "dslUtils.h"
+#include "dslFileUtils.h"
+#include "atcore_utils.h"
+#include "atATEExceptions.h"
 //---------------------------------------------------------------------------
 
-ATCli::ATCli(int argc, const char * argv[])
+using namespace dsl;
+using namespace std;
+using namespace at;
+ATCore::ATCore(int argc, const char * argv[])
 :
-    logLevel("l", "loglevel", "Set loglevel", false, "Info", "string"),
-    dataRoot("d", "dataroot", "Absolute path to root folder of input data (project) to process", true, "", "string"),
-    printJSON("j","json","Output data in JSON format", false),
-    cmdLine("Command description message", ' ', "0.9")
+CLI(argc, argv),
+IFData(string(""))
 {
-    cmdLine.setExceptionHandling(true);
-    cmdLine.add(logLevel);
-    cmdLine.add(dataRoot);
-    cmdLine.add(printJSON);
-    cmdLine.parse( argc, argv );
+    //Observe that TCLAP will throw and handle any command line exceptions
+    //before even getting here..
+    if(CLI.logLevel.isSet())
+    {
+        string value = CLI.logLevel.getValue();
+        gLogger.setLogLevel(toLogLevel(toUpperCase(value)));
+        Log(lInfo) << "Current loglevel: " << toString(gLogger.getLogLevel());
+    }
+    else
+    {
+        string v = CLI.logLevel.getValue();
+        gLogger.setLogLevel(toLogLevel(v));
+    }
+}
+
+void ATCore::populateData()
+{
+    //Set data.. if any
+    if(CLI.dataRoot.isSet())
+    {
+        string value =CLI.dataRoot.getValue();
+        value = fixPathEnding(value);
+        Path dataPath(value);
+        Log(lInfo) << "Looking at data in folder: " << value;
+        if(!folderExists(value))
+        {
+            throw(FileSystemException("The Folder: " + value + " don't exist!"));
+        }
+
+        IFData.setBasePath(dataPath.toString());
+
+        IFData.assignOnPopulateCallbacks(onStartingPopulating, onProgressPopulating, onFinishedPopulating);
+
+        //Catch signals and set dummy to false, will stop population of data gracefully
+        bool dummy(false);
+        IFData.populate(dummy);
+    }
+    else
+    {
+        Log(lError) << "data root is not set..";
+    }
 }
 
 

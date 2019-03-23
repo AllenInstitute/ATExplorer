@@ -30,6 +30,7 @@ extern "C" int _libmain(unsigned long reason)
 #pragma comment(lib, "poco_foundation")
 #pragma comment(lib, "tinyxml2")
 #pragma comment(lib, "libcurl_imp")
+#pragma comment(lib, "mkjson")
 
 //Cause we are using TThread
 #pragma comment(lib, "vcl.bpi")

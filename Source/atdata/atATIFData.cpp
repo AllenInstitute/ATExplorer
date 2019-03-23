@@ -56,7 +56,7 @@ bool ATIFData::setBasePath(const string& bp)
         }
         else
         {
-            Log (lError) << "The path: " << joinPath(mBasePath.toString(), "processed") << "don't exist!";
+            Log (lWarning) << "The path: " << joinPath(mBasePath.toString(), "processed") << " don't exist!";
         }
 
         string p = joinPath(mBasePath.toString(), 	"scripts");
@@ -73,7 +73,10 @@ bool ATIFData::setBasePath(const string& bp)
     }
     else
     {
-        Log(lWarning) << "Data folder: " << bp <<" don't exist";
+        if(bp.size() != 0)
+        {
+ 	       Log(lWarning) << "Data folder: " << bp <<" don't exist";
+        }
         return false;
     }
 }

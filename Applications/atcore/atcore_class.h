@@ -1,24 +1,26 @@
 #ifndef atcore_classH
 #define atcore_classH
-#include "tclap/CmdLine.h"
+#include "atcli.h"
 #include <string>
+#include "atATIFData.h"
 //---------------------------------------------------------------------------
 
 using std::string;
 using TCLAP::ValueArg;
 using TCLAP::SwitchArg;
 using TCLAP::CmdLine;
-
-class ATCli
+using at::ATIFData;
+class ATCore
 {
     public:
-    	//Command line arguments
-		ValueArg<string> 	logLevel;
-        ValueArg<string> 	dataRoot;
-        SwitchArg 		 	printJSON;
-		TCLAP::CmdLine 		cmdLine;
+                            //The ATCli is an object dealing with the command line
+        ATCli               CLI;
 
-        					ATCli(int argc, const char * argv[]);
+        void                populateData();
+        					ATCore(int argc, const char * argv[]);
+     	ATIFData   			IFData;
+    private:
+
 };
 
 #endif

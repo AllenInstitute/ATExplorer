@@ -52,9 +52,9 @@
         <Multithreaded>true</Multithreaded>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <SanitizedProjectName>atExplorerFoundation</SanitizedProjectName>
-        <IncludePath>..\..\ThirdParty\mkjson\;P:\libs\json\mkjson\;..\..\Source\core\renderAPI\;..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Source\core\renderAPI\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(IncludePath)</IncludePath>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>..\..\ThirdParty\mkjson\;P:\libs\json\mkjson\;..\..\Source\core\renderAPI\;..\..\Source\core\renderRequests\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\Source\core\renderAPI\;..\..\Source\core\pointMatches\;..\..\Source\atdata\;..\..\Source\core\;P:\atExplorer\builds\atExplorerFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;atVCLComponents;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DbxDevartPostgreSQLDriver250;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dslVCLComponents;dslVCLVisualComponents;dsnap;dsnapcon;dsnapxml;FireDACADSDriver;FireDACCommonODBC;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;ibmonitor;ibxbindings;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inetdb;inetdbxpress;Intraweb;RaizeComponentsVcl;RaizeComponentsVclDb;rtl;sbridge250;svn;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclib;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -342,9 +342,6 @@
         <None Include="..\..\Source\core\renderAPI\atGetOwnersResponse.h">
             <BuildOrder>61</BuildOrder>
         </None>
-        <CppCompile Include="..\..\ThirdParty\mkjson\mkjson.cpp">
-            <BuildOrder>64</BuildOrder>
-        </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -368,10 +365,7 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\dslVCLVisualComponents.bpl">Dune Visual Components</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">

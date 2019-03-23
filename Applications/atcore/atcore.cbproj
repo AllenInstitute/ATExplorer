@@ -57,7 +57,6 @@
         <IncludePath>P:\libs\json\mkjson\;P:\atExplorer\Applications\ATCLI\;$(IncludePath)</IncludePath>
         <Multithreaded>true</Multithreaded>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>P:\libs\json\mkjson\;P:\atExplorer\Applications\ATCLI\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>atcore</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
@@ -105,21 +104,24 @@
         <DynamicRTL>true</DynamicRTL>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
-        <Debugger_RunParams>--dataroot E:\\data\\M33 --json</Debugger_RunParams>
         <BCC_IncludePath>$(ATE_ROOT);$(ATE_ROOT)\Source;$(ATE_ROOT)\Source\atdata;$(BCC_IncludePath)</BCC_IncludePath>
+        <Debugger_RunParams>--dataroot C:\\data\\M33 --json</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="atcli.cpp">
+            <DependentOn>atcli.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <PCHCompile Include="atcorePCH1.h">
             <BuildOrder>0</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
         <CppCompile Include="atcore_class.cpp">
-            <DependentOn>atcore_class.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
+            <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="atcore_utils.cpp">
             <DependentOn>atcore_utils.h</DependentOn>
@@ -203,14 +205,20 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\atcore.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>atcore.tds</RemoteName>
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
+                <DeployFile LocalName=".\Win32\Debug\atcore.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>atcore.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Win32\Debug\atcore.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>atcore.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -221,12 +229,6 @@
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\atcore.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>atcore.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
