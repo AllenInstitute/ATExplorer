@@ -240,7 +240,7 @@ string ATIFData::getInfoJSON()
                     MKJSON_STRING,          "SessionFolders",   sessions.c_str()
                     );
 
-    s << string(json);
+    s << string(json) << '\n'; //Newline is practical when send to console
 
     free(json);
     return s.str();
