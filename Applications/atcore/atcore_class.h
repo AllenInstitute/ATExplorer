@@ -2,7 +2,7 @@
 #define atcore_classH
 #include "atcli.h"
 #include <string>
-#include "atATIFData.h"
+#include "atdata/atATIFData.h"
 //---------------------------------------------------------------------------
 
 using std::string;

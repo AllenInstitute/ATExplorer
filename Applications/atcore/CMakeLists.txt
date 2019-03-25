@@ -7,6 +7,7 @@ set(src
 main
 atcore_class
 atcore_utils
+atcli
 )
 
 add_executable(${target} ${src})

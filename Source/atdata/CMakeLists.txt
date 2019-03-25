@@ -19,7 +19,6 @@ atRibbon
 atSection
 atSession
 atTile
-${ATEXPLORER_ROOT}/ThirdParty/mkjson/mkjson.cpp
 )
 
 #===== Shared library
@@ -35,6 +34,7 @@ if(BUILD_SHARED_LIBS)
 
     TARGET_LINK_LIBRARIES(${target} 
         atExplorerCore
+        mkjson
 #        ${CMAKE_INSTALL_PREFIX}/lib/dslFoundation.lib
 #        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
     )
