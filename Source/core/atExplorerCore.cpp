@@ -14,10 +14,7 @@ string getAPIVersion()
 {
     return MAJOR_VERSION + "." + MINOR_VERSION;
 }
-
 }
-
-
 
 //Module entry point..
 extern "C" int _libmain(unsigned long reason)

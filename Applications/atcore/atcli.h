@@ -13,13 +13,14 @@ class ATCli
 {
     public:
     	//Command line arguments
-		ValueArg<string> 	logLevel;
-        ValueArg<string> 	dataRoot;
-        SwitchArg 		 	printJSON;
-        SwitchArg 		 	showLogs;
-		TCLAP::CmdLine 		cmdLine;
+		ValueArg<string> 	            loglevel;
+        ValueArg<string> 	            dataroot;
+        SwitchArg 		 	            datainfo;
+        SwitchArg 		 	            printjson;
+        SwitchArg 		 	            showLogs;
+		TCLAP::CmdLine 		            cmdLine;
 
-        					ATCli(int argc, const char * argv[]);
+        					            ATCli(int argc, const char * argv[]);
 };
 
 #endif
