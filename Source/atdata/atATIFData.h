@@ -17,41 +17,45 @@ typedef shared_ptr<ATIFData> ATIFDataSP;
 class ATE_DATA ATIFData : public ATData
 {
     public:
-                    					ATIFData(const string& basePath);
-                    					ATIFData(const Path&   basePath);
-        virtual bool                    setBasePath(const string& bp);
-		ATDataFileFormat            	getFileFormat();
-        virtual void                    reset();
-        virtual bool        			validate();
-        virtual bool                    populate(const bool& exitPopulation);
+                    					            ATIFData(const string& basePath);
+                    					            ATIFData(const Path&   basePath);
+        virtual bool                                setBasePath(const string& bp);
+		ATDataFileFormat            	            getFileFormat();
+        virtual void                                reset();
+        virtual bool        			            validate();
+        virtual bool                                populate(const bool& exitPopulation);
+        virtual string                              getInfoJSON();
 
-                                        //!Ribbonfolder functions..
-		FileFolders                     getRibbonFolders();
-        FileFolderSP					getRibbonFolder(int fldr);
+                                                    //!Ribbonfolder functions..
+		FileFolders                                 getRibbonFolders();
+		StringList                                  getRibbonBaseFolders();
 
-                                        //!Get root folder for Ribbon Folders
-        FileFolderSP 	       			getRibbonsDataFolder();
+        FileFolderSP					            getRibbonFolder(int fldr);
 
-        int                 			getNumberOfRibbonFolders();
+                                                    //!Get root folder for Ribbon Folders
+        FileFolderSP 	       			            getRibbonsDataFolder();
 
-		FileFolders						getSessionFolders(FileFolderSP ribbonFolder);
+        int                 			            getNumberOfRibbonFolders();
 
-   		FileFolders                     getChannelFolders(FileFolderSP sessionFolder);
+		FileFolders						            getSessionFolders(FileFolderSP ribbonFolder);
+		StringList						            getSessionBaseFolders();
 
-        int	                            getNumberOfStateTables(bool refresh = false);
+   		FileFolders                                 getChannelFolders(FileFolderSP sessionFolder);
 
-        StringList                      getStateTables();
+        int	                                        getNumberOfStateTables(bool refresh = false);
+
+        StringList                                  getStateTables();
 
     protected:
-        Path 							mRibbonsFolderPath;
-        FileFolderSP			        mRibbonsDataFolder;
-        FileFolderSP   	    			mProcessedDataFolder;
-        FileFolderSP        			mScriptsDataFolder;
-        StringList                      mStateTables;
+        Path 							            mRibbonsFolderPath;
+        FileFolderSP			                    mRibbonsDataFolder;
+        FileFolderSP   	    			            mProcessedDataFolder;
+        FileFolderSP        			            mScriptsDataFolder;
+        StringList                                  mStateTables;
 
-        bool                            populateRibbons();
-        bool                            populateSessions();
-        bool                            populateStateTables();
+        bool                                        populateRibbons();
+        bool                                        populateSessions();
+        bool                                        populateStateTables();
 };
 }
 #endif

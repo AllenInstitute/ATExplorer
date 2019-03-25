@@ -12,8 +12,8 @@ Ribbon::Ribbon(int id, const string& alias)
 :
 Sections(),
 mShortRibbonID(id),
-mAlias(alias),
-mLongRibbonID("")
+mLongRibbonID(""),
+mAlias(alias)
 {}
 
 Ribbon::~Ribbon()

@@ -31,7 +31,7 @@ class ATE_DATA ATData : virtual public ExplorerObject
 
                                         		//!Return some information about the current data
         string                                  getInfo();
-        string                                  getInfoJSON();
+        virtual string                          getInfoJSON();
 
                                                 //!Resets the data object, excepts the basepath
         virtual void                            reset();
@@ -55,12 +55,12 @@ class ATE_DATA ATData : virtual public ExplorerObject
         Sessions*                               getSessions();
         SessionSP                               getFirstSession();
         SessionSP                               getNextSession();
+
         StringList                              getChannelLabelsForSession(SessionSP session);
 
                                                 //!Utilities
         int                                     getNumberOfSections();
 		int                                     getNumberOfTiles();
-
 		int                                     getNumberOfChannels();
 
 //        Sections                                getSections(const ChannelSP channel);

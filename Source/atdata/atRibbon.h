@@ -21,6 +21,7 @@ class ATE_DATA Ribbon : public Sections
         virtual void                            removeSections();
         void                                    assignLongRibbonID(const string& lid);
 
+                                                //!For ATIF data, the alias is equal to the name of the "Ribbon folder", e.g. Ribbon0003
         string                                  getAlias();
         int		                                getAliasAsInt();
         int		                                getShortRibbonID();

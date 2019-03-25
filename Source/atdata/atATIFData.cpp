@@ -9,6 +9,7 @@
 #include "atFileFolder.h"
 #include "atRibbon.h"
 #include "dslFileUtils.h"
+#include "mkjson/mkjson.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -170,6 +171,80 @@ bool ATIFData::populateStateTables()
     }
 
     return true;
+}
+
+StringList ATIFData::getRibbonBaseFolders()
+{
+    FileFolders fldrs = getRibbonFolders();
+
+    if(!fldrs.count())
+    {
+        Log(lWarning) << "No ribbon folders in __FUNC__";
+        return StringList();
+    }
+
+    FileFolderSP fldr = fldrs.getFirst();
+
+    StringList rbns;
+    while(fldr)
+    {
+		rbns.append(fldr->getLastPartOfPath());
+        fldr = fldrs.getNext();
+    }
+    return rbns;
+}
+
+StringList ATIFData::getSessionBaseFolders()
+{
+	FileFolderSP rf = getRibbonFolder(1);
+
+    if(!rf)
+    {
+        Log(lWarning) << "No ribbon folders in __FUNC__";
+        return StringList();
+    }
+
+    FileFolders fldrs = getSessionFolders(rf);
+
+    if(!fldrs.count())
+    {
+        Log(lWarning) << "No session folders in __FUNC__";
+        return StringList();
+    }
+
+    FileFolderSP fldr = fldrs.getFirst();
+
+    StringList basefldrs;
+    while(fldr)
+    {
+		basefldrs.append(fldr->getLastPartOfPath());
+        fldr = fldrs.getNext();
+    }
+    return basefldrs;
+}
+
+string ATIFData::getInfoJSON()
+{
+    string ribbons(getRibbonBaseFolders().asString(','));
+    string sessions(getSessionBaseFolders().asString(','));
+
+    //Create the JSON
+    stringstream s;
+	char *json = mkjson(MKJSON_OBJ, 7,
+				    MKJSON_INT,             "NumberOfRibbons", 	getNumberOfRibbons(),
+                    MKJSON_INT,             "NumberOfSections", getNumberOfSections(),
+					MKJSON_INT,             "NumberOfTiles", 	getNumberOfTiles(),
+					MKJSON_INT,             "NumberOfSessions",	getNumberOfSessions(),
+					MKJSON_INT,             "NumberOfChannels",	getNumberOfChannels(),
+                    MKJSON_STRING,          "RibbonFolders",    ribbons.c_str(),
+                    MKJSON_STRING,          "SessionFolders",   sessions.c_str()
+                    );
+
+    s << string(json);
+
+    free(json);
+    return s.str();
+
 }
 
 bool ATIFData::populateRibbons()

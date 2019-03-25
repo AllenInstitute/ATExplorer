@@ -1,2 +1,6 @@
 The ATExplorer software package make use of the following ThirdParty software libraries:
 
+DSL++ C++ API
+   Copyright 1995-2019 Dune Scientific, LLC
+   DSL is distributed under the Apache 2.0 License
+

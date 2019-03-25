@@ -1,35 +1,26 @@
- * Licensing and Distribution Terms for the ATExplorer API
- * Copyright (C) 2016
- *   Totte Karlsson, Forrest Collman & Stephen Smith - Allen Institute for Brain Science
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * You may not use this software except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under this License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * In plain english this means:
- *
- * You can freely download and use this software, in whole or in part, for personal,
- * company internal, or commercial purposes;
- *
- * You can use the software in packages or distributions that you create.
- *
- * You should include a copy of the license in any redistribution you may make;
- *
- * You are not required to include the source of this software, or of any modifications you may
- * have made to it, in any redistribution you may assemble that includes it.
- *
- * You cannot:
- *
- * Redistribute any piece of this software without proper attribution;   
- *
- * Apache License
- * Version 2.0, January 2004
- * http://www.apache.org/licenses/
+Allen Institute Software License – This software license is the 2-clause BSD license 
+plus a third clause that prohibits redistribution for commercial purposes without further permission.
+
+Copyright © 2017. Allen Institute. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the 
+following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the 
+following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Redistributions for commercial purposes are not permitted without the Allen Institute’s written permission.
+For purposes of this license, commercial purposes is the incorporation of the Allen Institute's software into
+anything for which you will charge fees or other compensation. Contact terms@alleninstitute.org for commercial
+licensing opportunities.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
