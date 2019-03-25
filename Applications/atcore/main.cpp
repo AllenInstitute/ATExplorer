@@ -13,15 +13,27 @@ using namespace TCLAP;
 
 int main(int argc, const char * argv[])
 {
-
     try
     {
 		ATCore atCore(argc, argv);
         gLogger.logToConsole(atCore.CLI.showLogs.getValue());
 
-        atCore.populateData();
+	    if(atCore.CLI.dataroot.isSet())  //for verbosity only, if not set, the CLI throws
+    	{
+        	atCore.populateData();
+        }
 
-        if(atCore.CLI.printJSON.isSet())
+    	//Check if no other flag is set, pring information
+        if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet())
+        {
+		    cout << atCore.IFData.getInfo();
+        }
+
+        if(atCore.CLI.datainfo.isSet())
+        {
+            cout << atCore.IFData.getInfo();
+        }
+        else if(atCore.CLI.printjson.isSet())
         {
             cout << atCore.IFData.getInfoJSON();
         }

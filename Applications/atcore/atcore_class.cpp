@@ -17,15 +17,15 @@ IFData(string(""))
 {
     //Observe that TCLAP will throw and handle any command line exceptions
     //before even getting here..
-    if(CLI.logLevel.isSet())
+    if(CLI.loglevel.isSet())
     {
-        string value = CLI.logLevel.getValue();
+        string value = CLI.loglevel.getValue();
         gLogger.setLogLevel(toLogLevel(toUpperCase(value)));
         Log(lInfo) << "Current loglevel: " << toString(gLogger.getLogLevel());
     }
     else
     {
-        string v = CLI.logLevel.getValue();
+        string v = CLI.loglevel.getValue();
         gLogger.setLogLevel(toLogLevel(v));
     }
 }
@@ -33,29 +33,21 @@ IFData(string(""))
 void ATCore::populateData()
 {
     //Set data.. if any
-    if(CLI.dataRoot.isSet())
+    string value = CLI.dataroot.getValue();
+    value = fixPathEnding(value);
+    Path dataPath(value);
+    Log(lInfo) << "Looking at data in folder: " << value;
+    if(!folderExists(value))
     {
-        string value =CLI.dataRoot.getValue();
-        value = fixPathEnding(value);
-        Path dataPath(value);
-        Log(lInfo) << "Looking at data in folder: " << value;
-        if(!folderExists(value))
-        {
-            throw(FileSystemException("The Folder: " + value + " don't exist!"));
-        }
-
-        IFData.setBasePath(dataPath.toString());
-
-        IFData.assignOnPopulateCallbacks(onStartingPopulating, onProgressPopulating, onFinishedPopulating);
-
-        //Catch signals and set dummy to false, will stop population of data gracefully
-        bool dummy(false);
-        IFData.populate(dummy);
+        throw(FileSystemException("The Folder: " + value + " don't exist!"));
     }
-    else
-    {
-        Log(lError) << "data root is not set..";
-    }
+
+    IFData.setBasePath(dataPath.toString());
+    IFData.assignOnPopulateCallbacks(onStartingPopulating, onProgressPopulating, onFinishedPopulating);
+
+    //Catch signals and set dummy to false, will stop population of data gracefully
+    bool dummy(false);
+    IFData.populate(dummy);
 }
 
 
