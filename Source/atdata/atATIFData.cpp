@@ -37,9 +37,9 @@ mRibbonsFolderPath(joinPath(mBasePath.toString(),  (joinPath("raw", "data\\"))))
 
 bool ATIFData::setBasePath(const string& bp)
 {
-    Log(lDebug) << "Setting up folders (in setBasePath)";
     if(folderExists(bp))
     {
+	    Log(lDebug) << "Setting up folders (in setBasePath)";
 	    mBasePath = Path(bp);
         mRibbonsFolderPath 		= Path(joinPath(mBasePath.toString(),  (joinPath("raw", "data/"))));
         if(folderExists(mRibbonsFolderPath.toString()))
