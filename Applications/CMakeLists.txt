@@ -6,9 +6,9 @@ link_directories(
 )
 
 include_directories(
-    ${ATEXPLORER_ROOT}/source
-    ${ATEXPLORER_ROOT}/source/core
-    ${ATEXPLORER_ROOT}/source/atdata
+    ${ATEXPLORER_ROOT}/Source
+    ${ATEXPLORER_ROOT}/Source/core
+    ${ATEXPLORER_ROOT}/Source/atdata
     ${ATEXPLORER_ROOT}/ThirdParty
     ${TP_INCLUDES}
     ${TP_INCLUDES}/dsl
