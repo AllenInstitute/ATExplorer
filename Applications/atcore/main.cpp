@@ -15,6 +15,7 @@ int main(int argc, const char * argv[])
 {
     try
     {
+        //The ATCore ctor parses some supplied arguments, such as loglevel
 		ATCore atCore(argc, argv);
         gLogger.logToConsole(atCore.CLI.showLogs.getValue());
 
@@ -23,7 +24,7 @@ int main(int argc, const char * argv[])
         	atCore.populateData();
         }
 
-    	//Check if no other flag is set, pring information
+    	//Check if no other flag is set, print information
         if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet())
         {
 		    cout << atCore.IFData.getInfo();

@@ -21,7 +21,6 @@ IFData(string(""))
     {
         string value = CLI.loglevel.getValue();
         gLogger.setLogLevel(toLogLevel(toUpperCase(value)));
-        Log(lInfo) << "Current loglevel: " << toString(gLogger.getLogLevel());
     }
     else
     {
