@@ -7,6 +7,7 @@
 #include <sstream>
 #include "dslFileUtils.h"
 #include "mkjson/mkjson.h"
+#include <iomanip>
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace std;
@@ -43,28 +44,30 @@ string ATData::getInfo()
 {
     stringstream s;
 
-    s << "ATData Information Follows =================" << endl;
+    s << "ATData Information \n";
     //Print some information about ribbons and sections
-    s << "Number of Ribbons: "<<this->getNumberOfRibbons() << endl;
-
     RibbonSP ribbon = this->getFirstRibbon();
+    int secTotals(0);
     while(ribbon)
     {
-        s << "Number of sections in Ribbon \"" << ribbon->getAlias() <<"\" :"<<ribbon->getNumberOfSections() << endl;
+        s << "Number of sections in Ribbon \"" << ribbon->getAlias() <<"\": "<<ribbon->getNumberOfSections() << endl;
+        secTotals += ribbon->getNumberOfSections();
         ribbon = this->getNextRibbon();
     }
 
     //Check Sessions and channels, i.e. actual data
     SessionSP session =  this->getFirstSession();
+    int chCount(0);
+    int sessionCount(0);
     while(session)
     {
-        s << "\nSession " << session->getLabel() << endl;
+        s << "\n" << session->getLabel() << endl;
 
         //Get Channels in session
         ChannelSP ch = session->getFirstChannel();
         while(ch)
         {
-            s << '\t' << "Channel: " << ch->getLabel() << endl;
+            s << '\t' << std::left << std::setw(15)<< ch->getLabel() + ": " ;
             RibbonSP ribbon = this->getFirstRibbon();
             while(ribbon)
             {
@@ -72,19 +75,29 @@ string ATData::getInfo()
                 int tileCount = ribbon->getTileCount(ch);
                 string ribbonAlias = ribbon->getAlias();
 
-	            s <<  "\t\t\t" << "There are " << tileCount << " tiles in "
-                << nrOfSections <<" sections "<< "in Ribbon \"" << ribbonAlias << "\""<< endl;
+	            s <<  "\t\t" << tileCount << " tiles in "
+                << nrOfSections <<" sections "<< "in \"" << ribbonAlias << "\""<< endl;
                 ribbon = this->getNextRibbon();
             }
+            chCount += 1;
             ch = session->getNextChannel();
         }
+        sessionCount += 1;
         session = this->getNextSession();
     }
 
     //Total number of tiles??
     long nrOfTiles = this->getNumberOfTiles();
-    s << "Total Number of Tiles: " << nrOfTiles << endl;
-    s << "==== End of ATData Information" << endl;
+
+    int secCW(6);
+    int firstCW(25);
+    s << "\nSummary: \n" << setfill(' ');
+	s << "  " << std::left  << std::setw(firstCW) << "Number of ribbons: "     << std::right << std::setw(secCW) << this->getNumberOfRibbons() <<  '\n';
+    s << "  " << std::left  << std::setw(firstCW) << "Number of sections: "  	<< std::right << std::setw(secCW) << secTotals   	            <<  '\n';
+    s << "  " << std::left  << std::setw(firstCW) << "Number of tiles: " 	   	<< std::right << std::setw(secCW) << nrOfTiles    	            <<  '\n';
+	s << "  " << std::left  << std::setw(firstCW) << "Number of sessions: "  	<< std::right << std::setw(secCW) << sessionCount 	            <<  '\n';
+	s << "  " << std::left  << std::setw(firstCW) << "Number of channels: "  	<< std::right << std::setw(secCW) << chCount    	            <<  '\n';
+	s << endl;
 
     return s.str();
 }
