@@ -235,8 +235,7 @@ string ATIFData::getNumberOfSectionsInRibbonsJSON()
         nrs.append(toString(secsInRibbon));
     }
 
-    json << "{SectionsInRibbons:[";
-    json <<nrs.asString(',') <<"]}";
+    json << "\"SectionsInRibbons\" : [" << nrs.asString(',') << "]";
 
     Log(lDebug) << string(json.str()) << endl;
     return json.str();
@@ -246,21 +245,26 @@ string ATIFData::getInfoJSON()
 {
     string ribbons(getRibbonBaseFolders().asString(','));
     string sessions(getSessionBaseFolders().asString(','));
+	string array = getNumberOfSectionsInRibbonsJSON();
 
     //Create the JSON
     stringstream s;
 	char *json = mkjson(MKJSON_OBJ, 7,
-				    MKJSON_INT,             "NumberOfRibbons", 	getNumberOfRibbons(),
-                    MKJSON_INT,             "NumberOfSections", getNumberOfSections(),
-					MKJSON_INT,             "NumberOfTiles", 	getNumberOfTiles(),
-					MKJSON_INT,             "NumberOfSessions",	getNumberOfSessions(),
-					MKJSON_INT,             "NumberOfChannels",	getNumberOfChannels(),
-                    MKJSON_STRING,          "RibbonFolders",    ribbons.c_str(),
-                    MKJSON_STRING,          "SessionFolders",   sessions.c_str()
+				    MKJSON_INT,             "NumberOfRibbons", 	        getNumberOfRibbons(),
+                    MKJSON_INT,             "NumberOfSections",         getNumberOfSections(),
+					MKJSON_INT,             "NumberOfTiles", 	        getNumberOfTiles(),
+					MKJSON_INT,             "NumberOfSessions",	        getNumberOfSessions(),
+					MKJSON_INT,             "NumberOfChannels",	        getNumberOfChannels(),
+                    MKJSON_STRING,          "RibbonFolders",            ribbons.c_str(),
+                    MKJSON_STRING,          "SessionFolders",           sessions.c_str()
                     );
 
-    s << string(json) << '\n'; //Newline is practical when sent to console
+    string jsons(json);
     free(json);
+
+    //Hack the json
+    jsons.erase(jsons.end() - 1);
+    s << string(jsons) << ", " + getNumberOfSectionsInRibbonsJSON() << "}" << '\n';
     return s.str();
 }
 
