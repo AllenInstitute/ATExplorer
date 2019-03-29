@@ -67,7 +67,7 @@ string ATData::getInfo()
         ChannelSP ch = session->getFirstChannel();
         while(ch)
         {
-            s << '\t' << std::left << std::setw(15)<< ch->getLabel() + ": " ;
+            s << '\t' << std::left << std::setw(15)<< ch->getLabel() + ":\n" ;
             RibbonSP ribbon = this->getFirstRibbon();
             while(ribbon)
             {
@@ -75,7 +75,7 @@ string ATData::getInfo()
                 int tileCount = ribbon->getTileCount(ch);
                 string ribbonAlias = ribbon->getAlias();
 
-	            s <<  "\t\t" << tileCount << " tiles in "
+	            s <<  "\t\t\t\t" << tileCount << " tiles in "
                 << nrOfSections <<" sections "<< "in \"" << ribbonAlias << "\""<< endl;
                 ribbon = this->getNextRibbon();
             }
