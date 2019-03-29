@@ -223,6 +223,25 @@ StringList ATIFData::getSessionBaseFolders()
     return basefldrs;
 }
 
+string ATIFData::getNumberOfSectionsInRibbonsJSON()
+{
+    int nrOfRibbons(getNumberOfRibbons());
+    StringList nrs;
+    stringstream json;
+    for(int r = 0; r < nrOfRibbons; r++)
+    {
+        RibbonSP ribbon = getRibbon(r+1);
+        int secsInRibbon = ribbon->getNumberOfSections();
+        nrs.append(toString(secsInRibbon));
+    }
+
+    json << "{SectionsInRibbons:[";
+    json <<nrs.asString(',') <<"]}";
+
+    Log(lDebug) << string(json.str()) << endl;
+    return json.str();
+}
+
 string ATIFData::getInfoJSON()
 {
     string ribbons(getRibbonBaseFolders().asString(','));
@@ -240,11 +259,9 @@ string ATIFData::getInfoJSON()
                     MKJSON_STRING,          "SessionFolders",   sessions.c_str()
                     );
 
-    s << string(json) << '\n'; //Newline is practical when send to console
-
+    s << string(json) << '\n'; //Newline is practical when sent to console
     free(json);
     return s.str();
-
 }
 
 bool ATIFData::populateRibbons()

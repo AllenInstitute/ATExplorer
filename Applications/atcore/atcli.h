@@ -15,9 +15,10 @@ class ATCli
     	//Command line arguments
 		ValueArg<string> 	            loglevel;
         ValueArg<string> 	            dataroot;
+        ValueArg<int>	                sectionsinribbon;
         SwitchArg 		 	            datainfo;
         SwitchArg 		 	            printjson;
-        SwitchArg 		 	            showLogs;
+        SwitchArg 		 	            consolelogs;
 		TCLAP::CmdLine 		            cmdLine;
 
         					            ATCli(int argc, const char * argv[]);

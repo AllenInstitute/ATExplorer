@@ -5,6 +5,7 @@
 #include "atcore_class.h"
 #include "atATExplorer.h"
 #include "atATEExceptions.h"
+#include "atRibbon.h"
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace dsl;
@@ -17,7 +18,7 @@ int main(int argc, const char * argv[])
     {
         //The ATCore ctor parses some supplied arguments, such as loglevel
 		ATCore atCore(argc, argv);
-        gLogger.logToConsole(atCore.CLI.showLogs.getValue());
+        gLogger.logToConsole(atCore.CLI.consolelogs.getValue());
 
 	    if(atCore.CLI.dataroot.isSet())  //for verbosity only, if not set, the CLI throws
     	{
@@ -25,11 +26,15 @@ int main(int argc, const char * argv[])
         }
 
     	//Check if no other flag is set, print information
-        if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet())
+        if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet() && !atCore.CLI.sectionsinribbon.isSet())
         {
 		    cout << atCore.IFData.getInfo();
         }
 
+        if(atCore.CLI.sectionsinribbon.isSet())
+        {
+            cout << atCore.IFData.getNumberOfSectionsInRibbonsJSON();
+        }
         if(atCore.CLI.datainfo.isSet())
         {
             cout << atCore.IFData.getInfo();
