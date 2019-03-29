@@ -26,15 +26,11 @@ int main(int argc, const char * argv[])
         }
 
     	//Check if no other flag is set, print information
-        if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet() && !atCore.CLI.sectionsinribbon.isSet())
+        if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet() )
         {
 		    cout << atCore.IFData.getInfo();
         }
 
-        if(atCore.CLI.sectionsinribbon.isSet())
-        {
-            cout << atCore.IFData.getNumberOfSectionsInRibbonsJSON();
-        }
         if(atCore.CLI.datainfo.isSet())
         {
             cout << atCore.IFData.getInfo();

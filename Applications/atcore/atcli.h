@@ -15,7 +15,6 @@ class ATCli
     	//Command line arguments
 		ValueArg<string> 	            loglevel;
         ValueArg<string> 	            dataroot;
-        ValueArg<int>	                sectionsinribbon;
         SwitchArg 		 	            datainfo;
         SwitchArg 		 	            printjson;
         SwitchArg 		 	            consolelogs;
