@@ -3,6 +3,8 @@
 #include "atcli.h"
 #include <string>
 #include "atdata/atATIFData.h"
+#include "dslIniFile.h"
+#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 
 using std::string;
@@ -10,6 +12,9 @@ using TCLAP::ValueArg;
 using TCLAP::SwitchArg;
 using TCLAP::CmdLine;
 using at::ATIFData;
+using dsl::IniFile;
+using at::ATExplorer;
+
 class ATCore
 {
     public:
@@ -19,7 +24,14 @@ class ATCore
         void                populateData();
         					ATCore(int argc, const char * argv[]);
      	ATIFData   			IFData;
+
+        string              getOwner();
+
+        ATExplorer          mATExplorer;
+
     private:
+        IniFile             mIniFile;
+
 
 };
 

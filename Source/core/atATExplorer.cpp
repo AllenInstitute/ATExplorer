@@ -20,8 +20,8 @@ DefaultRenderPythonApps(NULL),
 DefaultATModules(NULL),
 DefaultRenderServiceContainer(NULL),
 Properties(),
-mIniFile(NULL),
-Cache("")//,
+Cache(""),
+mIniFile(NULL)
 //RenderClient()
 {
     Log(lInfo) << "Starting up ATExplorer..";

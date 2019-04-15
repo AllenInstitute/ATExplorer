@@ -48,11 +48,6 @@ using System::Classes::TMemoryStream;
 #endif
 
 
-
-
-
-
-
 //Derive from a RestClient class
 class ATE_CORE RenderClient : public RESTClient
 {

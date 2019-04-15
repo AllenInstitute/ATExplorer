@@ -3,7 +3,6 @@
 #include "dslFileUtils.h"
 #include "dslLogger.h"
 #include "atcore_class.h"
-#include "atATExplorer.h"
 #include "atATEExceptions.h"
 #include "atRibbon.h"
 //---------------------------------------------------------------------------
@@ -16,29 +15,92 @@ int main(int argc, const char * argv[])
 {
     try
     {
+
         //The ATCore ctor parses some supplied arguments, such as loglevel
 		ATCore atCore(argc, argv);
         gLogger.logToConsole(atCore.CLI.consolelogs.getValue());
 
-	    if(atCore.CLI.dataroot.isSet())  //for verbosity only, if not set, the CLI throws
+        //if no options are set, print usage
+        if(atCore.CLI.numberofArgsSet() == 0)
+        {
+			//atCore.CLI.cmdLine.add("--usage");
+            atCore.CLI.showUsage();
+            exit(0);
+        }
+
+        //When getting info regarding raw data
+	    if(atCore.CLI.dataroot.isSet())
     	{
         	atCore.populateData();
+
+            //Check if no other flag is set, print information
+            if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet() )
+            {
+                cout << atCore.IFData.getInfo();
+            }
+
+            if(atCore.CLI.datainfo.isSet())
+            {
+                cout << atCore.IFData.getInfo();
+            }
+            else if(atCore.CLI.printjson.isSet())
+            {
+                cout << atCore.IFData.getInfoJSON();
+            }
         }
 
-    	//Check if no other flag is set, print information
-        if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet() )
+        if(atCore.CLI.getstacknames.isSet())
         {
-		    cout << atCore.IFData.getInfo();
+        	if(!atCore.CLI.project.isSet())
+            {
+	            atCore.CLI.showUsage();
+                exit(0);
+            }
+
+            string owner(atCore.getOwner());
+            string project(atCore.CLI.project.getValue());
+            clog << "Get stacknames for owner: '" << owner << "' and project: '" << project << "'";
+            cout << atCore.mATExplorer.RenderClient.StackDataAPI.getStacksForProject(owner, project);
         }
 
-        if(atCore.CLI.datainfo.isSet())
+        else if(atCore.CLI.deletestack.isSet())
         {
-            cout << atCore.IFData.getInfo();
+            //User must supply renderproject and optionally owner
         }
-        else if(atCore.CLI.printjson.isSet())
+
+        if(atCore.CLI.deletestacks.isSet())
         {
-            cout << atCore.IFData.getInfoJSON();
+            //User must supply renderproject and optionally owner
+			if(!atCore.CLI.project.isSet())
+            {
+	            atCore.CLI.showUsage();
+                exit(0);
+            }
+
+            string owner(atCore.getOwner());
+            string project(atCore.CLI.project.getValue());
+            Log(lDebug) << "Delete stacks for owner: '" << owner << "' in project: '" << project << "'";
+
+            StringList stacks = atCore.mATExplorer.RenderClient.StackDataAPI.getStacksForProject(owner, project);
+            for(int i = 0; i < stacks.count(); i++)
+            {
+                string stack(stacks[i]);
+                Log(lDebug) << "Deleting stack: " << stack;
+                char confirm;
+                cout << "Confirm delettion of stack! (y/n)";
+                cin >> confirm;
+                if(confirm == 'y')
+                {
+		            cout << atCore.mATExplorer.RenderClient.StackDataAPI.deleteStack(owner, project, stack);
+                }
+                else
+                {
+                    Log(lInfo) << "The stack: " << stack << " was not deleted";
+
+                }
+            }
         }
+
     }
     catch(dsl::DSLException& ex)
     {
@@ -47,7 +109,6 @@ int main(int argc, const char * argv[])
     catch(const FileSystemException& e)
     {
         Log(lError) << "Exception: " << e.what();
-        Log(lInfo)  <<  "atcore is exiting..";
     }
 	catch (TCLAP::ArgException &e)  // catch any exceptions
 	{

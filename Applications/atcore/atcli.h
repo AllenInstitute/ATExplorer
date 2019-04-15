@@ -18,9 +18,21 @@ class ATCli
         SwitchArg 		 	            datainfo;
         SwitchArg 		 	            printjson;
         SwitchArg 		 	            consolelogs;
-		TCLAP::CmdLine 		            cmdLine;
 
+        //Render stuff
+        ValueArg<string>                deletestack;
+        SwitchArg       		        deletestacks;
+
+		SwitchArg						getstacknames;
+        ValueArg<string>                owner;
+        ValueArg<string>                project;
+
+		TCLAP::CmdLine 		            cmdLine;
         					            ATCli(int argc, const char * argv[]);
+
+
+        void                            showUsage();
+		int								numberofArgsSet();
 };
 
 #endif
