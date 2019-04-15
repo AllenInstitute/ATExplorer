@@ -9,7 +9,7 @@
         <Projects Include="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="atcore.cbproj">
+        <Projects Include="atcli.cbproj">
             <Dependencies>..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
@@ -38,23 +38,23 @@
     <Target Name="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="atcore" DependsOnTargets="atExplorerFoundation">
-        <MSBuild Projects="atcore.cbproj"/>
+    <Target Name="atcli" DependsOnTargets="atExplorerFoundation">
+        <MSBuild Projects="atcli.cbproj"/>
     </Target>
-    <Target Name="atcore:Clean" DependsOnTargets="atExplorerFoundation:Clean">
-        <MSBuild Projects="atcore.cbproj" Targets="Clean"/>
+    <Target Name="atcli:Clean" DependsOnTargets="atExplorerFoundation:Clean">
+        <MSBuild Projects="atcli.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="atcore:Make" DependsOnTargets="atExplorerFoundation:Make">
-        <MSBuild Projects="atcore.cbproj" Targets="Make"/>
+    <Target Name="atcli:Make" DependsOnTargets="atExplorerFoundation:Make">
+        <MSBuild Projects="atcli.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslFoundation;atExplorerFoundation;atcore"/>
+        <CallTarget Targets="dslFoundation;atExplorerFoundation;atcli"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslFoundation:Clean;atExplorerFoundation:Clean;atcore:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;atExplorerFoundation:Clean;atcli:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslFoundation:Make;atExplorerFoundation:Make;atcore:Make"/>
+        <CallTarget Targets="dslFoundation:Make;atExplorerFoundation:Make;atcli:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
