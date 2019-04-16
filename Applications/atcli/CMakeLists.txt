@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(target atcore)
+set(target atcli)
 PROJECT(${target})
 
 set(src

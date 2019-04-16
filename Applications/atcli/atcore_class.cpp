@@ -35,15 +35,15 @@ mIniFile("")//,
 
     //Get path to at-system-config.ini from the environment
 
-    Environment env;
-    string envPath("AT_SYSTEM_CONFIG_FOLDER");
-    if(!env.has(envPath))
-    {
-        throw(FileSystemException("The environment variable: " + envPath + " is not set!"));
-    }
-
-    string path(env.get(envPath));
-    mIniFile.load(joinPath(path, "at-system-config.ini"));
+//    Environment env;
+//    string envPath("AT_SYSTEM_CONFIG_FOLDER");
+//    if(!env.has(envPath))
+//    {
+//        throw(FileSystemException("The environment variable: " + envPath + " is not set!"));
+//    }
+//
+//    string path(env.get(envPath));
+//    mIniFile.load(joinPath(path, "at-system-config.ini"));
 
     //Setup a renderservice
 //    mATExplorer.createRenderService();
