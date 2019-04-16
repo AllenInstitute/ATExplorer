@@ -4,7 +4,7 @@
 #include <string>
 #include "atdata/atATIFData.h"
 #include "dslIniFile.h"
-#include "atATExplorer.h"
+//#include "atATExplorer.h"
 //---------------------------------------------------------------------------
 
 using std::string;
@@ -13,7 +13,7 @@ using TCLAP::SwitchArg;
 using TCLAP::CmdLine;
 using at::ATIFData;
 using dsl::IniFile;
-using at::ATExplorer;
+//using at::ATExplorer;
 
 class ATCore
 {
@@ -25,9 +25,10 @@ class ATCore
         					ATCore(int argc, const char * argv[]);
      	ATIFData   			IFData;
 
-        string              getOwner();
+//        string              getOwner();
 
-        ATExplorer          mATExplorer;
+                            //Have to use CURL or Poco instead of Indy
+        //ATExplorer          mATExplorer;
 
     private:
         IniFile             mIniFile;

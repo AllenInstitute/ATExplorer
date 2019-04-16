@@ -4,6 +4,7 @@
 #include "dslLogger.h"
 #include "atcore_class.h"
 #include "atATEExceptions.h"
+#include "dslException.h"
 #include "atRibbon.h"
 //---------------------------------------------------------------------------
 using namespace std;
@@ -49,57 +50,57 @@ int main(int argc, const char * argv[])
             }
         }
 
-        if(atCore.CLI.getstacknames.isSet())
-        {
-        	if(!atCore.CLI.project.isSet())
-            {
-	            atCore.CLI.showUsage();
-                exit(0);
-            }
-
-            string owner(atCore.getOwner());
-            string project(atCore.CLI.project.getValue());
-            clog << "Get stacknames for owner: '" << owner << "' and project: '" << project << "'";
-            cout << atCore.mATExplorer.RenderClient.StackDataAPI.getStacksForProject(owner, project);
-        }
-
-        else if(atCore.CLI.deletestack.isSet())
-        {
-            //User must supply renderproject and optionally owner
-        }
-
-        if(atCore.CLI.deletestacks.isSet())
-        {
-            //User must supply renderproject and optionally owner
-			if(!atCore.CLI.project.isSet())
-            {
-	            atCore.CLI.showUsage();
-                exit(0);
-            }
-
-            string owner(atCore.getOwner());
-            string project(atCore.CLI.project.getValue());
-            Log(lDebug) << "Delete stacks for owner: '" << owner << "' in project: '" << project << "'";
-
-            StringList stacks = atCore.mATExplorer.RenderClient.StackDataAPI.getStacksForProject(owner, project);
-            for(int i = 0; i < stacks.count(); i++)
-            {
-                string stack(stacks[i]);
-                Log(lDebug) << "Deleting stack: " << stack;
-                char confirm;
-                cout << "Confirm delettion of stack! (y/n)";
-                cin >> confirm;
-                if(confirm == 'y')
-                {
-		            cout << atCore.mATExplorer.RenderClient.StackDataAPI.deleteStack(owner, project, stack);
-                }
-                else
-                {
-                    Log(lInfo) << "The stack: " << stack << " was not deleted";
-
-                }
-            }
-        }
+//        if(atCore.CLI.getstacknames.isSet())
+//        {
+//        	if(!atCore.CLI.project.isSet())
+//            {
+//	            atCore.CLI.showUsage();
+//                exit(0);
+//            }
+//
+//            string owner(atCore.getOwner());
+//            string project(atCore.CLI.project.getValue());
+//            clog << "Get stacknames for owner: '" << owner << "' and project: '" << project << "'";
+//            cout << atCore.mATExplorer.RenderClient.StackDataAPI.getStacksForProject(owner, project);
+//        }
+//
+//        else if(atCore.CLI.deletestack.isSet())
+//        {
+//            //User must supply renderproject and optionally owner
+//        }
+//
+//        if(atCore.CLI.deletestacks.isSet())
+//        {
+//            //User must supply renderproject and optionally owner
+//			if(!atCore.CLI.project.isSet())
+//            {
+//	            atCore.CLI.showUsage();
+//                exit(0);
+//            }
+//
+//            string owner(atCore.getOwner());
+//            string project(atCore.CLI.project.getValue());
+//            Log(lDebug) << "Delete stacks for owner: '" << owner << "' in project: '" << project << "'";
+//
+//            StringList stacks = atCore.mATExplorer.RenderClient.StackDataAPI.getStacksForProject(owner, project);
+//            for(int i = 0; i < stacks.count(); i++)
+//            {
+//                string stack(stacks[i]);
+//                Log(lDebug) << "Deleting stack: " << stack;
+//                char confirm;
+//                cout << "Confirm delettion of stack! (y/n)";
+//                cin >> confirm;
+//                if(confirm == 'y')
+//                {
+//		            cout << atCore.mATExplorer.RenderClient.StackDataAPI.deleteStack(owner, project, stack);
+//                }
+//                else
+//                {
+//                    Log(lInfo) << "The stack: " << stack << " was not deleted";
+//
+//                }
+//            }
+//        }
 
     }
     catch(dsl::DSLException& ex)

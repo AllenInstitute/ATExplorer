@@ -17,8 +17,8 @@ ATCore::ATCore(int argc, const char * argv[])
 :
 CLI(argc, argv),
 IFData(string("")),
-mIniFile(""),
-mATExplorer()
+mIniFile("")//,
+//mATExplorer()
 {
     //Observe that TCLAP will throw and handle any command line exceptions
     //before even getting here..
@@ -69,24 +69,24 @@ void ATCore::populateData()
     IFData.populate(dummy);
 }
 
-string ATCore::getOwner()
-{
-    IniSection* sec = mIniFile.getSection("GENERAL");
-
-    if(CLI.owner.isSet())
-    {
-        return CLI.owner.getValue();
-    }
-    else
-    {
-	    IniKey* ownerkey = sec->getKey("RENDER_PROJECT_OWNER");
-
-        if(ownerkey)
-        {
-            return ownerkey->mValue;
-        }
-    }
-    return "";
-
-}
+//string ATCore::getOwner()
+//{
+//    IniSection* sec = mIniFile.getSection("GENERAL");
+//
+//    if(CLI.owner.isSet())
+//    {
+//        return CLI.owner.getValue();
+//    }
+//    else
+//    {
+//	    IniKey* ownerkey = sec->getKey("RENDER_PROJECT_OWNER");
+//
+//        if(ownerkey)
+//        {
+//            return ownerkey->mValue;
+//        }
+//    }
+//    return "";
+//
+//}
 

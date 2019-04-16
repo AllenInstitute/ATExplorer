@@ -19,7 +19,7 @@ link_directories(
 )
 
 if(INSTALL_APPS)
-    add_subdirectory("atcore")
+    add_subdirectory("atcli")
 endif()
 
 

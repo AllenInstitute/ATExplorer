@@ -15,11 +15,11 @@ ATCli::ATCli(int argc, const char * argv[])
     printjson(		"j",		"json",				"Output data in JSON format", 												false),
 	consolelogs(	"",			"consolelogs", 		"console logging", 															false),
 
-    deletestack(	"", 		"deletestack", 		"Delete render stack", 	 													false, 		"", 		"string"),
-    deletestacks(  	"", 		"deletestacks", 	"Delete renderstacks", 	 													false),
-    getstacknames( 	"", 		"getstacknames", 	"Get stacknames", 	 														false),
-    owner(			"", 		"owner", 			"Set renderproject owner", 	 												false, 		"", 		"string"),
-    project(		"", 		"project", 			"Set renderproject name", 	 												false, 		"", 		"string"),
+//    deletestack(	"", 		"deletestack", 		"Delete render stack", 	 													false, 		"", 		"string"),
+//    deletestacks(  	"", 		"deletestacks", 	"Delete renderstacks", 	 													false),
+//    getstacknames( 	"", 		"getstacknames", 	"Get stacknames", 	 														false),
+//    owner(			"", 		"owner", 			"Set renderproject owner", 	 												false, 		"", 		"string"),
+//    project(		"", 		"project", 			"Set renderproject name", 	 												false, 		"", 		"string"),
 
     cmdLine("Command description message", ' ', "0.5")
 {
@@ -31,11 +31,12 @@ ATCli::ATCli(int argc, const char * argv[])
     cmdLine.add(datainfo);
     cmdLine.add(consolelogs);
 
-    cmdLine.add(getstacknames);
-    cmdLine.add(deletestack);
-    cmdLine.add(deletestacks);
-    cmdLine.add(owner);
-    cmdLine.add(project);
+//    //Render related
+//    cmdLine.add(getstacknames);
+//    cmdLine.add(deletestack);
+//    cmdLine.add(deletestacks);
+//    cmdLine.add(owner);
+//    cmdLine.add(project);
 
     cmdLine.parse( argc, argv );
 }
