@@ -21,8 +21,8 @@ DefaultATModules(NULL),
 DefaultRenderServiceContainer(NULL),
 Properties(),
 Cache(""),
-mIniFile(NULL)
-//RenderClient()
+mIniFile(NULL),
+RenderClient()
 {
     Log(lInfo) << "Starting up ATExplorer..";
 

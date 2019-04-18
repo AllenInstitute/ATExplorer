@@ -3,15 +3,14 @@
 #include "atExplorerObject.h"
 #include "atRESTServiceParameters.h"
 #include "atRESTResponse.h"
-//#include <IdHTTP.hpp>
 #include <string>
 //---------------------------------------------------------------------------
 
 
-namespace Idhttp
-{
-class TIdHTTP;
-}
+//namespace Idhttp
+//{
+//class TIdHTTP;
+//}
 
 namespace at
 {
@@ -24,14 +23,14 @@ class RESTRequest;
 class ATE_CORE RESTClient : public ExplorerObject
 {
     public:
-                        						RESTClient(shared_ptr<Idhttp::TIdHTTP> client = shared_ptr<Idhttp::TIdHTTP>(), const string& host = "localhost");
+//                        						RESTClient(shared_ptr<Idhttp::TIdHTTP> client = shared_ptr<Idhttp::TIdHTTP>(), const string& host = "localhost");
     	virtual            						~RESTClient();
         string                                  getBaseURL();
         int 					                executeRequest(RESTRequest& request, string& response);
         int                                     getLastHTTPResponseCode(){return mLastHTTPResponseCode;}
 
     protected:
-		shared_ptr<Idhttp::TIdHTTP>     		mHTTPClient;
+		//shared_ptr<Idhttp::TIdHTTP>     		mHTTPClient;
     	RESTServiceParameters*                  mServiceParameters;
         int                                     mLastHTTPResponseCode;
 

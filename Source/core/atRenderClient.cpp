@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "atRenderClient.h"
-#include <System.Classes.hpp>
-#include <IdHTTP.hpp>
+//#include <System.Classes.hpp>
+//#include <IdHTTP.hpp>
 #include <sstream>
 #include <vector>
 
@@ -29,15 +29,15 @@ using namespace dsl;
 
 const int HTTP_RESPONSE_OK = 200;
 
-RenderClient::RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, const string& name)
-:
-RESTClient(c, host),
-StackDataAPI(*this),
-PointMatchAPI(*this),
-mFetchImageThread(shared_ptr<FetchImageThread>())
-{
-	mServiceParameters = new RenderServiceParameters(host);
-}
+//RenderClient::RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, const string& name)
+//:
+//RESTClient(c, host),
+//StackDataAPI(*this),
+//PointMatchAPI(*this),
+//mFetchImageThread(shared_ptr<FetchImageThread>())
+//{
+//	mServiceParameters = new RenderServiceParameters(host);
+//}
 
 RenderClient::~RenderClient()
 {
@@ -149,28 +149,28 @@ void RenderClient::assignOnImageCallback(RCCallBack cb)
 ////    return getSubFoldersInFolder(path.str(), false);
 //}
 
-Idhttp::TIdHTTP* RenderClient::getConnection()
-{
-//    return mC;
-}
+//Idhttp::TIdHTTP* RenderClient::getConnection()
+//{
+////    return mC;
+//}
 
-void RenderClient::assignConnection(Idhttp::TIdHTTP* c)
-{
-//    mC = c;
-}
+//void RenderClient::assignConnection(Idhttp::TIdHTTP* c)
+//{
+////    mC = c;
+//}
 
 void RenderClient::copyImageData(MemoryStruct chunk)
 {
-	try
-    {
+//	try
+//    {
 //	    mImageMemory->Clear();
 //        mImageMemory->Position = 0;
 //		mImageMemory->ReadBuffer(&chunk.memory[0], chunk.size);
-    }
-    catch(const EReadError& e)
-    {
-    	Log(lError) << "Failed to read memory buffer";
-    }
+//    }
+//    catch(const EReadError& e)
+//    {
+//    	Log(lError) << "Failed to read memory buffer";
+//    }
 }
 
 //RenderProject RenderClient::getCurrentProject()
@@ -226,10 +226,10 @@ bool RenderClient::getImageInThread(int z, StringList& paras, const string& chan
 
 	mZ = z;
 
-	if(!mImageMemory)
-    {
-		mImageMemory = new TMemoryStream();
-    }
+//	if(!mImageMemory)
+//    {
+//		mImageMemory = new TMemoryStream();
+//    }
 
 	mFetchImageThread->setup(getURLForZ(z, rp), cache.getBasePath());
     mFetchImageThread->addParameters(paras);
@@ -238,13 +238,13 @@ bool RenderClient::getImageInThread(int z, StringList& paras, const string& chan
     return true;
 }
 
-TMemoryStream* RenderClient::getImageMemory()
-{
-	return mImageMemory;
-}
+//TMemoryStream* RenderClient::getImageMemory()
+//{
+//	return mImageMemory;
+//}
 
-TMemoryStream* RenderClient::reloadImage(int z)
-{
+//TMemoryStream* RenderClient::reloadImage(int z)
+//{
 //	mZ = z;
 //	if(!mImageMemory)
 //    {
@@ -269,7 +269,7 @@ TMemoryStream* RenderClient::reloadImage(int z)
 //    }
 //
 //    return mImageMemory;
-}
+//}
 
 //Move to stack API
 RegionOfInterest RenderClient::getLayerBoundsForZ(int z, RenderProject& rp)
@@ -370,8 +370,8 @@ vector<RegionOfInterest> RenderClient::getLayerBounds()
 
 void RenderClient::clearImageMemory()
 {
-	delete mImageMemory;
-    mImageMemory = NULL;
+//	delete mImageMemory;
+//    mImageMemory = NULL;
 }
 
 string RenderClient::getURLForZ(int z, const RenderProject& rp)

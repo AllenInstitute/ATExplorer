@@ -16,20 +16,6 @@
 //---------------------------------------------------------------------------
 
 
-//Use CURL instead of Indy..
-namespace Idhttp
-{
-	class TIdHTTP;
-}
-
-namespace System
-{
-	namespace Classes
-	{
-		class TMemoryStream;
-	}
-}
-
 namespace at
 {
 
@@ -39,7 +25,7 @@ using dsl::StringList;
 using dsl::gEmptyString;
 using std::string;
 
-using System::Classes::TMemoryStream;
+//using System::Classes::TMemoryStream;
 
 #if defined(__BORLANDC__)
     typedef void __fastcall (__closure *RCCallBack)(void);
@@ -52,8 +38,8 @@ using System::Classes::TMemoryStream;
 class ATE_CORE RenderClient : public RESTClient
 {
 	public:
-							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c = shared_ptr<Idhttp::TIdHTTP>(), const string& host="localhost", const string& name = "");
-//							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
+//							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c = shared_ptr<Idhttp::TIdHTTP>(), const string& host="localhost", const string& name = "");
+
 							                        ~RenderClient();
 
                                                     //Todo, init with RenderLayer object
@@ -81,15 +67,15 @@ class ATE_CORE RenderClient : public RESTClient
 //        StringList                                  getChannelsInStack(const string& stackName);
 //        RenderProject                               getCurrentProject();
 //        StringList                                  getROIFoldersForCurrentStack();
-		TMemoryStream*								getImageMemory();
+//		TMemoryStream*								getImageMemory();
 //        bool                                        renameStack(const string& currentStackName, const string& newName);
 
 		void				                        clearImageMemory();
 		string				                        getURL();
 		const char* 		                        getURLC();
-        TMemoryStream*		                        getImage(int z = 0);
+//        TMemoryStream*		                        getImage(int z = 0);
         bool				                        getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
-        TMemoryStream*		                        reloadImage(int z = 0);
+//        TMemoryStream*		                        reloadImage(int z = 0);
         string							            getURLForZ(int z, const RenderProject& rp);
 //        bool				                        checkCacheForCurrentURL();
 //        string							            getProjectName();
@@ -105,8 +91,8 @@ class ATE_CORE RenderClient : public RESTClient
         RenderProject&					            getProject();
         void										assignOnImageCallback(RCCallBack cb);
         void										copyImageData(MemoryStruct chunk);
-		Idhttp::TIdHTTP*                            getConnection();
-        void                                        assignConnection(Idhttp::TIdHTTP* c);
+//		Idhttp::TIdHTTP*                            getConnection();
+//        void                                        assignConnection(Idhttp::TIdHTTP* c);
 
 //        RenderProject                               getRenderProject();
 //        void                                        setRenderProject(const RenderProject& rp);
@@ -125,7 +111,7 @@ class ATE_CORE RenderClient : public RESTClient
 		StringList 									getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request);
 
         											//!Memory to hold image data retrieved from server
-		TMemoryStream* 		                        mImageMemory;
+//		TMemoryStream* 		                        mImageMemory;
 
         											//!List of bounds
         vector<RegionOfInterest>				    mLayerBounds;

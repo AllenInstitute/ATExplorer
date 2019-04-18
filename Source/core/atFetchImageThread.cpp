@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include <Classes.hpp>
+//#include <Classes.hpp>
 #include "atFetchImageThread.h"
 #include "dslLogger.h"
 #include <curl/curl.h>
@@ -87,8 +87,8 @@ void FetchImageThread::worker()
         if(fileExists(outFilePathANDFileName) && f.getSize() > 200)
         {
             Log(lDebug3) << "The image "<<outFilePathANDFileName<<" is in local cache";
-            mRenderClient.getImageMemory()->LoadFromFile(outFilePathANDFileName.c_str());
-            TThread::Synchronize(NULL, onImage);
+//            mRenderClient.getImageMemory()->LoadFromFile(outFilePathANDFileName.c_str());
+//            TThread::Synchronize(NULL, onImage);
         }
         else
         {
@@ -150,7 +150,7 @@ void FetchImageThread::worker()
                     Log(lDebug) <<  (long)chunk.size << " bytes retrieved\n";
                     of.close();
 
-                    mRenderClient.getImageMemory()->LoadFromFile(outFilePathANDFileName.c_str());
+                    //mRenderClient.getImageMemory()->LoadFromFile(outFilePathANDFileName.c_str());
                     //mRenderClient.copyImageData(chunk);
 
                     /* cleanup curl stuff */
@@ -161,7 +161,7 @@ void FetchImageThread::worker()
                     curl_global_cleanup();
 
                     //Transfer image to UI
-                    TThread::Synchronize(NULL, onImage);
+                    //TThread::Synchronize(NULL, onImage);
                 }
                 else
                 {

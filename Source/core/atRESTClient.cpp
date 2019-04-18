@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "atRESTClient.h"
 #include "atRESTRequest.h"
-#include <IdHTTP.hpp>
+//#include <IdHTTP.hpp>
 #include "dslVCLUtils.h"
 //---------------------------------------------------------------------------
 
@@ -11,14 +11,14 @@ using namespace std;
 using namespace dsl;
 
 
-RESTClient::RESTClient(shared_ptr<Idhttp::TIdHTTP> client, const string& host)
-:
-mHTTPClient(client)
-{
-    if(!mHTTPClient)
-    {
-		mHTTPClient = shared_ptr<Idhttp::TIdHTTP>(new Idhttp::TIdHTTP());
-    }
+//RESTClient::RESTClient(shared_ptr<Idhttp::TIdHTTP> client, const string& host)
+//:
+//mHTTPClient(client)
+//{
+//    if(!mHTTPClient)
+//    {
+//		mHTTPClient = shared_ptr<Idhttp::TIdHTTP>(new Idhttp::TIdHTTP());
+//    }
 }
 
 RESTClient::~RESTClient()
