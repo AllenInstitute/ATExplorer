@@ -18,6 +18,9 @@
         <Projects Include="..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\..\builds\atExplorerVCL\atExplorerVCL.cbproj">
             <Dependencies/>
         </Projects>
@@ -80,6 +83,15 @@
     <Target Name="atExplorerFoundation:Make">
         <MSBuild Projects="..\..\..\builds\atExplorerFoundation\atExplorerFoundation.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="DcefBrowser">
+        <MSBuild Projects="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj"/>
+    </Target>
+    <Target Name="DcefBrowser:Clean">
+        <MSBuild Projects="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DcefBrowser:Make">
+        <MSBuild Projects="P:\libs\DcefBrowser\packages\DcefBrowser.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="atExplorerVCL">
         <MSBuild Projects="..\..\..\builds\atExplorerVCL\atExplorerVCL.cbproj"/>
     </Target>
@@ -108,13 +120,13 @@
         <MSBuild Projects="ATExplorer\ATExplorer.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents;atExplorerFoundation;atExplorerVCL;ATExplorerAppPackage;ATExplorer"/>
+        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents;atExplorerFoundation;DcefBrowser;atExplorerVCL;ATExplorerAppPackage;ATExplorer"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean;atExplorerFoundation:Clean;atExplorerVCL:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean;atExplorerFoundation:Clean;DcefBrowser:Clean;atExplorerVCL:Clean;ATExplorerAppPackage:Clean;ATExplorer:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make;atExplorerFoundation:Make;atExplorerVCL:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
+        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make;atExplorerFoundation:Make;DcefBrowser:Make;atExplorerVCL:Make;ATExplorerAppPackage:Make;ATExplorer:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
