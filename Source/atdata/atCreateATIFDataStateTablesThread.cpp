@@ -9,16 +9,15 @@
 #include "atSession.h"
 #include "atATEExceptions.h"
 #include "atStringUtils.h"
-#include "atDockerContainer.h"
 //---------------------------------------------------------------------------
 
 namespace at
 {
 using namespace dsl;
 
-CreateATIFDataStateTablesThread::CreateATIFDataStateTablesThread(ATIFData& d, DockerContainer* dc)
+CreateATIFDataStateTablesThread::CreateATIFDataStateTablesThread(ATIFData& d)
 :
-ATIFDataProcessThread(d, dc)
+ATIFDataProcessThread(d)
 {}
 
 
@@ -151,21 +150,21 @@ void CreateATIFDataStateTablesThread::onDockerProgress(void* arg1, void* arg2)
 //            --section 0
 string CreateATIFDataStateTablesThread::createDockerCommand(const string& outFile, const string& projDir, int ribbon, int session, int section)
 {
-    if(!mDockerContainer)
-    {
-        return "";
-    }
+//    if(!mDockerContainer)
+//    {
+//        return "";
+//    }
 
-	stringstream cmdLine;
-    cmdLine << "exec " << mDockerContainer->getContainerName();
-    cmdLine << " python /pipeline/make_state_table_ext_multi_pseudoz.py";
-	cmdLine << " --projectDirectory " 	<< toDockerMountPath(projDir);
-    cmdLine << " --outputFile "         << toDockerMountPath(outFile);
-    cmdLine << " --oneribbononly "      << "True";
-    cmdLine << " --ribbon "        		<< ribbon;
-    cmdLine << " --session "        	<< session;
-    cmdLine << " --section "        	<< section;
-    return cmdLine.str();
+//	stringstream cmdLine;
+//    cmdLine << "exec " << mDockerContainer->getContainerName();
+//    cmdLine << " python /pipeline/make_state_table_ext_multi_pseudoz.py";
+//	cmdLine << " --projectDirectory " 	<< toDockerMountPath(projDir);
+//    cmdLine << " --outputFile "         << toDockerMountPath(outFile);
+//    cmdLine << " --oneribbononly "      << "True";
+//    cmdLine << " --ribbon "        		<< ribbon;
+//    cmdLine << " --session "        	<< session;
+//    cmdLine << " --section "        	<< section;
+//    return cmdLine.str();
 }
 
 

@@ -45,7 +45,6 @@ object MainForm: TMainForm
         Height = 517
         Align = alLeft
         TabOrder = 0
-        ExplicitLeft = 8
         object Panel4: TPanel
           Left = 1
           Top = 1
@@ -104,7 +103,7 @@ object MainForm: TMainForm
               Sorted = True
               TabOrder = 0
               Text = 'OwnersCB'
-              OnCloseUp = PMOwnersCBCloseUp
+              OnCloseUp = PopulateRPProjectsForOwnerAExecute
             end
           end
         end
@@ -118,8 +117,6 @@ object MainForm: TMainForm
           PopupMenu = StacksPopup
           TabOrder = 1
           OnKeyDown = DeleteItem
-          ExplicitLeft = 190
-          ExplicitTop = 0
         end
       end
     end

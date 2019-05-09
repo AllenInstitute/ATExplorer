@@ -3,7 +3,6 @@
 #include "atExplorerObject.h"
 #include "atGenericListOfPointers.h"
 #include "atRenderServiceParameters.h"
-#include "atDockerContainer.h"
 #include "dslIniFile.h"
 #include "dslProperties.h"
 #include "atATExplorerProperties.h"
@@ -37,38 +36,17 @@ class ATE_CORE ATExplorer : public ExplorerObject
         bool                                                removeRenderService(const string& serviceName);
 		RenderServiceParameters*                            DefaultRenderService;
 
-                                                            //Docker containers
-        void                                                appendDockerContainer(DockerContainer*  rs);
-        DockerContainer*                                    getFirstDockerContainer();
-        DockerContainer*                                    getNextDockerContainer();
-        DockerContainer*                                    getDockerContainer(const string& name);
-        DockerContainer*                                    createDockerContainer(const string& serviceName);
-        bool                                                removeDockerContainer(const string& serviceName);
-
-                                                            //Default docker containers
-        DockerContainer*                                    DefaultRenderPythonApps;
-        DockerContainer*                                    DefaultATModules;
-        DockerContainer*                                    DefaultRenderServiceContainer;
-
         string                                              getImageMagickPath();
-
         ATExplorerProperties                                Properties;
-
 		RenderClient                                        RenderClient;
         RenderLocalCache                                    Cache;
+
     protected:
-
-
+        IniFile*                                            mIniFile;
     	ListOfPointers< RenderServiceParameters* > 			mRenderServices;
 
 		RenderServiceParameters*				            createARenderServiceParametersRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
 		bool									            createRenderServiceParametersPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
-
-    	ListOfPointers< DockerContainer* > 	 	            mDockerContainers;
-		DockerContainer*						            createADockerContainerRecord(dsl::PropertiesSP sec, const string& name = dsl::gEmptyString);
-		bool									            createDockerContainerPropertiesInSection(dsl::PropertiesSP props, IniSection* sec);
-
-        IniFile*                                            mIniFile;
 };
 
 }

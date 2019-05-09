@@ -22,13 +22,10 @@ class PACKAGE TGeneralPropertiesFrame : public TFrame
 	TSTDStringLabeledEdit *ImageMagickPathE;
 	TButton *BrowseForImageMagickPathBtn;
 	TGroupBox *GroupBox3;
-	TLabel *Label7;
 	TLabel *Label8;
-	TComboBox *RenderPythonContainersCB;
 	TComboBox *RenderServicesCB;
-		void __fastcall BrowseForFolderClick(TObject *Sender);
+    void __fastcall BrowseForFolderClick(TObject *Sender);
 	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
-	void __fastcall RenderPythonContainersCBChange(TObject *Sender);
 
     private:
         ATExplorer&             mExplorer;

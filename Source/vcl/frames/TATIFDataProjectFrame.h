@@ -51,9 +51,7 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
 	TButton *CreateMediansBtn;
 	TButton *ApplyMediansBtn;
 	TGroupBox *GroupBox3;
-	TLabel *Label7;
 	TLabel *Label8;
-	TComboBox *RenderPythonContainersCB;
 	TComboBox *RenderServicesCB;
 	TGroupBox *GroupBox4;
 	TGroupBox *GroupBox5;
@@ -63,7 +61,7 @@ class PACKAGE TATIFDataProjectFrame : public TFrame
 	TIntegerLabeledEdit *IntegerLabeledEdit2;
         void __fastcall ScanDataBtnClick(TObject *Sender);
 	void __fastcall CreateStateTablesBtnClick(TObject *Sender);
-	void __fastcall RenderPythonContainersCBChange(TObject *Sender);
+//	void __fastcall RenderPythonContainersCBChange(TObject *Sender);
 
     private:
         ATExplorer&		  		    	    mExplorer;

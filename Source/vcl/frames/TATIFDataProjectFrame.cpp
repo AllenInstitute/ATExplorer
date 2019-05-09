@@ -43,14 +43,6 @@ void TATIFDataProjectFrame::populate()
     DataRootFolderE->setValue(mProject.getDataRootFolder());
 
     //Fill out render and docker backends
-    RenderPythonContainersCB->Clear();
-    DockerContainer* c =  mExplorer.getFirstDockerContainer();
-    while(c)
-    {
-		RenderPythonContainersCB->AddItem(c->getName().c_str(), (TObject*) c);
-        c = mExplorer.getNextDockerContainer();
-    }
-
     //Check if the current project has a selected RenderPythonContainer..
 	//    if(mProject.g
 
@@ -159,12 +151,12 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
     if(b == CreateStateTablesBtn)
     {
         //Open Generate state tables form..
-        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, mExplorer.DefaultRenderPythonApps, this->Owner));
+        unique_ptr<TCreateATIFDataStateTablesForm> f (new TCreateATIFDataStateTablesForm(mProject.mATIFData, this->Owner));
         f->ShowModal();
     }
     else if(b == CreateRenderStacksBtn)
     {
-        unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, mExplorer.getFirstDockerContainer(), "", this->Owner));
+        unique_ptr<TCreateACQRenderStacksForm> f (new TCreateACQRenderStacksForm(mProject.mATIFData, "", this->Owner));
         f->ShowModal();
     }
     else if(b == CreateMediansBtn)
@@ -179,11 +171,11 @@ void __fastcall TATIFDataProjectFrame::CreateStateTablesBtnClick(TObject *Sender
     }
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TATIFDataProjectFrame::RenderPythonContainersCBChange(TObject *Sender)
-{
-	DockerContainer* dc = (DockerContainer*) RenderPythonContainersCB->Items->Objects[RenderPythonContainersCB->ItemIndex];
-    mExplorer.DefaultRenderPythonApps = dc;
-}
-
+////---------------------------------------------------------------------------
+//void __fastcall TATIFDataProjectFrame::RenderPythonContainersCBChange(TObject *Sender)
+//{
+//	DockerContainer* dc = (DockerContainer*) RenderPythonContainersCB->Items->Objects[RenderPythonContainersCB->ItemIndex];
+//    mExplorer.DefaultRenderPythonApps = dc;
+//}
+//
 

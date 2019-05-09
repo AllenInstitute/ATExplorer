@@ -11,12 +11,6 @@ using namespace dsl;
 namespace at
 {
 
-RenderServiceParameters::RenderServiceParameters()
-:
-RESTServiceParameters("",-1,"v1"),
-mMaxTilesToRender(125)
-{}
-
 RenderServiceParameters::RenderServiceParameters(const string& host, int portNr, const string& version)
 :
 RESTServiceParameters(host, portNr, version),

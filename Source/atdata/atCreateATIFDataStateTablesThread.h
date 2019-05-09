@@ -7,13 +7,10 @@
 
 namespace at
 {
-
-class DockerContainer;
-
 class ATE_DATA CreateATIFDataStateTablesThread : public ATIFDataProcessThread
 {
 	public:
-							                CreateATIFDataStateTablesThread(ATIFData& d, DockerContainer* dc);
+							                CreateATIFDataStateTablesThread(ATIFData& d);
 		virtual void                        run();
 
 	private:

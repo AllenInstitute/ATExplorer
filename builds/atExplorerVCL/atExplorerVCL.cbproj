@@ -147,10 +147,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PackageImport Include="vclx.bpi">
             <BuildOrder>28</BuildOrder>
         </PackageImport>
-        <CppCompile Include="..\..\Source\core\atRenderStackDataAPI.cpp">
-            <DependentOn>..\..\Source\core\atRenderStackDataAPI.h</DependentOn>
-            <BuildOrder>37</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atATIFDataProjectItemView.cpp">
             <BuildOrder>28</BuildOrder>
         </CppCompile>
@@ -267,13 +263,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\Source\vcl\frames\TCreateStackThreadFrame.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\vcl\frames\TDockerContainersFrame.cpp">
-            <Form>DockerContainersFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\Source\vcl\frames\TDockerContainersFrame.h</DependentOn>
-            <BuildOrder>34</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\frames\TPointMatchCollectionFrame.cpp">
             <Form>PointMatchCollectionFrame</Form>
             <FormType>dfm</FormType>
@@ -302,16 +291,15 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataStateTablesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateACQRenderStacksForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateATIFDataProjectForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\forms\TSelectPointMatchCollectionProjectForm.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TDockerContainersFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TPointMatchCollectionFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\forms\TSelectPointMatchCollectionProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -471,6 +459,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
                 </DeployClass>
@@ -604,20 +593,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
-                    <Platform Name="OSX64">
-                        <Operation>1</Operation>
-                        <Extensions>.framework</Extensions>
-                    </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="DependencyModule">
                     <Platform Name="OSX32">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX64">
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
@@ -643,10 +624,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
-                    <Platform Name="OSX64">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
                         <Extensions>.bpl</Extensions>
@@ -666,9 +643,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX32">
-                        <Operation>0</Operation>
-                    </Platform>
-                    <Platform Name="OSX64">
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -789,10 +763,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <RemoteDir>Contents\Resources</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
-                    <Platform Name="OSX64">
-                        <RemoteDir>Contents\Resources</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
                 </DeployClass>
                 <DeployClass Required="true" Name="ProjectOutput">
                     <Platform Name="Android">
@@ -812,9 +782,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX32">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="OSX64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">

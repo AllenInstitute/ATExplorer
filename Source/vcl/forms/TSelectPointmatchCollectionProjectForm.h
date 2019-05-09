@@ -56,7 +56,7 @@ class PACKAGE TSelectPointmatchCollectionProjectForm : public TForm
         					__fastcall 	TSelectPointmatchCollectionProjectForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
         PointMatchCollection*              getPointMatchCollection();
-        RenderServiceParameters*        getRenderService();
+        RenderServiceParameters        getRenderService();
 };
 
 extern PACKAGE TSelectPointmatchCollectionProjectForm *SelectPointmatchCollectionProjectForm;

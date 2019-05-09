@@ -14,15 +14,11 @@ const string v1("v1");
 class ATE_CORE RESTServiceParameters : public ExplorerObject
 {
     public:
-                                    RESTServiceParameters();
-                                    RESTServiceParameters(const string& host, int portNr = 80, const string& version = v1);
+                                    RESTServiceParameters(const string& host = "localhost", int portNr = 80, const string& version = v1);
                                     ~RESTServiceParameters();
+		RESTServiceParameters&      operator=(const RESTServiceParameters& rhs);
 
         string                      getBaseURL() const;
-
-	    PropertiesSP                getProperties();
-        bool                        bindToPropertyContainer(PropertiesSP props);
-
         string                      getName() const;
         void                        setName(const string& n);
 
@@ -33,9 +29,6 @@ class ATE_CORE RESTServiceParameters : public ExplorerObject
         int                         getPortNr() const;
         string                      getPortNrAsString() const;
 
-        void                        setMaxTilesToRender(int v);
-        int                         getMaxTilesToRender() const;
-
         void                        setVersion(const string& v);
         string                      getVersion() const;
 
@@ -44,6 +37,8 @@ class ATE_CORE RESTServiceParameters : public ExplorerObject
 
                                     //!Container for reading/writing to file/UI
         PropertiesSP                mProperties;
+	    PropertiesSP                getProperties();
+        bool                        bindToPropertyContainer(PropertiesSP props);
 
     protected:
                                     //!Label for the 'connection'
@@ -52,8 +47,7 @@ class ATE_CORE RESTServiceParameters : public ExplorerObject
         int		                    mPort;
         string                      mVersion;
         string                      mProtocol;
-        const string                mAPI;
-        int                         mMaxTilesToRender;
+        string                		mAPI;
         template<typename T>
         void                        bindPropertyToValue(const string& propLabel, const T& value, T& reference);
 };

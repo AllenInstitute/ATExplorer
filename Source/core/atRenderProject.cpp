@@ -12,7 +12,7 @@ using namespace dsl;
 RenderProject::RenderProject(const string& _url)
 :
 mLocalCacheRootFolder(""),
-mRenderService(new RenderServiceParameters(""))
+mRenderService()
 {
 	//"http://ibs-forrestc-ux1.corp.alleninstitute.org:8988/render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image?minIntensity=0&maxIntensity=6000"
     //Extract owner,project and stack from url
@@ -37,7 +37,7 @@ mRenderService(new RenderServiceParameters(""))
     mATEObjectType = (ateRenderProject);
 }
 
-RenderProject::RenderProject(const string& name, RenderServiceParameters* s)
+RenderProject::RenderProject(const string& name, const RenderServiceParameters& s)
 :
 ATExplorerProject(name),
 mOwner(""),
@@ -64,7 +64,7 @@ mSelectedChannel(""),
 mCurrentROI(0,0,500,500),
 mMinIntensity(0),
 mMaxIntensity(65535),
-mRenderService(new RenderServiceParameters(""))
+mRenderService()
 {
 	mATEObjectType = (ateRenderProject);
 }
@@ -115,7 +115,7 @@ string RenderProject::getTypeName() const
     return "renderProject";
 }
 
-bool RenderProject::setRenderServiceParameters(RenderServiceParameters* rsp)
+bool RenderProject::setRenderServiceParameters(const RenderServiceParameters& rsp)
 {
     mRenderService = rsp;
     return true;
@@ -145,7 +145,7 @@ string RenderProject::getLocalCacheFolder() const
     return mLocalCacheRootFolder;
 }
 
-RenderServiceParameters* RenderProject::getRenderServiceParameters() const
+const RenderServiceParameters& RenderProject::getRenderServiceParameters() const
 {
     return mRenderService;
 }
@@ -220,27 +220,23 @@ int& RenderProject::getMaxIntensity()
 
 XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, XMLElement* parentNode)
 {
-    if(!mRenderService)
-    {
-        return NULL;
-    }
     //Create XML for saving to file
     XMLElement* val(nullptr);
 
     val = doc.NewElement("renderhostname");
-    val->SetText(mRenderService->getName().c_str());
+    val->SetText(mRenderService.getName().c_str());
     parentNode->InsertEndChild(val);
 
     val = doc.NewElement("renderhost");
-    val->SetText(mRenderService->getHost().c_str());
+    val->SetText(mRenderService.getHost().c_str());
     parentNode->InsertEndChild(val);
 
     val = doc.NewElement("renderhostport");
-    val->SetText(mRenderService->getPortNrAsString().c_str());
+    val->SetText(mRenderService.getPortNrAsString().c_str());
     parentNode->InsertEndChild(val);
 
     val = doc.NewElement("renderhostversion");
-    val->SetText(mRenderService->getVersion().c_str());
+    val->SetText(mRenderService.getVersion().c_str());
     parentNode->InsertEndChild(val);
 
     val = doc.NewElement("owner");
@@ -293,25 +289,25 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
     e = node->FirstChildElement("renderhostname");
     if(e)
     {
-    	mRenderService->setName(e->GetText() ? string(e->GetText()) : string(""));
+    	mRenderService.setName(e->GetText() ? string(e->GetText()) : string(""));
     }
 
     e = node->FirstChildElement("renderhost");
     if(e)
     {
-    	mRenderService->setHost(e->GetText() ? string(e->GetText()) : string(""));
+    	mRenderService.setHost(e->GetText() ? string(e->GetText()) : string(""));
     }
 
     e = node->FirstChildElement("renderhostport");
     if(e)
     {
-    	mRenderService->setPortNr(e->GetText() ? dsl::toInt(e->GetText()) : 80);
+    	mRenderService.setPortNr(e->GetText() ? dsl::toInt(e->GetText()) : 80);
     }
 
     e = node->FirstChildElement("renderhostversion");
     if(e)
     {
-    	mRenderService->setVersion(e->GetText() ? string(e->GetText()) : string(""));
+    	mRenderService.setVersion(e->GetText() ? string(e->GetText()) : string(""));
     }
 
     e = node->FirstChildElement("owner");

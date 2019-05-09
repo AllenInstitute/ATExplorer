@@ -26,7 +26,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Align = alTop
     Caption = 'Connection'
     TabOrder = 0
-    ExplicitWidth = 574
     object PopulateOwnersBtn: TButton
       Left = 527
       Top = 20
@@ -55,7 +54,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Align = alTop
     Caption = 'Project'
     TabOrder = 1
-    ExplicitWidth = 574
     DesignSize = (
       584
       78)
@@ -82,7 +80,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 25
       TabOrder = 0
-      ExplicitWidth = 225
     end
     object OwnerCB: TComboBox
       Left = 10
@@ -93,7 +90,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 1
       OnChange = OwnerCBChange
-      ExplicitWidth = 224
     end
   end
   object Panel1: TPanel
@@ -103,8 +99,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Height = 41
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 237
-    ExplicitWidth = 574
     object Button1: TButton
       Left = 396
       Top = 9
@@ -132,8 +126,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
     Align = alClient
     Caption = 'Data Output'
     TabOrder = 3
-    ExplicitWidth = 574
-    ExplicitHeight = 102
     DesignSize = (
       584
       84)
@@ -149,7 +141,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       TabOrder = 0
       Text = 'C:\ImageCache'
       Value = 'C:\ImageCache'
-      ExplicitWidth = 518
     end
     object BrowseForDataOutputPathBtn: TButton
       Left = 544
@@ -160,7 +151,6 @@ object SelectRenderProjectParametersForm: TSelectRenderProjectParametersForm
       Caption = '...'
       TabOrder = 1
       OnClick = BrowseForDataOutputPathBtnClick
-      ExplicitLeft = 534
     end
   end
 end

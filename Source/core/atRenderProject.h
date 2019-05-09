@@ -19,7 +19,7 @@ class ATE_CORE RenderProject : public ATExplorerProject
 {
 	public:                                     //!Simplify ctors, too many
         	    	                            RenderProject(const string& url);
-			    	                            RenderProject(const string& name, RenderServiceParameters* paras);
+			    	                            RenderProject(const string& name, const RenderServiceParameters& paras);
 			    	                            RenderProject(const string& name, const string& owner, const string& project, const string& stack);
                                                 RenderProject(const RenderProject& rp);
 		virtual    	                            ~RenderProject();
@@ -39,8 +39,8 @@ class ATE_CORE RenderProject : public ATExplorerProject
         bool                                    setSelectedSection(int secNr);
         int	                                    getSelectedSection() const;
 
-        bool                                    setRenderServiceParameters(RenderServiceParameters* rsp);
-        RenderServiceParameters*                getRenderServiceParameters() const;
+        bool                                    setRenderServiceParameters(const RenderServiceParameters& rsp);
+        const RenderServiceParameters&          getRenderServiceParameters() const;
 		string							        getRenderProjectName() const;
 		string							        getProjectOwner() const;
 
@@ -75,7 +75,7 @@ class ATE_CORE RenderProject : public ATExplorerProject
 
         int                                     mMinIntensity;
         int                                     mMaxIntensity;
-		RenderServiceParameters*                mRenderService;
+		RenderServiceParameters                 mRenderService;
 
         //Tiffstack(projects) container are children
         //TiffStacks                          mTiffStacks;

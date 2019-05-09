@@ -22,22 +22,26 @@ __fastcall TRenderAPIChecker::TRenderAPIChecker(RenderServiceParameters& rsp, TC
 void __fastcall TRenderAPIChecker::RequestBtnClick(TObject *Sender)
 {
     //Get some render owners
-    RenderProject dummyProject("Dummy", &mHost);
-    RenderClient   mRC;
+    RenderProject dummyProject("Dummy", mHost);
+    RenderClient   renderClient ;
+    renderClient.setRenderServiceParameters(mHost);
 	ResponseMemo->Clear();
 	StringList response;
+
 
     if(APIs->ItemIndex == 0)
     {
         //Get server properties
-	    response = mRC.getServerProperties();
+	    string r = renderClient.ServerConfigurationAPI.getServerProperties();
+        response = StringList(r, '\n');
     }
     else if(APIs->ItemIndex == 1)
     {
-	    response = mRC.StackDataAPI.getOwners();
+	    response = renderClient.StackDataAPI.getOwners();
     }
 
-    RequestURL->setValue(mRC.getLastRequestURL());
+    RequestURL->setValue(renderClient.getLastRequestURL());
+
     //Populate memo with response
     for(int i = 0; i < response.count(); i++)
     {

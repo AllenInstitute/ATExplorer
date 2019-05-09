@@ -56,15 +56,15 @@ string TSelectRenderProjectParametersForm::getOutputFolderLocation()
     return OutputDataRootFolderE->getValue();
 }
 
-RenderServiceParameters* TSelectRenderProjectParametersForm::getRenderService()
+RenderServiceParameters TSelectRenderProjectParametersForm::getRenderService()
 {
 	int index = RenderServicesCB->ItemIndex;
     if(index == -1)
     {
-        return nullptr;
+        return RenderServiceParameters();
     }
 	RenderServiceParameters* service = (RenderServiceParameters*) RenderServicesCB->Items->Objects[index];
-    return service;
+    return *service;
 }
 //---------------------------------------------------------------------------
 void __fastcall TSelectRenderProjectParametersForm::FormCloseQuery(TObject *Sender,

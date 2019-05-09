@@ -11,17 +11,6 @@ using namespace dsl;
 namespace at
 {
 
-RESTServiceParameters::RESTServiceParameters()
-:
-mName(""),
-mHost(""),
-mPort(-1),
-mVersion("v1"),
-mProtocol("http"),
-mAPI("/render-ws"),
-mMaxTilesToRender(125)
-{}
-
 RESTServiceParameters::RESTServiceParameters(const string& host, int portNr, const string& version)
 :
 mName(""),
@@ -29,12 +18,23 @@ mHost(host),
 mPort(portNr),
 mVersion(version),
 mProtocol("http"),
-mAPI("/render-ws"),
-mMaxTilesToRender(125)
+mAPI("/render-ws")
 {}
 
 RESTServiceParameters::~RESTServiceParameters()
 {}
+
+
+RESTServiceParameters& RESTServiceParameters::operator=(const RESTServiceParameters& rhs)
+{
+    mName = rhs.mName;
+    mHost = rhs.mHost;
+    mPort = rhs.mPort;
+    mVersion = rhs.mVersion;
+    mProtocol = rhs.mProtocol;
+    mAPI = rhs.mAPI;
+    return *this;
+}
 
 
 string RESTServiceParameters::getBaseURL() const
@@ -54,7 +54,7 @@ bool RESTServiceParameters::bindToPropertyContainer(PropertiesSP props)
 	bindPropertyToValue<int>(		"PORT", 	            80, 			mPort);
 	bindPropertyToValue<string>(	"VERSION", 	            "v1", 			mVersion);
 	bindPropertyToValue<string>(	"PROTOCOL",             "http", 		mProtocol);
-	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 	130, 			mMaxTilesToRender);
+//	bindPropertyToValue<int>(		"MAX_TILES_TO_RENDER", 	130, 			mMaxTilesToRender);
     return true;
 }
 
@@ -118,15 +118,15 @@ string RESTServiceParameters::getPortNrAsString() const
     return dsl::toString(mPort);
 }
 
-void RESTServiceParameters::setMaxTilesToRender(int p)
-{
-    mMaxTilesToRender = p;
-}
-
-int RESTServiceParameters::getMaxTilesToRender() const
-{
-    return mMaxTilesToRender;
-}
+//void RESTServiceParameters::setMaxTilesToRender(int p)
+//{
+//    mMaxTilesToRender = p;
+//}
+//
+//int RESTServiceParameters::getMaxTilesToRender() const
+//{
+//    return mMaxTilesToRender;
+//}
 
 void RESTServiceParameters::setVersion(const string& v)
 {

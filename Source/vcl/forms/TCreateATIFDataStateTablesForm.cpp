@@ -8,22 +8,16 @@
 
 TCreateATIFDataStateTablesForm *CreateATIFDataStateTablesForm;
 //---------------------------------------------------------------------------
-__fastcall TCreateATIFDataStateTablesForm::TCreateATIFDataStateTablesForm(ATIFData& data, DockerContainer* dc, TComponent* Owner)
+__fastcall TCreateATIFDataStateTablesForm::TCreateATIFDataStateTablesForm(ATIFData& data, TComponent* Owner)
 : TForm(Owner),
 mTheData(data),
-mTheThread(data, dc)
+mTheThread(data)
 {
     NrOfRibbonsLbl->Caption 	= IntToStr(mTheData.getNumberOfRibbons());
     NrOfSectionsLbl->Caption 	= IntToStr(mTheData.getNumberOfSections());
     NrOfTilesLbl->Caption 		= IntToStr(mTheData.getNumberOfTiles());
     NrOfSessionsLbl->Caption    = IntToStr(mTheData.getNumberOfSessions());
     NrOfChannelsLbl->Caption    = IntToStr(mTheData.getNumberOfChannels());
-
-
-    if(dc)
-    {
-    	DockerContainerE->setValue(dc->getContainerName());
-    }
 
     int nrOfStateTables = mTheData.getNumberOfRibbons() * mTheData.getNumberOfSessions() * mTheData.getNumberOfSections();
     StateTablesLbl->Caption = IntToStr(mTheData.getNumberOfStateTables()) + " (" + IntToStr(nrOfStateTables) + ")";
@@ -115,13 +109,13 @@ void TCreateATIFDataStateTablesForm::onThreadExit(void* arg1, void* arg2, void*)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TCreateATIFDataStateTablesForm::DockerContainerEKeyDown(TObject *Sender,
-          WORD &Key, TShiftState Shift)
-{
-    if(Key == VK_RETURN)
-    {
-     Close();
-    }
-}
+//void __fastcall TCreateATIFDataStateTablesForm::DockerContainerEKeyDown(TObject *Sender,
+//          WORD &Key, TShiftState Shift)
+//{
+//    if(Key == VK_RETURN)
+//    {
+//     Close();
+//    }
+//}
 
 

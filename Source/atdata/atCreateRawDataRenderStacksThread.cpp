@@ -15,9 +15,9 @@ namespace at
 {
 
 using namespace dsl;
-CreateRawDataRenderStacksThread::CreateRawDataRenderStacksThread(ATIFData& d, DockerContainer* dc, const string& renderHost)
+CreateRawDataRenderStacksThread::CreateRawDataRenderStacksThread(ATIFData& d, const string& renderHost)
 :
-ATIFDataProcessThread(d, dc, renderHost)
+ATIFDataProcessThread(d, renderHost)
 {}
 
 void CreateRawDataRenderStacksThread::run()
@@ -119,18 +119,18 @@ void CreateRawDataRenderStacksThread::onDockerProgress(void* arg1, void* arg2)
 string CreateRawDataRenderStacksThread::createDockerCommand(const string& stateTablePathP, const string& projDir)
 {
 	stringstream cmdLine;
-    cmdLine << "exec "<<mDockerContainer;
-    cmdLine << " python -m renderapps.dataimport.create_fast_stacks_multi";
-    cmdLine << " --render.client_scripts /shared/render/render-ws-java-client/src/main/scripts";
-	cmdLine << " --render.host " <<mRenderHost; // W10DTMJ03EG6Z.corp.alleninstitute.org";
-    cmdLine << " --render.port 8080";
-	cmdLine << " --render.owner " 		<< "ATExplorer";
-    cmdLine << " --render.project "		<< getLastFolderInPath(projDir);
-    cmdLine << " --render.memGB 5G";
-    cmdLine << " --log_level INFO";
-    cmdLine << " --outputStackPrefix ACQ_";
-	cmdLine << " --projectDirectory " 	<< toPosixPath(projDir, "/mnt");
-    cmdLine << " --statetableFile " 	<< toPosixPath(stateTablePathP, "/mnt");
+//    cmdLine << "exec "<<mDockerContainer;
+//    cmdLine << " python -m renderapps.dataimport.create_fast_stacks_multi";
+//    cmdLine << " --render.client_scripts /shared/render/render-ws-java-client/src/main/scripts";
+//	cmdLine << " --render.host " <<mRenderHost; // W10DTMJ03EG6Z.corp.alleninstitute.org";
+//    cmdLine << " --render.port 8080";
+//	cmdLine << " --render.owner " 		<< "ATExplorer";
+//    cmdLine << " --render.project "		<< getLastFolderInPath(projDir);
+//    cmdLine << " --render.memGB 5G";
+//    cmdLine << " --log_level INFO";
+//    cmdLine << " --outputStackPrefix ACQ_";
+//	cmdLine << " --projectDirectory " 	<< toPosixPath(projDir, "/mnt");
+//    cmdLine << " --statetableFile " 	<< toPosixPath(stateTablePathP, "/mnt");
     return cmdLine.str();
 }
 
