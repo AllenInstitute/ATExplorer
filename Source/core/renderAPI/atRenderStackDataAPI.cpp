@@ -180,7 +180,6 @@ bool RenderStackDataAPI::deleteProject(const string& o, const string& p)
     return true;
 }
 
-
 bool RenderStackDataAPI::deleteStack(const string& o, const string& p, const string& s)
 {
 	RESTRequest request(mRC.getBaseURL(), rmDelete);

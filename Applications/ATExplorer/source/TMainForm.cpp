@@ -363,7 +363,7 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
             return;
         }
 
-        RenderServiceParameters* rs(f->getRenderService());
+        RenderServiceParameters rs(f->getRenderService());
 
 		//Create a render project and associate with current ATE project
         //Use shared pointer later on
@@ -416,7 +416,7 @@ void __fastcall TMainForm::AddPointMatchCollectionAExecute(TObject *Sender)
             return;
         }
 
-        RenderServiceParameters* rs(f->getRenderService());
+        RenderServiceParameters rs(f->getRenderService());
 
 		//Create a render project and associate with current ATE project
         //Use shared pointer later on

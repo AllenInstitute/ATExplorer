@@ -154,6 +154,5 @@ object CreateATIFDataStateTablesForm: TCreateATIFDataStateTablesForm
     EditLabel.Caption = 'Docker Container'
     Enabled = False
     TabOrder = 3
-    OnKeyDown = DockerContainerEKeyDown
   end
 end

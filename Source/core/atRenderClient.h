@@ -11,8 +11,9 @@
 #include "atGenericListOfObjects.h"
 #include <string>
 #include <vector>
-#include "atRenderPointMatchAPI.h"
-#include "atRenderStackDataAPI.h"
+#include "renderAPI/atRenderPointMatchAPI.h"
+#include "renderAPI/atRenderStackDataAPI.h"
+#include "renderAPI/atServerConfigurationAPI.h"
 //---------------------------------------------------------------------------
 
 
@@ -65,17 +66,16 @@ class ATE_CORE RenderClient : public RESTClient
                                                          int maxInt						= 65535
                                                          );
 
-		void                     					setRenderServiceParameters(RenderServiceParameters* rp);
+		void                     					setRenderServiceParameters(const RenderServiceParameters& rsp);
 		const RenderServiceParameters*              getRenderServiceParameters();
 
         string                                      getBaseURL();
 		StringList						            getServerProperties();
 
-                                                    //StackData API
+                                                    //Various Render API's
         RenderStackDataAPI                          StackDataAPI;
-
-                                                    //Access renders pointmatch API
         RenderPointMatchAPI                         PointMatchAPI;
+        ServerConfigurationAPI                      ServerConfigurationAPI;
 
 //        StringList						            getStacksForProject(const string& owner, const string& p);
 //        StringList                                  getChannelsInStack(const string& stackName);
@@ -113,15 +113,12 @@ class ATE_CORE RenderClient : public RESTClient
 //		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
 
 //        string                                      getCacheRoot();
-        string                                      getLastRequestURL();
+
 //        string                                      request(const string& r);
         shared_ptr<FetchImageThread>				mFetchImageThread;
     private:
 
         void                                        createRESTServiceParameters(const string& host);
-        string                                      mLastRequestURL;
-
-
 		StringList 									getMatchCollectionAPIResponse(const string& owner, const string& matchCollection, const string& request);
 
         											//!Memory to hold image data retrieved from server

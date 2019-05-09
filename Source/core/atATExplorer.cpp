@@ -16,16 +16,11 @@ using namespace dsl;
 
 ATExplorer::ATExplorer()
 :
-DefaultRenderPythonApps(NULL),
-DefaultATModules(NULL),
-DefaultRenderServiceContainer(NULL),
 Properties(),
 Cache(""),
 mIniFile(NULL)
-//RenderClient()
 {
     Log(lInfo) << "Starting up ATExplorer..";
-
 
     //Setup a renderservice
 
@@ -53,16 +48,7 @@ bool ATExplorer::init(IniFile& iniFile)
             createRenderServiceParametersPropertiesInSection(props, iniSection);
             createARenderServiceParametersRecord(props);
         }
-
-        else if(iniSection && startsWith("DOCKER_CONTAINER", iniSection->mName))
-        {
-            //Create a new (empty) inifile section
-            PropertiesSP props = PropertiesSP(new IniFileProperties(mIniFile, iniSection->mName));
-            createDockerContainerPropertiesInSection(props, iniSection);
-            createADockerContainerRecord(props);
-        }
     }
-
 
     //Setup defaults..
     DefaultRenderService = getFirstRenderService();
@@ -77,13 +63,6 @@ bool ATExplorer::writeProperties()
     {
         rs->getProperties()->write();
         rs = mRenderServices.getNext();
-    }
-
-	DockerContainer* item = mDockerContainers.getFirst();
-    while(item)
-    {
-        item->getProperties()->write();
-        item = mDockerContainers.getNext();
     }
 
     Properties.LogLevel = gLogger.getLogLevel();
@@ -131,16 +110,6 @@ RenderServiceParameters* ATExplorer::createRenderService(const string& serviceNa
     return rs;
 }
 
-DockerContainer* ATExplorer::createDockerContainer(const string& serviceName)
-{
-    //Create a new (empty) inifile section
-    string iniSection("DOCKER_CONTAINER_" + serviceName);
-    PropertiesSP props = PropertiesSP(new IniFileProperties(mIniFile, iniSection));
-    DockerContainer* rs = createADockerContainerRecord(props, serviceName);
-    mIniFile->save();
-    return rs;
-}
-
 bool ATExplorer::removeRenderService(const string& serviceName)
 {
     if(mIniFile)
@@ -164,22 +133,6 @@ RenderServiceParameters* ATExplorer::createARenderServiceParametersRecord(Proper
     }
 
     appendRenderService(rs);
-    rs->getProperties()->enableEdits();
-    return rs;
-}
-
-//Create a new record with data from the PropertySection
-DockerContainer* ATExplorer::createADockerContainerRecord(PropertiesSP sec, const string& name)
-{
-	DockerContainer*  rs = new DockerContainer;
-    rs->bindToPropertyContainer(sec);
-
-    if(name.size())
-    {
-    	rs->setName(name);
-    }
-
-    appendDockerContainer(rs);
     rs->getProperties()->enableEdits();
     return rs;
 }
@@ -293,89 +246,4 @@ bool ATExplorer::createRenderServiceParametersPropertiesInSection(dsl::Propertie
     }
     return true;
 }
-
-//============================ DOCKER container stuff ==================================================
-
-
-bool ATExplorer::removeDockerContainer(const string& serviceName)
-{
-    if(mIniFile)
-    {
-	    mIniFile->deleteSection("DOCKER_CONTAINER_" + serviceName);
-    }
-
-    DockerContainer* rs = getDockerContainer(serviceName);
-    return mDockerContainers.remove(rs);
-}
-
-
-void ATExplorer::appendDockerContainer(DockerContainer* rs)
-{
-    return mDockerContainers.append(rs);
-}
-
-DockerContainer* ATExplorer::getFirstDockerContainer()
-{
-    return mDockerContainers.getFirst();
-}
-
-DockerContainer* ATExplorer::getNextDockerContainer()
-{
-    return mDockerContainers.getNext();
-}
-
-DockerContainer* ATExplorer::getDockerContainer(const string& name)
-{
-	DockerContainer* service = getFirstDockerContainer();
-    while(service)
-    {
-        if(service->getName() == name)
-        {
-            return service;
-        }
-		service = getNextDockerContainer();
-    }
-    return NULL;
-}
-
-bool ATExplorer::createDockerContainerPropertiesInSection(dsl::PropertiesSP propertiesSection, dsl::IniSection* iniSection)
-{
-    //We need to know what type a particular property is, this is
-    //deduced when setting up (known) datastructures
-    if(startsWith("DOCKER_CONTAINER", propertiesSection->getSectionName()))
-    {
-        //Create a DockerContainer
-		Log(lDebug) << "Found section: " << propertiesSection->getSectionName();
-
-        IniFileProperties* ifp = dynamic_cast<IniFileProperties*>(propertiesSection.get());
-
-        if(!ifp)
-        {
-            Log(lError) << "syntax error...";
-            return false;
-        }
-
-        string key = "NAME";
-        if(iniSection->getKey(key))
-        {
-            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
-        }
-        else
-        {
-            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
-        }
-
-        key = "CONTAINER_NAME";
-        if(iniSection->getKey(key))
-        {
-            ifp->addStringProperty(key, iniSection->getKey(key)->mValue);
-        }
-        else
-        {
-            Log(lError) << "The \"" <<key<<"\" record is missing in iniSection: " << iniSection->mName;
-        }
-    }
-    return true;
-}
-
 }

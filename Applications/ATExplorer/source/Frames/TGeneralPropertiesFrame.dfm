@@ -45,37 +45,25 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
     Width = 451
     Height = 105
     Align = alTop
-    Caption = 'Default Docker and Render Backends'
+    Caption = 'Render Backends'
     TabOrder = 1
-    object Label7: TLabel
-      Left = 10
-      Top = 29
-      Width = 158
-      Height = 13
-      Caption = 'Render Python Docker Container'
-    end
+    DesignSize = (
+      451
+      105)
     object Label8: TLabel
-      Left = 244
-      Top = 29
+      Left = 16
+      Top = 21
       Width = 73
       Height = 13
       Caption = 'Render Service'
     end
-    object RenderPythonContainersCB: TComboBox
-      Left = 10
-      Top = 48
-      Width = 207
-      Height = 21
-      TabOrder = 0
-      Text = 'RenderPythonContainersCB'
-      OnChange = RenderPythonContainersCBChange
-    end
     object RenderServicesCB: TComboBox
-      Left = 244
-      Top = 48
-      Width = 215
+      Left = 16
+      Top = 40
+      Width = 354
       Height = 21
-      TabOrder = 1
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 0
       Text = 'ComboBox1'
     end
   end

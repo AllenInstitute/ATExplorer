@@ -21,7 +21,7 @@ __fastcall TATESettingsForm::TATESettingsForm(ATExplorer& e, TComponent* Owner)
 	: TForm(Owner),
     BaseNode(NULL),
     gATExplorer(e),
-    DockerContainersBaseNode(NULL),
+//    DockerContainersBaseNode(NULL),
     RenderServiceBaseNode(NULL)
 {}
 
@@ -69,10 +69,6 @@ void __fastcall TATESettingsForm::TreeView1Change(TObject *Sender, TTreeNode *No
             {
             	mRenderServicesPropertiesFrame->Hide();
             }
-			if(mDockerContainersPropertiesFrame)
-            {
-            	mDockerContainersPropertiesFrame->Hide();
-            }
         }
         else if(Node == RenderServiceBaseNode)
         {
@@ -81,24 +77,8 @@ void __fastcall TATESettingsForm::TreeView1Change(TObject *Sender, TTreeNode *No
 		    {
                 mGeneralPropertiesFrame->Hide();
         	}
-			if(mDockerContainersPropertiesFrame)
-            {
-            	mDockerContainersPropertiesFrame->Hide();
-            }
         }
 
-        else if(Node == DockerContainersBaseNode)
-        {
-          	populateDockerContainersFrame();
-			if(mGeneralPropertiesFrame)
-		    {
-                mGeneralPropertiesFrame->Hide();
-        	}
-			if(mRenderServicesPropertiesFrame)
-            {
-            	mRenderServicesPropertiesFrame->Hide();
-            }
-        }
         else
         {
 			if(mGeneralPropertiesFrame)
@@ -139,24 +119,11 @@ void TATESettingsForm::populateRenderServicesFrame()
     mRenderServicesPropertiesFrame->Show();
 }
 
-void TATESettingsForm::populateDockerContainersFrame()
-{
-	if(!mDockerContainersPropertiesFrame)
-    {
-    	mDockerContainersPropertiesFrame = shared_ptr<TDockerContainersFrame>(new TDockerContainersFrame(gATExplorer, this));
-    }
-
-    mDockerContainersPropertiesFrame->Parent = this;
-    mDockerContainersPropertiesFrame->Align = alClient;
-    mDockerContainersPropertiesFrame->populate();
-    mDockerContainersPropertiesFrame->Show();
-}
-
 //---------------------------------------------------------------------------
 void __fastcall TATESettingsForm::FormShow(TObject *Sender)
 {
 	addRenderServices();
-	addDockerContainers();
+//	addDockerContainers();
 
     //Enabling property edits causes any values changed in the UI to be stored
     //in a properties "Edit" value. The Edit value is propagated to
@@ -185,10 +152,6 @@ void __fastcall TATESettingsForm::FormClose(TObject *Sender, TCloseAction &Actio
         	mRenderServicesPropertiesFrame->applyEditsForNewServices();
         }
 
-        if(mDockerContainersPropertiesFrame)
-        {
-			mDockerContainersPropertiesFrame->applyEditsForNewContainers();
-        }
 	}
 
     disablePropertyEdits();
@@ -215,21 +178,6 @@ bool TATESettingsForm::addRenderServices()
     return true;
 }
 
-bool TATESettingsForm::addDockerContainers()
-{
-    //Add a renderservices root node
-	DockerContainersBaseNode = TreeView1->Items->Add(NULL, "Docker Containers");
-
-    //Add any services
-    DockerContainer* item = gATExplorer.getFirstDockerContainer();
-    while(item)
-    {
-        mSections.append(item->getProperties());
-        item = gATExplorer.getNextDockerContainer();
-    }
-
-    return true;
-}
 
 bool TATESettingsForm::enablePropertyEdits()
 {

@@ -8,12 +8,10 @@
 #include <Vcl.ExtCtrls.hpp>
 #include "atCreateRawDataRenderStacksThread.h"
 #include <Vcl.ComCtrls.hpp>
-#include "atDockerContainer.h"
 //---------------------------------------------------------------------------
 
 using at::ATIFData;
 using at::CreateRawDataRenderStacksThread;
-using at::DockerContainer;
 //---------------------------------------------------------------------------
 class PACKAGE TCreateACQRenderStacksForm : public TForm
 {
@@ -36,7 +34,7 @@ class PACKAGE TCreateACQRenderStacksForm : public TForm
         void								onThreadExit(void*, 	void*, void*);
 
     public:
-        __fastcall TCreateACQRenderStacksForm(ATIFData& data, DockerContainer* dc, const string& renderHost, TComponent* Owner);
+        __fastcall TCreateACQRenderStacksForm(ATIFData& data, const string& renderHost, TComponent* Owner);
 };
 
 extern PACKAGE TCreateACQRenderStacksForm *CreateACQRenderStacksForm;

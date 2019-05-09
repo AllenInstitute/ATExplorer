@@ -155,11 +155,12 @@ string JSONParser::getStringValueInObject(const JSONToken* t, const string& _nam
         Log(lError) << "Empty JSON. Could not find value for: "<<_name;
         return "";
     }
-    if(mFirstToken.type != JSMN_ARRAY)
-    {
-        Log(lError) << "Illegal JSON. Could not find value for: "<<_name;
-        return "";
-    }
+
+//    if(mFirstToken.type != JSMN_ARRAY)
+//    {
+//        Log(lError) << "Illegal JSON. Could not find value for: "<<_name;
+//        return "";
+//    }
 
     //Find startToken index
     int startTokenIndex = getTokenIndex(t) + 1;
@@ -428,9 +429,7 @@ const list<const JSONToken*> JSONParser::getListOfNamedObjects(const string& nam
         {
 			//Check previous token. Must be string and be equal to name
             const JSONToken* test = getToken(i-1);
-            if(test != NULL &&
-               test->type == JSMN_STRING &&
-               toString(test) == name)
+            if(test != NULL && test->type == JSMN_STRING && toString(test) == name)
             {
 	            tokens.push_back(t);
             }
@@ -438,7 +437,6 @@ const list<const JSONToken*> JSONParser::getListOfNamedObjects(const string& nam
     }
 
     return tokens;
-
 }
 
 string toString(const jsmntok_t& key, const string& json)

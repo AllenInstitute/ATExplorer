@@ -57,7 +57,7 @@ class PACKAGE TSelectRenderProjectParametersForm : public TForm
         					__fastcall 	TSelectRenderProjectParametersForm(ATExplorer& e, TComponent* Owner);
         string                          getRenderOwner();
         string                          getRenderProject();
-        RenderServiceParameters*        getRenderService();
+        RenderServiceParameters         getRenderService();
         string                          getOutputFolderLocation();
 };
 

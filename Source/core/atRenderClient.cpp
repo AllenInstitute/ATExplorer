@@ -34,6 +34,7 @@ RenderClient::RenderClient(shared_ptr<Idhttp::TIdHTTP> c, const string& host, co
 RESTClient(c, host),
 StackDataAPI(*this),
 PointMatchAPI(*this),
+ServerConfigurationAPI(*this),
 mFetchImageThread(shared_ptr<FetchImageThread>())
 {
 	mServiceParameters = new RenderServiceParameters(host);
@@ -85,9 +86,9 @@ string RenderClient::getBaseURL()
     return "";
 }
 
-void RenderClient::setRenderServiceParameters(RenderServiceParameters* rp)
+void RenderClient::setRenderServiceParameters(const RenderServiceParameters& rp)
 {
-    mServiceParameters = rp;
+    (*mServiceParameters) = rp;
 }
 
 const RenderServiceParameters* RenderClient::getRenderServiceParameters()
@@ -182,34 +183,6 @@ void RenderClient::copyImageData(MemoryStruct chunk)
 //{
 ////	mCache.setBasePath(f);
 //}
-
-StringList RenderClient::getServerProperties()
-{
-//    stringstream sUrl;
-//    sUrl << mServiceParameters->getBaseURL();
-//    sUrl << "/serverProperties";
-//    Log(lDebug5) << "Fetching Server Properties: "<<sUrl.str();
-//    StringList response;
-//
-//    try
-//    {
-//        TStringStream* zstrings = new TStringStream;;
-//        mLastRequestURL = sUrl.str();
-//        mC->Get(mLastRequestURL.c_str(), zstrings);
-//
-//        if( mC->ResponseCode == HTTP_RESPONSE_OK)
-//        {
-//            string s = stdstring(zstrings->DataString);
-//            response.appendList(StringList(s, ','));
-//        }
-//    }
-//    catch(...)
-//    {
-//    	Log(lError) << "Failed fetching response";
-//    }
-//
-//    return response;
-}
 
 bool RenderClient::getImageInThread(int z, StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp)
 {
@@ -476,12 +449,5 @@ string RenderClient::getURL()
 //////    mC->Put()
 ////    return true;
 //}
-
-
-string RenderClient::getLastRequestURL()
-{
-    return mLastRequestURL;
-}
-
 
 }

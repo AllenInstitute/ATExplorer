@@ -29,13 +29,17 @@ class ATE_CORE RESTClient : public ExplorerObject
         string                                  getBaseURL();
         int 					                executeRequest(RESTRequest& request, string& response);
         int                                     getLastHTTPResponseCode(){return mLastHTTPResponseCode;}
+        string                                  getLastRequestURL();
+
 
     protected:
 		shared_ptr<Idhttp::TIdHTTP>     		mHTTPClient;
     	RESTServiceParameters*                  mServiceParameters;
         int                                     mLastHTTPResponseCode;
+        string                                  mLastHTTPRequest;
 
         virtual void                            createRESTServiceParameters(const string& host) = 0;
+
 
 };
 

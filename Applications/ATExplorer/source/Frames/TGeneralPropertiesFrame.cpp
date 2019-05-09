@@ -4,7 +4,7 @@
 #include "dslVCLUtils.h"
 #include "dslFileUtils.h"
 #include "dslLogger.h"
-#include "atDockerContainer.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -35,15 +35,6 @@ bool TGeneralPropertiesFrame::populate(Properties& props)
     props.enableEdits();
 
 
-    //Fill out render and docker backends
-    RenderPythonContainersCB->Clear();
-    DockerContainer* c =  mExplorer.getFirstDockerContainer();
-    while(c)
-    {
-		RenderPythonContainersCB->AddItem(c->getName().c_str(), (TObject*) c);
-        c = mExplorer.getNextDockerContainer();
-    }
-
     RenderServicesCB->Clear();
     RenderServiceParameters* rs =  mExplorer.getFirstRenderService();
     while(rs)
@@ -52,14 +43,21 @@ bool TGeneralPropertiesFrame::populate(Properties& props)
         rs = mExplorer.getNextRenderService();
     }
 
-	BaseProperty* p = props.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER");
-    if(p)
+    if (RenderServicesCB->Items->Count)
     {
-        if(p->getValueAsString().size())
-        {
-            //Select
-        }
+    	RenderServicesCB->ItemIndex = 0;
     }
+
+
+//	BaseProperty* p = props.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER");
+//    if(p)
+//    {
+//        if(p->getValueAsString().size())
+//        {
+//            //Select
+//        }
+//    }
+
     return true;
 }
 
@@ -90,24 +88,25 @@ void __fastcall TGeneralPropertiesFrame::TestRenderServiceBtnClick(TObject *Send
     MessageDlg("Not Implemented yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TGeneralPropertiesFrame::RenderPythonContainersCBChange(TObject *Sender)
-{
-	//Select default RenderPythonContainer
-
-    int ii = RenderPythonContainersCB->ItemIndex;
-	if(ii == -1)
-    {
-        return;
-    }
-
-    //Get item
-    string item = stdstr(RenderPythonContainersCB->Items->Strings[ii]);
-	Property<string>* p = dynamic_cast<Property<string>*>(mExplorer.Properties.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER"));
-    if(p)
-    {
-        p->setValue(item);
-    }
-}
+////---------------------------------------------------------------------------
+//void __fastcall TGeneralPropertiesFrame::RenderPythonContainersCBChange(TObject *Sender)
+//{
+//	//Select default RenderPythonContainer
+//
+//    int ii = RenderPythonContainersCB->ItemIndex;
+//	if(ii == -1)
+//    {
+//        return;
+//    }
+//
+//    //Get item
+//    string item = stdstr(RenderPythonContainersCB->Items->Strings[ii]);
+//	Property<string>* p = dynamic_cast<Property<string>*>(mExplorer.Properties.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER"));
+//    if(p)
+//    {
+//        p->setValue(item);
+//    }
+//}
+//
 
 

@@ -52,6 +52,7 @@ int RESTClient::executeRequest(RESTRequest& request, string& response)
 
             case rmGet:
                 req = (request.getRequestURL());
+                mLastHTTPRequest = req;
                 mHTTPClient->Get(req.c_str(), zstrings.get());
             break;
 
@@ -96,5 +97,9 @@ int RESTClient::executeRequest(RESTRequest& request, string& response)
     return -1;
 }
 
+string RESTClient::getLastRequestURL()
+{
+    return mLastHTTPRequest;
+}
 
 }

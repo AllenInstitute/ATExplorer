@@ -9,10 +9,10 @@
 using namespace std;
 TCreateACQRenderStacksForm *CreateACQRenderStacksForm;
 //---------------------------------------------------------------------------
-__fastcall TCreateACQRenderStacksForm::TCreateACQRenderStacksForm(ATIFData& data, DockerContainer* dc, const string& renderHost,  TComponent* Owner)
+__fastcall TCreateACQRenderStacksForm::TCreateACQRenderStacksForm(ATIFData& data, const string& renderHost,  TComponent* Owner)
 : TForm(Owner),
 mTheData(data),
-mTheThread(data, dc, renderHost)
+mTheThread(data, renderHost)
 {
     ProgressLabel->Caption 		= "";
     CurrentStateTbl->Caption 	= "";

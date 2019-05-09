@@ -24,7 +24,6 @@ class RenderProject;
 class ATIFDataProject;
 class PointMatchCollectionProject;
 class TiffStack;
-class DockerContainer;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
 enum ATEObjectType
@@ -85,8 +84,6 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
 
                                                 //When data are processed, save who did it..
                                                 //But don't create new ones
-        DockerContainer*                        mRenderPythonApps;
-        DockerContainer*                        mATModules;
 };
 
 }
