@@ -5,6 +5,7 @@
 #include "atRenderServiceParameters.h"
 #include "dslStringList.h"
 #include "atRegionOfInterest.h"
+#include "atGenericListOfPointers.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -64,6 +65,8 @@ class ATE_CORE RenderProject : public ATExplorerProject
     	string 		                            mOwner;
         string                                  mLocalCacheRootFolder;
 
+		RenderServiceParameters                 mRenderService;
+
         //Add container for roi's
 		RegionOfInterest		 		        mCurrentROI;
 
@@ -75,10 +78,10 @@ class ATE_CORE RenderProject : public ATExplorerProject
 
         int                                     mMinIntensity;
         int                                     mMaxIntensity;
-		RenderServiceParameters                 mRenderService;
+
 
         //Tiffstack(projects) container are children
-        //TiffStacks                          mTiffStacks;
+        ListOfPointers<TiffStack*>	            mTiffStacks;
 };
 
 }

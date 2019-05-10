@@ -9,6 +9,7 @@
 #include "dslProcess.h"
 #include <functional>
 #include "atTiffStack.h"
+#include "dslStringUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTFloatLabeledEdit"
@@ -163,6 +164,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
     	{
         	if(RenderStacksCB->Checked[i])
 	        {
+	            mRP.setRegionOfInterest(mROI);
                 mRP.setSelectedStackName(stdstr(RenderStacksCB->Items->Strings[i]));
                 const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
@@ -181,12 +183,12 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                     }
                 }
 
-				//FetchImagesThread::FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName, const StringList& urls)
-//                shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread(mRP.getSelectedStackName()));
                 shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread(mRP, mCache));
         		t->setup(urls);
 	    	    t->addParameters(paras);
                 t->assignCallBacks(onThreadEnter, onThreadProgress, onThreadExit);
+                t->setChannel(mRP.getSelectedChannelName());
+                t->setImageType(getImageType());
 
                 shared_ptr<TCreateStackThreadFrame> frame = createThreadFrame(t);
                 frame->GroupBox1->Caption = mRP.getSelectedStackName().c_str();
@@ -347,7 +349,9 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     {
         string url = urls[i];
         //Make sure file exists
-        string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP);
+        string z = dsl::toString(getImageZFromURL(urls[i]));
+        string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP, z, getImageType());
+
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName))
         {
@@ -356,8 +360,8 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         }
     }
 
-    string stackOutputFileNameAndPath(mCache.getRenderProjectLocalDataRoot(mRP));
-    stackOutputFileNameAndPath = joinPath(stackOutputFileNameAndPath, "stack_" + rawThread->getRenderStackName());
+    string p = mCache.getImageLocalCachePath(mRP);
+    string stackOutputFileNameAndPath = joinPath(p, "stack_" + mRP.getSelectedChannelName() + "_" +  getUUID());
 
     //  CreateStack (blocking)
     TiffStack* tiffStack = createTiffStack(imageFiles, imagesFolder, stackOutputFileNameAndPath);
@@ -366,6 +370,8 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
 
     //Add to project
     mRP.addChild(tiffStack);
+
+    //Delete duplicates
     if(RemoveSectionsCB->Checked)
     {
         for(uint i = 0; i < urls.count(); i++)
@@ -432,4 +438,15 @@ void __fastcall TCreateLocalVolumesForm::FormKeyDown(TObject *Sender, WORD &Key,
         Close();
     }
 }
+
+//---------------------------------------------------------------------------
+void __fastcall TCreateLocalVolumesForm::ROIChange(TObject *Sender, WORD &Key,
+          TShiftState Shift)
+{
+	if(Key == VK_RETURN)
+    {
+        mROI = RegionOfInterest(XCoordE->getValue(), YCoordE->getValue(), Width->getValue(), Height->getValue(), mScaleE->getValue());
+    }
+}
+
 

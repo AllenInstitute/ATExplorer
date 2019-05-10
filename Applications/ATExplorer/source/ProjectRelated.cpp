@@ -85,6 +85,10 @@ void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
         mPTreeView.createTreeViewNodes(p);
         mPTreeView.expandView(p);
     }
+    else
+    {
+		mPTreeView.closeProject(p);
+    }
 }
 
 //---------------------------------------------------------------------------

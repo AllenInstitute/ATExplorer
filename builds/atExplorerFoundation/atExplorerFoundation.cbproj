@@ -216,10 +216,6 @@
         <CppCompile Include="..\..\Source\core\atATIFDataProject.cpp">
             <BuildOrder>33</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Source\core\atDockerContainer.cpp">
-            <DependentOn>..\..\Source\core\atDockerContainer.h</DependentOn>
-            <BuildOrder>27</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Source\core\atExplorerCore.cpp">
             <DependentOn>..\..\Source\core\atExplorerCore.h</DependentOn>
             <BuildOrder>4</BuildOrder>

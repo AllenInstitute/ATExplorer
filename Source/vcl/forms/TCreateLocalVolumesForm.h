@@ -78,6 +78,8 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
 	void __fastcall RenderStacksCBClick(TObject *Sender);
 	void __fastcall CreateStacksTimerTimer(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall ROIChange(TObject *Sender, WORD &Key, TShiftState Shift);
+
 
     private:
                                             //A New TiffStack becomes part of this project

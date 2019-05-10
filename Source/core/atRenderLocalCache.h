@@ -10,12 +10,11 @@ namespace at
 
 class ATE_CORE RenderLocalCache : public ExplorerObject
 {
+    public:
+                                    RenderLocalCache(const string& cr);//, RenderProject* rp = NULL);
+                                    ~RenderLocalCache();
 
-        public:
-                                        RenderLocalCache(const string& cr);//, RenderProject* rp = NULL);
-                                        ~RenderLocalCache();
-
-		double        		            getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi) const;
+        double        		            getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi) const;
 //        void                            setRenderProject(const RenderProject& rp);
         string                          getBasePath() const;
         void                            setBasePath(const string& bp);
@@ -25,14 +24,13 @@ class ATE_CORE RenderLocalCache : public ExplorerObject
         string                          getImageLocalCachePathAndFileName(const RenderProject& rp, const string& z = gEmptyString, const string& imageType="jpeg-image") const;
         string                          getRenderProjectLocalDataRoot(const RenderProject& rp) const;
 
-		string 		                    getImageLocalCachePathFromURL(const string& url, const string& cachefolder) const;
-		string 		                    getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cachefolder, const string& chs) const;
-		string 		                    getRenderProjectLocalDataRootFolderFromURL(const string& url, const string& cachefolder) const;
+        string 		                    getImageLocalCachePathFromURL(const string& url, const string& cachefolder) const;
+        string 		                    getImageLocalCacheFileNameAndPathFromURL(const string& url, const string& cachefolder, const string& chs) const;
+        string 		                    getRenderProjectLocalDataRootFolderFromURL(const string& url, const string& cachefolder) const;
 
 
-        protected:
-//            const RenderProject*              mRP;
-            string                      mCacheRoot;
+    protected:
+        string                      mCacheRoot;
 };
 
 }

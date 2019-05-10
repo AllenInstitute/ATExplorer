@@ -121,6 +121,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TGroupBox *GroupBox2;
 	TCheckListBox *StacksCB;
 	TAction *CreateSubVolumeStackA;
+	TSTDStringLabeledEdit *RenderHostE;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);

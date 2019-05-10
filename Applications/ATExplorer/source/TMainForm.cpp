@@ -48,10 +48,13 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 	BottomPanel->Height 		= gUIProperties.BottomPanelHeight;
     ProjectManagerPanel->Width 	= gUIProperties.ProjectPanelWidth == 0 ? 100 : gUIProperties.ProjectPanelWidth; //Gotta be at least 100px on startup
     gATExplorer.Cache.setBasePath(gUIProperties.LocalCacheFolder);
-    //Populate "recent" files, projects                       q
-	if(gUIProperties.LastOpenedProject.getValue().size())
+    //Populate "recent" files, projects
+
+    string projectFile(gUIProperties.LastOpenedProject.getValue());
+
+	if(projectFile.size() && fileExists(projectFile))
     {
-        Log(lInfo) << "Last opened project: " << gUIProperties.LastOpenedProject;
+        Log(lInfo) << "Last opened project: " << projectFile;
 		TMenuItem *Item = new TMenuItem(ReopenMenu);
         Item->Caption = gUIProperties.LastOpenedProject.getValue().c_str();
         FileOpen1->Dialog->FileName = gUIProperties.LastOpenedProject.getValue().c_str();
@@ -132,7 +135,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 
 void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
 {
-   	//CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
+   	CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
@@ -346,6 +349,10 @@ void __fastcall TMainForm::AddATIFDataActionExecute(TObject *Sender)
 void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 {
     TTreeNode* atNode = ProjectTView->Selected;
+    if(!atNode)
+    {
+        return;
+    }
 	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
 
     if(parent)
@@ -374,7 +381,7 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 	    //Check how many renderproject childs
         int nrOfChilds = parent->getNumberOfChilds();
 
-        rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
+        rp->setProjectName(rp->getRenderProjectName());
     	parent->addChild(rp);
     	parent->setModified();
 		mPTreeView.addProjectToTreeView(parent, rp);

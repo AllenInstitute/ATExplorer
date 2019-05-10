@@ -364,6 +364,24 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
 	    mCurrentROI.loadFromXML(e);
     }
 
+
+    //Load stacks
+   	//Create XML for saving to file
+    XMLNode* stacks = node->FirstChildElement("tiffstacks");
+    if(stacks)
+    {
+        XMLNode* stack = stacks->FirstChild();
+        while(stack)
+        {
+        	XMLElement* el = stack->FirstChildElement("filename");
+            Log(lDebug) << "FileName: " << el->GetText() ? string(el->GetText()) : string("");
+		//	mTiffStacks.append(tiffStack);
+
+            stack = stack->NextSibling();
+        }
+    }
+
+
 	return true;
 }
 

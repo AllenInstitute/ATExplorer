@@ -5,6 +5,7 @@
 #include "ATExplorerUIProperties.h"
 #include "dslVCLUtils.h"
 #include "atATExplorer.h"
+#include "dslFileUtils.h"
 //---------------------------------------------------------------------------
 using namespace dsl;
 using namespace at;
@@ -23,7 +24,17 @@ void __fastcall TMainForm::FormShow(TObject *Sender)
 
     if(gUIProperties.LastOpenedProject.getValue().size() > 0 && firstShow == true)
     {
-        FileOpen1Accept(NULL);
+        string projectFile(gUIProperties.LastOpenedProject.getValue());
+
+        if(fileExists(projectFile))
+        {
+        	FileOpen1Accept(NULL);
+        }
+        else
+        {
+            MessageDlg("The File could not be found", mtWarning, TMsgDlgButtons() << mbOK, 0);
+			gUIProperties.LastOpenedProject.setValue("");
+        }
     }
     firstShow = false;
 }

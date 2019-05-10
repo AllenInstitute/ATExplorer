@@ -281,7 +281,7 @@ object MainForm: TMainForm
     end
     object NewProjectA: TAction
       Category = 'File'
-      Caption = 'New'
+      Caption = 'New Project'
       Hint = 'New Project'
       ImageIndex = 0
       OnExecute = NewProjectAExecute
@@ -304,6 +304,7 @@ object MainForm: TMainForm
     object CloseProjectA: TAction
       Category = 'File'
       Caption = 'Close Project'
+      Enabled = False
       Hint = 'Close Project'
       ImageIndex = 66
       OnExecute = CloseProjectAExecute
@@ -388,7 +389,7 @@ object MainForm: TMainForm
     Left = 32
     Top = 40
     Bitmap = {
-      494C0101EA00E806100010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101EA00E8061C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000040000000B0030000010020000000000000B0
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

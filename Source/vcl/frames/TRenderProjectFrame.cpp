@@ -67,6 +67,7 @@ void TRenderProjectFrame::populate()
 	mZoomFactor->Top = p1.Y;
     mZoomFactor->Parent = HeaderControl1;
 
+    RenderHostE->setValue(mRP.getRenderServiceParameters().getHost());
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
@@ -583,7 +584,6 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
     {
         int z(toInt(sections[i]));
         string fName = mExplorer.Cache.getFileNameForZ(z, mRP);
-//        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(z, mRP.getSelectedChannelName()) ));
         cmdLine << fName <<" ";
     }
 
@@ -600,39 +600,38 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
 {
-//    string cvt(joinPath(mIMPath, "convert.exe"));
-//    Process& IMConvert = mAProcess;
-//    IMConvert.reset();
-//    IMConvert.setExecutable(cvt);
-//    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
-//
-//    //Find all stacks for current ROI
-//    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
-//
-//    //Create MIP's for current stack file
-//
-//    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
-//    if(!temp)
-//    {
-//        Log(lError) << "Failed to extract string item";
-//        return;
-//    }
-//
-//    string currentStack(*temp);
-//    string* mipFName = new string(getFileNameNoExtension(currentStack));
-//
-//    *mipFName = "mip_" + *mipFName + ".tif";
-//    *mipFName = replaceSubstring("stack_", "", *mipFName);
-//    stringstream cmdLine;
-//    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
-//    Log(lInfo) << "Running convert on " << cmdLine.str();
-//
-//    IMConvert.setup(cmdLine.str(), mhCatchMessages);
-//    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-//
-//    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
-//    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
-//    IMConvert.start(true);
+    string cvt(joinPath(mIMPath, "convert.exe"));
+    Process& IMConvert = mAProcess;
+    IMConvert.reset();
+    IMConvert.setExecutable(cvt);
+    IMConvert.setWorkingDirectory(mExplorer.Cache.getBasePath());
+
+    //Find all stacks for current ROI
+    StringList stackFiles(getFilesInFolder(mExplorer.Cache.getBasePath(), "stack_", "tif", false));
+
+    //Create MIP's for current stack file
+    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+    if(!temp)
+    {
+        Log(lError) << "Failed to extract string item";
+        return;
+    }
+
+    string currentStack(*temp);
+    string* mipFName = new string(getFileNameNoExtension(currentStack));
+
+    *mipFName = "mip_" + *mipFName + ".tif";
+    *mipFName = replaceSubstring("stack_", "", *mipFName);
+    stringstream cmdLine;
+    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+    IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+
+    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
+    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
+    IMConvert.start(true);
 }
 
 //---------------------------------------------------------------------------
@@ -727,18 +726,18 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::ROI_CBClick(TObject *Sender)
 {
-//    //Switch ROI
-//    if(ROI_CB->ItemIndex == -1)
-//    {
-//        return;
-//    }
-//    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
-//    RenderLayer rl(mRC.getProject(), roi, mRC.getCacheRoot());
-//
-//    mCurrentROI = roi;
-//    mCurrentROI.setScale(rl.getLowestScaleInCache());
-//    mScaleE->setValue(mCurrentROI.getScale());
-//    ClickZ(Sender);
+    //Switch ROI
+    if(ROI_CB->ItemIndex == -1)
+    {
+        return;
+    }
+    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
+    mCurrentROI = roi;
+    mCurrentROI.setScale(mExplorer.Cache.getLowestResolutionInCache(mRP, mCurrentROI));
+    mScaleE->setValue(mCurrentROI.getScale());
+	roiChanged();
+    mRP.setRegionOfInterest(mCurrentROI);
+    ClickZ(Sender);
 
 }
 
@@ -784,10 +783,10 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
     {
         fName = getFilePathFromSelectedCB(OtherCB);
     }
-//    else if(a->ActionComponent == OpenROIInExplorer)
-//    {
-//        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0, mRP.getSelectedChannelName())), getFilePathFromSelectedCB(ROI_CB));
-//    }
+    else if(a->ActionComponent == OpenROIInExplorer)
+    {
+        fName = mExplorer.Cache.getImageLocalCachePathAndFileName(mRP);
+    }
 
     if(fName.size())
     {

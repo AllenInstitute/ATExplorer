@@ -17,15 +17,15 @@ using namespace dsl;
 
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
-FetchImagesThread::FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName, const StringList& urls)
+FetchImagesThread::FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const StringList& urls)
 :
 mRP(rp),
 mImageURLs(urls),
 mCache(cache),
-mRenderStackName(renderStackName),
 onEnter(nullptr),
 onProgress(nullptr),
-onExit(nullptr)
+onExit(nullptr),
+mImageType("tiff16-image")
 {}
 
 FetchImagesThread::~FetchImagesThread()
@@ -51,9 +51,14 @@ void FetchImagesThread::setChannel(const string& ch)
 	mChannel = ch;
 }
 
+void FetchImagesThread::setImageType(const string& imType)
+{
+    mImageType = imType;
+}
+
 string FetchImagesThread::getRenderStackName()
 {
-    return mRenderStackName;
+    return mRP.getSelectedStackName();
 }
 
 StringList FetchImagesThread::getImageURLs()
@@ -75,20 +80,6 @@ void FetchImagesThread::addParameters(const StringList& paras)
 {
     mExtraParameters.appendList(paras);
 }
-
-//bool FetchImagesThread::setCacheRoot(const string& cr)
-//{
-//	//Check if path exists, if not try to create it
-//	mOutputDataFolder = cr;
-//    if(folderExists(mOutputDataFolder))
-//    {
-//    	return true;
-//    }
-//    else
-//    {
-//    	return createFolder(mOutputDataFolder);
-//    }
-//}
 
 void FetchImagesThread::assignUrls(const StringList& urls)
 {
@@ -127,7 +118,7 @@ void FetchImagesThread::worker()
 
             //Check cache first. if already in cache, don't fetch
             string z = toString(getImageZFromURL(mImageURLs[i]));
-            string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP, z);
+            string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP, z, mImageType);
            	Poco::File f(outFilePathANDFileName);
             if(f.exists() && f.getSize() > 200)
             {
@@ -135,7 +126,7 @@ void FetchImagesThread::worker()
             }
             else
 			{
-            	Log(lInfo) << "Fetching section # " << mImageURLs[i];//getImageZFromURL(url);
+            	Log(lInfo) << "Fetching using URL: " << mImageURLs[i];
 
                 CURL *curl_handle;
                 CURLcode res;
