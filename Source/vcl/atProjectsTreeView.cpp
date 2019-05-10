@@ -422,7 +422,6 @@ TTreeNode* ProjectsTreeView::getTreeNodeForProject(Project* p)
     return nullptr;
 }
 
-
 ProjectItemTabbedView* ProjectsTreeView::createTabbedView(Project* p)
 {
     return nullptr;

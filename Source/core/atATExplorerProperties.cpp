@@ -16,6 +16,7 @@ ATExplorerProperties::ATExplorerProperties()
 :
 LogLevel(lAny),
 ImageMagickPath(""),
+LocalCacheFolder(""),
 DefaultRenderPythonContainer(""),
 DefaultRenderServiceContainer(""),
 DefaultATModulesContainer(""),
@@ -37,7 +38,7 @@ void ATExplorerProperties::init(IniFile* iniFile)
     shared_ptr<IniFileProperties> section =  createNewINISection("ATExplorer");
 	section->add((BaseProperty*)  &LogLevel.setup( 	                  	"LOG_LEVEL",    	                lAny));
 	section->add((BaseProperty*)  &ImageMagickPath.setup( 	           	"IMAGE_MAGICK_PATH",                "<not set>"));
-
+	section->add((BaseProperty*)  &LocalCacheFolder.setup( 	           	"LOCAL_CACHE_FOLDER",               "C:\\"));
     mSections.push_back(section);
 
     //Read properties
@@ -52,7 +53,7 @@ void ATExplorerProperties::read()
         PropertiesSP props = (*mSectionIterator);
         if(props)
         {
-            Log(lInfo) << "Writing property section: "<<props->getSectionName()<< " with " << props->count()<<" properties";
+            Log(lInfo) << "Reading property section: "<<props->getSectionName()<< " with " << props->count()<<" properties";
             if(!props->read())
             {
                 Log(lError) << "Failed to read "<<props->getSectionName()<<" properties";

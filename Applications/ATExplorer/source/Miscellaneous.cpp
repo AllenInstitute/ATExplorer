@@ -17,8 +17,10 @@ void __fastcall TMainForm::FormKeyDown(TObject *Sender, WORD &Key, TShiftState S
 {
 	if(Key == VK_ESCAPE)
     {
-        MessageDlg("Quit?", mtWarning, TMsgDlgButtons() << mbYes<<mbCancel, 0);
-        Close();
+        if(MessageDlg("Quit?", mtWarning, TMsgDlgButtons() << mbYes<<mbCancel, 0) == mrYes)
+        {
+        	Close();
+        }
     }
 }
 

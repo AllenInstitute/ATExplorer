@@ -4,7 +4,7 @@
 #include "dslVCLUtils.h"
 #include "dslFileUtils.h"
 #include "dslLogger.h"
-
+#include "ATExplorerUIProperties.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "dslTIntegerLabeledEdit"
@@ -14,9 +14,9 @@
 TGeneralPropertiesFrame *GeneralPropertiesFrame;
 //---------------------------------------------------------------------------
 
-
 using namespace dsl;
 using namespace at;
+extern ATExplorerUIProperties gUIProperties;
 //---------------------------------------------------------------------------
 __fastcall TGeneralPropertiesFrame::TGeneralPropertiesFrame(ATExplorer& e, TComponent* Owner)
 	:
@@ -29,11 +29,15 @@ bool TGeneralPropertiesFrame::populate(Properties& props)
 {
     props.disableEdits();
     props.add(&(mExplorer.Properties.ImageMagickPath));
+    props.add(&(mExplorer.Properties.LocalCacheFolder));
 
-	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(&mExplorer.Properties.ImageMagickPath), 			false);
+	ImageMagickPathE				->assignExternalProperty(dynamic_cast< Property<string>* >(&mExplorer.Properties.ImageMagickPath), 		 	false);
     ImageMagickPathE->update();
-    props.enableEdits();
 
+	OutputDataRootFolderE	     	->assignExternalProperty(dynamic_cast< Property<string>* >(&mExplorer.Properties.LocalCacheFolder), 	 	false);
+    OutputDataRootFolderE->update();
+
+    props.enableEdits();
 
     RenderServicesCB->Clear();
     RenderServiceParameters* rs =  mExplorer.getFirstRenderService();
@@ -47,16 +51,6 @@ bool TGeneralPropertiesFrame::populate(Properties& props)
     {
     	RenderServicesCB->ItemIndex = 0;
     }
-
-
-//	BaseProperty* p = props.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER");
-//    if(p)
-//    {
-//        if(p->getValueAsString().size())
-//        {
-//            //Select
-//        }
-//    }
 
     return true;
 }
@@ -79,6 +73,18 @@ void __fastcall TGeneralPropertiesFrame::BrowseForFolderClick(TObject *Sender)
             Log(lWarning) << "Image Magick Path was not set..";
         }
     }
+    else if(btn == BrowseForDataOutputPathBtn)
+    {
+        string res = browseForFolder(OutputDataRootFolderE->getValue());
+        if(folderExists(res))
+        {
+            OutputDataRootFolderE->setValue(res);
+        }
+        else
+        {
+            Log(lWarning) << "Cache path was not set..";
+        }
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -87,26 +93,3 @@ void __fastcall TGeneralPropertiesFrame::TestRenderServiceBtnClick(TObject *Send
     //Get some render owners
     MessageDlg("Not Implemented yet", mtInformation, TMsgDlgButtons() << mbOK, 0);
 }
-
-////---------------------------------------------------------------------------
-//void __fastcall TGeneralPropertiesFrame::RenderPythonContainersCBChange(TObject *Sender)
-//{
-//	//Select default RenderPythonContainer
-//
-//    int ii = RenderPythonContainersCB->ItemIndex;
-//	if(ii == -1)
-//    {
-//        return;
-//    }
-//
-//    //Get item
-//    string item = stdstr(RenderPythonContainersCB->Items->Strings[ii]);
-//	Property<string>* p = dynamic_cast<Property<string>*>(mExplorer.Properties.getProperty("DEFAULT_RENDER_PYTHON_CONTAINER"));
-//    if(p)
-//    {
-//        p->setValue(item);
-//    }
-//}
-//
-
-

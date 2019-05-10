@@ -71,7 +71,7 @@ void TRenderProjectFrame::populate()
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
-	OutputDataRootFolderE->setValue(mRP.getLocalCacheFolder());
+
     //Min and max intensity
     MinIntensityE->setReference(mRP.getMinIntensity());
     MaxIntensityE->setReference(mRP.getMaxIntensity());
@@ -90,6 +90,11 @@ void TRenderProjectFrame::populate()
         	mZs->ItemIndex = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
 	        //Setup ROI
 			roiChanged();
+
+            if(mZs->ItemIndex == -1)
+            {
+                mZs->ItemIndex = 0;
+            }
         	ClickZ(NULL);
         }
     }
@@ -343,75 +348,6 @@ void TRenderProjectFrame::updateROIs()
 
     StringList rois(getSubFoldersInFolder(path.str(), false));
     populateCheckListBox(rois, ROI_CB);
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::FrameMouseDown(TObject *Sender, TMouseButton Button,
-          TShiftState Shift, int X, int Y)
-{
-	if(mRenderEnabled == false)
-    {
-    	return;
-    }
-
-	if(Button == TMouseButton::mbRight)
-    {
-        return;
-    }
-
-	double stretchFactor = getImageStretchFactor();
-	if(Button == TMouseButton::mbMiddle)
-    {
-       	Screen->Cursor = crSize;
-		mTopLeftSelCorner = Mouse->CursorPos;
-		mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
-
-		//Convert to world image coords (minus offset)
-	    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
-        return;
-    }
-
-    mIsDrawing = true;
-    getCanvas()->MoveTo(X , Y);
-    Origin = Point(X, Y);
-    MovePt = Origin;
-
-    //For selection
-	mTopLeftSelCorner = Mouse->CursorPos;
-	mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
-
-	//Convert to world image coords (minus offset)
-    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftState Shift,
-          int X, int Y)
-{
-	if(mIsDrawing)
-  	{
-		DrawShape(Origin, MovePt, pmNotXor);
-		MovePt = Point(X, Y);
-		DrawShape(Origin, MovePt, pmNotXor);
-  	}
-
-	TPoint p = this->Image1->ScreenToClient(Mouse->CursorPos);
-    double stretchF = getImageStretchFactor();
-	XE->Caption = IntToStr((int) (p.X * stretchF) + XCoordE->getValue()) ;
-	YE->Caption = IntToStr((int) (p.Y * stretchF) + YCoordE->getValue());
-
-	//Convert to world image coords (minus offset)
-    double stretchFactor = getImageStretchFactor();
-    if(stretchFactor)
-    {
-	    p = controlToImage(p, mScaleE->getValue(), stretchFactor);
-    }
-
-	if(GetAsyncKeyState(VK_MBUTTON) < 0)
-    {
-    	//Move the picture
-	//        Image1->Top = Image1->Top + 1;
-    }
 }
 
 //---------------------------------------------------------------------------
@@ -814,30 +750,29 @@ void TRenderProjectFrame::zoom(int zoomFactor, bool out)
     Width->setValue( mCurrentROI.getWidth());
     Height->setValue(mCurrentROI.getHeight());
 
+    mRP.setRegionOfInterest(mCurrentROI);
     updateScale();
+	roiChanged();
+    updateROIs();
 	ClickZ(NULL);
     checkCache();
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::RzSpinButtons1DownLeftClick(TObject *Sender)
-
 {
 	CustomImageRotationE->setValue(CustomImageRotationE->getValue() - 0.5);
 	double val = CustomImageRotationE->getValue();
 	paintRotatedImage(val);
-
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::RzSpinButtons1UpRightClick(TObject *Sender)
-
 {
 	CustomImageRotationE->setValue(CustomImageRotationE->getValue() +0.5);
 	double val = CustomImageRotationE->getValue();
 	paintRotatedImage(val);
 }
-
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::ToggleImageGridAExecute(TObject *Sender)
@@ -869,11 +804,6 @@ void __fastcall TRenderProjectFrame::ToggleImageGridAUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::PaintBox1Paint(TObject *Sender)
 {
-//    if(ShutDownTimer->Enabled)
-//    {
-//        return;
-//    }
-
     if(ShowImageGridCB->Checked)
     {
         mImageGrid.paint();
@@ -900,7 +830,71 @@ void __fastcall TRenderProjectFrame::OtherCBDblClick(TObject *Sender)
     }
 }
 
-void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseButton Button,
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::MouseDown(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y)
+{
+	if(mRenderEnabled == false || Button == TMouseButton::mbRight)
+    {
+    	return;
+    }
+
+	double stretchFactor = getImageStretchFactor();
+	if(Button == TMouseButton::mbMiddle)
+    {
+       	Screen->Cursor = crSize;
+		mTopLeftSelCorner = Mouse->CursorPos;
+		mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
+
+		//Convert to world image coords (minus offset)
+	    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
+        return;
+    }
+
+    mIsDrawing = true;
+    getCanvas()->MoveTo(X , Y);
+    Origin = Point(X, Y);
+    MovePt = Origin;
+
+    //For selection
+	mTopLeftSelCorner = Mouse->CursorPos;
+	mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
+
+	//Convert to world image coords (minus offset)
+    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::MouseMove(TObject *Sender, TShiftState Shift,
+          int X, int Y)
+{
+	if(mIsDrawing)
+  	{
+		DrawShape(Origin, MovePt, pmNotXor);
+		MovePt = Point(X, Y);
+		DrawShape(Origin, MovePt, pmNotXor);
+  	}
+
+	TPoint p = this->Image1->ScreenToClient(Mouse->CursorPos);
+    double stretchF = getImageStretchFactor();
+	XE->Caption = IntToStr((int) (p.X * stretchF) + XCoordE->getValue()) ;
+	YE->Caption = IntToStr((int) (p.Y * stretchF) + YCoordE->getValue());
+
+	//Convert to world image coords (minus offset)
+    double stretchFactor = getImageStretchFactor();
+    if(stretchFactor)
+    {
+	    p = controlToImage(p, mScaleE->getValue(), stretchFactor);
+    }
+
+	if(GetAsyncKeyState(VK_MBUTTON) < 0)
+    {
+    	//Move the picture
+	//        Image1->Top = Image1->Top + 1;
+    }
+}
+
+void __fastcall TRenderProjectFrame::MouseUp(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y)
 {
     double stretchFactor = getImageStretchFactor();
@@ -975,7 +969,7 @@ void __fastcall TRenderProjectFrame::Button1Click(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
+void __fastcall TRenderProjectFrame::openVolumesForm(TObject *Sender)
 {
     //Open creat volumes form
 	if(!mCreateVolumesForm)
@@ -988,37 +982,6 @@ void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
     stacks.append(stdstr(StackCB->Text));
     mCreateVolumesForm->populate(mCurrentROI, stacks);
     mCreateVolumesForm->Show();
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::BrowseForDataOutputPathBtnClick(TObject *Sender)
-
-{
-    TButton* btn = dynamic_cast<TButton*>(Sender);
-    if(btn == BrowseForDataOutputPathBtn)
-    {
-        //Browse for folder
-        string res = browseForFolder(OutputDataRootFolderE->getValue());
-        if(folderExists(res))
-        {
-            OutputDataRootFolderE->setValue(res);
-            mRP.assignLocalCacheRootFolder(res);
-        }
-        else
-        {
-            Log(lWarning) << "Path was not set..!";
-        }
-    }
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::OutputDataRootFolderEKeyDown(TObject *Sender,
-          WORD &Key, TShiftState Shift)
-{
-    if(Key == VK_RETURN)
-    {
-		mRP.assignLocalCacheRootFolder(OutputDataRootFolderE->getValue());
-    }
 }
 
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
@@ -1052,6 +1015,7 @@ void __fastcall TRenderProjectFrame::ChannelsCBClick(TObject *Sender)
 
     //Render this channel
     mRP.setSelectedChannelName(channel);
+    ClickZ(NULL);
 }
 
 void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
@@ -1079,7 +1043,8 @@ void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
 void __fastcall TRenderProjectFrame::HeaderControl1SectionClick(THeaderControl *HeaderControl,
           THeaderSection *Section)
 {
-    //
+    TPoint p = HeaderControl->ClientToScreen(TPoint(0,0));
+
     if(Section->Text == '+')
     {
 	    zoom(mZoomFactor->getValue(), false);
@@ -1087,6 +1052,15 @@ void __fastcall TRenderProjectFrame::HeaderControl1SectionClick(THeaderControl *
     else if(Section->Text == '-')
     {
 	    zoom(mZoomFactor->getValue(), true);
+    }
+    else if(Section->Text == "Misc")
+    {
+	    int nrOfItems  = MiscPopup->Items->Count;
+    	MiscPopup->Popup(p.x + Section->Left, p.y - (HeaderControl->Height + nrOfItems * 16));
+    }
+    else if(Section->Text == "Image Grid")
+    {
+		ShowImageGridCB->Checked = !ShowImageGridCB->Checked;
     }
 }
 
@@ -1117,7 +1091,6 @@ void __fastcall TRenderProjectFrame::Checkrange1Click(TObject *Sender)
 //
 }
 
-
 void __fastcall TRenderProjectFrame::CheckZs(TObject *Sender)
 {
 	TMenuItem* item = dynamic_cast<TMenuItem*>(Sender);
@@ -1137,5 +1110,13 @@ void __fastcall TRenderProjectFrame::CreateSubVolumeStackAExecute(TObject *Sende
     //Create a subvolume stack in render
 
 }
+
+
+void __fastcall TRenderProjectFrame::HeaderControl1ContextPopup(TObject *Sender,
+          TPoint &MousePos, bool &Handled)
+{
+;
+}
+//---------------------------------------------------------------------------
 
 

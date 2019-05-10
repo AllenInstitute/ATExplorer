@@ -47,7 +47,8 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     //Setup some UI properties
 	BottomPanel->Height 		= gUIProperties.BottomPanelHeight;
     ProjectManagerPanel->Width 	= gUIProperties.ProjectPanelWidth == 0 ? 100 : gUIProperties.ProjectPanelWidth; //Gotta be at least 100px on startup
-    gATExplorer.Cache.setBasePath(gUIProperties.LocalCacheFolder);
+
+
     //Populate "recent" files, projects
 
     string projectFile(gUIProperties.LastOpenedProject.getValue());
