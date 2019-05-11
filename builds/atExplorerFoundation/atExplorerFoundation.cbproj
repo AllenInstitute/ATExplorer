@@ -304,6 +304,9 @@
             <DependentOn>..\..\Source\core\atTiffStack.h</DependentOn>
             <BuildOrder>34</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atTiffStackCreator.cpp">
+            <BuildOrder>64</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\pointMatches\atPointMatch.cpp">
             <DependentOn>..\..\Source\core\pointMatches\atPointMatch.h</DependentOn>
             <BuildOrder>49</BuildOrder>

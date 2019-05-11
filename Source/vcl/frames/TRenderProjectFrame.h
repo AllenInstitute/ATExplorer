@@ -30,6 +30,7 @@
 #include "dslProcess.h"
 #include "atImageGrid.h"
 #include "atATExplorer.h"
+#include "atTiffStackCreator.h"
 //---------------------------------------------------------------------------
 
 
@@ -43,6 +44,7 @@ using at::FetchImageThread;
 using dsl::Process;
 using at::ImageGrid;
 using at::ATExplorer;
+using at::TiffStackCreator;
 //---------------------------------------------------------------------------
 class PACKAGE TRenderProjectFrame : public TFrame
 {
@@ -166,8 +168,10 @@ class PACKAGE TRenderProjectFrame : public TFrame
 
     private:
         string                                          mIMPath;
+        TiffStackCreator                                mTiffStackCreator;
         ImageGrid                                       mImageGrid;
         ATExplorer&                                     mExplorer;
+
                                                         //A Reference to a render project
         RenderProject&			     	                mRP;
         RenderClient                                    mRC;

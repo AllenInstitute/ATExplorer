@@ -32,8 +32,6 @@ using namespace Poco;
 int rpFrameNr(0);
 
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
-
-//FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName = dsl::gEmptyString, const StringList& urls = StringList(dsl::gEmptyString));
 //---------------------------------------------------------------------------
 __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner)
 	: TFrame(Owner),
@@ -46,7 +44,8 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject
     mIsDrawing(false),
     mIMPath(e.getImageMagickPath()),
     mImageGrid(Image1, PaintBox1->Canvas),
-    mCreateVolumesForm(NULL)
+    mCreateVolumesForm(NULL),
+	mTiffStackCreator(e.getImageMagickPath(), "")
 {
     this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();
     populate();
@@ -70,7 +69,6 @@ void TRenderProjectFrame::populate()
     RenderHostE->setValue(mRP.getRenderServiceParameters().getHost());
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
-
 
     //Min and max intensity
     MinIntensityE->setReference(mRP.getMinIntensity());

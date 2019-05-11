@@ -34,7 +34,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
         Application->Icon->LoadFromFile("ATExplorer.ico");
 		Application->CreateForm(__classid(TMainForm), &MainForm);
-        Log(lInfo) << gUIProperties.GeneralProperties->getListing();
+		Log(lInfo) << gUIProperties.GeneralProperties->getListing();
 		Application->Run();
 	}
 	catch (Exception &exception)
