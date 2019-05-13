@@ -13,68 +13,67 @@ namespace at
 TiffStackCreator::TiffStackCreator(const string& imPath, const string& wf)
 :
 mImageMagickPath(imPath),
-mWorkingFolder(wf)
+mOutputFolder(wf),
+mOnEnterCB(nullptr),
+mTheStack(NULL)
 {
     mConvertExe = (joinPath(mImageMagickPath, "convert.exe"));
 }
 
 TiffStackCreator::~TiffStackCreator()
-{}
-
-void TiffStackCreator::onIMProcessFinished(void* arg1, void* arg2)
 {
-    Log(lInfo) << "Process Finished";
 
-//    if(arg1 == (void*) StacksCB)
-//    {
-//        int itemIndx = StacksCB->ItemIndex;
-//	    checkCache();
-//        StacksCB->ItemIndex = itemIndx;
-//        StacksCB->OnClick(StacksCB);
-//
-//        //Open MIP window
-//        if(arg2)
-//        {
-//        	string& fName = *((string*) arg2);
-//            if(fileExists(fName))
-//            {
-//                OpenImageForm(fName);
-//                delete &fName;
-//            }
-//        }
-//    }
-//    else if(arg1 == (void*) mZs)
-//    {
-//        int itemIndx = StacksCB->ItemIndex;
-//	    checkCache();
-//        StacksCB->ItemIndex = itemIndx;
-//    }
 }
 
-void TiffStackCreator::create(const StringList& fileNames)
+void TiffStackCreator::assignCallbacks(dsl::Callback enter, dsl::Callback progress, dsl::Callback onExit)
 {
-    Process& IMConvert = mAProcess;
-    string convertExe(joinPath(mImageMagickPath, "convert.exe"));
+    mOnEnterCB = enter;
+    mOnProgressCB = progress;
+    mOnExitCB = onExit;
+}
 
-    if(!fileExists(convertExe))
+TiffStack* TiffStackCreator::getStack()
+{
+    return mTheStack;
+}
+
+bool TiffStackCreator::checkForImageMagick()
+{
+    if(!fileExists(mConvertExe))
     {
         stringstream msg;
         msg << "Image magicks 'convert.exe' was not found in the path:\n";
-        msg << getFilePath(convertExe) << endl << endl;
-        msg << "Make sure you have a proper installation of Image Magick";
-        //MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
-        Log(lError) << msg;
+        msg << getFilePath(mConvertExe) << endl << endl;
+        msg << "Make sure you have a proper installation of Image Magick!";
+        Log(lError) << msg.str();
+        return false;
+    }
+    return true;
+}
+
+bool TiffStackCreator::setOutputFolder(const string& path)
+{
+	mOutputFolder = path;
+    return folderExists(path);
+}
+
+void TiffStackCreator::assignOpaqueData(void* arg1, void* arg2)
+{
+    mTheProcess.assignOpaqueData(arg1, arg2);
+}
+
+void TiffStackCreator::create(const StringList& fileNames, const string& outputFileName)
+{
+    Process& IMConvert = mTheProcess;
+
+	if(!checkForImageMagick())
+    {
+        Log(lError) << "No image magick..";
         return;
     }
 
-    IMConvert.setExecutable(convertExe);
-    IMConvert.setWorkingDirectory(mWorkingFolder);
-
-    //Extract selected filenames from checked z's
-//    StringList sections = getCheckedItems(mZs);
-
-    //Creat output filename
-    string stackFName("stack_" + getUUID());
+    IMConvert.setExecutable(mConvertExe);
+    IMConvert.setWorkingDirectory(getFilePath(outputFileName));
 
     //Create commandline for imagemagicks convert program
     stringstream cmdLine;
@@ -83,13 +82,12 @@ void TiffStackCreator::create(const StringList& fileNames)
         cmdLine << fileNames[i] <<" ";
     }
 
-	cmdLine << stackFName << ".tif";
+	cmdLine << outputFileName;
 
-    Log(lInfo) << "Running convert using commandline: " << cmdLine.str();
+    Log(lInfo) << "Running ImageMagick's convert using commandline: " << cmdLine.str();
 
 	IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-    IMConvert.assignOpaqueData((void*) &fileNames, nullptr);
+    IMConvert.assignCallbacks(mOnEnterCB, mOnProgressCB, mOnExitCB);
     IMConvert.start(true);
 }
 

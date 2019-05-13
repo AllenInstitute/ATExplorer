@@ -153,6 +153,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
     if(getNumberOfRunningThreads())
     {
         MessageDlg("Not Implemented", mtInformation, TMsgDlgButtons() << mbOK, 0);
+        return;
     }
     else
     {
@@ -166,10 +167,11 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
 	        {
 	            mRP.setRegionOfInterest(mROI);
                 mRP.setSelectedStackName(stdstr(RenderStacksCB->Items->Strings[i]));
+
                 const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
 
-                //mRC.setRenderProject(mRP);
+
                 mRC.init(getImageType(), z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
                 //Create image URLs

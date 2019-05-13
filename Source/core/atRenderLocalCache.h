@@ -11,7 +11,7 @@ namespace at
 class ATE_CORE RenderLocalCache : public ExplorerObject
 {
     public:
-                                    RenderLocalCache(const string& cr);//, RenderProject* rp = NULL);
+                                    RenderLocalCache(const string& cr);
                                     ~RenderLocalCache();
 
         double        		            getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi) const;

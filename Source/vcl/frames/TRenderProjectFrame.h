@@ -182,6 +182,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
         //Render areas history
 		RegionOfInterest								mCurrentROI;
         string                                          mHostURL;
+        string                                          getCurrentROIPath();
         void                                            populate();
 		void __fastcall 								onImage();
 		void 											paintRotatedImage(double angle);

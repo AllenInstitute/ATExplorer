@@ -13,19 +13,28 @@ using dsl::StringList;
 class ATE_CORE TiffStackCreator : public ExplorerObject
 {
     public:
-                                        TiffStackCreator(const string& imPath, const string&  wf);
+                                        TiffStackCreator(const string& imPath, const string& wf);
                                         ~TiffStackCreator();
         void                            assignCallbacks(dsl::Callback enter, dsl::Callback progress, dsl::Callback onExit);
-        void                            create(const StringList& fileNames);
+        void                            assignOpaqueData(void* arg1, void* arg2);
+
+        void                            create(const StringList& fileNames, const string& outputFileName);
+        bool                            checkForImageMagick();
+        bool                            setOutputFolder(const string& path);
+        TiffStack*                      getStack();
 
     protected:
         string                          mImageMagickPath;
-        string                          mWorkingFolder;
+        string                          mOutputFolder;
         string                          mConvertExe;
         TiffStack*                      mTheStack;
+	    Process 						mTheProcess;
+		dsl::Callback 					mOnEnterCB;
+        dsl::Callback 					mOnProgressCB;
+        dsl::Callback 					mOnExitCB;
 
-	    Process 						mAProcess;
-        void                            onIMProcessFinished(void*, void*);
+
+//        void                            onIMProcessFinished(void*, void*);
 };
 
 }

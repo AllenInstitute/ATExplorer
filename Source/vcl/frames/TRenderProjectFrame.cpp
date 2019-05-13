@@ -121,13 +121,13 @@ void TRenderProjectFrame::checkCache()
     OtherCB->Clear();
     StacksCB->Clear();
 
-    StringList stackFiles(getFilesInFolder(mExplorer.Cache.getBasePath(), "tif", false));
+    StringList stackFiles(getFilesInFolder(getCurrentROIPath(), "tif", false));
     for(int i = 0; i < stackFiles.count(); i++)
     {
         if(startsWith("stack_", stackFiles[i]))
         {
             //Setup something robust here later on
-            string* item = new string(joinPath(mExplorer.Cache.getBasePath(), stackFiles[i]));
+            string* item = new string(joinPath(getCurrentROIPath(), stackFiles[i]));
             stringstream itemCaption;
             itemCaption << "Stack_"<<i + 1;
             StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
@@ -336,13 +336,16 @@ void TRenderProjectFrame::updateScale()
     mCurrentROI.setScale(scale);
 }
 
+string TRenderProjectFrame::getCurrentROIPath()
+{
+ 	return joinPath(mExplorer.Cache.getBasePath(), mRP.getProjectOwner(), mRP.getRenderProjectName(), mRP.getSelectedStackName(), mCurrentROI.getFolderName());
+}
+
 void TRenderProjectFrame::updateROIs()
 {
     //Create basepath
     stringstream path;
     path << joinPath(mExplorer.Cache.getBasePath(), mRP.getProjectOwner(), mRP.getRenderProjectName(), mRP.getSelectedStackName());
-
-//    return getSubFoldersInFolder(path.str(), false);
 
     StringList rois(getSubFoldersInFolder(path.str(), false));
     populateCheckListBox(rois, ROI_CB);
@@ -444,16 +447,18 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
     TButton* b = dynamic_cast<TButton*>(Sender);
     if(b == FetchSelectedZsBtn)
     {
+
         if(mCreateCacheThread.isRunning())
         {
             mCreateCacheThread.stop();
         }
         else
         {
+            string imageType("jpeg-image");
 		    const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
             int z = toInt(stdstr(mZs->Items->Strings[0]));
             RenderClient rc;
-            rc.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+            rc.init(imageType, z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs
             StringList urls;
@@ -468,6 +473,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
             mCreateCacheThread.setup(urls);
             mCreateCacheThread.addParameters(paras);
             mCreateCacheThread.setChannel(mRP.getSelectedChannelName());
+            mCreateCacheThread.setImageType(imageType);
             mCreateCacheThread.start();
             CreateCacheTimer->Enabled = true;
         }
@@ -490,45 +496,35 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 {
-    Process& IMConvert = mAProcess;
-    string convertExe(joinPath(mIMPath, "convert.exe"));
-
-    if(!fileExists(convertExe))
-    {
-        stringstream msg;
-        msg << "Image magicks 'convert.exe' was not found in the path:\n";
-        msg << getFilePath(convertExe) << endl << endl;
-        msg << "Make sure you have a proper installation of Image Magick";
-        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
-        return;
-    }
-
-    IMConvert.setExecutable(convertExe);
-    IMConvert.setWorkingDirectory(mExplorer.Cache.getBasePath());
-
     //Extract selected filenames from checked z's
     StringList sections = getCheckedItems(mZs);
 
-    //Creat output filename
-    string stackFName("stack_" + getUUID());
-
     //Create commandline for imagemagicks convert program
-    stringstream cmdLine;
+    if(!sections.count())
+    {
+        Log(lError) << "No sections selected for stack creation..";
+    }
+
+	if(!mTiffStackCreator.checkForImageMagick())
+    {
+        MessageDlg("ImageMagick was not found. Please download from imagemagick.org.\nInstall and setup installation path on the ATExplorers settings page.", mtWarning, TMsgDlgButtons() << mbOK, 0);
+        return;
+    }
+
+    //Do something when finished..
+    mTiffStackCreator.assignOpaqueData(mZs, NULL);
+    mTiffStackCreator.assignCallbacks(NULL, NULL, onIMProcessFinished);
+
+    StringList fileNames;
     for(int i = 0; i < sections.count(); i++)
     {
         int z(toInt(sections[i]));
-        string fName = mExplorer.Cache.getFileNameForZ(z, mRP);
-        cmdLine << fName <<" ";
+        fileNames.append(mExplorer.Cache.getFileNameForZ(z, mRP));
     }
 
-	cmdLine << stackFName << ".tif";
-
-    Log(lInfo) << "Running convert on " << cmdLine.str();
-
-	IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-    IMConvert.assignOpaqueData(mZs, nullptr);
-    IMConvert.start(true);
+    //Creat output filename
+    string stackFName(joinPath(getFilePath(fileNames[0]), "stack_" + getUUID() + ".tif"));
+    mTiffStackCreator.create(fileNames, stackFName);
 }
 
 //---------------------------------------------------------------------------
@@ -654,6 +650,7 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
         int itemIndx = StacksCB->ItemIndex;
 	    checkCache();
         StacksCB->ItemIndex = itemIndx;
+	    TiffStack* tiffStack = mTiffStackCreator.getStack();
     }
 }
 

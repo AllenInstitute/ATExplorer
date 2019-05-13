@@ -22,6 +22,7 @@
 #include "dslTPropertyCheckBox.h"
 #include <map>
 #include "atRenderLocalCache.h"
+#include "atTiffStackCreator.h"
 //---------------------------------------------------------------------------
 
 using at::RenderProject;
@@ -80,31 +81,30 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall ROIChange(TObject *Sender, WORD &Key, TShiftState Shift);
 
-
     private:
-                                            //A New TiffStack becomes part of this project
-        RenderProject&         		        mRP;
-        RegionOfInterest       	            mROI;
-		RenderLocalCache& 					mCache;
-        RenderClient                        mRC;
-		StringList 				            getValidZsForStack(const string& stackName);
-        string                              mImageMagickPath;
-        string                              mConvertExe;
+                                                    //A New TiffStack becomes part of this project
+        RenderProject&         		                mRP;
+        RegionOfInterest       	                    mROI;
+		RenderLocalCache& 					        mCache;
+        RenderClient                                mRC;
+		StringList 				                    getValidZsForStack(const string& stackName);
+        string                                      mImageMagickPath;
+        string                                      mConvertExe;
 
-		ThreadFrameThreadContainer          mThreads;
-        int                                 getNumberOfRunningThreads();
-        shared_ptr<TCreateStackThreadFrame> createThreadFrame(shared_ptr<FetchImagesThread> t);
-        void								onThreadEnter(void*, 	void*);
-        void								onThreadProgress(void*, void*);
-        void								onThreadExit(void*, 	void*);
-        TCreateStackThreadFrame*			getFrameForRawThread(FetchImagesThread* t);
-        at:: TiffStack*                     createTiffStack(const StringList& l, const string& wd, const string& outFolder);
-        string                              getImageType();
-        void                                populateZs(const string& stack);
+		ThreadFrameThreadContainer                  mThreads;
+        int                                         getNumberOfRunningThreads();
+        shared_ptr<TCreateStackThreadFrame>         createThreadFrame(shared_ptr<FetchImagesThread> t);
+        void								        onThreadEnter(void*, 	void*);
+        void								        onThreadProgress(void*, void*);
+        void								        onThreadExit(void*, 	void*);
+        TCreateStackThreadFrame*			        getFrameForRawThread(FetchImagesThread* t);
+        at:: TiffStack*                             createTiffStack(const StringList& l, const string& wd, const string& outFolder);
+        string                                      getImageType();
+        void                                        populateZs(const string& stack);
 
     public:
-				     __fastcall             TCreateLocalVolumesForm(RenderProject& rp, RenderLocalCache& cache, const string& imageMagickPath, TComponent* Owner);
-        void					            populate(const RegionOfInterest& roi, const StringList& stacks);
+				     __fastcall                     TCreateLocalVolumesForm(RenderProject& rp, RenderLocalCache& cache, const string& imageMagickPath, TComponent* Owner);
+        void					                    populate(const RegionOfInterest& roi, const StringList& stacks);
 };
 
 extern PACKAGE TCreateLocalVolumesForm *CreateLocalVolumesForm;
