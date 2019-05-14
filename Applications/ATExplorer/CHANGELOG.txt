@@ -1,3 +1,25 @@
+Release 0.7.1 (May 14)
+=======================
+* Adding handling of remote hosts
+* Adding handling of local TiffStacks
+* More fixes, simplifications of the UI
+* Adding functions to save tiff stack meta data in the project file
+* Removed docker stuff
+* Added test program for render api's
+* Added check before quitting UI
+* Setting up the RenderDB app
+* Creating a simple UI to manage render DB
+* Merge remote-tracking branch 'remotes/origin/tk_develop' into rio
+* More REST stuff done
+* More pointmatches
+* Adding Pointmatch managing code
+* Added PointMatchContext class
+* Adding pointmatch context visualization
+* Added clang testing
+* Implemented switching between channels in a stack
+* Resurrecting renderprojects in the UI
+* Added icons for the UI
+
 Release 0.7.0 (Nov 12)
 =======================
 * Cleaning up renderproject, client classes somewhat
