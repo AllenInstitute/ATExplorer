@@ -80,8 +80,8 @@ class ATE_CORE RenderProject : public ATExplorerProject
         int                                     mMaxIntensity;
 
 
-        //Tiffstack(projects) container are children
-        ListOfPointers<TiffStack*>	            mTiffStacks;
+//        //Tiffstack(projects) container are children
+//        ListOfPointers<TiffStackProject*>	            mTiffStacks;
 };
 
 }

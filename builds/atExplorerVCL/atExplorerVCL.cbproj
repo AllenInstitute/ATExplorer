@@ -147,9 +147,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PackageImport Include="vclx.bpi">
             <BuildOrder>28</BuildOrder>
         </PackageImport>
-        <CppCompile Include="..\..\Source\vcl\atATIFDataProjectItemView.cpp">
-            <BuildOrder>28</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atImageGrid.cpp">
             <DependentOn>..\..\Source\vcl\atImageGrid.h</DependentOn>
             <BuildOrder>13</BuildOrder>
@@ -173,6 +170,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <CppCompile Include="..\..\Source\vcl\atTextFileItemView.cpp">
             <DependentOn>..\..\Source\vcl\atTextFileItemView.h</DependentOn>
             <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\atTiffStackProjectItemView.cpp">
+            <BuildOrder>28</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atTreeItemObservers.cpp">
             <DependentOn>..\..\Source\vcl\atTreeItemObservers.h</DependentOn>

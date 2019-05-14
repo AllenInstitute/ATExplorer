@@ -120,6 +120,9 @@ __published:	// IDE-managed Components
 	TMenuItem *MenuItem6;
 	TMenuItem *MenuItem8;
 	TLogMemoFrame *LogMemoFrame1;
+	TPopupMenu *TiffStackPopup;
+	TMenuItem *Delete;
+	TMenuItem *OpenROI1;
 
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -159,6 +162,7 @@ __published:	// IDE-managed Components
 	void __fastcall OpenViewAExecute(TObject *Sender);
 	void __fastcall OpenAboutAExecute(TObject *Sender);
 	void __fastcall AddPointMatchCollectionAExecute(TObject *Sender);
+	void __fastcall OpenROI1Click(TObject *Sender);
 
 	private:
 		bool          									mIsStyleMenuPopulated;

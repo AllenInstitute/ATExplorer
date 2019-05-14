@@ -50,7 +50,6 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 
 
     //Populate "recent" files, projects
-
     string projectFile(gUIProperties.LastOpenedProject.getValue());
 
 	if(projectFile.size() && fileExists(projectFile))
@@ -210,6 +209,10 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
             PointMatchCollectionPopup->Popup(popupCoord.X, popupCoord.Y);
         }
 
+        else if(dynamic_cast<TiffStackProject*>(eo))
+        {
+            TiffStackPopup->Popup(popupCoord.X, popupCoord.Y);
+        }
         else if(dynamic_cast<ATExplorerProject*>(eo))
         {
             ExplorerProjectPopup->Popup(popupCoord.X, popupCoord.Y);
@@ -283,7 +286,24 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 
     //Delete project here.. if we were to use shared pointers
     //this will be unescarry..
+    p->deleteData();
     delete p;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenROI1Click(TObject *Sender)
+{
+    Project* p = mPTreeView.getSelectedProject();
+    if(!p)
+    {
+        Log(lWarning) << "Failed identifying project.";
+        return;
+    }
+
+//    mPTreeView.createTabbedView()
+
+    Log(lInfo) << "Removing subProject: " << p->getProjectName();
+
 }
 
 //---------------------------------------------------------------------------
@@ -444,5 +464,7 @@ void __fastcall TMainForm::AddPointMatchCollectionAExecute(TObject *Sender)
     }
 
 }
+
+
 
 

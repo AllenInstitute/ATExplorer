@@ -23,7 +23,7 @@ using dsl::gEmptyString;
 class RenderProject;
 class ATIFDataProject;
 class PointMatchCollectionProject;
-class TiffStack;
+class TiffStackProject;
 
 //!We are using an enum for process type in order to save/retrieve different processes from XML
 enum ATEObjectType
@@ -32,7 +32,7 @@ enum ATEObjectType
     ateATIFDataProject,
     ateRenderProject,
     atePointMatchCollectionProject,
-    ateTiffStack,
+    ateTiffStackProject,
     ateUnknown
 };
 
@@ -47,6 +47,8 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
     public:
                                                 ATExplorerProject(const string& projectName = gEmptyString);
         virtual                                 ~ATExplorerProject();
+		virtual bool                            deleteData(){return false;}
+
         virtual string                          getTypeName() const;
 
 		virtual bool 							isModified();
@@ -79,8 +81,8 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
         ATExplorerProject*			         	createATObject(tinyxml2::XMLElement* element);
 		ATIFDataProject*	 					createATIFDataProject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
-		TiffStack*								createTiffStackProject(tinyxml2::XMLElement* element);
-		PointMatchCollectionProject*				createPointMatchCollectionProject(tinyxml2::XMLElement* element);
+		TiffStackProject*								createTiffStackProject(tinyxml2::XMLElement* element);
+		PointMatchCollectionProject*			createPointMatchCollectionProject(tinyxml2::XMLElement* element);
 
                                                 //When data are processed, save who did it..
                                                 //But don't create new ones

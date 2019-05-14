@@ -143,6 +143,18 @@ ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
         }
     }
 
+    else if(dynamic_cast<TiffStackProject*>(eo))
+    {
+        TiffStackProject* o = dynamic_cast<TiffStackProject*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Creating a stack view";
+            shared_ptr<TiffStackItemView> aItemView(new TiffStackItemView(MainPC,  *o));
+           	mViews.push_back(aItemView);
+            this->observe(aItemView->getSubject());
+            return aItemView.get();
+        }
+    }
     else if(dynamic_cast<TextFile*>(eo))
     {
         TextFile* o = dynamic_cast<TextFile*>(eo);

@@ -8,7 +8,7 @@
 #include "dslFileUtils.h"
 #include "dslProcess.h"
 #include <functional>
-#include "atTiffStack.h"
+#include "atTiffStackProject.h"
 #include "dslStringUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -366,7 +366,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     string stackOutputFileNameAndPath = joinPath(p, "stack_" + mRP.getSelectedChannelName() + "_" +  getUUID());
 
     //  CreateStack (blocking)
-    TiffStack* tiffStack = createTiffStack(imageFiles, imagesFolder, stackOutputFileNameAndPath);
+    TiffStackProject* tiffStack = createTiffStackProject(imageFiles, imagesFolder, stackOutputFileNameAndPath);
 
     // Create Stack Metadata file
 
@@ -392,13 +392,13 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
 }
 
 //This will create a physical tiffstack on file, as well as a tiffstack project holding meta data
-TiffStack* TCreateLocalVolumesForm::createTiffStack(const StringList& images, const string& wd, const string& outFName)
+TiffStackProject* TCreateLocalVolumesForm::createTiffStackProject(const StringList& images, const string& wd, const string& outFName)
 {
 	Process IMConvert;
     IMConvert.setExecutable(mConvertExe);
     IMConvert.setWorkingDirectory(wd);
 
-    TiffStack* tiffStack = new TiffStack(getFileNameNoPath(outFName), getFilePath(outFName));
+    TiffStackProject* tiffStack = new TiffStackProject(getFileNameNoPath(outFName), getFilePath(outFName));
 
     //Create commandline for imagemagicks convert program
     stringstream cmdLine;

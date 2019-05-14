@@ -36,7 +36,7 @@ class TCreateStackThreadFrame;
 
 namespace at
 {
-	class TiffStack;
+	class TiffStackProject;
 }
 
 
@@ -82,7 +82,7 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
 	void __fastcall ROIChange(TObject *Sender, WORD &Key, TShiftState Shift);
 
     private:
-                                                    //A New TiffStack becomes part of this project
+                                                    //A New TiffStackProject becomes part of this project
         RenderProject&         		                mRP;
         RegionOfInterest       	                    mROI;
 		RenderLocalCache& 					        mCache;
@@ -98,7 +98,7 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
         void								        onThreadProgress(void*, void*);
         void								        onThreadExit(void*, 	void*);
         TCreateStackThreadFrame*			        getFrameForRawThread(FetchImagesThread* t);
-        at:: TiffStack*                             createTiffStack(const StringList& l, const string& wd, const string& outFolder);
+        at:: TiffStackProject*                             createTiffStack(const StringList& l, const string& wd, const string& outFolder);
         string                                      getImageType();
         void                                        populateZs(const string& stack);
 

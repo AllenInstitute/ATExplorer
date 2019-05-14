@@ -15,24 +15,27 @@ TiffStackCreator::TiffStackCreator(const string& imPath, const string& wf)
 mImageMagickPath(imPath),
 mOutputFolder(wf),
 mOnEnterCB(nullptr),
-mTheStack(NULL)
+mTheStack(shared_ptr<TiffStackProject>(new TiffStackProject()))
 {
     mConvertExe = (joinPath(mImageMagickPath, "convert.exe"));
 }
 
 TiffStackCreator::~TiffStackCreator()
-{
+{}
 
+void TiffStackCreator::setStackName(const string& name)
+{
+    mTheStack->setProjectName(name);
 }
 
 void TiffStackCreator::assignCallbacks(dsl::Callback enter, dsl::Callback progress, dsl::Callback onExit)
 {
-    mOnEnterCB = enter;
-    mOnProgressCB = progress;
-    mOnExitCB = onExit;
+    mOnEnterCB 		= enter;
+    mOnProgressCB 	= progress;
+    mOnExitCB 		= onExit;
 }
 
-TiffStack* TiffStackCreator::getStack()
+shared_ptr<TiffStackProject> TiffStackCreator::getStack()
 {
     return mTheStack;
 }
@@ -62,14 +65,15 @@ void TiffStackCreator::assignOpaqueData(void* arg1, void* arg2)
     mTheProcess.assignOpaqueData(arg1, arg2);
 }
 
-void TiffStackCreator::create(const StringList& fileNames, const string& outputFileName)
+shared_ptr<TiffStackProject> TiffStackCreator::create(const StringList& fileNames, const string& outputFileName)
 {
+    mTheStack->reset();
     Process& IMConvert = mTheProcess;
 
 	if(!checkForImageMagick())
     {
         Log(lError) << "No image magick..";
-        return;
+        return shared_ptr<TiffStackProject>();
     }
 
     IMConvert.setExecutable(mConvertExe);
@@ -86,9 +90,14 @@ void TiffStackCreator::create(const StringList& fileNames, const string& outputF
 
     Log(lInfo) << "Running ImageMagick's convert using commandline: " << cmdLine.str();
 
+
+    mTheStack->setFilePath(getFilePath(outputFileName));
+    mTheStack->setFileName(getFileNameNoPath(outputFileName));
+
 	IMConvert.setup(cmdLine.str(), mhCatchMessages);
     IMConvert.assignCallbacks(mOnEnterCB, mOnProgressCB, mOnExitCB);
     IMConvert.start(true);
+    return mTheStack;
 }
 
 }

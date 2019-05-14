@@ -1,8 +1,9 @@
 #ifndef atTiffStackCreatorH
 #define atTiffStackCreatorH
 #include "atExplorerObject.h"
-#include "atTiffStack.h"
+#include "atTiffStackProject.h"
 #include "dslProcess.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 namespace at
 {
@@ -15,19 +16,20 @@ class ATE_CORE TiffStackCreator : public ExplorerObject
     public:
                                         TiffStackCreator(const string& imPath, const string& wf);
                                         ~TiffStackCreator();
+        void                            setStackName(const string& name);
         void                            assignCallbacks(dsl::Callback enter, dsl::Callback progress, dsl::Callback onExit);
         void                            assignOpaqueData(void* arg1, void* arg2);
 
-        void                            create(const StringList& fileNames, const string& outputFileName);
+        shared_ptr<TiffStackProject>           create(const StringList& fileNames, const string& outputFileName);
         bool                            checkForImageMagick();
         bool                            setOutputFolder(const string& path);
-        TiffStack*                      getStack();
+        shared_ptr<TiffStackProject>           getStack();
 
     protected:
         string                          mImageMagickPath;
         string                          mOutputFolder;
         string                          mConvertExe;
-        TiffStack*                      mTheStack;
+        shared_ptr<TiffStackProject>           mTheStack;
 	    Process 						mTheProcess;
 		dsl::Callback 					mOnEnterCB;
         dsl::Callback 					mOnProgressCB;

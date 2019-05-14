@@ -523,8 +523,12 @@ void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
     }
 
     //Creat output filename
-    string stackFName(joinPath(getFilePath(fileNames[0]), "stack_" + getUUID() + ".tif"));
-    mTiffStackCreator.create(fileNames, stackFName);
+    string stackFName(joinPath(getFilePath(fileNames[0]), "stack_" + mRP.getSelectedChannelName() + "_" + getUUID() + ".tif"));
+    shared_ptr<TiffStackProject> stack = mTiffStackCreator.create(fileNames, stackFName);
+    stack->setROI(mCurrentROI);
+    stack->setSections(sections);
+    stack->setIntensities(MinIntensityE->getValue(), MaxIntensityE->getValue());
+    stack->appendChannel(mRP.getSelectedChannelName());
 }
 
 //---------------------------------------------------------------------------
@@ -645,12 +649,24 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
             }
         }
     }
+    //We know this is from the creation of a tiffstack
     else if(arg1 == (void*) mZs)
     {
         int itemIndx = StacksCB->ItemIndex;
 	    checkCache();
         StacksCB->ItemIndex = itemIndx;
-	    TiffStack* tiffStack = mTiffStackCreator.getStack();
+	    shared_ptr<TiffStackProject> tiffStack = mTiffStackCreator.getStack();
+
+        //Copy the stack to a new stack..
+        //Add the stack to the project file
+        TiffStackProject* stack = new TiffStackProject(*(tiffStack.get()));
+        stack->setProjectName("stack_" + stack->getChannels().asString());
+
+        //Add to the treeview and parent project XML
+	    mRP.addChild(stack);
+        mRP.notifyObservers(UpdateTree);
+        Project* root = mRP.getProjectRoot();
+        root->save();
     }
 }
 
