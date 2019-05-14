@@ -32,6 +32,8 @@ class ATE_CORE RegionOfInterest : public ExplorerObject
 	    								RegionOfInterest(const RegionOfInterest& cpme);
         RegionOfInterest&               operator=(const RegionOfInterest& rhs);
 
+        string                          asString();
+
         string                          getFolderName() const;
 		void							setX1(int x);
         int								getX1() const;

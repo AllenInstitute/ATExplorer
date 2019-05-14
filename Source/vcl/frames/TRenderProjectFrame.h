@@ -123,6 +123,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TPopupMenu *MiscPopup;
 	TMenuItem *CreateSubVolume1;
 	TCheckBox *ShowImageGridCB;
+	TButton *Button2;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -165,6 +166,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall CreateSubVolumeStackAExecute(TObject *Sender);
 	void __fastcall HeaderControl1ContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled);
+	void __fastcall Button2Click(TObject *Sender);
 
     private:
         string                                          mIMPath;

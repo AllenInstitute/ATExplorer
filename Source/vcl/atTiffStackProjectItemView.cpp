@@ -2,6 +2,8 @@
 #include "atTiffStackProjectItemView.h"
 #include "atRenderProject.h"
 #include "dslLogger.h"
+#include "atATExplorer.h"
+#include "atTiffStackProject.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -10,16 +12,17 @@ namespace at
 
 using namespace dsl;
 
-TiffStackProjectItemView::TiffStackProjectItemView(ATExplorer& e, TPageControl& pc, ATIFDataProject& p)
+
+TiffStackProjectItemView::TiffStackProjectItemView(TPageControl& pc, ATExplorer& e, TiffStackProject& p)
 :
 ProjectItemTabbedView(pc, p),
 mATExplorer(e)
 {
     this->mObserverTag = "TiffStackProjectItemView";
 
-    mATIFDataProjectFrame = unique_ptr<TATIFDataProjectFrame>(new TATIFDataProjectFrame(mATExplorer, p, &mPC));
-    mATIFDataProjectFrame->Parent =  mTabSheet.get();
-    mATIFDataProjectFrame->Align = alClient;
+    mTiffStackProjectFrame = unique_ptr<TTiffStackProjectFrame>(new TTiffStackProjectFrame(p, &mPC));
+    mTiffStackProjectFrame->Parent =  mTabSheet.get();
+    mTiffStackProjectFrame->Align = alClient;
     mTabSheet->Caption = p.getProjectName().c_str();
 }
 

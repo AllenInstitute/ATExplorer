@@ -81,7 +81,7 @@ class ATE_CORE ATExplorerProject : public dsl::Project, public ExplorerObject
         ATExplorerProject*			         	createATObject(tinyxml2::XMLElement* element);
 		ATIFDataProject*	 					createATIFDataProject(tinyxml2::XMLElement* element);
 		RenderProject*							createRenderProject(tinyxml2::XMLElement* element);
-		TiffStackProject*								createTiffStackProject(tinyxml2::XMLElement* element);
+		TiffStackProject*						createTiffStackProject(tinyxml2::XMLElement* element);
 		PointMatchCollectionProject*			createPointMatchCollectionProject(tinyxml2::XMLElement* element);
 
                                                 //When data are processed, save who did it..

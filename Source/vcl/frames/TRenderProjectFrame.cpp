@@ -70,6 +70,8 @@ void TRenderProjectFrame::populate()
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
+    mRC.setRenderServiceParameters(mRP.getRenderServiceParameters());
+
     //Min and max intensity
     MinIntensityE->setReference(mRP.getMinIntensity());
     MaxIntensityE->setReference(mRP.getMaxIntensity());
@@ -685,7 +687,6 @@ void __fastcall TRenderProjectFrame::ROI_CBClick(TObject *Sender)
 	roiChanged();
     mRP.setRegionOfInterest(mCurrentROI);
     ClickZ(Sender);
-
 }
 
 string getFilePathFromSelectedCB(TCheckListBox* b)
@@ -1119,15 +1120,19 @@ void __fastcall TRenderProjectFrame::CheckZs(TObject *Sender)
 void __fastcall TRenderProjectFrame::CreateSubVolumeStackAExecute(TObject *Sender)
 {
     //Create a subvolume stack in render
-
 }
 
-
+//---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::HeaderControl1ContextPopup(TObject *Sender,
           TPoint &MousePos, bool &Handled)
 {
 ;
 }
+
 //---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
+{
+	populate();
+}
 
 

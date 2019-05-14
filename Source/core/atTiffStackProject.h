@@ -20,6 +20,7 @@ class ATE_CORE TiffStackProject : public ATExplorerProject
                                         TiffStackProject(const string& fName = "", const Path& p = "");
                                         TiffStackProject(const TiffStackProject& stack);
                                         ~TiffStackProject();
+        string                          getInfo();
 		virtual bool                    deleteData();
         void                            setFilePath(const Path& p);
         Path                            getFilePath();

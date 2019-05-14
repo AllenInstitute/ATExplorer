@@ -102,6 +102,18 @@ RegionOfInterest& RegionOfInterest::operator=(const RegionOfInterest& rhs)
     return *this;
 }
 
+string RegionOfInterest::asString()
+{
+    stringstream i;
+    i << "X = " << mX << '\n';
+    i << "Y = " << mY << '\n';
+    i << "Width = " << mWidth << '\n';
+    i << "Height = " << mHeight << '\n';
+    i << "Scale = " << mScale << '\n';
+    i << "Z = " << mZ << '\n';
+
+    return i.str();
+}
 string RegionOfInterest::getFolderName() const
 {
     stringstream p;

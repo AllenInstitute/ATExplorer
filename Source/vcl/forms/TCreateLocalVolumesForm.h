@@ -98,7 +98,7 @@ class PACKAGE TCreateLocalVolumesForm : public TForm
         void								        onThreadProgress(void*, void*);
         void								        onThreadExit(void*, 	void*);
         TCreateStackThreadFrame*			        getFrameForRawThread(FetchImagesThread* t);
-        at:: TiffStackProject*                             createTiffStack(const StringList& l, const string& wd, const string& outFolder);
+        at:: TiffStackProject*                      createTiffStackProject(const StringList& l, const string& wd, const string& outFolder);
         string                                      getImageType();
         void                                        populateZs(const string& stack);
 

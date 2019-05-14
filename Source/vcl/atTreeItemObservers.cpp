@@ -13,7 +13,10 @@
 #include "atRenderProjectItemView.h"
 #include "atPointMatchCollectionProjectItemView.h"
 #include "atTextFile.h"
+#include "atTiffStackProject.h"
+#include "atTiffStackProjectItemView.h"
 #include "atTextFileItemView.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -109,6 +112,30 @@ ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
             return aItemView.get();
         }
     }
+    else if(dynamic_cast<TiffStackProject*>(eo))
+    {
+        TiffStackProject* o = dynamic_cast<TiffStackProject*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Creating a stack view";
+            shared_ptr<TiffStackProjectItemView> aItemView(new TiffStackProjectItemView(MainPC,  mExplorer, *o));
+           	mViews.push_back(aItemView);
+            this->observe(aItemView->getSubject());
+            return aItemView.get();
+        }
+    }
+    else if(dynamic_cast<TextFile*>(eo))
+    {
+        TextFile* o = dynamic_cast<TextFile*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Creating a TextFile view";
+            shared_ptr<TextFileItemView> aItemView(new TextFileItemView(MainPC,  *o));
+           	mViews.push_back(aItemView);
+            this->observe(aItemView->getSubject());
+            return aItemView.get();
+        }
+    }
     else if(dynamic_cast<ATExplorerProject*>(eo))
     {
         ATExplorerProject* o = dynamic_cast<ATExplorerProject*>(eo);
@@ -140,31 +167,6 @@ ProjectItemTabbedView* TreeItemObservers::createView(Subject* eo)
         if(o)
         {
             Log(lInfo) << "Clicked on Ribbon item: " << o->getAlias();
-        }
-    }
-
-    else if(dynamic_cast<TiffStackProject*>(eo))
-    {
-        TiffStackProject* o = dynamic_cast<TiffStackProject*>(eo);
-        if(o)
-        {
-            Log(lInfo) << "Creating a stack view";
-            shared_ptr<TiffStackItemView> aItemView(new TiffStackItemView(MainPC,  *o));
-           	mViews.push_back(aItemView);
-            this->observe(aItemView->getSubject());
-            return aItemView.get();
-        }
-    }
-    else if(dynamic_cast<TextFile*>(eo))
-    {
-        TextFile* o = dynamic_cast<TextFile*>(eo);
-        if(o)
-        {
-            Log(lInfo) << "Creating a TextFile view";
-            shared_ptr<TextFileItemView> aItemView(new TextFileItemView(MainPC,  *o));
-           	mViews.push_back(aItemView);
-            this->observe(aItemView->getSubject());
-            return aItemView.get();
         }
     }
 

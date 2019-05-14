@@ -12,7 +12,8 @@ namespace at
 using std::unique_ptr;
 using dsl::Subject;
 using dsl::SubjectEvent;
-using at::ATExplorer;
+using ATExplorer;
+
 class PointMatchCollectionProject;
 
 //VCL frames can't do multiple inheritance. This class is therefore necessary, for "observing" reasons..

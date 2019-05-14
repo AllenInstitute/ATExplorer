@@ -1,11 +1,13 @@
 #pragma hdrstop
 #include "atTiffStackProject.h"
 #include "dslFileUtils.h"
+#include <sstream>
 //---------------------------------------------------------------------------
 namespace at
 {
 
 using namespace dsl;
+using namespace std;
 
 TiffStackProject::TiffStackProject(const string& fName, const Path& p)
 :
@@ -14,6 +16,19 @@ mFilePath(p)
 
 TiffStackProject::~TiffStackProject()
 {}
+
+string TiffStackProject::getInfo()
+{
+    stringstream info;
+    info<<"FileName: "                      <<mFileName << '\n';
+    info<<"FilePath: "                      <<mFilePath.toString() << '\n';
+    info<<"Region of Interest (ROI): " 		<<mROI.asString() << '\n';
+    info<<"Z's: " 							<<mSections.asString() << '\n';
+    info<<"Min, Max intensity: " 	   		<<mMinIntensity <<','<<mMaxIntensity<< '\n';
+    info<<"Channels: " 	   					<<mChannels.asString()<< '\n';
+
+    return info.str();
+}
 
 bool TiffStackProject::deleteData()
 {

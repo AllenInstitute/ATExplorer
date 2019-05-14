@@ -82,7 +82,7 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
 		bool							handleClick(Session* o, bool isDoubleClick);
 		bool							handleClick(Channel* o, bool isDoubleClick);
 		bool							handleClick(TextFile* o, bool isDoubleClick);
-
+		bool 							handleClick(TiffStackProject* o, bool isDoubleClick);
     protected:
                                         //The Tree View
         TTreeView&                      mTree;

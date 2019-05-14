@@ -266,6 +266,40 @@ bool ProjectsTreeView::handleClick(TextFile* o, bool isDoubleClick)
     return true;
 }
 
+bool ProjectsTreeView::handleClick(TiffStackProject* o, bool isDoubleClick)
+{
+    if(!o)
+    {
+        return false;
+    }
+
+    //Check if a textfileviewing tab is open. If so, load current file
+//	ProjectItemTabbedView* view = mViews.getFirst();
+//    while(view)
+//    {
+//        if(dynamic_cast< TextFileItemView* >(view))
+//        {
+//            //Found one..
+//            mViews.
+//            mViews.removeView(view);
+//            ProjectItemTabbedView* view = mViews.createView(o);
+//
+//            //Select the page with projectView
+//            return mViews.selectTabWithView(view);
+//        }
+//        view = mViews.getNext();
+//    }
+
+    if(isDoubleClick)
+    {
+    	ProjectItemTabbedView* view = mViews.createView(o);
+		//Select the page with projectView
+	    return mViews.selectTabWithView(view);
+    }
+
+    return true;
+}
+
 void ProjectsTreeView::update(Subject* theChangedSubject, SubjectEvent se)
 {
     //!Find the subject and do whats needed..

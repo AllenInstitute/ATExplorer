@@ -147,6 +147,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PackageImport Include="vclx.bpi">
             <BuildOrder>28</BuildOrder>
         </PackageImport>
+        <CppCompile Include="..\..\Source\vcl\atATIFDataProjectItemView.cpp">
+            <BuildOrder>37</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\vcl\atImageGrid.cpp">
             <DependentOn>..\..\Source\vcl\atImageGrid.h</DependentOn>
             <BuildOrder>13</BuildOrder>
@@ -282,7 +285,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
             <DependentOn>..\..\Source\vcl\frames\TTextFileFrame.h</DependentOn>
-            <BuildOrder>25</BuildOrder>
+            <BuildOrder>35</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Source\vcl\frames\TTiffStackProjectFrame.cpp">
+            <Form>TiffStackProjectFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\Source\vcl\frames\TTiffStackProjectFrame.h</DependentOn>
+            <BuildOrder>36</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\Source\vcl\forms\TCreateLocalVolumesForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TCreateMediansForm.dfm"/>
@@ -294,12 +304,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\Source\vcl\frames\TCreateStackThreadFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TPointMatchCollectionFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TRenderProjectFrame.dfm"/>
-        <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATProjectOptionsFrame.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectPointMatchCollectionProjectForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.dfm"/>
         <FormResources Include="..\..\Source\vcl\forms\TSimpleTextInputDialog.dfm"/>
         <FormResources Include="..\..\Source\vcl\frames\TATIFDataProjectFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TTextFileFrame.dfm"/>
+        <FormResources Include="..\..\Source\vcl\frames\TTiffStackProjectFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
