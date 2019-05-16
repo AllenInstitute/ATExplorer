@@ -105,7 +105,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
         <BCC_IncludePath>$(ATE_ROOT);$(ATE_ROOT)\Source;$(ATE_ROOT)\Source\atdata;$(BCC_IncludePath)</BCC_IncludePath>
-        <Debugger_RunParams>--deletestacks --project  M367240D_SSTPV_SSTtest --loglevel Debug --consolelogs --json --owner tk</Debugger_RunParams>
+        <Debugger_RunParams>--data U:\data\M367240D_SSTPV_SSTtest --json --logtoconsole --loglevel Debug</Debugger_RunParams>
         <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

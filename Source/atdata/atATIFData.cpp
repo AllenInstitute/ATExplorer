@@ -463,6 +463,7 @@ FileFolders	ATIFData::getSessionFolders(FileFolderSP fldr)
         	sessionFolders.append(subFolders[i]);
         }
     }
+    sessionFolders.sort();
     return sessionFolders;
 }
 
@@ -508,6 +509,7 @@ FileFolders ATIFData::getRibbonFolders()
         }
     }
 
+    ribbonFolders.sort();
     return ribbonFolders;
 }
 

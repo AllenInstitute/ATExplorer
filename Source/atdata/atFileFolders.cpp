@@ -1,7 +1,9 @@
 #pragma hdrstop
 #include "atFileFolders.h"
 #include "atFileFolder.h"
+#include <algorithm>
 
+using namespace std;
 namespace at
 {
 
@@ -34,6 +36,18 @@ FileFolders& FileFolders::operator=(const FileFolders& rhs)
 {
     //Not implemented..
     return *this;
+}
+
+struct myclass {
+  bool operator() (FileFolderSP i, FileFolderSP j)
+  {
+  	return (i->toString() < j->toString());
+  }
+} myobject;
+
+void FileFolders::sort()
+{
+    std::sort(mFolders.begin(), mFolders.end(), myobject);
 }
 
 void FileFolders::reset()
