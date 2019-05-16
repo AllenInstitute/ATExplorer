@@ -47,11 +47,14 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
     //Setup some UI properties
 	BottomPanel->Height 		= gUIProperties.BottomPanelHeight;
     ProjectManagerPanel->Width 	= gUIProperties.ProjectPanelWidth == 0 ? 100 : gUIProperties.ProjectPanelWidth; //Gotta be at least 100px on startup
-    gATExplorer.Cache.setBasePath(gUIProperties.LocalCacheFolder);
-    //Populate "recent" files, projects                       q
-	if(gUIProperties.LastOpenedProject.getValue().size())
+
+
+    //Populate "recent" files, projects
+    string projectFile(gUIProperties.LastOpenedProject.getValue());
+
+	if(projectFile.size() && fileExists(projectFile))
     {
-        Log(lInfo) << "Last opened project: " << gUIProperties.LastOpenedProject;
+        Log(lInfo) << "Last opened project: " << projectFile;
 		TMenuItem *Item = new TMenuItem(ReopenMenu);
         Item->Caption = gUIProperties.LastOpenedProject.getValue().c_str();
         FileOpen1->Dialog->FileName = gUIProperties.LastOpenedProject.getValue().c_str();
@@ -132,7 +135,7 @@ void __fastcall TMainForm::CloseProjectAExecute(TObject *Sender)
 
 void __fastcall TMainForm::CloseProjectAUpdate(TObject *Sender)
 {
-   	//CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
+   	CloseProjectA->Enabled = mPTreeView.getRootForSelectedProject() ? true : false;
 }
 
 //---------------------------------------------------------------------------
@@ -206,6 +209,10 @@ void __fastcall TMainForm::ProjectTViewContextPopup(TObject *Sender, TPoint &Mou
             PointMatchCollectionPopup->Popup(popupCoord.X, popupCoord.Y);
         }
 
+        else if(dynamic_cast<TiffStackProject*>(eo))
+        {
+            TiffStackPopup->Popup(popupCoord.X, popupCoord.Y);
+        }
         else if(dynamic_cast<ATExplorerProject*>(eo))
         {
             ExplorerProjectPopup->Popup(popupCoord.X, popupCoord.Y);
@@ -279,7 +286,24 @@ void __fastcall TMainForm::RemoveFromProjectAExecute(TObject *Sender)
 
     //Delete project here.. if we were to use shared pointers
     //this will be unescarry..
+    p->deleteData();
     delete p;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainForm::OpenROI1Click(TObject *Sender)
+{
+    Project* p = mPTreeView.getSelectedProject();
+    if(!p)
+    {
+        Log(lWarning) << "Failed identifying project.";
+        return;
+    }
+
+//    mPTreeView.createTabbedView()
+
+    Log(lInfo) << "Removing subProject: " << p->getProjectName();
+
 }
 
 //---------------------------------------------------------------------------
@@ -346,6 +370,10 @@ void __fastcall TMainForm::AddATIFDataActionExecute(TObject *Sender)
 void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 {
     TTreeNode* atNode = ProjectTView->Selected;
+    if(!atNode)
+    {
+        return;
+    }
 	ATExplorerProject* parent = (ATExplorerProject*) atNode->Data;
 
     if(parent)
@@ -374,7 +402,7 @@ void __fastcall TMainForm::AddRenderProjectExecute(TObject *Sender)
 	    //Check how many renderproject childs
         int nrOfChilds = parent->getNumberOfChilds();
 
-        rp->setProjectName("Render project " + dsl::toString(nrOfChilds + 1));
+        rp->setProjectName(rp->getRenderProjectName());
     	parent->addChild(rp);
     	parent->setModified();
 		mPTreeView.addProjectToTreeView(parent, rp);
@@ -436,5 +464,7 @@ void __fastcall TMainForm::AddPointMatchCollectionAExecute(TObject *Sender)
     }
 
 }
+
+
 
 

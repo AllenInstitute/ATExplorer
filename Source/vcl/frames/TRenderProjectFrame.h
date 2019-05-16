@@ -30,6 +30,7 @@
 #include "dslProcess.h"
 #include "atImageGrid.h"
 #include "atATExplorer.h"
+#include "atTiffStackCreator.h"
 //---------------------------------------------------------------------------
 
 
@@ -43,6 +44,7 @@ using at::FetchImageThread;
 using dsl::Process;
 using at::ImageGrid;
 using at::ATExplorer;
+using at::TiffStackCreator;
 //---------------------------------------------------------------------------
 class PACKAGE TRenderProjectFrame : public TFrame
 {
@@ -95,7 +97,6 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TGroupBox *GroupBox5;
 	TRzSpinButtons *RzSpinButtons1;
 	TFloatLabeledEdit *CustomImageRotationE;
-	TCheckBox *ShowImageGridCB;
 	TPopupMenu *ImagePopup;
 	TMenuItem *openInChrome;
 	TSTDStringLabeledEdit *OwnerE;
@@ -114,19 +115,21 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TCheckListBox *ChannelsCB;
 	TGroupBox *GroupBox3;
 	TPopupMenu *RenderStacksPopup;
-	TButton *Button2;
-	TSTDStringLabeledEdit *OutputDataRootFolderE;
-	TButton *BrowseForDataOutputPathBtn;
 	TCheckListBox *OtherCB;
 	TGroupBox *GroupBox2;
 	TCheckListBox *StacksCB;
 	TAction *CreateSubVolumeStackA;
+	TSTDStringLabeledEdit *RenderHostE;
+	TPopupMenu *MiscPopup;
+	TMenuItem *CreateSubVolume1;
+	TCheckBox *ShowImageGridCB;
+	TButton *Button2;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
-	void __fastcall FrameMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+	void __fastcall MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
-	void __fastcall Image1MouseMove(TObject *Sender, TShiftState Shift, int X,
+	void __fastcall MouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y);
 
 	void __fastcall IntensityKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
@@ -145,13 +148,12 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall ToggleImageGridAUpdate(TObject *Sender);
 	void __fastcall PaintBox1Paint(TObject *Sender);
 	void __fastcall OtherCBDblClick(TObject *Sender);
-	void __fastcall PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+	void __fastcall MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
 	void __fastcall CreateCacheTimerTimer(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
-	void __fastcall BrowseForDataOutputPathBtnClick(TObject *Sender);
-	void __fastcall OutputDataRootFolderEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall openVolumesForm(TObject *Sender);
+
 	void __fastcall ChannelsCBClick(TObject *Sender);
 	void __fastcall ChannelsCBClickCheck(TObject *Sender);
 	void __fastcall HeaderControl1SectionClick(THeaderControl *HeaderControl, THeaderSection *Section);
@@ -162,11 +164,16 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall Checkrange1Click(TObject *Sender);
 	void __fastcall CheckZs(TObject *Sender);
 	void __fastcall CreateSubVolumeStackAExecute(TObject *Sender);
+	void __fastcall HeaderControl1ContextPopup(TObject *Sender, TPoint &MousePos,
+          bool &Handled);
+	void __fastcall Button2Click(TObject *Sender);
 
     private:
         string                                          mIMPath;
+        TiffStackCreator                                mTiffStackCreator;
         ImageGrid                                       mImageGrid;
         ATExplorer&                                     mExplorer;
+
                                                         //A Reference to a render project
         RenderProject&			     	                mRP;
         RenderClient                                    mRC;
@@ -177,6 +184,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
         //Render areas history
 		RegionOfInterest								mCurrentROI;
         string                                          mHostURL;
+        string                                          getCurrentROIPath();
         void                                            populate();
 		void __fastcall 								onImage();
 		void 											paintRotatedImage(double angle);

@@ -36,8 +36,6 @@ object CreateACQRenderStacksForm: TCreateACQRenderStacksForm
     Height = 44
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 254
-    ExplicitWidth = 677
     DesignSize = (
       520
       44)
@@ -59,7 +57,6 @@ object CreateACQRenderStacksForm: TCreateACQRenderStacksForm
       Caption = 'Close'
       ModalResult = 1
       TabOrder = 1
-      ExplicitLeft = 594
     end
   end
   object PopulatePB: TProgressBar
@@ -69,8 +66,6 @@ object CreateACQRenderStacksForm: TCreateACQRenderStacksForm
     Height = 17
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 237
-    ExplicitWidth = 677
   end
   object GroupBox1: TGroupBox
     Left = 24

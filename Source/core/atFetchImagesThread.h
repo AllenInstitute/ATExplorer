@@ -17,7 +17,7 @@ typedef boost::function<void(void*, void*)> FITCallBack;
 class ATE_CORE FetchImagesThread : public dsl::Thread
 {
 	public:
-							                FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName = dsl::gEmptyString, const StringList& urls = StringList(dsl::gEmptyString));
+							                FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const StringList& urls = StringList(dsl::gEmptyString));
 							                ~FetchImagesThread();
 		void				                setup(const StringList& urls);
         void                                assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three);
@@ -25,6 +25,7 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
 		virtual void                        run();
         void				                assignUrls(const StringList& urls);
         void				                setChannel(const string& ch);
+        void				                setImageType(const string& imType);
         void				                addParameter(const string& api);
         void				                addParameters(const StringList& paras);
         string                              listParameters();
@@ -37,9 +38,9 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
 		const RenderLocalCache&             mCache;
         const RenderProject&                mRP;
         string								mOutputDataFolder;
-        string								mRenderStackName;
         StringList                          mExtraParameters;
         string		                        mChannel;
+        string                              mImageType;
         FITCallBack                         onEnter;
         FITCallBack                         onProgress;
         FITCallBack                         onExit;

@@ -37,6 +37,8 @@ bool ATExplorer::init(IniFile& iniFile)
     setupLogging(Properties.LogFileName.getValue(), Properties.LogLevel.getValue());
     Log(lDebug4) << "In ATExplorer INIT";
 
+    Cache.setBasePath(Properties.LocalCacheFolder);
+
     //Create Property sections for ini sections
     for(int i = 0; i < mIniFile->getNumberOfSections(); i++)
     {

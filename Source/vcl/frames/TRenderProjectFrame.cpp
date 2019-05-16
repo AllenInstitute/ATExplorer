@@ -32,8 +32,6 @@ using namespace Poco;
 int rpFrameNr(0);
 
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor);
-
-//FetchImagesThread(const RenderProject& rp, const RenderLocalCache& cache, const string& renderStackName = dsl::gEmptyString, const StringList& urls = StringList(dsl::gEmptyString));
 //---------------------------------------------------------------------------
 __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner)
 	: TFrame(Owner),
@@ -46,7 +44,8 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject
     mIsDrawing(false),
     mIMPath(e.getImageMagickPath()),
     mImageGrid(Image1, PaintBox1->Canvas),
-    mCreateVolumesForm(NULL)
+    mCreateVolumesForm(NULL),
+	mTiffStackCreator(e.getImageMagickPath(), "")
 {
     this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();
     populate();
@@ -67,10 +66,12 @@ void TRenderProjectFrame::populate()
 	mZoomFactor->Top = p1.Y;
     mZoomFactor->Parent = HeaderControl1;
 
+    RenderHostE->setValue(mRP.getRenderServiceParameters().getHost());
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
 
-	OutputDataRootFolderE->setValue(mRP.getLocalCacheFolder());
+    mRC.setRenderServiceParameters(mRP.getRenderServiceParameters());
+
     //Min and max intensity
     MinIntensityE->setReference(mRP.getMinIntensity());
     MaxIntensityE->setReference(mRP.getMaxIntensity());
@@ -89,6 +90,11 @@ void TRenderProjectFrame::populate()
         	mZs->ItemIndex = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
 	        //Setup ROI
 			roiChanged();
+
+            if(mZs->ItemIndex == -1)
+            {
+                mZs->ItemIndex = 0;
+            }
         	ClickZ(NULL);
         }
     }
@@ -117,13 +123,13 @@ void TRenderProjectFrame::checkCache()
     OtherCB->Clear();
     StacksCB->Clear();
 
-    StringList stackFiles(getFilesInFolder(mExplorer.Cache.getBasePath(), "tif", false));
+    StringList stackFiles(getFilesInFolder(getCurrentROIPath(), "tif", false));
     for(int i = 0; i < stackFiles.count(); i++)
     {
         if(startsWith("stack_", stackFiles[i]))
         {
             //Setup something robust here later on
-            string* item = new string(joinPath(mExplorer.Cache.getBasePath(), stackFiles[i]));
+            string* item = new string(joinPath(getCurrentROIPath(), stackFiles[i]));
             stringstream itemCaption;
             itemCaption << "Stack_"<<i + 1;
             StacksCB->AddItem(vclstr(itemCaption.str()), (TObject*) item);
@@ -332,85 +338,19 @@ void TRenderProjectFrame::updateScale()
     mCurrentROI.setScale(scale);
 }
 
+string TRenderProjectFrame::getCurrentROIPath()
+{
+ 	return joinPath(mExplorer.Cache.getBasePath(), mRP.getProjectOwner(), mRP.getRenderProjectName(), mRP.getSelectedStackName(), mCurrentROI.getFolderName());
+}
+
 void TRenderProjectFrame::updateROIs()
 {
     //Create basepath
     stringstream path;
     path << joinPath(mExplorer.Cache.getBasePath(), mRP.getProjectOwner(), mRP.getRenderProjectName(), mRP.getSelectedStackName());
 
-//    return getSubFoldersInFolder(path.str(), false);
-
     StringList rois(getSubFoldersInFolder(path.str(), false));
     populateCheckListBox(rois, ROI_CB);
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::FrameMouseDown(TObject *Sender, TMouseButton Button,
-          TShiftState Shift, int X, int Y)
-{
-	if(mRenderEnabled == false)
-    {
-    	return;
-    }
-
-	if(Button == TMouseButton::mbRight)
-    {
-        return;
-    }
-
-	double stretchFactor = getImageStretchFactor();
-	if(Button == TMouseButton::mbMiddle)
-    {
-       	Screen->Cursor = crSize;
-		mTopLeftSelCorner = Mouse->CursorPos;
-		mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
-
-		//Convert to world image coords (minus offset)
-	    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
-        return;
-    }
-
-    mIsDrawing = true;
-    getCanvas()->MoveTo(X , Y);
-    Origin = Point(X, Y);
-    MovePt = Origin;
-
-    //For selection
-	mTopLeftSelCorner = Mouse->CursorPos;
-	mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
-
-	//Convert to world image coords (minus offset)
-    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::Image1MouseMove(TObject *Sender, TShiftState Shift,
-          int X, int Y)
-{
-	if(mIsDrawing)
-  	{
-		DrawShape(Origin, MovePt, pmNotXor);
-		MovePt = Point(X, Y);
-		DrawShape(Origin, MovePt, pmNotXor);
-  	}
-
-	TPoint p = this->Image1->ScreenToClient(Mouse->CursorPos);
-    double stretchF = getImageStretchFactor();
-	XE->Caption = IntToStr((int) (p.X * stretchF) + XCoordE->getValue()) ;
-	YE->Caption = IntToStr((int) (p.Y * stretchF) + YCoordE->getValue());
-
-	//Convert to world image coords (minus offset)
-    double stretchFactor = getImageStretchFactor();
-    if(stretchFactor)
-    {
-	    p = controlToImage(p, mScaleE->getValue(), stretchFactor);
-    }
-
-	if(GetAsyncKeyState(VK_MBUTTON) < 0)
-    {
-    	//Move the picture
-	//        Image1->Top = Image1->Top + 1;
-    }
 }
 
 //---------------------------------------------------------------------------
@@ -509,16 +449,18 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
     TButton* b = dynamic_cast<TButton*>(Sender);
     if(b == FetchSelectedZsBtn)
     {
+
         if(mCreateCacheThread.isRunning())
         {
             mCreateCacheThread.stop();
         }
         else
         {
+            string imageType("jpeg-image");
 		    const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
             int z = toInt(stdstr(mZs->Items->Strings[0]));
             RenderClient rc;
-            rc.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+            rc.init(imageType, z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs
             StringList urls;
@@ -533,6 +475,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
             mCreateCacheThread.setup(urls);
             mCreateCacheThread.addParameters(paras);
             mCreateCacheThread.setChannel(mRP.getSelectedChannelName());
+            mCreateCacheThread.setImageType(imageType);
             mCreateCacheThread.start();
             CreateCacheTimer->Enabled = true;
         }
@@ -555,84 +498,76 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateTiffStackExecute(TObject *Sender)
 {
-    Process& IMConvert = mAProcess;
-    string convertExe(joinPath(mIMPath, "convert.exe"));
-
-    if(!fileExists(convertExe))
-    {
-        stringstream msg;
-        msg << "Image magicks 'convert.exe' was not found in the path:\n";
-        msg << getFilePath(convertExe) << endl << endl;
-        msg << "Make sure you have a proper installation of Image Magick";
-        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
-        return;
-    }
-
-    IMConvert.setExecutable(convertExe);
-    IMConvert.setWorkingDirectory(mExplorer.Cache.getBasePath());
-
     //Extract selected filenames from checked z's
     StringList sections = getCheckedItems(mZs);
 
-    //Creat output filename
-    string stackFName("stack_" + getUUID());
-
     //Create commandline for imagemagicks convert program
-    stringstream cmdLine;
+    if(!sections.count())
+    {
+        Log(lError) << "No sections selected for stack creation..";
+    }
+
+	if(!mTiffStackCreator.checkForImageMagick())
+    {
+        MessageDlg("ImageMagick was not found. Please download from imagemagick.org.\nInstall and setup installation path on the ATExplorers settings page.", mtWarning, TMsgDlgButtons() << mbOK, 0);
+        return;
+    }
+
+    //Do something when finished..
+    mTiffStackCreator.assignOpaqueData(mZs, NULL);
+    mTiffStackCreator.assignCallbacks(NULL, NULL, onIMProcessFinished);
+
+    StringList fileNames;
     for(int i = 0; i < sections.count(); i++)
     {
         int z(toInt(sections[i]));
-        string fName = mExplorer.Cache.getFileNameForZ(z, mRP);
-//        string fName(getFileNameNoPath(mRC.getImageLocalCachePathAndFileNameForZ(z, mRP.getSelectedChannelName()) ));
-        cmdLine << fName <<" ";
+        fileNames.append(mExplorer.Cache.getFileNameForZ(z, mRP));
     }
 
-	cmdLine << stackFName << ".tif";
-
-    Log(lInfo) << "Running convert on " << cmdLine.str();
-
-	IMConvert.setup(cmdLine.str(), mhCatchMessages);
-    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-    IMConvert.assignOpaqueData(mZs, nullptr);
-    IMConvert.start(true);
+    //Creat output filename
+    string stackFName(joinPath(getFilePath(fileNames[0]), "stack_" + mRP.getSelectedChannelName() + "_" + getUUID() + ".tif"));
+    shared_ptr<TiffStackProject> stack = mTiffStackCreator.create(fileNames, stackFName);
+    stack->setROI(mCurrentROI);
+    stack->setSections(sections);
+    stack->setIntensities(MinIntensityE->getValue(), MaxIntensityE->getValue());
+    stack->appendChannel(mRP.getSelectedChannelName());
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CreateMIPAExecute(TObject *Sender)
 {
-//    string cvt(joinPath(mIMPath, "convert.exe"));
-//    Process& IMConvert = mAProcess;
-//    IMConvert.reset();
-//    IMConvert.setExecutable(cvt);
-//    IMConvert.setWorkingDirectory(mRC.getImageLocalCachePath());
-//
-//    //Find all stacks for current ROI
-//    StringList stackFiles(getFilesInFolder(mRC.getImageLocalCachePath(), "stack_", "tif", false));
-//
-//    //Create MIP's for current stack file
-//
-//    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
-//    if(!temp)
-//    {
-//        Log(lError) << "Failed to extract string item";
-//        return;
-//    }
-//
-//    string currentStack(*temp);
-//    string* mipFName = new string(getFileNameNoExtension(currentStack));
-//
-//    *mipFName = "mip_" + *mipFName + ".tif";
-//    *mipFName = replaceSubstring("stack_", "", *mipFName);
-//    stringstream cmdLine;
-//    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
-//    Log(lInfo) << "Running convert on " << cmdLine.str();
-//
-//    IMConvert.setup(cmdLine.str(), mhCatchMessages);
-//    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
-//
-//    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
-//    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
-//    IMConvert.start(true);
+    string cvt(joinPath(mIMPath, "convert.exe"));
+    Process& IMConvert = mAProcess;
+    IMConvert.reset();
+    IMConvert.setExecutable(cvt);
+    IMConvert.setWorkingDirectory(mExplorer.Cache.getBasePath());
+
+    //Find all stacks for current ROI
+    StringList stackFiles(getFilesInFolder(mExplorer.Cache.getBasePath(), "stack_", "tif", false));
+
+    //Create MIP's for current stack file
+    string* temp = (string*) StacksCB->Items->Objects[StacksCB->ItemIndex];
+    if(!temp)
+    {
+        Log(lError) << "Failed to extract string item";
+        return;
+    }
+
+    string currentStack(*temp);
+    string* mipFName = new string(getFileNameNoExtension(currentStack));
+
+    *mipFName = "mip_" + *mipFName + ".tif";
+    *mipFName = replaceSubstring("stack_", "", *mipFName);
+    stringstream cmdLine;
+    cmdLine << cvt <<" " << currentStack << " -monitor -evaluate-sequence max "<<*mipFName;
+    Log(lInfo) << "Running convert on " << cmdLine.str();
+
+    IMConvert.setup(cmdLine.str(), mhCatchMessages);
+    IMConvert.assignCallbacks(NULL, NULL, onIMProcessFinished);
+
+    *mipFName = joinPath(getFilePath(currentStack), *mipFName);
+    IMConvert.assignOpaqueData(StacksCB, (void*) mipFName);
+    IMConvert.start(true);
 }
 
 //---------------------------------------------------------------------------
@@ -716,30 +651,42 @@ void TRenderProjectFrame::onIMProcessFinished(void* arg1, void* arg2)
             }
         }
     }
+    //We know this is from the creation of a tiffstack
     else if(arg1 == (void*) mZs)
     {
         int itemIndx = StacksCB->ItemIndex;
 	    checkCache();
         StacksCB->ItemIndex = itemIndx;
+	    shared_ptr<TiffStackProject> tiffStack = mTiffStackCreator.getStack();
+
+        //Copy the stack to a new stack..
+        //Add the stack to the project file
+        TiffStackProject* stack = new TiffStackProject(*(tiffStack.get()));
+        stack->setProjectName("stack_" + stack->getChannels().asString());
+
+        //Add to the treeview and parent project XML
+	    mRP.addChild(stack);
+        mRP.notifyObservers(UpdateTree);
+        Project* root = mRP.getProjectRoot();
+        root->save();
     }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::ROI_CBClick(TObject *Sender)
 {
-//    //Switch ROI
-//    if(ROI_CB->ItemIndex == -1)
-//    {
-//        return;
-//    }
-//    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
-//    RenderLayer rl(mRC.getProject(), roi, mRC.getCacheRoot());
-//
-//    mCurrentROI = roi;
-//    mCurrentROI.setScale(rl.getLowestScaleInCache());
-//    mScaleE->setValue(mCurrentROI.getScale());
-//    ClickZ(Sender);
-
+    //Switch ROI
+    if(ROI_CB->ItemIndex == -1)
+    {
+        return;
+    }
+    RegionOfInterest roi = RegionOfInterest(stdstr(ROI_CB->Items->Strings[ROI_CB->ItemIndex]), mCurrentROI.getScale());
+    mCurrentROI = roi;
+    mCurrentROI.setScale(mExplorer.Cache.getLowestResolutionInCache(mRP, mCurrentROI));
+    mScaleE->setValue(mCurrentROI.getScale());
+	roiChanged();
+    mRP.setRegionOfInterest(mCurrentROI);
+    ClickZ(Sender);
 }
 
 string getFilePathFromSelectedCB(TCheckListBox* b)
@@ -784,10 +731,10 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
     {
         fName = getFilePathFromSelectedCB(OtherCB);
     }
-//    else if(a->ActionComponent == OpenROIInExplorer)
-//    {
-//        fName = joinPath(getFilePath(mRC.getImageLocalCachePathAndFileNameForZ(0, mRP.getSelectedChannelName())), getFilePathFromSelectedCB(ROI_CB));
-//    }
+    else if(a->ActionComponent == OpenROIInExplorer)
+    {
+        fName = mExplorer.Cache.getImageLocalCachePathAndFileName(mRP);
+    }
 
     if(fName.size())
     {
@@ -815,30 +762,29 @@ void TRenderProjectFrame::zoom(int zoomFactor, bool out)
     Width->setValue( mCurrentROI.getWidth());
     Height->setValue(mCurrentROI.getHeight());
 
+    mRP.setRegionOfInterest(mCurrentROI);
     updateScale();
+	roiChanged();
+    updateROIs();
 	ClickZ(NULL);
     checkCache();
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::RzSpinButtons1DownLeftClick(TObject *Sender)
-
 {
 	CustomImageRotationE->setValue(CustomImageRotationE->getValue() - 0.5);
 	double val = CustomImageRotationE->getValue();
 	paintRotatedImage(val);
-
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::RzSpinButtons1UpRightClick(TObject *Sender)
-
 {
 	CustomImageRotationE->setValue(CustomImageRotationE->getValue() +0.5);
 	double val = CustomImageRotationE->getValue();
 	paintRotatedImage(val);
 }
-
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::ToggleImageGridAExecute(TObject *Sender)
@@ -870,11 +816,6 @@ void __fastcall TRenderProjectFrame::ToggleImageGridAUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::PaintBox1Paint(TObject *Sender)
 {
-//    if(ShutDownTimer->Enabled)
-//    {
-//        return;
-//    }
-
     if(ShowImageGridCB->Checked)
     {
         mImageGrid.paint();
@@ -901,7 +842,71 @@ void __fastcall TRenderProjectFrame::OtherCBDblClick(TObject *Sender)
     }
 }
 
-void __fastcall TRenderProjectFrame::PaintBox1MouseUp(TObject *Sender, TMouseButton Button,
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::MouseDown(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y)
+{
+	if(mRenderEnabled == false || Button == TMouseButton::mbRight)
+    {
+    	return;
+    }
+
+	double stretchFactor = getImageStretchFactor();
+	if(Button == TMouseButton::mbMiddle)
+    {
+       	Screen->Cursor = crSize;
+		mTopLeftSelCorner = Mouse->CursorPos;
+		mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
+
+		//Convert to world image coords (minus offset)
+	    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
+        return;
+    }
+
+    mIsDrawing = true;
+    getCanvas()->MoveTo(X , Y);
+    Origin = Point(X, Y);
+    MovePt = Origin;
+
+    //For selection
+	mTopLeftSelCorner = Mouse->CursorPos;
+	mTopLeftSelCorner = this->Image1->ScreenToClient(mTopLeftSelCorner);
+
+	//Convert to world image coords (minus offset)
+    mTopLeftSelCorner = controlToImage(mTopLeftSelCorner, mScaleE->getValue(), stretchFactor);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::MouseMove(TObject *Sender, TShiftState Shift,
+          int X, int Y)
+{
+	if(mIsDrawing)
+  	{
+		DrawShape(Origin, MovePt, pmNotXor);
+		MovePt = Point(X, Y);
+		DrawShape(Origin, MovePt, pmNotXor);
+  	}
+
+	TPoint p = this->Image1->ScreenToClient(Mouse->CursorPos);
+    double stretchF = getImageStretchFactor();
+	XE->Caption = IntToStr((int) (p.X * stretchF) + XCoordE->getValue()) ;
+	YE->Caption = IntToStr((int) (p.Y * stretchF) + YCoordE->getValue());
+
+	//Convert to world image coords (minus offset)
+    double stretchFactor = getImageStretchFactor();
+    if(stretchFactor)
+    {
+	    p = controlToImage(p, mScaleE->getValue(), stretchFactor);
+    }
+
+	if(GetAsyncKeyState(VK_MBUTTON) < 0)
+    {
+    	//Move the picture
+	//        Image1->Top = Image1->Top + 1;
+    }
+}
+
+void __fastcall TRenderProjectFrame::MouseUp(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y)
 {
     double stretchFactor = getImageStretchFactor();
@@ -976,7 +981,7 @@ void __fastcall TRenderProjectFrame::Button1Click(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
+void __fastcall TRenderProjectFrame::openVolumesForm(TObject *Sender)
 {
     //Open creat volumes form
 	if(!mCreateVolumesForm)
@@ -989,37 +994,6 @@ void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
     stacks.append(stdstr(StackCB->Text));
     mCreateVolumesForm->populate(mCurrentROI, stacks);
     mCreateVolumesForm->Show();
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::BrowseForDataOutputPathBtnClick(TObject *Sender)
-
-{
-    TButton* btn = dynamic_cast<TButton*>(Sender);
-    if(btn == BrowseForDataOutputPathBtn)
-    {
-        //Browse for folder
-        string res = browseForFolder(OutputDataRootFolderE->getValue());
-        if(folderExists(res))
-        {
-            OutputDataRootFolderE->setValue(res);
-            mRP.assignLocalCacheRootFolder(res);
-        }
-        else
-        {
-            Log(lWarning) << "Path was not set..!";
-        }
-    }
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::OutputDataRootFolderEKeyDown(TObject *Sender,
-          WORD &Key, TShiftState Shift)
-{
-    if(Key == VK_RETURN)
-    {
-		mRP.assignLocalCacheRootFolder(OutputDataRootFolderE->getValue());
-    }
 }
 
 TPoint controlToImage(const TPoint& p, double scale, double stretchFactor)
@@ -1053,6 +1027,7 @@ void __fastcall TRenderProjectFrame::ChannelsCBClick(TObject *Sender)
 
     //Render this channel
     mRP.setSelectedChannelName(channel);
+    ClickZ(NULL);
 }
 
 void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
@@ -1080,7 +1055,8 @@ void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
 void __fastcall TRenderProjectFrame::HeaderControl1SectionClick(THeaderControl *HeaderControl,
           THeaderSection *Section)
 {
-    //
+    TPoint p = HeaderControl->ClientToScreen(TPoint(0,0));
+
     if(Section->Text == '+')
     {
 	    zoom(mZoomFactor->getValue(), false);
@@ -1088,6 +1064,15 @@ void __fastcall TRenderProjectFrame::HeaderControl1SectionClick(THeaderControl *
     else if(Section->Text == '-')
     {
 	    zoom(mZoomFactor->getValue(), true);
+    }
+    else if(Section->Text == "Misc")
+    {
+	    int nrOfItems  = MiscPopup->Items->Count;
+    	MiscPopup->Popup(p.x + Section->Left, p.y - (HeaderControl->Height + nrOfItems * 16));
+    }
+    else if(Section->Text == "Image Grid")
+    {
+		ShowImageGridCB->Checked = !ShowImageGridCB->Checked;
     }
 }
 
@@ -1118,7 +1103,6 @@ void __fastcall TRenderProjectFrame::Checkrange1Click(TObject *Sender)
 //
 }
 
-
 void __fastcall TRenderProjectFrame::CheckZs(TObject *Sender)
 {
 	TMenuItem* item = dynamic_cast<TMenuItem*>(Sender);
@@ -1136,7 +1120,19 @@ void __fastcall TRenderProjectFrame::CheckZs(TObject *Sender)
 void __fastcall TRenderProjectFrame::CreateSubVolumeStackAExecute(TObject *Sender)
 {
     //Create a subvolume stack in render
+}
 
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::HeaderControl1ContextPopup(TObject *Sender,
+          TPoint &MousePos, bool &Handled)
+{
+;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
+{
+	populate();
 }
 
 

@@ -120,6 +120,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           EditLabel.Caption = 'Scale'
           TabOrder = 0
           Text = '0.0500'
+          OnKeyDown = ROIChange
           Value = 0.050000000000000000
         end
         object Width: TIntegerLabeledEdit
@@ -132,6 +133,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           EditLabel.Caption = 'Width'
           TabOrder = 3
           Text = '12000'
+          OnKeyDown = ROIChange
           Value = 12000
         end
         object Height: TIntegerLabeledEdit
@@ -144,6 +146,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           EditLabel.Caption = 'Height'
           TabOrder = 4
           Text = '32000'
+          OnKeyDown = ROIChange
           Value = 32000
         end
         object XCoordE: TIntegerLabeledEdit
@@ -156,6 +159,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           EditLabel.Caption = 'X'
           TabOrder = 1
           Text = '8000'
+          OnKeyDown = ROIChange
           Value = 8000
         end
         object YCoordE: TIntegerLabeledEdit
@@ -168,6 +172,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           EditLabel.Caption = 'Y'
           TabOrder = 2
           Text = '3200'
+          OnKeyDown = ROIChange
           Value = 3200
         end
         object MaxIntensityE: TIntegerLabeledEdit
@@ -180,6 +185,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           EditLabel.Caption = 'Max Intensity'
           TabOrder = 5
           Text = '65535'
+          OnKeyDown = ROIChange
           Value = 65535
         end
         object MinIntensityE: TIntegerLabeledEdit
@@ -192,6 +198,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
           EditLabel.Caption = 'Min Intensity'
           TabOrder = 6
           Text = '0'
+          OnKeyDown = ROIChange
         end
       end
       object GroupBox1: TGroupBox

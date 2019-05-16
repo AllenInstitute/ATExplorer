@@ -20,7 +20,7 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
     object ImageMagickPathE: TSTDStringLabeledEdit
       Left = 16
       Top = 41
-      Width = 354
+      Width = 378
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       EditLabel.Width = 90
@@ -29,8 +29,8 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
       TabOrder = 0
     end
     object BrowseForImageMagickPathBtn: TButton
-      Left = 376
-      Top = 41
+      Left = 400
+      Top = 45
       Width = 28
       Height = 21
       Anchors = [akTop, akRight]
@@ -60,11 +60,46 @@ object GeneralPropertiesFrame: TGeneralPropertiesFrame
     object RenderServicesCB: TComboBox
       Left = 16
       Top = 40
-      Width = 354
+      Width = 412
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
       Text = 'ComboBox1'
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 177
+    Width = 451
+    Height = 105
+    Align = alTop
+    Caption = 'Cache'
+    TabOrder = 2
+    DesignSize = (
+      451
+      105)
+    object BrowseForDataOutputPathBtn: TButton
+      Left = 400
+      Top = 44
+      Width = 28
+      Height = 21
+      Anchors = [akTop, akRight]
+      Caption = '...'
+      TabOrder = 0
+      OnClick = BrowseForFolderClick
+    end
+    object OutputDataRootFolderE: TSTDStringLabeledEdit
+      Left = 16
+      Top = 44
+      Width = 378
+      Height = 21
+      Anchors = [akLeft, akTop, akRight]
+      EditLabel.Width = 86
+      EditLabel.Height = 13
+      EditLabel.Caption = 'Output Data Root'
+      TabOrder = 1
+      Text = 'C:\ImageCache'
+      Value = 'C:\ImageCache'
     end
   end
 end

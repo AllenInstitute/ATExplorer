@@ -131,6 +131,7 @@ FileFolders FileFolder::getSubFolders(const Path& subPath)
             subFolders.append(folder);
         }
     }
+    subFolders.sort();
     return subFolders;
 }
 

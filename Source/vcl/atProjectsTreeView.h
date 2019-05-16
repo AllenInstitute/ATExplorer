@@ -71,14 +71,7 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
         void                            expandView(Project* p);
         const TTreeView*                getTreeView();
 
-    protected:
-                                        //The Tree View
-        TTreeView&                      mTree;
-        TreeItemObservers&              mViews;
-
-                                        //The model..
-                                        //This container (ProjectsTreeView) is responsible to dispose of any projects
-        Projects                        mProjects;
+                                        //These may be public..
 		bool 							handleClick(ATExplorerProject* o, bool isDoubleClick);
 		bool							handleClick(RenderProject* o, bool isDoubleClick);
 		bool							handleClick(PointMatchCollectionProject* o, bool isDoubleClick);
@@ -89,6 +82,15 @@ class PACKAGE ProjectsTreeView : public dsl::Observer, public ExplorerObject
 		bool							handleClick(Session* o, bool isDoubleClick);
 		bool							handleClick(Channel* o, bool isDoubleClick);
 		bool							handleClick(TextFile* o, bool isDoubleClick);
+		bool 							handleClick(TiffStackProject* o, bool isDoubleClick);
+    protected:
+                                        //The Tree View
+        TTreeView&                      mTree;
+        TreeItemObservers&              mViews;
+
+                                        //The model..
+                                        //This container (ProjectsTreeView) is responsible to dispose of any projects
+        Projects                        mProjects;
 };
 
 }

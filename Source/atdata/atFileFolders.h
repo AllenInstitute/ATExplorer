@@ -23,6 +23,7 @@ class ATE_DATA FileFolders : public ExplorerObject
         FileFolders&                    operator=(const FileFolders& rhs);
         FileFolderSP                    operator[](int i);
         FileFolderSP                    operator[](int i) const;
+        void                            sort();
 
         void                            reset();
         FileFolderSP    				getFirst();

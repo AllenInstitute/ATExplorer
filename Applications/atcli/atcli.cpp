@@ -9,11 +9,11 @@ using namespace std;
 
 ATCli::ATCli(int argc, const char * argv[])
 :                  //Flags..................        Information.............................                                    Required..  Value.. 	type
-    loglevel(		"l", 		"loglevel", 		"Set loglevel, Error, Warning, Info, Debug, Debug1-5", 	 					false, 		"Info", 	"string"),
-    dataroot(		"d", 		"dataroot", 		"Absolute path to root folder of input data (project) to process", 			false, 		"", 		"string"),
+    dataroot(		"d", 		"data", 			"Absolute path to root folder of input data (project) to process", 			false, 		"", 		"string"),
     datainfo(		"",			"datainfo",		 	"Return data information", 													false),
     printjson(		"j",		"json",				"Output data in JSON format", 												false),
-	consolelogs(	"",			"consolelogs", 		"console logging", 															false),
+    loglevel(		"l", 		"loglevel", 		"Set loglevel, Error, Warning, Info, Debug, Debug1-5", 	 					false, 		"Info", 	"string"),
+	consolelogs(	"",			"logtoconsole",		"console logging", 															false),
 
 //    deletestack(	"", 		"deletestack", 		"Delete render stack", 	 													false, 		"", 		"string"),
 //    deletestacks(  	"", 		"deletestacks", 	"Delete renderstacks", 	 													false),

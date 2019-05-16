@@ -21,7 +21,9 @@ RenderLocalCache::~RenderLocalCache()
 
 string RenderLocalCache::getFileNameForZ(int z, const RenderProject& rp) const
 {
-    return "hjello";
+    string zStr(toString(z));
+    string name(getImageLocalCachePathAndFileName(rp, zStr));
+    return name;
 }
 
 string RenderLocalCache::getImageLocalCachePath(const RenderProject& rp) const
@@ -107,7 +109,7 @@ double RenderLocalCache::getLowestResolutionInCache(const RenderProject& rp, con
         StringList fNameParts(getFileNameNoPath(cf[i]), '_');
 
         //Last part is the scale
-        if(fNameParts.count() == 4)
+        if(fNameParts.count() == 5)
         {
             double value = toDouble(fNameParts[3]);
             if(value < minS)

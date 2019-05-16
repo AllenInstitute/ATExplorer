@@ -1,6 +1,7 @@
 #pragma hdrstop
 #include "atRenderProject.h"
 #include "dslXMLUtils.h"
+#include "atTiffStackProject.h"
 #include "Poco/URI.h"
 //---------------------------------------------------------------------------
 
@@ -274,8 +275,11 @@ XMLElement* RenderProject::addToXMLDocumentAsChild(tinyxml2::XMLDocument& doc, X
     Project* child = mChilds.getFirst();
     while(child != nullptr)
     {
-        XMLElement* stackNode = child->addToXMLDocumentAsChild(doc, tiffStacks);
-        child = mChilds.getNext();
+        if(dynamic_cast<TiffStackProject*>(child))
+        {
+	        XMLElement* stackNode = child->addToXMLDocumentAsChild(doc, tiffStacks);
+    	    child = mChilds.getNext();
+        }
     }
 
     parentNode->InsertEndChild(tiffStacks);
@@ -362,6 +366,25 @@ bool RenderProject::loadFromXML(dsl::XMLNode* node)
     if(e)
     {
 	    mCurrentROI.loadFromXML(e);
+    }
+
+
+    //Load stacks
+   	//Create XML for saving to file
+    XMLNode* stacks = node->FirstChildElement("tiffstacks");
+    if(stacks)
+    {
+        XMLNode* xml_stack = stacks->FirstChild();
+        while(xml_stack)
+        {
+            //Create a tiffstack
+            TiffStackProject* stack = new TiffStackProject();//stackName, stackPath);
+            stack->loadFromXML(xml_stack);
+
+			mChilds.append(stack);
+            stack->setParent(this);
+            xml_stack = xml_stack->NextSibling();
+        }
     }
 
 	return true;

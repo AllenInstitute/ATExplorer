@@ -130,6 +130,16 @@ bool ProjectsTreeView::handleNodeClick(TTreeNode* node, bool isDoubleClick)
             return handleClick(o, isDoubleClick);
         }
     }
+    else if(dynamic_cast<TiffStackProject*>(eo))
+    {
+        TiffStackProject* o = dynamic_cast<TiffStackProject*>(eo);
+        if(o)
+        {
+            Log(lInfo) << "Clicked on TiffStackProject: " << o->getProjectName();
+            return handleClick(o, isDoubleClick);
+        }
+    }
+
     //All projects are ATExplorerProjects, so put this last...
     else if(dynamic_cast<ATExplorerProject*>(eo))
     {
@@ -160,6 +170,7 @@ bool ProjectsTreeView::handleClick(ATIFDataProject* p, bool isDoubleClick)
     if(isDoubleClick)
     {
     	ProjectItemTabbedView* view = mViews.createView(p);
+
 		//Select the page with projectView
 	    return mViews.selectTabWithView(view);
     }
@@ -255,6 +266,40 @@ bool ProjectsTreeView::handleClick(TextFile* o, bool isDoubleClick)
     return true;
 }
 
+bool ProjectsTreeView::handleClick(TiffStackProject* o, bool isDoubleClick)
+{
+    if(!o)
+    {
+        return false;
+    }
+
+    //Check if a textfileviewing tab is open. If so, load current file
+//	ProjectItemTabbedView* view = mViews.getFirst();
+//    while(view)
+//    {
+//        if(dynamic_cast< TextFileItemView* >(view))
+//        {
+//            //Found one..
+//            mViews.
+//            mViews.removeView(view);
+//            ProjectItemTabbedView* view = mViews.createView(o);
+//
+//            //Select the page with projectView
+//            return mViews.selectTabWithView(view);
+//        }
+//        view = mViews.getNext();
+//    }
+
+    if(isDoubleClick)
+    {
+    	ProjectItemTabbedView* view = mViews.createView(o);
+		//Select the page with projectView
+	    return mViews.selectTabWithView(view);
+    }
+
+    return true;
+}
+
 void ProjectsTreeView::update(Subject* theChangedSubject, SubjectEvent se)
 {
     //!Find the subject and do whats needed..
@@ -266,6 +311,10 @@ void ProjectsTreeView::update(Subject* theChangedSubject, SubjectEvent se)
 
         case UpdateRepresentation:
             updateRepresentation(theChangedSubject);
+        break;
+
+        case UpdateTree:
+        	createTreeViewNodes(dynamic_cast<ATExplorerProject*>(theChangedSubject));
         break;
 
         default:
@@ -362,7 +411,16 @@ TTreeNode* ProjectsTreeView::addProjectToTree(Project* project)
 
     for(int i = 0; i < p->getNumberOfChilds(); i++)
     {
-        addChildProjectToTree(project, p->getChild(i));
+		Project* child = p->getChild(i);
+        addChildProjectToTree(project, child);
+
+        //Check if the child have childs that needs to be added
+        for(int j = 0; j < child->getNumberOfChilds(); j++)
+        {
+            Project* child_of_child = child->getChild(j);
+            addChildProjectToTree(child, child_of_child);
+        }
+
     }
     return n;
 }
@@ -381,7 +439,8 @@ TTreeNode* ProjectsTreeView::addChildProjectToTree(Project* parent, Project* chi
 
 	TTreeNode* child_node = mTree.Items->AddChildObject(parent_node, "", (void*) child);
     child_node->EditText();
-    child_node->Text = child->getProjectName().c_str();
+    string nodeName =  child->getProjectName().size() > 0 ? child->getProjectName() : string("No-Name");
+    child_node->Text = nodeName.c_str();
     return child_node;
 }
 
@@ -421,7 +480,6 @@ TTreeNode* ProjectsTreeView::getTreeNodeForProject(Project* p)
   	}
     return nullptr;
 }
-
 
 ProjectItemTabbedView* ProjectsTreeView::createTabbedView(Project* p)
 {

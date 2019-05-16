@@ -42,6 +42,8 @@ class ATE_CORE ATExplorerProperties : public ExplorerObject
         Property<string>                                        DefaultATModulesContainer;
         Property<string>                                        DefaultRenderServiceHost;
 		Property<string>                                        ImageMagickPath;
+        Property<string>                						LocalCacheFolder;
+
 		
         void													read();
 		void													write();

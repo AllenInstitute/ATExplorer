@@ -10,12 +10,13 @@ USEFORM("..\..\Source\vcl\forms\TCreateATIFDataProjectForm.cpp", CreateATIFDataP
 USEFORM("..\..\Source\vcl\frames\TCreateStackThreadFrame.cpp", CreateStackThreadFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TPointMatchCollectionFrame.cpp", PointMatchCollectionFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TRenderProjectFrame.cpp", RenderProjectFrame); /* TFrame: File Type */
-USEFORM("..\..\Source\vcl\frames\TTextFileFrame.cpp", TextFileFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\frames\TATProjectOptionsFrame.cpp", ATProjectOptionsFrame); /* TFrame: File Type */
 USEFORM("..\..\Source\vcl\forms\TSelectPointMatchCollectionProjectForm.cpp", SelectPointmatchContextProjectForm);
 USEFORM("..\..\Source\vcl\forms\TSelectRenderProjectParametersForm.cpp", SelectRenderProjectParametersForm);
 USEFORM("..\..\Source\vcl\forms\TSimpleTextInputDialog.cpp", NewValueE);
 USEFORM("..\..\Source\vcl\frames\TATIFDataProjectFrame.cpp", ATIFDataProjectFrame); /* TFrame: File Type */
+USEFORM("..\..\Source\vcl\frames\TTextFileFrame.cpp", TextFileFrame); /* TFrame: File Type */
+USEFORM("..\..\Source\vcl\frames\TTiffStackProjectFrame.cpp", TiffStackProjectFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------

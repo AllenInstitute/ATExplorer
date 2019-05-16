@@ -84,6 +84,20 @@ void __fastcall TMainForm::FileOpen1Accept(TObject *Sender)
         p->open();
         mPTreeView.createTreeViewNodes(p);
         mPTreeView.expandView(p);
+
+        //Click on all 'renderprojects'
+        for(int child = 0; child < p->getNumberOfChilds(); child++)
+        {
+            Project* childP = p->getChild(child);
+            if(dynamic_cast<RenderProject*>(childP))
+            {
+				mPTreeView.handleClick(dynamic_cast<RenderProject*>(childP), true);
+            }
+        }
+    }
+    else
+    {
+		mPTreeView.closeProject(p);
     }
 }
 

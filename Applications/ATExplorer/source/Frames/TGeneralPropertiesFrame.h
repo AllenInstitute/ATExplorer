@@ -24,6 +24,9 @@ class PACKAGE TGeneralPropertiesFrame : public TFrame
 	TGroupBox *GroupBox3;
 	TLabel *Label8;
 	TComboBox *RenderServicesCB;
+	TGroupBox *GroupBox1;
+	TButton *BrowseForDataOutputPathBtn;
+	TSTDStringLabeledEdit *OutputDataRootFolderE;
     void __fastcall BrowseForFolderClick(TObject *Sender);
 	void __fastcall TestRenderServiceBtnClick(TObject *Sender);
 
