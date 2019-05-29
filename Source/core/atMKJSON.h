@@ -3,6 +3,7 @@
 #include "atExplorerObject.h"
 #include <string>
 #include <sstream>
+#include <ostream>
 #include "dslLogger.h"
 #include "dslLogLevel.h"
 #include "dslStringList.h"
@@ -14,6 +15,7 @@ using dsl::Logger;
 using dsl::lError;
 using dsl::getHighestLogLevel;
 using dsl::StringList;
+using std::ostream;
 
 //Simple wrapper class around the mkjson C library
 namespace at
@@ -66,8 +68,8 @@ class ATE_CORE MKJSON : public ExplorerObject
         string                      createArray(const string& lbl);
 };
 
-template<class T>
-string MKJSON::append<T>(const string& lbl, const T& value, bool close)
+template<class T> inline
+string MKJSON::append(const string& lbl, const T& value, bool close)
 {
     stringstream s;
     if(mTheJSON.size() < 2)
@@ -102,7 +104,7 @@ string MKJSON::append<T>(const string& lbl, const T& value, bool close)
     return mTheJSON;
 }
 
-template<>
+template<> inline
 string MKJSON::append<string>(const string& lbl, const string& value, bool close)
 {
     stringstream s;
@@ -143,7 +145,7 @@ string MKJSON::append<string>(const string& lbl, const string& value, bool close
     return mTheJSON;
 }
 
-template<>
+template<> inline
 string MKJSON::append<StringList>(const string& lbl, const StringList& value, bool close)
 {
     stringstream s;

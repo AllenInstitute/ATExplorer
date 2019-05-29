@@ -4,6 +4,7 @@ SET(src
 atExplorerCore
 atExplorerObject
 atATEExceptions
+atMKJSON
 #atATProjectItem
 #atATProjectItems
 #atATDataProjectItem
