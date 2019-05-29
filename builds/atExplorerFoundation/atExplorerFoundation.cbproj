@@ -238,6 +238,9 @@
         <CppCompile Include="..\..\Source\core\atJSONParser.cpp">
             <BuildOrder>51</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Source\core\atMKJSON.cpp">
+            <BuildOrder>65</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Source\core\atPGroupIDMatchesWithQGroupIDRequest.cpp">
             <DependentOn>..\..\Source\core\atPGroupIDMatchesWithQGroupIDRequest.h</DependentOn>
             <BuildOrder>53</BuildOrder>

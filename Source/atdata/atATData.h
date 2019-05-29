@@ -83,7 +83,6 @@ class ATE_DATA ATData : virtual public ExplorerObject
                                                 //ordered (in some format) on disk, representing tissue sections and ribbons
         Sessions                                mSessions;
 
-
                                                 //!These callbacks can be used by clients to get feedback on progress when
                                                 //!populating the data object
 		ATDataPopulateCallback                  onStartingPopulating;
@@ -95,11 +94,5 @@ class ATE_DATA ATData : virtual public ExplorerObject
 };
 
 }
-
-//#if defined(WIN32)
-//#pragma comment(lib, "dslFoundation.lib")
-//#pragma comment(lib, "atExplorerFoundation.lib")
-//#pragma comment(lib, "poco_foundation.lib")
-//#endif
 
 #endif

@@ -449,7 +449,6 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
     TButton* b = dynamic_cast<TButton*>(Sender);
     if(b == FetchSelectedZsBtn)
     {
-
         if(mCreateCacheThread.isRunning())
         {
             mCreateCacheThread.stop();
@@ -460,6 +459,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
 		    const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
             int z = toInt(stdstr(mZs->Items->Strings[0]));
             RenderClient rc;
+            rc.setRenderServiceParameters(*rs);
             rc.init(imageType, z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs

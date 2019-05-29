@@ -120,9 +120,8 @@ int main(int argc, const char * argv[])
         Log(lError)<<"There was an unknown problem.."<<endl;
     }
 
-    Log(lInfo)<< "atcore is exiting..";
+    Log(lInfo)<< "atcli is exiting..";
 	return 0;
-
 }
 
 #if defined(WIN32)

@@ -150,7 +150,14 @@ void FetchImageThread::worker()
                     Log(lDebug) <<  (long)chunk.size << " bytes retrieved\n";
                     of.close();
 
-                    mRenderClient.getImageMemory()->LoadFromFile(outFilePathANDFileName.c_str());
+                    if(mRenderClient.getImageMemory())
+                    {
+                    	mRenderClient.getImageMemory()->LoadFromFile(outFilePathANDFileName.c_str());
+                    }
+                    else
+                    {
+                        Log(lError) << "Failed retrieving ImageMemory from renderClient";
+                    }
                     //mRenderClient.copyImageData(chunk);
 
                     /* cleanup curl stuff */

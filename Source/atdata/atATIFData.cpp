@@ -9,7 +9,7 @@
 #include "atFileFolder.h"
 #include "atRibbon.h"
 #include "dslFileUtils.h"
-#include "mkjson/mkjson.h"
+#include "atMKJSON.h"
 //---------------------------------------------------------------------------
 
 namespace at
@@ -243,29 +243,82 @@ string ATIFData::getNumberOfSectionsInRibbonsJSON()
 
 string ATIFData::getInfoJSON()
 {
-    string ribbons(getRibbonBaseFolders().asString(','));
-    string sessions(getSessionBaseFolders().asString(','));
-	string array = getNumberOfSectionsInRibbonsJSON();
+    StringList ribbonFolder(getRibbonBaseFolders());
+    StringList sessionFolders(getSessionBaseFolders().asString(','));
 
-    //Create the JSON
-    stringstream s;
-	char *json = mkjson(MKJSON_OBJ, 7,
-				    MKJSON_INT,             "NumberOfRibbons", 	        getNumberOfRibbons(),
-                    MKJSON_INT,             "NumberOfSections",         getNumberOfSections(),
-					MKJSON_INT,             "NumberOfTiles", 	        getNumberOfTiles(),
-					MKJSON_INT,             "NumberOfSessions",	        getNumberOfSessions(),
-					MKJSON_INT,             "NumberOfChannels",	        getNumberOfChannels(),
-                    MKJSON_STRING,          "RibbonFolders",            ribbons.c_str(),
-                    MKJSON_STRING,          "SessionFolders",           sessions.c_str()
-                    );
+    MKJSON json(JSON_OBJECT, "atdata");
+    json.append<int>(        "TotalNumberOfRibbons",   getNumberOfRibbons());
+    json.append<int>(        "TotalNumberOfSections",  getNumberOfSections());
+    json.append<int>(        "TotalNumberOfTiles",     getNumberOfTiles());
+    json.append<int>(        "TotalNumberOfSessions",	getNumberOfSessions());
+    json.append<int>(        "TotalNumberOfChannels",	getNumberOfChannels());
+    json.append<StringList>( "RibbonFolders",  		ribbonFolder);
+    json.append<StringList>( "SessionFolders", 		sessionFolders);
 
-    string jsons(json);
-    free(json);
+    //Create ribbon jsons
+    MKJSON ribbons(JSON_ARRAY, "Ribbons");
 
-    //Hack the json
-    jsons.erase(jsons.end() - 1);
-    s << string(jsons) << ", " + getNumberOfSectionsInRibbonsJSON() << "}" << '\n';
-    return s.str();
+    RibbonSP r = getFirstRibbon();
+    int globalSectionID(0);
+    while(r)
+    {
+        MKJSON ribbonJSON(JSON_OBJECT, "");
+        ribbonJSON.append<int>("RibbonID", r->getAliasAsInt());
+        ribbonJSON.append<string>("FolderName", r->getAlias());
+
+
+        //Add section data
+        MKJSON sections(JSON_ARRAY, "Sections");
+
+        SectionSP section = r->getFirstSection();
+        while(section)
+        {
+	        MKJSON sectionJSON(JSON_OBJECT, "");
+            sectionJSON.append<int>("LocalID", section->id(), false);
+            sectionJSON.append<int>("GlobalID", globalSectionID++, false);
+
+            sectionJSON.append<int>("NumberOfTiles", section->getTotalNumberOfTiles(), false);
+            sections.append(sectionJSON);
+            section = r->getNextSection();
+        }
+
+        ribbonJSON.append(sections);
+        ribbons.append(ribbonJSON);
+        r = getNextRibbon();
+    }
+
+    json.append(ribbons);
+
+    //Add sessions and their channels
+    MKJSON sessions(JSON_ARRAY, "Sessions");
+    SessionSP s = getFirstSession();
+    while (s)
+    {
+        MKJSON sessionJSON(JSON_OBJECT, "");
+        sessionJSON.append<int>("SessionID", s->getID());
+        sessionJSON.append<string>("FolderName", s->getLabel());
+
+        //Add channel data
+        MKJSON channels(JSON_ARRAY, "Channels");
+        ChannelSP channel = s->getFirstChannel();
+        while(channel)
+        {
+            channels.append<string>("", channel->getLabel(), false);
+            channel = s->getNextChannel();
+        }
+
+        sessionJSON.append(channels);
+        sessions.append(sessionJSON);
+        s = getNextSession();
+    }
+	
+    //Append sessions
+    json.append(sessions);
+
+    //Add outer braces..
+    json.close();
+
+    return json.theJSON();
 }
 
 bool ATIFData::populateRibbons()
