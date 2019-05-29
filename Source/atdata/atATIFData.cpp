@@ -264,8 +264,8 @@ string ATIFData::getInfoJSON()
     {
         MKJSON ribbonJSON(JSON_OBJECT, "");
         ribbonJSON.append<int>("RibbonID", r->getAliasAsInt());
+        ribbonJSON.append<int>("NumberOfSections", r->getNumberOfSections());
         ribbonJSON.append<string>("FolderName", r->getAlias());
-
 
         //Add section data
         MKJSON sections(JSON_ARRAY, "Sections");

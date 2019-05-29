@@ -5,7 +5,6 @@
 #include "dslLogger.h"
 //---------------------------------------------------------------------------
 
-
 using namespace std;
 using namespace dsl;
 namespace at
@@ -95,6 +94,25 @@ ostream& operator<<(ostream& os, const MKJSON& dt)
     return os;
 }
 
+string MKJSON::append(const MKJSON& obj)
+{
+    bool isEmpty = isEmptyArrayOrObject();
+
+    stringstream s;
+    mTheJSON.erase(mTheJSON.end() - 1);
+    s << string(mTheJSON);
+
+    if(isEmpty == false)
+    {
+        s << ",";
+    }
+
+    s << obj;
+
+    s << (mJSONType == JSON_ARRAY ? "]" : "}");
+    mTheJSON = s.str();
+    return mTheJSON;
+}
 
 }
 

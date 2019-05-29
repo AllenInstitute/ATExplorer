@@ -17,24 +17,8 @@ using dsl::getHighestLogLevel;
 using dsl::StringList;
 using std::ostream;
 
-//Simple wrapper class around the mkjson C library
 namespace at
 {
-
-//Types
-//	MKJSON_STRING
-//	MKJSON_STRING_FREE
-//	MKJSON_JSON
-//	MKJSON_JSON_FREE
-//	MKJSON_INT
-//	MKJSON_LLINT
-//	MKJSON_DOUBLE
-//	MKJSON_LDOUBLE
-//	MKJSON_SCI_DOUBLE
-//	MKJSON_SCI_LDOUBLE
-//	MKJSON_BOOL
-//	MKJSON_NULL
-
 
 enum JSONType {JSON_OBJECT, JSON_ARRAY};
 
@@ -182,26 +166,6 @@ string MKJSON::append<StringList>(const string& lbl, const StringList& value, bo
     }
 
    	s << "]";
-
-    s << (mJSONType == JSON_ARRAY ? "]" : "}");
-    mTheJSON = s.str();
-    return mTheJSON;
-}
-
-string MKJSON::append(const MKJSON& obj)
-{
-    bool isEmpty = isEmptyArrayOrObject();
-
-    stringstream s;
-    mTheJSON.erase(mTheJSON.end() - 1);
-    s << string(mTheJSON);
-
-    if(isEmpty == false)
-    {
-        s << ",";
-    }
-
-    s << obj;
 
     s << (mJSONType == JSON_ARRAY ? "]" : "}");
     mTheJSON = s.str();

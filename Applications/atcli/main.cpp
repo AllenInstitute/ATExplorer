@@ -32,6 +32,12 @@ int main(int argc, const char * argv[])
         //When getting info regarding raw data
 	    if(atCore.CLI.dataroot.isSet())
     	{
+            if(!folderExists(atCore.CLI.dataroot.getValue()))
+            {
+                stringstream msg;
+                msg << "The data folder: "<< atCore.CLI.dataroot.getValue() << " don't exist. Bailing..";
+                throw (FileSystemException(msg.str()));
+            }
         	atCore.populateData();
 
             //Check if no other flag is set, print information
