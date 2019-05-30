@@ -243,17 +243,14 @@ string ATIFData::getNumberOfSectionsInRibbonsJSON()
 
 string ATIFData::getInfoJSON()
 {
-    StringList ribbonFolder(getRibbonBaseFolders());
-    StringList sessionFolders(getSessionBaseFolders().asString(','));
-
     MKJSON json(JSON_OBJECT, "atdata");
-    json.append<int>(        "TotalNumberOfRibbons",   getNumberOfRibbons());
-    json.append<int>(        "TotalNumberOfSections",  getNumberOfSections());
-    json.append<int>(        "TotalNumberOfTiles",     getNumberOfTiles());
+    json.append<int>(        "TotalNumberOfRibbons",   	getNumberOfRibbons());
+    json.append<int>(        "TotalNumberOfSections",  	getNumberOfSections());
+    json.append<int>(        "TotalNumberOfTiles",     	getNumberOfTiles());
     json.append<int>(        "TotalNumberOfSessions",	getNumberOfSessions());
     json.append<int>(        "TotalNumberOfChannels",	getNumberOfChannels());
-    json.append<StringList>( "RibbonFolders",  		ribbonFolder);
-    json.append<StringList>( "SessionFolders", 		sessionFolders);
+    json.append<StringList>( "RibbonFolders",  			getRibbonBaseFolders());
+    json.append<StringList>( "SessionFolders", 			getSessionBaseFolders());
 
     //Create ribbon jsons
     MKJSON ribbons(JSON_ARRAY, "Ribbons");
