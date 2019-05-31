@@ -14,9 +14,8 @@ class ATCli
     public:
     	//Command line arguments
 		ValueArg<string> 	            loglevel;
-        ValueArg<string> 	            dataroot;
-        SwitchArg 		 	            datainfo;
-        SwitchArg 		 	            printjson;
+        ValueArg<string> 	            data;
+        SwitchArg		 	            datasummary;
         SwitchArg 		 	            consolelogs;
 
 //        //Render stuff

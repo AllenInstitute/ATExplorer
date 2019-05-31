@@ -1,8 +1,8 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 961
-  Height = 676
+  Width = 1466
+  Height = 819
   Align = alClient
   TabOrder = 0
   OnMouseDown = MouseDown
@@ -12,7 +12,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 0
     Top = 0
     Width = 429
-    Height = 676
+    Height = 819
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -20,7 +20,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 1
       Top = 1
       Width = 307
-      Height = 674
+      Height = 817
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -289,15 +289,13 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 0
         Top = 635
         Width = 303
-        Height = 165
+        Height = 110
         Align = alTop
         Caption = 'Extra'
         TabOrder = 3
-        Visible = False
-        ExplicitWidth = 286
         object RzSpinButtons1: TRzSpinButtons
-          Left = 16
-          Top = 91
+          Left = 12
+          Top = 67
           Width = 94
           Height = 25
           Delay = 15
@@ -308,8 +306,8 @@ object RenderProjectFrame: TRenderProjectFrame
           TabOrder = 0
         end
         object CustomImageRotationE: TFloatLabeledEdit
-          Left = 17
-          Top = 64
+          Left = 13
+          Top = 40
           Width = 96
           Height = 21
           EditLabel.Width = 80
@@ -317,6 +315,7 @@ object RenderProjectFrame: TRenderProjectFrame
           EditLabel.Caption = 'Custom Rotation'
           TabOrder = 1
           Text = '0.0'
+          OnKeyDown = CustomImageRotationEKeyDown
         end
       end
     end
@@ -324,7 +323,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 120
-      Height = 674
+      Height = 817
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -332,7 +331,7 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 1
         Top = 1
         Width = 118
-        Height = 534
+        Height = 677
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
@@ -352,22 +351,22 @@ object RenderProjectFrame: TRenderProjectFrame
           Left = 2
           Top = 300
           Width = 114
-          Height = 232
+          Height = 375
           Align = alClient
           Caption = 'Tiff Stacks && MIP'#39's'
           TabOrder = 1
-          ExplicitHeight = 235
+          ExplicitHeight = 232
           object OtherCB: TCheckListBox
             Left = 2
             Top = 161
             Width = 110
-            Height = 69
+            Height = 212
             Align = alClient
             ItemHeight = 13
             PopupMenu = OtherPopupMenu
             TabOrder = 0
             OnDblClick = OtherCBDblClick
-            ExplicitHeight = 72
+            ExplicitHeight = 69
           end
           object StacksCB: TCheckListBox
             Left = 2
@@ -384,7 +383,7 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object CacheGB: TGroupBox
         Left = 1
-        Top = 535
+        Top = 678
         Width = 118
         Height = 138
         Align = alBottom
@@ -415,8 +414,8 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 429
     Top = 0
-    Width = 532
-    Height = 676
+    Width = 1037
+    Height = 819
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
@@ -427,14 +426,11 @@ object RenderProjectFrame: TRenderProjectFrame
       OnContextPopup = TabSheet2ContextPopup
       ExplicitWidth = 14
       ExplicitHeight = 277
-      DesignSize = (
-        524
-        648)
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 524
-        Height = 648
+        Width = 1029
+        Height = 770
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -446,13 +442,13 @@ object RenderProjectFrame: TRenderProjectFrame
         ExplicitWidth = 14
         ExplicitHeight = 277
         DesignSize = (
-          524
-          648)
+          1029
+          770)
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 522
-          Height = 629
+          Width = 1027
+          Height = 751
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -465,8 +461,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 522
-          Height = 629
+          Width = 1027
+          Height = 751
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16488,6 +16484,14 @@ object RenderProjectFrame: TRenderProjectFrame
           Width = 12
           Height = 13
           Caption = 'XE'
+          Color = clRed
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
         end
         object YE: TLabel
           Left = 49
@@ -16495,11 +16499,19 @@ object RenderProjectFrame: TRenderProjectFrame
           Width = 27
           Height = 13
           Caption = 'Y Edit'
+          Color = clRed
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 630
-          Width = 522
+          Top = 752
+          Width = 1027
           Height = 17
           Align = alBottom
           Sections = <
@@ -16534,7 +16546,7 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object mZoomFactor: TIntegerEdit
           Left = 17
-          Top = 603
+          Top = 725
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -16555,17 +16567,15 @@ object RenderProjectFrame: TRenderProjectFrame
         end
       end
       object URLE: TSTDStringEdit
-        Left = 128
-        Top = 2849
-        Width = 3681
+        Left = 0
+        Top = 770
+        Width = 1029
         Height = 21
-        Anchors = [akLeft, akRight, akBottom]
+        Align = alBottom
         TabOrder = 1
         Text = 'URLE'
-        Visible = False
         Value = 'URLE'
-        ExplicitTop = 2478
-        ExplicitWidth = 3171
+        ExplicitTop = 698
       end
     end
     object NdVizTS: TTabSheet

@@ -25,6 +25,7 @@ enum JSONType {JSON_OBJECT, JSON_ARRAY};
 class ATE_CORE MKJSON : public ExplorerObject
 {
     public:
+                                    MKJSON(const string& json = "{}");
                                     MKJSON(JSONType type, const string& lbl);
                                     ~MKJSON();
 

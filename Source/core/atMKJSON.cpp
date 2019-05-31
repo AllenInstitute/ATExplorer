@@ -3,12 +3,24 @@
 #include <sstream>
 #include "dslStringList.h"
 #include "dslLogger.h"
+#include "dslStringUtils.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
 using namespace dsl;
 namespace at
 {
+
+MKJSON::MKJSON(const string& json)
+:
+mKey(""),
+mJSONType(JSON_OBJECT),
+mIsClosed(true),
+mTheJSON(json)
+{
+	//Unclose it
+    mTheJSON = trimChars(mTheJSON, "{}");
+}
 
 MKJSON::MKJSON(JSONType type, const string& key)
 :
@@ -24,7 +36,6 @@ mIsClosed(false)
     {
         this->createArray(key);
     }
-
 }
 
 MKJSON::~MKJSON()

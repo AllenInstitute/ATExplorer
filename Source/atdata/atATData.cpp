@@ -102,25 +102,16 @@ string ATData::getInfo()
     return s.str();
 }
 
-
 string ATData::getInfoJSON()
 {
-//    stringstream s;
-//    MKJSON json;
-//	char *jsonMeta = mkjson(MKJSON_OBJ, 5,
-//				    MKJSON_INT, "NumberOfRibbons", 	getNumberOfRibbons(),
-//                    MKJSON_INT, "NumberOfSections", getNumberOfSections(),
-//					MKJSON_INT, "NumberOfTiles", 	getNumberOfTiles(),
-//					MKJSON_INT, "NumberOfSessions",	getNumberOfSessions(),
-//					MKJSON_INT, "NumberOfChannels",	getNumberOfChannels()
-//                    );
-//
-//    s << string(jsonMeta);
-//
-//    free(jsonMeta);
-    return "";//s.str();
-
+    return "";
 }
+
+string ATData::getSummaryJSON()
+{
+    return "";
+}
+
 //Sections ATData::getSections(const ChannelSP channel)
 //{
 ////    Sections sections;
@@ -209,6 +200,19 @@ SessionSP ATData::getNextSession()
 StringList ATData::getChannelLabelsForSession(SessionSP session)
 {
     return session->getChannelLabels();
+}
+
+StringList ATData::getAllChannelLabels()
+{
+    StringList chs;
+    SessionSP session = this->getFirstSession();
+    while(session)
+    {
+        StringList session_channels( session->getChannelLabels());
+        chs.appendList(session_channels);
+        session = this->getNextSession();
+    }
+    return chs;
 }
 
 int ATData::getNumberOfRibbons()

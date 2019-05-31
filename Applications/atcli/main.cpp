@@ -30,27 +30,23 @@ int main(int argc, const char * argv[])
         }
 
         //When getting info regarding raw data
-	    if(atCore.CLI.dataroot.isSet())
+	    if(atCore.CLI.data.isSet())
     	{
-            if(!folderExists(atCore.CLI.dataroot.getValue()))
+            if(!folderExists(atCore.CLI.data.getValue()))
             {
                 stringstream msg;
-                msg << "The data folder: "<< atCore.CLI.dataroot.getValue() << " don't exist. Bailing..";
+                msg << "The data folder: "<< atCore.CLI.data.getValue() << " don't exist. Bailing..";
                 throw (FileSystemException(msg.str()));
             }
+
         	atCore.populateData();
 
-            //Check if no other flag is set, print information
-            if(!atCore.CLI.datainfo.isSet() && !atCore.CLI.printjson.isSet() )
+            //Check flags
+            if(atCore.CLI.datasummary.isSet())
             {
-                cout << atCore.IFData.getInfo();
+                cout << atCore.IFData.getSummaryJSON();
             }
-
-            if(atCore.CLI.datainfo.isSet())
-            {
-                cout << atCore.IFData.getInfo();
-            }
-            else if(atCore.CLI.printjson.isSet())
+            else
             {
                 cout << atCore.IFData.getInfoJSON();
             }
@@ -107,7 +103,6 @@ int main(int argc, const char * argv[])
 //                }
 //            }
 //        }
-
     }
     catch(dsl::DSLException& ex)
     {

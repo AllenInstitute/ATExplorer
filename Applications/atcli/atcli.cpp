@@ -9,9 +9,8 @@ using namespace std;
 
 ATCli::ATCli(int argc, const char * argv[])
 :                  //Flags..................        Information.............................                                    Required..  Value.. 	type
-    dataroot(		"d", 		"data", 			"Absolute path to root folder of input data (project) to process", 			false, 		"", 		"string"),
-    datainfo(		"",			"datainfo",		 	"Return data information", 													false),
-    printjson(		"j",		"json",				"Output data in JSON format", 												false),
+    data(			"d", 		"data", 			"Absolute path to root folder of input data (project) to process", 			false, 		"", 		"string"),
+    datasummary(    "s", 		"datasummary", 	   	"Return data summary information", 											false),
     loglevel(		"l", 		"loglevel", 		"Set loglevel, Error, Warning, Info, Debug, Debug1-5", 	 					false, 		"Info", 	"string"),
 	consolelogs(	"",			"logtoconsole",		"console logging", 															false),
 
@@ -26,9 +25,9 @@ ATCli::ATCli(int argc, const char * argv[])
     //Have TCLAP handle any command line excveptions..
     cmdLine.setExceptionHandling(true);
     cmdLine.add(loglevel);
-    cmdLine.add(dataroot);
-    cmdLine.add(printjson);
-    cmdLine.add(datainfo);
+    cmdLine.add(data);
+    cmdLine.add(datasummary);
+
     cmdLine.add(consolelogs);
 
 //    //Render related

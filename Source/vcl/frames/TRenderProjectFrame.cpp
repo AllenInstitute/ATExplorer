@@ -192,7 +192,6 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
         paras.append(string("&maxTileSpecsToRender=150"));
 
     	//Image pops up in onImage callback
-		//getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache);
 	    mRC.getImageInThread(z, paras, mRP.getSelectedChannelName(), mExplorer.Cache, mRP);
         mRC.assignOnImageCallback(onImage);
     }
@@ -201,7 +200,7 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
 //		OpenInNDVIZBtnClick(NULL);
     }
 
-    //URLE->setValue(createNDVIZURL());
+    URLE->setValue(createNDVIZURL());
     checkCache();
 }
 
@@ -221,6 +220,7 @@ void __fastcall TRenderProjectFrame::onImage()
         return;
     }
 
+	mCurrentImageFile = fileToRead;
 	double val = CustomImageRotationE->getValue();
     if(val != 0)
     {
@@ -1133,6 +1133,18 @@ void __fastcall TRenderProjectFrame::HeaderControl1ContextPopup(TObject *Sender,
 void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
 {
 	populate();
+}
+
+
+//---------------------------------------------------------------------------
+void __fastcall TRenderProjectFrame::CustomImageRotationEKeyDown(TObject *Sender,
+          WORD &Key, TShiftState Shift)
+{
+    if(Key == VK_RETURN)
+    {
+    	double val = CustomImageRotationE->getValue();
+		paintRotatedImage(val);
+    }
 }
 
 

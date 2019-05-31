@@ -243,14 +243,8 @@ string ATIFData::getNumberOfSectionsInRibbonsJSON()
 
 string ATIFData::getInfoJSON()
 {
-    MKJSON json(JSON_OBJECT, "atdata");
-    json.append<int>(        "TotalNumberOfRibbons",   	getNumberOfRibbons());
-    json.append<int>(        "TotalNumberOfSections",  	getNumberOfSections());
-    json.append<int>(        "TotalNumberOfTiles",     	getNumberOfTiles());
-    json.append<int>(        "TotalNumberOfSessions",	getNumberOfSessions());
-    json.append<int>(        "TotalNumberOfChannels",	getNumberOfChannels());
-    json.append<StringList>( "RibbonFolders",  			getRibbonBaseFolders());
-    json.append<StringList>( "SessionFolders", 			getSessionBaseFolders());
+    string summary(getSummaryJSON());
+    MKJSON json(summary);
 
     //Create ribbon jsons
     MKJSON ribbons(JSON_ARRAY, "Ribbons");
@@ -308,13 +302,30 @@ string ATIFData::getInfoJSON()
         sessions.append(sessionJSON);
         s = getNextSession();
     }
-	
+
     //Append sessions
     json.append(sessions);
 
     //Add outer braces..
     json.close();
 
+    return json.theJSON();
+}
+
+string ATIFData::getSummaryJSON()
+{
+    MKJSON json(JSON_OBJECT, "atdata");
+    json.append<int>(        "TotalNumberOfRibbons",   	getNumberOfRibbons());
+    json.append<int>(        "TotalNumberOfSections",  	getNumberOfSections());
+    json.append<int>(        "TotalNumberOfTiles",     	getNumberOfTiles());
+    json.append<int>(        "TotalNumberOfSessions",	getNumberOfSessions());
+    json.append<int>(        "TotalNumberOfChannels",	getNumberOfChannels());
+    json.append<StringList>( "Channels",				getAllChannelLabels());
+    json.append<StringList>( "RibbonFolders",  			getRibbonBaseFolders());
+    json.append<StringList>( "SessionFolders", 			getSessionBaseFolders());
+
+    //Add outer braces..
+    json.close();
     return json.theJSON();
 }
 

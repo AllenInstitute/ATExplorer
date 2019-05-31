@@ -26,6 +26,7 @@ class ATE_DATA ATIFData : public ATData
         virtual bool                                populate(const bool& exitPopulation);
 		virtual string 								getNumberOfSectionsInRibbonsJSON();
         virtual string                              getInfoJSON();
+        virtual string                              getSummaryJSON();
 
                                                     //!Ribbonfolder functions..
 		FileFolders                                 getRibbonFolders();

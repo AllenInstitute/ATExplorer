@@ -52,7 +52,7 @@ mIniFile("")//,
 void ATCore::populateData()
 {
     //Set data.. if any
-    string value = CLI.dataroot.getValue();
+    string value = CLI.data.getValue();
     value = fixPathEnding(value);
     Path dataPath(value);
     Log(lInfo) << "Looking at data in folder: " << value;

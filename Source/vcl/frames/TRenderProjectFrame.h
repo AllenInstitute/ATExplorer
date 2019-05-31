@@ -167,6 +167,8 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall HeaderControl1ContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled);
 	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall CustomImageRotationEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+
 
     private:
         string                                          mIMPath;
