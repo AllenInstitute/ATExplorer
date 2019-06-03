@@ -48,7 +48,7 @@ bool ATIFData::setBasePath(const string& bp)
         }
         else
         {
-            Log (lError) << "The path: " << mRibbonsFolderPath.toString() << "don't exist!";
+            Log (lWarning) << "The path: " << mRibbonsFolderPath.toString() << " don't exist!";
         }
 
         if(folderExists(joinPath(mBasePath.toString(), "processed")))
@@ -67,7 +67,7 @@ bool ATIFData::setBasePath(const string& bp)
         }
         else
         {
-            Log (lError) << "The path: " << p << "don't exist!";
+            Log (lError) << "The path: " << p << " don't exist!";
         }
 
         return true;
@@ -343,9 +343,11 @@ bool ATIFData::populateRibbons()
     //All raw data is in the ribbons datafolder, populate it first
     if(!mRibbonsDataFolder)
     {
-        Log(lError) << "Ribbons data folder is NULL";
-        throw(FileSystemException("Can't do anyting if ribbons datafolder is null.."));
+        stringstream msg;
+        msg << "\"Ribbons\" data folder (" << mRibbonsFolderPath.toString() <<")  don't exist";
+        throw(FileSystemException(msg.str()));
     }
+
     Log(lInfo) << "Scanning folder:  " <<mRibbonsDataFolder->getPath().toString();
 	FolderInfo fInfo = mRibbonsDataFolder->scan();
     Log(lInfo) << "Found " <<fInfo.NrOfFolders << " folders and " << fInfo.NrOfFiles << " files";
@@ -404,7 +406,10 @@ bool ATIFData::populateRibbons()
             }
             else
             {
-                Log(lError) << "There are no channel folders!";
+                stringstream msg;
+                msg << "No \"Channels\" folders";
+                throw(FileSystemException(msg.str()));
+
                 //Throw
             }
         }
@@ -468,7 +473,7 @@ bool ATIFData::populateSessions()
                     if(secNr == -1 || tileID == -1)
                     {
                         stringstream msg;
-                        msg << "Failed reading sectionID or TileID for file: " <<p.getFileName();
+                        msg << "Failed reading sectionID or TileID for the file: " <<p.getFileName();
                         throw(FileSystemException(msg.str()));
                     }
 

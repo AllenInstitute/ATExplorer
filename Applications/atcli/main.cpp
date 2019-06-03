@@ -18,7 +18,6 @@ int main(int argc, const char * argv[])
 {
     try
     {
-
         //The ATCore ctor parses some supplied arguments, such as loglevel
 		ATCore atCore(argc, argv, gATcliVersion);
         gLogger.logToConsole(atCore.CLI.consolelogs.getValue());
@@ -108,19 +107,19 @@ int main(int argc, const char * argv[])
     }
     catch(dsl::DSLException& ex)
     {
-        Log(lError)<<"Application exception occurred: "<<ex.what()<<endl;
+        Log(lError) << "Error: "<<ex.what() << endl;
     }
     catch(const FileSystemException& e)
     {
-        Log(lError) << "Exception: " << e.what();
+        Log(lError) << "Errot: " << e.what() << endl;
     }
 	catch (TCLAP::ArgException &e)  // catch any exceptions
 	{
-    	Log(lError) << "Error: " << e.error();
+    	Log(lError) << "Error: " << e.error() << endl ;
     }
     catch(...)
     {
-        Log(lError)<<"There was an unknown problem.."<<endl;
+        Log(lError)<<"Error: There was an unknown problem."<<endl;
     }
 
     Log(lInfo)<< "atcli is exiting..";
@@ -128,7 +127,7 @@ int main(int argc, const char * argv[])
 }
 
 #if defined(WIN32)
-#pragma comment(lib, "dslFoundation.lib")
-#pragma comment(lib, "atExplorerFoundation.lib")
-#pragma comment(lib, "poco_foundation.lib")
+	#pragma comment(lib, "dslFoundation.lib")
+	#pragma comment(lib, "atExplorerFoundation.lib")
+	#pragma comment(lib, "poco_foundation.lib")
 #endif

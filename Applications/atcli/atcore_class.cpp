@@ -59,7 +59,7 @@ void ATCore::populateData()
     Log(lInfo) << "Looking at data in folder: " << value;
     if(!folderExists(value))
     {
-        throw(FileSystemException("The Folder: " + value + " don't exist!"));
+        throw(FileSystemException("The Folder: " + value + " don't exist"));
     }
 
     IFData.setBasePath(dataPath.toString());

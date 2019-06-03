@@ -20,7 +20,7 @@ ATCli::ATCli(int argc, const char * argv[], const string& version)
 //    owner(			"", 		"owner", 			"Set renderproject owner", 	 												false, 		"", 		"string"),
 //    project(		"", 		"project", 			"Set renderproject name", 	 												false, 		"", 		"string"),
 
-    cmdLine("Command description message", '.', version)
+    cmdLine("Command description message", ' ', version)
 {
     //Have TCLAP handle any command line excveptions..
     cmdLine.setExceptionHandling(true);
