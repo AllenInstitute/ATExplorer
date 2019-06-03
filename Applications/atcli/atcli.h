@@ -27,7 +27,9 @@ class ATCli
 //        ValueArg<string>                project;
 
 		TCLAP::CmdLine 		            cmdLine;
-        					            ATCli(int argc, const char * argv[]);
+
+
+        					            ATCli(int argc, const char * argv[], const string& version);
 
 
         void                            showUsage();

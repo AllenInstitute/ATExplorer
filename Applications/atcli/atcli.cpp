@@ -7,7 +7,7 @@
 using namespace TCLAP;
 using namespace std;
 
-ATCli::ATCli(int argc, const char * argv[])
+ATCli::ATCli(int argc, const char * argv[], const string& version)
 :                  //Flags..................        Information.............................                                    Required..  Value.. 	type
     data(			"d", 		"data", 			"Absolute path to root folder of input data (project) to process", 			false, 		"", 		"string"),
     datasummary(    "s", 		"datasummary", 	   	"Return data summary information", 											false),
@@ -20,14 +20,13 @@ ATCli::ATCli(int argc, const char * argv[])
 //    owner(			"", 		"owner", 			"Set renderproject owner", 	 												false, 		"", 		"string"),
 //    project(		"", 		"project", 			"Set renderproject name", 	 												false, 		"", 		"string"),
 
-    cmdLine("Command description message", ' ', "0.5")
+    cmdLine("Command description message", '.', version)
 {
     //Have TCLAP handle any command line excveptions..
     cmdLine.setExceptionHandling(true);
     cmdLine.add(loglevel);
     cmdLine.add(data);
     cmdLine.add(datasummary);
-
     cmdLine.add(consolelogs);
 
 //    //Render related
@@ -37,7 +36,7 @@ ATCli::ATCli(int argc, const char * argv[])
 //    cmdLine.add(owner);
 //    cmdLine.add(project);
 
-    cmdLine.parse( argc, argv );
+    cmdLine.parse(argc, argv);
 }
 
 void ATCli::showUsage()

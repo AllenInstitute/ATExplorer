@@ -13,11 +13,12 @@ using namespace std;
 using namespace at;
 using namespace Poco;
 
-ATCore::ATCore(int argc, const char * argv[])
+ATCore::ATCore(int argc, const char * argv[], const string& version)
 :
-CLI(argc, argv),
+CLI(argc, argv, version),
 IFData(string("")),
-mIniFile("")//,
+mIniFile(""),
+mVersion(version)
 //mATExplorer()
 {
     //Observe that TCLAP will throw and handle any command line exceptions

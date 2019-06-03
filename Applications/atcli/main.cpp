@@ -12,13 +12,15 @@ using namespace dsl;
 using namespace at;
 using namespace TCLAP;
 
+string gATcliVersion = "0.5.1";
+
 int main(int argc, const char * argv[])
 {
     try
     {
 
         //The ATCore ctor parses some supplied arguments, such as loglevel
-		ATCore atCore(argc, argv);
+		ATCore atCore(argc, argv, gATcliVersion);
         gLogger.logToConsole(atCore.CLI.consolelogs.getValue());
 
         //if no options are set, print usage

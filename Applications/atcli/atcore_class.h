@@ -18,11 +18,13 @@ using dsl::IniFile;
 class ATCore
 {
     public:
+        					ATCore(int argc, const char * argv[], const string& version);
+
                             //The ATCli is an object dealing with the command line
         ATCli               CLI;
 
         void                populateData();
-        					ATCore(int argc, const char * argv[]);
+
      	ATIFData   			IFData;
 
 //        string              getOwner();
@@ -32,7 +34,7 @@ class ATCore
 
     private:
         IniFile             mIniFile;
-
+        string              mVersion;
 
 };
 
