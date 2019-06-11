@@ -67,7 +67,7 @@ bool ATIFData::setBasePath(const string& bp)
         }
         else
         {
-            Log (lError) << "The path: " << p << " don't exist!";
+            Log (lWarning) << "The path: " << p << " don't exist!";
         }
 
         return true;
@@ -406,9 +406,9 @@ bool ATIFData::populateRibbons()
             }
             else
             {
-                stringstream msg;
-                msg << "No \"Channels\" folders";
-                throw(FileSystemException(msg.str()));
+
+                Log(lWarning) << "There are no channel folders in the session folder: " << sessionFolder->toString();
+                //throw(FileSystemException(msg.str()));
 
                 //Throw
             }

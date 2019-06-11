@@ -2,8 +2,11 @@
 #include "atFileFolders.h"
 #include "atFileFolder.h"
 #include <algorithm>
+#include "dslLogger.h"
 
 using namespace std;
+using namespace dsl;
+
 namespace at
 {
 
@@ -62,6 +65,12 @@ void FileFolders::append(FileFolderSP ff)
 
 FileFolderSP FileFolders::getFirst()
 {
+    if(mFolders.size() == 0)
+    {
+        Log(lWarning) << "Zero subfolders..";
+        return FileFolderSP();
+    }
+
     mFolderIterator = mFolders.begin();
     return *(mFolderIterator);
 }

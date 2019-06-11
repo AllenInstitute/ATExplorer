@@ -127,7 +127,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <Debugger_DebugSourcePath>P:\atExplorer\Source\core\;P:\atExplorer\Source\core\pointMatches\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
-        <Debugger_RunParams>--data c:\data\atp-test-data\input\M335503_Quarter_2RR --datasummary</Debugger_RunParams>
+        <Debugger_RunParams>--data c:\data2\ms4921_C2b1 --datasummary</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

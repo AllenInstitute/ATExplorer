@@ -107,19 +107,19 @@ int main(int argc, const char * argv[])
     }
     catch(dsl::DSLException& ex)
     {
-        Log(lError) << "Error: "<<ex.what() << endl;
+        Log(lError) << ex.what() << endl;
     }
     catch(const FileSystemException& e)
     {
-        Log(lError) << "Errot: " << e.what() << endl;
+        Log(lError) << e.what() << endl;
     }
 	catch (TCLAP::ArgException &e)  // catch any exceptions
 	{
-    	Log(lError) << "Error: " << e.error() << endl ;
+    	Log(lError) << e.error() << endl ;
     }
     catch(...)
     {
-        Log(lError)<<"Error: There was an unknown problem."<<endl;
+        Log(lError) << "There was an unknown problem."<<endl;
     }
 
     Log(lInfo)<< "atcli is exiting..";
