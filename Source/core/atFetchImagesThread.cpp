@@ -46,6 +46,11 @@ void FetchImagesThread::setup(const StringList& urls)
 	mImageURLs = urls;
 }
 
+string FetchImagesThread::getURL(int idx)
+{
+    return mImageURLs[idx];
+}
+
 void FetchImagesThread::setChannel(const string& ch)
 {
 	mChannel = ch;
@@ -122,7 +127,7 @@ void FetchImagesThread::worker()
            	Poco::File f(outFilePathANDFileName);
             if(f.exists() && f.getSize() > 200)
             {
-            	Log(lDebug3) << "File "<<f.path()<<" is in local cache";
+            	Log(lDebug3) << "File "<<f.path()<<" is already in local cache. Not fetching";
             }
             else
 			{

@@ -24,7 +24,6 @@
 #include "atTreeItemObservers.h"
 //---------------------------------------------------------------------------
 
-//typedef void __fastcall (__closure *sshCallback)(const string&);
 using at::ProjectsTreeView;
 using at::ATExplorerProject;
 using at::RenderProjectItemView;

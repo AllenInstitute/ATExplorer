@@ -554,6 +554,7 @@ bool ProjectsTreeView::removeSubProject(Project* p)
 
     if(!parent)
     {
+        Log(lWarning) << "The project: " << p->getProjectName() << " don't have a parent";
         return false;
     }
 

@@ -1,8 +1,8 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 1466
-  Height = 819
+  Width = 1345
+  Height = 792
   Align = alClient
   TabOrder = 0
   OnMouseDown = MouseDown
@@ -12,7 +12,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 0
     Top = 0
     Width = 429
-    Height = 819
+    Height = 792
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -20,7 +20,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 1
       Top = 1
       Width = 307
-      Height = 817
+      Height = 790
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -111,14 +111,14 @@ object RenderProjectFrame: TRenderProjectFrame
           Enabled = False
           TabOrder = 4
         end
-        object Button2: TButton
+        object RefreshStacksBtn: TButton
           Left = 279
           Top = 169
           Width = 20
           Height = 25
           Caption = 'O'
           TabOrder = 5
-          OnClick = Button2Click
+          OnClick = RefreshStacksBtnClick
         end
       end
       object imageParasGB: TGroupBox
@@ -293,6 +293,8 @@ object RenderProjectFrame: TRenderProjectFrame
         Align = alTop
         Caption = 'Extra'
         TabOrder = 3
+        Visible = False
+        ExplicitWidth = 286
         object RzSpinButtons1: TRzSpinButtons
           Left = 12
           Top = 67
@@ -323,7 +325,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 120
-      Height = 817
+      Height = 790
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -331,7 +333,7 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 1
         Top = 1
         Width = 118
-        Height = 677
+        Height = 650
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
@@ -351,22 +353,22 @@ object RenderProjectFrame: TRenderProjectFrame
           Left = 2
           Top = 300
           Width = 114
-          Height = 375
+          Height = 348
           Align = alClient
           Caption = 'Tiff Stacks && MIP'#39's'
           TabOrder = 1
-          ExplicitHeight = 232
+          ExplicitHeight = 375
           object OtherCB: TCheckListBox
             Left = 2
             Top = 161
             Width = 110
-            Height = 212
+            Height = 185
             Align = alClient
             ItemHeight = 13
             PopupMenu = OtherPopupMenu
             TabOrder = 0
             OnDblClick = OtherCBDblClick
-            ExplicitHeight = 69
+            ExplicitHeight = 212
           end
           object StacksCB: TCheckListBox
             Left = 2
@@ -383,7 +385,7 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object CacheGB: TGroupBox
         Left = 1
-        Top = 678
+        Top = 651
         Width = 118
         Height = 138
         Align = alBottom
@@ -414,8 +416,8 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 429
     Top = 0
-    Width = 1037
-    Height = 819
+    Width = 916
+    Height = 792
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
@@ -429,8 +431,8 @@ object RenderProjectFrame: TRenderProjectFrame
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1029
-        Height = 770
+        Width = 908
+        Height = 743
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -440,15 +442,15 @@ object RenderProjectFrame: TRenderProjectFrame
         TabOrder = 0
         OnContextPopup = Panel1ContextPopup
         ExplicitWidth = 14
-        ExplicitHeight = 277
+        ExplicitHeight = 256
         DesignSize = (
-          1029
-          770)
+          908
+          743)
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 1027
-          Height = 751
+          Width = 906
+          Height = 724
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -461,8 +463,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 1027
-          Height = 751
+          Width = 906
+          Height = 724
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16510,8 +16512,8 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 752
-          Width = 1027
+          Top = 725
+          Width = 906
           Height = 17
           Align = alBottom
           Sections = <
@@ -16541,12 +16543,12 @@ object RenderProjectFrame: TRenderProjectFrame
           NoSizing = True
           OverFlow = True
           OnContextPopup = HeaderControl1ContextPopup
-          ExplicitTop = 259
+          ExplicitTop = 238
           ExplicitWidth = 12
         end
         object mZoomFactor: TIntegerEdit
           Left = 17
-          Top = 725
+          Top = 698
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -16554,7 +16556,7 @@ object RenderProjectFrame: TRenderProjectFrame
           TabOrder = 1
           Text = '10'
           Value = 10
-          ExplicitTop = 232
+          ExplicitTop = 211
         end
         object ShowImageGridCB: TCheckBox
           Left = 448
@@ -16568,14 +16570,16 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object URLE: TSTDStringEdit
         Left = 0
-        Top = 770
-        Width = 1029
+        Top = 743
+        Width = 908
         Height = 21
         Align = alBottom
         TabOrder = 1
         Text = 'URLE'
+        Visible = False
         Value = 'URLE'
-        ExplicitTop = 698
+        ExplicitTop = 256
+        ExplicitWidth = 14
       end
     end
     object NdVizTS: TTabSheet
@@ -16649,8 +16653,6 @@ object RenderProjectFrame: TRenderProjectFrame
       Caption = 'Open in Chrome'
       OnClick = openInChromeClick
     end
-    object TMenuItem
-    end
   end
   object Actions: TActionList
     Left = 329
@@ -16696,8 +16698,8 @@ object RenderProjectFrame: TRenderProjectFrame
     Top = 196
   end
   object MiscPopup: TPopupMenu
-    Left = 577
-    Top = 568
+    Left = 537
+    Top = 680
     object CreateSubVolume1: TMenuItem
       Caption = 'Create Cutout'
       OnClick = openVolumesForm

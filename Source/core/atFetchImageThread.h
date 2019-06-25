@@ -5,6 +5,7 @@
 #include "atRenderClientUtils.h"
 #include <boost/function.hpp>
 #include "atRenderLocalCache.h"
+#include <curl/curl.h>
 //---------------------------------------------------------------------------
 
 namespace at
@@ -13,19 +14,13 @@ using dsl::StringList;
 using dsl::Thread;
 typedef boost::function<void(void*, void*)> FITCallBack;
 
-#if defined(__BORLANDC__)
-    typedef void __fastcall (__closure *RCCallBack)(void);
-#else
-    typedef void (*RCCallBack)(void);
-#endif
-
 class RenderClient;
 
 class ATE_CORE FetchImageThread : public dsl::Thread
 {
 	public:
 							                FetchImageThread(const RenderProject& rp, RenderClient& rc, const RenderLocalCache& cache);
-		void				                setup(const string& url, const string& cacheFolder);
+		void				                setup(const string& url, const string& cacheFolder, int z);
 		virtual void                        run();
         void				                addParameters(const StringList& paras);
         void				                setChannel(const string& ch);
@@ -34,18 +29,19 @@ class ATE_CORE FetchImageThread : public dsl::Thread
 		bool				                setCacheRoot(const string& cr);
 		void				                worker();
         string                              getFullPathAndFileName();
-
-          							        //!The on Image callback is called when image data is retrieved from the server
-                                            //Make this a non-vcl dependent callback!
-        RCCallBack							onImage;
-
+        FITCallBack                         onImage;
 	private:
     	string								mImageURL;
+
+        CURL*								curl_handle;
+
+
 		const RenderLocalCache&             mCache;
         const RenderProject&                mRP;
         string								mCacheRootFolder;
         StringList                          mExtraParameters;
         string                              mChannel;
+        int                                 mZ;
 
         					                //A renderclient is host, manager for this thread. Give it the memory that is retrieved
         RenderClient&		                mRenderClient;

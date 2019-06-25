@@ -48,8 +48,9 @@ __fastcall TRenderProjectFrame::TRenderProjectFrame(ATExplorer& e, RenderProject
 	mTiffStackCreator(e.getImageMagickPath(), "")
 {
     this->Name = string("RPFrame_" +  dsl::toString(rpFrameNr++)).c_str();
-    populate();
+//    populate();
     mCurrentROI.assignOnChangeCallback(onROIChanged);
+	mCreateCacheThread.assignCallBacks(NULL, fetchImagesOnProgress, NULL);
 }
 
 void TRenderProjectFrame::populate()
@@ -66,6 +67,7 @@ void TRenderProjectFrame::populate()
 	mZoomFactor->Top = p1.Y;
     mZoomFactor->Parent = HeaderControl1;
 
+    //Check cache
     RenderHostE->setValue(mRP.getRenderServiceParameters().getHost());
     OwnerE->setValue(mRP.getProjectOwner());
     ProjectE->setValue(mRP.getRenderProjectName());
@@ -78,27 +80,94 @@ void TRenderProjectFrame::populate()
 
     //Get stacks for project
     StringList stacks = mRC.StackDataAPI.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
-    if(stacks.size())
+    if(!stacks.size())
     {
-		StackCB->ItemIndex = populateDropDown(stacks, StackCB, mRP.getSelectedStackName());
-   		StackCBChange(NULL);
+        return;
+    }
 
-        //Check selected channel
-       	string ch = mRP.getSelectedChannelName();
-        if(checkItem(ChannelsCB, ch, true))
+    StackCB->ItemIndex = populateDropDown(stacks, StackCB, mRP.getSelectedStackName());
+    StackCBChange(NULL);
+
+    //Check selected channel
+    string ch = mRP.getSelectedChannelName();
+    if(checkItem(ChannelsCB, ch, true))
+    {
+        mZs->ItemIndex = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
+
+        //Setup ROI
+        roiChanged();
+
+        //Select a section
+        if(mZs->ItemIndex == -1)
         {
-        	mZs->ItemIndex = mZs->Items->IndexOf(dsl::toString(mRP.getSelectedSection()).c_str());
-	        //Setup ROI
-			roiChanged();
-
-            if(mZs->ItemIndex == -1)
-            {
-                mZs->ItemIndex = 0;
-            }
-        	ClickZ(NULL);
+            mZs->ItemIndex = 0;
         }
     }
 }
+
+void TRenderProjectFrame::fetchImagesOnProgress(void* arg1, void* arg2)
+{
+    int& count = * ( (int*) arg2);
+	string url = mCreateCacheThread.getURL(count);
+    Log(lInfo) << "Fetching: " << url;
+
+    //Check cache for current ROI and z
+    string z = stdstr(mZs->Items->Strings[count]);
+
+    if(mExplorer.Cache.checkPresence(mRP, toInt(z), "jpeg-image"))
+    {
+        mZs->Checked[count] = true;
+    }
+}
+
+//This is called from a thread and need to be synchronized with the UI main thread
+void TRenderProjectFrame::onImage(void* arg1, void* arg2)
+{
+    int& count = * ( (int*) arg2);
+    string z = stdstr(mZs->Items->Strings[count]);
+
+    if(!fileExists(mRC.mFetchImageThread->getFullPathAndFileName()))
+    {
+        Log(lError) << "File does not exist: " << mRC.mFetchImageThread->getFullPathAndFileName();
+        return;
+    }
+
+    if(mExplorer.Cache.checkPresence(mRP, toInt(z), "jpeg-image"))
+    {
+        mZs->Checked[count] = true;
+    }
+
+	mCurrentImageFile = mRC.mFetchImageThread->getFullPathAndFileName();
+//	double val = CustomImageRotationE->getValue();
+//    if(val != 0)
+//    {
+//		paintRotatedImage(val);
+//    }
+//    else
+    {
+        try
+        {
+            //Create a temporary stream
+            unique_ptr<TMemoryStream> stream = unique_ptr<TMemoryStream>(new TMemoryStream());
+            stream->LoadFromFile(mCurrentImageFile.c_str());
+            if(stream->Size)
+            {
+            	stream->Position = 0;
+                Image1->Picture->LoadFromStream(stream.get());
+            }
+        }
+        catch(...)
+        {
+            Log(lError) << "Failed to load image file: "<<mCurrentImageFile;
+            return;
+        }
+    }
+
+    Image1->Refresh();
+    Log(lDebug3) << "WxH = " <<Image1->Picture->Width << "x" << Image1->Picture->Height;
+    this->Image1->Cursor = crDefault;
+}
+
 
 void TRenderProjectFrame::onROIChanged(void* arg1, void* arg2)
 {
@@ -147,7 +216,7 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
 
     string stackName(stdstr(StackCB->Text));
 	mRP.setSelectedStackName(stackName);
-   	getValidZsForStack();
+   	populateZsForCurrentStack();
 
     //Populate channels
     StringList chs = mRC.StackDataAPI.getChannelsInSelectedStack(mRP);
@@ -157,18 +226,36 @@ void __fastcall TRenderProjectFrame::StackCBChange(TObject *Sender)
 	mRenderEnabled = true;
 }
 
-void __fastcall TRenderProjectFrame::getValidZsForStack()
+void TRenderProjectFrame::populateZsForCurrentStack()
 {
-	//Fetch valid zs for current project
-	mRP.setSelectedStackName(stdstr(StackCB->Text));
-
     StringList zs = mRC.StackDataAPI.getZsForStack(mRP);
 	Log(lInfo) << "Fetched "<<zs.count()<<" valid z's";
 	Zs_GB->Caption = " Z Values (" + IntToStr((int) zs.count()) + ") ";
 
+	int selectedZ(-1);
+
+    if(mZs->SelCount)
+    {
+    	selectedZ = mZs->ItemIndex;
+    }
+
     //Populate list box
 	populateCheckListBox(zs, mZs);
-    mZs->CheckAll(cbChecked);
+
+    //Check cache.. if in cache, check the item
+    for(int i = 0; i < mZs->Count; i++)
+    {
+        string z = dsl::stdstr(mZs->Items->Strings[i]);
+		if(mExplorer.Cache.checkPresence(mRP, toInt(z), "jpeg-image"))
+        {
+            mZs->Checked[i] = true;
+        }
+    }
+
+    if(selectedZ != -1)
+    {
+		mZs->ItemIndex = selectedZ;
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -204,52 +291,6 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
     checkCache();
 }
 
-//This is called from a thread and need to be synchronized with the UI main thread
-void __fastcall TRenderProjectFrame::onImage()
-{
-	TMemoryStream* imageMem = mRC.getImageMemory();
-    if(!imageMem)
-    {
-    	return;
-    }
-
-	string fileToRead = mRC.mFetchImageThread->getFullPathAndFileName();
-    if(!fileExists(fileToRead))
-    {
-        Log(lError) << "File does not exist: " <<fileToRead;
-        return;
-    }
-
-	mCurrentImageFile = fileToRead;
-	double val = CustomImageRotationE->getValue();
-    if(val != 0)
-    {
-		paintRotatedImage(val);
-    }
-    else
-    {
-        try
-        {
-            //Create a temporary stream
-            unique_ptr<TMemoryStream> stream = unique_ptr<TMemoryStream>(new TMemoryStream());
-            stream->LoadFromFile(fileToRead.c_str());
-            if(stream->Size)
-            {
-            	stream->Position = 0;
-                Image1->Picture->LoadFromStream(stream.get());
-            }
-        }
-        catch(...)
-        {
-            Log(lError) << "Failed to load image: "<<fileToRead;
-            return;
-        }
-    }
-
-    Image1->Refresh();
-    Log(lDebug3) << "WxH = " <<Image1->Picture->Width << "x" << Image1->Picture->Height;
-    this->Image1->Cursor = crDefault;
-}
 
 //---------------------------------------------------------------------------
 void TRenderProjectFrame::paintRotatedImage(double angle)
@@ -351,6 +392,7 @@ void TRenderProjectFrame::updateROIs()
 
     StringList rois(getSubFoldersInFolder(path.str(), false));
     populateCheckListBox(rois, ROI_CB);
+	populateZsForCurrentStack();
 }
 
 //---------------------------------------------------------------------------
@@ -373,16 +415,10 @@ double TRenderProjectFrame::getImageStretchFactor()
 }
 
 //---------------------------------------------------------------------------
-TCanvas* TRenderProjectFrame::getCanvas()
-{
-	return PaintBox1->Canvas;
-}
-
-//---------------------------------------------------------------------------
 void TRenderProjectFrame::DrawShape(TPoint TopLeft, TPoint BottomRight, TPenMode AMode)
 {
-  	getCanvas()->Pen->Mode = AMode;
-	getCanvas()->Rectangle(TopLeft.x, TopLeft.y, BottomRight.x, BottomRight.y);
+  	PaintBox1->Canvas->Pen->Mode = AMode;
+	PaintBox1->Canvas->Rectangle(TopLeft.x, TopLeft.y, BottomRight.x, BottomRight.y);
 }
 
 //---------------------------------------------------------------------------
@@ -471,7 +507,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
             }
 
     	    StringList paras;
-	        paras.append(string("&maxTileSpecsToRender=150"));// + 150)stdstr(maxTileSpecsToRenderE->Text));
+	        paras.append(string("&maxTileSpecsToRender=150"));
             mCreateCacheThread.setup(urls);
             mCreateCacheThread.addParameters(paras);
             mCreateCacheThread.setChannel(mRP.getSelectedChannelName());
@@ -689,20 +725,6 @@ void __fastcall TRenderProjectFrame::ROI_CBClick(TObject *Sender)
     ClickZ(Sender);
 }
 
-string getFilePathFromSelectedCB(TCheckListBox* b)
-{
-    string fName("");
-    if(b->ItemIndex != -1)
-    {
-    	string* s = (string*) b->Items->Objects[b->ItemIndex];
-        if(s)
-        {
-            fName = *s;
-        }
-    }
-
-    return fName;
-}
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
 {
@@ -725,11 +747,11 @@ void __fastcall TRenderProjectFrame::OpenInExplorerAExecute(TObject *Sender)
     }
     else if(a->ActionComponent == OpenStackInExplorer)
     {
-        fName = getFilePathFromSelectedCB(StacksCB);
+        fName = getStringFromSelectedCB(StacksCB);
 	}
     else if(a->ActionComponent == OpenMIPInExplorer)
     {
-        fName = getFilePathFromSelectedCB(OtherCB);
+        fName = getStringFromSelectedCB(OtherCB);
     }
     else if(a->ActionComponent == OpenROIInExplorer)
     {
@@ -864,7 +886,7 @@ void __fastcall TRenderProjectFrame::MouseDown(TObject *Sender, TMouseButton But
     }
 
     mIsDrawing = true;
-    getCanvas()->MoveTo(X , Y);
+    PaintBox1->Canvas->MoveTo(X , Y);
     Origin = Point(X, Y);
     MovePt = Origin;
 
@@ -942,7 +964,7 @@ void __fastcall TRenderProjectFrame::MouseUp(TObject *Sender, TMouseButton Butto
 	//Check if selection indicate a 'reset'
 	if(mBottomRightSelCorner.X - mTopLeftSelCorner.X <= 0 || mBottomRightSelCorner.Y - mTopLeftSelCorner.Y <= 0)
     {
-//    	resetButtonClick(NULL);
+    	ResetButtonClick(NULL);
 		return;
     }
 
@@ -957,7 +979,6 @@ void __fastcall TRenderProjectFrame::MouseUp(TObject *Sender, TMouseButton Butto
 	roiChanged();
     updateROIs();
 	ClickZ(NULL);
-    checkCache();
 }
 
 //---------------------------------------------------------------------------
@@ -1027,29 +1048,14 @@ void __fastcall TRenderProjectFrame::ChannelsCBClick(TObject *Sender)
 
     //Render this channel
     mRP.setSelectedChannelName(channel);
+
+	populateZsForCurrentStack();
     ClickZ(NULL);
 }
 
 void __fastcall TRenderProjectFrame::ChannelsCBClickCheck(TObject *Sender)
 {
-	int indx(-1);
-    for(int i = 0; i < ChannelsCB->Count; i++)
-    {
-    	if(ChannelsCB->Selected[i])
-        {
-            indx = i;
-            break;
-        }
-    }
-
-    ChannelsCB->CheckAll(cbUnchecked);
-    ChannelsCB->Checked[indx] = cbChecked;
-
-    string channel = stdstr(ChannelsCB->Items->Strings[indx]);
-
-    //Render this channel
-    mRP.setSelectedChannelName(channel);
-    ClickZ(NULL);
+	ChannelsCBClick(Sender);
 }
 
 void __fastcall TRenderProjectFrame::HeaderControl1SectionClick(THeaderControl *HeaderControl,
@@ -1097,12 +1103,6 @@ void __fastcall TRenderProjectFrame::StacksCBClick(TObject *Sender)
     //
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::Checkrange1Click(TObject *Sender)
-{
-//
-}
-
 void __fastcall TRenderProjectFrame::CheckZs(TObject *Sender)
 {
 	TMenuItem* item = dynamic_cast<TMenuItem*>(Sender);
@@ -1130,11 +1130,10 @@ void __fastcall TRenderProjectFrame::HeaderControl1ContextPopup(TObject *Sender,
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TRenderProjectFrame::Button2Click(TObject *Sender)
+void __fastcall TRenderProjectFrame::RefreshStacksBtnClick(TObject *Sender)
 {
 	populate();
 }
-
 
 //---------------------------------------------------------------------------
 void __fastcall TRenderProjectFrame::CustomImageRotationEKeyDown(TObject *Sender,

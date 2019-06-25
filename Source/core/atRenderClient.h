@@ -41,21 +41,15 @@ using dsl::gEmptyString;
 using std::string;
 
 using System::Classes::TMemoryStream;
-
-#if defined(__BORLANDC__)
-    typedef void __fastcall (__closure *RCCallBack)(void);
-#else
-    typedef void (*RCCallBack)(void);
-#endif
-
+typedef boost::function<void(void*, void*)> RCCallBack;
 
 //Derive from a RestClient class
 class ATE_CORE RenderClient : public RESTClient
 {
 	public:
 							                        RenderClient(shared_ptr<Idhttp::TIdHTTP> c = shared_ptr<Idhttp::TIdHTTP>(), const string& host="localhost", const string& name = "");
-//							                        RenderClient(RenderProject& rp, Idhttp::TIdHTTP* c, const RenderServiceParameters* p = (NULL), const string& cacheFolder 	= gEmptyString);
 							                        ~RenderClient();
+        void										assignOnImageCallback(RCCallBack cb);
 
                                                     //Todo, init with RenderLayer object
 		bool							            init(
@@ -77,45 +71,18 @@ class ATE_CORE RenderClient : public RESTClient
         RenderPointMatchAPI                         PointMatchAPI;
         ServerConfigurationAPI                      ServerConfigurationAPI;
 
-//        StringList						            getStacksForProject(const string& owner, const string& p);
-//        StringList                                  getChannelsInStack(const string& stackName);
-//        RenderProject                               getCurrentProject();
-//        StringList                                  getROIFoldersForCurrentStack();
 		TMemoryStream*								getImageMemory();
-//        bool                                        renameStack(const string& currentStackName, const string& newName);
-
 		void				                        clearImageMemory();
-		string				                        getURL();
-		const char* 		                        getURLC();
+
         TMemoryStream*		                        getImage(int z = 0);
-        bool				                        getImageInThread(int z , StringList& paras,const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
-        TMemoryStream*		                        reloadImage(int z = 0);
+        bool				                        getImageInThread(int z , StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
+
         string							            getURLForZ(int z, const RenderProject& rp);
-//        bool				                        checkCacheForCurrentURL();
-//        string							            getProjectName();
-
-//        void							            setLocalCacheFolder(const string& f);
-//        string							            getLocalCacheFolder();
-
-//        StringList						            getZs();
-//        vector<int>						            getValidZs();
 		RegionOfInterest 						    getLayerBoundsForZ(int z, RenderProject& rp);
         RegionOfInterest						    getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RegionOfInterest>				    getLayerBounds();
-        RenderProject&					            getProject();
-        void										assignOnImageCallback(RCCallBack cb);
-        void										copyImageData(MemoryStruct chunk);
-		Idhttp::TIdHTTP*                            getConnection();
-        void                                        assignConnection(Idhttp::TIdHTTP* c);
-
-//        RenderProject                               getRenderProject();
-//        void                                        setRenderProject(const RenderProject& rp);
-//		double        								getLowestResolutionInCache(const RegionOfInterest& roi);
-
-//        string                                      getCacheRoot();
-
-//        string                                      request(const string& r);
         shared_ptr<FetchImageThread>				mFetchImageThread;
+
     private:
 
         void                                        createRESTServiceParameters(const string& host);
@@ -129,13 +96,7 @@ class ATE_CORE RenderClient : public RESTClient
 
     	int				                            mZ;
         double				                        mScale;
-
-//        const RenderServiceParameters*              mRenderServiceParameters;
-
-//        RenderProject&					            mRenderProject;
-//        RenderLocalCache                            mCache;
         string 			                            mImageType;
-
         int								            mMinIntensity;
         int								            mMaxIntensity;
 };

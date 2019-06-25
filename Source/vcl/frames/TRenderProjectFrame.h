@@ -45,6 +45,7 @@ using dsl::Process;
 using at::ImageGrid;
 using at::ATExplorer;
 using at::TiffStackCreator;
+
 //---------------------------------------------------------------------------
 class PACKAGE TRenderProjectFrame : public TFrame
 {
@@ -123,7 +124,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TPopupMenu *MiscPopup;
 	TMenuItem *CreateSubVolume1;
 	TCheckBox *ShowImageGridCB;
-	TButton *Button2;
+	TButton *RefreshStacksBtn;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -161,12 +162,11 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall TabSheet2ContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
 	void __fastcall StacksCBClick(TObject *Sender);
 
-	void __fastcall Checkrange1Click(TObject *Sender);
 	void __fastcall CheckZs(TObject *Sender);
 	void __fastcall CreateSubVolumeStackAExecute(TObject *Sender);
 	void __fastcall HeaderControl1ContextPopup(TObject *Sender, TPoint &MousePos,
           bool &Handled);
-	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall RefreshStacksBtnClick(TObject *Sender);
 	void __fastcall CustomImageRotationEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 
 
@@ -187,8 +187,10 @@ class PACKAGE TRenderProjectFrame : public TFrame
 		RegionOfInterest								mCurrentROI;
         string                                          mHostURL;
         string                                          getCurrentROIPath();
-        void                                            populate();
-		void __fastcall 								onImage();
+
+		void 			 								onImage(void*, void*);
+	    void		                                    fetchImagesOnProgress(void*, void*);
+
 		void 											paintRotatedImage(double angle);
 
         void 											onROIChanged(void* arg1, void* arg2);
@@ -198,7 +200,6 @@ class PACKAGE TRenderProjectFrame : public TFrame
 		void 											updateScale();
 		void 											updateROIs();
 		double 											getImageStretchFactor();
-		TCanvas* 										getCanvas();
 
         //Drawing stuff
         TBrushStyle 									BrushStyle;
@@ -219,11 +220,11 @@ class PACKAGE TRenderProjectFrame : public TFrame
 
 		TCreateLocalVolumesForm*                        mCreateVolumesForm;
         void                                            zoom(int factor, bool inOrOut);
+		void 						 					populateZsForCurrentStack();
 
     public:
     						__fastcall 					TRenderProjectFrame(ATExplorer& e, RenderProject& rp, TComponent* Owner);
-		void 				__fastcall 					getValidZsForStack();
-
+        void                                            populate();
 };
 
 extern PACKAGE TRenderProjectFrame *RenderProjectFrame;

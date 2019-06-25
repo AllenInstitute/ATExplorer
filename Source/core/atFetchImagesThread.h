@@ -31,6 +31,7 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
         string                              listParameters();
 		void								worker();
         StringList                          getImageURLs();
+        string		                        getURL(int idx);
         string                              getCacheRootFolder();
 
 	private:

@@ -1,3 +1,10 @@
+Release 0.7.2 (June 25)
+=======================
+* updated ATCLI to handle empty ribbon folders in raw data
+* Cleaned up error reporting in atcli a little
+* sort ribbon and session folders when scanning data
+* Added checkmarks to cached Z's in ATExplorer UI
+
 Release 0.7.1 (May 14)
 =======================
 * Adding handling of remote hosts

@@ -38,6 +38,11 @@ string RenderLocalCache::getImageLocalCachePath(const RenderProject& rp) const
     return s.str();
 }
 
+bool RenderLocalCache::checkPresence(const RenderProject& rp, int z, const string& imageType)
+{
+    return fileExists(getImageLocalCachePathAndFileName(rp, toString(z), imageType));
+}
+
 string RenderLocalCache::getRenderProjectLocalDataRoot(const RenderProject& rp) const
 {
     stringstream s;
@@ -54,11 +59,11 @@ string RenderLocalCache::getImageLocalCachePathAndFileName(const RenderProject& 
     string theZ = z.size() > 0 ? z : toString(roi.getZ());
     //Construct filePath
 	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
-    s 	<< mCacheRoot << "\\"<<rp.getProjectOwner()
-    	<<"\\"<<rp.getRenderProjectName()
-        <<"\\"<<rp.getSelectedStackName()
-        <<"\\"<<roi.getX1()<<","<<roi.getY1()<<","<<roi.getWidth()<<","<<roi.getHeight()<<"\\"
-        <<theZ<<"_"<< rp.getMinIntensity()<<"_"<<rp.getMaxIntensity()<<"_"<<roi.getScale();
+    s << mCacheRoot << "\\"<<rp.getProjectOwner()
+      <<"\\"<<rp.getRenderProjectName()
+      <<"\\"<<rp.getSelectedStackName()
+      <<"\\"<<roi.getX1()<<","<<roi.getY1()<<","<<roi.getWidth()<<","<<roi.getHeight()<<"\\"
+      <<theZ<<"_"<< rp.getMinIntensity()<<"_"<<rp.getMaxIntensity()<<"_"<<roi.getScale();
 
         //Channels
         StringList channels = rp.getSelectedChannelName();
@@ -80,15 +85,8 @@ string RenderLocalCache::getImageLocalCachePathAndFileName(const RenderProject& 
 			s << ".tiff";
         }
 
-
     return s.str();
 }
-
-
-//void RenderLocalCache::setRenderProject(const RenderProject& rp)
-//{
-//    mRP = &rp;
-//}
 
 void RenderLocalCache::setBasePath(const string& bp)
 {

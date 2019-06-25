@@ -7,6 +7,21 @@
 
 using namespace dsl;
 
+string getStringFromSelectedCB(TCheckListBox* b)
+{
+    string fName("");
+    if(b->ItemIndex != -1)
+    {
+    	string* s = (string*) b->Items->Objects[b->ItemIndex];
+        if(s)
+        {
+            fName = *s;
+        }
+    }
+
+    return fName;
+}
+
 TTabSheet* getTabWithCaption(const string& c, TPageControl* pc)
 {
     if(!pc)
