@@ -1,8 +1,8 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 1345
-  Height = 792
+  Width = 1306
+  Height = 844
   Align = alClient
   TabOrder = 0
   OnMouseDown = MouseDown
@@ -12,7 +12,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 0
     Top = 0
     Width = 429
-    Height = 792
+    Height = 844
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -20,7 +20,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 1
       Top = 1
       Width = 307
-      Height = 790
+      Height = 842
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -325,7 +325,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 120
-      Height = 790
+      Height = 842
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -333,7 +333,7 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 1
         Top = 1
         Width = 118
-        Height = 650
+        Height = 840
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
@@ -348,27 +348,30 @@ object RenderProjectFrame: TRenderProjectFrame
           PopupMenu = ZsPopUpMenu
           TabOrder = 0
           OnClick = ClickZ
+          ExplicitLeft = 21
+          ExplicitTop = -47
         end
         object GroupBox2: TGroupBox
           Left = 2
-          Top = 300
+          Top = 438
           Width = 114
-          Height = 348
+          Height = 400
           Align = alClient
           Caption = 'Tiff Stacks && MIP'#39's'
           TabOrder = 1
-          ExplicitHeight = 375
+          ExplicitTop = 300
+          ExplicitHeight = 348
           object OtherCB: TCheckListBox
             Left = 2
             Top = 161
             Width = 110
-            Height = 185
+            Height = 237
             Align = alClient
             ItemHeight = 13
             PopupMenu = OtherPopupMenu
             TabOrder = 0
             OnDblClick = OtherCBDblClick
-            ExplicitHeight = 212
+            ExplicitHeight = 185
           end
           object StacksCB: TCheckListBox
             Left = 2
@@ -382,33 +385,35 @@ object RenderProjectFrame: TRenderProjectFrame
             OnClick = CheckBoxClick
           end
         end
-      end
-      object CacheGB: TGroupBox
-        Left = 1
-        Top = 651
-        Width = 118
-        Height = 138
-        Align = alBottom
-        Caption = 'Local Cache'
-        TabOrder = 1
-        ExplicitTop = 164
-        object FetchSelectedZsBtn: TButton
-          Left = 5
-          Top = 19
-          Width = 86
-          Height = 50
-          Caption = 'Generate'
-          TabOrder = 0
-          OnClick = FetchSelectedZsBtnClick
-        end
-        object ClearCacheBtn: TButton
-          Left = 5
-          Top = 75
-          Width = 86
-          Height = 50
-          Caption = 'Clear'
-          TabOrder = 1
-          OnClick = FetchSelectedZsBtnClick
+        object CacheGB: TGroupBox
+          Left = 2
+          Top = 300
+          Width = 114
+          Height = 138
+          Align = alTop
+          Caption = 'Local Cache'
+          TabOrder = 2
+          ExplicitLeft = 1
+          ExplicitTop = 1
+          ExplicitWidth = 118
+          object FetchSelectedZsBtn: TButton
+            Left = 5
+            Top = 19
+            Width = 86
+            Height = 50
+            Caption = 'Generate'
+            TabOrder = 0
+            OnClick = FetchSelectedZsBtnClick
+          end
+          object ClearCacheBtn: TButton
+            Left = 5
+            Top = 75
+            Width = 86
+            Height = 50
+            Caption = 'Clear'
+            TabOrder = 1
+            OnClick = FetchSelectedZsBtnClick
+          end
         end
       end
     end
@@ -416,8 +421,8 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 429
     Top = 0
-    Width = 916
-    Height = 792
+    Width = 877
+    Height = 844
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
@@ -431,8 +436,8 @@ object RenderProjectFrame: TRenderProjectFrame
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 908
-        Height = 743
+        Width = 869
+        Height = 795
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -444,13 +449,13 @@ object RenderProjectFrame: TRenderProjectFrame
         ExplicitWidth = 14
         ExplicitHeight = 256
         DesignSize = (
-          908
-          743)
+          869
+          795)
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 906
-          Height = 724
+          Width = 867
+          Height = 776
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -463,8 +468,8 @@ object RenderProjectFrame: TRenderProjectFrame
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 906
-          Height = 724
+          Width = 867
+          Height = 776
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16512,8 +16517,8 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 725
-          Width = 906
+          Top = 777
+          Width = 867
           Height = 17
           Align = alBottom
           Sections = <
@@ -16548,7 +16553,7 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object mZoomFactor: TIntegerEdit
           Left = 17
-          Top = 698
+          Top = 750
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -16570,8 +16575,8 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object URLE: TSTDStringEdit
         Left = 0
-        Top = 743
-        Width = 908
+        Top = 795
+        Width = 869
         Height = 21
         Align = alBottom
         TabOrder = 1

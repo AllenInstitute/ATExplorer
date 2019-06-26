@@ -23,12 +23,13 @@ mImageURL(""),
 mZ(-1)
 {}
 
-void FetchImageThread::setup(const string& url, const string& cacheFolder, int z)
+void FetchImageThread::setup(const string& url, const string& cacheFolder, const string& z)
 {
 	mExtraParameters.clear();
 	mImageURL = url;
     mCacheRootFolder = cacheFolder;
-    mZ = z;
+    mZString = z;
+    mZ = toInt(z);
 }
 
 void FetchImageThread::setChannel(const string& ch)
@@ -156,7 +157,7 @@ void FetchImageThread::worker()
     //Transfer image to UI
     if(onImage)
     {
-        onImage(this,  &mZ);
+        onImage(this,  &mZString);
     }
 
     mIsTimeToDie = true;

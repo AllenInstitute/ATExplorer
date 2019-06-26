@@ -4,6 +4,7 @@
 #include "dslLogger.h"
 #include "atATExplorer.h"
 #include <memory>
+#include "Poco/Exception.h"
 //---------------------------------------------------------------------------
 using namespace at;
 using namespace dsl;
@@ -41,10 +42,19 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->ShowException(&exception);
 	}
-    catch(DSLException& e)
+    catch(const DSLException& e)
 	{
         stringstream s;
         s << "There was a DSL exception: \n";
+        s << e.what();
+        s <<"\n\nProgram will now exit";
+        MessageDlg(s.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
+        Log(lError) << s.str() << e.what();
+    }
+    catch(const Poco::PathSyntaxException& e)
+    {
+        stringstream s;
+        s << "There was a Poco exception: \n";
         s << e.what();
         s <<"\n\nProgram will now exit";
         MessageDlg(s.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);

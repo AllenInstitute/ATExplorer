@@ -54,7 +54,7 @@ class ATE_CORE RenderClient : public RESTClient
                                                     //Todo, init with RenderLayer object
 		bool							            init(
                                                          const string& imageType     	= "jpeg-image",
-                                                         int z 					    	= 0,
+                                                         //int z 					    	= 0,
                                                          double scale 			    	= 0.01,
                                                          int minInt						= 0,
                                                          int maxInt						= 65535
@@ -75,7 +75,7 @@ class ATE_CORE RenderClient : public RESTClient
 		void				                        clearImageMemory();
 
         TMemoryStream*		                        getImage(int z = 0);
-        bool				                        getImageInThread(int z , StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
+        bool				                        getImageInThread(const string& z , StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
 
         string							            getURLForZ(int z, const RenderProject& rp);
 		RegionOfInterest 						    getLayerBoundsForZ(int z, RenderProject& rp);
@@ -94,7 +94,7 @@ class ATE_CORE RenderClient : public RESTClient
         											//!List of bounds
         vector<RegionOfInterest>				    mLayerBounds;
 
-    	int				                            mZ;
+//    	int				                            mZ;
         double				                        mScale;
         string 			                            mImageType;
         int								            mMinIntensity;

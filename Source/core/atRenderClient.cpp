@@ -50,10 +50,10 @@ void RenderClient::createRESTServiceParameters(const string& host)
 	mServiceParameters = new RenderServiceParameters(host);
 }
 
-bool RenderClient::init(const string& imageType, int z, double scale, int minInt, int maxInt)
+bool RenderClient::init(const string& imageType, double scale, int minInt, int maxInt)
 {
     mImageType = (imageType);
-    mZ = (z);
+//    mZ = (z);
 	mScale = (scale);
 	mMinIntensity = (minInt);
 	mMaxIntensity = (maxInt);
@@ -90,7 +90,7 @@ void RenderClient::assignOnImageCallback(RCCallBack cb)
 	mFetchImageThread->onImage = cb;
 }
 
-bool RenderClient::getImageInThread(int z, StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp)
+bool RenderClient::getImageInThread(const string& z, StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp)
 {
 
     if(!mFetchImageThread)
@@ -103,14 +103,12 @@ bool RenderClient::getImageInThread(int z, StringList& paras, const string& chan
         Log(lWarning) << "Image thread is not finished";
     }
 
-	mZ = z;
-
 	if(!mImageMemory)
     {
 		mImageMemory = new TMemoryStream();
     }
 
-	mFetchImageThread->setup(getURLForZ(z, rp), cache.getBasePath(), z);
+	mFetchImageThread->setup(getURLForZ(toInt(z), rp), cache.getBasePath(), z);
     mFetchImageThread->addParameters(paras);
     mFetchImageThread->setChannel(channel);
 	mFetchImageThread->start(true);

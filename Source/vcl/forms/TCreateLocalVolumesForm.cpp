@@ -172,7 +172,7 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
 
 
-                mRC.init(getImageType(), z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+                mRC.init(getImageType(), mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
                 //Create image URLs
                 StringList urls;

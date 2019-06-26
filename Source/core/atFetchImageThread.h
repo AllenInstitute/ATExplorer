@@ -20,7 +20,7 @@ class ATE_CORE FetchImageThread : public dsl::Thread
 {
 	public:
 							                FetchImageThread(const RenderProject& rp, RenderClient& rc, const RenderLocalCache& cache);
-		void				                setup(const string& url, const string& cacheFolder, int z);
+		void				                setup(const string& url, const string& cacheFolder, const string& z);
 		virtual void                        run();
         void				                addParameters(const StringList& paras);
         void				                setChannel(const string& ch);
@@ -30,18 +30,18 @@ class ATE_CORE FetchImageThread : public dsl::Thread
 		void				                worker();
         string                              getFullPathAndFileName();
         FITCallBack                         onImage;
+
 	private:
     	string								mImageURL;
-
         CURL*								curl_handle;
 
-
+        int                                 mZ;
+        string                              mZString;
 		const RenderLocalCache&             mCache;
         const RenderProject&                mRP;
         string								mCacheRootFolder;
         StringList                          mExtraParameters;
         string                              mChannel;
-        int                                 mZ;
 
         					                //A renderclient is host, manager for this thread. Give it the memory that is retrieved
         RenderClient&		                mRenderClient;

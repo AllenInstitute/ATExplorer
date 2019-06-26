@@ -123,18 +123,23 @@ void TRenderProjectFrame::fetchImagesOnProgress(void* arg1, void* arg2)
 //This is called from a thread and need to be synchronized with the UI main thread
 void TRenderProjectFrame::onImage(void* arg1, void* arg2)
 {
-    int& count = * ( (int*) arg2);
-    string z = stdstr(mZs->Items->Strings[count]);
+    string& zStr = * ( (string*) arg2);
+    int zIndex = mZs->Items->IndexOf(vclstr(zStr));
 
+    if(zIndex == -1)
+    {
+        Log(lError) << "Bad zIndex in onImage";
+        return;
+    }
     if(!fileExists(mRC.mFetchImageThread->getFullPathAndFileName()))
     {
         Log(lError) << "File does not exist: " << mRC.mFetchImageThread->getFullPathAndFileName();
         return;
     }
 
-    if(mExplorer.Cache.checkPresence(mRP, toInt(z), "jpeg-image"))
+    if(mExplorer.Cache.checkPresence(mRP, toInt(zStr), "jpeg-image"))
     {
-        mZs->Checked[count] = true;
+        mZs->Checked[zIndex] = true;
     }
 
 	mCurrentImageFile = mRC.mFetchImageThread->getFullPathAndFileName();
@@ -266,11 +271,11 @@ void __fastcall TRenderProjectFrame::ClickZ(TObject *Sender)
     	return;
     }
 
-    int z = toInt(stdstr(mZs->Items->Strings[mZs->ItemIndex]));
-    mRP.setSelectedSection(z);
+    string z = stdstr(mZs->Items->Strings[mZs->ItemIndex]);
+    mRP.setSelectedSection(toInt(z));
 
     //Fetch data using URL
-	mRC.init("jpeg-image", z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+	mRC.init("jpeg-image", mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
     if(VisualsPC->Pages[VisualsPC->TabIndex] == TabSheet2)
     {
@@ -496,7 +501,7 @@ void __fastcall TRenderProjectFrame::FetchSelectedZsBtnClick(TObject *Sender)
             int z = toInt(stdstr(mZs->Items->Strings[0]));
             RenderClient rc;
             rc.setRenderServiceParameters(*rs);
-            rc.init(imageType, z, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
+            rc.init(imageType, mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
             //Create image URLs
             StringList urls;
