@@ -2,7 +2,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
   Left = 0
   Top = 0
   Caption = 'Create Volumes'
-  ClientHeight = 355
+  ClientHeight = 373
   ClientWidth = 825
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,11 +21,12 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 311
+    Top = 329
     Width = 825
     Height = 44
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 311
     DesignSize = (
       825
       44)
@@ -55,61 +56,66 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
     Left = 0
     Top = 0
     Width = 825
-    Height = 311
+    Height = 329
     Align = alClient
     Constraints.MinHeight = 311
     TabOrder = 1
+    ExplicitHeight = 311
     object Splitter1: TSplitter
       Left = 230
       Top = 1
-      Height = 309
+      Height = 327
       ExplicitLeft = 152
       ExplicitTop = -4
-      ExplicitHeight = 327
     end
     object Zs_GB: TGroupBox
       Left = 512
       Top = 1
       Width = 94
-      Height = 309
+      Height = 327
       Align = alLeft
       Caption = 'Sections'
       TabOrder = 0
+      ExplicitHeight = 309
       object mZs: TCheckListBox
         Left = 2
         Top = 15
         Width = 90
-        Height = 292
+        Height = 310
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
+        ExplicitHeight = 292
       end
     end
     object RenderStacksCB: TCheckListBox
       Left = 1
       Top = 1
       Width = 229
-      Height = 309
+      Height = 327
       Align = alLeft
       ItemHeight = 13
       TabOrder = 1
       OnClick = RenderStacksCBClick
+      ExplicitHeight = 309
     end
     object Panel2: TPanel
       Left = 233
       Top = 1
       Width = 279
-      Height = 309
+      Height = 327
       Align = alLeft
       TabOrder = 2
+      ExplicitHeight = 309
       object imageParasGB: TGroupBox
         Left = 1
-        Top = 157
+        Top = 175
         Width = 277
         Height = 151
         Align = alBottom
         Caption = 'Region of Interest (ROI)'
         TabOrder = 0
+        ExplicitTop = 157
         object mScaleE: TFloatLabeledEdit
           Left = 16
           Top = 34
@@ -205,10 +211,11 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
         Left = 1
         Top = 1
         Width = 277
-        Height = 156
+        Height = 174
         Align = alClient
         Caption = 'Image Output'
         TabOrder = 1
+        ExplicitHeight = 156
         object Label4: TLabel
           Left = 71
           Top = 59
@@ -262,9 +269,10 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       Left = 606
       Top = 1
       Width = 218
-      Height = 309
+      Height = 327
       Align = alClient
       TabOrder = 3
+      ExplicitHeight = 309
     end
   end
   object CreateStacksTimer: TTimer
