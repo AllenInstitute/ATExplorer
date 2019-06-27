@@ -52,8 +52,8 @@ class ATE_CORE RegionOfInterest : public ExplorerObject
 		void							setHeight(int h);
         int  							getHeight() const;
 
-        void							setZ(int z);
-        int 							getZ() const;
+        void							setZ(const string& z);
+        const string&					getZ() const;
 
         void							setScale(double s);
         double							getScale() const;
@@ -64,7 +64,8 @@ class ATE_CORE RegionOfInterest : public ExplorerObject
 		bool 							loadFromXML(dsl::XMLNode* node);
 
 	protected:
-    	int								mZ;
+//    	int								mZ;
+    	string							mZ;
 	    double                          mX;
     	double                          mY;
 	    int                             mWidth;

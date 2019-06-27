@@ -26,7 +26,6 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
     Height = 44
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 311
     DesignSize = (
       825
       44)
@@ -40,7 +39,7 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       TabOrder = 0
       OnClick = RunBtnClick
     end
-    object Button2: TButton
+    object CloseBtn: TButton
       Left = 742
       Top = 9
       Width = 75
@@ -49,7 +48,15 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
       Caption = 'Close'
       ModalResult = 1
       TabOrder = 1
-      OnClick = Button2Click
+      OnClick = CloseBtnClick
+    end
+    object RemoveSectionsCB: TPropertyCheckBox
+      Left = 108
+      Top = 17
+      Width = 148
+      Height = 17
+      Caption = 'Cleanup Duplicates'
+      TabOrder = 2
     end
   end
   object MainPanel: TPanel
@@ -60,23 +67,21 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
     Align = alClient
     Constraints.MinHeight = 311
     TabOrder = 1
-    ExplicitHeight = 311
     object Splitter1: TSplitter
-      Left = 230
+      Left = 186
       Top = 1
       Height = 327
       ExplicitLeft = 152
       ExplicitTop = -4
     end
     object Zs_GB: TGroupBox
-      Left = 512
+      Left = 468
       Top = 1
       Width = 94
       Height = 327
       Align = alLeft
       Caption = 'Sections'
       TabOrder = 0
-      ExplicitHeight = 309
       object mZs: TCheckListBox
         Left = 2
         Top = 15
@@ -85,37 +90,23 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
-        ExplicitHeight = 292
       end
     end
-    object RenderStacksCB: TCheckListBox
-      Left = 1
-      Top = 1
-      Width = 229
-      Height = 327
-      Align = alLeft
-      ItemHeight = 13
-      TabOrder = 1
-      OnClick = RenderStacksCBClick
-      ExplicitHeight = 309
-    end
     object Panel2: TPanel
-      Left = 233
+      Left = 189
       Top = 1
       Width = 279
       Height = 327
       Align = alLeft
-      TabOrder = 2
-      ExplicitHeight = 309
+      TabOrder = 1
       object imageParasGB: TGroupBox
         Left = 1
-        Top = 175
+        Top = 160
         Width = 277
-        Height = 151
+        Height = 166
         Align = alBottom
         Caption = 'Region of Interest (ROI)'
         TabOrder = 0
-        ExplicitTop = 157
         object mScaleE: TFloatLabeledEdit
           Left = 16
           Top = 34
@@ -211,24 +202,15 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
         Left = 1
         Top = 1
         Width = 277
-        Height = 174
+        Height = 159
         Align = alClient
         Caption = 'Image Output'
         TabOrder = 1
-        ExplicitHeight = 156
-        object Label4: TLabel
-          Left = 71
-          Top = 59
-          Width = 55
-          Height = 13
-          Caption = 'Image type'
-          Enabled = False
-          Visible = False
-        end
+        ExplicitHeight = 168
         object ImageTypeRG: TRadioGroup
           Left = 5
-          Top = 14
-          Width = 133
+          Top = 27
+          Width = 100
           Height = 99
           Caption = 'Image Format'
           ItemIndex = 0
@@ -236,43 +218,65 @@ object CreateLocalVolumesForm: TCreateLocalVolumesForm
             'JPEG'
             'TIFF'
             'PNG')
-          TabOrder = 1
-          OnClick = ImageTypeRGClick
-        end
-        object ImageTypeCB: TComboBox
-          Left = 71
-          Top = 78
-          Width = 55
-          Height = 21
-          Style = csDropDownList
-          Enabled = False
-          ItemIndex = 1
           TabOrder = 0
-          Text = '16 bit'
-          Visible = False
-          Items.Strings = (
-            '24 bit (RGB)'
-            '16 bit'
-            '8 bit')
-        end
-        object RemoveSectionsCB: TPropertyCheckBox
-          Left = 5
-          Top = 119
-          Width = 148
-          Height = 17
-          Caption = 'Cleanup Duplicates'
-          TabOrder = 2
         end
       end
     end
     object ThreadsPanel: TScrollBox
-      Left = 606
+      Left = 562
       Top = 1
-      Width = 218
+      Width = 262
       Height = 327
       Align = alClient
+      TabOrder = 2
+    end
+    object Panel3: TPanel
+      Left = 1
+      Top = 1
+      Width = 185
+      Height = 327
+      Align = alLeft
       TabOrder = 3
-      ExplicitHeight = 309
+      object GroupBox3: TGroupBox
+        Left = 1
+        Top = 65
+        Width = 183
+        Height = 261
+        Align = alClient
+        Caption = 'Channels'
+        TabOrder = 0
+        object ChannelsCB: TCheckListBox
+          Left = 2
+          Top = 15
+          Width = 179
+          Height = 244
+          Align = alClient
+          ItemHeight = 13
+          TabOrder = 0
+          OnClick = ChannelsCBClick
+        end
+      end
+      object GroupBox2: TGroupBox
+        Left = 1
+        Top = 1
+        Width = 183
+        Height = 64
+        Align = alTop
+        Caption = 'Stack'
+        TabOrder = 1
+        object StackCB: TComboBox
+          Left = 5
+          Top = 27
+          Width = 173
+          Height = 21
+          Hint = 'Test'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          Text = 'StackCB'
+          OnChange = StackCBChange
+        end
+      end
     end
   end
   object CreateStacksTimer: TTimer

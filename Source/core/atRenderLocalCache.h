@@ -16,14 +16,15 @@ class ATE_CORE RenderLocalCache : public ExplorerObject
 
         double        		            getLowestResolutionInCache(const RenderProject& rp, const RegionOfInterest& roi) const;
 
-        bool                            checkPresence(const RenderProject& rp, int z, const string& imageType);
+        bool                            checkPresence(const RenderProject& rp, const string& z, const string& imageType);
 
         string                          getBasePath() const;
         void                            setBasePath(const string& bp);
-        string                          getFileNameForZ(int z, const RenderProject& rp) const;
+        string                          getFileNameForZ(const string& z, const RenderProject& rp) const;
 
         string                          getImageLocalCachePath(const RenderProject& rp) const;
-        string                          getImageLocalCachePathAndFileName(const RenderProject& rp, const string& z = gEmptyString, const string& imageType = "jpeg-image") const;
+        string                          getImageLocalCachePathAndFileName(const RenderProject& rp, const string& z = gEmptyString, const string& imageType = "jpeg-image", const string& channelName = gEmptyString) const;
+
         string                          getRenderProjectLocalDataRoot(const RenderProject& rp) const;
 
         string 		                    getImageLocalCachePathFromURL(const string& url, const string& cachefolder) const;

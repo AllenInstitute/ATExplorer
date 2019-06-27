@@ -22,6 +22,7 @@ class ATE_CORE FetchImagesThread : public dsl::Thread
 		void				                setup(const StringList& urls);
         void                                assignCallBacks(FITCallBack one, FITCallBack two, FITCallBack three);
         string                              getRenderStackName();
+        string                              getChannelName(){return mChannel;}
 		virtual void                        run();
         void				                assignUrls(const StringList& urls);
         void				                setChannel(const string& ch);

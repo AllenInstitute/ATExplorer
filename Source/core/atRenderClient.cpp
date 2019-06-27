@@ -108,7 +108,7 @@ bool RenderClient::getImageInThread(const string& z, StringList& paras, const st
 		mImageMemory = new TMemoryStream();
     }
 
-	mFetchImageThread->setup(getURLForZ(toInt(z), rp), cache.getBasePath(), z);
+	mFetchImageThread->setup(getURLForZ(z, rp), cache.getBasePath(), z);
     mFetchImageThread->addParameters(paras);
     mFetchImageThread->setChannel(channel);
 	mFetchImageThread->start(true);
@@ -121,7 +121,7 @@ TMemoryStream* RenderClient::getImageMemory()
 }
 
 //Move to stack API
-RegionOfInterest RenderClient::getLayerBoundsForZ(int z, RenderProject& rp)
+RegionOfInterest RenderClient::getLayerBoundsForZ(const string& z, RenderProject& rp)
 {
     return StackDataAPI.getLayerBoundsForZ(rp, z);
 }
@@ -137,7 +137,7 @@ void RenderClient::clearImageMemory()
     mImageMemory = NULL;
 }
 
-string RenderClient::getURLForZ(int z, const RenderProject& rp)
+string RenderClient::getURLForZ(const string& z, const RenderProject& rp)
 {
 	stringstream sUrl;
     const RegionOfInterest& roi = rp.getRegionOfInterest();

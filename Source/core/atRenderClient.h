@@ -77,8 +77,8 @@ class ATE_CORE RenderClient : public RESTClient
         TMemoryStream*		                        getImage(int z = 0);
         bool				                        getImageInThread(const string& z , StringList& paras, const string& channel, const RenderLocalCache& cache, const RenderProject& rp);
 
-        string							            getURLForZ(int z, const RenderProject& rp);
-		RegionOfInterest 						    getLayerBoundsForZ(int z, RenderProject& rp);
+        string							            getURLForZ(const string& z, const RenderProject& rp);
+		RegionOfInterest 						    getLayerBoundsForZ(const string& z, RenderProject& rp);
         RegionOfInterest						    getOptimalXYBoxForZs(const vector<int>& zs = vector<int>(0));
 	    vector<RegionOfInterest>				    getLayerBounds();
         shared_ptr<FetchImageThread>				mFetchImageThread;

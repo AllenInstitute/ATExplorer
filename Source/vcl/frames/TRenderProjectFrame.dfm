@@ -1,8 +1,8 @@
 object RenderProjectFrame: TRenderProjectFrame
   Left = 0
   Top = 0
-  Width = 1306
-  Height = 844
+  Width = 1143
+  Height = 703
   Align = alClient
   TabOrder = 0
   OnMouseDown = MouseDown
@@ -12,7 +12,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 0
     Top = 0
     Width = 429
-    Height = 844
+    Height = 703
     Align = alLeft
     TabOrder = 0
     ExplicitHeight = 305
@@ -20,7 +20,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 1
       Top = 1
       Width = 307
-      Height = 842
+      Height = 701
       VertScrollBar.Margin = 5
       VertScrollBar.Smooth = True
       VertScrollBar.Style = ssFlat
@@ -38,8 +38,8 @@ object RenderProjectFrame: TRenderProjectFrame
         TabOrder = 0
         ExplicitWidth = 286
         object Label3: TLabel
-          Left = 12
-          Top = 159
+          Left = 13
+          Top = 154
           Width = 31
           Height = 13
           Caption = 'Stacks'
@@ -254,17 +254,6 @@ object RenderProjectFrame: TRenderProjectFrame
         Caption = 'ROI'#39's'
         TabOrder = 2
         ExplicitWidth = 286
-        object ROI_CB: TCheckListBox
-          Left = 2
-          Top = 15
-          Width = 299
-          Height = 110
-          Align = alClient
-          ItemHeight = 13
-          TabOrder = 0
-          OnClick = ROI_CBClick
-          ExplicitWidth = 282
-        end
         object Panel4: TPanel
           Left = 2
           Top = 125
@@ -274,15 +263,25 @@ object RenderProjectFrame: TRenderProjectFrame
           BevelOuter = bvNone
           TabOrder = 1
           ExplicitWidth = 282
-          object Button1: TButton
+          object RefreshROIsBtn: TButton
             Left = 15
             Top = 6
             Width = 75
             Height = 25
             Caption = 'Refresh'
             TabOrder = 0
-            OnClick = Button1Click
+            OnClick = RefreshROIsBtnClick
           end
+        end
+        object ROI_CB: TListBox
+          Left = 2
+          Top = 15
+          Width = 299
+          Height = 110
+          Align = alClient
+          ItemHeight = 13
+          TabOrder = 0
+          OnClick = ROI_CBClick
         end
       end
       object GroupBox5: TGroupBox
@@ -325,7 +324,7 @@ object RenderProjectFrame: TRenderProjectFrame
       Left = 308
       Top = 1
       Width = 120
-      Height = 842
+      Height = 701
       Align = alRight
       TabOrder = 1
       ExplicitHeight = 303
@@ -333,11 +332,11 @@ object RenderProjectFrame: TRenderProjectFrame
         Left = 1
         Top = 1
         Width = 118
-        Height = 840
+        Height = 699
         Align = alClient
         Caption = 'Sections'
         TabOrder = 0
-        ExplicitHeight = 163
+        ExplicitHeight = 301
         object mZs: TCheckListBox
           Left = 2
           Top = 15
@@ -348,30 +347,29 @@ object RenderProjectFrame: TRenderProjectFrame
           PopupMenu = ZsPopUpMenu
           TabOrder = 0
           OnClick = ClickZ
-          ExplicitLeft = 21
-          ExplicitTop = -47
+          ExplicitLeft = 1
+          ExplicitTop = 9
         end
         object GroupBox2: TGroupBox
           Left = 2
           Top = 438
           Width = 114
-          Height = 400
+          Height = 259
           Align = alClient
           Caption = 'Tiff Stacks && MIP'#39's'
           TabOrder = 1
-          ExplicitTop = 300
-          ExplicitHeight = 348
+          ExplicitHeight = 378
           object OtherCB: TCheckListBox
             Left = 2
             Top = 161
             Width = 110
-            Height = 237
+            Height = 96
             Align = alClient
             ItemHeight = 13
             PopupMenu = OtherPopupMenu
             TabOrder = 0
             OnDblClick = OtherCBDblClick
-            ExplicitHeight = 185
+            ExplicitHeight = 215
           end
           object StacksCB: TCheckListBox
             Left = 2
@@ -393,9 +391,6 @@ object RenderProjectFrame: TRenderProjectFrame
           Align = alTop
           Caption = 'Local Cache'
           TabOrder = 2
-          ExplicitLeft = 1
-          ExplicitTop = 1
-          ExplicitWidth = 118
           object FetchSelectedZsBtn: TButton
             Left = 5
             Top = 19
@@ -421,8 +416,8 @@ object RenderProjectFrame: TRenderProjectFrame
   object VisualsPC: TPageControl
     Left = 429
     Top = 0
-    Width = 877
-    Height = 844
+    Width = 714
+    Height = 703
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
@@ -436,8 +431,8 @@ object RenderProjectFrame: TRenderProjectFrame
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 869
-        Height = 795
+        Width = 706
+        Height = 654
         Align = alClient
         Color = clSkyBlue
         DoubleBuffered = True
@@ -449,13 +444,13 @@ object RenderProjectFrame: TRenderProjectFrame
         ExplicitWidth = 14
         ExplicitHeight = 256
         DesignSize = (
-          869
-          795)
+          706
+          654)
         object PaintBox1: TPaintBox
           Left = 1
           Top = 1
-          Width = 867
-          Height = 776
+          Width = 704
+          Height = 635
           Align = alClient
           Color = clRed
           ParentColor = False
@@ -463,13 +458,12 @@ object RenderProjectFrame: TRenderProjectFrame
           ExplicitLeft = 278
           ExplicitTop = -1
           ExplicitWidth = 711
-          ExplicitHeight = 635
         end
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 867
-          Height = 776
+          Width = 704
+          Height = 635
           Align = alClient
           Picture.Data = {
             0954574943496D61676549492A0002CD07006465686867676B69646966636767
@@ -16517,8 +16511,8 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object HeaderControl1: THeaderControl
           Left = 1
-          Top = 777
-          Width = 867
+          Top = 636
+          Width = 704
           Height = 17
           Align = alBottom
           Sections = <
@@ -16553,7 +16547,7 @@ object RenderProjectFrame: TRenderProjectFrame
         end
         object mZoomFactor: TIntegerEdit
           Left = 17
-          Top = 750
+          Top = 609
           Width = 32
           Height = 21
           Anchors = [akLeft, akBottom]
@@ -16575,8 +16569,8 @@ object RenderProjectFrame: TRenderProjectFrame
       end
       object URLE: TSTDStringEdit
         Left = 0
-        Top = 795
-        Width = 869
+        Top = 654
+        Width = 706
         Height = 21
         Align = alBottom
         TabOrder = 1
@@ -16692,7 +16686,7 @@ object RenderProjectFrame: TRenderProjectFrame
     end
   end
   object ROIPopupMenu: TPopupMenu
-    Left = 63
+    Left = 103
     Top = 428
     object OpenROIInExplorer: TMenuItem
       Action = OpenInExplorerA
@@ -16706,7 +16700,7 @@ object RenderProjectFrame: TRenderProjectFrame
     Left = 537
     Top = 680
     object CreateSubVolume1: TMenuItem
-      Caption = 'Create Cutout'
+      Caption = 'Create Multi Channel Cutout'
       OnClick = openVolumesForm
     end
   end

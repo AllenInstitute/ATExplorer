@@ -173,13 +173,13 @@ bool RenderProject::setSelectedChannelName(const string& s)
     return true;
 }
 
-bool RenderProject::setSelectedSection(int secNr)
+bool RenderProject::setSelectedSection(const string& secNr)
 {
 	mCurrentROI.setZ(secNr);
     return true;
 }
 
-int RenderProject::getSelectedSection() const
+const string& RenderProject::getSelectedSection() const
 {
 	return mCurrentROI.getZ();
 }

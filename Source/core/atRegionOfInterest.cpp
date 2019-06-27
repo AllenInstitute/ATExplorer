@@ -15,7 +15,7 @@ using namespace dsl;
 
 RegionOfInterest::RegionOfInterest(const string& _box, double scale)
 :
-mZ(0),
+mZ(""),
 onChange(NULL)
 {
 	//-4515,-2739,9027,5472,0.1338
@@ -35,7 +35,7 @@ onChange(NULL)
 
 RegionOfInterest::RegionOfInterest(int x, int y, int width, int height, double scale)
 :
-mZ(0),
+mZ(""),
 mX(x),
 mY(y),
 mWidth(width),
@@ -143,8 +143,8 @@ int RegionOfInterest::getY2() const {return mY + mHeight;}
 void  RegionOfInterest::setHeight(int h){mHeight = h;}
 int RegionOfInterest::getHeight() const {return mHeight;}
 
-void  RegionOfInterest::setZ(int z){mZ = z;}
-int RegionOfInterest::getZ() const {return mZ;}
+void  RegionOfInterest::setZ(const string& z){mZ = z;}
+const string& RegionOfInterest::getZ() const {return mZ;}
 
 void  RegionOfInterest::setScale(double s){mScale = s;}
 double RegionOfInterest::getScale() const {return mScale;}
@@ -193,7 +193,7 @@ XMLElement* RegionOfInterest::addToXMLDocumentAsChild(dsl::XMLDocument& doc, dsl
 
     XMLElement* val(nullptr);
     val = doc.NewElement("z");
-    val->SetText(mZ);
+    val->SetText(mZ.c_str());
     roi->InsertEndChild(val);
 
     val = doc.NewElement("x");
@@ -227,7 +227,7 @@ bool RegionOfInterest::loadFromXML(dsl::XMLNode* node)
     e = node->FirstChildElement("z");
     if(e)
     {
-    	mZ = (e->GetText() ? dsl::toInt(e->GetText()) : 0);
+    	mZ = (e->GetText() ? e->GetText() : "");
     }
 
     e = node->FirstChildElement("x");

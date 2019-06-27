@@ -66,9 +66,8 @@ class PACKAGE TRenderProjectFrame : public TFrame
         TIntegerLabeledEdit *MinIntensityE;
         TFloatLabeledEdit *ScaleConstantE;
         TGroupBox *GroupBox9;
-        TCheckListBox *ROI_CB;
         TPanel *Panel4;
-        TButton *Button1;
+	TButton *RefreshROIsBtn;
         TPanel *ZsPanel;
         TGroupBox *Zs_GB;
         TCheckListBox *mZs;
@@ -125,6 +124,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	TMenuItem *CreateSubVolume1;
 	TCheckBox *ShowImageGridCB;
 	TButton *RefreshStacksBtn;
+	TListBox *ROI_CB;
 		void __fastcall StackCBChange(TObject *Sender);
 	void __fastcall ClickZ(TObject *Sender);
 	void __fastcall ResetButtonClick(TObject *Sender);
@@ -152,7 +152,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
 	void __fastcall MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
 	void __fastcall CreateCacheTimerTimer(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall RefreshROIsBtnClick(TObject *Sender);
 	void __fastcall openVolumesForm(TObject *Sender);
 
 	void __fastcall ChannelsCBClick(TObject *Sender);
@@ -196,7 +196,7 @@ class PACKAGE TRenderProjectFrame : public TFrame
         void 											onROIChanged(void* arg1, void* arg2);
         void __fastcall 								roiChanged();
 		void 											checkCache();
-		int												getCurrentZ();
+		const string    								getCurrentZ();
 		void 											updateScale();
 		void 											updateROIs();
 		double 											getImageStretchFactor();

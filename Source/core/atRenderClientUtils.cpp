@@ -10,7 +10,7 @@ using namespace std;
 using namespace at;
 
 //---------------------------------------------------------------------------
-int getImageZFromURL(const string& url)
+string getImageZFromURL(const string& url)
 {
     vector<string> cachePaths = splitStringAtWord(url, "/z/");
     if(cachePaths.size() == 2)
@@ -19,10 +19,10 @@ int getImageZFromURL(const string& url)
 		cachePaths = splitString(cachePaths[1], '/');
         if(cachePaths.size() > 2)
         {
-        	return dsl::toInt(cachePaths[1]);
+        	return cachePaths[1];
         }
     }
-    return -1;
+    return "";
 }
 
 //string getImageLocalCachePathFromURL(const string& url, const string& cacheRootFolder)

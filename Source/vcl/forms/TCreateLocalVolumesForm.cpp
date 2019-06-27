@@ -30,9 +30,27 @@ __fastcall TCreateLocalVolumesForm::TCreateLocalVolumesForm(RenderProject& rp, R
     mImageMagickPath(imageMagickPath)
 {
     mConvertExe = (joinPath(mImageMagickPath, "convert.exe"));
+
+	if(!fileExists(mConvertExe))
+    {
+        stringstream msg;
+        msg << "Image magicks 'convert.exe' was not found in the path:\n";
+        msg << getFilePath(mConvertExe) << endl << endl;
+        msg << "Make sure you have a proper installation of Image Magick! \nThe run button will be disabled..";
+        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
+        this->RunBtn->Enabled = false;
+    }
 }
 
-void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const StringList& checked_stacks)
+//---------------------------------------------------------------------------
+void __fastcall TCreateLocalVolumesForm::FormShow(TObject *Sender)
+{
+    try
+    {}
+    catch(...){}
+}
+
+void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const string& selected_stack)
 {
     mROI = roi;
     mRC.setRenderServiceParameters(mRP.getRenderServiceParameters());
@@ -52,25 +70,13 @@ void TCreateLocalVolumesForm::populate(const RegionOfInterest& roi, const String
     StringList stacks = mRC.StackDataAPI.getStacksForProject(mRP.getProjectOwner(), mRP.getRenderProjectName());
     if(stacks.size())
     {
-	    populateCheckListBox(stacks, RenderStacksCB);
-    }
-
-    //Check stacks from supplied list
-    for(int i = 0; i < checked_stacks.count(); i++)
-    {
-		int iToCheck = RenderStacksCB->Items->IndexOf(checked_stacks[i].c_str());
-        if(iToCheck != -1)
+	    int itemIndex = populateDropDown(stacks, StackCB, selected_stack);
+        if(itemIndex != -1)
         {
-			RenderStacksCB->Checked[iToCheck] = true;
-        }
-
-        if(i == 0 && iToCheck != -1)
-        {
-        	RenderStacksCB->Selected[iToCheck] = true;
-        	RenderStacksCB->ItemIndex = iToCheck;
+			StackCB->ItemIndex = itemIndex;
+            StackCBChange(NULL);
         }
     }
-	RenderStacksCBClick(NULL);
 }
 
 void TCreateLocalVolumesForm::populateZs(const string& stack)
@@ -114,20 +120,7 @@ void __fastcall TCreateLocalVolumesForm::FormClose(TObject *Sender, TCloseAction
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TCreateLocalVolumesForm::ImageTypeRGClick(TObject *Sender)
-{
-    ImageTypeCB->Enabled = false;
-	Label4->Enabled = false;
-
-    if(ImageTypeRG->ItemIndex == 1)
-    {
-        ImageTypeCB->Enabled = true;
-        Label4->Enabled = true;
-    }
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TCreateLocalVolumesForm::Button2Click(TObject *Sender)
+void __fastcall TCreateLocalVolumesForm::CloseBtnClick(TObject *Sender)
 {
     Close();
 }
@@ -160,17 +153,18 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
         StringList paras;
         paras.append(string("&maxTileSpecsToRender=150"));
 
-	    //Create a thread for each stack
-	    for(int i = 0; i < RenderStacksCB->Count; i++)
+	    //Create a thread for each channel
+	    for(int i = 0; i < ChannelsCB->Count; i++)
     	{
-        	if(RenderStacksCB->Checked[i])
+        	if(ChannelsCB->Checked[i])
 	        {
+                string channel = stdstr(ChannelsCB->Items->Strings[i]);
 	            mRP.setRegionOfInterest(mROI);
-                mRP.setSelectedStackName(stdstr(RenderStacksCB->Items->Strings[i]));
+                string stack = stdstr(StackCB->Text);
+                mRP.setSelectedStackName(stack);
 
                 const RenderServiceParameters* rs = mRC.getRenderServiceParameters();
                 int z = toInt(stdstr(mZs->Items->Strings[0]));
-
 
                 mRC.init(getImageType(), mScaleE->getValue(), MinIntensityE->getValue(), MaxIntensityE->getValue());
 
@@ -180,17 +174,16 @@ void __fastcall TCreateLocalVolumesForm::RunBtnClick(TObject *Sender)
                 {
                     if(mZs->Checked[i])
                     {
-                    	int	z = toInt(stdstr(mZs->Items->Strings[i]));
+                    	string z = stdstr(mZs->Items->Strings[i]);
 	                    urls.append(mRC.getURLForZ(z, mRP));
                     }
                 }
-
 
                 shared_ptr<FetchImagesThread> t = shared_ptr<FetchImagesThread>(new FetchImagesThread(mRP, mCache));
         		t->setup(urls);
 	    	    t->addParameters(paras);
                 t->assignCallBacks(onThreadEnter, onThreadProgress, onThreadExit);
-                t->setChannel(mRP.getSelectedChannelName());
+                t->setChannel(channel);
                 t->setImageType(getImageType());
 
                 shared_ptr<TCreateStackThreadFrame> frame = createThreadFrame(t);
@@ -226,12 +219,13 @@ string TCreateLocalVolumesForm::getImageType()
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TCreateLocalVolumesForm::RenderStacksCBClick(TObject *Sender)
+void __fastcall TCreateLocalVolumesForm::ChannelsCBClick(TObject *Sender)
 {
     int checkedCount(0);
-    for(int i = 0; i < RenderStacksCB->Count; i++)
+
+    for(int i = 0; i < ChannelsCB->Count; i++)
     {
-        if(RenderStacksCB->Checked[i])
+        if(ChannelsCB->Checked[i])
         {
 			checkedCount++;
         }
@@ -239,31 +233,32 @@ void __fastcall TCreateLocalVolumesForm::RenderStacksCBClick(TObject *Sender)
 
     //Populate z's
 	RunBtn->Enabled = checkedCount > 0 ? true : false;
-	string stack = stdstr(RenderStacksCB->Items->Strings[RenderStacksCB->ItemIndex]);
 
-    //If we have one checked stack, make sure succesivley checked stacks have the same z's
-    if(checkedCount)
-    {
-       	StringList zs = getValidZsForStack(stack);
-
-		//make sure these z's are the same as the currenttly seleted ones
-       	StringList currentzs = getStrings(mZs);
-
-       	if(zs != currentzs && currentzs.count() != 0)
-       	{
-            MessageDlg("This stack can't be checked as it does not contain the same z's as other checked stacks!", mtError, TMsgDlgButtons() << mbOK, 0);
-            RenderStacksCB->Checked[RenderStacksCB->ItemIndex] = false;
-       	}
-        else
-        {
-			populateZs(stack);
-        }
-    }
-    else
-    {
-    	//Repopulate z's
-	    populateZs(stack);
-    }
+//	//string stack = stdstr(ChannelsCB->Items->Strings[ChannelsCB->ItemIndex]);
+//
+//    //If we have one checked stack, make sure succesivley checked stacks have the same z's
+//    if(checkedCount)
+//    {
+//       	StringList zs = getValidZsForStack(stack);
+//
+//		//make sure these z's are the same as the currenttly seleted ones
+//       	StringList currentzs = getStrings(mZs);
+//
+//       	if(zs != currentzs && currentzs.count() != 0)
+//       	{
+//            MessageDlg("This stack can't be checked as it does not contain the same z's as other checked stacks!", mtError, TMsgDlgButtons() << mbOK, 0);
+//            ChannelsCB->Checked[ChannelsCB->ItemIndex] = false;
+//       	}
+//        else
+//        {
+//			populateZs(stack);
+//        }
+//    }
+//    else
+//    {
+//    	//Repopulate z's
+//	    populateZs(stack);
+//    }
 }
 
 void __fastcall TCreateLocalVolumesForm::CreateStacksTimerTimer(TObject *Sender)
@@ -353,7 +348,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
         string url = urls[i];
         //Make sure file exists
         string z = dsl::toString(getImageZFromURL(urls[i]));
-        string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP, z, getImageType());
+        string outFilePathANDFileName = mCache.getImageLocalCachePathAndFileName(mRP, z, getImageType(), rawThread->getChannelName());
 
         Poco::File f(outFilePathANDFileName);
         if(fileExists(outFilePathANDFileName))
@@ -364,7 +359,7 @@ void TCreateLocalVolumesForm::onThreadExit(void* arg1, void* arg2)
     }
 
     string p = mCache.getImageLocalCachePath(mRP);
-    string stackOutputFileNameAndPath = joinPath(p, "stack_" + mRP.getSelectedChannelName() + "_" +  getUUID());
+    string stackOutputFileNameAndPath = joinPath(p, "stack_" + rawThread->getChannelName() + "_" +  getUUID());
 
     //  CreateStack (blocking)
     TiffStackProject* tiffStack = createTiffStackProject(imageFiles, imagesFolder, stackOutputFileNameAndPath);
@@ -419,20 +414,6 @@ TiffStackProject* TCreateLocalVolumesForm::createTiffStackProject(const StringLi
     return tiffStack;
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TCreateLocalVolumesForm::FormShow(TObject *Sender)
-{
-    if(!fileExists(mConvertExe))
-    {
-        stringstream msg;
-        msg << "Image magicks 'convert.exe' was not found in the path:\n";
-        msg << getFilePath(mConvertExe) << endl << endl;
-        msg << "Make sure you have a proper installation of Image Magick! \nThe run button will be disabled..";
-        MessageDlg(msg.str().c_str(), mtError, TMsgDlgButtons() << mbOK, 0);
-        this->RunBtn->Enabled = false;
-    }
-}
-
 void __fastcall TCreateLocalVolumesForm::FormKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift)
 {
@@ -452,4 +433,24 @@ void __fastcall TCreateLocalVolumesForm::ROIChange(TObject *Sender, WORD &Key,
     }
 }
 
+
+void __fastcall TCreateLocalVolumesForm::StackCBChange(TObject *Sender)
+{
+    if(StackCB->ItemIndex == -1)
+    {
+		return;
+    }
+
+    string stackName(stdstr(StackCB->Text));
+	mRP.setSelectedStackName(stackName);
+   	populateZs(stackName);
+//
+//    //Populate channels
+    StringList chs = mRC.StackDataAPI.getChannelsInSelectedStack(mRP);
+    populateCheckListBox(chs, ChannelsCB);
+//	enableDisableGroupBox(imageParasGB, true);
+
+
+}
+//---------------------------------------------------------------------------
 

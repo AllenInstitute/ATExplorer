@@ -37,8 +37,8 @@ class ATE_CORE RenderProject : public ATExplorerProject
 		string							        getSelectedChannelName() const ;
         bool                                    setSelectedChannelName(const string& s);
 
-        bool                                    setSelectedSection(int secNr);
-        int	                                    getSelectedSection() const;
+        bool                                    setSelectedSection(const string& secNr);
+        const string&                           getSelectedSection() const;
 
         bool                                    setRenderServiceParameters(const RenderServiceParameters& rsp);
         const RenderServiceParameters&          getRenderServiceParameters() const;

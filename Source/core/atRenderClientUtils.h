@@ -7,7 +7,7 @@
 using std::string;
 using dsl::StringList;
 
-ATE_CORE int 			  getImageZFromURL(const string& url);
+ATE_CORE string 			  getImageZFromURL(const string& url);
 
 
 struct MemoryStruct

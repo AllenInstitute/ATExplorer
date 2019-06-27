@@ -77,13 +77,13 @@ StringList RenderStackDataAPI::getStacksForProject(const string& o, const string
 }
 
 RegionOfInterest parseBoundsResponse(const string& s);
-RegionOfInterest RenderStackDataAPI::getLayerBoundsForZ(const RenderProject& rp, int z)
+RegionOfInterest RenderStackDataAPI::getLayerBoundsForZ(const RenderProject& rp, const string& z)
 {
     RESTRequest request(mRC.getBaseURL(), rmGet);
     request.addParameter("owner", rp.getProjectOwner());
     request.addParameter("project", rp.getRenderProjectName());
     request.addParameter("stack", rp.getSelectedStackName());
-    request.addParameter("z", toString(z));
+    request.addParameter("z", z);
     request.addSegment("bounds");
 
     RESTResponse* response = dynamic_cast<RESTResponse*>(execute(request));

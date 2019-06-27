@@ -19,10 +19,9 @@ mCacheRoot(cr)
 RenderLocalCache::~RenderLocalCache()
 {}
 
-string RenderLocalCache::getFileNameForZ(int z, const RenderProject& rp) const
+string RenderLocalCache::getFileNameForZ(const string& z, const RenderProject& rp) const
 {
-    string zStr(toString(z));
-    string name(getImageLocalCachePathAndFileName(rp, zStr));
+    string name(getImageLocalCachePathAndFileName(rp, z));
     return name;
 }
 
@@ -38,9 +37,9 @@ string RenderLocalCache::getImageLocalCachePath(const RenderProject& rp) const
     return s.str();
 }
 
-bool RenderLocalCache::checkPresence(const RenderProject& rp, int z, const string& imageType)
+bool RenderLocalCache::checkPresence(const RenderProject& rp, const string& z, const string& imageType)
 {
-    return fileExists(getImageLocalCachePathAndFileName(rp, toString(z), imageType));
+    return fileExists(getImageLocalCachePathAndFileName(rp, z, imageType));
 }
 
 string RenderLocalCache::getRenderProjectLocalDataRoot(const RenderProject& rp) const
@@ -52,11 +51,11 @@ string RenderLocalCache::getRenderProjectLocalDataRoot(const RenderProject& rp) 
     return s.str();
 }
 
-string RenderLocalCache::getImageLocalCachePathAndFileName(const RenderProject& rp, const string& z, const string& imageType) const
+string RenderLocalCache::getImageLocalCachePathAndFileName(const RenderProject& rp, const string& z, const string& imageType, const string& channelName) const
 {
     stringstream s;
     const RegionOfInterest roi = rp.getRegionOfInterest();
-    string theZ = z.size() > 0 ? z : toString(roi.getZ());
+    string theZ = z.size() > 0 ? z : roi.getZ();
     //Construct filePath
 	//  /render-ws/v1/owner/Deleted/project/Blag/stack/TEST_Totte_Renamed_AFF/z/3/box/-4515,-2739,9027,5472,0.1338/jpeg-image
     s << mCacheRoot << "\\"<<rp.getProjectOwner()
@@ -66,10 +65,17 @@ string RenderLocalCache::getImageLocalCachePathAndFileName(const RenderProject& 
       <<theZ<<"_"<< rp.getMinIntensity()<<"_"<<rp.getMaxIntensity()<<"_"<<roi.getScale();
 
         //Channels
-        StringList channels = rp.getSelectedChannelName();
-        for(int i = 0; i < channels.count(); i++)
+        if(channelName.size() > 0)
         {
-            s << "_" << channels[i];
+	        s << "_" << channelName;
+        }
+        else
+        {
+            StringList channels = rp.getSelectedChannelName();
+            for(int i = 0; i < channels.count(); i++)
+            {
+                s << "_" << channels[i];
+            }
         }
 
         if(imageType == "jpeg-image")
